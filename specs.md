@@ -104,6 +104,9 @@ Following this begins the fill style section:
 - 20 bytes: `C4 E9 7E 23 D1 D0 11 83 83 08 00 09 B9 96 CC 01 00 01 00 00` repitition of unknown sequence (2)
 - 26 bytes: C/I/E color components as 3 8-byte doubles + 2 bytes for the dithered/null flags (as described above) 
 - `0D` byte: again, likely an "end of section" flag
-- '00' x 11: padding
-- '01' for enabled symbol layers, '00' for disabled layers
-
+- `00` x 11: padding
+- '01' for enabled symbol layers, `00` for disabled layers
+- `00` x 3: padding
+- `00` for unlocked layers, `01` for locked layers
+- `00` x 3: padding
+- `02`: unknown meaning
