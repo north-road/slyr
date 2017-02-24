@@ -6,6 +6,8 @@ ESRI .style files are actually renamed Microsoft Access databases. Renaming the 
 
 The database contains a number of tables for the different style types, eg "Line Symbols", "Marker Symbols", "Color Ramps". While these tables contain fields for the symbol name, category, and tags, unfortunately the symbol itself is stored inside a binary data column.
 
+The included `bintools/extract_bin.py` script can bulk export these symbol binary blobs from a .style file.
+
 We'll refer to a binary blob representing a single symbol as a "symbol section".
 
 Relationship to .lyr files
