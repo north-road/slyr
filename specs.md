@@ -20,7 +20,7 @@ Specification for Symbol Sections
 Colors
 ---
 
-Colors are encoded inside a symbol using the CIELAB color model. They are represented as a sequence of 3 8-byte, little endian doubles, corresponding to the C, I and E components of the color.
+Colors are encoded inside a symbol using the CIELAB color model. They are represented as a sequence of 3 8-byte, little endian doubles, corresponding to the L, A and B components of the color.
 
 For instance, #ff0000 is represented as
 
@@ -30,11 +30,19 @@ For instance, #ff0000 is represented as
     
 This corresponds to
 
-- C: 56.547018
-- I: 76.899433
-- E: 68.103444
+- L: 56.547018
+- A: 76.899433
+- B: 68.103444
 
-Unfortunately conversion of these values back to RGB results in R: 255, G: 43, B: 6.
+According to http://edndoc.esri.com/arcobjects/9.2/ComponentHelp/esriDisplay/IColor_GetCIELAB.htm, ESRI use ranges of 0-100 for L, -120-120 for A and B
+
+Scaling these values to the standard 0-100,-128-128 ranges gives us:
+
+- L: 56.547018
+- A: 82.0260619
+- B: 72.6436736
+
+Unfortunately conversion of these values back to RGB results in R: 255, G: 19, B: 0.
 At least, according to http://colormine.org/convert/rgb-to-lab we should expect:
 
 - C: 53.23288178584245
@@ -76,7 +84,7 @@ Following this we have a section which follows the same format as the outline an
 
  - `96`: RGB color model flag
  - `C4 E9 7E 23 D1 D0 11 83 83 08 00 09 B9 96 CC 01 00 01`: unknown sequence (2)
- - 3 x CIE color doubles (see above), but always black in reference files
+ - 3 x LAB color doubles (see above), but always black in reference files
  - `00`: likely the 'no dither' flag for some default black color
  - `00`: likely a 'not null' flag for this default black, dithered color
  - `01`: number of levels in symbol - seems to take 4 bytes, little endian
@@ -94,7 +102,7 @@ The next 67 bytes seem to represent the outline style:
 
 - 1 byte: The color model (92/96/97)
 - 20 bytes: `C4 E9 7E 23 D1 D0 11 83 83 08 00 09 B9 96 CC 01 00 01 00 00` repetition of unknown sequence (2)
-- 26 bytes: C/I/E color components as 3 8-byte doubles + 2 bytes for the dithered/null flags (as described above) 
+- 26 bytes: L/A/B color components as 3 8-byte doubles + 2 bytes for the dithered/null flags (as described above) 
 - 8 bytes: outline width as a little endian double
 
 There's then 4 empty bytes, followed by a 0D byte. This 0D byte is likely a flag to indicate the start of the fill style. Then 7 more empty bytes.
@@ -103,7 +111,7 @@ Following this begins the fill style section:
 
 - 1 byte: The color model.
 - 20 bytes: `C4 E9 7E 23 D1 D0 11 83 83 08 00 09 B9 96 CC 01 00 01 00 00` repitition of unknown sequence (2)
-- 26 bytes: C/I/E color components as 3 8-byte doubles + 2 bytes for the dithered/null flags (as described above) 
+- 26 bytes: L/A/B color components as 3 8-byte doubles + 2 bytes for the dithered/null flags (as described above) 
 - `0D` byte: again, likely an "end of section" flag
 - `00` x 11: padding
 - '01' for enabled symbol layers, `00` for disabled layers
