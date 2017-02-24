@@ -74,11 +74,10 @@ Following this we have a section which follows the same format as the outline an
 
  - `96`: RGB color model flag
  - `C4 E9 7E 23 D1 D0 11 83 83 08 00 09 B9 96 CC 01 00 01`: unknown sequence (2)
- - `00 00`: padding?
  - 3 x CIE color doubles (see above), but always black in reference files
- - `01`: likely the 'dither' flag for some default black color
+ - `00`: likely the 'no dither' flag for some default black color
  - `00`: likely a 'not null' flag for this default black, dithered color
- - `00 00`: padding?
+ - `01`: number of levels in symbol - seems to take 4 bytes, little endian
  
 Then another block of unknown purpose:
 
