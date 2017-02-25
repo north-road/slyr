@@ -68,13 +68,21 @@ Color models are represented by a byte, where
 
 Internally both RGB and HSV colors are stored identically (as described above). CMYK colors seem to be stored differently, although more investigation is needed.
 
+Symbol spec
+---
+
+The first two bytes seem to indicate the symbol type, with known values:
+
+- `04 E6`: Fill symbol
+- `FF E5`: Marker symbol
+- `FA E5`: Line symbol 
+
 Fill symbols
 ---
 
 Constant sections (in all reference files):
 
- - `04`: unknown meaning (A)
- - `E6 14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: unknown sequence (1)
+ - `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: unknown sequence (1)
  - `02`: unknown meaning (B)
  - `00`: probably padding
  - `0D`: likely 'end of section' flag
@@ -92,7 +100,8 @@ Following this we have a section which follows the same format as the outline an
 Then another block of unknown purpose:
 
 - `03`: unknown, but I suspect it relates to the `04` (A) byte which begins the symbol block
-- `E6 14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: repetion of unknown sequence (1) from above
+- `E6`: probably relates to 'fill symbol' style flag
+- `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: repetion of unknown sequence (1) from above
 - `01`: unknown, but probably relates to the `02` (B) byte from the beginning of the symbol block
 - `00 F9 E5 14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41 01 00`: unknown sequence (3)
 
