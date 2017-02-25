@@ -77,6 +77,45 @@ The first two bytes seem to indicate the symbol type, with known values:
 - `FF E5`: Marker symbol
 - `FA E5`: Line symbol 
 
+Line symbols
+---
+
+- `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: unknown sequence (1)
+- `02`: unknown meaning (B)
+- `00`: probably padding
+- `0D`: likely 'end of section' flag
+- 7 x `00` padding
+- 4 bytes, little endian int: `01`: number of levels in symbol
+- `F9 E5`: unknown, but looks a bit like the symbol type values
+- `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: unknown sequence (1)
+- `01`: unknown, but probably relates to the `02` (B) byte from the beginning of the symbol block
+- `00`: padding
+- `96`: RGB color model flag
+- `C4 E9 7E 23 D1 D0 11 83 83 08 00 09 B9 96 CC 01 00 01`: unknown sequence (2)
+- `00` x 2 padding
+- 26 bytes: L/A/B color components as 3 8-byte doubles + 2 bytes for the dithered/null flags (as described above) 
+- 8 bytes: outline width as a little endian double
+- 1 byte: line type, single byte unsigned int (see below)
+- `00` x 3: padding
+- `0D` byte: again, likely an "end of section" flag
+- `00` x 7: padding
+- '01' for enabled symbol layers, `00` for disabled layers
+- `00` x 3: padding
+- `00` for unlocked layers, `01` for locked layers
+- `00` x 3: padding
+- `02`: unknown meaning
+- `00` x ...: padding
+
+Line types are encoded using a single byte unsigned integer, with the following values:
+
+- 0: Solid
+- 1: Dashed
+- 2: Dotted
+- 3: Dash dot
+- 4: Dash dot dot
+- 5: Null
+
+
 Fill symbols
 ---
 
