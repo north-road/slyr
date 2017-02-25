@@ -80,13 +80,25 @@ The first two bytes seem to indicate the symbol type, with known values:
 Line symbols
 ---
 
+Line symbol type enum
+
+- `F9 E5`: Simple line
+- `FD E5`: Marker line
+- `FB E5`: Cartographic line
+- `FC E5`: Hash line
+
+Structure of line symbol styles:
+
 - `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: unknown sequence (1)
 - `02`: unknown meaning (B)
 - `00`: probably padding
 - `0D`: likely 'end of section' flag
 - 7 x `00` padding
 - 4 bytes, little endian int: `01`: number of levels in symbol
-- `F9 E5`: unknown, but looks a bit like the symbol type values
+- 2 byte integer: line symbol type enum (see above)
+
+The following is the structure for "simple line" types:
+
 - `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: unknown sequence (1)
 - `01`: unknown, but probably relates to the `02` (B) byte from the beginning of the symbol block
 - `00`: padding
