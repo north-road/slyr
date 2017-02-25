@@ -148,10 +148,18 @@ Following this we have a section which follows the same format as the outline an
  - `00`: likely a 'not null' flag for this default black, dithered color
  - `01`: number of levels in symbol - seems to take 4 bytes, little endian
  
-Then another block of unknown purpose:
+ - 2 byte integer: fill symbol type enum
+ 
+Fill symbol types:
 
-- `03`: unknown, but I suspect it relates to the `04` (A) byte which begins the symbol block
-- `E6`: probably relates to 'fill symbol' style flag
+- `03 E6`: Simple fill
+- `06 E6`: Line pattern fill
+- `08 E6`: Marker fill
+- `09 E6`: Gradient fill
+
+The following is the structure for "simple fill" types:
+
+A block of unknown purpose:
 - `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: repetion of unknown sequence (1) from above
 - `01`: unknown, but probably relates to the `02` (B) byte from the beginning of the symbol block
 - `00 F9 E5 14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41 01 00`: unknown sequence (3)
