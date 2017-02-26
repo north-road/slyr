@@ -80,13 +80,6 @@ The first two bytes seem to indicate the symbol type, with known values:
 Line symbols
 ---
 
-Line symbol type enum
-
-- `F9 E5`: Simple line
-- `FD E5`: Marker line
-- `FB E5`: Cartographic line
-- `FC E5`: Hash line
-
 Structure of line symbol styles:
 
 - `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: unknown sequence (1)
@@ -95,14 +88,22 @@ Structure of line symbol styles:
 - `0D`: likely 'end of section' flag
 - 7 x `00` padding
 - 4 bytes, little endian int: `01`: number of levels in symbol
-- 2 byte integer: line symbol type enum (see above)
+
+The next section is repeated for each level in the symbol. Levels are in reverse z-order, ie the bottom most level comes first.
+
+First, a 2 byte unsigned integer representing the line symbol type enum. Known values are:
+
+- `F9 E5`: Simple line
+- `FD E5`: Marker line
+- `FB E5`: Cartographic line
+- `FC E5`: Hash line
 
 The following is the structure for "simple line" types:
 
 - `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: unknown sequence (1)
 - `01`: unknown, but probably relates to the `02` (B) byte from the beginning of the symbol block
 - `00`: padding
-- `96`: RGB color model flag
+- color model byte (see above)
 - `C4 E9 7E 23 D1 D0 11 83 83 08 00 09 B9 96 CC 01 00 01`: unknown sequence (2)
 - `00` x 2 padding
 - 26 bytes: L/A/B color components as 3 8-byte doubles + 2 bytes for the dithered/null flags (as described above) 
@@ -110,10 +111,6 @@ The following is the structure for "simple line" types:
 - little endian unsigned int, for line type (see below)
 - `0D` byte: again, likely an "end of section" flag
 - `00` x 7: padding
-- little endian unsigned int, with a value 1 for enabled symbol layers or 0 for disabled layers
-- little endian unsigned int, with a value 1 for locked symbol layers or 0 for unlocked layers
-- `02`: unknown meaning
-- `00` x ...: padding
 
 Line types are encoded using a single byte unsigned integer, with the following values:
 
@@ -123,6 +120,14 @@ Line types are encoded using a single byte unsigned integer, with the following 
 - 3: Dash dot
 - 4: Dash dot dot
 - 5: Null
+
+After this is repeated for each symbol layer, there's then two more repeating array sections. These are repeated for each symbol layer (in reverse z-order, as above).
+
+The first consists of little endian unsigned ints, with values 1 for enabled symbol layers or 0 for disabled layers. There will be as many sequential unsigned ints here as there are symbol layers.
+
+The second consists of little endian unsigned ints, with values 1 for locked symbol layers or 0 for unlocked layers. There will be as many sequential unsigned ints here as there are symbol layers.
+
+Following this is a terminator of unknown meaning - `02`, then a bunch of `00` padding bytes (repeated varying times)
 
 
 Fill symbols
