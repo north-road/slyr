@@ -69,25 +69,30 @@ Color models are represented by a byte, where
 Internally both RGB and HSV colors are stored identically (as described above). CMYK colors seem to be stored differently, although more investigation is needed.
 
 Symbol spec
----
+===
 
-The first two bytes seem to indicate the symbol type, with known values:
+Symbol Header:
+--------------
+The first two bytes indicate the symbol type, with known values:
 
 - `04 E6`: Fill symbol
 - `FF E5`: Marker symbol
 - `FA E5`: Line symbol 
 
-Line symbols
----
-
-Structure of line symbol styles:
+Then the following section, of unknown purpose but it's always the same in all styles encountered so far:
 
 - `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: unknown sequence (1)
 - `02`: unknown meaning (B)
 - `00`: probably padding
 - `0D`: likely 'end of section' flag
 - 7 x `00` padding
-- 4 bytes, little endian int: `01`: number of levels in symbol
+
+Line symbols
+---
+
+Structure of line symbol styles:
+
+Starts with 4 byte, little endian int representing the number of levels in symbol.
 
 The next section is repeated for each level in the symbol. Levels are in reverse z-order, ie the bottom most level comes first.
 
@@ -133,15 +138,7 @@ Following this is a terminator of unknown meaning - `02`, then a bunch of `00` p
 Fill symbols
 ---
 
-Constant sections (in all reference files):
-
- - `14 79 92 C8 D0 11 8B B6 08 00 09 EE 4E 41`: unknown sequence (1)
- - `02`: unknown meaning (B)
- - `00`: probably padding
- - `0D`: likely 'end of section' flag
- - 7 x `00` padding
- 
-Following this we have a section which follows the same format as the outline and fill (described below), but of unknown purpose. This always seems to be the same values in all generated styles:
+Following the symbol header we have a section which follows the same format as the outline and fill (described below), but of unknown purpose. This always seems to be the same values in all generated styles:
 
  - `96`: RGB color model flag
  - `C4 E9 7E 23 D1 D0 11 83 83 08 00 09 B9 96 CC 01 00 01`: unknown sequence (2)
