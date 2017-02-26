@@ -107,14 +107,11 @@ The following is the structure for "simple line" types:
 - `00` x 2 padding
 - 26 bytes: L/A/B color components as 3 8-byte doubles + 2 bytes for the dithered/null flags (as described above) 
 - 8 bytes: outline width as a little endian double
-- 1 byte: line type, single byte unsigned int (see below)
-- `00` x 3: padding
+- little endian unsigned int, for line type (see below)
 - `0D` byte: again, likely an "end of section" flag
 - `00` x 7: padding
-- '01' for enabled symbol layers, `00` for disabled layers
-- `00` x 3: padding
-- `00` for unlocked layers, `01` for locked layers
-- `00` x 3: padding
+- little endian unsigned int, with a value 1 for enabled symbol layers or 0 for disabled layers
+- little endian unsigned int, with a value 1 for locked symbol layers or 0 for unlocked layers
 - `02`: unknown meaning
 - `00` x ...: padding
 
@@ -182,8 +179,6 @@ Following this begins the fill style section:
 - 26 bytes: L/A/B color components as 3 8-byte doubles + 2 bytes for the dithered/null flags (as described above) 
 - `0D` byte: again, likely an "end of section" flag
 - `00` x 11: padding
-- '01' for enabled symbol layers, `00` for disabled layers
-- `00` x 3: padding
-- `00` for unlocked layers, `01` for locked layers
-- `00` x 3: padding
+- little endian unsigned int, with a value 1 for enabled symbol layers or 0 for disabled layers
+- little endian unsigned int, with a value 1 for locked symbol layers or 0 for unlocked layers
 - `02`: unknown meaning
