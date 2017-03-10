@@ -328,7 +328,7 @@ expected = {
                     ]
                 },
             'Simple fill with simple outline.bin':
-                {
+                {'skip': True,
                     'type': FillSymbol,
                     'levels': [{
                         'type': SimpleFillSymbolLayer,
@@ -368,7 +368,7 @@ expected = {
                     ]
                 },
             'Simple fill with two layer outline.bin':
-                {
+                {'skip': True,
                     'type': FillSymbol,
                     'levels': [{
                         'type': SimpleFillSymbolLayer,
@@ -424,7 +424,7 @@ expected = {
                     ]
                 },
             'Two layer with two layer outlines.bin':
-                {
+                {'skip': True,
                     'type': FillSymbol,
                     'levels': [{
                         'type': SimpleFillSymbolLayer,
@@ -531,7 +531,7 @@ expected = {
                     ]
                 },
             'R255 G0 B0 with cartographic line outline.bin':
-                {
+                {'skip': True,
                     'type': FillSymbol,
                     'levels': [{
                         'type': SimpleFillSymbolLayer,

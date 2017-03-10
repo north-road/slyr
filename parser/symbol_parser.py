@@ -10,84 +10,215 @@ Extracts a symbol from a style blob
 """
 
 
+class Handle:
+    """
+    Holds file handle and other useful things while parsing the symbol blob
+    """
+
+    def __init__(self, file_handle, debug=False):
+        self.file_handle = file_handle
+        self.debug = debug
+
+
+def read_string(file_handle):
+    """
+    Decodes a string from the binary
+
+    From the .dot BinaryWriter code: 'This method first writes the length of the string as
+    a four-byte unsigned integer, and then writes that many characters
+    to the stream'
+    """
+    length = unpack("<I", file_handle.read(4))[0]
+    buffer = file_handle.read(length)
+    return buffer.decode('utf-16')
+
+
+def read_object_header(handle):
+    """
+    Reads and interprets the header for a new object block. Returns the object type
+    code (2 bytes)
+    """
+    object_type = binascii.hexlify(handle.file_handle.read(2))
+
+    # Some magic sequence of unknown origin:
+    magic_1 = binascii.hexlify(handle.file_handle.read(14))
+    assert magic_1 == '147992c8d0118bb6080009ee4e41', 'Differing object header at {}, got {}'.format(
+        hex(handle.file_handle.tell() - 16), magic_1)
+
+    # Some padding bytes of unknown purpose
+    # Encountered values are:
+    #  010001
+    #  02000dxxxxxxxxxxxxxx
+    #  1000000001000, 110000001000,... (in lyr files)
+    skip_bytes = unpack("<H", handle.file_handle.read(2))[0]
+    if skip_bytes == 1:
+        pass
+    elif skip_bytes == 2:
+        assert binascii.hexlify(handle.file_handle.read(1)) == '0d'
+        handle.file_handle.read(7)
+    # experimental! - might be safer to assert False here. Only encountered in .lyr fails so far
+    else:
+        handle.file_handle.read(4)
+
+    return object_type
+
+
+def create_object(handle):
+    """
+    Reads an object header and returns the corresponding object class
+    """
+    start = handle.file_handle.tell()
+    object_code = read_object_header(handle)
+    object_dict = {
+        '04e6': FillSymbol,
+        'ffe5': MarkerSymbol,
+        'fae5': LineSymbol,
+        'f9e5': SimpleLineSymbolLayer,
+        'fbe5': CartographicLineSymbolLayer,
+        '03e6': SimpleFillSymbolLayer
+    }
+
+    assert object_code in object_dict, 'Unknown object code at {}, got {}'.format(hex(start), object_code)
+    if handle.debug:
+        print('found a {} at {}'.format(object_dict[object_code], hex(start)))
+    return object_dict[object_code]
+
+
+def read_magic_2(handle):
+    """
+    Consumes an expected magic sequence (2), of unknown purpose
+    """
+    magic_2 = binascii.hexlify(handle.file_handle.read(15))
+    assert magic_2 == 'c4e97e23d1d0118383080009b996cc', 'Differing magic string 2: {}'.format(magic_2)
+
+    terminator = binascii.hexlify(handle.file_handle.read(2))
+    if not terminator == '0100':
+        # .lyr files have an extra 4 bytes in here - of unknown purpose
+        handle.file_handle.read(4)
+    terminator = binascii.hexlify(handle.file_handle.read(1))
+    assert terminator == '01'
+    if handle.debug:
+        print('finished magic 2 at {}'.format(hex(handle.file_handle.tell())))
+
+
 def consume_padding(file_handle):
-    # read padding
+    """
+    Swallows up '00' padding from a file handle.
+
+    Use with caution! This is fragile if a possible valid '00' byte follows the padding.
+    """
     last_position = file_handle.tell()
     while binascii.hexlify(file_handle.read(1)) == '00':
         last_position = file_handle.tell()
-        pass
     file_handle.seek(last_position)
 
 
-class SymbolLayer():
+class SymbolLayer:
+    """
+    Base class for symbol layers
+    """
+
     def __init__(self):
         self.locked = False
         self.enabled = True
         self.locked = False
 
-    def read_enabled(self, file_handle):
-        enabled = unpack("<I", file_handle.read(4))[0]
+    def read_enabled(self, handle):
+        """
+        Reads the layer 'enabled' state
+        """
+        enabled = unpack("<I", handle.file_handle.read(4))[0]
         self.enabled = enabled == 1
+        if handle.debug:
+            print('read enabled {} at {} '.format(self.enabled, hex(handle.file_handle.tell() - 4)))
 
-    def read_locked(self, file_handle):
-        locked = unpack("<I", file_handle.read(4))[0]
+    def read_locked(self, handle):
+        """
+        Reads the layer 'locked' state
+
+        """
+        locked = unpack("<I", handle.file_handle.read(4))[0]
         self.locked = locked == 1
+
+    def _read(self, handle):
+        """
+        Should be implemented in subclasses, to handle reading of that particular
+        symbol layer type
+        """
+        pass
+
+    def read(self, handle):
+        """
+        Reads the symbol layer information. Internally calls _read method
+        for individual layer types
+        """
+        self._read(handle)
+
+        # look for 0d terminator
+        while not binascii.hexlify(handle.file_handle.read(1)) == '0d':
+            pass
+
+        if handle.debug:
+            print('finished layer read at {}'.format(hex(handle.file_handle.tell())))
 
 
 class LineSymbolLayer(SymbolLayer):
+    """
+    Base class for line symbol layers
+    """
+
     def __init__(self):
         SymbolLayer.__init__(self)
         self.color_model = None
         self.color = None
 
     @staticmethod
-    def create(file_handle):
-        layer_type = binascii.hexlify(file_handle.read(2))
-        symbol_layer = None
-        if layer_type == 'f9e5':
-            return SimpleLineSymbolLayer()
-        elif layer_type == 'fbe5':
-            return CartographicLineSymbolLayer()
-        elif layer_type == 'fae5':
-            return LineSymbol()
-        else:
-            return None
+    def create(handle):
+        """
+        Creates a LineSymbolLayer subclass from the specified file handle
+        """
+        layer_object = create_object(handle)
+        assert issubclass(layer_object, LineSymbolLayer) \
+            or issubclass(layer_object, LineSymbol), \
+            'Expected LineSymbolLayer or LineSymbol, got {}'.format(layer_object)
+        return layer_object()
 
 
 class SimpleLineSymbolLayer(LineSymbolLayer):
+    """
+    Simple line symbol layer
+    """
+
     def __init__(self):
         LineSymbolLayer.__init__(self)
         self.width = None
         self.line_type = None
 
-    def read(self, file_handle):
-        magic_1 = binascii.hexlify(file_handle.read(14))
-        assert magic_1 == '147992c8d0118bb6080009ee4e41', 'Differing magic string 1'
-        unknown = binascii.hexlify(file_handle.read(1))
-        assert unknown == '01', 'Differing unknown byte'
-        consume_padding(file_handle)
+    def _read(self, handle):
+        self.color_model = read_color_model(handle.file_handle)
 
-        self.color_model = read_color_model(file_handle)
+        read_magic_2(handle)
+        handle.file_handle.read(2)
 
-        magic_2 = binascii.hexlify(file_handle.read(18))
-        assert magic_2 == 'c4e97e23d1d0118383080009b996cc010001', 'Differing magic string 1: {}'.format(magic_2)
-        consume_padding(file_handle)
+        self.color = read_color(handle.file_handle)
+        self.width = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('read width of {} at {}'.format(self.width, hex(handle.file_handle.tell() - 8)))
+        self.line_type = LineSymbol.read_line_type(handle.file_handle)
 
-        self.color = read_color(file_handle)
-        self.width = unpack("<d", file_handle.read(8))[0]
-        self.line_type = LineSymbol.read_line_type(file_handle)
-
-        terminator = binascii.hexlify(file_handle.read(1))
-        assert terminator == '0d', 'Expecting 0d terminator, got {}'.format(terminator)
-        file_handle.read(7)
 
 class CartographicLineSymbolLayer(LineSymbolLayer):
+    """
+    Cartographic line symbol layer
+    """
+
     def __init__(self):
         LineSymbolLayer.__init__(self)
         self.width = None
         self.cap = None
         self.join = None
         self.offset = None
+        self.pattern_interval = 0
 
     def read_cap(self, file_handle):
         cap_bin = unpack("<B", file_handle.read(1))[0]
@@ -111,43 +242,49 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         else:
             assert False, 'unknown join style {}'.format(join_bin)
 
-    def read(self, file_handle):
-        magic_1 = binascii.hexlify(file_handle.read(14))
-        assert magic_1 == '147992c8d0118bb6080009ee4e41', 'Differing magic string 1'
-        unknown = binascii.hexlify(file_handle.read(2))
-        assert unknown == '0100', 'Differing unknown byte'
+    def read(self, handle):
+        self._read(handle)
+        while not binascii.hexlify(handle.file_handle.read(1)) == '0d':
+            pass
+        while not binascii.hexlify(handle.file_handle.read(1)) == '40':
+            pass
 
-        self.read_cap(file_handle)
+    def _read(self, handle):
+        self.read_cap(handle.file_handle)
 
-        unknown = binascii.hexlify(file_handle.read(3))
+        unknown = binascii.hexlify(handle.file_handle.read(3))
         assert unknown == '000000', 'Differing unknown string {}'.format(unknown)
-        self.read_join(file_handle)
-        unknown = binascii.hexlify(file_handle.read(3))
+        self.read_join(handle.file_handle)
+        unknown = binascii.hexlify(handle.file_handle.read(3))
         assert unknown == '000000', 'Differing unknown string {}'.format(unknown)
 
-        self.width = unpack("<d", file_handle.read(8))[0]
+        self.width = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('read width of {} at {}'.format(self.width, hex(handle.file_handle.tell() - 8)))
 
-        unknown = binascii.hexlify(file_handle.read(1))
+        unknown = binascii.hexlify(handle.file_handle.read(1))
         assert unknown == '00', 'Differing unknown byte'
 
-        self.offset= unpack("<d", file_handle.read(8))[0]
+        self.offset = unpack("<d", handle.file_handle.read(8))[0]
+        self.color_model = read_color_model(handle.file_handle)
 
-        self.color_model = read_color_model(file_handle)
+        read_magic_2(handle)
+        handle.file_handle.read(2)
 
-        magic_2 = binascii.hexlify(file_handle.read(18))
-        assert magic_2 == 'c4e97e23d1d0118383080009b996cc010001', 'Differing magic string 1: {}'.format(magic_2)
-        consume_padding(file_handle)
+        self.color = read_color(handle.file_handle)
 
-        self.color = read_color(file_handle)
+        # 18 unknown bytes
+        binascii.hexlify(handle.file_handle.read(18))
 
-        # 48 unknown bytes!
-        terminator = binascii.hexlify(file_handle.read(46))
-        terminator = binascii.hexlify(file_handle.read(1))
-        assert terminator == '0d', 'Expecting 0d terminator, got {} at {}'.format(terminator, hex(file_handle.tell()-1))
-        file_handle.read(24)
+        self.pattern_interval = unpack("<d", handle.file_handle.read(8))[0]
+
+        # next bit is symbol pattern - unknown interpretation
 
 
 class FillSymbolLayer(SymbolLayer):
+    """
+    Base class for fill symbol layers
+    """
     def __init__(self):
         SymbolLayer.__init__(self)
         self.color_model = None
@@ -156,101 +293,116 @@ class FillSymbolLayer(SymbolLayer):
         self.outline_symbol = None
 
     @staticmethod
-    def create(file_handle):
-        layer_type = binascii.hexlify(file_handle.read(2))
-        symbol_layer = None
-        if layer_type == '03e6':
-            return SimpleFillSymbolLayer()
-        else:
-            return None
+    def create(handle):
+        """
+        Creates a FillSymbolLayer subclass from the specified file handle
+        """
+        layer_object = create_object(handle)
+        assert issubclass(layer_object, FillSymbolLayer),\
+            'Expected FillSymbolLayer, got {}'.format(layer_object)
+        return layer_object()
 
 
 class SimpleFillSymbolLayer(FillSymbolLayer):
+    """
+    Simple fill symbol layer
+    """
     def __init__(self):
         FillSymbolLayer.__init__(self)
 
-    def read(self, file_handle):
-        magic_1 = binascii.hexlify(file_handle.read(14))
-        assert magic_1 == '147992c8d0118bb6080009ee4e41', 'Differing magic string 1'
-        unknown = binascii.hexlify(file_handle.read(1))
-        assert unknown == '01', 'Differing unknown byte'
-        consume_padding(file_handle)
-
-        outline = LineSymbolLayer.create(file_handle)
+    def _read(self, handle):
+        # first bit is either an entire LineSymbol or just a LineSymbolLayer
+        outline = LineSymbolLayer.create(handle)
         if isinstance(outline, LineSymbol):
             # embedded outline symbol line
             self.outline_symbol = outline
-            print 'starting outline symbol at {}'.format(hex(file_handle.tell()))
-            self.outline_symbol.read(file_handle)
-
+            if handle.debug:
+                print('starting outline symbol at {}'.format(hex(handle.file_handle.tell())))
+            self.outline_symbol.read(handle)
         else:
             self.outline_layer = outline
-            self.outline_layer.read(file_handle)
+            self.outline_layer.read(handle)
 
-        consume_padding(file_handle)
+        consume_padding(handle.file_handle)
 
         # sometimes an extra 02 terminator here
-        start = file_handle.tell()
-        symbol_terminator = binascii.hexlify(file_handle.read(1))
+        start = handle.file_handle.tell()
+        symbol_terminator = binascii.hexlify(handle.file_handle.read(1))
         if symbol_terminator == '02':
-            consume_padding(file_handle)
+            consume_padding(handle.file_handle)
         else:
-            file_handle.seek(start)
+            handle.file_handle.seek(start)
 
-        self.color_model = read_color_model(file_handle)
+        self.color_model = read_color_model(handle.file_handle)
 
-        magic_2 = binascii.hexlify(file_handle.read(18))
-        assert magic_2 == 'c4e97e23d1d0118383080009b996cc010001', 'Differing magic string 1: {}'.format(magic_2)
-        file_handle.read(2)
+        read_magic_2(handle)
+        handle.file_handle.read(2)
 
-        self.color = read_color(file_handle)
-
-        terminator = binascii.hexlify(file_handle.read(1))
-        assert terminator == '0d', 'Expecting 0d terminator, got {}'.format(terminator)
-        file_handle.read(11)
+        self.color = read_color(handle.file_handle)
 
 
 class Symbol:
+    """
+    Base class for symbols
+    """
     def __init__(self):
         self.levels = []
 
-    def read(self, file_handle):
-        magic_1 = binascii.hexlify(file_handle.read(14))
-        assert magic_1 == '147992c8d0118bb6080009ee4e41', 'Differing magic string 1'
-        unknown_b = binascii.hexlify(file_handle.read(3))
-        assert unknown_b == '02000d', 'Differing magic string b {}'.format(unknown_b)
-        consume_padding(file_handle)
-        self._read(file_handle)
+    def _read(self, handle):
+        """
+        Should be implemented in subclasses, to handle reading of that particular
+        symbol type
+        """
+        pass
+
+    def read(self, handle):
+        consume_padding(handle.file_handle)
+        self._read(handle)
 
 
 class LineSymbol(Symbol):
+    """
+    Line symbol
+    """
     def __init__(self):
         Symbol.__init__(self)
 
-    def _read(self, file_handle):
-        number_layers = unpack("<L", file_handle.read(4))[0]
-        print 'detected {} layers at {}'.format(number_layers, hex(file_handle.tell() - 4))
+    def _read(self, handle):
+        number_layers = unpack("<L", handle.file_handle.read(4))[0]
+        if handle.debug:
+            print('detected {} layers at {}'.format(number_layers, hex(handle.file_handle.tell() - 4)))
 
         for i in range(number_layers):
-            layer = LineSymbolLayer.create(file_handle)
+            consume_padding(handle.file_handle)
+            layer = LineSymbolLayer.create(handle)
             if layer:
-                layer.read(file_handle)
+                layer.read(handle)
             self.levels.extend([layer])
 
-        for l in self.levels:
-            l.read_enabled(file_handle)
-        for l in self.levels:
-            l.read_locked(file_handle)
+        # the next section varies in size. To handle this we jump forward to a known anchor
+        # point, and then move back by a known amount
 
-        print 'consuming padding at {}'.format(hex(file_handle.tell()))
-        consume_padding(file_handle)
+        # burn up to the 02
+        while not binascii.hexlify(handle.file_handle.read(1)) == '02':
+            pass
 
-        symbol_terminator = binascii.hexlify(file_handle.read(1))
-        assert symbol_terminator == '02', 'Differing terminator byte, expected 02 got {}'.format(symbol_terminator)
+        # jump back a known amount
+        handle.file_handle.seek(handle.file_handle.tell() - 8 * number_layers - 1)
+
+        for l in self.levels:
+            l.read_enabled(handle)
+        for l in self.levels:
+            l.read_locked(handle)
+
+        while not binascii.hexlify(handle.file_handle.read(1)) == '02':
+            pass
 
     @staticmethod
     def read_line_type(file_handle):
-        type = unpack("<I", file_handle.read(4))[0]
+        """
+        Interprets the line type bytes
+        """
+        line_type = unpack("<I", file_handle.read(4))[0]
         types = {0: 'solid',
                  1: 'dashed',
                  2: 'dotted',
@@ -258,61 +410,76 @@ class LineSymbol(Symbol):
                  4: 'dash dot dot',
                  5: 'null'
                  }
-        return types[type]
+        assert line_type in types, 'unknown line type {} at {}'.format(line_type, hex(file_handle.tell() - 4))
+        return types[line_type]
 
 
 class FillSymbol(Symbol):
+    """
+    Fill symbol
+    """
     def __init__(self):
         Symbol.__init__(self)
 
-    def _read(self, file_handle):
-
+    def _read(self, handle):
         # consume section of unknown purpose
-        self.color_model = read_color_model(file_handle)
-        magic_2 = binascii.hexlify(file_handle.read(18))
-        assert magic_2 == 'c4e97e23d1d0118383080009b996cc010001', 'Differing magic string 1: {}'.format(magic_2)
+        self.color_model = read_color_model(handle.file_handle)
+        read_magic_2(handle)
 
         # either before or after this unknown color?
-        file_handle.read(2)
+        handle.file_handle.read(2)
+        read_color(handle.file_handle)
 
-        unknown_color = read_color(file_handle)
-        assert unknown_color['R'] == 0
-        assert unknown_color['G'] == 0
-        assert unknown_color['B'] == 0
-        assert not unknown_color['dither']
-        assert not unknown_color['is_null']
-
-        number_layers = unpack("<L", file_handle.read(4))[0]
+        # useful stuff
+        number_layers = unpack("<L", handle.file_handle.read(4))[0]
 
         for i in range(number_layers):
-            layer = FillSymbolLayer.create(file_handle)
+            consume_padding(handle.file_handle)
+            layer = FillSymbolLayer.create(handle)
             if layer:
-                layer.read(file_handle)
+                layer.read(handle)
             self.levels.extend([layer])
 
-        for l in self.levels:
-            l.read_enabled(file_handle)
-        for l in self.levels:
-            l.read_locked(file_handle)
+        # the next section varies in size. To handle this we jump forward to a known anchor
+        # point, and then move back by a known amount
 
-            # symbol_terminator = binascii.hexlify(file_handle.read(1))
-            # assert symbol_terminator == '02', 'Differing terminator byte, expected 02 got {}'.format(symbol_terminator)
-            # consume_padding(file_handle)
+        # burn up to the 02
+        while not binascii.hexlify(handle.file_handle.read(1)) == '02':
+            pass
+
+        # jump back a known amount
+        handle.file_handle.seek(handle.file_handle.tell() - 8 * number_layers - 1)
+
+        for l in self.levels:
+            l.read_enabled(handle)
+        for l in self.levels:
+            l.read_locked(handle)
 
 
 class MarkerSymbol(Symbol):
-    pass
+    """
+    Marker symbol.
+
+    Not yet implemented
+    """
+    def __init__(self):
+        Symbol.__init__(self)
 
 
-def read_symbol(file_handle):
-    symbol_type = binascii.hexlify(file_handle.read(2))
-    symbol = None
-    if symbol_type == '04e6':
-        symbol = FillSymbol()
-    elif symbol_type == 'ffe5':
-        symbol = MarkerSymbol()
-    elif symbol_type == 'fae5':
-        symbol = LineSymbol()
-    assert symbol, 'Unknown symbol type'
-    symbol.read(file_handle)
-    return symbol
+def read_symbol(file_handle, debug=False):
+    """
+    Reads a symbol from the specified file
+    """
+    handle = Handle(file_handle, debug)
+    symbol_object = create_object(handle)
+
+    # sometimes symbols are just layers, sometimes whole symbols...
+    if issubclass(symbol_object, SymbolLayer):
+        symbol_layer = symbol_object()
+        symbol_layer.read(handle)
+        return symbol_layer
+    else:
+        assert issubclass(symbol_object, Symbol), 'Expected Symbol, got {}'.format(symbol_object)
+        symbol = symbol_object()
+        symbol.read(handle)
+        return symbol
