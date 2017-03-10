@@ -7,6 +7,9 @@ Dumps the contents of an ESRI .style file to a set of binary blobs
 import pyodbc
 import os
 
+driver = [d for d in pyodbc.drivers() if 'Microsoft Access' in d][0]
+
+
 def clean_symbol_name_for_file(symbol_name):
     """nasty little funtion to remove some characters which will choke"""
     file_name = symbol_name
@@ -20,7 +23,6 @@ def clean_symbol_name_for_file(symbol_name):
 styles=[('fill','fill'),('line','line'),('marker','marker'),('fill105','fill')]
 for (s,type) in styles:
     fill_style_db = os.path.join('styles',s + '.style')
-    driver = '{Microsoft Access Driver (*.mdb)}' # may need to be tweaked
 
     con = pyodbc.connect('DRIVER={};DBQ={}'.format(driver,fill_style_db))
 
