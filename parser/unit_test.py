@@ -530,6 +530,48 @@ expected = {
                         }
                     ]
                 },
+            'R255 G0 B0 with cartographic line outline.bin':
+                {
+                    'type': FillSymbol,
+                    'levels': [{
+                        'type': SimpleFillSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_symbol':
+                            {
+                                'type': LineSymbol,
+                                'levels': [{
+                                    'type': CartographicLineSymbolLayer,
+                                    'enabled': True,
+                                    'locked': False,
+                                    'color_model': 'rgb',
+                                    'color':
+                                        {
+                                            'R': 0.0,
+                                            'G': 0,
+                                            'B': 303,  # should be 255
+                                            'is_null': False,
+                                            'dither': True
+                                        },
+                                    'width': 4,
+                                    'cap': 'round',
+                                    'join': 'bevel',
+                                    'offset': -7
+                                }
+                                ]
+                            }
+                    }
+                    ]
+                },
             'v10_5.bin':
                 {
                     'skip': True,
