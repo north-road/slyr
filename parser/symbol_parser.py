@@ -46,6 +46,8 @@ class LineSymbolLayer(SymbolLayer):
         symbol_layer = None
         if layer_type == 'f9e5':
             return SimpleLineSymbolLayer()
+        elif layer_type == 'fbe5':
+            return CartographicLineSymbolLayer()
         elif layer_type == 'fae5':
             return LineSymbol()
         else:
@@ -78,6 +80,71 @@ class SimpleLineSymbolLayer(LineSymbolLayer):
         terminator = binascii.hexlify(file_handle.read(1))
         assert terminator == '0d', 'Expecting 0d terminator, got {}'.format(terminator)
         file_handle.read(7)
+
+class CartographicLineSymbolLayer(LineSymbolLayer):
+    def __init__(self):
+        LineSymbolLayer.__init__(self)
+        self.width = None
+        self.cap = None
+        self.join = None
+        self.offset = None
+
+    def read_cap(self, file_handle):
+        cap_bin = unpack("<B", file_handle.read(1))[0]
+        if cap_bin == 0:
+            self.cap = 'butt'
+        elif cap_bin == 1:
+            self.cap = 'round'
+        elif cap_bin == 2:
+            self.cap = 'square'
+        else:
+            assert False, 'unknown cap style {}'.format(cap_bin)
+
+    def read_join(self, file_handle):
+        join_bin = unpack("<B", file_handle.read(1))[0]
+        if join_bin == 0:
+            self.join = 'miter'
+        elif join_bin == 1:
+            self.join = 'round'
+        elif join_bin == 2:
+            self.join = 'bevel'
+        else:
+            assert False, 'unknown join style {}'.format(join_bin)
+
+    def read(self, file_handle):
+        magic_1 = binascii.hexlify(file_handle.read(14))
+        assert magic_1 == '147992c8d0118bb6080009ee4e41', 'Differing magic string 1'
+        unknown = binascii.hexlify(file_handle.read(2))
+        assert unknown == '0100', 'Differing unknown byte'
+
+        self.read_cap(file_handle)
+
+        unknown = binascii.hexlify(file_handle.read(3))
+        assert unknown == '000000', 'Differing unknown string {}'.format(unknown)
+        self.read_join(file_handle)
+        unknown = binascii.hexlify(file_handle.read(3))
+        assert unknown == '000000', 'Differing unknown string {}'.format(unknown)
+
+        self.width = unpack("<d", file_handle.read(8))[0]
+
+        unknown = binascii.hexlify(file_handle.read(1))
+        assert unknown == '00', 'Differing unknown byte'
+
+        self.offset= unpack("<d", file_handle.read(8))[0]
+
+        self.color_model = read_color_model(file_handle)
+
+        magic_2 = binascii.hexlify(file_handle.read(18))
+        assert magic_2 == 'c4e97e23d1d0118383080009b996cc010001', 'Differing magic string 1: {}'.format(magic_2)
+        consume_padding(file_handle)
+
+        self.color = read_color(file_handle)
+
+        # 48 unknown bytes!
+        terminator = binascii.hexlify(file_handle.read(46))
+        terminator = binascii.hexlify(file_handle.read(1))
+        assert terminator == '0d', 'Expecting 0d terminator, got {} at {}'.format(terminator, hex(file_handle.tell()-1))
+        file_handle.read(24)
 
 
 class FillSymbolLayer(SymbolLayer):

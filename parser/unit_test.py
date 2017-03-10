@@ -4,6 +4,7 @@ from symbol_parser import (read_symbol,
                            LineSymbol,
                            FillSymbol,
                            SimpleLineSymbolLayer,
+                           CartographicLineSymbolLayer,
                            SimpleFillSymbolLayer)
 
 expected = {
@@ -551,11 +552,226 @@ expected = {
                     'skip': True,
                     'levels': [None]
                 },
+            'Cartographic line both arrow.bin':
+                {
+                    'type': LineSymbol,
+                    'skip': True
+                },
+            'Cartographic line end arrow.bin':
+                {
+                    'type': LineSymbol,
+                    'skip': True
+                },
+            'Cartographic line start arrow.bin':
+                {
+                    'type': LineSymbol,
+                    'skip': True
+                },
             'Cartographic line symbol width 8.bin':
                 {
-                    'skip': True,
                     'type': LineSymbol,
-                    'levels': [None]
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'butt',
+                        'join': 'miter',
+                        'offset': 0
+                    }
+                    ]
+                },
+            'Cartographic line bevel join.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'butt',
+                        'join': 'bevel',
+                        'offset': 0
+                    }
+                    ]
+                },
+            'Cartographic line offset -4.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'butt',
+                        'join': 'miter',
+                        'offset': -4
+                    }
+                    ]
+                },
+            'Cartographic line offset 5.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'butt',
+                        'join': 'miter',
+                        'offset': 5
+                    }
+                    ]
+                },
+            'Cartographic line round join.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'butt',
+                        'join': 'round',
+                        'offset': 0
+                    }
+                    ]
+                },
+            'Cartographic line round.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'round',
+                        'join': 'miter',
+                        'offset': 0
+                    }
+                    ]
+                },
+            'Cartographic line round width 4.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 4,
+                        'cap': 'round',
+                        'join': 'miter',
+                        'offset': 0
+                    }]
+                },
+            'Cartographic line round width 4 disabled.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': False,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 4,
+                        'cap': 'round',
+                        'join': 'miter',
+                        'offset': 0
+                    }
+                    ]
+                },
+            'Cartographic line square.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0
+                    }
+                    ]
                 },
             'Dash dot dot.bin':
                 {
@@ -879,7 +1095,7 @@ class TestSymbols(unittest.TestCase):
                 blobs.append(file)
 
         for file in blobs:
-            print file
+            print(file)
             group, symbol_name = os.path.split(file)
             path, group = os.path.split(group)
 
@@ -897,6 +1113,15 @@ class TestSymbols(unittest.TestCase):
         self.assertEqual(layer.width, expected['width'])
         self.assertEqual(layer.line_type, expected['line_type'])
 
+    def compareCartographicOutlineLayer(self, layer, expected):
+        self.assertTrue(isinstance(layer, CartographicLineSymbolLayer))
+        self.assertEqual(layer.color_model, expected['color_model'])
+        self.assertEqual(layer.color, expected['color'])
+        self.assertAlmostEqual(layer.width, expected['width'], 3)
+        self.assertAlmostEqual(layer.offset, expected['offset'], 3)
+        self.assertEqual(layer.cap, expected['cap'])
+        self.assertEqual(layer.join, expected['join'])
+
     def compareSymbol(self, symbol, expected):
         self.assertTrue(isinstance(symbol, expected['type']))
         self.assertEqual(len(symbol.levels), len(expected['levels']))
@@ -912,7 +1137,8 @@ class TestSymbols(unittest.TestCase):
             self.assertEqual(layer.color, expected_layer['color'])
             if isinstance(layer, SimpleLineSymbolLayer):
                 self.compareSimpleOutlineLayer(layer, expected_layer)
-
+            elif isinstance(layer, CartographicLineSymbolLayer):
+                self.compareCartographicOutlineLayer(layer, expected_layer)
             elif isinstance(layer, SimpleFillSymbolLayer):
                 if 'outline_layer' in expected_layer:
                     self.compareSimpleOutlineLayer(layer.outline_layer, expected_layer['outline_layer'])
@@ -925,7 +1151,7 @@ class TestSymbols(unittest.TestCase):
         path = os.path.join('styles', 'line_bin')
         self.run_symbol_test(path)
 
-    def testLines(self):
+    def testFills(self):
         path = os.path.join('styles', 'fill_bin')
         self.run_symbol_test(path)
 
