@@ -3,11 +3,608 @@ import os
 from symbol_parser import (read_symbol,
                            LineSymbol,
                            FillSymbol,
+                           MarkerSymbol,
                            SimpleLineSymbolLayer,
                            CartographicLineSymbolLayer,
-                           SimpleFillSymbolLayer)
+                           SimpleFillSymbolLayer,
+                           SimpleMarkerSymbolLayer)
 
 expected = {
+    'marker_bin':
+        {
+            'Arrow marker.bin':
+                {
+                    'skip': True,
+                    'type': MarkerSymbol,
+                    'levels': [None]
+                },
+            'Character marker.bin':
+                {
+                    'skip': True,
+                    'type': MarkerSymbol,
+                    'levels': [None]
+                },
+            'Picture marker.bin':
+                {
+                    'skip': True,
+                    'type': MarkerSymbol,
+                    'levels': [None]
+                },
+            'R255 G0 B0 circle marker size 12.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'circle',
+                        'size': 12,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+            'R255 G0 B0 circle marker size 12 halo size 7.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': True,
+                    'halo_size': 7.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'circle',
+                        'size': 12,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+            'R255 G0 B0 circle marker size 12 halo size 7 fill.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': True,
+                    'halo_size': 7.0,
+                    'halo_symbol_type': FillSymbol,
+                    'halo_symbol':
+                        {
+                            'type': FillSymbol,
+                            'levels': [{
+                                'type': SimpleFillSymbolLayer,
+                                'enabled': True,
+                                'locked': False,
+                                'color_model': 'rgb',
+                                'color':
+                                    {
+                                        'R': 289.0,  # should be 255
+                                        'G': 0.0,
+                                        'B': 0.0,
+                                        'is_null': False,
+                                        'dither': False
+                                    },
+                                'outline_layer': {
+                                    'type': SimpleLineSymbolLayer,
+                                    'enabled': True,
+                                    'locked': False,
+                                    'color_model': 'rgb',
+                                    'width': 3.0,
+                                    'line_type': 'solid',
+                                    'color':
+                                        {
+                                            'R': 0.0,
+                                            'G': 257,  # should be 255
+                                            'B': 0,
+                                            'is_null': False,
+                                            'dither': True
+                                        }
+                                }
+                            }
+                            ]
+                        },
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'circle',
+                        'size': 12,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+            'R255 G0 B0 circle marker size 8 xoffset 2.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'circle',
+                        'size': 8,
+                        'x_offset': 2,
+                        'y_offset': 0,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+            'R255 G0 B0 circle marker size 8 yoffset 3.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'circle',
+                        'size': 8,
+                        'x_offset': 0,
+                        'y_offset': 3,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+            'Two layers.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'circle',
+                        'size': 8,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    },
+                        {
+                            'type': SimpleMarkerSymbolLayer,
+                            'enabled': False,
+                            'locked': True,
+                            'color_model': 'rgb',
+                            'color':
+                                {
+                                    'R': 0.0,
+                                    'G': 134.0,  # should be 112
+                                    'B': 287.0,  # should be 255
+                                    'is_null': False,
+                                    'dither': False
+                                },
+                            'marker_type': 'circle',
+                            'size': 6,
+                            'x_offset': 3,
+                            'y_offset': -5,
+                            'outline_enabled': False,
+                            'outline_color_model': 'rgb',
+                            'outline_color':
+                                {
+                                    'R': 0.0,
+                                    'G': 0.0,
+                                    'B': 0.0,
+                                    'is_null': False,
+                                    'dither': False
+                                },
+                            'outline_size': 1.0
+                        }
+                    ]
+                },
+            'Two layers different outline.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'circle',
+                        'size': 8,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': True,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 249.0,  # should be 255
+                                'G': 256.0,  # should be 255
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': True
+                            },
+                        'outline_size': 1.0
+                    },
+                        {
+                            'type': SimpleMarkerSymbolLayer,
+                            'enabled': False,
+                            'locked': True,
+                            'color_model': 'rgb',
+                            'color':
+                                {
+                                    'R': 0.0,
+                                    'G': 134.0,  # should be 112
+                                    'B': 287.0,  # should be 255
+                                    'is_null': False,
+                                    'dither': False
+                                },
+                            'marker_type': 'circle',
+                            'size': 6,
+                            'x_offset': 3,
+                            'y_offset': -5,
+                            'outline_enabled': True,
+                            'outline_color_model': 'rgb',
+                            'outline_color':
+                                {
+                                    'R': 0.0,
+                                    'G': 257.0,  # should be 255
+                                    'B': 0.0,
+                                    'is_null': False,
+                                    'dither': True
+                                },
+                            'outline_size': 9.0
+                        }
+                    ]
+                },
+            'R255 G0 B0 circle marker size 8 with outline.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'circle',
+                        'size': 8,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': True,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+            'R255 G0 B0 circle marker size 8.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'circle',
+                        'size': 8,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+            'R255 G0 B0 cross marker size 8.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'cross',
+                        'size': 8,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+            'R255 G0 B0 square marker size 8.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'square',
+                        'size': 8,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+            'R255 G0 B0 X diamond size 8.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'diamond',
+                        'size': 8,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+            'R255 G0 B0 X marker size 8.bin':
+                {
+                    'type': MarkerSymbol,
+                    'halo': False,
+                    'halo_size': 2.0,
+                    'halo_symbol_type': SimpleFillSymbolLayer,
+                    'levels': [{
+                        'type': SimpleMarkerSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 289.0,  # should be 255
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'marker_type': 'x',
+                        'size': 8,
+                        'x_offset': 0,
+                        'y_offset': 0,
+                        'outline_enabled': False,
+                        'outline_color_model': 'rgb',
+                        'outline_color':
+                            {
+                                'R': 0.0,
+                                'G': 0.0,
+                                'B': 0.0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'outline_size': 1.0
+                    }
+                    ]
+                },
+        },
     'fill_bin':
         {
             '3D Texture fill R255 G0 B0.bin':
@@ -1366,8 +1963,21 @@ class TestSymbols(unittest.TestCase):
                 expected_symbol = expected[group][symbol_name]
                 if 'skip' in expected_symbol:
                     continue
-                symbol = read_symbol(f)
+                symbol = read_symbol(f, debug=False)
                 self.compareSymbol(symbol, expected_symbol)
+
+    def compareSimpleMarkerLayer(self, layer, expected):
+        self.assertTrue(isinstance(layer, SimpleMarkerSymbolLayer))
+        self.assertEqual(layer.color_model, expected['color_model'])
+        self.assertEqual(layer.color, expected['color'])
+        self.assertEqual(layer.type, expected['marker_type'])
+        self.assertEqual(layer.size, expected['size'])
+        self.assertEqual(layer.x_offset, expected['x_offset'])
+        self.assertEqual(layer.y_offset, expected['y_offset'])
+        self.assertEqual(layer.outline_enabled, expected['outline_enabled'])
+        self.assertEqual(layer.outline_color_model, expected['outline_color_model'])
+        self.assertEqual(layer.outline_color, expected['outline_color'])
+        self.assertEqual(layer.outline_width, expected['outline_size'])
 
     def compareSimpleOutlineLayer(self, layer, expected):
         self.assertTrue(isinstance(layer, SimpleLineSymbolLayer))
@@ -1387,8 +1997,16 @@ class TestSymbols(unittest.TestCase):
         self.assertEqual(layer.pattern_interval, expected['pattern_interval'])
 
     def compareSymbol(self, symbol, expected):
-        self.assertTrue(isinstance(symbol, expected['type']))
+        self.assertTrue(isinstance(symbol, expected['type']), 'expected {} got {}'.format(expected['type'], symbol))
         self.assertEqual(len(symbol.levels), len(expected['levels']))
+
+        if isinstance(symbol, MarkerSymbol):
+            self.assertEqual(symbol.halo, expected['halo'])
+            self.assertEqual(symbol.halo_size, expected['halo_size'])
+            self.assertTrue(isinstance(symbol.halo_symbol, expected['halo_symbol_type']))
+            if isinstance(symbol.halo_symbol, FillSymbol):
+                self.compareSymbol(symbol.halo_symbol, expected['halo_symbol'])
+
         for i in range(len(symbol.levels)):
             expected_layer = expected['levels'][i]
             layer = symbol.levels[i]
@@ -1401,6 +2019,9 @@ class TestSymbols(unittest.TestCase):
                 self.compareSimpleOutlineLayer(layer, expected_layer)
             elif isinstance(layer, CartographicLineSymbolLayer):
                 self.compareCartographicOutlineLayer(layer, expected_layer)
+            elif isinstance(layer, SimpleMarkerSymbolLayer):
+                self.compareSimpleMarkerLayer(layer, expected_layer)
+
             elif isinstance(layer, SimpleFillSymbolLayer):
                 if 'outline_layer' in expected_layer:
                     self.compareSimpleOutlineLayer(layer.outline_layer, expected_layer['outline_layer'])
@@ -1415,6 +2036,10 @@ class TestSymbols(unittest.TestCase):
 
     def testFills(self):
         path = os.path.join('styles', 'fill_bin')
+        self.run_symbol_test(path)
+
+    def testMarkers(self):
+        path = os.path.join('styles', 'marker_bin')
         self.run_symbol_test(path)
 
 

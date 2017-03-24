@@ -53,9 +53,11 @@ def read_object_header(handle):
     skip_bytes = unpack("<H", handle.file_handle.read(2))[0]
     if skip_bytes == 1:
         pass
-    elif skip_bytes == 2:
-        assert binascii.hexlify(handle.file_handle.read(1)) == '0d'
-        handle.file_handle.read(7)
+    elif skip_bytes in (2, 3):
+        if binascii.hexlify(handle.file_handle.read(1)) == '0d':
+            handle.file_handle.read(7)
+        else:
+            handle.file_handle.seek(handle.file_handle.tell() - 1)
     # experimental! - might be safer to assert False here. Only encountered in .lyr fails so far
     else:
         handle.file_handle.read(4)
@@ -75,7 +77,10 @@ def create_object(handle):
         'fae5': LineSymbol,
         'f9e5': SimpleLineSymbolLayer,
         'fbe5': CartographicLineSymbolLayer,
-        '03e6': SimpleFillSymbolLayer
+        '03e6': SimpleFillSymbolLayer,
+        'fee5': SimpleMarkerSymbolLayer,
+        #  '00e6': CharacterMarkerSymbolLayer,
+        #  '02e6': PictureMarkerSymbolLayer
     }
 
     assert object_code in object_dict, 'Unknown object code at {}, got {}'.format(hex(start), object_code)
@@ -179,7 +184,7 @@ class LineSymbolLayer(SymbolLayer):
         """
         layer_object = create_object(handle)
         assert issubclass(layer_object, LineSymbolLayer) \
-            or issubclass(layer_object, LineSymbol), \
+               or issubclass(layer_object, LineSymbol), \
             'Expected LineSymbolLayer or LineSymbol, got {}'.format(layer_object)
         return layer_object()
 
@@ -285,6 +290,7 @@ class FillSymbolLayer(SymbolLayer):
     """
     Base class for fill symbol layers
     """
+
     def __init__(self):
         SymbolLayer.__init__(self)
         self.color_model = None
@@ -298,7 +304,7 @@ class FillSymbolLayer(SymbolLayer):
         Creates a FillSymbolLayer subclass from the specified file handle
         """
         layer_object = create_object(handle)
-        assert issubclass(layer_object, FillSymbolLayer),\
+        assert issubclass(layer_object, FillSymbolLayer), \
             'Expected FillSymbolLayer, got {}'.format(layer_object)
         return layer_object()
 
@@ -307,6 +313,7 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
     """
     Simple fill symbol layer
     """
+
     def __init__(self):
         FillSymbolLayer.__init__(self)
 
@@ -341,10 +348,104 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
         self.color = read_color(handle.file_handle)
 
 
+class MarkerSymbolLayer(SymbolLayer):
+    """
+    Base class for marker symbol layers
+    """
+
+    def __init__(self):
+        SymbolLayer.__init__(self)
+        self.color_model = None
+        self.color = None
+        self.outline_layer = None
+        self.outline_symbol = None
+
+    @staticmethod
+    def create(handle):
+        """
+        Creates a MarkerSymbolLayer subclass from the specified file handle
+        """
+        layer_object = create_object(handle)
+        assert issubclass(layer_object, MarkerSymbolLayer), \
+            'Expected MarkerSymbolLayer, got {}'.format(layer_object)
+        return layer_object()
+
+
+class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
+    """
+    Simple marker symbol layer
+    """
+
+    def __init__(self):
+        MarkerSymbolLayer.__init__(self)
+        self.type = None
+        self.size = 0
+        self.x_offset = 0
+        self.y_offset = 0
+        self.outline_enabled = False
+        self.outline_color = None
+        self.outline_width = 0.0
+        self.outline_color_model = None
+
+    def read(self, handle):
+        """
+        Reads the symbol layer information. Internally calls _read method
+        for individual layer types
+        """
+        self._read(handle)
+
+        # look for 0d terminator
+        while not binascii.hexlify(handle.file_handle.read(1)) == '0d':
+            pass
+
+        handle.file_handle.read(15)
+        if handle.debug:
+            print('xy offset at {}'.format(hex(handle.file_handle.tell())))
+        self.x_offset = unpack("<d", handle.file_handle.read(8))[0]
+        self.y_offset = unpack("<d", handle.file_handle.read(8))[0]
+
+        has_outline = unpack("<B", handle.file_handle.read(1))[0]
+        if has_outline == 1:
+            self.outline_enabled = True
+        self.outline_width = unpack("<d", handle.file_handle.read(8))[0]
+        self.outline_color_model = read_color_model(handle.file_handle)
+        read_magic_2(handle)
+        handle.file_handle.read(2)
+        self.outline_color = read_color(handle.file_handle)
+
+        if handle.debug:
+            print('finished layer read at {}'.format(hex(handle.file_handle.tell())))
+
+    def _read(self, handle):
+        self.color_model = read_color_model(handle.file_handle)
+
+        read_magic_2(handle)
+        handle.file_handle.read(2)
+
+        self.color = read_color(handle.file_handle)
+        self.size = unpack("<d", handle.file_handle.read(8))[0]
+
+        type_code = unpack("<L", handle.file_handle.read(4))[0]
+        type_dict = {
+            0: 'circle',
+            1: 'square',
+            2: 'cross',
+            3: 'x',
+            4: 'diamond'
+        }
+
+        assert type_code in type_dict, 'Unknown marker type at {}, got {}'.format(hex(handle.file_handle.tell() - 4),
+                                                                                  type_code)
+        if handle.debug:
+            print('found a {} at {}'.format(type_dict[type_code], hex(handle.file_handle.tell() - 4)))
+        self.type = type_dict[type_code]
+
+
 class Symbol:
     """
     Base class for symbols
     """
+
     def __init__(self):
         self.levels = []
 
@@ -364,6 +465,7 @@ class LineSymbol(Symbol):
     """
     Line symbol
     """
+
     def __init__(self):
         Symbol.__init__(self)
 
@@ -418,6 +520,7 @@ class FillSymbol(Symbol):
     """
     Fill symbol
     """
+
     def __init__(self):
         Symbol.__init__(self)
 
@@ -460,10 +563,61 @@ class MarkerSymbol(Symbol):
     """
     Marker symbol.
 
-    Not yet implemented
     """
+
     def __init__(self):
         Symbol.__init__(self)
+        self.halo = False
+        self.halo_size = 0
+        self.halo_symbol = None
+
+    def _read(self, handle):
+        # consume section of unknown purpose
+        while not binascii.hexlify(handle.file_handle.read(1)) == '40':
+            pass
+        consume_padding(handle.file_handle)
+
+        self.color_model = read_color_model(handle.file_handle)
+        read_magic_2(handle)
+
+        handle.file_handle.read(28)
+
+        self.halo = unpack("<L", handle.file_handle.read(4))[0] == 1
+        self.halo_size = unpack("<d", handle.file_handle.read(8))[0]
+
+        self.halo_symbol = create_object(handle)()
+        self.halo_symbol.read(handle)
+
+        # not sure about this - there's an extra 02 here if a full fill symbol is used for the halo
+        if isinstance(self.halo_symbol, Symbol):
+            while not binascii.hexlify(handle.file_handle.read(1)) == '02':
+                pass
+
+        consume_padding(handle.file_handle)
+
+        # useful stuff
+        number_layers = unpack("<L", handle.file_handle.read(4))[0]
+
+        if handle.debug:
+            print('found {} layers at {}'.format(number_layers, hex(handle.file_handle.tell() - 4)))
+
+        for i in range(number_layers):
+            consume_padding(handle.file_handle)
+            layer = MarkerSymbolLayer.create(handle)
+            if handle.debug:
+                print('marker symbol layer at {}'.format(hex(handle.file_handle.tell())))
+
+            layer.read(handle)
+            self.levels.extend([layer])
+
+            while not binascii.hexlify(handle.file_handle.read(1)) == 'ff':
+                pass
+            handle.file_handle.read(1)
+
+        for l in self.levels:
+            l.read_enabled(handle)
+        for l in self.levels:
+            l.read_locked(handle)
 
 
 def read_symbol(file_handle, debug=False):
