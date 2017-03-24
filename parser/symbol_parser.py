@@ -20,7 +20,7 @@ class Handle:
         self.debug = debug
 
 
-def read_string(file_handle):
+def read_string(handle):
     """
     Decodes a string from the binary
 
@@ -28,9 +28,14 @@ def read_string(file_handle):
     a four-byte unsigned integer, and then writes that many characters
     to the stream'
     """
-    length = unpack("<I", file_handle.read(4))[0]
-    buffer = file_handle.read(length)
-    return buffer.decode('utf-16')
+    length = unpack("<I", handle.file_handle.read(4))[0]
+    if handle.debug:
+        print('string of length {}'.format(length))
+    buffer = handle.file_handle.read(length)
+    string = buffer.decode('utf-16')
+    if handle.debug:
+        print('found string {}'.format(string))
+    return string[:-1]
 
 
 def read_object_header(handle):
@@ -39,6 +44,12 @@ def read_object_header(handle):
     code (2 bytes)
     """
     object_type = binascii.hexlify(handle.file_handle.read(2))
+
+    if object_type == 'e614':
+        # second chance, since some overzealous padding consumer may have eaten
+        # the start of a "00e6" Character Marker Symbol
+        handle.file_handle.seek(handle.file_handle.tell() - 3)
+        object_type = binascii.hexlify(handle.file_handle.read(2))
 
     # Some magic sequence of unknown origin:
     magic_1 = binascii.hexlify(handle.file_handle.read(14))
@@ -53,7 +64,7 @@ def read_object_header(handle):
     skip_bytes = unpack("<H", handle.file_handle.read(2))[0]
     if skip_bytes == 1:
         pass
-    elif skip_bytes in (2, 3):
+    elif skip_bytes in (2, 3, 4):
         if binascii.hexlify(handle.file_handle.read(1)) == '0d':
             handle.file_handle.read(7)
         else:
@@ -79,7 +90,7 @@ def create_object(handle):
         'fbe5': CartographicLineSymbolLayer,
         '03e6': SimpleFillSymbolLayer,
         'fee5': SimpleMarkerSymbolLayer,
-        #  '00e6': CharacterMarkerSymbolLayer,
+        '00e6': CharacterMarkerSymbolLayer,
         #  '02e6': PictureMarkerSymbolLayer
     }
 
@@ -416,6 +427,10 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         if handle.debug:
             print('finished layer read at {}'.format(hex(handle.file_handle.tell())))
 
+        while not binascii.hexlify(handle.file_handle.read(1)) == 'ff':
+            pass
+        handle.file_handle.read(1)
+
     def _read(self, handle):
         self.color_model = read_color_model(handle.file_handle)
 
@@ -439,6 +454,72 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         if handle.debug:
             print('found a {} at {}'.format(type_dict[type_code], hex(handle.file_handle.tell() - 4)))
         self.type = type_dict[type_code]
+
+
+class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
+    """
+    Character marker symbol layer
+    """
+
+    def __init__(self):
+        MarkerSymbolLayer.__init__(self)
+        self.type = None
+        self.size = 0
+        self.unicode = 0
+        self.x_offset = 0
+        self.y_offset = 0
+        self.angle = 0
+        self.outline_enabled = False
+        self.outline_color = None
+        self.outline_width = 0.0
+        self.outline_color_model = None
+        self.font = None
+
+    def read(self, handle):
+        self._read(handle)
+
+        if handle.debug:
+            print('finished layer read at {}'.format(hex(handle.file_handle.tell())))
+
+    def _read(self, handle):
+        if handle.debug:
+            print('start character marker at {}'.format(hex(handle.file_handle.tell())))
+
+        self.color_model = read_color_model(handle.file_handle)
+
+        read_magic_2(handle)
+        handle.file_handle.read(2)
+
+        self.color = read_color(handle.file_handle)
+        self.unicode = unpack("<L", handle.file_handle.read(4))[0]
+        if handle.debug:
+            print('unicode of {} at {}'.format(self.unicode, hex(handle.file_handle.tell() - 4)))
+
+        self.angle = unpack("<d", handle.file_handle.read(8))[0]
+        self.size = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('size of {} at {}'.format(self.size, hex(handle.file_handle.tell() - 8)))
+        self.x_offset = unpack("<d", handle.file_handle.read(8))[0]
+        self.y_offset = unpack("<d", handle.file_handle.read(8))[0]
+
+        # unknown - ends with FFFF
+        while not binascii.hexlify(handle.file_handle.read(2)) == 'ffff':
+            handle.file_handle.seek(handle.file_handle.tell() - 1)
+
+        if handle.debug:
+            print('start font name at {}'.format(hex(handle.file_handle.tell())))
+        self.font = read_string(handle)
+
+        # large unknown block
+        while not binascii.hexlify(handle.file_handle.read(2)) == '9001':
+            handle.file_handle.seek(handle.file_handle.tell() - 1)
+        handle.file_handle.read(3)
+
+        # repeated font name, not unicode
+        skip = unpack(">h", handle.file_handle.read(2))[0]
+        if handle.debug:
+            print('duplicate font name at {} for {}'.format(hex(handle.file_handle.tell()), skip))
+        handle.file_handle.read(skip)
 
 
 class Symbol:
@@ -609,10 +690,6 @@ class MarkerSymbol(Symbol):
 
             layer.read(handle)
             self.levels.extend([layer])
-
-            while not binascii.hexlify(handle.file_handle.read(1)) == 'ff':
-                pass
-            handle.file_handle.read(1)
 
         for l in self.levels:
             l.read_enabled(handle)
