@@ -3,8 +3,6 @@
 from struct import (pack,
                     unpack)
 import binascii
-from colormath.color_objects import (LabColor, sRGBColor)
-from colormath.color_conversions import convert_color
 
 """
 Extracts colors from a style blob
@@ -31,18 +29,45 @@ def read_color_model(file_handle):
     elif binascii.hexlify(m) == '97':
         return 'cmyk'
     else:
-        assert False, 'unknown color model {} at {}'.format(binascii.hexlify(m), hex(start))
+        assert False, 'unknown color model {} at {}'.format(
+            binascii.hexlify(m), hex(start))
 
-def xyz709_to_rgb(x, y, z):
-    r = 3.240479 * x -1.53715 * y -0.498535 * z
-    g = -0.969256 * x + 1.875991 * y + 0.041556 * z
-    b = 0.055648 * x -0.204043 * y +1.057311 * z
+
+def xyz_to_rgb(x, y, z):
+    """Translate XYZ color to RGB. See http://www.brucelindbloom.com/"""
+
+    # Transformation for AppleRGB Working Space
+    r = 2.9515373 * x - 1.2894116 * y - 0.4738445 * z
+    g = -1.0851093 * x + 1.9908566 * y + 0.0372026 * z
+    b = 0.0854934 * x - 0.2694964 * y + 1.0912975 * z
+
     return r, g, b
 
+
+def apply_gamma(r, g, b):
+    """Apply gamma conversion"""
+
+    # Convert to zero negative values
+    if r < 0:
+        r = 0
+    if g < 0:
+        g = 0
+    if b < 0:
+        b = 0
+
+    # Gamma companding 1.8
+    r = r ** (1/1.8)
+    g = g ** (1/1.8)
+    b = b ** (1/1.8)
+
+    return r, g, b
+
+
 def cielab_to_xyz(l,a,b):
-    print l,a,b
+    """Translate lab color to xyz. See http://www.brucelindbloom.com/"""
+
     fy = (l+16)/116.0
-    fz =  fy - (b/200.0)
+    fz = fy - (b/200.0)
     fx = a/500.0 + fy
     e = 0.008856
     k = 903.3
@@ -58,42 +83,58 @@ def cielab_to_xyz(l,a,b):
         zr = fz ** 3
     else:
         zr = (116*fz - 16)/k
-    print xr,yr,zr
-    return xr,yr,zr
 
-    Xr = 0.64
-    Yr = 0.33
-    Zr = 0.30
-    print  xr*Xr, yr * Yr, zr * Zr
+    # Reference white D65
+    Xr = 0.95047
+    Yr = 1.00000
+    Zr = 1.08883
+
     return xr*Xr, yr * Yr, zr * Zr
 
-def cielab_to_rgb(l,a,b):
-    return xyz709_to_rgb(*cielab_to_xyz(l,a,b))
+
+def scale_and_round(r, g, b):
+    """Scale to 0-255 and round valued. The algorithm seems to be extremely
+    precise and equivalent to what is done inside Esri apps, except for
+    very small rgb values. Often the algorithm returns 1 or 2 instead of
+    the expected 0 (on a 0-255 scale).
+    I think that is more likely that small values are intended to be zero,
+    so I correct them"""
+
+    r = round(r * 255)
+    g = round(g * 255)
+    b = round(b * 255)
+
+    if r < 5:
+        r = 0
+    if g < 5:
+        g = 0
+    if b < 5:
+        b = 0
+
+    return r, g, b
+
+
+def cielab_to_rgb(l, a, b):
+    return scale_and_round(*apply_gamma(*xyz_to_rgb(*cielab_to_xyz(l, a, b))))
+
 
 def read_color(file_handle):
-  #  try:
-  if True:
+
+    try:
         l = unpack("<d", file_handle.read(8))[0]
         a = unpack("<d", file_handle.read(8))[0]
         b = unpack("<d", file_handle.read(8))[0]
 
-
-
-
-
-        # print (l, a, b)
-        # scale b from ESRI -100/100 to -128/128
-        a = a * 128.0 / 100.0
-        b = b * 128.0 / 100.0
-        # print (l,a,b)
         dither = binascii.hexlify(file_handle.read(1)) == '01'
         is_null = binascii.hexlify(file_handle.read(1)) == 'ff'
-        color = convert_color(LabColor(l, a, b, observer='2', illuminant='d65'), sRGBColor)
-        #r, g, b = cielab_to_rgb(l,a,b)
-        return {'R': round(color.rgb_r * 255),
-                'G': round(color.rgb_g* 255),
-                'B': round(color.rgb_b * 255),
+
+        r, g, b = cielab_to_rgb(l, a, b)
+
+        return {'R': r,
+                'G': g,
+                'B': b,
                 'dither': dither,
                 'is_null': is_null}
-  #  except:
-  #      return None
+
+    except Exception as e:
+        return None
