@@ -144,7 +144,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -262,7 +262,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -299,7 +299,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -339,7 +339,7 @@ expected = {
                                 'color_model': 'rgb',
                                 'color':
                                     {
-                                        'R': 289.0,  # should be 255
+                                        'R': 255.0,
                                         'G': 0.0,
                                         'B': 0.0,
                                         'is_null': False,
@@ -355,7 +355,7 @@ expected = {
                                     'color':
                                         {
                                             'R': 0.0,
-                                            'G': 257,  # should be 255
+                                            'G': 255,
                                             'B': 0,
                                             'is_null': False,
                                             'dither': True
@@ -371,7 +371,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -408,7 +408,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -445,7 +445,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -482,7 +482,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -512,8 +512,8 @@ expected = {
                             'color':
                                 {
                                     'R': 0.0,
-                                    'G': 134.0,  # should be 112
-                                    'B': 287.0,  # should be 255
+                                    'G': 112.0,
+                                    'B': 255.0,
                                     'is_null': False,
                                     'dither': False
                                 },
@@ -548,7 +548,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -562,8 +562,8 @@ expected = {
                         'outline_color_model': 'rgb',
                         'outline_color':
                             {
-                                'R': 249.0,  # should be 255
-                                'G': 256.0,  # should be 255
+                                'R': 255.0,
+                                'G': 255.0,
                                 'B': 0.0,
                                 'is_null': False,
                                 'dither': True
@@ -578,8 +578,8 @@ expected = {
                             'color':
                                 {
                                     'R': 0.0,
-                                    'G': 134.0,  # should be 112
-                                    'B': 287.0,  # should be 255
+                                    'G': 112.0,
+                                    'B': 255.0,
                                     'is_null': False,
                                     'dither': False
                                 },
@@ -592,7 +592,7 @@ expected = {
                             'outline_color':
                                 {
                                     'R': 0.0,
-                                    'G': 257.0,  # should be 255
+                                    'G': 255.0,
                                     'B': 0.0,
                                     'is_null': False,
                                     'dither': True
@@ -614,7 +614,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -651,7 +651,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -688,7 +688,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -725,7 +725,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -762,7 +762,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -799,7 +799,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -842,9 +842,9 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 245.0,  # should be 232
-                                'G': 200.0,  # should be 190
-                                'B': 264.0,  # should be 255
+                                'R': 232.0,
+                                'G': 190.0,
+                                'B': 255.0,
                                 'is_null': False,
                                 'dither': False
                             },
@@ -1176,9 +1176,9 @@ expected = {
                             'line_type': 'solid',
                             'color':
                                 {
-                                    'R': 243.0,  # should be 240
-                                    'G': 243,  # should be 240
-                                    'B': 243,  # should be 240
+                                    'R': 240.0,
+                                    'G': 240.0,
+                                    'B': 240.0,
                                     'is_null': True,
                                     'dither': True
                                 }
@@ -1196,7 +1196,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -1215,8 +1215,8 @@ expected = {
                                     'color':
                                         {
                                             'R': 0.0,
-                                            'G': 257.0,  # should be 255
-                                            'B': 0,
+                                            'G': 255.0,
+                                            'B': 0.0,
                                             'is_null': False,
                                             'dither': True
                                         }
@@ -1236,7 +1236,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -1255,7 +1255,7 @@ expected = {
                                     'color':
                                         {
                                             'R': 0.0,
-                                            'G': 257.0,  # should be 255
+                                            'G': 255.0,
                                             'B': 0,
                                             'is_null': False,
                                             'dither': True
@@ -1272,7 +1272,7 @@ expected = {
                                             {
                                                 'R': 0.0,
                                                 'G': 0.0,
-                                                'B': 303.0,  # should be 255
+                                                'B': 255.0,
                                                 'is_null': False,
                                                 'dither': True
                                             }
@@ -1292,7 +1292,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -1311,7 +1311,7 @@ expected = {
                                     'color':
                                         {
                                             'R': 0.0,
-                                            'G': 257.0,  # should be 255
+                                            'G': 255.0,
                                             'B': 0,
                                             'is_null': False,
                                             'dither': True
@@ -1328,7 +1328,7 @@ expected = {
                                             {
                                                 'R': 0.0,
                                                 'G': 0.0,
-                                                'B': 303.0,  # should be 255
+                                                'B': 255.0,
                                                 'is_null': False,
                                                 'dither': True
                                             }
@@ -1344,7 +1344,7 @@ expected = {
                             'color':
                                 {
                                     'R': 0.0,
-                                    'G': 257.0,  # should be 255
+                                    'G': 255.0,
                                     'B': 0.0,
                                     'is_null': False,
                                     'dither': True
@@ -1361,9 +1361,9 @@ expected = {
                                         'line_type': 'solid',
                                         'color':
                                             {
-                                                'R': 129.0,  # should be 110
-                                                'G': 129.0,  # should be 110
-                                                'B': 129.0,  # should be 110
+                                                'R': 110.0,
+                                                'G': 110.0,
+                                                'B': 110.0,
                                                 'is_null': False,
                                                 'dither': True
                                             }
@@ -1377,7 +1377,7 @@ expected = {
                                             'line_type': 'dashed',
                                             'color':
                                                 {
-                                                    'R': 289.0,  # should be 255
+                                                    'R': 255.0,
                                                     'G': 0.0,
                                                     'B': 0.0,
                                                     'is_null': False,
@@ -1399,7 +1399,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0.0,
                                 'B': 0.0,
                                 'is_null': False,
@@ -1416,8 +1416,8 @@ expected = {
                                     'color':
                                         {
                                             'R': 0.0,
-                                            'G': 0,
-                                            'B': 303,  # should be 255
+                                            'G': 0.0,
+                                            'B': 255,
                                             'is_null': False,
                                             'dither': True
                                         },
@@ -1479,7 +1479,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1503,7 +1503,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1527,7 +1527,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1551,7 +1551,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1575,7 +1575,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1599,7 +1599,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1623,7 +1623,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1646,7 +1646,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1670,7 +1670,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1694,7 +1694,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1718,7 +1718,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1742,7 +1742,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1766,7 +1766,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1790,7 +1790,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1814,7 +1814,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1838,7 +1838,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1864,7 +1864,7 @@ expected = {
                         'line_type': 'dash dot dot',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1885,7 +1885,7 @@ expected = {
                         'line_type': 'dash dot',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1906,7 +1906,7 @@ expected = {
                         'line_type': 'dashed',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1927,7 +1927,7 @@ expected = {
                         'line_type': 'dotted',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1952,7 +1952,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -1973,7 +1973,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -2002,7 +2002,7 @@ expected = {
                         'line_type': 'null',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -2029,7 +2029,7 @@ expected = {
                         'line_type': 'solid',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -2048,7 +2048,7 @@ expected = {
                         'color_model': 'rgb',
                         'color':
                             {
-                                'R': 289.0,  # should be 255
+                                'R': 255.0,
                                 'G': 0,
                                 'B': 0,
                                 'is_null': False,
@@ -2072,7 +2072,7 @@ expected = {
                             'line_type': 'solid',
                             'color':
                                 {
-                                    'R': 289.0,  # should be 255
+                                    'R': 255.0,
                                     'G': 0,
                                     'B': 0,
                                     'is_null': False,
@@ -2088,9 +2088,9 @@ expected = {
                             'line_type': 'solid',
                             'color':
                                 {
-                                    'R': 129.0,  # should be 110
-                                    'G': 129.0,
-                                    'B': 129.0,
+                                    'R': 110.0,
+                                    'G': 110.0,
+                                    'B': 110.0,
                                     'is_null': False,
                                     'dither': True
                                 }
@@ -2110,7 +2110,7 @@ expected = {
                             'line_type': 'dotted',
                             'color':
                                 {
-                                    'R': 289.0,  # should be 255
+                                    'R': 255.0,
                                     'G': 0,
                                     'B': 0,
                                     'is_null': False,
@@ -2126,9 +2126,9 @@ expected = {
                             'line_type': 'dash dot',
                             'color':
                                 {
-                                    'R': 129.0,  # should be 110
-                                    'G': 129.0,
-                                    'B': 129.0,
+                                    'R': 110.0,
+                                    'G': 110.0,
+                                    'B': 110.0,
                                     'is_null': False,
                                     'dither': True
                                 }
@@ -2143,7 +2143,7 @@ expected = {
                             'color':
                                 {
                                     'R': 0.0,
-                                    'G': 257.0,  # should be 255
+                                    'G': 255.0,
                                     'B': 0.0,
                                     'is_null': False,
                                     'dither': True

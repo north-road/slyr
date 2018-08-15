@@ -34,22 +34,9 @@ This corresponds to
 - A: 76.899433
 - B: 68.103444
 
-According to http://edndoc.esri.com/arcobjects/9.2/ComponentHelp/esriDisplay/IColor_GetCIELAB.htm, ESRI use ranges of 0-100 for L, -120-120 for A and B
+It seems that ESRI utilises Apple RGB Model as RGB Model with Whitepoint D65 and Gamma 1.8. Using these settings, we get RGB values very similar to those showed into ESRI products. Only for RGB values very close to zero, we have sometimes small differences, probably due to some approximation.
 
-Scaling these values to the standard 0-100,-128-128 ranges gives us:
-
-- L: 56.547018
-- A: 82.0260619
-- B: 72.6436736
-
-Unfortunately conversion of these values back to RGB results in R: 255, G: 19, B: 0.
-At least, according to http://colormine.org/convert/rgb-to-lab we should expect:
-
-- C: 53.23288178584245
-- I: 80.10930952982204
-- E: 67.22006831026425
-
-For #ff0000. It's possible that ESRI utilise a different whitepoint in their conversion of CIELAB -> RGB. 
+The conversion rules and value can be found on [Bruce Lindbloom site](http://www.brucelindbloom.com/)
 
 Immediately following the 8-byte color components, the next byte indicates whether the color has the "use windows dithering" option enabled (!) Not sure who really cares about this option anymore, but the following values are possible for this byte:
 
