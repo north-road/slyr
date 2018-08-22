@@ -23,11 +23,11 @@ def read_double(file_handle):
 def read_color_model(file_handle):
     start = file_handle.tell()
     m = file_handle.read(1)
-    if binascii.hexlify(m) == '96':
+    if binascii.hexlify(m) == b'96':
         return 'rgb'
-    elif binascii.hexlify(m) == '92':
+    elif binascii.hexlify(m) == b'92':
         return 'hsv'
-    elif binascii.hexlify(m) == '97':
+    elif binascii.hexlify(m) == b'97':
         return 'cmyk'
     else:
         assert False, 'unknown color model {} at {}'.format(
