@@ -45,7 +45,7 @@ def read_object_header(handle):
     """
     object_type = binascii.hexlify(handle.file_handle.read(2))
 
-    if object_type == 'e614':
+    if object_type == b'e614':
         # second chance, since some overzealous padding consumer may have eaten
         # the start of a "00e6" Character Marker Symbol
         handle.file_handle.seek(handle.file_handle.tell() - 3)
@@ -53,7 +53,7 @@ def read_object_header(handle):
 
     # Some magic sequence of unknown origin:
     magic_1 = binascii.hexlify(handle.file_handle.read(14))
-    assert magic_1 == '147992c8d0118bb6080009ee4e41', 'Differing object header at {}, got {}'.format(
+    assert magic_1 == b'147992c8d0118bb6080009ee4e41', 'Differing object header at {}, got {}'.format(
         hex(handle.file_handle.tell() - 16), magic_1)
 
     # Some padding bytes of unknown purpose
@@ -65,7 +65,7 @@ def read_object_header(handle):
     if skip_bytes == 1:
         pass
     elif skip_bytes in (2, 3, 4):
-        if binascii.hexlify(handle.file_handle.read(1)) == '0d':
+        if binascii.hexlify(handle.file_handle.read(1)) == b'0d':
             handle.file_handle.read(7)
         else:
             handle.file_handle.seek(handle.file_handle.tell() - 1)
@@ -83,14 +83,14 @@ def create_object(handle):
     start = handle.file_handle.tell()
     object_code = read_object_header(handle)
     object_dict = {
-        '04e6': FillSymbol,
-        'ffe5': MarkerSymbol,
-        'fae5': LineSymbol,
-        'f9e5': SimpleLineSymbolLayer,
-        'fbe5': CartographicLineSymbolLayer,
-        '03e6': SimpleFillSymbolLayer,
-        'fee5': SimpleMarkerSymbolLayer,
-        '00e6': CharacterMarkerSymbolLayer,
+        b'04e6': FillSymbol,
+        b'ffe5': MarkerSymbol,
+        b'fae5': LineSymbol,
+        b'f9e5': SimpleLineSymbolLayer,
+        b'fbe5': CartographicLineSymbolLayer,
+        b'03e6': SimpleFillSymbolLayer,
+        b'fee5': SimpleMarkerSymbolLayer,
+        b'00e6': CharacterMarkerSymbolLayer,
         #  '02e6': PictureMarkerSymbolLayer
     }
 
@@ -105,14 +105,14 @@ def read_magic_2(handle):
     Consumes an expected magic sequence (2), of unknown purpose
     """
     magic_2 = binascii.hexlify(handle.file_handle.read(15))
-    assert magic_2 == 'c4e97e23d1d0118383080009b996cc', 'Differing magic string 2: {}'.format(magic_2)
+    assert magic_2 == b'c4e97e23d1d0118383080009b996cc', 'Differing magic string 2: {}'.format(magic_2)
 
     terminator = binascii.hexlify(handle.file_handle.read(2))
-    if not terminator == '0100':
+    if not terminator == b'0100':
         # .lyr files have an extra 4 bytes in here - of unknown purpose
         handle.file_handle.read(4)
     terminator = binascii.hexlify(handle.file_handle.read(1))
-    assert terminator == '01'
+    assert terminator == b'01'
     if handle.debug:
         print('finished magic 2 at {}'.format(hex(handle.file_handle.tell())))
 
@@ -124,7 +124,7 @@ def consume_padding(file_handle):
     Use with caution! This is fragile if a possible valid '00' byte follows the padding.
     """
     last_position = file_handle.tell()
-    while binascii.hexlify(file_handle.read(1)) == '00':
+    while binascii.hexlify(file_handle.read(1)) == b'00':
         last_position = file_handle.tell()
     file_handle.seek(last_position)
 
@@ -171,7 +171,7 @@ class SymbolLayer:
         self._read(handle)
 
         # look for 0d terminator
-        while not binascii.hexlify(handle.file_handle.read(1)) == '0d':
+        while not binascii.hexlify(handle.file_handle.read(1)) == b'0d':
             pass
 
         if handle.debug:
@@ -260,26 +260,26 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
 
     def read(self, handle):
         self._read(handle)
-        while not binascii.hexlify(handle.file_handle.read(1)) == '0d':
+        while not binascii.hexlify(handle.file_handle.read(1)) == b'0d':
             pass
-        while not binascii.hexlify(handle.file_handle.read(1)) == '40':
+        while not binascii.hexlify(handle.file_handle.read(1)) == b'40':
             pass
 
     def _read(self, handle):
         self.read_cap(handle.file_handle)
 
         unknown = binascii.hexlify(handle.file_handle.read(3))
-        assert unknown == '000000', 'Differing unknown string {}'.format(unknown)
+        assert unknown == b'000000', 'Differing unknown string {}'.format(unknown)
         self.read_join(handle.file_handle)
         unknown = binascii.hexlify(handle.file_handle.read(3))
-        assert unknown == '000000', 'Differing unknown string {}'.format(unknown)
+        assert unknown == b'000000', 'Differing unknown string {}'.format(unknown)
 
         self.width = unpack("<d", handle.file_handle.read(8))[0]
         if handle.debug:
             print('read width of {} at {}'.format(self.width, hex(handle.file_handle.tell() - 8)))
 
         unknown = binascii.hexlify(handle.file_handle.read(1))
-        assert unknown == '00', 'Differing unknown byte'
+        assert unknown == b'00', 'Differing unknown byte'
 
         self.offset = unpack("<d", handle.file_handle.read(8))[0]
         self.color_model = read_color_model(handle.file_handle)
@@ -346,7 +346,7 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
         # sometimes an extra 02 terminator here
         start = handle.file_handle.tell()
         symbol_terminator = binascii.hexlify(handle.file_handle.read(1))
-        if symbol_terminator == '02':
+        if symbol_terminator == b'02':
             consume_padding(handle.file_handle)
         else:
             handle.file_handle.seek(start)
@@ -406,7 +406,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         self._read(handle)
 
         # look for 0d terminator
-        while not binascii.hexlify(handle.file_handle.read(1)) == '0d':
+        while not binascii.hexlify(handle.file_handle.read(1)) == b'0d':
             pass
 
         handle.file_handle.read(15)
@@ -427,7 +427,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         if handle.debug:
             print('finished layer read at {}'.format(hex(handle.file_handle.tell())))
 
-        while not binascii.hexlify(handle.file_handle.read(1)) == 'ff':
+        while not binascii.hexlify(handle.file_handle.read(1)) == b'ff':
             pass
         handle.file_handle.read(1)
 
@@ -503,7 +503,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         self.y_offset = unpack("<d", handle.file_handle.read(8))[0]
 
         # unknown - ends with FFFF
-        while not binascii.hexlify(handle.file_handle.read(2)) == 'ffff':
+        while not binascii.hexlify(handle.file_handle.read(2)) == b'ffff':
             handle.file_handle.seek(handle.file_handle.tell() - 1)
 
         if handle.debug:
@@ -511,7 +511,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         self.font = read_string(handle)
 
         # large unknown block
-        while not binascii.hexlify(handle.file_handle.read(2)) == '9001':
+        while not binascii.hexlify(handle.file_handle.read(2)) == b'9001':
             handle.file_handle.seek(handle.file_handle.tell() - 1)
         handle.file_handle.read(3)
 
@@ -566,7 +566,7 @@ class LineSymbol(Symbol):
         # point, and then move back by a known amount
 
         # burn up to the 02
-        while not binascii.hexlify(handle.file_handle.read(1)) == '02':
+        while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
             pass
 
         # jump back a known amount
@@ -577,7 +577,7 @@ class LineSymbol(Symbol):
         for l in self.levels:
             l.read_locked(handle)
 
-        while not binascii.hexlify(handle.file_handle.read(1)) == '02':
+        while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
             pass
 
     @staticmethod
@@ -628,7 +628,7 @@ class FillSymbol(Symbol):
         # point, and then move back by a known amount
 
         # burn up to the 02
-        while not binascii.hexlify(handle.file_handle.read(1)) == '02':
+        while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
             pass
 
         # jump back a known amount
@@ -654,7 +654,7 @@ class MarkerSymbol(Symbol):
 
     def _read(self, handle):
         # consume section of unknown purpose
-        while not binascii.hexlify(handle.file_handle.read(1)) == '40':
+        while not binascii.hexlify(handle.file_handle.read(1)) == b'40':
             pass
         consume_padding(handle.file_handle)
 
@@ -671,7 +671,7 @@ class MarkerSymbol(Symbol):
 
         # not sure about this - there's an extra 02 here if a full fill symbol is used for the halo
         if isinstance(self.halo_symbol, Symbol):
-            while not binascii.hexlify(handle.file_handle.read(1)) == '02':
+            while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
                 pass
 
         consume_padding(handle.file_handle)
