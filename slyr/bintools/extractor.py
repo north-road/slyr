@@ -14,7 +14,10 @@ class Extractor:
 
     __NEWLINE = b'\nnewline\n'
     __DELIMITER = b',,,,,,,'
+
     FILL_SYMBOLS = 'Fill symbols'
+    LINE_SYMBOLS = 'Line symbols'
+    MARKER_SYMBOLS = 'Marker symbols'
 
     NAME = 'NAME'
     TAGS = 'TAGS'
