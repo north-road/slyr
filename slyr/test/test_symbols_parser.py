@@ -868,7 +868,8 @@ expected = {
                                     'cap': 'square',
                                     'join': 'miter',
                                     'offset': 0.0,
-                                    'pattern_interval': 0.0
+                                    'pattern_interval': 0.0,
+                                    'pattern_parts': []
                                 }
                                 ]
                             }
@@ -1425,7 +1426,8 @@ expected = {
                                     'cap': 'round',
                                     'join': 'bevel',
                                     'offset': -7,
-                                    'pattern_interval': 1.0
+                                    'pattern_interval': 1.0,
+                                    'pattern_parts': []
                                 }
                                 ]
                             }
@@ -1489,7 +1491,8 @@ expected = {
                         'cap': 'butt',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 1.0
+                        'pattern_interval': 1.0,
+                        'pattern_parts': []
                     }
                     ]
                 },
@@ -1513,7 +1516,8 @@ expected = {
                         'cap': 'butt',
                         'join': 'bevel',
                         'offset': 0,
-                        'pattern_interval': 1.0
+                        'pattern_interval': 1.0,
+                        'pattern_parts': []
                     }
                     ]
                 },
@@ -1537,7 +1541,8 @@ expected = {
                         'cap': 'butt',
                         'join': 'miter',
                         'offset': -4,
-                        'pattern_interval': 1.0
+                        'pattern_interval': 1.0,
+                        'pattern_parts': []
                     }
                     ]
                 },
@@ -1561,7 +1566,8 @@ expected = {
                         'cap': 'butt',
                         'join': 'miter',
                         'offset': 5,
-                        'pattern_interval': 1.0
+                        'pattern_interval': 1.0,
+                        'pattern_parts': []
                     }
                     ]
                 },
@@ -1585,7 +1591,8 @@ expected = {
                         'cap': 'butt',
                         'join': 'round',
                         'offset': 0,
-                        'pattern_interval': 1.0
+                        'pattern_interval': 1.0,
+                        'pattern_parts': []
                     }
                     ]
                 },
@@ -1609,7 +1616,8 @@ expected = {
                         'cap': 'round',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 1.0
+                        'pattern_interval': 1.0,
+                        'pattern_parts': []
                     }
                     ]
                 },
@@ -1633,7 +1641,8 @@ expected = {
                         'cap': 'round',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 1.0
+                        'pattern_interval': 1.0,
+                        'pattern_parts': []
                     }]
                 },
             'Cartographic line round width 4 disabled.bin':
@@ -1656,7 +1665,8 @@ expected = {
                         'cap': 'round',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 1.0
+                        'pattern_interval': 1.0,
+                        'pattern_parts': []
                     }
                     ]
                 },
@@ -1680,7 +1690,8 @@ expected = {
                         'cap': 'square',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 1.0
+                        'pattern_interval': 1.0,
+                        'pattern_parts': []
                     }
                     ]
                 },
@@ -1704,7 +1715,8 @@ expected = {
                         'cap': 'square',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 7.0
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[0.0, 1.0]]
                     }
                     ]
                 },
@@ -1728,7 +1740,8 @@ expected = {
                         'cap': 'square',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 7.0
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[0.0, 2.0]]
                     }
                     ]
                 },
@@ -1752,7 +1765,8 @@ expected = {
                         'cap': 'square',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 7.0
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[0.0, 1.0], [1.0, 0.0]]
                     }
                     ]
                 },
@@ -1776,7 +1790,8 @@ expected = {
                         'cap': 'square',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 7.0
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[1.0, 1.0]]
                     }
                     ]
                 },
@@ -1800,7 +1815,8 @@ expected = {
                         'cap': 'square',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 7.0
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[2.0, 0.0]]
                     }
                     ]
                 },
@@ -1824,7 +1840,258 @@ expected = {
                         'cap': 'square',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 7.0
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[1.0, 0.0]]
+                    }
+                    ]
+                },
+            'Cartographic line square pattern interval 7 pattern 110.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 255,
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0,
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[2.0, 1.0]]
+                    }
+                    ]
+                },
+            'Cartographic line square pattern interval 7 pattern 111.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 255,
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0,
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[3.0, 0.0]]
+                    }
+                    ]
+                },
+            'Cartographic line square pattern interval 7 pattern 100.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 255,
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0,
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[1.0, 2.0]]
+                    }
+                    ]
+                },
+            'Cartographic line square pattern interval 7 pattern 101.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 255,
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0,
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[1.0, 1.0], [1.0, 0.0]]
+                    }
+                    ]
+                },
+            'Cartographic line square pattern interval 7 pattern 1010.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 255,
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0,
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[1.0, 1.0], [1.0, 1.0]]
+                    }
+                    ]
+                },
+            'Cartographic line square pattern interval 7 pattern 000.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 255,
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0,
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[0.0, 3.0]]
+                    }
+                    ]
+                },
+            'Cartographic line square pattern interval 7 pattern 011.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 255,
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0,
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[0.0, 1.0], [2.0, 0.0]]
+                    }
+                    ]
+                },
+            'Cartographic line square pattern interval 7 pattern 010.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 255,
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0,
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[0.0, 1.0], [1.0, 1.0]]
+                    }
+                    ]
+                },
+            'Cartographic line square pattern interval 7 pattern 001.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 255,
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0,
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[0.0, 2.0], [1.0, 0.0]]
+                    }
+                    ]
+                },
+            'Cartographic line square pattern interval 7 pattern 101001000010.bin':
+                {
+                    'type': LineSymbol,
+                    'levels': [{
+                        'type': CartographicLineSymbolLayer,
+                        'enabled': True,
+                        'locked': False,
+                        'color_model': 'rgb',
+                        'color':
+                            {
+                                'R': 255,
+                                'G': 0,
+                                'B': 0,
+                                'is_null': False,
+                                'dither': False
+                            },
+                        'width': 7.9999999,
+                        'cap': 'square',
+                        'join': 'miter',
+                        'offset': 0,
+                        'pattern_interval': 7.0,
+                        'pattern_parts': [[1.0, 1.0], [1.0, 2.0], [1.0, 4.0], [1.0, 1.0]]
                     }
                     ]
                 },
@@ -1848,7 +2115,8 @@ expected = {
                         'cap': 'square',
                         'join': 'miter',
                         'offset': 0,
-                        'pattern_interval': 7.0
+                        'pattern_interval': 7.0,
+                        'pattern_parts': []
                     }
                     ]
                 },
@@ -2218,6 +2486,7 @@ class TestSymbolParser(unittest.TestCase):
         self.assertEqual(layer.cap, expected['cap'])
         self.assertEqual(layer.join, expected['join'])
         self.assertEqual(layer.pattern_interval, expected['pattern_interval'])
+        self.assertEqual(layer.pattern_parts, expected['pattern_parts'])
 
     def compareSymbol(self, symbol, expected):
         self.assertTrue(isinstance(symbol, expected['type']), 'expected {} got {}'.format(expected['type'], symbol))
