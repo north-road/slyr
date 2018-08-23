@@ -90,9 +90,18 @@ def cielab_to_xyz(l, a, b):
         zr = (116 * fz - 16) / k
 
     # Reference white D65
-    Xr = 0.95047
+
+    # While 0.95047 is commonly used here, the actual REC709 standard
+    # has a white point of xw = 0.3127, yw = 0.3290 (see https://en.wikipedia.org/wiki/Rec._709)
+    # scaling this to the equivalent Yr of 1.0, we get an
+    # Xr value of 0.3127 * 1 / 0.329 = 0.9504559270516716
+    # and yes, this small variation does give a real difference in the
+    # accuracy of the converted colors!!
+    Xr = 0.9504559270516716
     Yr = 1.00000
-    Zr = 1.08883
+    # Scaling the standard value of 1.08883 to use the rec 709 white point
+    # gives 1.08883 * 0.95047 * yw / xw = 1.0888461217873364
+    Zr = 1.0888461217873364
 
     return xr * Xr, yr * Yr, zr * Zr
 
