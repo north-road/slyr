@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Converts a binary style file blob to a symbol
+Converts a binary style file blob to a symbol and dumps its properties to the console
 """
 
 import argparse
