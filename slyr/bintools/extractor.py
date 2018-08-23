@@ -61,12 +61,22 @@ class Extractor:
                     val = val[1:-2]
                 return val.strip()
 
+            # need to strip " " from blob
+            if blob[0] == 0x22:
+                blob = blob[1:]
+                while not blob[-1] != 0x22:
+                    blob = blob[:-1]
+                blob = blob[:-2]
+
+            # also need to convert "" -> "
+            blob=blob.replace(b'""',b'"')
+
             symbol = {
                 Extractor.NAME: extract_text(name),
                 Extractor.CATEGORY: extract_text(category),
                 Extractor.TAGS: extract_text(tags),
                 Extractor.ID: extract_text(symbol_id),
-                Extractor.BLOB: blob[1:-1]  # need to strip " " from blob
+                Extractor.BLOB: blob
             }
             raw_symbols.append(symbol)
 
