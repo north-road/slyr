@@ -3,11 +3,15 @@
 from struct import (pack,
                     unpack)
 import binascii
-from color_lut import COLOR_LUT
+from slyr.parser.color_lut import COLOR_LUT
 
 """
 Extracts colors from a style blob
 """
+
+
+class InvalidColorException(Exception):
+    pass
 
 
 def read_double(file_handle):
@@ -150,21 +154,23 @@ def cielab_to_rgb(l, a, b):
 
 
 def read_color(file_handle):
+    lab_l = unpack("<d", file_handle.read(8))[0]
+    lab_a = unpack("<d", file_handle.read(8))[0]
+    lab_b = unpack("<d", file_handle.read(8))[0]
+
+    dither = binascii.hexlify(file_handle.read(1)) == b'01'
+    is_null = binascii.hexlify(file_handle.read(1)) == b'ff'
+
     try:
-        l = unpack("<d", file_handle.read(8))[0]
-        a = unpack("<d", file_handle.read(8))[0]
-        b = unpack("<d", file_handle.read(8))[0]
+        r, g, b = cielab_to_rgb(lab_l, lab_a, lab_b)
+    except OverflowError:
+        raise InvalidColorException()
 
-        dither = binascii.hexlify(file_handle.read(1)) == '01'
-        is_null = binascii.hexlify(file_handle.read(1)) == 'ff'
+    if r > 255 or r < 0 or b > 255 or b < 0 or g > 255 or g < 0:
+        raise InvalidColorException()
 
-        r, g, b = cielab_to_rgb(l, a, b)
-
-        return {'R': r,
-                'G': g,
-                'B': b,
-                'dither': dither,
-                'is_null': is_null}
-
-    except Exception as e:
-        return None
+    return {'R': r,
+            'G': g,
+            'B': b,
+            'dither': dither,
+            'is_null': is_null}

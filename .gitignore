@@ -1,2 +1,5 @@
+.coverage
+.noseids
 *.pyc
-.idea/*
+**/.idea/**
+**/.pytest_cache/**

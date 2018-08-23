@@ -1,13 +1,18 @@
 #!/usr/bin/env python
 
 from struct import unpack
-from color_parser import (read_color_model,
-                          read_color)
+from slyr.parser.color_parser import (read_color_model,
+                                      read_color,
+                                      InvalidColorException)
 import binascii
 
 """
 Extracts a symbol from a style blob
 """
+
+
+class UnreadableSymbolException(Exception):
+    pass
 
 
 class Handle:
@@ -44,7 +49,6 @@ def read_object_header(handle):
     code (2 bytes)
     """
     object_type = binascii.hexlify(handle.file_handle.read(2))
-
     if object_type == b'e614':
         # second chance, since some overzealous padding consumer may have eaten
         # the start of a "00e6" Character Marker Symbol
@@ -221,6 +225,8 @@ class SimpleLineSymbolLayer(LineSymbolLayer):
         if handle.debug:
             print('read width of {} at {}'.format(self.width, hex(handle.file_handle.tell() - 8)))
         self.line_type = LineSymbol.read_line_type(handle.file_handle)
+        if handle.debug:
+            print('read line type of {}'.format(self.line_type))
 
 
 class CartographicLineSymbolLayer(LineSymbolLayer):
@@ -425,7 +431,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         self.outline_color = read_color(handle.file_handle)
 
         if handle.debug:
-            print('finished layer read at {}'.format(hex(handle.file_handle.tell())))
+            print('finished simple marker layer read at {}'.format(hex(handle.file_handle.tell())))
 
         while not binascii.hexlify(handle.file_handle.read(1)) == b'ff':
             pass
@@ -479,7 +485,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         self._read(handle)
 
         if handle.debug:
-            print('finished layer read at {}'.format(hex(handle.file_handle.tell())))
+            print('finished character marker layer read at {}'.format(hex(handle.file_handle.tell())))
 
     def _read(self, handle):
         if handle.debug:
@@ -704,13 +710,18 @@ def read_symbol(file_handle, debug=False):
     handle = Handle(file_handle, debug)
     symbol_object = create_object(handle)
 
-    # sometimes symbols are just layers, sometimes whole symbols...
-    if issubclass(symbol_object, SymbolLayer):
-        symbol_layer = symbol_object()
-        symbol_layer.read(handle)
-        return symbol_layer
-    else:
-        assert issubclass(symbol_object, Symbol), 'Expected Symbol, got {}'.format(symbol_object)
-        symbol = symbol_object()
-        symbol.read(handle)
-        return symbol
+    try:
+
+        # sometimes symbols are just layers, sometimes whole symbols...
+        if issubclass(symbol_object, SymbolLayer):
+            symbol_layer = symbol_object()
+            symbol_layer.read(handle)
+            return symbol_layer
+        else:
+            assert issubclass(symbol_object, Symbol), 'Expected Symbol, got {}'.format(symbol_object)
+            symbol = symbol_object()
+            symbol.read(handle)
+            return symbol
+
+    except InvalidColorException:
+        raise UnreadableSymbolException()

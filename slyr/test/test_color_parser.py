@@ -1,5 +1,5 @@
 import unittest
-from color_parser import (cielab_to_xyz, xyz_to_rgb, cielab_to_rgb)
+from slyr.parser.color_parser import (cielab_to_xyz, xyz_to_rgb, cielab_to_rgb)
 
 
 class TestColorParser(unittest.TestCase):
