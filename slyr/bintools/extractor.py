@@ -69,7 +69,7 @@ class Extractor:
                 blob = blob[:-2]
 
             # also need to convert "" -> "
-            blob=blob.replace(b'""',b'"')
+            blob = blob.replace(b'""', b'"')
 
             symbol = {
                 Extractor.NAME: extract_text(name),

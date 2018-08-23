@@ -35,10 +35,10 @@ for symbol_type in [Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MA
     print('Found {} symbols of type "{}"\n\n'.format(len(raw_symbols), symbol_type))
 
     for raw_symbol in raw_symbols:
-        symbol_name=raw_symbol[Extractor.NAME]
+        symbol_name = raw_symbol[Extractor.NAME]
         print('Extracting {}'.format(symbol_name))
 
-        out_filename=clean_symbol_name_for_file(symbol_name) + '.bin'
-        file = os.path.join(output_path,out_filename)
+        out_filename = clean_symbol_name_for_file(symbol_name) + '.bin'
+        file = os.path.join(output_path, out_filename)
         with open(file, 'wb') as e:
             e.write(raw_symbol[Extractor.BLOB])

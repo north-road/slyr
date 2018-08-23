@@ -307,14 +307,15 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         for p in range(pattern_part_count):
             filled_squares = unpack("<d", handle.file_handle.read(8))[0]
             empty_squares = unpack("<d", handle.file_handle.read(8))[0]
-            self.pattern_parts.append([filled_squares,empty_squares])
+            self.pattern_parts.append([filled_squares, empty_squares])
 
         if handle.debug:
             print('deciphered cartographic line pattern')
             pattern = ''
             for p in self.pattern_parts:
-                pattern += '-'*int(p[0]) + '.'*int(p[1])
+                pattern += '-' * int(p[0]) + '.' * int(p[1])
             print(pattern)
+
 
 class FillSymbolLayer(SymbolLayer):
     """
