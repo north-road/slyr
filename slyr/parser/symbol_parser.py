@@ -241,6 +241,7 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         self.join = None
         self.offset = None
         self.pattern_interval = 0
+        self.pattern_parts = []
 
     def read_cap(self, file_handle):
         cap_bin = unpack("<B", file_handle.read(1))[0]
@@ -300,8 +301,20 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
 
         self.pattern_interval = unpack("<d", handle.file_handle.read(8))[0]
 
-        # next bit is symbol pattern - unknown interpretation
+        # symbol pattern
+        pattern_part_count = unpack("<L", handle.file_handle.read(4))[0]
+        self.pattern_parts = []
+        for p in range(pattern_part_count):
+            filled_squares = unpack("<d", handle.file_handle.read(8))[0]
+            empty_squares = unpack("<d", handle.file_handle.read(8))[0]
+            self.pattern_parts.append([filled_squares,empty_squares])
 
+        if handle.debug:
+            print('deciphered cartographic line pattern')
+            pattern = ''
+            for p in self.pattern_parts:
+                pattern += '-'*int(p[0]) + '.'*int(p[1])
+            print(pattern)
 
 class FillSymbolLayer(SymbolLayer):
     """
