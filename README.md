@@ -1,3 +1,5 @@
+![SLYR Logo](logo.png)
+
 # SLYR
 
 A Python library and set of command line tools for extraction, parsing, and conversion of ESRI `.lyr` and `.style` files.
@@ -13,7 +15,7 @@ Status
     - near complete support for Cartographic Line layers, including custom dash patterns. Arrows cannot be decoded yet.
 - Marker symbols
     - complete support for Simple Marker layers
-    - near complete support for Character Marker layers (no mask support yet)
+    - complete support for Character Marker layers
 
 Tools
 =====
