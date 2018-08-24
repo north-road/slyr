@@ -1,3 +1,10 @@
+# pylint: disable=bad-continuation,too-many-lines
+
+"""
+Test symbol parsing
+"""
+
+
 import unittest
 import os
 from slyr.converters.dictionary import DictionaryConverter
@@ -353,7 +360,7 @@ expected = {
                                             'is_null': False,
                                             'dither': True
                                         }
-                                }
+                                        }
                             }
                             ]
                         },
@@ -386,7 +393,7 @@ expected = {
                             },
                         'outline_size': 1.0
                     }
-                    ]
+                            ]
                 },
             'R255 G0 B0 circle marker size 8 xoffset 2.bin':
                 {
@@ -525,7 +532,7 @@ expected = {
                                     'dither': False
                                 },
                             'outline_size': 1.0
-                        }
+                    }
                     ]
                 },
             'Two layers different outline.bin':
@@ -591,7 +598,7 @@ expected = {
                                     'dither': True
                                 },
                             'outline_size': 9.0
-                        }
+                    }
                     ]
                 },
             'R255 G0 B0 circle marker size 8 with outline.bin':
@@ -1414,7 +1421,7 @@ expected = {
                                     'is_null': True,
                                     'dither': True
                                 }
-                        }
+                                }
                     }
                     ]
                 },
@@ -1508,7 +1515,7 @@ expected = {
                                                 'is_null': False,
                                                 'dither': True
                                             }
-                                    }
+                                }
                                 ]
                             }
                     }
@@ -1564,7 +1571,7 @@ expected = {
                                                 'is_null': False,
                                                 'dither': True
                                             }
-                                    }
+                                }
                                 ]
                             }
                     },
@@ -1615,10 +1622,10 @@ expected = {
                                                     'is_null': False,
                                                     'dither': False
                                                 }
-                                        }
+                                    }
                                     ]
                                 }
-                        }
+                    }
                     ]
                 },
             'R255 G0 B0 with cartographic line outline.bin':
@@ -2656,9 +2663,15 @@ expected = {
 
 
 class TestSymbolParser(unittest.TestCase):
+    """
+    Test symbol parsing
+    """
 
     def run_symbol_checks(self, path):
-        # read all blobs
+        """
+        Checks all bin symbols against expectations
+        """
+
         blobs = []
         for fn in os.listdir(path):
             file = os.path.join(path, fn)
@@ -2677,19 +2690,29 @@ class TestSymbolParser(unittest.TestCase):
                 symbol = read_symbol(f, debug=False)
 
                 converter = DictionaryConverter()
-                self.assertEqual(converter.convert_symbol(symbol), expected_symbol)
+                self.assertEqual(converter.convert_symbol(
+                    symbol), expected_symbol)
 
     def test_lines(self):
+        """
+        Test line symbol parsing
+        """
         path = os.path.join(os.path.dirname(
             __file__), 'styles', 'line_bin')
         self.run_symbol_checks(path)
 
     def test_fills(self):
+        """
+        Test fill symbol parsing
+        """
         path = os.path.join(os.path.dirname(
             __file__), 'styles', 'fill_bin')
         self.run_symbol_checks(path)
 
     def test_markers(self):
+        """
+        Test marker symbol parsing
+        """
         path = os.path.join(os.path.dirname(
             __file__), 'styles', 'marker_bin')
         self.run_symbol_checks(path)
