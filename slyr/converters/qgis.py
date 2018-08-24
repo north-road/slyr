@@ -18,12 +18,7 @@ from slyr.parser.symbol_parser import (
     SymbolLayer
 )
 
-
-class NotImplementedException(Exception):
-    """
-    Raised when a symbol type or symbol layer type is not yet implemented in the converter
-    """
-    pass
+from slyr.converters.converter import NotImplementedException
 
 
 def symbol_color_to_qcolor(color):

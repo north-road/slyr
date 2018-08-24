@@ -141,7 +141,6 @@ class SymbolLayer:
     def __init__(self):
         self.locked = False
         self.enabled = True
-        self.locked = False
 
     def read_enabled(self, handle):
         """
