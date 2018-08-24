@@ -115,8 +115,10 @@ def read_magic_2(handle):
     if not terminator == b'0100':
         # .lyr files have an extra 4 bytes in here - of unknown purpose
         handle.file_handle.read(4)
+
+    start=handle.file_handle.tell()
     terminator = binascii.hexlify(handle.file_handle.read(1))
-    assert terminator == b'01'
+    assert terminator == b'01', 'Expected 01 at {}, got {}'.format(hex(start), terminator)
     if handle.debug:
         print('finished magic 2 at {}'.format(hex(handle.file_handle.tell())))
 
@@ -214,7 +216,10 @@ class SimpleLineSymbolLayer(LineSymbolLayer):
         self.line_type = None
 
     def _read(self, handle):
+        start = hex(handle.file_handle.tell())
         self.color_model = read_color_model(handle.file_handle)
+        if handle.debug:
+            print('Read color model at {}'.format(start))
 
         read_magic_2(handle)
         handle.file_handle.read(2)
