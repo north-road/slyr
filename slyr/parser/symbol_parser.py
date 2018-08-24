@@ -57,8 +57,9 @@ def read_object_header(handle):
 
     # Some magic sequence of unknown origin:
     magic_1 = binascii.hexlify(handle.file_handle.read(14))
-    assert magic_1 == b'147992c8d0118bb6080009ee4e41', 'Differing object header at {}, got {}'.format(
-        hex(handle.file_handle.tell() - 16), magic_1)
+    if magic_1 != b'147992c8d0118bb6080009ee4e41':
+        raise UnreadableSymbolException('Differing object header at {}, got {}'.format(
+            hex(handle.file_handle.tell() - 16), magic_1))
 
     # Some padding bytes of unknown purpose
     # Encountered values are:
@@ -98,7 +99,9 @@ def create_object(handle):
         #  '02e6': PictureMarkerSymbolLayer
     }
 
-    assert object_code in object_dict, 'Unknown object code at {}, got {}'.format(hex(start), object_code)
+    if object_code not in object_dict:
+        raise UnreadableSymbolException('Unknown object code at {}, got {}'.format(hex(start), object_code))
+
     if handle.debug:
         print('found a {} at {}'.format(object_dict[object_code], hex(start)))
     return object_dict[object_code]
@@ -109,16 +112,18 @@ def read_magic_2(handle):
     Consumes an expected magic sequence (2), of unknown purpose
     """
     magic_2 = binascii.hexlify(handle.file_handle.read(15))
-    assert magic_2 == b'c4e97e23d1d0118383080009b996cc', 'Differing magic string 2: {}'.format(magic_2)
+    if magic_2 != b'c4e97e23d1d0118383080009b996cc':
+        raise UnreadableSymbolException('Differing magic string 2: {}'.format(magic_2))
 
     terminator = binascii.hexlify(handle.file_handle.read(2))
     if not terminator == b'0100':
         # .lyr files have an extra 4 bytes in here - of unknown purpose
         handle.file_handle.read(4)
 
-    start=handle.file_handle.tell()
+    start = handle.file_handle.tell()
     terminator = binascii.hexlify(handle.file_handle.read(1))
-    assert terminator == b'01', 'Expected 01 at {}, got {}'.format(hex(start), terminator)
+    if terminator != b'01':
+        raise UnreadableSymbolException('Expected 01 at {}, got {}'.format(hex(start), terminator))
     if handle.debug:
         print('finished magic 2 at {}'.format(hex(handle.file_handle.tell())))
 
@@ -199,9 +204,9 @@ class LineSymbolLayer(SymbolLayer):
         Creates a LineSymbolLayer subclass from the specified file handle
         """
         layer_object = create_object(handle)
-        assert issubclass(layer_object, LineSymbolLayer) \
-               or issubclass(layer_object, LineSymbol), \
-            'Expected LineSymbolLayer or LineSymbol, got {}'.format(layer_object)
+        if not issubclass(layer_object, LineSymbolLayer) \
+                and not issubclass(layer_object, LineSymbol):
+            raise UnreadableSymbolException('Expected LineSymbolLayer or LineSymbol, got {}'.format(layer_object))
         return layer_object()
 
 
@@ -256,7 +261,7 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         elif cap_bin == 2:
             self.cap = 'square'
         else:
-            assert False, 'unknown cap style {}'.format(cap_bin)
+            raise UnreadableSymbolException('unknown cap style {}'.format(cap_bin))
 
     def read_join(self, file_handle):
         join_bin = unpack("<B", file_handle.read(1))[0]
@@ -267,7 +272,7 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         elif join_bin == 2:
             self.join = 'bevel'
         else:
-            assert False, 'unknown join style {}'.format(join_bin)
+            raise UnreadableSymbolException('unknown join style {}'.format(join_bin))
 
     def read(self, handle):
         self._read(handle)
@@ -280,17 +285,20 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         self.read_cap(handle.file_handle)
 
         unknown = binascii.hexlify(handle.file_handle.read(3))
-        assert unknown == b'000000', 'Differing unknown string {}'.format(unknown)
+        if unknown != b'000000':
+            raise UnreadableSymbolException('Differing unknown string {}'.format(unknown))
         self.read_join(handle.file_handle)
         unknown = binascii.hexlify(handle.file_handle.read(3))
-        assert unknown == b'000000', 'Differing unknown string {}'.format(unknown)
+        if unknown != b'000000':
+            raise UnreadableSymbolException('Differing unknown string {}'.format(unknown))
 
         self.width = unpack("<d", handle.file_handle.read(8))[0]
         if handle.debug:
             print('read width of {} at {}'.format(self.width, hex(handle.file_handle.tell() - 8)))
 
         unknown = binascii.hexlify(handle.file_handle.read(1))
-        assert unknown == b'00', 'Differing unknown byte'
+        if unknown != b'00':
+            raise UnreadableSymbolException('Differing unknown byte')
 
         self.offset = unpack("<d", handle.file_handle.read(8))[0]
         self.color_model = read_color_model(handle.file_handle)
@@ -339,8 +347,8 @@ class FillSymbolLayer(SymbolLayer):
         Creates a FillSymbolLayer subclass from the specified file handle
         """
         layer_object = create_object(handle)
-        assert issubclass(layer_object, FillSymbolLayer), \
-            'Expected FillSymbolLayer, got {}'.format(layer_object)
+        if not issubclass(layer_object, FillSymbolLayer):
+            raise UnreadableSymbolException('Expected FillSymbolLayer, got {}'.format(layer_object))
         return layer_object()
 
 
@@ -401,8 +409,8 @@ class MarkerSymbolLayer(SymbolLayer):
         Creates a MarkerSymbolLayer subclass from the specified file handle
         """
         layer_object = create_object(handle)
-        assert issubclass(layer_object, MarkerSymbolLayer), \
-            'Expected MarkerSymbolLayer, got {}'.format(layer_object)
+        if not issubclass(layer_object, MarkerSymbolLayer):
+            raise UnreadableSymbolException('Expected MarkerSymbolLayer, got {}'.format(layer_object))
         return layer_object()
 
 
@@ -473,8 +481,10 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
             4: 'diamond'
         }
 
-        assert type_code in type_dict, 'Unknown marker type at {}, got {}'.format(hex(handle.file_handle.tell() - 4),
-                                                                                  type_code)
+        if type_code not in type_dict:
+            raise UnreadableSymbolException(
+                'Unknown marker type at {}, got {}'.format(hex(handle.file_handle.tell() - 4),
+                                                           type_code))
         if handle.debug:
             print('found a {} at {}'.format(type_dict[type_code], hex(handle.file_handle.tell() - 4)))
         self.type = type_dict[type_code]
@@ -617,7 +627,8 @@ class LineSymbol(Symbol):
                  4: 'dash dot dot',
                  5: 'null'
                  }
-        assert line_type in types, 'unknown line type {} at {}'.format(line_type, hex(file_handle.tell() - 4))
+        if line_type not in types:
+            raise UnreadableSymbolException('unknown line type {} at {}'.format(line_type, hex(file_handle.tell() - 4)))
         return types[line_type]
 
 
@@ -736,7 +747,8 @@ def read_symbol(file_handle, debug=False):
             symbol_layer.read(handle)
             return symbol_layer
         else:
-            assert issubclass(symbol_object, Symbol), 'Expected Symbol, got {}'.format(symbol_object)
+            if not issubclass(symbol_object, Symbol):
+                raise UnreadableSymbolException('Expected Symbol, got {}'.format(symbol_object))
             symbol = symbol_object()
             symbol.read(handle)
             return symbol

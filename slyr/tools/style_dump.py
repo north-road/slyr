@@ -7,7 +7,7 @@ Dumps the contents of an ESRI .style file
 import argparse
 from io import BytesIO
 from slyr.bintools.extractor import Extractor
-from slyr.parser.symbol_parser import read_symbol
+from slyr.parser.symbol_parser import read_symbol, UnreadableSymbolException
 
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="style file to extract")
@@ -26,6 +26,9 @@ for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MA
                                                           symbol[Extractor.TAGS]))
 
         handle = BytesIO(symbol[Extractor.BLOB])
-        symbol_properties = read_symbol(file_handle=handle)
-        print(symbol_properties)
+        try:
+            symbol_properties = read_symbol(file_handle=handle)
+            print(symbol_properties)
+        except UnreadableSymbolException as e:
+            print('\t**Symbol could not be parsed!:\n\t{}'.format(e))
         print('\n\n')

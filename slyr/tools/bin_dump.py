@@ -19,12 +19,12 @@ args = parser.parse_args()
 if args.debug:
     dump_args = ['hexdump',
                  '-C',
-                   args.file]
+                 args.file]
     result = subprocess.run(dump_args, stdout=subprocess.PIPE)
     print(result.stdout.decode('UTF-8'))
 
 with open(args.file, 'rb') as f:
-    symbol = read_symbol(file_handle=f,debug=args.debug)
+    symbol = read_symbol(file_handle=f, debug=args.debug)
 
 converter = DictionaryConverter()
 pprint.pprint(converter.convert_symbol(symbol))
