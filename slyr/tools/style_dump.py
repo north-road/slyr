@@ -13,6 +13,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument("file", help="style file to extract")
 args = parser.parse_args()
 
+total = 0
+unreadable = 0
+
 for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS):
     print('{}:{}'.format(args.file, symbol_type))
 
@@ -21,9 +24,9 @@ for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MA
 
     for index, symbol in enumerate(raw_symbols):
         print('{}.\t{}\n\tCategory: {}\n\tTags: {}'.format(index + 1,
-                                                          symbol[Extractor.NAME],
-                                                          symbol[Extractor.CATEGORY],
-                                                          symbol[Extractor.TAGS]))
+                                                           symbol[Extractor.NAME],
+                                                           symbol[Extractor.CATEGORY],
+                                                           symbol[Extractor.TAGS]))
 
         handle = BytesIO(symbol[Extractor.BLOB])
         try:
@@ -31,4 +34,8 @@ for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MA
             print(symbol_properties)
         except UnreadableSymbolException as e:
             print('\t**Symbol could not be parsed!:\n\t{}'.format(e))
+            unreadable += 1
         print('\n\n')
+        total += 1
+
+print('***Parsed {}/{} symbols'.format(total - unreadable, total))
