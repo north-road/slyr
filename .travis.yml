@@ -52,13 +52,12 @@ install:
   - pip install --upgrade pycodestyle
   - docker run -d --name qgis-testing-environment -v ${TRAVIS_BUILD_DIR}:/tests_directory -e DISPLAY=:99 ${IMAGE}:${QGIS_VERSION_TAG}
   - sleep 10
-  - docker exec -it qgis-testing-environment sh -c "qgis_setup.sh redistrict"
+  - docker exec -it qgis-testing-environment sh -c "qgis_setup.sh slyr"
 
 
 script:
 
-#  - docker exec -it qgis-testing-environment sh -c "qgis_testrunner.sh test_suite.test_qgis3"
-  - make test
+  - docker exec -it qgis-testing-environment sh -c "qgis_testrunner.sh test_suite.test_qgis3"
   - make pylint
   - make pycodestyle
 
