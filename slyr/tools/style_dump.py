@@ -14,7 +14,7 @@ parser.add_argument("file", help="style file to extract")
 args = parser.parse_args()
 
 total = 0
-unreadable = 0
+unreadable = []
 
 for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS):
     print('{}:{}'.format(args.file, symbol_type))
@@ -34,8 +34,10 @@ for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MA
             print(symbol_properties)
         except UnreadableSymbolException as e:
             print('\t**Symbol could not be parsed!:\n\t{}'.format(e))
-            unreadable += 1
+            unreadable.append(symbol[Extractor.NAME])
         print('\n\n')
         total += 1
 
-print('***Parsed {}/{} symbols'.format(total - unreadable, total))
+print('***Parsed {}/{} symbols'.format(total - len(unreadable), total))
+if unreadable:
+    print('Unreadable symbols:\n- {}'.format('\n- '.join(unreadable)))

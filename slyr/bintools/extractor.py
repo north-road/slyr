@@ -12,7 +12,7 @@ class Extractor:
     Extracts style information and blobs from .style databases
     """
 
-    __NEWLINE = b'\nnewline\n'
+    __NEWLINE = b'!!newline!!'
     __DELIMITER = b',,,,,,,'
 
     FILL_SYMBOLS = 'Fill symbols'
@@ -35,8 +35,10 @@ class Extractor:
         """
         export_args = ['mdb-export',
                        '-H',
-                       '-R {}'.format(Extractor.__NEWLINE.decode('UTF-8')),
-                       '-d {}'.format(Extractor.__DELIMITER.decode('UTF-8')),
+                       '-R',
+                       '{}'.format(Extractor.__NEWLINE.decode('ASCII')),
+                       '-d',
+                       '{}'.format(Extractor.__DELIMITER.decode('ASCII')),
                        '-b',
                        'raw',
                        file_path,
@@ -58,7 +60,9 @@ class Extractor:
                 """
                 val = val.decode('UTF-8')
                 if val.startswith('"'):
-                    val = val[1:-2]
+                    val = val[1:]
+                    if val.endswith('"'):
+                        val = val[:-1]
                 return val.strip()
 
             # need to strip " " from blob
