@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-# Copyright (C) 2016 Nyall Dawson, SMEC
+# Copyright (C) 2018 Nyall Dawson, SMEC
 #
 # This source is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free
@@ -19,8 +19,21 @@
 #
 ###############################################################################
 
+from qgis.core import QgsApplication
+from slyr.qgis_plugin.provider import SlyrProvider
 
-def classFactory(iface):
-    """invoke plugin"""
-    from slyr.plugin import SlyrPlugin
-    return SlyrPlugin(iface)
+class SlyrPlugin(object):
+    """SLYR *air guitar* SCREEEEEAAAAAMMM"""
+
+    def __init__(self, iface):
+        """init"""
+        self.iface = iface
+        self.provider = SlyrProvider()
+
+    def initGui(self):
+        """startup"""
+        QgsApplication.processingRegistry().addProvider(self.provider)
+
+    def unload(self):
+        """teardown"""
+        QgsApplication.processingRegistry().removeProvider(self.provider)
