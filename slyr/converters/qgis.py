@@ -8,8 +8,11 @@ from qgis.core import (QgsSimpleLineSymbolLayer,
                        QgsSimpleFillSymbolLayer,
                        QgsFillSymbol,
                        QgsLineSymbol,
-                       QgsMarkerSymbol)
-from qgis.PyQt.QtCore import (Qt)
+                       QgsMarkerSymbol,
+                       QgsSimpleMarkerSymbolLayer,
+                       QgsSimpleMarkerSymbolLayerBase,
+                       QgsFontMarkerSymbolLayer)
+from qgis.PyQt.QtCore import (Qt, QPointF)
 from qgis.PyQt.QtGui import (QColor)
 
 from slyr.parser.symbol_parser import (
@@ -22,7 +25,9 @@ from slyr.parser.symbol_parser import (
     FillSymbol,
     LineSymbol,
     MarkerSymbol,
-    MarkerSymbolLayer
+    MarkerSymbolLayer,
+    SimpleMarkerSymbolLayer,
+    CharacterMarkerSymbolLayer
 )
 
 from slyr.converters.converter import NotImplementedException
@@ -162,6 +167,75 @@ def append_CartographicLineSymbolLayer(symbol, layer):
     symbol.appendSymbolLayer(out)
 
 
+def marker_type_to_qgis_type(marker_type):
+    if marker_type == 'circle':
+        return QgsSimpleMarkerSymbolLayerBase.Circle
+    elif marker_type == 'square':
+        return QgsSimpleMarkerSymbolLayerBase.Square
+    elif marker_type == 'cross':
+        return QgsSimpleMarkerSymbolLayerBase.Cross
+    elif marker_type == 'x':
+        return QgsSimpleMarkerSymbolLayerBase.Cross2
+    elif marker_type == 'diamond':
+        return QgsSimpleMarkerSymbolLayerBase.Diamond
+    else:
+        raise NotImplementedException('Marker type {} not implemented'.format(marker_type))
+
+
+def append_SimpleMarkerSymbolLayer(symbol, layer):
+    """
+    Appends a SimpleMarkerSymbolLayer to a symbol
+    """
+    marker_type = marker_type_to_qgis_type(layer.type)
+    size = points_to_mm(layer.size)
+    out = QgsSimpleMarkerSymbolLayer(marker_type, size)
+
+    color = symbol_color_to_qcolor(layer.color)
+    if marker_type in ('circle', 'square', 'diamond'):
+        out.setColor(color)
+    else:
+        out.setStrokeColor(color)
+
+    out.setEnabled(layer.enabled)
+    out.setLocked(layer.locked)
+    out.setOffset(QPointF(points_to_mm(layer.x_offset), points_to_mm(layer.y_offset)))
+
+    if layer.outline_enabled:
+        outline_color = symbol_color_to_qcolor(layer.outline_color)
+        if marker_type in ('circle', 'square', 'diamond'):
+            out.setStrokeColor(outline_color)
+            out.setStrokeWidth(points_to_mm(layer.outline_width))
+        else:
+            # for stroke-only symbols, we need to add the outline as an additional
+            # symbol layer
+            outline_layer = QgsSimpleMarkerSymbolLayer(marker_type, size)
+            outline_layer.setStrokeColor(outline_color)
+            outline_layer.setStrokeWidth(points_to_mm(layer.outline_width))
+            symbol.appendSymbolLayer(outline_layer)
+
+    symbol.appendSymbolLayer(out)
+
+
+def append_CharacterMarkerSymbolLayer(symbol, layer):
+    """
+    Appends a CharacterMarkerSymbolLayer to a symbol
+    """
+    font_family = layer.font
+    character = chr(layer.unicode)
+    size = points_to_mm(layer.size)
+    color = symbol_color_to_qcolor(layer.color)
+    angle = 360 - layer.angle
+
+    out = QgsFontMarkerSymbolLayer(font_family, character, size, color, angle)
+
+    # TODO
+    # out.setEnabled(layer.enabled)
+    out.setLocked(layer.locked)
+    out.setOffset(QPointF(points_to_mm(layer.x_offset), points_to_mm(layer.y_offset)))
+
+    symbol.appendSymbolLayer(out)
+
+
 def append_FillSymbolLayer(symbol, layer):
     """
     Appends a FillSymbolLayer to a symbol
@@ -184,11 +258,16 @@ def append_LineSymbolLayer(symbol, layer):
         raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
 
-def append_MarkerSymbolLayer(_, layer):
+def append_MarkerSymbolLayer(symbol, layer):
     """
     Appends a MarkerSymbolLayer to a QgsSymbol
     """
-    raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
+    if isinstance(layer, SimpleMarkerSymbolLayer):
+        append_SimpleMarkerSymbolLayer(symbol, layer)
+    elif isinstance(layer, CharacterMarkerSymbolLayer):
+        append_CharacterMarkerSymbolLayer(symbol, layer)
+    else:
+        raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
 
 def append_SymbolLayer_to_QgsSymbolLayer(symbol, layer):
