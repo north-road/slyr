@@ -6,7 +6,9 @@ Converts parsed symbol properties to QGIS Symbols
 
 from qgis.core import (QgsSimpleLineSymbolLayer,
                        QgsSimpleFillSymbolLayer,
-                       QgsFillSymbol)
+                       QgsFillSymbol,
+                       QgsLineSymbol,
+                       QgsMarkerSymbol)
 from qgis.PyQt.QtCore import (Qt)
 from qgis.PyQt.QtGui import (QColor)
 
@@ -15,7 +17,12 @@ from slyr.parser.symbol_parser import (
     CartographicLineSymbolLayer,
     FillSymbolLayer,
     SimpleFillSymbolLayer,
-    SymbolLayer
+    SymbolLayer,
+    LineSymbolLayer,
+    FillSymbol,
+    LineSymbol,
+    MarkerSymbol,
+    MarkerSymbolLayer
 )
 
 from slyr.converters.converter import NotImplementedException
@@ -74,43 +81,14 @@ def symbol_pen_to_qpenjoinstyle(style):
     return types[style]
 
 
-def SimpleLineSymbolLayer_to_QgsSimpleLineSymbolLayer(layer):
+def append_SimpleFillSymbolLayer(symbol, layer):
     """
-    Converts a simple line symbol layer to a QgsSimpleLineSymbolLayer
-    """
-    out = QgsSimpleLineSymbolLayer(
-        symbol_color_to_qcolor(layer.color),
-        points_to_mm(layer.width),
-        symbol_pen_to_qpenstyle(layer.line_type)
-    )
-
-    # better mapping of "null" colors to QGIS symbology
-    if out.color().alpha() == 0:
-        out.setPenStyle(Qt.NoPen)
-    return out
-
-
-def CartographicLineSymbolLayer_to_QgsSimpleLineSymbolLayer(layer):
-    """
-    Converts a cartographic line symbol layer to a QgsSimpleLineSymbolLayer
-    """
-    out = QgsSimpleLineSymbolLayer(
-        symbol_color_to_qcolor(layer.color),
-        points_to_mm(layer.width),
-        symbol_pen_to_qpenstyle(layer.line_type)
-    )
-    out.setPenCapStyle(symbol_pen_to_qpencapstyle(layer.cap))
-    out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
-    out.setOffset(points_to_mm(layer.offset))
-    return out
-
-
-def SimpleFillSymbolLayer_to_QgsSimpleFillSymbolLayer(layer):
-    """
-    Converts a SimpleFillSymbolLayer to a QgsSimpleFillSymbolLayer
+    Appends a SimpleFillSymbolLayer to a symbol
     """
     fill_color = symbol_color_to_qcolor(layer.color)
     out = QgsSimpleFillSymbolLayer(fill_color)
+    out.setEnabled(layer.enabled)
+    out.setLocked(layer.locked)
 
     if layer.outline_layer:
         if isinstance(layer.outline_layer, (SimpleLineSymbolLayer, CartographicLineSymbolLayer)):
@@ -125,46 +103,119 @@ def SimpleFillSymbolLayer_to_QgsSimpleFillSymbolLayer(layer):
             out.setStrokeStyle(Qt.NoPen)
 
         # todo - change to new symbol layer if outline offset set
+        symbol.appendSymbolLayer(out)
     else:
-        # todo - outline symbol layer
-        raise NotImplementedException('Outline symbol layer not implemented')
+        # outline is a symbol itself
+        out.setStrokeStyle(Qt.NoPen)
+        symbol.appendSymbolLayer(out)
 
-    return out
+        # get all layers from outline
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol)
 
 
-def FillSymbolLayer_to_QgsFillSymbolLayer(layer):
+def append_SimpleLineSymbolLayer(symbol, layer):
     """
-    Converts a FillSymbolLayer to a QgsFillSymbolLayer
+    Appends a SimpleLineSymbolLayer to a symbol
     """
-    if isinstance(layer, SimpleFillSymbolLayer):
-        return SimpleFillSymbolLayer_to_QgsSimpleFillSymbolLayer(layer)
-    else:
-        raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
-
-
-def SymbolLayer_to_QgsSymbolLayer(layer):
-    """
-    Converts a SymbolLayer to a QgsSymbolLayer
-    """
-    if issubclass(layer.__class__, FillSymbolLayer):
-        out = FillSymbolLayer_to_QgsFillSymbolLayer(layer)
-    else:
-        raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
+    color = symbol_color_to_qcolor(layer.color)
+    out = QgsSimpleLineSymbolLayer(color)
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    return out
+    out.setWidth(points_to_mm(layer.width))
+    out.setPenStyle(symbol_pen_to_qpenstyle(layer.line_type))
+    #out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
+    # better matching of null stroke color to QGIS symbology
+    if out.color().alpha() == 0:
+        out.setPenStyle(Qt.NoPen)
 
+    # todo - change to new symbol layer if outline offset set
+    symbol.appendSymbolLayer(out)
+
+def append_CartographicLineSymbolLayer(symbol, layer):
+    """
+    Appends a CartographicLineSymbolLayer to a symbol
+    """
+    color = symbol_color_to_qcolor(layer.color)
+    out = QgsSimpleLineSymbolLayer(color)
+    out.setEnabled(layer.enabled)
+    out.setLocked(layer.locked)
+    out.setWidth(points_to_mm(layer.width))
+    out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
+    out.setPenCapStyle(symbol_pen_to_qpencapstyle(layer.cap))
+    if layer.pattern_parts:
+        raise NotImplementedException('Cartographic line patterns not implemented yet')
+
+    # better matching of null stroke color to QGIS symbology
+    if out.color().alpha() == 0:
+        out.setPenStyle(Qt.NoPen)
+
+    # todo - change to new symbol layer if outline offset set
+    symbol.appendSymbolLayer(out)
+
+def append_FillSymbolLayer(symbol, layer):
+    """
+    Appends a FillSymbolLayer to a symbol
+    """
+    if isinstance(layer, SimpleFillSymbolLayer):
+        append_SimpleFillSymbolLayer(symbol, layer)
+    else:
+        raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
+
+
+def append_LineSymbolLayer(symbol, layer):
+    """
+    Appends a LineSymbolLayer to a QgsSymbol
+    """
+    if isinstance(layer, SimpleLineSymbolLayer):
+        append_SimpleLineSymbolLayer(symbol, layer)
+    elif isinstance(layer, CartographicLineSymbolLayer):
+        append_CartographicLineSymbolLayer(symbol, layer)
+    else:
+        raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
+
+
+def append_SymbolLayer_to_QgsSymbolLayer(symbol, layer):
+    """
+    Appends a SymbolLayer to a QgsSymbolLayer
+    """
+    if issubclass(layer.__class__, SymbolLayer):
+        if issubclass(layer.__class__, FillSymbolLayer):
+            append_FillSymbolLayer(symbol, layer)
+        elif issubclass(layer.__class__, LineSymbolLayer):
+            append_LineSymbolLayer(symbol, layer)
+        else:
+            raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
+    else:
+        for l in layer.levels:
+            append_SymbolLayer_to_QgsSymbolLayer(symbol, l)
 
 def FillSymbol_to_QgsFillSymbol(symbol):
     """
     Converts a FillSymbol to a QgsFillSymbol
     """
     out = QgsFillSymbol()
+    out.deleteSymbolLayer(0)
     if issubclass(symbol.__class__, SymbolLayer):
-        new_layer = SymbolLayer_to_QgsSymbolLayer(symbol)
-        out.changeSymbolLayer(0, new_layer)
+        append_SymbolLayer_to_QgsSymbolLayer(out, symbol)
     else:
-        out.changeSymbolLayer(0, SymbolLayer_to_QgsSymbolLayer(symbol.levels[0]))
-        for l in symbol.levels[1:]:
-            out.appendSymbolLayer(SymbolLayer_to_QgsSymbolLayer(l))
+        for l in symbol.levels:
+            append_SymbolLayer_to_QgsSymbolLayer(out, l)
+    return out
+
+
+def Symbol_to_QgsSymbol(symbol):
+    """
+    Converts a raw Symbol to a QgsSymbol
+    """
+    if issubclass(symbol.__class__, (FillSymbol, FillSymbolLayer)):
+        out = FillSymbol_to_QgsFillSymbol(symbol)
+    elif issubclass(symbol.__class__, (LineSymbol, LineSymbolLayer)):
+        out = QgsLineSymbol()
+        raise NotImplementedException()
+    elif issubclass(symbol.__class__, (MarkerSymbol, MarkerSymbolLayer)):
+        out = QgsMarkerSymbol()
+        raise NotImplementedException()
+    else:
+        raise NotImplementedException()
+
     return out

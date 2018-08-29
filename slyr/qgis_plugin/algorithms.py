@@ -33,7 +33,8 @@ from processing.core.ProcessingConfig import ProcessingConfig
 
 from slyr.bintools.extractor import Extractor
 from slyr.parser.symbol_parser import read_symbol, UnreadableSymbolException
-from slyr.converters.qgis import FillSymbol_to_QgsFillSymbol, NotImplementedException
+from slyr.converters.qgis import (Symbol_to_QgsSymbol,
+                                  NotImplementedException)
 
 
 class StyleToQgisXml(QgsProcessingAlgorithm):
@@ -123,7 +124,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     continue
 
                 try:
-                    qgis_symbol = FillSymbol_to_QgsFillSymbol(symbol)
+                    qgis_symbol = Symbol_to_QgsSymbol(symbol)
                 except NotImplementedException as e:
                     feedback.reportError(str(e))
                     unreadable += 1
