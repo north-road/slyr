@@ -459,8 +459,12 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         if handle.debug:
             print('finished simple marker layer read at {}'.format(hex(handle.file_handle.tell())))
 
+        protector = 0
         while not binascii.hexlify(handle.file_handle.read(1)) == b'ff':
-            pass
+            protector += 1
+            if protector > 100:
+                raise UnreadableSymbolException('Could not find end point of simple marker')
+
         handle.file_handle.read(1)
 
     def _read(self, handle):
@@ -545,8 +549,12 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         self.font = read_string(handle)
 
         # large unknown block
+        protector = 0
         while not binascii.hexlify(handle.file_handle.read(2)) == b'9001':
             handle.file_handle.seek(handle.file_handle.tell() - 1)
+            protector += 1
+            if protector > 100:
+                raise UnreadableSymbolException('Could not find end point of character marker')
         handle.file_handle.read(3)
 
         # repeated font name, not unicode
