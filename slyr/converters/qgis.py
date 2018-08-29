@@ -168,6 +168,9 @@ def append_CartographicLineSymbolLayer(symbol, layer):
 
 
 def marker_type_to_qgis_type(marker_type):
+    """
+    Converts simple marker types to corresponding QGIS types
+    """
     if marker_type == 'circle':
         return QgsSimpleMarkerSymbolLayerBase.Circle
     elif marker_type == 'square':
