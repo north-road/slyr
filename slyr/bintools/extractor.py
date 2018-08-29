@@ -4,6 +4,7 @@
 Dumps the contents of an ESRI .style file to a set of binary blobs
 """
 
+import os
 import subprocess
 
 
@@ -26,14 +27,19 @@ class Extractor:
     BLOB = 'BLOB'
 
     @staticmethod
-    def extract_styles(file_path: str, symbol_type: str):
+    def extract_styles(file_path: str, symbol_type: str, mdbtools_path = None):
         """
         Extracts all matching styles of a given symbol type from a .style file
         :param file_path: path to .style file
         :param symbol_type: symbol type to extract, e.g. Extractor.FILL_SYMBOLS
         :return: list of raw symbols, ready for parsing
         """
-        export_args = ['mdb-export',
+
+        binary = 'mdb-export'
+        if mdbtools_path is not None:
+            binary = os.path.join(mdbtools_path, binary)
+
+        export_args = [binary,
                        '-H',
                        '-R',
                        '{}'.format(Extractor.__NEWLINE.decode('ASCII')),
@@ -43,7 +49,9 @@ class Extractor:
                        'raw',
                        file_path,
                        symbol_type]
-        result = subprocess.run(export_args, stdout=subprocess.PIPE)
+
+        CREATE_NO_WINDOW = 0x08000000
+        result = subprocess.run(export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW)
 
         raw_symbols = []
         for r in result.stdout.split(Extractor.__NEWLINE):
