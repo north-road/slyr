@@ -19,17 +19,24 @@
 #
 ###############################################################################
 
+"""
+SLYR QGIS Processing provider
+"""
+
 from qgis.core import QgsProcessingProvider
 from processing.core.ProcessingConfig import ProcessingConfig, Setting
 from slyr.qgis_plugin.algorithms import StyleToQgisXml
 
 
 class SlyrProvider(QgsProcessingProvider):
+    """
+    SLYR QGIS Processing provider
+    """
 
     def __init__(self):
         QgsProcessingProvider.__init__(self)
 
-    def load(self):
+    def load(self):  # pylint: disable=missing-docstring
         ProcessingConfig.settingIcons[self.name()] = self.icon()
         ProcessingConfig.addSetting(Setting(
             self.name(),
@@ -39,21 +46,18 @@ class SlyrProvider(QgsProcessingProvider):
         ProcessingConfig.readSettings()
         return super().load()
 
-    #def icon(self):
-    #    return QIcon(Common.mkpath(Common.folder(), "img_motlimot.net.svg"))
-
-    def unload(self):
+    def unload(self):  # pylint: disable=missing-docstring
         ProcessingConfig.removeSetting('MDB_PATH')
 
-    def loadAlgorithms(self):
+    def loadAlgorithms(self):  # pylint: disable=missing-docstring
         for alg in [StyleToQgisXml]:
             self.addAlgorithm(alg())
 
-    def id(self):
+    def id(self):  # pylint: disable=missing-docstring
         return 'slyr'
 
-    def name(self):
+    def name(self):  # pylint: disable=missing-docstring
         return 'SLYR'
 
-    def longName(self):
+    def longName(self):  # pylint: disable=missing-docstring
         return 'Converts ESRI Style and LYR files'

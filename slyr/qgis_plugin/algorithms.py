@@ -19,6 +19,10 @@
 #
 ###############################################################################
 
+"""
+SLYR QGIS Processing algorithms
+"""
+
 from io import BytesIO
 from qgis.core import (QgsProcessingAlgorithm,
                        QgsProcessingParameterFile,
@@ -33,6 +37,10 @@ from slyr.converters.qgis import FillSymbol_to_QgsFillSymbol, NotImplementedExce
 
 
 class StyleToQgisXml(QgsProcessingAlgorithm):
+    """
+    Converts .style databases to QGIS Style XML databases
+    """
+
     INPUT = 'INPUT'
     OUTPUT = 'OUTPUT'
 
@@ -43,28 +51,28 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
     UNREADABLE_LINE_SYMBOLS = 'UNREADABLE_LINE_SYMBOLS'
     UNREADABLE_FILL_SYMBOLS = 'UNREADABLE_FILL_SYMBOLS'
 
-    def createInstance(self):
+    def createInstance(self):  # pylint: disable=missing-docstring
         return StyleToQgisXml()
 
-    def name(self):
+    def name(self):  # pylint: disable=missing-docstring
         return 'styletoqgisxml'
 
-    def displayName(self):
+    def displayName(self):  # pylint: disable=missing-docstring
         return 'Convert ESRI style to QGIS XML'
 
-    def shortDescription(self):
+    def shortDescription(self):  # pylint: disable=missing-docstring
         return 'Converts ESRI style database to a QGIS XML Style library'
 
-    def group(self):
+    def group(self):  # pylint: disable=missing-docstring
         return 'Style'
 
-    def groupId(self):
+    def groupId(self):  # pylint: disable=missing-docstring
         return 'style'
 
-    def shortHelpString(self):
+    def shortHelpString(self):  # pylint: disable=missing-docstring
         return "Converts ESRI style database to a QGIS XML Style library"
 
-    def initAlgorithm(self, config=None):
+    def initAlgorithm(self, config=None):  # pylint: disable=missing-docstring,unused-argument
         self.addParameter(QgsProcessingParameterFile(
             self.INPUT, 'Style database', extension='style'))
 
@@ -78,7 +86,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_LINE_SYMBOLS, 'Unreadable Line Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_MARKER_SYMBOLS, 'Unreadable Marker Symbol Count'))
 
-    def processAlgorithm(self, parameters, context, feedback):
+    def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=missing-docstring,too-many-locals
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
 
@@ -88,7 +96,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
         results = {}
 
-        for type_index, symbol_type in enumerate((Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS)):
+        for type_index, symbol_type in enumerate(
+                (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS)):
             feedback.pushInfo('Importing {} from {}'.format(symbol_type, input_file))
 
             raw_symbols = Extractor.extract_styles(input_file, symbol_type, mdbtools_path=mdbtools_folder)
@@ -103,7 +112,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 if feedback.isCanceled():
                     break
                 name = raw_symbol[Extractor.NAME]
-                feedback.pushInfo('{}/{}: {}'.format(index + 1, len(raw_symbols),name))
+                feedback.pushInfo('{}/{}: {}'.format(index + 1, len(raw_symbols), name))
 
                 handle = BytesIO(raw_symbol[Extractor.BLOB])
                 try:
