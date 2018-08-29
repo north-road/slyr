@@ -1,5 +1,6 @@
 .coverage
 .noseids
 *.pyc
+*.ldb
 **/.idea/**
 **/.pytest_cache/**
