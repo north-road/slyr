@@ -123,13 +123,14 @@ def append_SimpleLineSymbolLayer(symbol, layer):
     out.setLocked(layer.locked)
     out.setWidth(points_to_mm(layer.width))
     out.setPenStyle(symbol_pen_to_qpenstyle(layer.line_type))
-    #out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
+    # out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
     # better matching of null stroke color to QGIS symbology
     if out.color().alpha() == 0:
         out.setPenStyle(Qt.NoPen)
 
     # todo - change to new symbol layer if outline offset set
     symbol.appendSymbolLayer(out)
+
 
 def append_CartographicLineSymbolLayer(symbol, layer):
     """
@@ -151,6 +152,7 @@ def append_CartographicLineSymbolLayer(symbol, layer):
 
     # todo - change to new symbol layer if outline offset set
     symbol.appendSymbolLayer(out)
+
 
 def append_FillSymbolLayer(symbol, layer):
     """
@@ -174,6 +176,13 @@ def append_LineSymbolLayer(symbol, layer):
         raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
 
+def append_MarkerSymbolLayer(_, layer):
+    """
+    Appends a MarkerSymbolLayer to a QgsSymbol
+    """
+    raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
+
+
 def append_SymbolLayer_to_QgsSymbolLayer(symbol, layer):
     """
     Appends a SymbolLayer to a QgsSymbolLayer
@@ -183,17 +192,19 @@ def append_SymbolLayer_to_QgsSymbolLayer(symbol, layer):
             append_FillSymbolLayer(symbol, layer)
         elif issubclass(layer.__class__, LineSymbolLayer):
             append_LineSymbolLayer(symbol, layer)
+        elif issubclass(layer.__class__, MarkerSymbolLayer):
+            append_MarkerSymbolLayer(symbol, layer)
         else:
             raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
     else:
         for l in layer.levels:
             append_SymbolLayer_to_QgsSymbolLayer(symbol, l)
 
-def FillSymbol_to_QgsFillSymbol(symbol):
+
+def add_symbol_layers(out, symbol):
     """
-    Converts a FillSymbol to a QgsFillSymbol
+    Adds all symbol layers to a symbol
     """
-    out = QgsFillSymbol()
     out.deleteSymbolLayer(0)
     if issubclass(symbol.__class__, SymbolLayer):
         append_SymbolLayer_to_QgsSymbolLayer(out, symbol)
@@ -208,14 +219,14 @@ def Symbol_to_QgsSymbol(symbol):
     Converts a raw Symbol to a QgsSymbol
     """
     if issubclass(symbol.__class__, (FillSymbol, FillSymbolLayer)):
-        out = FillSymbol_to_QgsFillSymbol(symbol)
+        out = QgsFillSymbol()
     elif issubclass(symbol.__class__, (LineSymbol, LineSymbolLayer)):
         out = QgsLineSymbol()
-        raise NotImplementedException()
     elif issubclass(symbol.__class__, (MarkerSymbol, MarkerSymbolLayer)):
         out = QgsMarkerSymbol()
-        raise NotImplementedException()
     else:
         raise NotImplementedException()
+
+    add_symbol_layers(out, symbol)
 
     return out
