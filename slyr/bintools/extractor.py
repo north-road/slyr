@@ -27,7 +27,7 @@ class Extractor:
     BLOB = 'BLOB'
 
     @staticmethod
-    def extract_styles(file_path: str, symbol_type: str, mdbtools_path = None):
+    def extract_styles(file_path: str, symbol_type: str, mdbtools_path=None):  # pylint: disable=too-many-locals
         """
         Extracts all matching styles of a given symbol type from a .style file
         :param file_path: path to .style file

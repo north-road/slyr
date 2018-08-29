@@ -19,6 +19,10 @@
 #
 ###############################################################################
 
+"""
+QGIS Plugin interface to SLYR conversions
+"""
+
 
 def classFactory(iface):
     """invoke plugin"""

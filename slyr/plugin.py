@@ -19,11 +19,18 @@
 #
 ###############################################################################
 
+"""
+QGIS Plugin interface to SLYR conversions
+"""
+
 from qgis.core import QgsApplication
 from slyr.qgis_plugin.provider import SlyrProvider
 
-class SlyrPlugin(object):
-    """SLYR *air guitar* SCREEEEEAAAAAMMM"""
+
+class SlyrPlugin:
+    """
+    SLYR *air guitar* SCREEEEEAAAAAMMM
+    """
 
     def __init__(self, iface):
         """init"""
