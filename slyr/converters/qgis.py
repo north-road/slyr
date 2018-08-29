@@ -144,7 +144,15 @@ def append_CartographicLineSymbolLayer(symbol, layer):
     out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
     out.setPenCapStyle(symbol_pen_to_qpencapstyle(layer.cap))
     if layer.pattern_parts:
-        raise NotImplementedException('Cartographic line patterns not implemented yet')
+        interval = layer.pattern_interval
+
+        dash_vector = []
+        for part in layer.pattern_parts:
+            dash_vector.append(points_to_mm(part[0] * interval))
+            dash_vector.append(points_to_mm(part[1] * interval))
+
+        out.setCustomDashVector(dash_vector)
+        out.setUseCustomDashPattern(True)
 
     # better matching of null stroke color to QGIS symbology
     if out.color().alpha() == 0:
