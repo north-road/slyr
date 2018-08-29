@@ -1,5 +1,5 @@
 [general]
-name=SLRY
+name=SLYR
 description=ESRI Style and LYR to QGIS symbology converter
 about=Converts ESRI .style databases to corresponding QGIS symbology
 category=Other
