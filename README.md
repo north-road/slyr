@@ -4,7 +4,7 @@
 
 A Python library and set of command line tools for extraction, parsing, and conversion of ESRI `.lyr` and `.style` files.
 
-[![Build Status](https://travis-ci.org/nyalldawson/esri_style_specs.svg?branch=master)](https://travis-ci.org/nyalldawson/esri_style_specs)
+[![Build Status](https://travis-ci.org/nyalldawson/slyr.svg?branch=master)](https://travis-ci.org/nyalldawson/slyr)
 
 Status
 =====
