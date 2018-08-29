@@ -34,8 +34,8 @@ def read_color_model(file_handle):
     elif binascii.hexlify(m) == b'97':
         return 'cmyk'
     else:
-        assert False, 'unknown color model {} at {}'.format(
-            binascii.hexlify(m), hex(start))
+        raise InvalidColorException('unknown color model {} at {}'.format(
+            binascii.hexlify(m), hex(start)))
 
 
 def xyz_to_rgb(x, y, z):
