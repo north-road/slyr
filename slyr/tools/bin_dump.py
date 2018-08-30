@@ -279,7 +279,7 @@ class ColorScan(ObjectScan):
                 read_magic_2(Handle(file_handle))
                 file_handle.read(2)
                 color = read_color(file_handle)
-                if (color['R'] == 255 or color['G'] == 255 or color['B'] == 255) and (
+                if True or (color['R'] == 255 or color['G'] == 255 or color['B'] == 255) and (
                         not color['dither'] and not color['is_null']):
                     return ColorMatch(start, file_handle.tell() - start, color)
         except:

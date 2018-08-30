@@ -51,7 +51,10 @@ class Extractor:
                        symbol_type]
 
         CREATE_NO_WINDOW = 0x08000000
-        result = subprocess.run(export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW)
+        try:
+            result = subprocess.run(export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW)
+        except ValueError:
+            result = subprocess.run(export_args, stdout=subprocess.PIPE)
 
         raw_symbols = []
         for r in result.stdout.split(Extractor.__NEWLINE):
