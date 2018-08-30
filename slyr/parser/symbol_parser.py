@@ -48,6 +48,8 @@ def read_object_header(handle):
     Reads and interprets the header for a new object block. Returns the object type
     code (2 bytes)
     """
+    if handle.debug:
+        print('Reading object header at {}'.format(hex(handle.file_handle.tell())))
     object_type = binascii.hexlify(handle.file_handle.read(2))
     if object_type == b'e614':
         # second chance, since some overzealous padding consumer may have eaten
@@ -60,6 +62,8 @@ def read_object_header(handle):
     if magic_1 != b'147992c8d0118bb6080009ee4e41':
         raise UnreadableSymbolException('Differing object header at {}, got {}'.format(
             hex(handle.file_handle.tell() - 16), magic_1))
+
+    return object_type
 
     # Some padding bytes of unknown purpose
     # Encountered values are:
@@ -149,6 +153,9 @@ class SymbolLayer:
         self.locked = False
         self.enabled = True
 
+    def padding(self):
+        return 2
+
     def read_enabled(self, handle):
         """
         Reads the layer 'enabled' state
@@ -178,6 +185,10 @@ class SymbolLayer:
         Reads the symbol layer information. Internally calls _read method
         for individual layer types
         """
+        if handle.debug:
+            print('skipping padding of {} at {}'.format(self.padding(), hex(handle.file_handle.tell())))
+        handle.file_handle.read(self.padding())
+
         self._read(handle)
 
         # look for 0d terminator
@@ -252,6 +263,9 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         self.pattern_interval = 0
         self.pattern_parts = []
 
+    def padding(self):
+        return 2
+
     def read_cap(self, file_handle):
         cap_bin = unpack("<B", file_handle.read(1))[0]
         if cap_bin == 0:
@@ -274,12 +288,12 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         else:
             raise UnreadableSymbolException('unknown join style {}'.format(join_bin))
 
-    def read(self, handle):
-        self._read(handle)
-        while not binascii.hexlify(handle.file_handle.read(1)) == b'0d':
-            pass
-        while not binascii.hexlify(handle.file_handle.read(1)) == b'40':
-            pass
+    #def read(self, handle):
+    #    self._read(handle)
+    #    while not binascii.hexlify(handle.file_handle.read(1)) == b'0d':
+    #        pass
+    #    while not binascii.hexlify(handle.file_handle.read(1)) == b'40':
+    #        pass
 
     def _read(self, handle):
         self.read_cap(handle.file_handle)
@@ -435,6 +449,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         Reads the symbol layer information. Internally calls _read method
         for individual layer types
         """
+        handle.file_handle.read(self.padding())
         self._read(handle)
 
         # look for 0d terminator
@@ -514,6 +529,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         self.font = None
 
     def read(self, handle):
+        handle.file_handle.read(self.padding())
         self._read(handle)
 
         if handle.debug:
@@ -580,8 +596,12 @@ class Symbol:
         pass
 
     def read(self, handle):
-        consume_padding(handle.file_handle)
+        handle.file_handle.read(self.padding())
+#        consume_padding(handle.file_handle)
         self._read(handle)
+
+    def padding(self):
+        return 0
 
 
 class LineSymbol(Symbol):
@@ -591,6 +611,9 @@ class LineSymbol(Symbol):
 
     def __init__(self):
         Symbol.__init__(self)
+
+    def padding(self):
+        return 10
 
     def _read(self, handle):
         number_layers = unpack("<L", handle.file_handle.read(4))[0]
@@ -648,6 +671,9 @@ class FillSymbol(Symbol):
     def __init__(self):
         Symbol.__init__(self)
 
+    def padding(self):
+        return 10
+
     def _read(self, handle):
         # consume section of unknown purpose
         self.color_model = read_color_model(handle.file_handle)
@@ -695,6 +721,9 @@ class MarkerSymbol(Symbol):
         self.halo_size = 0
         self.halo_symbol = None
 
+    def padding(self):
+        return 10
+
     def _read(self, handle):
         # consume section of unknown purpose
         while not binascii.hexlify(handle.file_handle.read(1)) == b'40':
@@ -726,7 +755,7 @@ class MarkerSymbol(Symbol):
             print('found {} layers at {}'.format(number_layers, hex(handle.file_handle.tell() - 4)))
 
         for i in range(number_layers):
-            consume_padding(handle.file_handle)
+            #consume_padding(handle.file_handle)
             layer = MarkerSymbolLayer.create(handle)
             if handle.debug:
                 print('marker symbol layer at {}'.format(hex(handle.file_handle.tell())))
