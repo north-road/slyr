@@ -119,20 +119,15 @@ def read_magic_2(handle):
     if magic_2 != b'c4e97e23d1d0118383080009b996cc':
         raise UnreadableSymbolException('Differing magic string 2: {}'.format(magic_2))
 
+    terminator = binascii.hexlify(handle.file_handle.read(2))
+    if not terminator == b'0100':
+        # .lyr files have an extra 4 bytes in here - of unknown purpose
+        handle.file_handle.read(4)
+
     start = handle.file_handle.tell()
-    while binascii.hexlify(handle.file_handle.read(2)) != b'0100':
-        if not handle.file_handle.seek(handle.file_handle.tell() - 1):
-            raise UnreadableSymbolException('Could not find 0100 terminator from {}'.format(hex(start)))
-
-    #    terminator = binascii.hexlify(handle.file_handle.read(2))
-    #   if not terminator == b'0100':
-    # .lyr files have an extra 4 bytes in here - of unknown purpose
-    #      handle.file_handle.read(4)
-
-    # start = handle.file_handle.tell()
-    # terminator = binascii.hexlify(handle.file_handle.read(1))
-    # if terminator != b'01':
-    #     raise UnreadableSymbolException('Expected 01 at {}, got {}'.format(hex(start), terminator))
+    terminator = binascii.hexlify(handle.file_handle.read(1))
+    if terminator != b'01':
+        raise UnreadableSymbolException('Expected 01 at {}, got {}'.format(hex(start), terminator))
     if handle.debug:
         print('finished magic 2 at {}'.format(hex(handle.file_handle.tell())))
 
