@@ -124,15 +124,15 @@ def read_magic_2(handle):
         if not handle.file_handle.seek(handle.file_handle.tell() - 1):
             raise UnreadableSymbolException('Could not find 0100 terminator from {}'.format(hex(start)))
 
-#    terminator = binascii.hexlify(handle.file_handle.read(2))
- #   if not terminator == b'0100':
-        # .lyr files have an extra 4 bytes in here - of unknown purpose
-  #      handle.file_handle.read(4)
+    #    terminator = binascii.hexlify(handle.file_handle.read(2))
+    #   if not terminator == b'0100':
+    # .lyr files have an extra 4 bytes in here - of unknown purpose
+    #      handle.file_handle.read(4)
 
-   # start = handle.file_handle.tell()
-   # terminator = binascii.hexlify(handle.file_handle.read(1))
-   # if terminator != b'01':
-   #     raise UnreadableSymbolException('Expected 01 at {}, got {}'.format(hex(start), terminator))
+    # start = handle.file_handle.tell()
+    # terminator = binascii.hexlify(handle.file_handle.read(1))
+    # if terminator != b'01':
+    #     raise UnreadableSymbolException('Expected 01 at {}, got {}'.format(hex(start), terminator))
     if handle.debug:
         print('finished magic 2 at {}'.format(hex(handle.file_handle.tell())))
 
@@ -293,7 +293,7 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         else:
             raise UnreadableSymbolException('unknown join style {}'.format(join_bin))
 
-    #def read(self, handle):
+    # def read(self, handle):
     #    self._read(handle)
     #    while not binascii.hexlify(handle.file_handle.read(1)) == b'0d':
     #        pass
@@ -602,7 +602,7 @@ class Symbol:
 
     def read(self, handle):
         handle.file_handle.read(self.padding())
-#        consume_padding(handle.file_handle)
+        #        consume_padding(handle.file_handle)
         self._read(handle)
 
     def padding(self):
@@ -760,7 +760,7 @@ class MarkerSymbol(Symbol):
             print('found {} layers at {}'.format(number_layers, hex(handle.file_handle.tell() - 4)))
 
         for i in range(number_layers):
-            #consume_padding(handle.file_handle)
+            # consume_padding(handle.file_handle)
             layer = MarkerSymbolLayer.create(handle)
             if handle.debug:
                 print('marker symbol layer at {}'.format(hex(handle.file_handle.tell())))

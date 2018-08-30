@@ -11,8 +11,8 @@ import string
 from struct import unpack
 import binascii
 
-from slyr.parser.symbol_parser import read_symbol, read_string, Handle, read_color, read_magic_2, UnreadableSymbolException
-from slyr.parser.color_parser import read_color_model,InvalidColorException
+from slyr.parser.symbol_parser import read_symbol, read_string, Handle, read_color, read_magic_2
+from slyr.parser.color_parser import read_color_model
 from slyr.converters.dictionary import DictionaryConverter
 
 parser = argparse.ArgumentParser()
@@ -31,37 +31,70 @@ if args.debug:
 
 
 class ObjectScan:
+    """
+    Object which scans through file handle for interesting bits
+    """
 
     def scan(self, file_handle):
+        """
+        Scan the given file handle for a potential match
+        :param file_handle: handle to scan
+        :return: match if found, or None
+        """
         start = file_handle.tell()
         res = self.check_handle(file_handle)
         file_handle.seek(start)
         return res
 
     def check_handle(self, file_handle):
+        """
+        Runs scan check. Subclasses should implement their logic here
+        :param file_handle: handle to scan
+        :return: match if found, or None
+        """
         pass
 
 
 class ObjectMatch:
+    """
+    Result from finding a scan match
+    """
 
     def __init__(self, match_start, match_length):
+        """
+        Constructor for ObjectMatch
+        :param match_start: start of match
+        :param match_length: length of match
+        """
         self.match_start = match_start
         self.match_length = match_length
         self.match_end = match_start + match_length
 
     @staticmethod
     def precedence():
+        """
+        Precedence, determines which coloring an individual byte should get. Higher is better.
+        """
         return 1
 
     @staticmethod
     def color():
+        """
+        Returns the color for shading this match
+        """
         return Fore.WHITE
 
     def value(self):
+        """
+        Returns a string representation of the match
+        """
         return ''
 
 
 class StringMatch(ObjectMatch):
+    """
+    Encoded string match
+    """
 
     def __init__(self, match_start, match_length, found_string):
         super().__init__(match_start, match_length)
@@ -80,6 +113,9 @@ class StringMatch(ObjectMatch):
 
 
 class StringScan(ObjectScan):
+    """
+    Scans for encoded strings
+    """
     PRINTABLE = set(string.printable)
 
     @staticmethod
@@ -97,6 +133,9 @@ class StringScan(ObjectScan):
 
 
 class ObjectCodeMatch(ObjectMatch):
+    """
+    Object code match
+    """
 
     def __init__(self, match_start, match_length, found_type):
         super().__init__(match_start, match_length)
@@ -115,6 +154,9 @@ class ObjectCodeMatch(ObjectMatch):
 
 
 class ObjectCodeScan(ObjectScan):
+    """
+    Scans for encoded object types
+    """
     OBJECT_DICT = {
         b'04e6': 'FillSymbol',
         b'ffe5': 'MarkerSymbol',
@@ -137,6 +179,9 @@ class ObjectCodeScan(ObjectScan):
 
 
 class DoubleMatch(ObjectMatch):
+    """
+    Real/double value match
+    """
 
     def __init__(self, match_start, match_length, found_value):
         super().__init__(match_start, match_length)
@@ -155,6 +200,9 @@ class DoubleMatch(ObjectMatch):
 
 
 class DoubleScan(ObjectScan):
+    """
+    Scans for reasonable real/double values
+    """
 
     def check_handle(self, file_handle):
         try:
@@ -167,6 +215,9 @@ class DoubleScan(ObjectScan):
 
 
 class IntMatch(ObjectMatch):
+    """
+    Integer value match
+    """
 
     def __init__(self, match_start, match_length, found_value):
         super().__init__(match_start, match_length)
@@ -185,6 +236,9 @@ class IntMatch(ObjectMatch):
 
 
 class IntScan(ObjectScan):
+    """
+    Scans for reasonable integer values
+    """
 
     def check_handle(self, file_handle):
         try:
@@ -196,6 +250,9 @@ class IntScan(ObjectScan):
 
 
 class Magic1Match(ObjectMatch):
+    """
+    Match for magic number 1
+    """
 
     def __init__(self, match_start, match_length):
         super().__init__(match_start, match_length)
@@ -213,6 +270,9 @@ class Magic1Match(ObjectMatch):
 
 
 class Magic1Scan(ObjectScan):
+    """
+    Scans for magic number 1
+    """
 
     def check_handle(self, file_handle):
         try:
@@ -224,6 +284,9 @@ class Magic1Scan(ObjectScan):
 
 
 class Magic2Match(ObjectMatch):
+    """
+    Magic number 2 match
+    """
 
     def __init__(self, match_start, match_length):
         super().__init__(match_start, match_length)
@@ -241,6 +304,9 @@ class Magic2Match(ObjectMatch):
 
 
 class Magic2Scan(ObjectScan):
+    """
+    Scans for magic number 2
+    """
 
     def check_handle(self, file_handle):
         try:
@@ -252,6 +318,9 @@ class Magic2Scan(ObjectScan):
 
 
 class ColorMatch(ObjectMatch):
+    """
+    Color match
+    """
 
     def __init__(self, match_start, match_length, matched_color):
         super().__init__(match_start, match_length)
@@ -270,6 +339,9 @@ class ColorMatch(ObjectMatch):
 
 
 class ColorScan(ObjectScan):
+    """
+    Scans for color values
+    """
 
     def check_handle(self, file_handle):
         try:
@@ -345,7 +417,6 @@ if args.scan:
                 formatted += ' '.join(found_parts)
 
                 return formatted
-
 
             start = f.tell()
             part = f.read(16)
