@@ -4,7 +4,6 @@
 Test symbol parsing
 """
 
-
 import unittest
 import os
 from slyr.converters.dictionary import DictionaryConverter
@@ -16,6 +15,19 @@ expected = {
             'Arrow marker.bin':
                 {
                     'skip': True,
+                    'length': 12.0,
+                    'width': 8.0,
+                    'x_offset': 0.0,
+                    'y_offset': 0.0,
+                    'angle': 0.0,
+                    'color':
+                        {
+                            'R': 0,
+                            'G': 0,
+                            'B': 0,
+                            'is_null': False,
+                            'dither': False
+                        },
                     'type': 'MarkerSymbol',
                     'levels': [None]
                 },
@@ -360,7 +372,7 @@ expected = {
                                             'is_null': False,
                                             'dither': True
                                         }
-                                        }
+                                }
                             }
                             ]
                         },
@@ -393,7 +405,7 @@ expected = {
                             },
                         'outline_size': 1.0
                     }
-                            ]
+                    ]
                 },
             'R255 G0 B0 circle marker size 8 xoffset 2.bin':
                 {
@@ -532,7 +544,7 @@ expected = {
                                     'dither': False
                                 },
                             'outline_size': 1.0
-                    }
+                        }
                     ]
                 },
             'Two layers different outline.bin':
@@ -598,7 +610,7 @@ expected = {
                                     'dither': True
                                 },
                             'outline_size': 9.0
-                    }
+                        }
                     ]
                 },
             'R255 G0 B0 circle marker size 8 with outline.bin':
@@ -902,7 +914,14 @@ expected = {
                 {
                     'skip': True,
                     'type': 'FillSymbol',
-                    'levels': [None]
+                    'levels': [None],
+                    'color': {'B': 0,
+                              'G': 0,
+                              'R': 0,
+                              'dither': False,
+                              'is_null': False},
+                    'outline_width': 1.0,
+                    'outline': False
                 },
             'Black dither non null  no outline.bin':
                 {'levels': [{'color': {'B': 0,
@@ -1125,13 +1144,21 @@ expected = {
                 {
                     'skip': True,
                     'type': 'FillSymbol',
-                    'levels': [None]
+                    'levels': [None],
+                    'intervals': 5,
+                    'percentage': 75,
+                    'angle': 90,
+                    'style': 'linear'
                 },
             'Line fill.bin':
                 {
                     'skip': True,
                     'type': 'FillSymbol',
-                    'levels': [None]
+                    'levels': [None],
+                    'angle': 0,
+                    'offset': 0,
+                    'separation': 5.0,
+                    # red lines, width 1.0
                 },
             'many layers.bin':
                 {
@@ -1143,7 +1170,8 @@ expected = {
                 {
                     'skip': True,
                     'type': 'FillSymbol',
-                    'levels': [None]
+                    'levels': [None],
+                    # xoffset 0, y offset 0, separation 12,12, grid, red circle marker
                 },
             'Picture fill.bin':
                 {
@@ -1421,7 +1449,7 @@ expected = {
                                     'is_null': True,
                                     'dither': True
                                 }
-                                }
+                        }
                     }
                     ]
                 },
@@ -1515,7 +1543,7 @@ expected = {
                                                 'is_null': False,
                                                 'dither': True
                                             }
-                                }
+                                    }
                                 ]
                             }
                     }
@@ -1571,7 +1599,7 @@ expected = {
                                                 'is_null': False,
                                                 'dither': True
                                             }
-                                }
+                                    }
                                 ]
                             }
                     },
@@ -1622,10 +1650,10 @@ expected = {
                                                     'is_null': False,
                                                     'dither': False
                                                 }
-                                    }
+                                        }
                                     ]
                                 }
-                    }
+                        }
                     ]
                 },
             'R255 G0 B0 with cartographic line outline.bin':
