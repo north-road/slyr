@@ -26,6 +26,7 @@ SLYR QGIS Processing provider
 from qgis.core import QgsProcessingProvider
 from processing.core.ProcessingConfig import ProcessingConfig, Setting
 from slyr.qgis_plugin.algorithms import StyleToQgisXml
+from slyr.qgis_plugin.gui_utils import GuiUtils
 
 
 class SlyrProvider(QgsProcessingProvider):
@@ -61,3 +62,6 @@ class SlyrProvider(QgsProcessingProvider):
 
     def longName(self):  # pylint: disable=missing-docstring
         return 'Converts ESRI Style and LYR files'
+
+    def icon(self):  # pylint: disable=missing-docstring
+        return GuiUtils.get_icon('icon.svg')

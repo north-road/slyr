@@ -3,6 +3,7 @@ name=SLYR
 description=ESRI Style and LYR to QGIS symbology converter
 about=Converts ESRI .style databases to corresponding QGIS symbology
 category=Other
+icon=icon.png
 version=0.0.1
 qgisMinimumVersion=3.2
 author=Nyall Dawson

@@ -65,7 +65,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         return 'Converts ESRI style database to a QGIS XML Style library'
 
     def group(self):  # pylint: disable=missing-docstring
-        return 'Style'
+        return 'Style databases'
 
     def groupId(self):  # pylint: disable=missing-docstring
         return 'style'
