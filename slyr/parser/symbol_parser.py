@@ -33,13 +33,14 @@ def read_string(handle):
     a four-byte unsigned integer, and then writes that many characters
     to the stream'
     """
+    start = handle.file_handle.tell()
     length = unpack("<I", handle.file_handle.read(4))[0]
     if handle.debug:
-        print('string of length {}'.format(length))
+        print('string of length {} at {}'.format(length, hex(start)))
     buffer = handle.file_handle.read(length)
     string = buffer.decode('utf-16')
     if handle.debug:
-        print('found string {}'.format(string))
+        print('found string "{}" at {}'.format(string, hex(start)))
     return string[:-1]
 
 
@@ -163,7 +164,7 @@ class SymbolLayer:
         enabled = unpack("<I", handle.file_handle.read(4))[0]
         self.enabled = enabled == 1
         if handle.debug:
-            print('read enabled {} at {} '.format(self.enabled, hex(handle.file_handle.tell() - 4)))
+            print('read enabled ({}) at {} '.format(self.enabled, hex(handle.file_handle.tell() - 4)))
 
     def read_locked(self, handle):
         """
@@ -172,6 +173,8 @@ class SymbolLayer:
         """
         locked = unpack("<I", handle.file_handle.read(4))[0]
         self.locked = locked == 1
+        if handle.debug:
+            print('read layer locked ({}) at {} '.format(self.locked, hex(handle.file_handle.tell() - 4)))
 
     def _read(self, handle):
         """
@@ -235,7 +238,7 @@ class SimpleLineSymbolLayer(LineSymbolLayer):
         start = hex(handle.file_handle.tell())
         self.color_model = read_color_model(handle.file_handle)
         if handle.debug:
-            print('Read color model at {}'.format(start))
+            print('Read color model ({}) at {}'.format(self.color_model, start))
 
         read_magic_2(handle)
         handle.file_handle.read(2)
@@ -246,7 +249,7 @@ class SimpleLineSymbolLayer(LineSymbolLayer):
             print('read width of {} at {}'.format(self.width, hex(handle.file_handle.tell() - 8)))
         self.line_type = LineSymbol.read_line_type(handle.file_handle)
         if handle.debug:
-            print('read line type of {}'.format(self.line_type))
+            print('read line type of {} at {}'.format(self.line_type, hex(handle.file_handle.tell() - 4)))
 
 
 class CartographicLineSymbolLayer(LineSymbolLayer):
