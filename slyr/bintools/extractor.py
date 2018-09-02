@@ -81,7 +81,7 @@ class Extractor:
                 blob = blob[1:]
                 while not blob[-1] != 0x22:
                     blob = blob[:-1]
-                blob = blob[:-2]
+                blob = blob[:-1]
 
             # also need to convert "" -> "
             blob = blob.replace(b'""', b'"')
