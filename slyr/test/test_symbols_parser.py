@@ -31,6 +31,25 @@ expected = {
                     'type': 'MarkerSymbol',
                     'levels': [None]
                 },
+            'Arrow marker 12 width 8 offset 7 6 angle 45 red.bin':
+                {
+                    'skip': True,
+                    'length': 12.0,
+                    'width': 8.0,
+                    'x_offset': 7.0,
+                    'y_offset': 6.0,
+                    'angle': 45.0,
+                    'color':
+                        {
+                            'R': 255,
+                            'G': 0,
+                            'B': 0,
+                            'is_null': False,
+                            'dither': False
+                        },
+                    'type': 'MarkerSymbol',
+                    'levels': [None]
+                },
             'Character marker.bin':
                 {
                     'type': 'MarkerSymbol',
@@ -1150,7 +1169,47 @@ expected = {
                     'angle': 90,
                     'style': 'linear'
                 },
+            'Gradient fill buffered.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None],
+                    'intervals': 5,
+                    'percentage': 75,
+                    'angle': 90,
+                    'style': 'buffered'
+                },
+            'Gradient fill circular.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None],
+                    'intervals': 5,
+                    'percentage': 75,
+                    'angle': 90,
+                    'style': 'circular'
+                },
+            'Gradient fill rectangular.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None],
+                    'intervals': 5,
+                    'percentage': 75,
+                    'angle': 90,
+                    'style': 'rectangular'
+                },
             'Line fill.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None],
+                    'angle': 0,
+                    'offset': 0,
+                    'separation': 5.0,
+                    # red lines, width 1.0
+                },
+            'Line fill angle 45 offset 3 separation 5.bin':
                 {
                     'skip': True,
                     'type': 'FillSymbol',
@@ -1167,6 +1226,13 @@ expected = {
                     'levels': [None]
                 },
             'Marker fill.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None],
+                    # xoffset 0, y offset 0, separation 12,12, grid, red circle marker
+                },
+            'Marker fill random offset 3 4 separation 5 6.bin':
                 {
                     'skip': True,
                     'type': 'FillSymbol',
