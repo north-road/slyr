@@ -239,8 +239,9 @@ class Magic1Match(ObjectMatch):
     Match for magic number 1
     """
 
-    def __init__(self, match_start, match_length):
+    def __init__(self, match_start, match_length, match_string):
         super().__init__(match_start, match_length)
+        self.match_string = match_string
 
     @staticmethod
     def precedence():
@@ -251,7 +252,7 @@ class Magic1Match(ObjectMatch):
         return Fore.BLUE
 
     def value(self):
-        return '147992c8d0118bb6080009ee4e41'
+        return self.match_string
 
 
 class Magic1Scan(ObjectScan):
@@ -262,8 +263,8 @@ class Magic1Scan(ObjectScan):
     def check_handle(self, file_handle):
         try:
             magic = binascii.hexlify(file_handle.read(14))
-            if magic == b'147992c8d0118bb6080009ee4e41':
-                return Magic1Match(file_handle.tell() - 14, 14)
+            if magic == b'147992c8d0118bb6080009ee4e41' or magic == b'53886ee0d111b2770000f878229e':
+                return Magic1Match(file_handle.tell() - 14, 14, magic.decode('UTF-8'))
         except:  # nopep8
             return None
 
