@@ -16,8 +16,10 @@ Status
     - complete support for Simple Line layers
     - near complete support for Cartographic Line layers, including custom dash patterns. Arrows cannot be decoded yet.
 - Marker symbols
+    - support for halos
     - complete support for Simple Marker layers
     - complete support for Character Marker layers
+    - complete support for Arrow Marker layers
 
 Tools
 =====
