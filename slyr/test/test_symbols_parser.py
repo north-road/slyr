@@ -13,43 +13,43 @@ expected = {
     'marker_bin':
         {
             'Arrow marker.bin':
-                {
-                    'skip': True,
-                    'length': 12.0,
-                    'width': 8.0,
-                    'x_offset': 0.0,
-                    'y_offset': 0.0,
-                    'angle': 0.0,
-                    'color':
-                        {
-                            'R': 0,
-                            'G': 0,
-                            'B': 0,
-                            'is_null': False,
-                            'dither': False
-                        },
-                    'type': 'MarkerSymbol',
-                    'levels': [None]
-                },
+                {'halo': False,
+                 'halo_size': 2.0,
+                 'halo_symbol_type': 'SimpleFillSymbolLayer',
+                 'levels': [{'angle': 0.0,
+                             'color': {'B': 0,
+                                       'G': 0,
+                                       'R': 0,
+                                       'dither': False,
+                                       'is_null': False},
+                             'color_model': 'rgb',
+                             'enabled': False,
+                             'locked': False,
+                             'size': 12.0,
+                             'type': 'ArrowMarkerSymbolLayer',
+                             'width': 8.0,
+                             'x_offset': 0.0,
+                             'y_offset': 0.0}],
+                 'type': 'MarkerSymbol'},
             'Arrow marker 12 width 8 offset 7 6 angle 45 red.bin':
-                {
-                    'skip': True,
-                    'length': 12.0,
-                    'width': 8.0,
-                    'x_offset': 7.0,
-                    'y_offset': 6.0,
-                    'angle': 45.0,
-                    'color':
-                        {
-                            'R': 255,
-                            'G': 0,
-                            'B': 0,
-                            'is_null': False,
-                            'dither': False
-                        },
-                    'type': 'MarkerSymbol',
-                    'levels': [None]
-                },
+                {'halo': False,
+                                      'halo_size': 2.0,
+                                      'halo_symbol_type': 'SimpleFillSymbolLayer',
+                                      'levels': [{'angle': 45.0,
+                                                  'color': {'B': 0,
+                                                            'G': 0,
+                                                            'R': 255,
+                                                            'dither': True,
+                                                            'is_null': False},
+                                                  'color_model': 'rgb',
+                                                  'enabled': False,
+                                                  'locked': False,
+                                                  'size': 12.0,
+                                                  'type': 'ArrowMarkerSymbolLayer',
+                                                  'width': 8.0,
+                                                  'x_offset': 7.0,
+                                                  'y_offset': 6.0}],
+                                      'type': 'MarkerSymbol'},
             'Character marker.bin':
                 {
                     'type': 'MarkerSymbol',
