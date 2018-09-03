@@ -22,7 +22,8 @@ from slyr.parser.symbol_parser import (
     MarkerSymbol,
     MarkerSymbolLayer,
     SimpleMarkerSymbolLayer,
-    CharacterMarkerSymbolLayer
+    CharacterMarkerSymbolLayer,
+    ArrowMarkerSymbolLayer
 )
 
 
@@ -174,6 +175,8 @@ class DictionaryConverter(Converter):
             return DictionaryConverter.convert_simple_marker_symbol_layer(layer)
         elif isinstance(layer, CharacterMarkerSymbolLayer):
             return DictionaryConverter.convert_character_marker_symbol_layer(layer)
+        elif isinstance(layer, ArrowMarkerSymbolLayer):
+            return DictionaryConverter.convert_arrow_marker_symbol_layer(layer)
         else:
             raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
@@ -207,6 +210,22 @@ class DictionaryConverter(Converter):
             'unicode': layer.unicode,
             'font': layer.font,
             'size': layer.size,
+            'angle': layer.angle,
+            'x_offset': layer.x_offset,
+            'y_offset': layer.y_offset
+        }
+        return out
+
+    @staticmethod
+    def convert_arrow_marker_symbol_layer(layer: ArrowMarkerSymbolLayer) -> dict:
+        """
+        Converts a ArrowMarkerSymbolLayer
+        """
+        out = {
+            'color': DictionaryConverter.convert_color(layer.color),
+            'color_model': layer.color_model,
+            'size': layer.size,
+            'width': layer.width,
             'angle': layer.angle,
             'x_offset': layer.x_offset,
             'y_offset': layer.y_offset

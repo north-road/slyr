@@ -60,7 +60,7 @@ def read_object_header(handle):
 
     # Some magic sequence of unknown origin:
     magic_1 = binascii.hexlify(handle.file_handle.read(14))
-    if magic_1 != b'147992c8d0118bb6080009ee4e41':
+    if magic_1 != b'147992c8d0118bb6080009ee4e41' and magic_1 != b'53886ee0d111b2770000f878229e':
         raise UnreadableSymbolException('Differing object header at {}, got {}'.format(
             hex(handle.file_handle.tell() - 16), magic_1))
 
@@ -101,6 +101,7 @@ def create_object(handle):
         b'03e6': SimpleFillSymbolLayer,
         b'fee5': SimpleMarkerSymbolLayer,
         b'00e6': CharacterMarkerSymbolLayer,
+        b'3194': ArrowMarkerSymbolLayer,
         #  '02e6': PictureMarkerSymbolLayer
     }
 
@@ -183,6 +184,12 @@ class SymbolLayer:
         """
         pass
 
+    def has_0d_terminator(self):
+        """
+        Returns true if symbol layer ends with a 0d marker
+        """
+        return True
+
     def read(self, handle):
         """
         Reads the symbol layer information. Internally calls _read method
@@ -195,8 +202,12 @@ class SymbolLayer:
         self._read(handle)
 
         # look for 0d terminator
-        while not binascii.hexlify(handle.file_handle.read(1)) == b'0d':
-            pass
+        if self.has_0d_terminator():
+            if handle.debug:
+                print('looking for 0d from {}'.format(hex(handle.file_handle.tell())))
+
+            while not binascii.hexlify(handle.file_handle.read(1)) == b'0d':
+                pass
 
         if handle.debug:
             print('finished layer read at {}'.format(hex(handle.file_handle.tell())))
@@ -581,6 +592,56 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         if handle.debug:
             print('duplicate font name at {} for {}'.format(hex(handle.file_handle.tell()), skip))
         handle.file_handle.read(skip)
+
+
+class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
+    """
+    Arrow marker symbol layer
+    """
+
+    def __init__(self):
+        MarkerSymbolLayer.__init__(self)
+        self.type = None
+        self.size = 0
+        self.width = 0
+        self.x_offset = 0
+        self.y_offset = 0
+        self.angle = 0
+
+    def has_0d_terminator(self):
+        return False
+
+    def _read(self, handle):
+        if handle.debug:
+            print('start arrow marker at {}'.format(hex(handle.file_handle.tell())))
+
+        self.color_model = read_color_model(handle.file_handle)
+
+        read_magic_2(handle)
+        handle.file_handle.read(2)
+
+        self.color = read_color(handle.file_handle)
+        self.size = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('size of {} at {}'.format(self.size, hex(handle.file_handle.tell() - 8)))
+        self.width = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('width of {} at {}'.format(self.width, hex(handle.file_handle.tell() - 8)))
+        self.angle = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('angle of {} at {}'.format(self.angle, hex(handle.file_handle.tell() - 8)))
+
+        # 12 bytes unknown purpose
+        if handle.debug:
+            print('skipping 12 unknown bytes at {}'.format(hex(handle.file_handle.tell())))
+        handle.file_handle.read(12)
+
+        self.x_offset = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('x offset of {} at {}'.format(self.x_offset, hex(handle.file_handle.tell() - 8)))
+        self.y_offset = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('y offset of {} at {}'.format(self.y_offset, hex(handle.file_handle.tell() - 8)))
 
 
 class Symbol:
