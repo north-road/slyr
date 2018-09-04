@@ -314,8 +314,11 @@ def Symbol_to_QgsSymbol(symbol):
         out = QgsLineSymbol()
     elif issubclass(symbol.__class__, (MarkerSymbol, MarkerSymbolLayer)):
         out = QgsMarkerSymbol()
-        if symbol.halo:
-            raise NotImplementedException('Mark halos are not yet supported')
+        try:
+            if symbol.halo:
+                raise NotImplementedException('Mark halos are not yet supported')
+        except AttributeError:
+            pass
     else:
         raise NotImplementedException()
 
