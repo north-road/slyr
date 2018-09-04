@@ -51,6 +51,11 @@ def read_object_header(handle):
     if handle.debug:
         print('Reading object header at {}'.format(hex(handle.file_handle.tell())))
     object_type = binascii.hexlify(handle.file_handle.read(2))
+
+    # hack - but doesn't seem needed anymore?!
+    # if object_type[2:] == b'40':
+    # object_type = binascii.hexlify(handle.file_handle.read(2))
+
     if object_type == b'e614':
         # second chance, since some overzealous padding consumer may have eaten
         # the start of a "00e6" Character Marker Symbol
@@ -196,11 +201,11 @@ class SymbolLayer:
         """
         pass
 
-    def has_0d_terminator(self):
+    def terminator(self):
         """
-        Returns true if symbol layer ends with a 0d marker
+        Returns the symbol layer terminator, if present
         """
-        return True
+        return [b'0d']
 
     def read(self, handle):
         """
@@ -214,12 +219,16 @@ class SymbolLayer:
         self._read(handle)
 
         # look for 0d terminator
-        if self.has_0d_terminator():
+        if self.terminator() is not None:
             if handle.debug:
-                print('looking for 0d from {}'.format(hex(handle.file_handle.tell())))
+                print('looking for {} from {}'.format(self.terminator(), hex(handle.file_handle.tell())))
 
-            while not binascii.hexlify(handle.file_handle.read(1)) == b'0d':
-                pass
+            terminator_len = int(len(self.terminator()[0]) / 2)
+            while True:
+                start = handle.file_handle.tell()
+                if binascii.hexlify(handle.file_handle.read(terminator_len)) in self.terminator():
+                    break
+                handle.file_handle.seek(start + 1)
 
         if handle.debug:
             print('finished layer read at {}'.format(hex(handle.file_handle.tell())))
@@ -391,11 +400,6 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
             handle.file_handle.read(2)
             self.marker = create_object(handle)()
             self.marker.read(handle)
-
-            unknown = binascii.hexlify(handle.file_handle.read(2))
-            if unknown != b'ffff':
-                raise UnreadableSymbolException(
-                    'Differing unknown byte at {}'.format(hex(handle.file_handle.tell() - 2)))
 
             # next bit is the number of doubles coming next
             marker_number_positions = unpack("<L", handle.file_handle.read(4))[0]
@@ -584,12 +588,8 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         self.outline_color_model = None
         self.font = None
 
-    def read(self, handle):
-        handle.file_handle.read(self.padding())
-        self._read(handle)
-
-        if handle.debug:
-            print('finished character marker layer read at {}'.format(hex(handle.file_handle.tell())))
+    def terminator(self):
+        return [b'b851']
 
     def _read(self, handle):
         if handle.debug:
@@ -646,8 +646,8 @@ class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
         self.y_offset = 0
         self.angle = 0
 
-    def has_0d_terminator(self):
-        return False
+    def terminator(self):
+        return [b'ffff', b'2440']
 
     def _read(self, handle):
         if handle.debug:
