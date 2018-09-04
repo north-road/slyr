@@ -23,7 +23,7 @@ expected = {
                                        'dither': False,
                                        'is_null': False},
                              'color_model': 'rgb',
-                             'enabled': False,
+                             'enabled': True,
                              'locked': False,
                              'size': 12.0,
                              'type': 'ArrowMarkerSymbolLayer',
@@ -42,7 +42,7 @@ expected = {
                                        'dither': True,
                                        'is_null': False},
                              'color_model': 'rgb',
-                             'enabled': False,
+                             'enabled': True,
                              'locked': False,
                              'size': 12.0,
                              'type': 'ArrowMarkerSymbolLayer',
@@ -58,7 +58,7 @@ expected = {
                     'halo_symbol_type': 'SimpleFillSymbolLayer',
                     'levels': [{
                         'type': 'CharacterMarkerSymbolLayer',
-                        'enabled': False,  # TODO -- not correct, should be True!
+                        'enabled': True,
                         'locked': False,
                         'color_model': 'rgb',
                         'color':
@@ -86,7 +86,7 @@ expected = {
                     'halo_symbol_type': 'SimpleFillSymbolLayer',
                     'levels': [{
                         'type': 'CharacterMarkerSymbolLayer',
-                        'enabled': False,  # TODO -- not correct, should be True!
+                        'enabled': True,
                         'locked': False,
                         'color_model': 'rgb',
                         'color':
@@ -114,7 +114,7 @@ expected = {
                     'halo_symbol_type': 'SimpleFillSymbolLayer',
                     'levels': [{
                         'type': 'CharacterMarkerSymbolLayer',
-                        'enabled': False,  # TODO -- not correct, should be True!
+                        'enabled': True,
                         'locked': False,
                         'color_model': 'rgb',
                         'color':
@@ -142,7 +142,7 @@ expected = {
                     'halo_symbol_type': 'SimpleFillSymbolLayer',
                     'levels': [{
                         'type': 'CharacterMarkerSymbolLayer',
-                        'enabled': False,  # TODO -- not correct, should be True!
+                        'enabled': True,
                         'locked': False,
                         'color_model': 'rgb',
                         'color':
@@ -170,7 +170,7 @@ expected = {
                     'halo_symbol_type': 'SimpleFillSymbolLayer',
                     'levels': [{
                         'type': 'CharacterMarkerSymbolLayer',
-                        'enabled': False,  # TODO -- not correct, should be True!
+                        'enabled': True,
                         'locked': False,
                         'color_model': 'rgb',
                         'color':
@@ -198,7 +198,7 @@ expected = {
                     'halo_symbol_type': 'SimpleFillSymbolLayer',
                     'levels': [{
                         'type': 'CharacterMarkerSymbolLayer',
-                        'enabled': False,  # TODO -- not correct, should be True!
+                        'enabled': True,
                         'locked': False,
                         'color_model': 'rgb',
                         'color':
@@ -226,7 +226,7 @@ expected = {
                     'halo_symbol_type': 'SimpleFillSymbolLayer',
                     'levels': [{
                         'type': 'CharacterMarkerSymbolLayer',
-                        'enabled': False,  # TODO -- not correct, should be True!
+                        'enabled': True,
                         'locked': False,
                         'color_model': 'rgb',
                         'color':
@@ -254,7 +254,7 @@ expected = {
                     'halo_symbol_type': 'SimpleFillSymbolLayer',
                     'levels': [{
                         'type': 'CharacterMarkerSymbolLayer',
-                        'enabled': False,  # TODO -- not correct, should be True!
+                        'enabled': True,
                         'locked': False,
                         'color_model': 'rgb',
                         'color':
