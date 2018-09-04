@@ -118,8 +118,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 handle = BytesIO(raw_symbol[Extractor.BLOB])
                 try:
                     symbol = read_symbol(file_handle=handle)
-                except UnreadableSymbolException:
-                    feedback.reportError('Error reading symbol {}'.format(name))
+                except UnreadableSymbolException as e:
+                    feedback.reportError('Error reading symbol {}: {}'.format(name, e))
                     unreadable += 1
                     continue
 
