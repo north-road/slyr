@@ -10,7 +10,7 @@ import binascii
 from colorama import Fore
 
 from slyr.parser.symbol_parser import read_string, Handle, read_color, read_magic_2
-from slyr.parser.color_parser import read_color_model
+from slyr.parser.color_parser import read_color_model, read_color_and_model, InvalidColorException
 
 
 class ObjectScan:
@@ -308,9 +308,10 @@ class ColorMatch(ObjectMatch):
     Color match
     """
 
-    def __init__(self, match_start, match_length, matched_color):
+    def __init__(self, match_start, match_length, color_model, matched_color):
         super().__init__(match_start, match_length)
         self.matched_color = matched_color
+        self.color_model = color_model
 
     @staticmethod
     def precedence():
@@ -321,7 +322,12 @@ class ColorMatch(ObjectMatch):
         return Fore.MAGENTA
 
     def value(self):
-        return str(self.matched_color['R']) + ',' + str(self.matched_color['G']) + ',' + str(self.matched_color['B'])
+        if self.color_model == 'rgb':
+            return str(self.matched_color['R']) + ',' + str(self.matched_color['G']) + ',' + str(self.matched_color['B'])
+        elif self.color_model == 'cmyk':
+            return 'CMYK:' + str(self.matched_color['C']) + ',' + str(self.matched_color['M']) + ',' + str(self.matched_color['Y']) + ',' + str(self.matched_color['K'])
+        else:
+            assert False
 
 
 class ColorScan(ObjectScan):
@@ -332,15 +338,12 @@ class ColorScan(ObjectScan):
     def check_handle(self, file_handle):
         try:
             start = file_handle.tell()
-            color_model = read_color_model(file_handle)
-            if color_model == 'rgb':
-                read_magic_2(Handle(file_handle))
-                file_handle.read(2)
-                color = read_color(file_handle)
-                if True or (color['R'] == 255 or color['G'] == 255 or color['B'] == 255) and (
-                        not color['dither'] and not color['is_null']):
-                    return ColorMatch(start, file_handle.tell() - start, color)
-        except:  # nopep8
+            color_model, color = read_color_and_model(file_handle, True)
+            print(color_model, color)
+          #  if True or (color['R'] == 255 or color['G'] == 255 or color['B'] == 255) and (
+          #          not color['dither'] and not color['is_null']):
+            return ColorMatch(start, file_handle.tell() - start, color_model, color)
+        except InvalidColorException:  # nopep8
             return None
 
 

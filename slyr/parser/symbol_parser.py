@@ -3,6 +3,7 @@
 from struct import unpack
 from slyr.parser.color_parser import (read_color_model,
                                       read_color,
+                                      read_color_and_model,
                                       InvalidColorException)
 import binascii
 
@@ -411,12 +412,8 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
         else:
             handle.file_handle.seek(start)
 
-        self.color_model = read_color_model(handle.file_handle)
+        self.color_model, self.color =read_color_and_model(handle.file_handle)
 
-        read_magic_2(handle)
-        handle.file_handle.read(2)
-
-        self.color = read_color(handle.file_handle)
 
 
 class MarkerSymbolLayer(SymbolLayer):
