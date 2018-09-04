@@ -749,6 +749,8 @@ class FillSymbol(Symbol):
 
         # useful stuff
         number_layers = unpack("<L", handle.file_handle.read(4))[0]
+        if handle.debug:
+            print('detected {} layers at {}'.format(number_layers, hex(handle.file_handle.tell() - 4)))
 
         for i in range(number_layers):
             consume_padding(handle.file_handle)
