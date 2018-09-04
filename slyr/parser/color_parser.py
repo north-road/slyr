@@ -162,10 +162,19 @@ def cielab_to_rgb(l, a, b):
     return scale_and_round(*apply_gamma(*xyz_to_rgb(*cielab_to_xyz(l, a, b))))
 
 
-def read_color(file_handle):
+def read_color(file_handle, model='rgb'):
+    if model == 'cmyk':
+        c = unpack("<H", file_handle.read(2))[0]
+        m = unpack("<H", file_handle.read(2))[0]
+        y = unpack("<H", file_handle.read(2))[0]
+        k = unpack("<H", file_handle.read(2))[0]
+        return {'C':c,'M':m,'Y':y,'K':k}
+
+
     lab_l = unpack("<d", file_handle.read(8))[0]
     lab_a = unpack("<d", file_handle.read(8))[0]
     lab_b = unpack("<d", file_handle.read(8))[0]
+    print(lab_l,lab_a,lab_b)
 
     dither = binascii.hexlify(file_handle.read(1)) == b'01'
     is_null = binascii.hexlify(file_handle.read(1)) == b'ff'
@@ -183,3 +192,46 @@ def read_color(file_handle):
             'B': b,
             'dither': dither,
             'is_null': is_null}
+
+
+def read_magic_2(handle, color_model, debug=False):
+    """
+    Consumes an expected magic sequence (2), of unknown purpose
+    """
+    magic_2 = binascii.hexlify(handle.read(15))
+    if magic_2 != b'c4e97e23d1d0118383080009b996cc':
+        raise InvalidColorException('Differing magic string 2: {}'.format(magic_2))
+
+    if color_model == 'rgb':
+        terminator = binascii.hexlify(handle.read(2))
+        if not terminator == b'0100':
+            # .lyr files have an extra 4 bytes in here - of unknown purpose
+            handle.read(4)
+
+        start = handle.tell()
+        terminator = binascii.hexlify(handle.read(1))
+        if terminator != b'01':
+            if debug:
+                print('Expected 01 at {}, got {}'.format(hex(start), terminator))
+
+            raise InvalidColorException('Expected 01 at {}, got {}'.format(hex(start), terminator))
+    if debug:
+        print('finished magic 2 at {}'.format(hex(handle.tell())))
+
+
+def read_color_and_model(handle, debug=False):
+    start = handle.tell()
+    color_model = read_color_model(handle)
+    if debug:
+        print('Read color model ({}) at {}'.format(color_model, hex(start)))
+
+    read_magic_2(handle, debug)
+    if color_model == 'rgb':
+        handle.read(2)
+
+    start = handle.tell()
+    color = read_color(handle, color_model)
+    if debug:
+        print('Read color ({}) at {}'.format(color_model, hex(start)))
+
+    return color_model, color
