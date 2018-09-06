@@ -9,8 +9,8 @@ from struct import unpack
 import binascii
 from colorama import Fore
 
-from slyr.parser.symbol_parser import read_string, Handle, read_color, read_magic_2
-from slyr.parser.color_parser import read_color_model, read_color_and_model, InvalidColorException
+from slyr.parser.symbol_parser import read_string, Handle
+from slyr.parser.color_parser import read_color_and_model, InvalidColorException
 
 
 class ObjectScan:
