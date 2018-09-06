@@ -169,6 +169,7 @@ def read_color(file_handle, model='rgb'):
         m = unpack("B", file_handle.read(1))[0]
         y = unpack("B", file_handle.read(1))[0]
         k = unpack("B", file_handle.read(1))[0]
+        file_handle.read(2)
         return {'C': c, 'M': m, 'Y': y, 'K': k}
 
     lab_l = unpack("<d", file_handle.read(8))[0]
