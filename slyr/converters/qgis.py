@@ -37,6 +37,10 @@ def symbol_color_to_qcolor(color):
     """
     Converts a symbol color to a QColor
     """
+    if 'C' in color:
+        # CMYK color
+        return QColor.fromCmykF(color['C']/100, color['M']/100, color['Y']/100, color['K']/100)
+
     return QColor(color['R'], color['G'], color['B'], 0 if color['is_null'] else 255)
 
 
