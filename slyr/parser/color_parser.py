@@ -164,10 +164,11 @@ def cielab_to_rgb(l, a, b):
 
 def read_color(file_handle, model='rgb'):
     if model == 'cmyk':
-        c = unpack("<H", file_handle.read(2))[0]
-        m = unpack("<H", file_handle.read(2))[0]
-        y = unpack("<H", file_handle.read(2))[0]
-        k = unpack("<H", file_handle.read(2))[0]
+        # CMYK is nice and easy - it's just direct char representations of the C/M/Y/K integer components!
+        c = unpack("B", file_handle.read(1))[0]
+        m = unpack("B", file_handle.read(1))[0]
+        y = unpack("B", file_handle.read(1))[0]
+        k = unpack("B", file_handle.read(1))[0]
         return {'C': c, 'M': m, 'Y': y, 'K': k}
 
     lab_l = unpack("<d", file_handle.read(8))[0]
@@ -224,6 +225,11 @@ def read_magic_2(handle, color_model, debug=False):
             print('Skipping 5 bytes at {}'.format(hex(handle.tell())))
 
         handle.read(5)
+    elif color_model == 'cmyk':
+        if debug:
+            print('Skipping 4 bytes at {}'.format(hex(handle.tell())))
+
+        handle.read(4)
 
     if debug:
         print('finished magic 2 at {}'.format(hex(handle.tell())))
