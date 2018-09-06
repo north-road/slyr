@@ -97,6 +97,24 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
         results = {}
 
+        symbol_names = set()
+
+        def make_name_unique(name):
+            """
+            Ensures that the symbol name is unique (in a case insensitive way)
+            """
+            counter = 0
+            candidate = name
+            while candidate.lower() in symbol_names:
+                # make name unique
+                if counter == 0:
+                    candidate += '_1'
+                else:
+                    candidate = candidate[:candidate.rfind('_') + 1] + str(counter)
+                counter += 1
+            symbol_names.add(candidate.lower())
+            return candidate
+
         for type_index, symbol_type in enumerate(
                 (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS)):
             feedback.pushInfo('Importing {} from {}'.format(symbol_type, input_file))
@@ -115,6 +133,10 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 name = raw_symbol[Extractor.NAME]
                 feedback.pushInfo('{}/{}: {}'.format(index + 1, len(raw_symbols), name))
 
+                unique_name = make_name_unique(name)
+                if name != unique_name:
+                    feedback.pushInfo('Corrected to unique name of {}'.format(unique_name))
+
                 handle = BytesIO(raw_symbol[Extractor.BLOB])
                 try:
                     symbol = read_symbol(file_handle=handle)
@@ -130,7 +152,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     unreadable += 1
                     continue
 
-                style.addSymbol(name, qgis_symbol)
+                style.addSymbol(unique_name, qgis_symbol)
 
             if symbol_type == Extractor.FILL_SYMBOLS:
                 results[self.FILL_SYMBOL_COUNT] = len(raw_symbols)
