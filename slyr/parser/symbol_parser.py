@@ -412,8 +412,7 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
         else:
             handle.file_handle.seek(start)
 
-        self.color_model, self.color =read_color_and_model(handle.file_handle)
-
+        self.color_model, self.color = read_color_and_model(handle.file_handle, handle.debug)
 
 
 class MarkerSymbolLayer(SymbolLayer):
