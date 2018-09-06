@@ -322,10 +322,12 @@ class ColorMatch(ObjectMatch):
         return Fore.MAGENTA
 
     def value(self):
-        if self.color_model == 'rgb':
-            return str(self.matched_color['R']) + ',' + str(self.matched_color['G']) + ',' + str(self.matched_color['B'])
+        if self.color_model in ('rgb', 'hsv'):
+            return str(self.matched_color['R']) + ',' + str(self.matched_color['G']) + ',' + str(
+                self.matched_color['B'])
         elif self.color_model == 'cmyk':
-            return 'CMYK:' + str(self.matched_color['C']) + ',' + str(self.matched_color['M']) + ',' + str(self.matched_color['Y']) + ',' + str(self.matched_color['K'])
+            return 'CMYK:' + str(self.matched_color['C']) + ',' + str(self.matched_color['M']) + ',' + str(
+                self.matched_color['Y']) + ',' + str(self.matched_color['K'])
         else:
             assert False
 
@@ -339,9 +341,6 @@ class ColorScan(ObjectScan):
         try:
             start = file_handle.tell()
             color_model, color = read_color_and_model(file_handle, True)
-            print(color_model, color)
-          #  if True or (color['R'] == 255 or color['G'] == 255 or color['B'] == 255) and (
-          #          not color['dither'] and not color['is_null']):
             return ColorMatch(start, file_handle.tell() - start, color_model, color)
         except InvalidColorException:  # nopep8
             return None

@@ -168,13 +168,11 @@ def read_color(file_handle, model='rgb'):
         m = unpack("<H", file_handle.read(2))[0]
         y = unpack("<H", file_handle.read(2))[0]
         k = unpack("<H", file_handle.read(2))[0]
-        return {'C':c,'M':m,'Y':y,'K':k}
-
+        return {'C': c, 'M': m, 'Y': y, 'K': k}
 
     lab_l = unpack("<d", file_handle.read(8))[0]
     lab_a = unpack("<d", file_handle.read(8))[0]
     lab_b = unpack("<d", file_handle.read(8))[0]
-    print(lab_l,lab_a,lab_b)
 
     dither = binascii.hexlify(file_handle.read(1)) == b'01'
     is_null = binascii.hexlify(file_handle.read(1)) == b'ff'
@@ -203,6 +201,9 @@ def read_magic_2(handle, color_model, debug=False):
         raise InvalidColorException('Differing magic string 2: {}'.format(magic_2))
 
     if color_model == 'rgb':
+        if debug:
+            print('Skipping some bytes at {}'.format(hex(handle.tell())))
+
         terminator = binascii.hexlify(handle.read(2))
         if not terminator == b'0100':
             # .lyr files have an extra 4 bytes in here - of unknown purpose
@@ -215,23 +216,35 @@ def read_magic_2(handle, color_model, debug=False):
                 print('Expected 01 at {}, got {}'.format(hex(start), terminator))
 
             raise InvalidColorException('Expected 01 at {}, got {}'.format(hex(start), terminator))
+
+        # another two unknown bytes
+        handle.read(2)
+    elif color_model == 'hsv':
+        if debug:
+            print('Skipping 5 bytes at {}'.format(hex(handle.tell())))
+
+        handle.read(5)
+
     if debug:
         print('finished magic 2 at {}'.format(hex(handle.tell())))
 
 
 def read_color_and_model(handle, debug=False):
+    """
+    Reads both the color model and the color itself from a file handle
+    :return: color model, color
+    """
+
     start = handle.tell()
     color_model = read_color_model(handle)
     if debug:
         print('Read color model ({}) at {}'.format(color_model, hex(start)))
 
-    read_magic_2(handle, debug)
-    if color_model == 'rgb':
-        handle.read(2)
+    read_magic_2(handle, color_model, debug)
 
     start = handle.tell()
     color = read_color(handle, color_model)
     if debug:
-        print('Read color ({}) at {}'.format(color_model, hex(start)))
+        print('Read color ({}) at {} {}'.format(color_model, hex(start), color))
 
     return color_model, color
