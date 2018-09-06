@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
 from struct import unpack
-from slyr.parser.color_parser import (read_color_model,
-                                      read_color,
-                                      read_color_and_model,
+from slyr.parser.color_parser import (read_color_and_model,
                                       InvalidColorException)
 import binascii
 
@@ -247,15 +245,7 @@ class SimpleLineSymbolLayer(LineSymbolLayer):
         self.line_type = None
 
     def _read(self, handle):
-        start = hex(handle.file_handle.tell())
-        self.color_model = read_color_model(handle.file_handle)
-        if handle.debug:
-            print('Read color model ({}) at {}'.format(self.color_model, start))
-
-        read_magic_2(handle)
-        handle.file_handle.read(2)
-
-        self.color = read_color(handle.file_handle)
+        self.color_model, self.color = read_color_and_model(handle.file_handle, debug=handle.debug)
         self.width = unpack("<d", handle.file_handle.read(8))[0]
         if handle.debug:
             print('read width of {} at {}'.format(self.width, hex(handle.file_handle.tell() - 8)))
@@ -330,12 +320,7 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
             raise UnreadableSymbolException('Differing unknown byte')
 
         self.offset = unpack("<d", handle.file_handle.read(8))[0]
-        self.color_model = read_color_model(handle.file_handle)
-
-        read_magic_2(handle)
-        handle.file_handle.read(2)
-
-        self.color = read_color(handle.file_handle)
+        self.color_model, self.color = read_color_and_model(handle.file_handle, debug=handle.debug)
 
         # 18 unknown bytes
         binascii.hexlify(handle.file_handle.read(18))
@@ -476,10 +461,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         if has_outline == 1:
             self.outline_enabled = True
         self.outline_width = unpack("<d", handle.file_handle.read(8))[0]
-        self.outline_color_model = read_color_model(handle.file_handle)
-        read_magic_2(handle)
-        handle.file_handle.read(2)
-        self.outline_color = read_color(handle.file_handle)
+        self.outline_color_model, self.outline_color = read_color_and_model(handle.file_handle, debug=handle.debug)
 
         if handle.debug:
             print('finished simple marker layer read at {}'.format(hex(handle.file_handle.tell())))
@@ -493,12 +475,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         handle.file_handle.read(1)
 
     def _read(self, handle):
-        self.color_model = read_color_model(handle.file_handle)
-
-        read_magic_2(handle)
-        handle.file_handle.read(2)
-
-        self.color = read_color(handle.file_handle)
+        self.color_model, self.color = read_color_and_model(handle.file_handle, debug=handle.debug)
         self.size = unpack("<d", handle.file_handle.read(8))[0]
 
         type_code = unpack("<L", handle.file_handle.read(4))[0]
@@ -549,12 +526,8 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         if handle.debug:
             print('start character marker at {}'.format(hex(handle.file_handle.tell())))
 
-        self.color_model = read_color_model(handle.file_handle)
+        self.color_model, self.color = read_color_and_model(handle.file_handle, debug=handle.debug)
 
-        read_magic_2(handle)
-        handle.file_handle.read(2)
-
-        self.color = read_color(handle.file_handle)
         self.unicode = unpack("<L", handle.file_handle.read(4))[0]
         if handle.debug:
             print('unicode of {} at {}'.format(self.unicode, hex(handle.file_handle.tell() - 4)))
@@ -611,12 +584,8 @@ class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
         if handle.debug:
             print('start arrow marker at {}'.format(hex(handle.file_handle.tell())))
 
-        self.color_model = read_color_model(handle.file_handle)
+        self.color_model, self.color = read_color_and_model(handle.file_handle, debug=handle.debug)
 
-        read_magic_2(handle)
-        handle.file_handle.read(2)
-
-        self.color = read_color(handle.file_handle)
         self.size = unpack("<d", handle.file_handle.read(8))[0]
         if handle.debug:
             print('size of {} at {}'.format(self.size, hex(handle.file_handle.tell() - 8)))
@@ -735,13 +704,7 @@ class FillSymbol(Symbol):
         return 10
 
     def _read(self, handle):
-        # consume section of unknown purpose
-        self.color_model = read_color_model(handle.file_handle)
-        read_magic_2(handle)
-
-        # either before or after this unknown color?
-        handle.file_handle.read(2)
-        read_color(handle.file_handle)
+        self.color_model, self.color = read_color_and_model(handle.file_handle, debug=handle.debug)
 
         # useful stuff
         number_layers = unpack("<L", handle.file_handle.read(4))[0]
@@ -792,10 +755,7 @@ class MarkerSymbol(Symbol):
             pass
         consume_padding(handle.file_handle)
 
-        self.color_model = read_color_model(handle.file_handle)
-        read_magic_2(handle)
-
-        handle.file_handle.read(28)
+        self.color_model, self.color = read_color_and_model(handle.file_handle)
 
         self.halo = unpack("<L", handle.file_handle.read(4))[0] == 1
         self.halo_size = unpack("<d", handle.file_handle.read(8))[0]
