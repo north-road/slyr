@@ -86,6 +86,10 @@ class Extractor:
             # also need to convert "" -> "
             blob = blob.replace(b'""', b'"')
 
+            # on windows, mdbtools does a weird thing and replaces all 0a bytes with 0a0d. Wonderful wonderful
+            # Windows new endings come round to bite us again
+            blob = blob.replace(b'\r\n', b'\n')
+
             symbol = {
                 Extractor.NAME: extract_text(name),
                 Extractor.CATEGORY: extract_text(category),
