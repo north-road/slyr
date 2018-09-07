@@ -61,7 +61,14 @@ class Extractor:
             if not r:
                 continue
 
-            symbol_id, name, category, blob, tags = r.split(Extractor.__DELIMITER)
+            res = r.split(Extractor.__DELIMITER)
+            if len(res) == 5:
+                symbol_id, name, category, blob, tags = res
+            elif len(res) == 4:
+                symbol_id, name, category, blob = res
+                tags = None
+            else:
+                assert False, 'Error reading style table'
 
             def extract_text(val):
                 """
@@ -93,7 +100,7 @@ class Extractor:
             symbol = {
                 Extractor.NAME: extract_text(name),
                 Extractor.CATEGORY: extract_text(category),
-                Extractor.TAGS: extract_text(tags),
+                Extractor.TAGS: extract_text(tags) if tags else '',
                 Extractor.ID: extract_text(symbol_id),
                 Extractor.BLOB: blob
             }
