@@ -302,6 +302,39 @@ class Magic2Scan(ObjectScan):
         except:  # nopep8
             return None
 
+class Magic3Match(ObjectMatch):
+    """
+    Magic number 3 match
+    """
+
+    def __init__(self, match_start, match_length):
+        super().__init__(match_start, match_length)
+
+    @staticmethod
+    def precedence():
+        return 25
+
+    @staticmethod
+    def color():
+        return Fore.LIGHTMAGENTA_EX
+
+    def value(self):
+        return 'f5883d531a0ad211b27f0000f878229e'
+
+
+class Magic3Scan(ObjectScan):
+    """
+    Scans for magic number 3
+    """
+
+    def check_handle(self, file_handle):
+        try:
+            magic = binascii.hexlify(file_handle.read(16))
+            if magic == b'f5883d531a0ad211b27f0000f878229e':
+                return Magic3Match(file_handle.tell() - 16, 16)
+        except:  # nopep8
+            return None
+
 
 class ColorMatch(ObjectMatch):
     """
@@ -346,4 +379,4 @@ class ColorScan(ObjectScan):
             return None
 
 
-SCANNERS = [StringScan(), ObjectCodeScan(), DoubleScan(), IntScan(), Magic1Scan(), Magic2Scan(), ColorScan()]
+SCANNERS = [StringScan(), ObjectCodeScan(), DoubleScan(), IntScan(), Magic1Scan(), Magic2Scan(), Magic3Scan(), ColorScan()]
