@@ -163,11 +163,11 @@ class DictionaryConverter(Converter):
             'join': layer.join,
             'pattern_interval': layer.pattern_interval,
             'pattern_parts': layer.pattern_parts,
-            'marker':None,
-            'marker_fixed_angle':layer.marker_fixed_angle,
-            'marker_flip_first':layer.marker_flip_first,
-            'marker_flip_all':layer.marker_flip_all,
-            'marker_positions':layer.marker_positions
+            'marker': None,
+            'marker_fixed_angle': layer.marker_fixed_angle,
+            'marker_flip_first': layer.marker_flip_first,
+            'marker_flip_all': layer.marker_flip_all,
+            'marker_positions': layer.marker_positions
         }
         if isinstance(layer.marker, (MarkerSymbolLayer)):
             marker_converter = DictionaryConverter()
