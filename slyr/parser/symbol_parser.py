@@ -136,9 +136,9 @@ def read_magic_3(handle):
     """
     Consumes an expected magic sequence (3), of unknown purpose
     """
-    magic_3 = binascii.hexlify(handle.file_handle.read(18))
-    if magic_3 != b'883d531a0ad211b27f0000f878229e010001':
-        raise UnreadableSymbolException('Differing magic string 3: {} at {}'.format(magic_3, hex(handle.file_handle.tell()-18)))
+    magic_3 = binascii.hexlify(handle.file_handle.read(17))
+    if magic_3 != b'883d531a0ad211b27f0000f878229e0100':
+        raise UnreadableSymbolException('Differing magic string 3: {} at {}'.format(magic_3, hex(handle.file_handle.tell()-17)))
 
     if handle.debug:
         print('finished magic 3 at {}'.format(hex(handle.file_handle.tell()-1)))
@@ -279,6 +279,11 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         self.offset = None
         self.pattern_interval = 0
         self.pattern_parts = []
+        self.marker = None
+        self.marker_fixed_angle = False
+        self.marker_flip_first = False
+        self.marker_flip_all = False
+        self.marker_positions = []
 
     def padding(self):
         return 2
@@ -304,13 +309,6 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
             self.join = 'bevel'
         else:
             raise UnreadableSymbolException('unknown join style {}'.format(join_bin))
-
-    # def read(self, handle):
-    #    self._read(handle)
-    #    while not binascii.hexlify(handle.file_handle.read(1)) == b'0d':
-    #        pass
-    #    while not binascii.hexlify(handle.file_handle.read(1)) == b'40':
-    #        pass
 
     def _read(self, handle):
         self.read_cap(handle.file_handle)
@@ -368,27 +366,45 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
             if handle.debug:
                 print('detected end markers at {}'.format(hex(handle.file_handle.tell()-1)))
             read_magic_3(handle)
-            handle.file_handle.read(4)
-            read_magic_3(handle)
-            self.has_start_marker = bool(unpack("<B", handle.file_handle.read(1))[0])
-            if handle.debug:
-                print('detected {} at {}'.format('start marker' if self.has_start_marker else 'no start marker', hex(handle.file_handle.tell()-1)))
-            handle.file_handle.read(3)
 
-            marker = create_object(handle)()
-            print(marker)
-            marker.read(handle)
+            unknown = unpack("<L", handle.file_handle.read(4))[0]
+            if handle.debug:
+                print('read unknown int of {} at {}'.format(unknown, hex(handle.file_handle.tell()-4)))
+
+            handle.file_handle.read(1)
+
+            read_magic_3(handle)
+            self.marker_fixed_angle = not bool(unpack("<B", handle.file_handle.read(1))[0])
+            if handle.debug:
+                print('detected {} at {}'.format('fixed angle' if self.marker_fixed_angle else 'not fixed angle',
+                                                 hex(handle.file_handle.tell() - 1)))
+            self.marker_flip_first = bool(unpack("<B", handle.file_handle.read(1))[0])
+            if handle.debug:
+                print('detected {} at {}'.format('flip first' if self.marker_flip_first else 'no flip first', hex(handle.file_handle.tell()-1)))
+            self.marker_flip_all = bool(unpack("<B", handle.file_handle.read(1))[0])
+            if handle.debug:
+                print('detected {} at {}'.format('flip all' if self.marker_flip_all else 'no flip all', hex(handle.file_handle.tell()-1)))
+
+            handle.file_handle.read(2)
+            self.marker = create_object(handle)()
+            self.marker.read(handle)
 
             unknown = binascii.hexlify(handle.file_handle.read(2))
             if unknown != b'ffff':
                 raise UnreadableSymbolException('Differing unknown byte at {}'.format(hex(handle.file_handle.tell()-2)))
 
             # next bit is the number of doubles coming next
-            bits = unpack("<L", handle.file_handle.read(4))[0]
-            print(bits)
-            for i in range(bits):
-                unknown = unpack("<d", handle.file_handle.read(8))[0]
-                print(unknown)
+            marker_number_positions = unpack("<L", handle.file_handle.read(4))[0]
+            if handle.debug:
+                print('detected {} marker positions at {}'.format(marker_number_positions, hex(handle.file_handle.tell()-4)))
+
+            # next bit is the positions themselves -- maybe we can infer this from the number of positions
+            # alone. E.g. 2 positions = 0, 1. 3 positions = 0, 0.5, 1
+            for i in range(marker_number_positions):
+                self.marker_positions.append( unpack("<d", handle.file_handle.read(8))[0] )
+            if handle.debug:
+                print('marker positions are {}'.format(self.marker_positions))
+                print('ended carto marker at {}'.format(hex(handle.file_handle.tell()-1)))
 
 
 class FillSymbolLayer(SymbolLayer):
