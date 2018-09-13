@@ -302,6 +302,7 @@ class Magic2Scan(ObjectScan):
         except:  # nopep8
             return None
 
+
 class Magic3Match(ObjectMatch):
     """
     Magic number 3 match
@@ -379,4 +380,5 @@ class ColorScan(ObjectScan):
             return None
 
 
-SCANNERS = [StringScan(), ObjectCodeScan(), DoubleScan(), IntScan(), Magic1Scan(), Magic2Scan(), Magic3Scan(), ColorScan()]
+SCANNERS = [StringScan(), ObjectCodeScan(), DoubleScan(), IntScan(), Magic1Scan(), Magic2Scan(), Magic3Scan(),
+            ColorScan()]
