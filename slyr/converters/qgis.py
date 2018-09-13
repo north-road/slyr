@@ -167,6 +167,9 @@ def append_CartographicLineSymbolLayer(symbol, layer):
     if out.color().alpha() == 0:
         out.setPenStyle(Qt.NoPen)
 
+    if layer.marker_positions or layer.marker:
+        raise NotImplementedException('Cartographic line start/end markers are not yet supported')
+
     # todo - change to new symbol layer if outline offset set
     symbol.appendSymbolLayer(out)
 
