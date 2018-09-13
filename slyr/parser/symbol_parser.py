@@ -326,9 +326,14 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         binascii.hexlify(handle.file_handle.read(18))
 
         self.pattern_interval = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('read interval of {} at {}'.format(self.pattern_interval, hex(handle.file_handle.tell() - 8)))
 
         # symbol pattern
         pattern_part_count = unpack("<L", handle.file_handle.read(4))[0]
+        if handle.debug:
+            print('pattern has {} parts at {}'.format(pattern_part_count, hex(handle.file_handle.tell() - 4)))
+
         self.pattern_parts = []
         for p in range(pattern_part_count):
             filled_squares = unpack("<d", handle.file_handle.read(8))[0]
@@ -336,11 +341,16 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
             self.pattern_parts.append([filled_squares, empty_squares])
 
         if handle.debug:
-            print('deciphered cartographic line pattern')
+            print('deciphered cartographic line pattern ending at {}'.format(hex(handle.file_handle.tell())))
             pattern = ''
             for p in self.pattern_parts:
                 pattern += '-' * int(p[0]) + '.' * int(p[1])
             print(pattern)
+
+        # check for markers
+        start = handle.file_handle.tell()
+        if handle.debug:
+            print('scanning for end markers from {}'.format(hex(start)))
 
 
 class FillSymbolLayer(SymbolLayer):
