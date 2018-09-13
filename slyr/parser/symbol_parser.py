@@ -130,7 +130,19 @@ def read_magic_2(handle):
     if terminator != b'01':
         raise UnreadableSymbolException('Expected 01 at {}, got {}'.format(hex(start), terminator))
     if handle.debug:
-        print('finished magic 2 at {}'.format(hex(handle.file_handle.tell())))
+        print('finished magic 2 at {}'.format(hex(handle.file_handle.tell()-1)))
+
+def read_magic_3(handle):
+    """
+    Consumes an expected magic sequence (3), of unknown purpose
+    """
+    magic_3 = binascii.hexlify(handle.file_handle.read(18))
+    if magic_3 != b'883d531a0ad211b27f0000f878229e010001':
+        raise UnreadableSymbolException('Differing magic string 3: {} at {}'.format(magic_3, hex(handle.file_handle.tell()-18)))
+
+    if handle.debug:
+        print('finished magic 3 at {}'.format(hex(handle.file_handle.tell()-1)))
+
 
 
 def consume_padding(file_handle):
@@ -351,6 +363,32 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         start = handle.file_handle.tell()
         if handle.debug:
             print('scanning for end markers from {}'.format(hex(start)))
+
+        if binascii.hexlify(handle.file_handle.read(1)) == b'f5':
+            if handle.debug:
+                print('detected end markers at {}'.format(hex(handle.file_handle.tell()-1)))
+            read_magic_3(handle)
+            handle.file_handle.read(4)
+            read_magic_3(handle)
+            self.has_start_marker = bool(unpack("<B", handle.file_handle.read(1))[0])
+            if handle.debug:
+                print('detected {} at {}'.format('start marker' if self.has_start_marker else 'no start marker', hex(handle.file_handle.tell()-1)))
+            handle.file_handle.read(3)
+
+            marker = create_object(handle)()
+            print(marker)
+            marker.read(handle)
+
+            unknown = binascii.hexlify(handle.file_handle.read(2))
+            if unknown != b'ffff':
+                raise UnreadableSymbolException('Differing unknown byte at {}'.format(hex(handle.file_handle.tell()-2)))
+
+            # next bit is the number of doubles coming next
+            bits = unpack("<L", handle.file_handle.read(4))[0]
+            print(bits)
+            for i in range(bits):
+                unknown = unpack("<d", handle.file_handle.read(8))[0]
+                print(unknown)
 
 
 class FillSymbolLayer(SymbolLayer):
