@@ -169,9 +169,12 @@ class DictionaryConverter(Converter):
             'marker_flip_all': layer.marker_flip_all,
             'marker_positions': layer.marker_positions
         }
-        if isinstance(layer.marker, (MarkerSymbolLayer)):
+        if isinstance(layer.marker, (SymbolLayer)):
             marker_converter = DictionaryConverter()
             out['marker'] = marker_converter.convert_symbol_layer(layer.marker)
+        elif isinstance(layer.marker, (Symbol)):
+            marker_converter = DictionaryConverter()
+            out['marker'] = marker_converter.convert_symbol(layer.marker)
 
         return out
 
