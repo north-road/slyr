@@ -401,6 +401,19 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
             self.marker = create_object(handle)()
             self.marker.read(handle)
 
+            if issubclass(self.marker.__class__, SymbolLayer):
+                unknown = binascii.hexlify(handle.file_handle.read(2))
+                if unknown != b'ffff':
+                    raise UnreadableSymbolException(
+                        'Differing unknown byte at {}'.format(hex(handle.file_handle.tell() - 2)))
+            else:
+                # ewwwwww
+                while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
+                    pass
+                while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
+                    pass
+                handle.file_handle.read(5)
+
             # next bit is the number of doubles coming next
             marker_number_positions = unpack("<L", handle.file_handle.read(4))[0]
             if handle.debug:
