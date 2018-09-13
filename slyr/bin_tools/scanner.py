@@ -320,7 +320,7 @@ class Magic3Match(ObjectMatch):
         return Fore.LIGHTMAGENTA_EX
 
     def value(self):
-        return 'f5883d531a0ad211b27f0000f878229e'
+        return '883d531a0ad211b27f0000f878229e010001'
 
 
 class Magic3Scan(ObjectScan):
@@ -330,9 +330,9 @@ class Magic3Scan(ObjectScan):
 
     def check_handle(self, file_handle):
         try:
-            magic = binascii.hexlify(file_handle.read(16))
-            if magic == b'f5883d531a0ad211b27f0000f878229e':
-                return Magic3Match(file_handle.tell() - 16, 16)
+            magic = binascii.hexlify(file_handle.read(18))
+            if magic == b'883d531a0ad211b27f0000f878229e010001':
+                return Magic3Match(file_handle.tell() - 18, 18)
         except:  # nopep8
             return None
 
