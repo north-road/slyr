@@ -151,7 +151,8 @@ class ObjectCodeScan(ObjectScan):
         b'00e6': 'CharacterMarkerSymbolLayer',
         b'02e6': 'PictureMarkerSymbolLayer',
         b'09e6': 'GradientFillSymbolLayer',
-        b'3194': 'ArrowMarkerSymbolLayer'
+        b'3194': 'ArrowMarkerSymbolLayer',
+        b'fde5': 'MarkerLineSymbolLayer'
     }
 
     def check_handle(self, file_handle):
