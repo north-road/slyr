@@ -31,6 +31,10 @@ def read_color_model(file_handle):
         return 'rgb'
     elif binascii.hexlify(m) == b'92':
         return 'hsv'
+    elif binascii.hexlify(m) == b'93':
+        return 'rgb'  # technically "named" colors, but internally treated as RGB
+    elif binascii.hexlify(m) == b'95':
+        return 'rgb'  # technically "gray" colors, but internally treated as RGB
     elif binascii.hexlify(m) == b'97':
         return 'cmyk'
     else:

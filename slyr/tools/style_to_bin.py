@@ -30,7 +30,7 @@ args = parser.parse_args()
 styles = [(args.file, Extractor.FILL_SYMBOLS)]
 output_path = args.destination
 
-for symbol_type in [Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS]:
+for symbol_type in [Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS, Extractor.COLORS]:
 
     raw_symbols = Extractor.extract_styles(args.file, symbol_type)
     print('Found {} symbols of type "{}"\n\n'.format(len(raw_symbols), symbol_type))
