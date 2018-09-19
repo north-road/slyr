@@ -141,18 +141,21 @@ class ObjectCodeScan(ObjectScan):
     Scans for encoded object types
     """
     OBJECT_DICT = {
-        b'04e6': 'FillSymbol',
-        b'ffe5': 'MarkerSymbol',
-        b'fae5': 'LineSymbol',
         b'f9e5': 'SimpleLineSymbolLayer',
+        b'fae5': 'LineSymbol',
         b'fbe5': 'CartographicLineSymbolLayer',
-        b'03e6': 'SimpleFillSymbolLayer',
+        b'fce5': 'HashLineSymbolLayer',
+        b'fde5': 'MarkerLineSymbolLayer',
         b'fee5': 'SimpleMarkerSymbolLayer',
+        b'ffe5': 'MarkerSymbol',
         b'00e6': 'CharacterMarkerSymbolLayer',
         b'02e6': 'PictureMarkerSymbolLayer',
+        b'03e6': 'SimpleFillSymbolLayer',
+        b'04e6': 'FillSymbol',
+        b'06e6': 'LineFillSymbolLayer',
+        b'08e6': 'MarkerFillSymbolLayer',
         b'09e6': 'GradientFillSymbolLayer',
         b'3194': 'ArrowMarkerSymbolLayer',
-        b'fde5': 'MarkerLineSymbolLayer'
     }
 
     def check_handle(self, file_handle):
