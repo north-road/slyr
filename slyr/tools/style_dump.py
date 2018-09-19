@@ -8,6 +8,7 @@ import argparse
 from io import BytesIO
 from slyr.bintools.extractor import Extractor
 from slyr.parser.symbol_parser import read_symbol, UnreadableSymbolException
+from slyr.parser.color_parser import read_color_and_model
 
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="style file to extract")
@@ -16,7 +17,7 @@ args = parser.parse_args()
 total = 0
 unreadable = []
 
-for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS):
+for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS, Extractor.COLORS):
     print('{}:{}'.format(args.file, symbol_type))
 
     raw_symbols = Extractor.extract_styles(args.file, symbol_type)
@@ -29,12 +30,16 @@ for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MA
                                                            symbol[Extractor.TAGS]))
 
         handle = BytesIO(symbol[Extractor.BLOB])
-        try:
-            symbol_properties = read_symbol(file_handle=handle)
-            print(symbol_properties)
-        except UnreadableSymbolException as e:
-            print('\t**Symbol could not be parsed!:\n\t{}'.format(e))
-            unreadable.append(symbol[Extractor.NAME])
+        if symbol_type == Extractor.COLORS:
+            color_model, color = read_color_and_model(handle)
+            print(color_model, color)
+        else:
+            try:
+                symbol_properties = read_symbol(file_handle=handle)
+                print(symbol_properties)
+            except UnreadableSymbolException as e:
+                print('\t**Symbol could not be parsed!:\n\t{}'.format(e))
+                unreadable.append(symbol[Extractor.NAME])
         print('\n\n')
         total += 1
 

@@ -16,6 +16,7 @@ class Extractor:
     __NEWLINE = b'!!newline!!'
     __DELIMITER = b',,,,,,,'
 
+    COLORS = 'Colors'
     FILL_SYMBOLS = 'Fill symbols'
     LINE_SYMBOLS = 'Line symbols'
     MARKER_SYMBOLS = 'Marker symbols'
