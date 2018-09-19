@@ -23,7 +23,8 @@ from slyr.parser.symbol_parser import (
     MarkerSymbolLayer,
     SimpleMarkerSymbolLayer,
     CharacterMarkerSymbolLayer,
-    ArrowMarkerSymbolLayer
+    ArrowMarkerSymbolLayer,
+    MarkerLineSymbolLayer
 )
 
 
@@ -131,8 +132,10 @@ class DictionaryConverter(Converter):
         """
         if isinstance(layer, SimpleLineSymbolLayer):
             return DictionaryConverter.convert_simple_line_symbol_layer(layer)
-        if isinstance(layer, CartographicLineSymbolLayer):
+        elif isinstance(layer, CartographicLineSymbolLayer):
             return DictionaryConverter.convert_cartographic_line_symbol_layer(layer)
+        elif isinstance(layer, MarkerLineSymbolLayer):
+            return DictionaryConverter.convert_marker_line_symbol_layer(layer)
         else:
             raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
@@ -175,6 +178,30 @@ class DictionaryConverter(Converter):
         elif isinstance(layer.marker, (Symbol)):
             marker_converter = DictionaryConverter()
             out['marker'] = marker_converter.convert_symbol(layer.marker)
+
+        return out
+
+    @staticmethod
+    def convert_marker_line_symbol_layer(layer: MarkerLineSymbolLayer) -> dict:
+        """
+        Converts a MarkerLineSymbolLayer
+        """
+        out = {
+            'color': DictionaryConverter.convert_color(layer.color),
+            'color_model': layer.color_model,
+            'offset': layer.offset,
+            'cap': layer.cap,
+            'join': layer.join,
+            'pattern_interval': layer.pattern_interval,
+            'pattern_parts': layer.pattern_parts,
+            'pattern_marker': None
+        }
+        if isinstance(layer.pattern_marker, (SymbolLayer)):
+            marker_converter = DictionaryConverter()
+            out['pattern_marker'] = marker_converter.convert_symbol_layer(layer.pattern_marker)
+        elif isinstance(layer.pattern_marker, (Symbol)):
+            marker_converter = DictionaryConverter()
+            out['pattern_marker'] = marker_converter.convert_symbol(layer.pattern_marker)
 
         return out
 
