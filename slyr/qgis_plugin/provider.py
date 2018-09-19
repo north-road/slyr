@@ -25,7 +25,7 @@ SLYR QGIS Processing provider
 
 from qgis.core import QgsProcessingProvider
 from processing.core.ProcessingConfig import ProcessingConfig, Setting
-from slyr.qgis_plugin.algorithms import StyleToQgisXml
+from slyr.qgis_plugin.algorithms import StyleToQgisXml, StyleToGpl
 from slyr.qgis_plugin.gui_utils import GuiUtils
 
 
@@ -51,7 +51,7 @@ class SlyrProvider(QgsProcessingProvider):
         ProcessingConfig.removeSetting('MDB_PATH')
 
     def loadAlgorithms(self):  # pylint: disable=missing-docstring
-        for alg in [StyleToQgisXml]:
+        for alg in [StyleToQgisXml, StyleToGpl]:
             self.addAlgorithm(alg())
 
     def id(self):  # pylint: disable=missing-docstring
