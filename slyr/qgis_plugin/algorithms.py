@@ -23,6 +23,7 @@
 SLYR QGIS Processing algorithms
 """
 
+import os
 from io import BytesIO
 from qgis.core import (QgsProcessingAlgorithm,
                        QgsProcessingParameterFile,
@@ -33,7 +34,9 @@ from processing.core.ProcessingConfig import ProcessingConfig
 
 from slyr.bintools.extractor import Extractor
 from slyr.parser.symbol_parser import read_symbol, UnreadableSymbolException
+from slyr.parser.color_parser import read_color_and_model, InvalidColorException
 from slyr.converters.qgis import (Symbol_to_QgsSymbol,
+                                  symbol_color_to_qcolor,
                                   NotImplementedException)
 
 
@@ -165,5 +168,100 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 results[self.UNREADABLE_MARKER_SYMBOLS] = unreadable
 
         style.exportXml(output_file)
+        results[self.OUTPUT] = output_file
+        return results
+
+
+class StyleToGpl(QgsProcessingAlgorithm):
+    """
+    Converts .style databases to GPL color palette files
+    """
+
+    INPUT = 'INPUT'
+    OUTPUT = 'OUTPUT'
+
+    COLOR_COUNT = 'COLOR_COUNT'
+    UNREADABLE_COLOR_COUNT = 'UNREADABLE_COLOR_COUNT'
+
+    def createInstance(self):  # pylint: disable=missing-docstring
+        return StyleToGpl()
+
+    def name(self):  # pylint: disable=missing-docstring
+        return 'styletogpl'
+
+    def displayName(self):  # pylint: disable=missing-docstring
+        return 'Convert ESRI style to GPL color palette'
+
+    def shortDescription(self):  # pylint: disable=missing-docstring
+        return 'Converts ESRI style database to a GPL format color palette file.'
+
+    def group(self):  # pylint: disable=missing-docstring
+        return 'Style databases'
+
+    def groupId(self):  # pylint: disable=missing-docstring
+        return 'style'
+
+    def shortHelpString(self):  # pylint: disable=missing-docstring
+        return "Converts ESRI style database to a GPL format color palette file, extracting all color entities " \
+               "saved in the style."
+
+    def initAlgorithm(self, config=None):  # pylint: disable=missing-docstring,unused-argument
+        self.addParameter(QgsProcessingParameterFile(
+            self.INPUT, 'Style database', extension='style'))
+
+        self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
+                                                                'Destination GPL file', fileFilter="GPL files (*.gpl)"))
+
+        self.addOutput(QgsProcessingOutputNumber(self.COLOR_COUNT, 'Color Count'))
+        self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_COLOR_COUNT, 'Unreadable Color Count'))
+
+    def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements
+        input_file = self.parameterAsString(parameters, self.INPUT, context)
+        output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
+
+        mdbtools_folder = ProcessingConfig.getSetting('MDB_PATH')
+
+        results = {}
+        colors = []
+
+        _, file_name = os.path.split(input_file)
+        file_name, _ = os.path.splitext(file_name)
+
+        feedback.pushInfo('Importing colors from {}'.format(input_file))
+
+        raw_colors = Extractor.extract_styles(input_file, Extractor.COLORS, mdbtools_path=mdbtools_folder)
+        feedback.pushInfo('Found {} colors'.format(len(raw_colors)))
+
+        unreadable = 0
+        for index, raw_color in enumerate(raw_colors):
+            feedback.setProgress(index / len(raw_colors) * 100)
+            if feedback.isCanceled():
+                break
+
+            name = raw_color[Extractor.NAME]
+            feedback.pushInfo('{}/{}: {}'.format(index + 1, len(raw_colors), name))
+
+            handle = BytesIO(raw_color[Extractor.BLOB])
+            try:
+                _, color = read_color_and_model(handle)
+            except InvalidColorException:
+                feedback.reportError('Error reading color {}'.format(name))
+                unreadable += 1
+                continue
+
+            qcolor = symbol_color_to_qcolor(color)
+            colors.append((name, qcolor))
+
+        results[self.COLOR_COUNT] = len(raw_colors)
+        results[self.UNREADABLE_COLOR_COUNT] = unreadable
+
+        with open(output_file, 'wt') as f:
+            f.write('GIMP Palette\n')
+            f.write('Name: {}\n'.format(file_name))
+            f.write('Columns: 4\n')
+            f.write('#\n')
+            for c in colors:
+                f.write('{} {} {} {}\n'.format(c[1].red(), c[1].green(), c[1].blue(), c[0]))
+
         results[self.OUTPUT] = output_file
         return results
