@@ -19,7 +19,6 @@ class ObjectRegistry:
         '7914e602-c892-11d0-8bb6-080009ee4e41': 'PictureMarkerSymbol',
         'b65a3e74-2993-11d1-9a43-0080c7ec5c96': 'TextSymbol',
         '0be35203-8f91-11ce-9de3-00aa004bb851': 'Font',
-        '41093a71-cce1-11d0-bfaa-0080c7e24280': 'EsriDisplay.Template.1'
     }
 
     def __init__(self):
@@ -35,6 +34,8 @@ class ObjectRegistry:
         """
         Creates a new object of the type associated with guid
         """
+        if guid == '00000000-0000-0000-0000-000000000000':
+            return None
         if guid in self.NOT_IMPLEMENTED_GUIDS:
             raise NotImplementedException('{} are not implemented yet'.format(self.NOT_IMPLEMENTED_GUIDS[guid]))
         elif guid not in self.objects:
