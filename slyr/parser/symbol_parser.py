@@ -759,7 +759,6 @@ class LineSymbol(Symbol):
             print('detected {} layers at {}'.format(number_layers, hex(handle.file_handle.tell() - 4)))
 
         for i in range(number_layers):
-            consume_padding(handle.file_handle)
             layer = LineSymbolLayer.create(handle)
             if layer:
                 layer.read(handle)
@@ -854,9 +853,16 @@ class MarkerSymbol(Symbol):
 
     def _read(self, handle):
         # consume section of unknown purpose
-        while not binascii.hexlify(handle.file_handle.read(1)) == b'40':
-            pass
-        consume_padding(handle.file_handle)
+        unknown_size = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('found unknown size {} at {}'.format(unknown_size, hex(handle.file_handle.tell() - 8)))
+
+        unknown_object = create_object(handle)
+        if unknown_object is not None:
+            assert False, unknown_object
+        unknown_size = unpack("<d", handle.file_handle.read(8))[0]
+        if unknown_size != 0.0 and handle.debug:
+            print('found unknown size {} at {}'.format(unknown_size, hex(handle.file_handle.tell() - 8)))
 
         self.color_model, self.color = read_color_and_model(handle.file_handle)
 
