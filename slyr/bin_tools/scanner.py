@@ -11,6 +11,7 @@ from colorama import Fore
 
 from slyr.parser.symbol_parser import read_string, Handle
 from slyr.parser.color_parser import read_color_and_model, InvalidColorException
+from slyr.parser.object_registry import REGISTRY
 
 
 class ObjectScan:
@@ -115,7 +116,7 @@ class StringScan(ObjectScan):
             return None
 
 
-class ObjectCodeMatch(ObjectMatch):
+class GuidCodeMatch(ObjectMatch):
     """
     Object code match
     """
@@ -126,7 +127,7 @@ class ObjectCodeMatch(ObjectMatch):
 
     @staticmethod
     def precedence():
-        return 50
+        return 100
 
     @staticmethod
     def color():
@@ -136,35 +137,27 @@ class ObjectCodeMatch(ObjectMatch):
         return self.found_type
 
 
-class ObjectCodeScan(ObjectScan):
+class GuidCodeScan(ObjectScan):
     """
-    Scans for encoded object types
+    Scans for GUIDs
     """
-    OBJECT_DICT = {
-        b'f9e5': 'SimpleLineSymbolLayer',
-        b'fae5': 'LineSymbol',
-        b'fbe5': 'CartographicLineSymbolLayer',
-        b'fce5': 'HashLineSymbolLayer',
-        b'fde5': 'MarkerLineSymbolLayer',
-        b'fee5': 'SimpleMarkerSymbolLayer',
-        b'ffe5': 'MarkerSymbol',
-        b'00e6': 'CharacterMarkerSymbolLayer',
-        b'02e6': 'PictureMarkerSymbolLayer',
-        b'03e6': 'SimpleFillSymbolLayer',
-        b'04e6': 'FillSymbol',
-        b'06e6': 'LineFillSymbolLayer',
-        b'08e6': 'MarkerFillSymbolLayer',
-        b'09e6': 'GradientFillSymbolLayer',
-        b'3194': 'ArrowMarkerSymbolLayer',
-    }
 
     def check_handle(self, file_handle):
         try:
-            object_type = binascii.hexlify(file_handle.read(2))
-            if object_type in self.OBJECT_DICT:
-                return ObjectCodeMatch(file_handle.tell() - 2, 2, self.OBJECT_DICT[object_type])
+            guid_bin = binascii.hexlify(file_handle.read(16))
+            guid = REGISTRY.hex_to_guid(guid_bin)
+
+            # check first in unimplemented types
+            if guid in REGISTRY.NOT_IMPLEMENTED_GUIDS:
+                return GuidCodeMatch(file_handle.tell() - 16, 16, REGISTRY.NOT_IMPLEMENTED_GUIDS[guid])
+
+            obj = REGISTRY.create_object(guid)
+            if obj is None:
+                return None
+            return GuidCodeMatch(file_handle.tell() - 16, 16, str(obj.__class__.__name__))
         except:  # nopep8
             return None
+
 
 
 class DoubleMatch(ObjectMatch):
@@ -238,109 +231,6 @@ class IntScan(ObjectScan):
             return None
 
 
-class Magic1Match(ObjectMatch):
-    """
-    Match for magic number 1
-    """
-
-    def __init__(self, match_start, match_length, match_string):
-        super().__init__(match_start, match_length)
-        self.match_string = match_string
-
-    @staticmethod
-    def precedence():
-        return 25
-
-    @staticmethod
-    def color():
-        return Fore.BLUE
-
-    def value(self):
-        return self.match_string
-
-
-class Magic1Scan(ObjectScan):
-    """
-    Scans for magic number 1
-    """
-
-    def check_handle(self, file_handle):
-        try:
-            magic = binascii.hexlify(file_handle.read(14))
-            if magic == b'147992c8d0118bb6080009ee4e41' or magic == b'53886ee0d111b2770000f878229e':
-                return Magic1Match(file_handle.tell() - 14, 14, magic.decode('UTF-8'))
-        except:  # nopep8
-            return None
-
-
-class Magic2Match(ObjectMatch):
-    """
-    Magic number 2 match
-    """
-
-    def __init__(self, match_start, match_length):
-        super().__init__(match_start, match_length)
-
-    @staticmethod
-    def precedence():
-        return 25
-
-    @staticmethod
-    def color():
-        return Fore.LIGHTBLUE_EX
-
-    def value(self):
-        return 'c4e97e23d1d0118383080009b996cc'
-
-
-class Magic2Scan(ObjectScan):
-    """
-    Scans for magic number 2
-    """
-
-    def check_handle(self, file_handle):
-        try:
-            magic = binascii.hexlify(file_handle.read(15))
-            if magic == b'c4e97e23d1d0118383080009b996cc':
-                return Magic2Match(file_handle.tell() - 15, 15)
-        except:  # nopep8
-            return None
-
-
-class Magic3Match(ObjectMatch):
-    """
-    Magic number 3 match
-    """
-
-    def __init__(self, match_start, match_length):
-        super().__init__(match_start, match_length)
-
-    @staticmethod
-    def precedence():
-        return 25
-
-    @staticmethod
-    def color():
-        return Fore.LIGHTMAGENTA_EX
-
-    def value(self):
-        return '883d531a0ad211b27f0000f878229e0100'
-
-
-class Magic3Scan(ObjectScan):
-    """
-    Scans for magic number 3
-    """
-
-    def check_handle(self, file_handle):
-        try:
-            magic = binascii.hexlify(file_handle.read(17))
-            if magic == b'883d531a0ad211b27f0000f878229e0100':
-                return Magic3Match(file_handle.tell() - 17, 17)
-        except:  # nopep8
-            return None
-
-
 class ColorMatch(ObjectMatch):
     """
     Color match
@@ -378,11 +268,11 @@ class ColorScan(ObjectScan):
     def check_handle(self, file_handle):
         try:
             start = file_handle.tell()
-            color_model, color = read_color_and_model(file_handle, True)
+            color_model, color = read_color_and_model(file_handle, False)
             return ColorMatch(start, file_handle.tell() - start, color_model, color)
         except InvalidColorException:  # nopep8
             return None
 
 
-SCANNERS = [StringScan(), ObjectCodeScan(), DoubleScan(), IntScan(), Magic1Scan(), Magic2Scan(), Magic3Scan(),
+SCANNERS = [StringScan(), GuidCodeScan(), DoubleScan(), IntScan(),
             ColorScan()]

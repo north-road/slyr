@@ -4,6 +4,7 @@ from struct import (pack,
                     unpack)
 import binascii
 from slyr.parser.color_lut import COLOR_LUT
+from slyr.parser.object_registry import REGISTRY, NotImplementedException, UnknownGuidException
 
 """
 Extracts colors from a style blob
@@ -11,6 +12,39 @@ Extracts colors from a style blob
 
 
 class InvalidColorException(Exception):
+    pass
+
+
+class Color:
+
+    def __init__(self):
+        self.model = ''
+
+
+class RgbColor(Color):
+
+    def __init__(self):
+        super().__init__()
+        self.model = 'rgb'
+
+
+class CMYKColor(Color):
+
+    def __init__(self):
+        super().__init__()
+        self.model = 'cmyk'
+
+
+class HSVColor(RgbColor):
+
+    def __init__(self):
+        super().__init__()
+        self.model = 'hsv'
+
+class HSLColor(RgbColor):
+    pass
+
+class GrayColor(RgbColor):
     pass
 
 
@@ -32,7 +66,7 @@ def read_color_model(file_handle):
     elif binascii.hexlify(m) == b'92':
         return 'hsv'
     elif binascii.hexlify(m) == b'93':
-        return 'rgb'  # technically "named" colors, but internally treated as RGB
+        return 'rgb'  # technically HSL or "named" colors, but internally treated as RGB
     elif binascii.hexlify(m) == b'95':
         return 'rgb'  # technically "gray" colors, but internally treated as RGB
     elif binascii.hexlify(m) == b'97':
@@ -202,9 +236,6 @@ def read_magic_2(handle, color_model, debug=False):
     """
     Consumes an expected magic sequence (2), of unknown purpose
     """
-    magic_2 = binascii.hexlify(handle.read(15))
-    if magic_2 != b'c4e97e23d1d0118383080009b996cc':
-        raise InvalidColorException('Differing magic string 2: {}'.format(magic_2))
 
     if color_model == 'rgb':
         if debug:
@@ -247,7 +278,25 @@ def read_color_and_model(handle, debug=False):
     """
 
     start = handle.tell()
-    color_model = read_color_model(handle)
+
+    if debug:
+        print('Reading color header at {}'.format(hex(handle.tell())))
+    guid_bin = binascii.hexlify(handle.read(16))
+    guid = REGISTRY.hex_to_guid(guid_bin)
+    if debug:
+        print('Found guid of {}'.format(guid))
+
+    try:
+        color_object = REGISTRY.create_object(guid)
+    except NotImplementedException as e:
+        raise InvalidColorException(e)
+    except UnknownGuidException as e:
+        raise InvalidColorException(e)
+
+    if not issubclass(color_object.__class__, Color):
+        raise InvalidColorException('Expected color, got {}'.format(color_object.__class__.__name__))
+
+    color_model = color_object.model
     if debug:
         print('Read color model ({}) at {}'.format(color_model, hex(start)))
 
@@ -259,3 +308,12 @@ def read_color_and_model(handle, debug=False):
         print('Read color ({}) at {} {}'.format(color_model, hex(start), color))
 
     return color_model, color
+
+
+
+
+REGISTRY.register('7ee9c496-d123-11d0-8383-080009b996cc', RgbColor)
+REGISTRY.register('7ee9c497-d123-11d0-8383-080009b996cc', CMYKColor)
+REGISTRY.register('7ee9c495-d123-11d0-8383-080009b996cc', GrayColor)
+REGISTRY.register('7ee9c493-d123-11d0-8383-080009b996cc', HSLColor)
+REGISTRY.register('7ee9c492-d123-11d0-8383-080009b996cc', HSVColor)

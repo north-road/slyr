@@ -24,7 +24,10 @@ from slyr.parser.symbol_parser import (
     SimpleMarkerSymbolLayer,
     CharacterMarkerSymbolLayer,
     ArrowMarkerSymbolLayer,
-    MarkerLineSymbolLayer
+    MarkerLineSymbolLayer,
+LineDecoration,
+SimpleLineDecoration,
+LineTemplate
 )
 
 
@@ -140,6 +143,22 @@ class DictionaryConverter(Converter):
             raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
     @staticmethod
+    def convert_decoration(decoration: LineDecoration) -> dict:
+        out = {
+            'decorations':[]
+        }
+        for d in decoration.decorations:
+
+            decoration_converter = DictionaryConverter()
+            if isinstance(d, (LineDecoration)):
+                marker_converter = DictionaryConverter()
+                out['decorations'].append(marker_converter.convert_decoration(d))
+            elif isinstance(d, (SimpleLineDecoration)):
+                marker_converter = DictionaryConverter()
+                out['decorations'].append(marker_converter.convert_simple_line_decoration(d))
+        return out
+
+    @staticmethod
     def convert_simple_line_symbol_layer(layer: SimpleLineSymbolLayer) -> dict:
         """
         Converts a SimpleLineSymbolLayer
@@ -149,6 +168,39 @@ class DictionaryConverter(Converter):
             'color_model': layer.color_model,
             'width': layer.width,
             'line_type': layer.line_type
+        }
+        return out
+
+    @staticmethod
+    def convert_simple_line_decoration(layer: SimpleLineDecoration) -> dict:
+        """
+        Converts a SimpleLineDecoration
+        """
+        out = {
+            'fixed_angle': layer.fixed_angle,
+            'flip_first': layer.flip_first,
+            'flip_all': layer.flip_all,
+            'marker': None,
+            'positions':layer.marker_positions
+        }
+
+        if isinstance(layer.marker, (SymbolLayer)):
+            marker_converter = DictionaryConverter()
+            out['marker'] = marker_converter.convert_symbol_layer(layer.marker)
+        elif isinstance(layer.marker, (Symbol)):
+            marker_converter = DictionaryConverter()
+            out['marker'] = marker_converter.convert_symbol(layer.marker)
+
+        return out
+
+    @staticmethod
+    def convert_template(template: LineTemplate) -> dict:
+        """
+        Converts a CartographicLineSymbolLayer
+        """
+        out = {
+            'pattern_interval': template.pattern_interval,
+            'pattern_parts': template.pattern_parts
         }
         return out
 
@@ -164,20 +216,20 @@ class DictionaryConverter(Converter):
             'offset': layer.offset,
             'cap': layer.cap,
             'join': layer.join,
-            'pattern_interval': layer.pattern_interval,
-            'pattern_parts': layer.pattern_parts,
-            'marker': None,
-            'marker_fixed_angle': layer.marker_fixed_angle,
-            'marker_flip_first': layer.marker_flip_first,
-            'marker_flip_all': layer.marker_flip_all,
-            'marker_positions': layer.marker_positions
+            'template': None,
+            'decoration': None
         }
-        if isinstance(layer.marker, (SymbolLayer)):
-            marker_converter = DictionaryConverter()
-            out['marker'] = marker_converter.convert_symbol_layer(layer.marker)
-        elif isinstance(layer.marker, (Symbol)):
-            marker_converter = DictionaryConverter()
-            out['marker'] = marker_converter.convert_symbol(layer.marker)
+        if layer.template is not None:
+            converter = DictionaryConverter()
+            out['template'] = converter.convert_template(layer.template)
+
+        if layer.decoration is not None:
+            if isinstance(layer.decoration, (LineDecoration)):
+                marker_converter = DictionaryConverter()
+                out['decoration'] = marker_converter.convert_decoration(layer.decoration)
+            elif isinstance(layer.decoration, (SimpleLineDecoration)):
+                marker_converter = DictionaryConverter()
+                out['decoration'] = marker_converter.convert_simple_line_decoration(layer.decoration)
 
         return out
 

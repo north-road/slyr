@@ -3,6 +3,7 @@
 from struct import unpack
 from slyr.parser.color_parser import (read_color_and_model,
                                       InvalidColorException)
+from slyr.parser.object_registry import REGISTRY, UnknownGuidException, NotImplementedException
 import binascii
 
 """
@@ -43,111 +44,6 @@ def read_string(handle):
     return string[:-1]
 
 
-def guid_to_hex(guid: str):
-    # I don't understand the reason why, but GUIDs are stored in a strange format
-    # in the blobs. E.g. a GUID of
-    # 7914e603-c892-11d0-8bb6-080009ee4e41
-    # is stored as
-    # 03e6147992c8d0118bb6080009ee4e41
-    # This function converts GUIDs to the blob format
-
-    guid = guid.replace('-', '')
-    bytes = b''
-    bytes += guid[6:8].encode()
-    bytes += guid[4:6].encode()
-    bytes += guid[2:4].encode()
-    bytes += guid[0:2].encode()
-    bytes += guid[10:12].encode()
-    bytes += guid[8:10].encode()
-    bytes += guid[14:16].encode()
-    bytes += guid[12:14].encode()
-    bytes += guid[16:].encode()
-    return bytes
-
-
-def hex_to_guid(hex_value) -> str:
-    """
-    Converts a binary value to a GUID
-    eg 03e6147992c8d0118bb6080009ee4e41
-    to 7914e603-c892-11d0-8bb6-080009ee4e41
-    """
-    res = ''
-    res += hex_value[6:8].decode()
-    res += hex_value[4:6].decode()
-    res += hex_value[2:4].decode()
-    res += hex_value[0:2].decode()
-    res += '-'
-    res += hex_value[10:12].decode()
-    res += hex_value[8:10].decode()
-    res += '-'
-    res += hex_value[14:16].decode()
-    res += hex_value[12:14].decode()
-    res += '-'
-    res += hex_value[16:20].decode()
-    res += '-'
-    res += hex_value[20:].decode()
-    return res
-
-
-def guid_to_object(guid):
-    GUIDS = {
-        '88539431-e06e-11d1-b277-0000f878229e': ArrowMarkerSymbolLayer,
-        '7914e5fb-c892-11d0-8bb6-080009ee4e41': CartographicLineSymbolLayer,
-        '7914e600-c892-11d0-8bb6-080009ee4e41': CharacterMarkerSymbolLayer,
-        # DotDensityFillSymbol: 9a1eba10-cdf9-11d3-81eb-0080c79f0371
-        # GradientFillSymbol: 7914e609-c892-11d0-8bb6-080009ee4e41
-        # HashLineSymbol: 7914e5fc-c892-11d0-8bb6-080009ee4e41
-        # LineFillSymbol: 7914e606-c892-11d0-8bb6-080009ee4e41
-        # MarkerFillSymbol: 7914e608-c892-11d0-8bb6-080009ee4e41
-        '7914e5fd-c892-11d0-8bb6-080009ee4e41': MarkerLineSymbolLayer,
-        '7914e604-c892-11d0-8bb6-080009ee4e41': FillSymbol,
-        '7914e5fa-c892-11d0-8bb6-080009ee4e41': LineSymbol,
-        '7914e5ff-c892-11d0-8bb6-080009ee4e41': MarkerSymbol,
-        # PictureFillSymbol: d842b082-330c-11d2-9168-0000f87808ee
-        # PictureLineSymbol: 22c8c5a1-84fc-11d4-834d-0080c79f0371
-        # PictureMarkerSymbol: 7914e602-c892-11d0-8bb6-080009ee4e41
-        '7914e603-c892-11d0-8bb6-080009ee4e41': SimpleFillSymbolLayer,
-        '7914e5f9-c892-11d0-8bb6-080009ee4e41': SimpleLineSymbolLayer,
-        '7914e5fe-c892-11d0-8bb6-080009ee4e41': SimpleMarkerSymbolLayer,
-        '533d88f5-0a1a-11d2-b27f-0000f878229e': LineDecoration,
-        '533d88f3-0a1a-11d2-b27f-0000f878229e': SimpleLineDecoration,
-        '539431ff-6e88-d1e0-11b2-770000f87822': SimpleLineDecoration, #### TODO - not correct???
-        # TextSymbol: b65a3e74-2993-11d1-9a43-0080c7ec5c96
-        # RgbColor: 7ee9c496-d123-11d0-8383-080009b996cc
-        # CmykColor: 7ee9c497-d123-11d0-8383-080009b996cc
-        # GrayColor: 7ee9c495-d123-11d0-8383-080009b996cc
-        # HlsColor: 7ee9c493-d123-11d0-8383-080009b996cc
-        # HsvColor: 7ee9c492-d123-11d0-8383-080009b996cc
-        # Font: 0be35203-8f91-11ce-9de3-00aa004bb851
-    }
-
-    NOT_IMPLEMENTED_GUIDS = {
-        '9a1eba10-cdf9-11d3-81eb-0080c79f0371': 'DotDensityFillSymbol',
-        '7914e609-c892-11d0-8bb6-080009ee4e41': 'GradientFillSymbol',
-        '7914e5fc-c892-11d0-8bb6-080009ee4e41': 'HashLineSymbol',
-        '7914e606-c892-11d0-8bb6-080009ee4e41': 'LineFillSymbol',
-        '7914e608-c892-11d0-8bb6-080009ee4e41': 'MarkerFillSymbol',
-        'd842b082-330c-11d2-9168-0000f87808ee': 'PictureFillSymbol',
-        '22c8c5a1-84fc-11d4-834d-0080c79f0371': 'PictureLineSymbol',
-        '7914e602-c892-11d0-8bb6-080009ee4e41': 'PictureMarkerSymbol',
-        'b65a3e74-2993-11d1-9a43-0080c7ec5c96': 'TextSymbol',
-        '7ee9c496-d123-11d0-8383-080009b996cc': 'RgbColor',
-        '7ee9c497-d123-11d0-8383-080009b996cc': 'CmykColor',
-        '7ee9c495-d123-11d0-8383-080009b996cc': 'GrayColor',
-        '7ee9c493-d123-11d0-8383-080009b996cc': 'HlsColor',
-        '7ee9c492-d123-11d0-8383-080009b996cc': 'HsvColor',
-        '0be35203-8f91-11ce-9de3-00aa004bb851': 'Font'
-    }
-
-    if guid in NOT_IMPLEMENTED_GUIDS:
-        raise UnreadableSymbolException('{} are not implemented yet'.format(NOT_IMPLEMENTED_GUIDS[guid]))
-
-    if guid not in GUIDS:
-        raise UnreadableSymbolException('Unknown GUID {}'.format(guid))
-
-    return GUIDS[guid]
-
-
 def create_object(handle):
     """
     Reads an object header and returns the corresponding object class
@@ -155,32 +51,101 @@ def create_object(handle):
     if handle.debug:
         print('Reading object header at {}'.format(hex(handle.file_handle.tell())))
     guid_bin = binascii.hexlify(handle.file_handle.read(16))
-    guid = hex_to_guid(guid_bin)
+    guid = REGISTRY.hex_to_guid(guid_bin)
     if handle.debug:
         print('Found guid of {}'.format(guid))
 
-    object_type = guid_to_object(guid)
-    return object_type
+    try:
+        res = REGISTRY.create_object(guid)
+        if handle.debug:
+            print('=={}'.format(res.__class__.__name__))
+        return res
+    except NotImplementedException as e:
+        raise UnreadableSymbolException(e)
+    except UnknownGuidException as e:
+        raise UnreadableSymbolException(e)
 
 
 class LineDecoration:
-    pass
+
+    def __init__(self):
+        self.decorations = []
+
+    def read(self, handle):
+        """
+        Reads the decoration information
+        """
+        handle.file_handle.read(2) # unknown -- maybe includes position as ratio?
+
+        # next bit is probably number of decorations?
+        count = unpack("<I", handle.file_handle.read(4))[0]
+        if handle.debug:
+            print('Count of decorations {} at {}'.format(count,hex(handle.file_handle.tell()-4)))
+
+        for i in range(count):
+            decoration = create_object(handle)
+            decoration.read(handle)
+            self.decorations.append(decoration)
 
 
 class SimpleLineDecoration:
-    pass
-
-def read_magic_3(handle):
     """
-    Consumes an expected magic sequence (3), of unknown purpose
+    ISimpleLineDecorationElement
     """
-    magic_3 = binascii.hexlify(handle.file_handle.read(16))
-    if magic_3 != b'883d531a0ad211b27f0000f878229e01':
-        raise UnreadableSymbolException(
-            'Differing magic string 3: {} at {}'.format(magic_3, hex(handle.file_handle.tell() - 16)))
 
-    if handle.debug:
-        print('finished magic 3 at {}'.format(hex(handle.file_handle.tell() - 1)))
+    def __init__(self):
+        super().__init__()
+        self.fixed_angle = False
+        self.flip_first = False
+        self.flip_all = False
+        self.marker = None
+        self.marker_positions = []
+
+    def read(self, handle):
+        """
+        Reads the decoration information
+        """
+        handle.file_handle.read(2) # unknown -- maybe includes position as ratio?
+
+        self.fixed_angle = not bool(unpack("<B", handle.file_handle.read(1))[0])
+        if handle.debug:
+            print('detected {} at {}'.format('fixed angle' if self.fixed_angle else 'not fixed angle',
+                                             hex(handle.file_handle.tell() - 1)))
+        self.flip_first = bool(unpack("<B", handle.file_handle.read(1))[0])
+        if handle.debug:
+            print('detected {} at {}'.format('flip first' if self.flip_first else 'no flip first',
+                                             hex(handle.file_handle.tell() - 1)))
+        self.flip_all = bool(unpack("<B", handle.file_handle.read(1))[0])
+        if handle.debug:
+            print('detected {} at {}'.format('flip all' if self.flip_all else 'no flip all',
+                                             hex(handle.file_handle.tell() - 1)))
+
+        handle.file_handle.read(2) # unknown -- maybe includes position as ratio?
+
+        self.marker = create_object(handle)
+        self.marker.read(handle)
+
+        if not issubclass(self.marker.__class__, SymbolLayer):
+            # TODO ewwwwww
+            while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
+                pass
+            while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
+                pass
+            handle.file_handle.read(5)
+
+        # next bit is the number of doubles coming next
+        marker_number_positions = unpack("<L", handle.file_handle.read(4))[0]
+        if handle.debug:
+            print('detected {} marker positions at {}'.format(marker_number_positions,
+                                                              hex(handle.file_handle.tell() - 4)))
+
+        # next bit is the positions themselves -- maybe we can infer this from the number of positions
+        # alone. E.g. 2 positions = 0, 1. 3 positions = 0, 0.5, 1
+        for i in range(marker_number_positions):
+            self.marker_positions.append(unpack("<d", handle.file_handle.read(8))[0])
+        if handle.debug:
+            print('marker positions are {}'.format(self.marker_positions))
+            print('ended decoration at {}'.format(hex(handle.file_handle.tell() - 1)))
 
 
 def consume_padding(file_handle):
@@ -237,7 +202,7 @@ class SymbolLayer:
         """
         Returns the symbol layer terminator, if present
         """
-        return [b'0d']
+        return [b'0d00000000000000']
 
     def read(self, handle):
         """
@@ -282,10 +247,10 @@ class LineSymbolLayer(SymbolLayer):
         Creates a LineSymbolLayer subclass from the specified file handle
         """
         layer_object = create_object(handle)
-        if not issubclass(layer_object, LineSymbolLayer) \
-                and not issubclass(layer_object, LineSymbol):
+        if not issubclass(layer_object.__class__, LineSymbolLayer) \
+                and not issubclass(layer_object.__class__, LineSymbol):
             raise UnreadableSymbolException('Expected LineSymbolLayer or LineSymbol, got {}'.format(layer_object))
-        return layer_object()
+        return layer_object
 
     @staticmethod
     def read_cap(file_handle):
@@ -313,61 +278,9 @@ class LineSymbolLayer(SymbolLayer):
 
     @staticmethod
     def read_end_markers(handle):
-        start_decoration = create_object(handle)
-
-        handle.file_handle.read(1)
-
-        unknown = unpack("<L", handle.file_handle.read(4))[0]
-        if handle.debug:
-            print('read unknown int of {} at {}'.format(unknown, hex(handle.file_handle.tell() - 4)))
-
-        handle.file_handle.read(1)
-
-        result = {}
-
-        end_decoration = create_object(handle)
-        handle.file_handle.read(1)
-        result['marker_fixed_angle'] = not bool(unpack("<B", handle.file_handle.read(1))[0])
-        if handle.debug:
-            print('detected {} at {}'.format('fixed angle' if result['marker_fixed_angle'] else 'not fixed angle',
-                                             hex(handle.file_handle.tell() - 1)))
-        result['marker_flip_first'] = bool(unpack("<B", handle.file_handle.read(1))[0])
-        if handle.debug:
-            print('detected {} at {}'.format('flip first' if result['marker_flip_first'] else 'no flip first',
-                                             hex(handle.file_handle.tell() - 1)))
-        result['marker_flip_all'] = bool(unpack("<B", handle.file_handle.read(1))[0])
-        if handle.debug:
-            print('detected {} at {}'.format('flip all' if result['marker_flip_all'] else 'no flip all',
-                                             hex(handle.file_handle.tell() - 1)))
-
-        handle.file_handle.read(2)
-        result['marker'] = create_object(handle)()
-        result['marker'].read(handle)
-
-        if not issubclass(result['marker'].__class__, SymbolLayer):
-            # TODO ewwwwww
-            while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
-                pass
-            while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
-                pass
-            handle.file_handle.read(5)
-
-        # next bit is the number of doubles coming next
-        marker_number_positions = unpack("<L", handle.file_handle.read(4))[0]
-        if handle.debug:
-            print('detected {} marker positions at {}'.format(marker_number_positions,
-                                                              hex(handle.file_handle.tell() - 4)))
-
-        # next bit is the positions themselves -- maybe we can infer this from the number of positions
-        # alone. E.g. 2 positions = 0, 1. 3 positions = 0, 0.5, 1
-        result['marker_positions'] = []
-        for i in range(marker_number_positions):
-            result['marker_positions'].append(unpack("<d", handle.file_handle.read(8))[0])
-        if handle.debug:
-            print('marker positions are {}'.format(result['marker_positions']))
-            print('ended carto marker at {}'.format(hex(handle.file_handle.tell() - 1)))
-
-        return result
+        line_decoration = create_object(handle)
+        line_decoration.read(handle)
+        return line_decoration
 
 
 class SimpleLineSymbolLayer(LineSymbolLayer):
@@ -389,6 +302,35 @@ class SimpleLineSymbolLayer(LineSymbolLayer):
         if handle.debug:
             print('read line type of {} at {}'.format(self.line_type, hex(handle.file_handle.tell() - 4)))
 
+class LineTemplate:
+
+    def __init__(self):
+        self.pattern_interval = 0
+        self.pattern_parts = []
+
+    def read(self, handle):
+        handle.file_handle.read(2)
+        self.pattern_interval = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('read interval of {} at {}'.format(self.pattern_interval, hex(handle.file_handle.tell() - 8)))
+
+        # symbol pattern
+        pattern_part_count = unpack("<L", handle.file_handle.read(4))[0]
+        if handle.debug:
+            print('pattern has {} parts at {}'.format(pattern_part_count, hex(handle.file_handle.tell() - 4)))
+
+        self.pattern_parts = []
+        for p in range(pattern_part_count):
+            filled_squares = unpack("<d", handle.file_handle.read(8))[0]
+            empty_squares = unpack("<d", handle.file_handle.read(8))[0]
+            self.pattern_parts.append([filled_squares, empty_squares])
+
+        if handle.debug:
+            print('deciphered cartographic line pattern ending at {}'.format(hex(handle.file_handle.tell())))
+            pattern = ''
+            for p in self.pattern_parts:
+                pattern += '-' * int(p[0]) + '.' * int(p[1])
+            print(pattern)
 
 class CartographicLineSymbolLayer(LineSymbolLayer):
     """
@@ -401,13 +343,8 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         self.cap = None
         self.join = None
         self.offset = None
-        self.pattern_interval = 0
-        self.pattern_parts = []
-        self.marker = None
-        self.marker_fixed_angle = False
-        self.marker_flip_first = False
-        self.marker_flip_all = False
-        self.marker_positions = []
+        self.template = None
+        self.decoration = None
 
     def padding(self):
         return 2
@@ -434,46 +371,18 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         self.offset = unpack("<d", handle.file_handle.read(8))[0]
         self.color_model, self.color = read_color_and_model(handle.file_handle, debug=handle.debug)
 
-        # 18 unknown bytes
-        binascii.hexlify(handle.file_handle.read(18))
-
-        self.pattern_interval = unpack("<d", handle.file_handle.read(8))[0]
-        if handle.debug:
-            print('read interval of {} at {}'.format(self.pattern_interval, hex(handle.file_handle.tell() - 8)))
-
-        # symbol pattern
-        pattern_part_count = unpack("<L", handle.file_handle.read(4))[0]
-        if handle.debug:
-            print('pattern has {} parts at {}'.format(pattern_part_count, hex(handle.file_handle.tell() - 4)))
-
-        self.pattern_parts = []
-        for p in range(pattern_part_count):
-            filled_squares = unpack("<d", handle.file_handle.read(8))[0]
-            empty_squares = unpack("<d", handle.file_handle.read(8))[0]
-            self.pattern_parts.append([filled_squares, empty_squares])
-
-        if handle.debug:
-            print('deciphered cartographic line pattern ending at {}'.format(hex(handle.file_handle.tell())))
-            pattern = ''
-            for p in self.pattern_parts:
-                pattern += '-' * int(p[0]) + '.' * int(p[1])
-            print(pattern)
+        self.template = create_object(handle)
+        if self.template is not None:
+            self.template.read(handle)
 
         # check for markers
         start = handle.file_handle.tell()
         if handle.debug:
             print('scanning for end markers from {}'.format(hex(start)))
 
-        if binascii.hexlify(handle.file_handle.read(1)) == b'f5':
-            if handle.debug:
-                print('detected end markers at {}'.format(hex(handle.file_handle.tell() - 1)))
-            handle.file_handle.seek(handle.file_handle.tell() - 1)
-            end_markers = self.read_end_markers(handle)
-            self.marker_fixed_angle = end_markers['marker_fixed_angle']
-            self.marker_flip_first = end_markers['marker_flip_first']
-            self.marker_flip_all = end_markers['marker_flip_all']
-            self.marker = end_markers['marker']
-            self.marker_positions = end_markers['marker_positions']
+        self.decoration = create_object(handle)
+        if self.decoration is not None:
+            self.decoration.read(handle)
 
 
 class MarkerLineSymbolLayer(LineSymbolLayer):
@@ -507,7 +416,7 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         if handle.debug:
             print('read offset of {} at {}'.format(self.offset, hex(handle.file_handle.tell() - 8)))
 
-        self.pattern_marker = create_object(handle)()
+        self.pattern_marker = create_object(handle)
         self.pattern_marker.read(handle)
         if handle.debug:
             print('back at marker line at {}'.format(hex(handle.file_handle.tell())))
@@ -572,9 +481,9 @@ class FillSymbolLayer(SymbolLayer):
         Creates a FillSymbolLayer subclass from the specified file handle
         """
         layer_object = create_object(handle)
-        if not issubclass(layer_object, FillSymbolLayer):
+        if not issubclass(layer_object.__class__, FillSymbolLayer):
             raise UnreadableSymbolException('Expected FillSymbolLayer, got {}'.format(layer_object))
-        return layer_object()
+        return layer_object
 
 
 class SimpleFillSymbolLayer(FillSymbolLayer):
@@ -629,9 +538,9 @@ class MarkerSymbolLayer(SymbolLayer):
         Creates a MarkerSymbolLayer subclass from the specified file handle
         """
         layer_object = create_object(handle)
-        if not issubclass(layer_object, MarkerSymbolLayer):
+        if not issubclass(layer_object.__class__, MarkerSymbolLayer):
             raise UnreadableSymbolException('Expected MarkerSymbolLayer, got {}'.format(layer_object))
-        return layer_object()
+        return layer_object
 
 
 class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
@@ -832,12 +741,8 @@ class Symbol:
         pass
 
     def read(self, handle):
-        handle.file_handle.read(self.padding())
-        #        consume_padding(handle.file_handle)
+        handle.file_handle.read(10)
         self._read(handle)
-
-    def padding(self):
-        return 0
 
 
 class LineSymbol(Symbol):
@@ -847,9 +752,6 @@ class LineSymbol(Symbol):
 
     def __init__(self):
         Symbol.__init__(self)
-
-    def padding(self):
-        return 10
 
     def _read(self, handle):
         number_layers = unpack("<L", handle.file_handle.read(4))[0]
@@ -907,9 +809,6 @@ class FillSymbol(Symbol):
     def __init__(self):
         Symbol.__init__(self)
 
-    def padding(self):
-        return 10
-
     def _read(self, handle):
         self.color_model, self.color = read_color_and_model(handle.file_handle, debug=handle.debug)
 
@@ -953,9 +852,6 @@ class MarkerSymbol(Symbol):
         self.halo_size = 0
         self.halo_symbol = None
 
-    def padding(self):
-        return 10
-
     def _read(self, handle):
         # consume section of unknown purpose
         while not binascii.hexlify(handle.file_handle.read(1)) == b'40':
@@ -967,7 +863,7 @@ class MarkerSymbol(Symbol):
         self.halo = unpack("<L", handle.file_handle.read(4))[0] == 1
         self.halo_size = unpack("<d", handle.file_handle.read(8))[0]
 
-        self.halo_symbol = create_object(handle)()
+        self.halo_symbol = create_object(handle)
         self.halo_symbol.read(handle)
 
         # not sure about this - there's an extra 02 here if a full fill symbol is used for the halo
@@ -1008,16 +904,40 @@ def read_symbol(file_handle, debug=False):
     try:
 
         # sometimes symbols are just layers, sometimes whole symbols...
-        if issubclass(symbol_object, SymbolLayer):
-            symbol_layer = symbol_object()
+        if issubclass(symbol_object.__class__, SymbolLayer):
+            symbol_layer = symbol_object
             symbol_layer.read(handle)
             return symbol_layer
         else:
-            if not issubclass(symbol_object, Symbol):
+            if not issubclass(symbol_object.__class__, Symbol):
                 raise UnreadableSymbolException('Expected Symbol, got {}'.format(symbol_object))
-            symbol = symbol_object()
+            symbol = symbol_object
             symbol.read(handle)
             return symbol
 
     except InvalidColorException:
         raise UnreadableSymbolException()
+
+
+REGISTRY.register('88539431-e06e-11d1-b277-0000f878229e', ArrowMarkerSymbolLayer)
+REGISTRY.register('7914e5fb-c892-11d0-8bb6-080009ee4e41', CartographicLineSymbolLayer)
+REGISTRY.register('7914e600-c892-11d0-8bb6-080009ee4e41', CharacterMarkerSymbolLayer)
+#REGISTRY.register('9a1eba10-cdf9-11d3-81eb-0080c79f0371',DotDensityFillSymbol)
+#REGISTRY.register('7914e609-c892-11d0-8bb6-080009ee4e41':GradientFillSymbol)
+#REGISTRY.register('7914e5fc-c892-11d0-8bb6-080009ee4e41':GradientFillSymbol)
+#REGISTRY.register('7914e606-c892-11d0-8bb6-080009ee4e41':LineFillSymbol)
+#REGISTRY.register( '7914e608-c892-11d0-8bb6-080009ee4e41':MarkerFillSymbol)
+REGISTRY.register('7914e5fd-c892-11d0-8bb6-080009ee4e41', MarkerLineSymbolLayer)
+REGISTRY.register('7914e604-c892-11d0-8bb6-080009ee4e41', FillSymbol)
+REGISTRY.register('7914e5fa-c892-11d0-8bb6-080009ee4e41', LineSymbol)
+REGISTRY.register('7914e5ff-c892-11d0-8bb6-080009ee4e41', MarkerSymbol),
+#REGISTRY.register('d842b082-330c-11d2-9168-0000f87808ee', PictureFillSymbol)
+#REGISTRY.register('22c8c5a1-84fc-11d4-834d-0080c79f0371', PictureLineSymbol)
+#REGISTRY.register('7914e602-c892-11d0-8bb6-080009ee4e41', PictureMarkerSymbol)
+REGISTRY.register('7914e603-c892-11d0-8bb6-080009ee4e41', SimpleFillSymbolLayer)
+REGISTRY.register('7914e5f9-c892-11d0-8bb6-080009ee4e41', SimpleLineSymbolLayer)
+REGISTRY.register('7914e5fe-c892-11d0-8bb6-080009ee4e41', SimpleMarkerSymbolLayer)
+REGISTRY.register('533d88f5-0a1a-11d2-b27f-0000f878229e', LineDecoration)
+REGISTRY.register('533d88f3-0a1a-11d2-b27f-0000f878229e', SimpleLineDecoration)
+REGISTRY.register('41093a71-cce1-11d0-bfaa-0080c7e24280', LineTemplate)
+
