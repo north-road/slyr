@@ -221,6 +221,7 @@ expected = {
                 },
             'Character marker Unicode 254.bin':
                 {
+                    'skip':True,
                     'type': 'MarkerSymbol',
                     'halo': False,
                     'halo_size': 2.0,
@@ -635,6 +636,8 @@ expected = {
                 },
             'Two layers with halo.bin':
                 {'halo': True,
+
+                 'skip': True,
                  'halo_size': 14.0,
                  'halo_symbol': {'levels': [{'color': {'B': 0,
                                                        'G': 255,

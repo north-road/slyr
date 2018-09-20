@@ -125,7 +125,7 @@ class SimpleLineDecoration:
         self.marker = create_object(handle)
         self.marker.read(handle)
 
-        if not issubclass(self.marker.__class__, SymbolLayer):
+        if False and not issubclass(self.marker.__class__, SymbolLayer):
             # TODO ewwwwww
             while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
                 pass
@@ -421,7 +421,7 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         if handle.debug:
             print('back at marker line at {}'.format(hex(handle.file_handle.tell())))
 
-        if not issubclass(self.pattern_marker.__class__, SymbolLayer):
+        if False and not issubclass(self.pattern_marker.__class__, SymbolLayer):
             # ewwwwww
             while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
                 pass
@@ -496,26 +496,29 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
 
     def _read(self, handle):
         # first bit is either an entire LineSymbol or just a LineSymbolLayer
-        outline = LineSymbolLayer.create(handle)
-        if isinstance(outline, LineSymbol):
-            # embedded outline symbol line
-            self.outline_symbol = outline
+        outline = create_object(handle)
+        if outline is not None:
             if handle.debug:
                 print('starting outline symbol at {}'.format(hex(handle.file_handle.tell())))
-            self.outline_symbol.read(handle)
-        else:
-            self.outline_layer = outline
-            self.outline_layer.read(handle)
+            outline.read(handle)
 
-        consume_padding(handle.file_handle)
+            if issubclass(outline.__class__, SymbolLayer):
+                self.outline_layer = outline
+            else:
+                self.outline_symbol = outline
+        if handle.debug:
+            print('Finished outline at {}'.format(hex(handle.file_handle.tell()-1)))
+        #consume_padding(handle.file_handle)
+
+       # unknown = unpack("<L", handle.file_handle.read(4))[0]
 
         # sometimes an extra 02 terminator here
-        start = handle.file_handle.tell()
-        symbol_terminator = binascii.hexlify(handle.file_handle.read(1))
-        if symbol_terminator == b'02':
-            consume_padding(handle.file_handle)
-        else:
-            handle.file_handle.seek(start)
+        #start = handle.file_handle.tell()
+        #symbol_terminator = binascii.hexlify(handle.file_handle.read(1))
+        #if symbol_terminator == b'02':
+        #    consume_padding(handle.file_handle)
+        #else:
+        #    handle.file_handle.seek(start)
 
         self.color_model, self.color = read_color_and_model(handle.file_handle, handle.debug)
 
@@ -615,6 +618,19 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
             print('found a {} at {}'.format(type_dict[type_code], hex(handle.file_handle.tell() - 4)))
         self.type = type_dict[type_code]
 
+class Font:
+
+    def __init__(self):
+        self.font = ''
+
+    def read(self, handle):
+        handle.file_handle.read(9)
+        # repeated font name, not unicode
+        skip = unpack(">H", handle.file_handle.read(2))[0]
+        if handle.debug:
+            print('duplicate font name at {} for {}'.format(hex(handle.file_handle.tell()), skip))
+        handle.file_handle.read(skip)
+
 
 class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
     """
@@ -636,7 +652,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         self.font = None
 
     def terminator(self):
-        return [b'b851']
+        return None
 
     def _read(self, handle):
         if handle.debug:
@@ -670,13 +686,12 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
             protector += 1
             if protector > 100:
                 raise UnreadableSymbolException('Could not find end point of character marker')
-        handle.file_handle.read(3)
+        handle.file_handle.read(4)
+        handle.file_handle.read(6)
 
-        # repeated font name, not unicode
-        skip = unpack(">h", handle.file_handle.read(2))[0]
-        if handle.debug:
-            print('duplicate font name at {} for {}'.format(hex(handle.file_handle.tell()), skip))
-        handle.file_handle.read(skip)
+        font = create_object(handle)
+        font.read(handle)
+
 
 
 class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
@@ -743,6 +758,20 @@ class Symbol:
     def read(self, handle):
         handle.file_handle.read(10)
         self._read(handle)
+        # do we end in 02?
+        check = binascii.hexlify(handle.file_handle.read(1))
+        if check != b'02':
+            raise UnreadableSymbolException(
+                'Found unexpected value {} at {}, expected x02'.format(check, hex(handle.file_handle.tell() - 1)))
+        handle.file_handle.read(5)
+
+        # PROBLEMATIC!!
+
+        check = binascii.hexlify(handle.file_handle.read(1))
+        if check == b'02':
+            handle.file_handle.read(5)
+        else:
+            handle.file_handle.seek(handle.file_handle.tell()-1)
 
 
 class LineSymbol(Symbol):
@@ -779,8 +808,11 @@ class LineSymbol(Symbol):
         for l in self.levels:
             l.read_locked(handle)
 
-        while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
-            pass
+        if handle.debug:
+            print('at {}'.format(hex(handle.file_handle.tell())))
+
+ #       while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
+  #          pass
 
     @staticmethod
     def read_line_type(file_handle):
@@ -870,14 +902,22 @@ class MarkerSymbol(Symbol):
         self.halo_size = unpack("<d", handle.file_handle.read(8))[0]
 
         self.halo_symbol = create_object(handle)
-        self.halo_symbol.read(handle)
+        if self.halo_symbol is not None:
+            self.halo_symbol.read(handle)
+        if handle.debug:
+            print('finished halo symbol at {}'.format(hex(handle.file_handle.tell())))
 
         # not sure about this - there's an extra 02 here if a full fill symbol is used for the halo
-        if isinstance(self.halo_symbol, Symbol):
-            while not binascii.hexlify(handle.file_handle.read(1)) == b'02':
-                pass
+        if False and isinstance(self.halo_symbol, Symbol):
+            check = binascii.hexlify(handle.file_handle.read(1))
+            if check != b'02':
+                raise UnreadableSymbolException('Found unexpected value {} at {}, expected x02'.format(check, hex(handle.file_handle.tell()-1)))
+            handle.file_handle.read(1)
 
-        consume_padding(handle.file_handle)
+        if isinstance(self.halo_symbol, SymbolLayer):
+            handle.file_handle.read(4)
+
+#        consume_padding(handle.file_handle)
 
         # useful stuff
         number_layers = unpack("<L", handle.file_handle.read(4))[0]
@@ -898,6 +938,13 @@ class MarkerSymbol(Symbol):
             l.read_enabled(handle)
         for l in self.levels:
             l.read_locked(handle)
+
+        unknown_size = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('found unknown size {} at {}'.format(unknown_size, hex(handle.file_handle.tell() - 8)))
+        unknown_size = unpack("<d", handle.file_handle.read(8))[0]
+        if handle.debug:
+            print('found unknown size {} at {}'.format(unknown_size, hex(handle.file_handle.tell() - 8)))
 
 
 def read_symbol(file_handle, debug=False):
@@ -947,3 +994,4 @@ REGISTRY.register('533d88f5-0a1a-11d2-b27f-0000f878229e', LineDecoration)
 REGISTRY.register('533d88f3-0a1a-11d2-b27f-0000f878229e', SimpleLineDecoration)
 REGISTRY.register('41093a71-cce1-11d0-bfaa-0080c7e24280', LineTemplate)
 
+REGISTRY.register('0be35203-8f91-11ce-9de3-00aa004bb851', Font)
