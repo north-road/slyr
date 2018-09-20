@@ -43,133 +43,141 @@ def read_string(handle):
     return string[:-1]
 
 
-def read_object_header(handle):
+def guid_to_hex(guid: str):
+    # I don't understand the reason why, but GUIDs are stored in a strange format
+    # in the blobs. E.g. a GUID of
+    # 7914e603-c892-11d0-8bb6-080009ee4e41
+    # is stored as
+    # 03e6147992c8d0118bb6080009ee4e41
+    # This function converts GUIDs to the blob format
+
+    guid = guid.replace('-', '')
+    bytes = b''
+    bytes += guid[6:8].encode()
+    bytes += guid[4:6].encode()
+    bytes += guid[2:4].encode()
+    bytes += guid[0:2].encode()
+    bytes += guid[10:12].encode()
+    bytes += guid[8:10].encode()
+    bytes += guid[14:16].encode()
+    bytes += guid[12:14].encode()
+    bytes += guid[16:].encode()
+    return bytes
+
+
+def hex_to_guid(hex_value) -> str:
     """
-    Reads and interprets the header for a new object block. Returns the object type
-    code (2 bytes)
+    Converts a binary value to a GUID
+    eg 03e6147992c8d0118bb6080009ee4e41
+    to 7914e603-c892-11d0-8bb6-080009ee4e41
     """
-    if handle.debug:
-        print('Reading object header at {}'.format(hex(handle.file_handle.tell())))
-    object_type = binascii.hexlify(handle.file_handle.read(2))
+    res = ''
+    res += hex_value[6:8].decode()
+    res += hex_value[4:6].decode()
+    res += hex_value[2:4].decode()
+    res += hex_value[0:2].decode()
+    res += '-'
+    res += hex_value[10:12].decode()
+    res += hex_value[8:10].decode()
+    res += '-'
+    res += hex_value[14:16].decode()
+    res += hex_value[12:14].decode()
+    res += '-'
+    res += hex_value[16:20].decode()
+    res += '-'
+    res += hex_value[20:].decode()
+    return res
 
-    # hack - but doesn't seem needed anymore?!
-    # if object_type[2:] == b'40':
-    # object_type = binascii.hexlify(handle.file_handle.read(2))
 
-    if object_type == b'e614':
-        # second chance, since some overzealous padding consumer may have eaten
-        # the start of a "00e6" Character Marker Symbol
-        handle.file_handle.seek(handle.file_handle.tell() - 3)
-        object_type = binascii.hexlify(handle.file_handle.read(2))
+def guid_to_object(guid):
+    GUIDS = {
+        '88539431-e06e-11d1-b277-0000f878229e': ArrowMarkerSymbolLayer,
+        '7914e5fb-c892-11d0-8bb6-080009ee4e41': CartographicLineSymbolLayer,
+        '7914e600-c892-11d0-8bb6-080009ee4e41': CharacterMarkerSymbolLayer,
+        # DotDensityFillSymbol: 9a1eba10-cdf9-11d3-81eb-0080c79f0371
+        # GradientFillSymbol: 7914e609-c892-11d0-8bb6-080009ee4e41
+        # HashLineSymbol: 7914e5fc-c892-11d0-8bb6-080009ee4e41
+        # LineFillSymbol: 7914e606-c892-11d0-8bb6-080009ee4e41
+        # MarkerFillSymbol: 7914e608-c892-11d0-8bb6-080009ee4e41
+        '7914e5fd-c892-11d0-8bb6-080009ee4e41': MarkerLineSymbolLayer,
+        '7914e604-c892-11d0-8bb6-080009ee4e41': FillSymbol,
+        '7914e5fa-c892-11d0-8bb6-080009ee4e41': LineSymbol,
+        '7914e5ff-c892-11d0-8bb6-080009ee4e41': MarkerSymbol,
+        # PictureFillSymbol: d842b082-330c-11d2-9168-0000f87808ee
+        # PictureLineSymbol: 22c8c5a1-84fc-11d4-834d-0080c79f0371
+        # PictureMarkerSymbol: 7914e602-c892-11d0-8bb6-080009ee4e41
+        '7914e603-c892-11d0-8bb6-080009ee4e41': SimpleFillSymbolLayer,
+        '7914e5f9-c892-11d0-8bb6-080009ee4e41': SimpleLineSymbolLayer,
+        '7914e5fe-c892-11d0-8bb6-080009ee4e41': SimpleMarkerSymbolLayer,
+        '533d88f5-0a1a-11d2-b27f-0000f878229e': LineDecoration,
+        '533d88f3-0a1a-11d2-b27f-0000f878229e': SimpleLineDecoration,
+        '539431ff-6e88-d1e0-11b2-770000f87822': SimpleLineDecoration, #### TODO - not correct???
+        # TextSymbol: b65a3e74-2993-11d1-9a43-0080c7ec5c96
+        # RgbColor: 7ee9c496-d123-11d0-8383-080009b996cc
+        # CmykColor: 7ee9c497-d123-11d0-8383-080009b996cc
+        # GrayColor: 7ee9c495-d123-11d0-8383-080009b996cc
+        # HlsColor: 7ee9c493-d123-11d0-8383-080009b996cc
+        # HsvColor: 7ee9c492-d123-11d0-8383-080009b996cc
+        # Font: 0be35203-8f91-11ce-9de3-00aa004bb851
+    }
 
-    # Some magic sequence of unknown origin:
-    magic_1 = binascii.hexlify(handle.file_handle.read(14))
-    KNOWN_MAGIC_1 = [b'147992c8d0118bb6080009ee4e41',
-                     b'53886ee0d111b2770000f878229e',
-                     b'42d80c33d21191680000f87808ee',
-                     b'738d69c0e0429dfa2b7b61707ba9',
-                     b'0b475235d611a12d00508bd60cb9',
-                     b'71b5bca9164ab57854be176ed57b',
-                     b'c822fc84d411834d0080c79f0371']
-    if magic_1 not in KNOWN_MAGIC_1:
-        raise UnreadableSymbolException('Differing object header at {}, got {}'.format(
-            hex(handle.file_handle.tell() - 16), magic_1))
+    NOT_IMPLEMENTED_GUIDS = {
+        '9a1eba10-cdf9-11d3-81eb-0080c79f0371': 'DotDensityFillSymbol',
+        '7914e609-c892-11d0-8bb6-080009ee4e41': 'GradientFillSymbol',
+        '7914e5fc-c892-11d0-8bb6-080009ee4e41': 'HashLineSymbol',
+        '7914e606-c892-11d0-8bb6-080009ee4e41': 'LineFillSymbol',
+        '7914e608-c892-11d0-8bb6-080009ee4e41': 'MarkerFillSymbol',
+        'd842b082-330c-11d2-9168-0000f87808ee': 'PictureFillSymbol',
+        '22c8c5a1-84fc-11d4-834d-0080c79f0371': 'PictureLineSymbol',
+        '7914e602-c892-11d0-8bb6-080009ee4e41': 'PictureMarkerSymbol',
+        'b65a3e74-2993-11d1-9a43-0080c7ec5c96': 'TextSymbol',
+        '7ee9c496-d123-11d0-8383-080009b996cc': 'RgbColor',
+        '7ee9c497-d123-11d0-8383-080009b996cc': 'CmykColor',
+        '7ee9c495-d123-11d0-8383-080009b996cc': 'GrayColor',
+        '7ee9c493-d123-11d0-8383-080009b996cc': 'HlsColor',
+        '7ee9c492-d123-11d0-8383-080009b996cc': 'HsvColor',
+        '0be35203-8f91-11ce-9de3-00aa004bb851': 'Font'
+    }
 
-    return object_type
+    if guid in NOT_IMPLEMENTED_GUIDS:
+        raise UnreadableSymbolException('{} are not implemented yet'.format(NOT_IMPLEMENTED_GUIDS[guid]))
 
-    # Some padding bytes of unknown purpose
-    # Encountered values are:
-    #  010001
-    #  02000dxxxxxxxxxxxxxx
-    #  1000000001000, 110000001000,... (in lyr files)
-    skip_bytes = unpack("<H", handle.file_handle.read(2))[0]
-    if skip_bytes == 1:
-        pass
-    elif skip_bytes in (2, 3, 4):
-        if binascii.hexlify(handle.file_handle.read(1)) == b'0d':
-            handle.file_handle.read(7)
-        else:
-            handle.file_handle.seek(handle.file_handle.tell() - 1)
-    # experimental! - might be safer to assert False here. Only encountered in .lyr fails so far
-    else:
-        handle.file_handle.read(4)
+    if guid not in GUIDS:
+        raise UnreadableSymbolException('Unknown GUID {}'.format(guid))
 
-    return object_type
+    return GUIDS[guid]
 
 
 def create_object(handle):
     """
     Reads an object header and returns the corresponding object class
     """
-    start = handle.file_handle.tell()
-    object_code = read_object_header(handle)
-
-    OBJECT_DICT = {
-        b'f9e5': SimpleLineSymbolLayer,
-        b'fae5': LineSymbol,
-        b'fbe5': CartographicLineSymbolLayer,
-        b'fde5': MarkerLineSymbolLayer,
-        b'fee5': SimpleMarkerSymbolLayer,
-        b'ffe5': MarkerSymbol,
-        b'00e6': CharacterMarkerSymbolLayer,
-        b'03e6': SimpleFillSymbolLayer,
-        b'04e6': FillSymbol,
-        b'3194': ArrowMarkerSymbolLayer,
-    }
-
-    NOT_IMPLEMENTED_DICT = {
-        b'fce5': 'HashLineSymbolLayer',
-        b'02e6': 'PictureMarkerSymbolLayer',
-        b'06e6': 'LineFillSymbolLayer',
-        b'08e6': 'MarkerFillSymbolLayer',
-        b'09e6': 'GradientFillSymbolLayer',
-        b'8087': '3DTextureFill',
-        b'82b0': 'PictureFillSymbolLayer',
-        b'7572': '3DSimpleLine',
-        b'9c0c': '3DTextureLine',
-        b'a1c5': 'PictureLineSymbolLayer'
-    }
-
-    if object_code in NOT_IMPLEMENTED_DICT:
-        raise UnreadableSymbolException('{} are not implemented yet'.format(NOT_IMPLEMENTED_DICT[object_code]))
-
-    if object_code not in OBJECT_DICT:
-        raise UnreadableSymbolException('Unknown object code at {}, got {}'.format(hex(start), object_code))
-
     if handle.debug:
-        print('found a {} at {}'.format(OBJECT_DICT[object_code], hex(start)))
-    return OBJECT_DICT[object_code]
-
-
-def read_magic_2(handle):
-    """
-    Consumes an expected magic sequence (2), of unknown purpose
-    """
-    magic_2 = binascii.hexlify(handle.file_handle.read(15))
-    if magic_2 != b'c4e97e23d1d0118383080009b996cc':
-        raise UnreadableSymbolException('Differing magic string 2: {}'.format(magic_2))
-
-    terminator = binascii.hexlify(handle.file_handle.read(2))
-    if not terminator == b'0100':
-        # .lyr files have an extra 4 bytes in here - of unknown purpose
-        handle.file_handle.read(4)
-
-    start = handle.file_handle.tell()
-    terminator = binascii.hexlify(handle.file_handle.read(1))
-    if terminator != b'01':
-        raise UnreadableSymbolException('Expected 01 at {}, got {}'.format(hex(start), terminator))
+        print('Reading object header at {}'.format(hex(handle.file_handle.tell())))
+    guid_bin = binascii.hexlify(handle.file_handle.read(16))
+    guid = hex_to_guid(guid_bin)
     if handle.debug:
-        print('finished magic 2 at {}'.format(hex(handle.file_handle.tell() - 1)))
+        print('Found guid of {}'.format(guid))
 
+    object_type = guid_to_object(guid)
+    return object_type
+
+
+class LineDecoration:
+    pass
+
+
+class SimpleLineDecoration:
+    pass
 
 def read_magic_3(handle):
     """
     Consumes an expected magic sequence (3), of unknown purpose
     """
-    magic_3 = binascii.hexlify(handle.file_handle.read(17))
-    if magic_3 != b'883d531a0ad211b27f0000f878229e0100':
+    magic_3 = binascii.hexlify(handle.file_handle.read(16))
+    if magic_3 != b'883d531a0ad211b27f0000f878229e01':
         raise UnreadableSymbolException(
-            'Differing magic string 3: {} at {}'.format(magic_3, hex(handle.file_handle.tell() - 17)))
+            'Differing magic string 3: {} at {}'.format(magic_3, hex(handle.file_handle.tell() - 16)))
 
     if handle.debug:
         print('finished magic 3 at {}'.format(hex(handle.file_handle.tell() - 1)))
@@ -305,7 +313,9 @@ class LineSymbolLayer(SymbolLayer):
 
     @staticmethod
     def read_end_markers(handle):
-        read_magic_3(handle)
+        start_decoration = create_object(handle)
+
+        handle.file_handle.read(1)
 
         unknown = unpack("<L", handle.file_handle.read(4))[0]
         if handle.debug:
@@ -315,7 +325,8 @@ class LineSymbolLayer(SymbolLayer):
 
         result = {}
 
-        read_magic_3(handle)
+        end_decoration = create_object(handle)
+        handle.file_handle.read(1)
         result['marker_fixed_angle'] = not bool(unpack("<B", handle.file_handle.read(1))[0])
         if handle.debug:
             print('detected {} at {}'.format('fixed angle' if result['marker_fixed_angle'] else 'not fixed angle',
@@ -456,6 +467,7 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         if binascii.hexlify(handle.file_handle.read(1)) == b'f5':
             if handle.debug:
                 print('detected end markers at {}'.format(hex(handle.file_handle.tell() - 1)))
+            handle.file_handle.seek(handle.file_handle.tell() - 1)
             end_markers = self.read_end_markers(handle)
             self.marker_fixed_angle = end_markers['marker_fixed_angle']
             self.marker_flip_first = end_markers['marker_flip_first']

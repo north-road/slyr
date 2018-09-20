@@ -7,7 +7,7 @@ Test symbol parsing
 import unittest
 import os
 from slyr.converters.dictionary import DictionaryConverter
-from slyr.parser.symbol_parser import read_symbol
+from slyr.parser.symbol_parser import read_symbol, guid_to_hex, hex_to_guid
 
 expected = {
     'marker_bin':
@@ -14925,6 +14925,14 @@ class TestSymbolParser(unittest.TestCase):
         path = os.path.join(os.path.dirname(
             __file__), 'styles', 'cmyk_bin')
         self.run_symbol_checks(path)
+
+    def test_guid_parsing(self):
+        """
+        Test GUID parsing
+        """
+        self.assertEqual(guid_to_hex('7914e603-c892-11d0-8bb6-080009ee4e41'), b'03e6147992c8d0118bb6080009ee4e41')
+        self.assertEqual(hex_to_guid(b'03e6147992c8d0118bb6080009ee4e41'), '7914e603-c892-11d0-8bb6-080009ee4e41')
+        self.assertEqual(hex_to_guid(b'f5883d531a0ad211b27f0000f878229e'), '533d88f5-0a1a-11d2-b27f-0000f878229e')
 
 
 if __name__ == '__main__':
