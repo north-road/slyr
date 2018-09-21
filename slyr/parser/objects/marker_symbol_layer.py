@@ -41,7 +41,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         Reads the symbol layer information. Internally calls _read method
         for individual layer types
         """
-        stream.read(self.padding())
+        stream.read(2)
         self._read(stream)
 
         # look for 0d terminator
