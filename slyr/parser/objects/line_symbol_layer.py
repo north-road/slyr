@@ -1,4 +1,3 @@
-from struct import unpack
 import binascii
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.stream import Stream
@@ -17,7 +16,7 @@ class LineSymbolLayer(SymbolLayer):
 
     @staticmethod
     def read_cap(stream: Stream):
-        cap_bin = unpack("<B", stream.read(1))[0]
+        cap_bin = stream.read_uchar()
         if cap_bin == 0:
             return 'butt'
         elif cap_bin == 1:
@@ -29,7 +28,7 @@ class LineSymbolLayer(SymbolLayer):
 
     @staticmethod
     def read_join(stream: Stream):
-        join_bin = unpack("<B", stream.read(1))[0]
+        join_bin = stream.read_uchar()
         if join_bin == 0:
             return 'miter'
         elif join_bin == 1:
@@ -204,6 +203,6 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
             self.marker_positions = end_markers['marker_positions']
 
 
-REGISTRY.register_object(SimpleLineSymbolLayer)
-REGISTRY.register_object(CartographicLineSymbolLayer)
-REGISTRY.register_object(MarkerLineSymbolLayer)
+REGISTRY.register(SimpleLineSymbolLayer)
+REGISTRY.register(CartographicLineSymbolLayer)
+REGISTRY.register(MarkerLineSymbolLayer)

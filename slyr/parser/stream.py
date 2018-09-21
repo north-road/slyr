@@ -53,6 +53,16 @@ class Stream:
         if self.debug:
             print('{} at {}'.format(message, hex(self._io_stream.tell()-offset)))
 
+    def read_uchar(self, debug_string: str = '') -> int:
+        """
+        Reads a uchar from the stream.
+        :return:
+        """
+        res = unpack("<B", self._io_stream.read(1))[0]
+        if debug_string and self.debug:
+            print('read {} of {} at {}'.format(debug_string, res, hex(self._io_stream.tell() - 1)))
+        return res
+
     def read_double(self, debug_string: str = '') -> float:
         """
         Reads a double from the stream.

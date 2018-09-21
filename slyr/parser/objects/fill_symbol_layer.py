@@ -40,4 +40,4 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
         self.color = stream.read_object()
 
 
-REGISTRY.register_object(SimpleFillSymbolLayer)
+REGISTRY.register(SimpleFillSymbolLayer)

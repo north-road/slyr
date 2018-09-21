@@ -1,4 +1,3 @@
-from struct import unpack
 from slyr.parser.object import Object
 from slyr.parser.stream import Stream
 from slyr.parser.object_registry import REGISTRY
@@ -50,11 +49,11 @@ class SimpleLineDecoration(Object):
         """
         stream.read(2)  # unknown -- maybe includes position as ratio?
 
-        self.fixed_angle = not bool(unpack("<B", stream.read(1))[0])
+        self.fixed_angle = not bool(stream.read_uchar())
         stream.log('detected {}'.format('fixed angle' if self.fixed_angle else 'not fixed angle'))
-        self.flip_first = bool(unpack("<B", stream.read(1))[0])
+        self.flip_first = bool(stream.read_uchar())
         stream.log('detected {}'.format('flip first' if self.flip_first else 'no flip first'))
-        self.flip_all = bool(unpack("<B", stream.read(1))[0])
+        self.flip_all = bool(stream.read_uchar())
         stream.log('detected {}'.format('flip all' if self.flip_all else 'no flip all'))
 
         stream.read(2)  # unknown -- maybe includes position as ratio?
@@ -80,5 +79,5 @@ class SimpleLineDecoration(Object):
         stream.log('ended decoration')
 
 
-REGISTRY.register_object(LineDecoration)
-REGISTRY.register_object(SimpleLineDecoration)
+REGISTRY.register(LineDecoration)
+REGISTRY.register(SimpleLineDecoration)
