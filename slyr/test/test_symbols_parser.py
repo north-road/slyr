@@ -221,7 +221,6 @@ expected = {
                 },
             'Character marker Unicode 254.bin':
                 {
-                    'skip':True,
                     'type': 'MarkerSymbol',
                     'halo': False,
                     'halo_size': 2.0,

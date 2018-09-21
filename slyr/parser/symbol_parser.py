@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from slyr.parser.stream import Stream
+from slyr.parser.object import Object
 
 from slyr.parser.objects.line_template import LineTemplate
 from slyr.parser.objects.colors import Color
@@ -14,7 +15,7 @@ from slyr.parser.objects.symbol_layer import SymbolLayer
 
 from slyr.parser.exceptions import UnreadableSymbolException
 from slyr.parser.color_parser import InvalidColorException
-from slyr.parser.object_registry import REGISTRY, UnknownGuidException, NotImplementedException
+from slyr.parser.object_registry import REGISTRY
 import binascii
 
 """
@@ -22,61 +23,39 @@ Extracts a symbol from a style blob
 """
 
 
-
-def create_object(handle):
-    """
-    Reads an object header and returns the corresponding object class
-    """
-    if handle.debug:
-        print('Reading object header at {}'.format(hex(handle._io_stream.tell())))
-    guid_bin = binascii.hexlify(handle._io_stream.read(16))
-    guid = REGISTRY.hex_to_guid(guid_bin)
-    if handle.debug:
-        print('Found guid of {}'.format(guid))
-
-    try:
-        res = REGISTRY.create_object(guid)
-        if handle.debug:
-            print('=={}'.format(res.__class__.__name__))
-        return res
-    except NotImplementedException as e:
-        raise UnreadableSymbolException(e)
-    except UnknownGuidException as e:
-        raise UnreadableSymbolException(e)
-
-
-class Symbol:
+class Symbol(Object):
     """
     Base class for symbols
     """
 
     def __init__(self):
+        super().__init__()
         self.levels = []
 
-    def _read(self, handle):
+    def _read(self, stream: Stream):
         """
         Should be implemented in subclasses, to handle reading of that particular
         symbol type
         """
         pass
 
-    def read(self, handle):
-        handle._io_stream.read(10)
-        self._read(handle)
+    def read(self, stream: Stream):
+        stream.read(10)
+        self._read(stream)
         # do we end in 02?
-        check = binascii.hexlify(handle._io_stream.read(1))
+        check = binascii.hexlify(stream.read(1))
         if check != b'02':
             raise UnreadableSymbolException(
-                'Found unexpected value {} at {}, expected x02'.format(check, hex(handle._io_stream.tell() - 1)))
-        handle._io_stream.read(5)
+                'Found unexpected value {} at {}, expected x02'.format(check, hex(stream.tell() - 1)))
+        stream.read(5)
 
         # PROBLEMATIC!!
 
-        check = binascii.hexlify(handle._io_stream.read(1))
+        check = binascii.hexlify(stream.read(1))
         if check == b'02':
-            handle._io_stream.read(5)
+            stream.read(5)
         else:
-            handle._io_stream.seek(handle._io_stream.tell()-1)
+            stream.rewind(1)
 
 
 class LineSymbol(Symbol):
@@ -85,7 +64,11 @@ class LineSymbol(Symbol):
     """
 
     def __init__(self):
-        Symbol.__init__(self)
+        super().__init__()
+
+    @staticmethod
+    def guid():
+        return '7914e5fa-c892-11d0-8bb6-080009ee4e41'
 
     def _read(self, stream: Stream):
         number_layers = stream.read_uint('layer count')
@@ -117,7 +100,11 @@ class FillSymbol(Symbol):
     """
 
     def __init__(self):
-        Symbol.__init__(self)
+        super().__init__()
+
+    @staticmethod
+    def guid():
+        return '7914e604-c892-11d0-8bb6-080009ee4e41'
 
     def _read(self, stream: Stream):
         self.color = stream.read_object()
@@ -132,6 +119,7 @@ class FillSymbol(Symbol):
         # point, and then move back by a known amount
 
         # burn up to the 02
+        stream.log('burning up to 02...')
         while not binascii.hexlify(stream.read(1)) == b'02':
             pass
 
@@ -143,6 +131,10 @@ class FillSymbol(Symbol):
         for l in self.levels:
             l.read_locked(stream)
 
+        #unknown_size = stream.read_double('unknown size')
+        #stream.read(2)
+        stream.log('')
+
 
 class MarkerSymbol(Symbol):
     """
@@ -151,10 +143,14 @@ class MarkerSymbol(Symbol):
     """
 
     def __init__(self):
-        Symbol.__init__(self)
+        super().__init__()
         self.halo = False
         self.halo_size = 0
         self.halo_symbol = None
+
+    @staticmethod
+    def guid():
+        return '7914e5ff-c892-11d0-8bb6-080009ee4e41'
 
     def _read(self, stream: Stream):
         # consume section of unknown purpose
@@ -202,27 +198,14 @@ def read_symbol(_io_stream, debug=False):
     """
     Reads a symbol from the specified file
     """
-    handle = Stream(_io_stream, debug)
-    symbol_object = create_object(handle)
-
+    stream = Stream(_io_stream, debug)
     try:
-
-        # sometimes symbols are just layers, sometimes whole symbols...
-        if issubclass(symbol_object.__class__, SymbolLayer):
-            symbol_layer = symbol_object
-            symbol_layer.read(handle)
-            return symbol_layer
-        else:
-            if not issubclass(symbol_object.__class__, Symbol):
-                raise UnreadableSymbolException('Expected Symbol, got {}'.format(symbol_object))
-            symbol = symbol_object
-            symbol.read(handle)
-            return symbol
-
+        symbol_object = stream.read_object()
     except InvalidColorException:
         raise UnreadableSymbolException()
+    return symbol_object
 
 
-REGISTRY.register('7914e604-c892-11d0-8bb6-080009ee4e41', FillSymbol)
-REGISTRY.register('7914e5fa-c892-11d0-8bb6-080009ee4e41', LineSymbol)
-REGISTRY.register('7914e5ff-c892-11d0-8bb6-080009ee4e41', MarkerSymbol),
+REGISTRY.register_object(FillSymbol)
+REGISTRY.register_object(LineSymbol)
+REGISTRY.register_object(MarkerSymbol)
