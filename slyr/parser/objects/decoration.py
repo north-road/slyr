@@ -59,14 +59,6 @@ class SimpleLineDecoration(Object):
 
         self.marker = stream.read_object('marker')
 
-        # if False and not issubclass(self.marker.__class__, SymbolLayer):
-        #    # TODO ewwwwww
-        #    while not binascii.hexlify(handle._io_stream.read(1)) == b'02':
-        #        pass
-        #    while not binascii.hexlify(handle._io_stream.read(1)) == b'02':
-        #        pass
-        #    handle._io_stream.read(5)
-
         # next bit is the number of doubles coming next
         marker_number_positions = stream.read_uint('marker positions')
 
