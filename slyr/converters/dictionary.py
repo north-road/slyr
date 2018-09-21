@@ -252,7 +252,7 @@ class DictionaryConverter(Converter):
             'join': layer.join,
             'template': None,
             'pattern_marker': None,
-              'decoration': None
+            'decoration': None
         }
         if layer.template is not None:
             converter = DictionaryConverter()

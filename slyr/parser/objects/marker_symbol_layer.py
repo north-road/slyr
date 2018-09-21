@@ -83,7 +83,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
             raise UnreadableSymbolException(
                 'Unknown marker type at {}, got {}'.format(hex(stream.tell() - 4),
                                                            type_code))
-        stream.log('found a {}'.format(type_dict[type_code]),4)
+        stream.log('found a {}'.format(type_dict[type_code]), 4)
         self.type = type_dict[type_code]
 
 

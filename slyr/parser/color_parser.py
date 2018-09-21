@@ -133,5 +133,3 @@ def cielab_to_rgb(l, a, b):
 
     # lab value not present in lookup table, use standard conversion formula
     return scale_and_round(*apply_gamma(*xyz_to_rgb(*cielab_to_xyz(l, a, b))))
-
-
