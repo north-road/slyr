@@ -85,7 +85,7 @@ if args.scan:
     print('Scanning complete\n\n\n')
 
 with open(args.file, 'rb') as f:
-    symbol = read_symbol(file_handle=f, debug=args.debug)
+    symbol = read_symbol(f, debug=args.debug)
 
 converter = DictionaryConverter()
 pprint.pprint(converter.convert_symbol(symbol))

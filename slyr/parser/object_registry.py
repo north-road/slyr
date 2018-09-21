@@ -1,3 +1,6 @@
+from slyr.parser.object import Object
+
+
 class NotImplementedException(Exception):
     pass
 
@@ -28,6 +31,12 @@ class ObjectRegistry:
         Registers a new object class, with the given guid.
         """
         self.objects[guid] = object_class
+
+    def register_object(self, object_class: Object):
+        """
+        Registers a new object class to the registry.
+        """
+        self.objects[object_class.guid()] = object_class
 
     def create_object(self, guid: str):
         """
