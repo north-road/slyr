@@ -22,7 +22,7 @@ class LineDecoration(Object):
         # next bit is probably number of decorations?
         count = stream.read_uint('count of decorations')
         for i in range(count):
-            decoration = stream.read_object()
+            decoration = stream.read_object('decoration element')
             self.decorations.append(decoration)
 
 
@@ -58,7 +58,7 @@ class SimpleLineDecoration(Object):
 
         stream.read(2)  # unknown -- maybe includes position as ratio?
 
-        self.marker = stream.read_object()
+        self.marker = stream.read_object('marker')
 
         # if False and not issubclass(self.marker.__class__, SymbolLayer):
         #    # TODO ewwwwww
@@ -76,7 +76,6 @@ class SimpleLineDecoration(Object):
         for i in range(marker_number_positions):
             self.marker_positions.append(stream.read_double())
         stream.log('marker positions are {}'.format(self.marker_positions))
-        stream.log('ended decoration')
 
 
 REGISTRY.register(LineDecoration)

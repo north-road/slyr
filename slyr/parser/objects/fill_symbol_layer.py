@@ -29,15 +29,14 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
 
     def _read(self, stream: Stream):
         # first bit is either an entire LineSymbol or just a LineSymbolLayer
-        outline = stream.read_object()
+        outline = stream.read_object('outline')
         if outline is not None:
             if issubclass(outline.__class__, SymbolLayer):
                 self.outline_layer = outline
             else:
                 self.outline_symbol = outline
-        stream.log('Finished outline')
 
-        self.color = stream.read_object()
+        self.color = stream.read_object('color')
 
 
 REGISTRY.register(SimpleFillSymbolLayer)

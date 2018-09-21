@@ -56,10 +56,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         if has_outline == 1:
             self.outline_enabled = True
         self.outline_width = stream.read_double('outline width')
-        self.outline_color = stream.read_object()
-
-        if stream.debug:
-            print('finished simple marker layer read at {}'.format(hex(stream.tell())))
+        self.outline_color = stream.read_object('outline color')
 
         protector = 0
         while not binascii.hexlify(stream.read(1)) == b'ff':
@@ -70,7 +67,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         stream.read(1)
 
     def _read(self, stream: Stream):
-        self.color = stream.read_object()
+        self.color = stream.read_object('color')
         self.size = stream.read_double('size')
 
         type_code = stream.read_int()
@@ -86,8 +83,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
             raise UnreadableSymbolException(
                 'Unknown marker type at {}, got {}'.format(hex(stream.tell() - 4),
                                                            type_code))
-        if stream.debug:
-            print('found a {} at {}'.format(type_dict[type_code], hex(stream.tell() - 4)))
+        stream.log('found a {}'.format(type_dict[type_code]),4)
         self.type = type_dict[type_code]
 
 
@@ -117,9 +113,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         return None
 
     def _read(self, stream: Stream):
-        stream.log('start character marker')
-
-        self.color = stream.read_object()
+        self.color = stream.read_object('color')
 
         self.unicode = stream.read_int('unicode')
         self.angle = stream.read_double('angle')
@@ -143,7 +137,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         stream.read(4)
         stream.read(6)
 
-        font = stream.read_object()
+        font = stream.read_object('font')
 
 
 class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
@@ -168,9 +162,7 @@ class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
         return [b'ffff', b'2440']
 
     def _read(self, stream: Stream):
-        stream.log('start arrow marker')
-
-        self.color = stream.read_object()
+        self.color = stream.read_object('color')
 
         self.size = stream.read_double('size')
         self.width = stream.read_double('width')

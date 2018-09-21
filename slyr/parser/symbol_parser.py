@@ -73,25 +73,32 @@ class LineSymbol(Symbol):
     def _read(self, stream: Stream):
         number_layers = stream.read_uint('layer count')
         for i in range(number_layers):
-            layer = stream.read_object()
+            layer = stream.read_object('symbol layer {}/{}'.format(i+1,number_layers))
             self.levels.extend([layer])
 
-        # the next section varies in size. To handle this we jump forward to a known anchor
-        # point, and then move back by a known amount
 
-        # burn up to the 02
-        while not binascii.hexlify(stream.read(1)) == b'02':
-            pass
+        if True:
+            # the next section varies in size. To handle this we jump forward to a known anchor
+            # point, and then move back by a known amount
 
-        # jump back a known amount
-        stream.rewind(8 * number_layers + 1)
+            # burn up to the 02
+            stream.log('burning up to 02...')
+            while not binascii.hexlify(stream.read(1)) == b'02':
+                pass
+
+            # jump back a known amount
+            stream.rewind(8 * number_layers + 1)
+
+        else:
+            stream.read(1)
+
+            stream.read_double('unknown size')
+            stream.read_double('unknown size')
 
         for l in self.levels:
             l.read_enabled(stream)
         for l in self.levels:
             l.read_locked(stream)
-
-        stream.log('')
 
 
 class FillSymbol(Symbol):
@@ -107,12 +114,12 @@ class FillSymbol(Symbol):
         return '7914e604-c892-11d0-8bb6-080009ee4e41'
 
     def _read(self, stream: Stream):
-        self.color = stream.read_object()
+        self.color = stream.read_object('color')
 
         number_layers = stream.read_int('layers')
         for i in range(number_layers):
             stream.consume_padding()
-            layer = stream.read_object()
+            layer = stream.read_object('symbol layer')
             self.levels.extend([layer])
 
         # the next section varies in size. To handle this we jump forward to a known anchor
@@ -133,7 +140,6 @@ class FillSymbol(Symbol):
 
         #unknown_size = stream.read_double('unknown size')
         #stream.read(2)
-        stream.log('')
 
 
 class MarkerSymbol(Symbol):
@@ -156,18 +162,17 @@ class MarkerSymbol(Symbol):
         # consume section of unknown purpose
         unknown_size = stream.read_double('unknown size')
 
-        unknown_object = stream.read_object()
+        unknown_object = stream.read_object('unknown')
         if unknown_object is not None:
             assert False, unknown_object
         unknown_size = stream.read_double('unknown size')
 
-        self.color = stream.read_object()
+        self.color = stream.read_object('color')
 
         self.halo = stream.read_int() == 1
         self.halo_size = stream.read_double('halo size')
 
-        self.halo_symbol = stream.read_object()
-        stream.log('finished halo symbol')
+        self.halo_symbol = stream.read_object('halo')
 
         # not sure about this - there's an extra 02 here if a full fill symbol is used for the halo
         if False and isinstance(self.halo_symbol, Symbol):
@@ -182,7 +187,7 @@ class MarkerSymbol(Symbol):
         # useful stuff
         number_layers = stream.read_int('layers')
         for i in range(number_layers):
-            layer = stream.read_object()
+            layer = stream.read_object('layer')
             self.levels.extend([layer])
 
         for l in self.levels:
@@ -200,7 +205,7 @@ def read_symbol(_io_stream, debug=False):
     """
     stream = Stream(_io_stream, debug)
     try:
-        symbol_object = stream.read_object()
+        symbol_object = stream.read_object('symbol')
     except InvalidColorException:
         raise UnreadableSymbolException()
     return symbol_object

@@ -55,11 +55,6 @@ class LineSymbolLayer(SymbolLayer):
             raise UnreadableSymbolException('unknown line type {} at {}'.format(line_type, hex(stream.tell() - 4)))
         return types[line_type]
 
-    @staticmethod
-    def read_end_markers(stream: Stream):
-        line_decoration = stream.read_object()
-        return line_decoration
-
 
 class SimpleLineSymbolLayer(LineSymbolLayer):
     """
@@ -76,7 +71,7 @@ class SimpleLineSymbolLayer(LineSymbolLayer):
         return '7914e5f9-c892-11d0-8bb6-080009ee4e41'
 
     def _read(self, stream: Stream):
-        self.color = stream.read_object()
+        self.color = stream.read_object('color')
         self.width = stream.read_double('width')
 
         self.line_type = self.read_line_type(stream)
@@ -122,15 +117,11 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
             raise UnreadableSymbolException('Differing unknown byte')
 
         self.offset = stream.read_double('offset')
-        self.color = stream.read_object()
-        self.template = stream.read_object()
+        self.color = stream.read_object('color')
+        self.template = stream.read_object('template')
 
-        # check for markers
-        start = stream.tell()
-        if stream.debug:
-            print('scanning for end markers from {}'.format(hex(start)))
+        self.decoration = stream.read_object('decoration')
 
-        self.decoration = stream.read_object()
 
 
 class MarkerLineSymbolLayer(LineSymbolLayer):
@@ -165,8 +156,7 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
 
         self.offset = stream.read_double('offset')
 
-        self.pattern_marker = stream.read_object()
-        stream.log('back at marker line')
+        self.pattern_marker = stream.read_object('pattern marker')
 
         #if False and not issubclass(self.pattern_marker.__class__, SymbolLayer):
         #    # ewwwwww
@@ -175,6 +165,8 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         #    while not binascii.hexlify(handle._io_stream.read(1)) == b'02':
         #        pass
         #    handle._io_stream.read(5)
+
+        # TODO - THIS IS A Template object
 
         stream.read(18)
         self.pattern_interval = stream.read_double('interval')
@@ -195,7 +187,7 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
 
         if binascii.hexlify(stream.read(1)) == b'f5':
             stream.log('detected end markers', -1)
-            end_markers = self.read_end_markers(stream)
+            end_markers = stream.read_object('end marker')
             self.marker_fixed_angle = end_markers['marker_fixed_angle']
             self.marker_flip_first = end_markers['marker_flip_first']
             self.marker_flip_all = end_markers['marker_flip_all']
