@@ -57,9 +57,8 @@ class LineSymbolLayer(SymbolLayer):
         return types[line_type]
 
     @staticmethod
-    def read_end_markers(handle):
-        line_decoration = None  # create_object(handle)
-        line_decoration.read(handle)
+    def read_end_markers(stream: Stream):
+        line_decoration = stream.read_object()
         return line_decoration
 
 
@@ -133,8 +132,6 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
             print('scanning for end markers from {}'.format(hex(start)))
 
         self.decoration = stream.read_object()
-        if self.decoration is not None:
-            self.decoration.read(stream)
 
 
 class MarkerLineSymbolLayer(LineSymbolLayer):

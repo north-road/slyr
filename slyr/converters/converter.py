@@ -11,9 +11,14 @@ from slyr.parser.symbol_parser import (
     FillSymbol,
     FillSymbolLayer,
     LineSymbol,
-    LineSymbolLayer,
     MarkerSymbol,
     MarkerSymbolLayer
+)
+from slyr.parser.objects.line_symbol_layer import (
+LineSymbolLayer,
+CartographicLineSymbolLayer,
+MarkerLineSymbolLayer,
+SimpleLineSymbolLayer
 )
 
 
