@@ -21,7 +21,7 @@ class SymbolLayer(Object):
         """
         enabled = stream.read_uint()
         self.enabled = enabled == 1
-        stream.log('read enabled ({})'.format(self.enabled))
+        stream.log('read enabled ({})'.format(self.enabled), 4)
 
     def read_locked(self, stream: Stream):
         """
@@ -30,7 +30,7 @@ class SymbolLayer(Object):
         """
         locked = stream.read_uint()
         self.locked = locked == 1
-        stream.log('read layer locked ({})'.format(self.locked))
+        stream.log('read layer locked ({})'.format(self.locked), 4)
 
     def _read(self, stream: Stream):
         """
