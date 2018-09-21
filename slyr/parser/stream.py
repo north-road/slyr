@@ -34,11 +34,24 @@ class Stream:
         """
         return self._io_stream.read(length)
 
+    def seek(self, offset: int):
+        """
+        Seeks for the given offset.
+        """
+        self._io_stream.seek(offset)
+
     def rewind(self, length):
         """
         Rewinds by the given length
         """
         self._io_stream.seek(self._io_stream.tell() - length)
+
+    def log(self, message: str, offset: int = 0 ):
+        """
+        Logs a debug message
+        """
+        if self.debug:
+            print('{} at {}'.format(message, hex(self._io_stream.tell()-offset)))
 
     def read_double(self, debug_string: str = '') -> float:
         """
@@ -56,6 +69,16 @@ class Stream:
         :return:
         """
         res = unpack("<L", self._io_stream.read(4))[0]
+        if debug_string and self.debug:
+            print('read {} of {} at {}'.format(debug_string, res, hex(self._io_stream.tell() - 4)))
+        return res
+
+    def read_uint(self, debug_string: str = '') -> int:
+        """
+        Reads an uint from the stream.
+        :return:
+        """
+        res = unpack("<I", self._io_stream.read(4))[0]
         if debug_string and self.debug:
             print('read {} of {} at {}'.format(debug_string, res, hex(self._io_stream.tell() - 4)))
         return res

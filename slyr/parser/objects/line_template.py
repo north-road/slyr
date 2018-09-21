@@ -28,12 +28,10 @@ class LineTemplate(Object):
             empty_squares = stream.read_double()
             self.pattern_parts.append([filled_squares, empty_squares])
 
-        if stream.debug:
-            print('deciphered cartographic line pattern ending at {}'.format(hex(stream.tell())))
-            pattern = ''
-            for p in self.pattern_parts:
-                pattern += '-' * int(p[0]) + '.' * int(p[1])
-            print(pattern)
+        pattern = ''
+        for p in self.pattern_parts:
+            pattern += '-' * int(p[0]) + '.' * int(p[1])
+        stream.log('deciphered line pattern {} ending'.format(pattern))
 
 
 REGISTRY.register_object(LineTemplate)

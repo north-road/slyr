@@ -5,7 +5,10 @@ from slyr.parser.stream import Stream
 
 from slyr.parser.objects.line_template import LineTemplate
 from slyr.parser.objects.colors import Color
+from slyr.parser.objects.decoration import LineDecoration
+from slyr.parser.objects.line_symbol_layer import LineSymbolLayer
 
+from slyr.parser.exceptions import UnreadableSymbolException
 from slyr.parser.color_parser import InvalidColorException
 from slyr.parser.object_registry import REGISTRY, UnknownGuidException, NotImplementedException
 import binascii
@@ -14,9 +17,6 @@ import binascii
 Extracts a symbol from a style blob
 """
 
-
-class UnreadableSymbolException(Exception):
-    pass
 
 
 def create_object(handle):
@@ -715,6 +715,7 @@ class LineSymbol(Symbol):
         if handle.debug:
             print('at {}'.format(hex(handle._io_stream.tell())))
 
+
  #       while not binascii.hexlify(handle._io_stream.read(1)) == b'02':
   #          pass
 
@@ -861,14 +862,12 @@ def read_symbol(_io_stream, debug=False):
 
 
 REGISTRY.register('88539431-e06e-11d1-b277-0000f878229e', ArrowMarkerSymbolLayer)
-REGISTRY.register('7914e5fb-c892-11d0-8bb6-080009ee4e41', CartographicLineSymbolLayer)
 REGISTRY.register('7914e600-c892-11d0-8bb6-080009ee4e41', CharacterMarkerSymbolLayer)
 #REGISTRY.register('9a1eba10-cdf9-11d3-81eb-0080c79f0371',DotDensityFillSymbol)
 #REGISTRY.register('7914e609-c892-11d0-8bb6-080009ee4e41':GradientFillSymbol)
 #REGISTRY.register('7914e5fc-c892-11d0-8bb6-080009ee4e41':GradientFillSymbol)
 #REGISTRY.register('7914e606-c892-11d0-8bb6-080009ee4e41':LineFillSymbol)
 #REGISTRY.register( '7914e608-c892-11d0-8bb6-080009ee4e41':MarkerFillSymbol)
-REGISTRY.register('7914e5fd-c892-11d0-8bb6-080009ee4e41', MarkerLineSymbolLayer)
 REGISTRY.register('7914e604-c892-11d0-8bb6-080009ee4e41', FillSymbol)
 REGISTRY.register('7914e5fa-c892-11d0-8bb6-080009ee4e41', LineSymbol)
 REGISTRY.register('7914e5ff-c892-11d0-8bb6-080009ee4e41', MarkerSymbol),
@@ -876,9 +875,6 @@ REGISTRY.register('7914e5ff-c892-11d0-8bb6-080009ee4e41', MarkerSymbol),
 #REGISTRY.register('22c8c5a1-84fc-11d4-834d-0080c79f0371', PictureLineSymbol)
 #REGISTRY.register('7914e602-c892-11d0-8bb6-080009ee4e41', PictureMarkerSymbol)
 REGISTRY.register('7914e603-c892-11d0-8bb6-080009ee4e41', SimpleFillSymbolLayer)
-REGISTRY.register('7914e5f9-c892-11d0-8bb6-080009ee4e41', SimpleLineSymbolLayer)
 REGISTRY.register('7914e5fe-c892-11d0-8bb6-080009ee4e41', SimpleMarkerSymbolLayer)
-REGISTRY.register('533d88f5-0a1a-11d2-b27f-0000f878229e', LineDecoration)
-REGISTRY.register('533d88f3-0a1a-11d2-b27f-0000f878229e', SimpleLineDecoration)
 
 REGISTRY.register('0be35203-8f91-11ce-9de3-00aa004bb851', Font)
