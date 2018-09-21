@@ -31,8 +31,7 @@ class Color(Object):
         self.dither = binascii.hexlify(stream.read(1)) == b'01'
         self.is_null = binascii.hexlify(stream.read(1)) == b'ff'
 
-        if stream.debug:
-            print('Read color ({}) at {} {}'.format(self.model, hex(start), self.to_dict()))
+        stream.log('Read color ({}) of {}'.format(self.model, self.to_dict()))
 
 
 class RgbColor(Color):
@@ -50,8 +49,7 @@ class RgbColor(Color):
 
     def read_color(self, stream):
         if self.model == 'rgb':
-            if stream.debug:
-                print('Skipping some bytes at {}'.format(hex(stream.tell())))
+            stream.log('Skipping some bytes')
 
             terminator = binascii.hexlify(stream.read(2))
             if not terminator == b'0100':
@@ -61,16 +59,14 @@ class RgbColor(Color):
             start = stream.tell()
             terminator = binascii.hexlify(stream.read(1))
             if terminator != b'01':
-                if stream.debug:
-                    print('Expected 01 at {}, got {}'.format(hex(start), terminator))
+                stream.log('Expected 01 got {}'.format(terminator))
 
                 raise InvalidColorException('Expected 01 at {}, got {}'.format(hex(start), terminator))
 
             # another two unknown bytes
             stream.read(2)
         elif self.model == 'hsv':
-            if stream.debug:
-                print('Skipping 5 bytes at {}'.format(hex(stream.tell())))
+            stream.log('Skipping 5 bytes')
 
             stream.read(5)
 
@@ -117,7 +113,7 @@ class CMYKColor(Color):
         self.black = unpack("B", stream.read(1))[0]
 
     def to_dict(self):
-        return {'C': self.cyan, 'M': self.magenta, 'Y': self.yellow, 'K': self.black}
+        return {'C': self.cyan, 'M': self.magenta, 'Y': self.yellow, 'K': self.black, 'dither': self.dither, 'is_null': self.is_null}
 
 
 class HSVColor(RgbColor):

@@ -1,0 +1,3 @@
+
+class UnreadableSymbolException(Exception):
+    pass
