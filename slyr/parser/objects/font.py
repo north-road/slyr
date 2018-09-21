@@ -1,6 +1,5 @@
 from slyr.parser.object import Object
 from slyr.parser.stream import Stream
-from slyr.parser.object_registry import REGISTRY
 from struct import unpack
 
 
@@ -19,6 +18,3 @@ class Font(Object):
         skip = unpack(">H", stream.read(2))[0]
         stream.log('font name for {}'.format(skip))
         stream.read(skip)
-
-
-REGISTRY.register(Font)

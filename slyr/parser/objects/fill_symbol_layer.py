@@ -1,6 +1,5 @@
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.stream import Stream
-from slyr.parser.object_registry import REGISTRY
 
 
 class FillSymbolLayer(SymbolLayer):
@@ -37,6 +36,3 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
                 self.outline_symbol = outline
 
         self.color = stream.read_object('color')
-
-
-REGISTRY.register(SimpleFillSymbolLayer)

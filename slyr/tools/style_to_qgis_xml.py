@@ -11,6 +11,11 @@ from slyr.bintools.extractor import Extractor
 from slyr.parser.symbol_parser import read_symbol, UnreadableSymbolException
 from slyr.converters.qgis import FillSymbol_to_QgsFillSymbol
 
+from slyr.parser.initalize_registry import initialize_registry
+
+initialize_registry()
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="style file to extract", nargs='?')
 parser.add_argument("destination", help="QGIS symbol XML file destination", nargs='?')

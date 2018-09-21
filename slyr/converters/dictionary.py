@@ -10,13 +10,10 @@ from slyr.converters.converter import (
     NotImplementedException
 )
 from slyr.parser.symbol_parser import (
-    FillSymbolLayer,
     Symbol,
     FillSymbol,
     LineSymbol,
-    MarkerSymbol,
-    MarkerSymbolLayer,
-    LineTemplate
+    MarkerSymbol
 )
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.objects.line_symbol_layer import (
@@ -25,12 +22,16 @@ from slyr.parser.objects.line_symbol_layer import (
     CartographicLineSymbolLayer,
     MarkerLineSymbolLayer
 )
-from slyr.parser.objects.fill_symbol_layer import SimpleFillSymbolLayer
+from slyr.parser.objects.fill_symbol_layer import (
+    SimpleFillSymbolLayer,
+    FillSymbolLayer)
 from slyr.parser.objects.marker_symbol_layer import (
     SimpleMarkerSymbolLayer,
     CharacterMarkerSymbolLayer,
     ArrowMarkerSymbolLayer,
 )
+from slyr.parser.objects.marker_symbol_layer import MarkerSymbolLayer
+from slyr.parser.objects.line_template import LineTemplate
 from slyr.parser.objects.decoration import (
     LineDecoration,
     SimpleLineDecoration

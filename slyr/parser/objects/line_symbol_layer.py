@@ -2,7 +2,6 @@ import binascii
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.stream import Stream
 from slyr.parser.exceptions import UnreadableSymbolException
-from slyr.parser.object_registry import REGISTRY
 
 
 class LineSymbolLayer(SymbolLayer):
@@ -146,8 +145,3 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         self.pattern_marker = stream.read_object('pattern marker')
         self.template = stream.read_object('template')
         self.decoration = stream.read_object('decoration')
-
-
-REGISTRY.register(SimpleLineSymbolLayer)
-REGISTRY.register(CartographicLineSymbolLayer)
-REGISTRY.register(MarkerLineSymbolLayer)

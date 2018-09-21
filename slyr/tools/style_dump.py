@@ -10,6 +10,11 @@ from slyr.bintools.extractor import Extractor
 from slyr.parser.symbol_parser import read_symbol, UnreadableSymbolException
 from slyr.parser.color_parser import read_color_and_model
 
+from slyr.parser.initalize_registry import initialize_registry
+
+initialize_registry()
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="style file to extract")
 args = parser.parse_args()

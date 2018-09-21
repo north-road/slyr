@@ -7,14 +7,14 @@ Base class for converters
 from typing import Union
 from slyr.parser.symbol_parser import (
     Symbol,
-    SymbolLayer,
     FillSymbol,
     LineSymbol,
     MarkerSymbol,
-    MarkerSymbolLayer
 )
+from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.objects.line_symbol_layer import LineSymbolLayer
 from slyr.parser.objects.fill_symbol_layer import FillSymbolLayer
+from slyr.parser.objects.marker_symbol_layer import MarkerSymbolLayer
 
 
 class NotImplementedException(Exception):

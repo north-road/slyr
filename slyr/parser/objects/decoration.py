@@ -1,6 +1,5 @@
 from slyr.parser.object import Object
 from slyr.parser.stream import Stream
-from slyr.parser.object_registry import REGISTRY
 
 
 class LineDecoration(Object):
@@ -76,7 +75,3 @@ class SimpleLineDecoration(Object):
         for i in range(marker_number_positions):
             self.marker_positions.append(stream.read_double())
         stream.log('marker positions are {}'.format(self.marker_positions))
-
-
-REGISTRY.register(LineDecoration)
-REGISTRY.register(SimpleLineDecoration)

@@ -2,7 +2,6 @@
 
 from slyr.parser.object import Object
 from slyr.parser.stream import Stream
-from slyr.parser.object_registry import REGISTRY
 
 
 class LineTemplate(Object):
@@ -32,6 +31,3 @@ class LineTemplate(Object):
         for p in self.pattern_parts:
             pattern += '-' * int(p[0]) + '.' * int(p[1])
         stream.log('deciphered line pattern {} ending'.format(pattern))
-
-
-REGISTRY.register(LineTemplate)
