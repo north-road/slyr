@@ -9,7 +9,7 @@ import pprint
 
 from slyr.parser.symbol_parser import read_symbol
 from slyr.converters.dictionary import DictionaryConverter
-from slyr.bin_tools.scanner import SCANNERS
+from slyr.bintools.scanner import SCANNERS
 
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="bin file to parse")

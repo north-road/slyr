@@ -47,12 +47,12 @@ class Stream:
         """
         self._io_stream.seek(self._io_stream.tell() - length)
 
-    def log(self, message: str, offset: int = 0 ):
+    def log(self, message: str, offset: int = 0):
         """
         Logs a debug message
         """
         if self.debug:
-            print('{}{} at {}'.format('   '*self.debug_depth, message, hex(self._io_stream.tell()-offset)))
+            print('{}{} at {}'.format('   ' * self.debug_depth, message, hex(self._io_stream.tell() - offset)))
 
     def read_uchar(self, debug_string: str = '') -> int:
         """
@@ -91,7 +91,7 @@ class Stream:
         """
         res = unpack("<I", self._io_stream.read(4))[0]
         if debug_string:
-            self.log('read uint {} of {}'.format(debug_string, res),4)
+            self.log('read uint {} of {}'.format(debug_string, res), 4)
         return res
 
     def read_guid(self, debug_string: str = '') -> str:

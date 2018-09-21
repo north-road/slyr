@@ -92,7 +92,8 @@ class CMYKColor(Color):
         self.black = stream.read_uchar()
 
     def to_dict(self):
-        return {'C': self.cyan, 'M': self.magenta, 'Y': self.yellow, 'K': self.black, 'dither': self.dither, 'is_null': self.is_null}
+        return {'C': self.cyan, 'M': self.magenta, 'Y': self.yellow, 'K': self.black, 'dither': self.dither,
+                'is_null': self.is_null}
 
 
 class HSVColor(RgbColor):

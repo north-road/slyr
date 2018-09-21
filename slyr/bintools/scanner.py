@@ -14,6 +14,7 @@ from slyr.parser.color_parser import InvalidColorException
 from slyr.parser.object_registry import REGISTRY, UnknownGuidException
 from slyr.parser.objects.colors import Color
 
+
 class ObjectScan:
     """
     Base class for objects which scan through file handles for interesting bits
@@ -273,7 +274,7 @@ class ColorScan(ObjectScan):
                 return ColorMatch(start, file_handle.tell() - start, color.color_model, color)
             else:
                 return None
-        except:
+        except:  # nopep8
             return None
 
 

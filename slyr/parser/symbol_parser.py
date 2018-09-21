@@ -73,9 +73,8 @@ class LineSymbol(Symbol):
     def _read(self, stream: Stream):
         number_layers = stream.read_uint('layer count')
         for i in range(number_layers):
-            layer = stream.read_object('symbol layer {}/{}'.format(i+1,number_layers))
+            layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
             self.levels.extend([layer])
-
 
         if True:
             # the next section varies in size. To handle this we jump forward to a known anchor
@@ -138,8 +137,8 @@ class FillSymbol(Symbol):
         for l in self.levels:
             l.read_locked(stream)
 
-        #unknown_size = stream.read_double('unknown size')
-        #stream.read(2)
+        # unknown_size = stream.read_double('unknown size')
+        # stream.read(2)
 
 
 class MarkerSymbol(Symbol):
@@ -178,7 +177,8 @@ class MarkerSymbol(Symbol):
         if False and isinstance(self.halo_symbol, Symbol):
             check = binascii.hexlify(stream.read(1))
             if check != b'02':
-                raise UnreadableSymbolException('Found unexpected value {} at {}, expected x02'.format(check, hex(stream.tell()-1)))
+                raise UnreadableSymbolException(
+                    'Found unexpected value {} at {}, expected x02'.format(check, hex(stream.tell() - 1)))
             stream.read(1)
 
         if isinstance(self.halo_symbol, SymbolLayer):

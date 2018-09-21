@@ -1,7 +1,7 @@
-
 import binascii
 from slyr.parser.object import Object
 from slyr.parser.stream import Stream
+
 
 class SymbolLayer(Object):
     """
