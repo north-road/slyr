@@ -251,11 +251,8 @@ class DictionaryConverter(Converter):
             'cap': layer.cap,
             'join': layer.join,
             'template': None,
-            'marker': None,
-            'marker_fixed_angle': layer.marker_fixed_angle,
-            'marker_flip_first': layer.marker_flip_first,
-            'marker_flip_all': layer.marker_flip_all,
-            'marker_positions': layer.marker_positions
+            'pattern_marker': None,
+              'decoration': None
         }
         if layer.template is not None:
             converter = DictionaryConverter()
@@ -267,12 +264,14 @@ class DictionaryConverter(Converter):
         elif isinstance(layer.pattern_marker, (Symbol)):
             marker_converter = DictionaryConverter()
             out['pattern_marker'] = marker_converter.convert_symbol(layer.pattern_marker)
-        if isinstance(layer.marker, (SymbolLayer)):
-            marker_converter = DictionaryConverter()
-            out['marker'] = marker_converter.convert_symbol_layer(layer.marker)
-        elif isinstance(layer.marker, (Symbol)):
-            marker_converter = DictionaryConverter()
-            out['marker'] = marker_converter.convert_symbol(layer.marker)
+
+        if layer.decoration is not None:
+            if isinstance(layer.decoration, (LineDecoration)):
+                marker_converter = DictionaryConverter()
+                out['decoration'] = marker_converter.convert_decoration(layer.decoration)
+            elif isinstance(layer.decoration, (SimpleLineDecoration)):
+                marker_converter = DictionaryConverter()
+                out['decoration'] = marker_converter.convert_simple_line_decoration(layer.decoration)
 
         return out
 

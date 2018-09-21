@@ -123,7 +123,6 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         self.decoration = stream.read_object('decoration')
 
 
-
 class MarkerLineSymbolLayer(LineSymbolLayer):
     """
     Marker line symbol layer
@@ -135,11 +134,8 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         self.join = None
         self.offset = None
         self.template = None
-        self.marker = None
-        self.marker_fixed_angle = False
-        self.marker_flip_first = False
-        self.marker_flip_all = False
-        self.marker_positions = []
+        self.pattern_marker = None
+        self.decoration = None
 
     @staticmethod
     def guid():
@@ -155,15 +151,7 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         self.offset = stream.read_double('offset')
         self.pattern_marker = stream.read_object('pattern marker')
         self.template = stream.read_object('template')
-
-        if binascii.hexlify(stream.read(1)) == b'f5':
-            stream.log('detected end markers', -1)
-            end_markers = stream.read_object('end marker')
-            self.marker_fixed_angle = end_markers['marker_fixed_angle']
-            self.marker_flip_first = end_markers['marker_flip_first']
-            self.marker_flip_all = end_markers['marker_flip_all']
-            self.marker = end_markers['marker']
-            self.marker_positions = end_markers['marker_positions']
+        self.decoration = stream.read_object('decoration')
 
 
 REGISTRY.register(SimpleLineSymbolLayer)
