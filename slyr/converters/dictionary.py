@@ -250,15 +250,17 @@ class DictionaryConverter(Converter):
             'offset': layer.offset,
             'cap': layer.cap,
             'join': layer.join,
-            'pattern_interval': layer.pattern_interval,
-            'pattern_parts': layer.pattern_parts,
-            'pattern_marker': None,
+            'template': None,
             'marker': None,
             'marker_fixed_angle': layer.marker_fixed_angle,
             'marker_flip_first': layer.marker_flip_first,
             'marker_flip_all': layer.marker_flip_all,
             'marker_positions': layer.marker_positions
         }
+        if layer.template is not None:
+            converter = DictionaryConverter()
+            out['template'] = converter.convert_template(layer.template)
+
         if isinstance(layer.pattern_marker, (SymbolLayer)):
             marker_converter = DictionaryConverter()
             out['pattern_marker'] = marker_converter.convert_symbol_layer(layer.pattern_marker)
