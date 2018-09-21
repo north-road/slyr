@@ -11,27 +11,29 @@ from slyr.converters.converter import (
 )
 from slyr.parser.symbol_parser import (
     FillSymbolLayer,
-    SimpleFillSymbolLayer,
     Symbol,
     FillSymbol,
     LineSymbol,
     MarkerSymbol,
     MarkerSymbolLayer,
-    SimpleMarkerSymbolLayer,
-    CharacterMarkerSymbolLayer,
-    ArrowMarkerSymbolLayer,
     LineTemplate
 )
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.objects.line_symbol_layer import (
-LineSymbolLayer,
-SimpleLineSymbolLayer,
-CartographicLineSymbolLayer,
-MarkerLineSymbolLayer
+    LineSymbolLayer,
+    SimpleLineSymbolLayer,
+    CartographicLineSymbolLayer,
+    MarkerLineSymbolLayer
+)
+from slyr.parser.objects.fill_symbol_layer import SimpleFillSymbolLayer
+from slyr.parser.objects.marker_symbol_layer import (
+    SimpleMarkerSymbolLayer,
+    CharacterMarkerSymbolLayer,
+    ArrowMarkerSymbolLayer,
 )
 from slyr.parser.objects.decoration import (
-LineDecoration,
-SimpleLineDecoration
+    LineDecoration,
+    SimpleLineDecoration
 )
 
 
@@ -149,7 +151,7 @@ class DictionaryConverter(Converter):
     @staticmethod
     def convert_decoration(decoration: LineDecoration) -> dict:
         out = {
-            'decorations':[]
+            'decorations': []
         }
         for d in decoration.decorations:
 
@@ -185,7 +187,7 @@ class DictionaryConverter(Converter):
             'flip_first': layer.flip_first,
             'flip_all': layer.flip_all,
             'marker': None,
-            'positions':layer.marker_positions
+            'positions': layer.marker_positions
         }
 
         if isinstance(layer.marker, (SymbolLayer)):

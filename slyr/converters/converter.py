@@ -9,17 +9,12 @@ from slyr.parser.symbol_parser import (
     Symbol,
     SymbolLayer,
     FillSymbol,
-    FillSymbolLayer,
     LineSymbol,
     MarkerSymbol,
     MarkerSymbolLayer
 )
-from slyr.parser.objects.line_symbol_layer import (
-LineSymbolLayer,
-CartographicLineSymbolLayer,
-MarkerLineSymbolLayer,
-SimpleLineSymbolLayer
-)
+from slyr.parser.objects.line_symbol_layer import LineSymbolLayer
+from slyr.parser.objects.fill_symbol_layer import FillSymbolLayer
 
 
 class NotImplementedException(Exception):
