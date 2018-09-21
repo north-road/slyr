@@ -117,7 +117,7 @@ class DictionaryConverter(Converter):
         """
         out = {
             'color': DictionaryConverter.convert_color(layer.color),
-            'color_model': layer.color_model,
+            'color_model': layer.color.model,
         }
 
         if layer.outline_layer:
@@ -165,7 +165,7 @@ class DictionaryConverter(Converter):
         """
         out = {
             'color': DictionaryConverter.convert_color(layer.color),
-            'color_model': layer.color_model,
+            'color_model': layer.color.model,
             'width': layer.width,
             'line_type': layer.line_type
         }
@@ -211,7 +211,7 @@ class DictionaryConverter(Converter):
         """
         out = {
             'color': DictionaryConverter.convert_color(layer.color),
-            'color_model': layer.color_model,
+            'color_model': layer.color.model,
             'width': layer.width,
             'offset': layer.offset,
             'cap': layer.cap,
@@ -240,7 +240,7 @@ class DictionaryConverter(Converter):
         """
         out = {
             'color': DictionaryConverter.convert_color(layer.color),
-            'color_model': layer.color_model,
+            'color_model': layer.color.model if layer.color else None,
             'offset': layer.offset,
             'cap': layer.cap,
             'join': layer.join,
@@ -289,14 +289,14 @@ class DictionaryConverter(Converter):
         """
         out = {
             'color': DictionaryConverter.convert_color(layer.color),
-            'color_model': layer.color_model,
+            'color_model': layer.color.model,
             'marker_type': layer.type,
             'size': layer.size,
             'x_offset': layer.x_offset,
             'y_offset': layer.y_offset,
             'outline_enabled': layer.outline_enabled,
-            'outline_color_model': layer.outline_color_model,
-            'outline_color': layer.outline_color,
+            'outline_color_model': layer.outline_color.model,
+            'outline_color': layer.outline_color.to_dict(),
             'outline_size': layer.outline_width
         }
         return out
@@ -308,7 +308,7 @@ class DictionaryConverter(Converter):
         """
         out = {
             'color': DictionaryConverter.convert_color(layer.color),
-            'color_model': layer.color_model,
+            'color_model': layer.color.model,
             'unicode': layer.unicode,
             'font': layer.font,
             'size': layer.size,
@@ -325,7 +325,7 @@ class DictionaryConverter(Converter):
         """
         out = {
             'color': DictionaryConverter.convert_color(layer.color),
-            'color_model': layer.color_model,
+            'color_model': layer.color.model,
             'size': layer.size,
             'width': layer.width,
             'angle': layer.angle,
@@ -335,8 +335,8 @@ class DictionaryConverter(Converter):
         return out
 
     @staticmethod
-    def convert_color(color: dict) -> dict:
+    def convert_color(color) -> dict:
         """
         Converts a color
         """
-        return color
+        return color.to_dict() if color is not None else None

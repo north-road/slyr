@@ -9,10 +9,10 @@ from struct import unpack
 import binascii
 from colorama import Fore
 
-from slyr.parser.symbol_parser import read_string, Handle
-from slyr.parser.color_parser import read_color_and_model, InvalidColorException
-from slyr.parser.object_registry import REGISTRY
-
+from slyr.parser.stream import Stream
+from slyr.parser.color_parser import InvalidColorException
+from slyr.parser.object_registry import REGISTRY, UnknownGuidException
+from slyr.parser.objects.colors import Color
 
 class ObjectScan:
     """
@@ -109,7 +109,7 @@ class StringScan(ObjectScan):
     def check_handle(self, file_handle):
         try:
             start = file_handle.tell()
-            string_value = read_string(Handle(file_handle))
+            string_value = Stream(file_handle).read_string()
             if string_value and StringScan.strip_non_ascii(string_value) == string_value:
                 return StringMatch(start, file_handle.tell() - start, string_value)
         except:  # nopep8
@@ -157,7 +157,6 @@ class GuidCodeScan(ObjectScan):
             return GuidCodeMatch(file_handle.tell() - 16, 16, str(obj.__class__.__name__))
         except:  # nopep8
             return None
-
 
 
 class DoubleMatch(ObjectMatch):
@@ -268,9 +267,13 @@ class ColorScan(ObjectScan):
     def check_handle(self, file_handle):
         try:
             start = file_handle.tell()
-            color_model, color = read_color_and_model(file_handle, False)
-            return ColorMatch(start, file_handle.tell() - start, color_model, color)
-        except InvalidColorException:  # nopep8
+            stream = Stream(file_handle)
+            color = stream.read_object()
+            if issubclass(color.__class__, Color):
+                return ColorMatch(start, file_handle.tell() - start, color.color_model, color)
+            else:
+                return None
+        except:
             return None
 
 
