@@ -1,5 +1,4 @@
 import binascii
-from struct import unpack
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.stream import Stream
 from slyr.parser.object_registry import REGISTRY
@@ -53,7 +52,7 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         self.x_offset = stream.read_double('x offset')
         self.y_offset = stream.read_double('y offset')
 
-        has_outline = unpack("<B", stream.read(1))[0]
+        has_outline = stream.read_uchar()
         if has_outline == 1:
             self.outline_enabled = True
         self.outline_width = stream.read_double('outline width')
@@ -185,6 +184,6 @@ class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
         self.y_offset = stream.read_double('y offset')
 
 
-REGISTRY.register_object(ArrowMarkerSymbolLayer)
-REGISTRY.register_object(CharacterMarkerSymbolLayer)
-REGISTRY.register_object(SimpleMarkerSymbolLayer)
+REGISTRY.register(ArrowMarkerSymbolLayer)
+REGISTRY.register(CharacterMarkerSymbolLayer)
+REGISTRY.register(SimpleMarkerSymbolLayer)

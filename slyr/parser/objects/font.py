@@ -21,4 +21,4 @@ class Font(Object):
         stream.read(skip)
 
 
-REGISTRY.register_object(Font)
+REGISTRY.register(Font)

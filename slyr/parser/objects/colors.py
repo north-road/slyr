@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import binascii
-from struct import unpack
 from slyr.parser.object import Object
 from slyr.parser.color_parser import InvalidColorException, cielab_to_rgb
 from slyr.parser.object_registry import REGISTRY
@@ -107,10 +106,10 @@ class CMYKColor(Color):
         stream.read(4)
 
         # CMYK is nice and easy - it's just direct char representations of the C/M/Y/K integer components!
-        self.cyan = unpack("B", stream.read(1))[0]
-        self.magenta = unpack("B", stream.read(1))[0]
-        self.yellow = unpack("B", stream.read(1))[0]
-        self.black = unpack("B", stream.read(1))[0]
+        self.cyan = stream.read_uchar()
+        self.magenta = stream.read_uchar()
+        self.yellow = stream.read_uchar()
+        self.black = stream.read_uchar()
 
     def to_dict(self):
         return {'C': self.cyan, 'M': self.magenta, 'Y': self.yellow, 'K': self.black, 'dither': self.dither, 'is_null': self.is_null}
@@ -141,8 +140,8 @@ class GrayColor(RgbColor):
         return '7ee9c495-d123-11d0-8383-080009b996cc'
 
 
-REGISTRY.register_object(CMYKColor)
-REGISTRY.register_object(RgbColor)
-REGISTRY.register_object(HSVColor)
-REGISTRY.register_object(HSLColor)
-REGISTRY.register_object(GrayColor)
+REGISTRY.register(CMYKColor)
+REGISTRY.register(RgbColor)
+REGISTRY.register(HSVColor)
+REGISTRY.register(HSLColor)
+REGISTRY.register(GrayColor)

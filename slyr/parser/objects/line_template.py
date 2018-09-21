@@ -34,4 +34,4 @@ class LineTemplate(Object):
         stream.log('deciphered line pattern {} ending'.format(pattern))
 
 
-REGISTRY.register_object(LineTemplate)
+REGISTRY.register(LineTemplate)

@@ -206,6 +206,6 @@ def read_symbol(_io_stream, debug=False):
     return symbol_object
 
 
-REGISTRY.register_object(FillSymbol)
-REGISTRY.register_object(LineSymbol)
-REGISTRY.register_object(MarkerSymbol)
+REGISTRY.register(FillSymbol)
+REGISTRY.register(LineSymbol)
+REGISTRY.register(MarkerSymbol)

@@ -1,16 +1,9 @@
 from slyr.parser.object import Object
-
-
-class NotImplementedException(Exception):
-    pass
-
-
-class UnknownGuidException(Exception):
-    pass
+from slyr.parser.exceptions import (NotImplementedException,
+                                    UnknownGuidException)
 
 
 class ObjectRegistry:
-
     NOT_IMPLEMENTED_GUIDS = {
         '9a1eba10-cdf9-11d3-81eb-0080c79f0371': 'DotDensityFillSymbol',
         '7914e609-c892-11d0-8bb6-080009ee4e41': 'GradientFillSymbol',
@@ -26,13 +19,7 @@ class ObjectRegistry:
     def __init__(self):
         self.objects = {}
 
-    def register(self, guid: str, object_class):
-        """
-        Registers a new object class, with the given guid.
-        """
-        self.objects[guid] = object_class
-
-    def register_object(self, object_class: Object):
+    def register(self, object_class: Object):
         """
         Registers a new object class to the registry.
         """
