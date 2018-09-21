@@ -44,9 +44,10 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         self._read(stream)
 
         # look for 0d terminator
-        while not binascii.hexlify(stream.read(1)) == b'0d':
-            pass
-        stream.read(15)
+        if not binascii.hexlify(stream.read(8)) == b'0d00000000000000':
+            raise UnreadableSymbolException()
+
+        stream.read_double('unknown')
 
         self.x_offset = stream.read_double('x offset')
         self.y_offset = stream.read_double('y offset')
