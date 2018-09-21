@@ -96,9 +96,6 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
     def guid():
         return '7914e5fb-c892-11d0-8bb6-080009ee4e41'
 
-    def padding(self):
-        return 2
-
     def _read(self, stream: Stream):
         self.cap = self.read_cap(stream)
 
@@ -141,12 +138,9 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
     def guid():
         return '7914e5fd-c892-11d0-8bb6-080009ee4e41'
 
-    def padding(self):
-        return 2
-
     def _read(self, stream: Stream):
         self.cap = self.read_cap(stream)
-        stream.log('read cap of {}'.format(self.cap), -1)
+        stream.log('read cap of {}'.format(self.cap), 1)
 
         self.offset = stream.read_double('offset')
         self.pattern_marker = stream.read_object('pattern marker')

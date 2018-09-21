@@ -12,9 +12,6 @@ class SymbolLayer(Object):
         self.locked = False
         self.enabled = True
 
-    def padding(self):
-        return 2
-
     def read_enabled(self, stream: Stream):
         """
         Reads the layer 'enabled' state
@@ -50,8 +47,8 @@ class SymbolLayer(Object):
         Reads the symbol layer information. Internally calls _read method
         for individual layer types
         """
-        stream.log('skipping padding of {}'.format(self.padding()))
-        stream.read(self.padding())
+        unknown = binascii.hexlify(stream.read(2))
+        stream.log('!!unknown of {}'.format(unknown))
 
         self._read(stream)
 
