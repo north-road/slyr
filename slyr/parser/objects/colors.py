@@ -47,27 +47,8 @@ class RgbColor(Color):
         return '7ee9c496-d123-11d0-8383-080009b996cc'
 
     def read_color(self, stream):
-        if self.model == 'rgb':
-            stream.log('Skipping some bytes')
-
-            terminator = binascii.hexlify(stream.read(2))
-            if not terminator == b'0100':
-                # .lyr files have an extra 4 bytes in here - of unknown purpose
-                stream.read(4)
-
-            start = stream.tell()
-            terminator = binascii.hexlify(stream.read(1))
-            if terminator != b'01':
-                stream.log('Expected 01 got {}'.format(terminator))
-
-                raise InvalidColorException('Expected 01 at {}, got {}'.format(hex(start), terminator))
-
-            # another two unknown bytes
-            stream.read(2)
-        elif self.model == 'hsv':
-            stream.log('Skipping 5 bytes')
-
-            stream.read(5)
+        stream.log('Skipping 5 bytes')  # looks like 01 00 01 00 00 ?
+        stream.read(5)
 
         lab_l = stream.read_double()
         lab_a = stream.read_double()
@@ -101,8 +82,7 @@ class CMYKColor(Color):
         return '7ee9c497-d123-11d0-8383-080009b996cc'
 
     def read_color(self, stream):
-        if stream.debug:
-            print('Skipping 4 bytes at {}'.format(hex(stream.tell())))
+        stream.log('Skipping 4 bytes')
         stream.read(4)
 
         # CMYK is nice and easy - it's just direct char representations of the C/M/Y/K integer components!

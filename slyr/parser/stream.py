@@ -20,6 +20,7 @@ class Stream:
         """
         self._io_stream = io_stream
         self.debug = debug
+        self.debug_depth = 0
 
     def tell(self) -> int:
         """
@@ -51,7 +52,7 @@ class Stream:
         Logs a debug message
         """
         if self.debug:
-            print('{} at {}'.format(message, hex(self._io_stream.tell()-offset)))
+            print('{}{} at {}'.format('   '*self.debug_depth, message, hex(self._io_stream.tell()-offset)))
 
     def read_uchar(self, debug_string: str = '') -> int:
         """
@@ -59,8 +60,8 @@ class Stream:
         :return:
         """
         res = unpack("<B", self._io_stream.read(1))[0]
-        if debug_string and self.debug:
-            print('read {} of {} at {}'.format(debug_string, res, hex(self._io_stream.tell() - 1)))
+        if debug_string:
+            self.log('read uchar {} of {}'.format(debug_string, res), 1)
         return res
 
     def read_double(self, debug_string: str = '') -> float:
@@ -69,8 +70,8 @@ class Stream:
         :return:
         """
         res = unpack("<d", self._io_stream.read(8))[0]
-        if debug_string and self.debug:
-            print('read {} of {} at {}'.format(debug_string, res, hex(self._io_stream.tell() - 8)))
+        if debug_string:
+            self.log('read double {} of {}'.format(debug_string, res), 8)
         return res
 
     def read_int(self, debug_string: str = '') -> int:
@@ -79,8 +80,8 @@ class Stream:
         :return:
         """
         res = unpack("<L", self._io_stream.read(4))[0]
-        if debug_string and self.debug:
-            print('read {} of {} at {}'.format(debug_string, res, hex(self._io_stream.tell() - 4)))
+        if debug_string:
+            self.log('read int {} of {}'.format(debug_string, res), 4)
         return res
 
     def read_uint(self, debug_string: str = '') -> int:
@@ -89,21 +90,19 @@ class Stream:
         :return:
         """
         res = unpack("<I", self._io_stream.read(4))[0]
-        if debug_string and self.debug:
-            print('read {} of {} at {}'.format(debug_string, res, hex(self._io_stream.tell() - 4)))
+        if debug_string:
+            self.log('read uint {} of {}'.format(debug_string, res),4)
         return res
 
-    def read_guid(self) -> str:
+    def read_guid(self, debug_string: str = '') -> str:
         """
         Reads a GUID from the stream
         """
-        if self.debug:
-            print('Reading object header at {}'.format(hex(self._io_stream.tell())))
         guid_bin = binascii.hexlify(self._io_stream.read(16))
 
         guid = ObjectRegistry.hex_to_guid(guid_bin)
-        if self.debug:
-            print('Found guid of {}'.format(guid))
+        if guid != '00000000-0000-0000-0000-000000000000':
+            self.log('Found {} guid of {}'.format(debug_string, guid), 16)
         return guid
 
     def read_string(self, debug_string: str = '') -> str:
@@ -114,33 +113,35 @@ class Stream:
         a four-byte unsigned integer, and then writes that many characters
         to the stream'
         """
-        start = self._io_stream.tell()
-        if debug_string and self.debug:
-            print('start {} at {}'.format(debug_string, hex(start)))
+        if debug_string:
+            self.log('start {}'.format(debug_string))
 
         length = unpack("<I", self._io_stream.read(4))[0]
-        if self.debug:
-            print('string of length {} at {}'.format(length, hex(start)))
+        self.log('string of length {}'.format(length), 4)
         buffer = self._io_stream.read(length)
         string = buffer.decode('utf-16')
-        if self.debug:
-            print('found string "{}" at {}'.format(string, hex(start)))
+        self.log('found string "{}"'.format(string))
         return string[:-1]
 
-    def read_object(self) -> Optional[Object]:
+    def read_object(self, debug_string: str = '') -> Optional[Object]:
         """
         Creates and reads a new object from the stream
         """
-        guid = self.read_guid()
+        guid = self.read_guid(debug_string)
         res = REGISTRY.create_object(guid)
-        if self.debug:
-            if res is not None:
-                print('=={}'.format(res.__class__.__name__))
-            else:
-                print('==None')
+        if res is not None:
+            self.log('** {} **'.format(res.__class__.__name__), 16)
+        else:
+            self.log('{} not found'.format(debug_string), 16)
 
         if res is not None:
+            self.debug_depth += 1
             res.read(self)
+            self.log('ended {}'.format(res.__class__.__name__))
+            if self.debug:
+                print('')
+            self.debug_depth -= 1
+
         return res
 
     def consume_padding(self):

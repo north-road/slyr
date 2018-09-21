@@ -65,5 +65,3 @@ class SymbolLayer(Object):
                 if binascii.hexlify(stream.read(terminator_len)) in self.terminator():
                     break
                 stream.seek(start + 1)
-
-        stream.log('finished layer read')
