@@ -1,7 +1,6 @@
 import binascii
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.stream import Stream
-from slyr.parser.object_registry import REGISTRY
 from slyr.parser.exceptions import UnreadableSymbolException
 
 
@@ -174,8 +173,3 @@ class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
 
         self.x_offset = stream.read_double('x offset')
         self.y_offset = stream.read_double('y offset')
-
-
-REGISTRY.register(ArrowMarkerSymbolLayer)
-REGISTRY.register(CharacterMarkerSymbolLayer)
-REGISTRY.register(SimpleMarkerSymbolLayer)

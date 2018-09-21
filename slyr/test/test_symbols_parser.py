@@ -14515,6 +14515,10 @@ expected = {
     }
 }
 
+from slyr.parser.initalize_registry import initialize_registry
+
+initialize_registry()
+
 
 class TestSymbolParser(unittest.TestCase):
     """

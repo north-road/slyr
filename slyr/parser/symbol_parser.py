@@ -3,19 +3,10 @@
 from slyr.parser.stream import Stream
 from slyr.parser.object import Object
 
-from slyr.parser.objects.line_template import LineTemplate
-from slyr.parser.objects.colors import Color
-from slyr.parser.objects.decoration import LineDecoration
-from slyr.parser.objects.line_symbol_layer import LineSymbolLayer
-from slyr.parser.objects.fill_symbol_layer import FillSymbolLayer
-from slyr.parser.objects.marker_symbol_layer import MarkerSymbolLayer
-from slyr.parser.objects.font import Font
-
 from slyr.parser.objects.symbol_layer import SymbolLayer
 
 from slyr.parser.exceptions import UnreadableSymbolException
 from slyr.parser.color_parser import InvalidColorException
-from slyr.parser.object_registry import REGISTRY
 import binascii
 
 """
@@ -209,8 +200,3 @@ def read_symbol(_io_stream, debug=False):
     except InvalidColorException:
         raise UnreadableSymbolException()
     return symbol_object
-
-
-REGISTRY.register(FillSymbol)
-REGISTRY.register(LineSymbol)
-REGISTRY.register(MarkerSymbol)

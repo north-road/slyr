@@ -8,6 +8,9 @@ import argparse
 from io import BytesIO
 import os
 from slyr.bintools.extractor import Extractor
+from slyr.parser.initalize_registry import initialize_registry
+
+initialize_registry()
 
 
 def clean_symbol_name_for_file(symbol_name):

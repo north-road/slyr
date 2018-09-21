@@ -3,7 +3,6 @@
 import binascii
 from slyr.parser.object import Object
 from slyr.parser.color_parser import InvalidColorException, cielab_to_rgb
-from slyr.parser.object_registry import REGISTRY
 
 """
 Extracts colors from a style blob
@@ -119,10 +118,3 @@ class GrayColor(RgbColor):
     @staticmethod
     def guid():
         return '7ee9c495-d123-11d0-8383-080009b996cc'
-
-
-REGISTRY.register(CMYKColor)
-REGISTRY.register(RgbColor)
-REGISTRY.register(HSVColor)
-REGISTRY.register(HSLColor)
-REGISTRY.register(GrayColor)

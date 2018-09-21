@@ -11,6 +11,10 @@ from slyr.parser.symbol_parser import read_symbol
 from slyr.converters.dictionary import DictionaryConverter
 from slyr.bintools.scanner import SCANNERS
 
+from slyr.parser.initalize_registry import initialize_registry
+
+initialize_registry()
+
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="bin file to parse")
 parser.add_argument('--debug', help='Debug mode', action='store_true')
