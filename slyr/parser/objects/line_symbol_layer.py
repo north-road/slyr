@@ -134,9 +134,7 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         self.cap = None
         self.join = None
         self.offset = None
-        self.pattern_interval = 0
-        self.pattern_parts = []
-        self.pattern_marker = None
+        self.template = None
         self.marker = None
         self.marker_fixed_angle = False
         self.marker_flip_first = False
@@ -155,35 +153,8 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         stream.log('read cap of {}'.format(self.cap), -1)
 
         self.offset = stream.read_double('offset')
-
         self.pattern_marker = stream.read_object('pattern marker')
-
-        #if False and not issubclass(self.pattern_marker.__class__, SymbolLayer):
-        #    # ewwwwww
-        #    while not binascii.hexlify(handle._io_stream.read(1)) == b'02':
-        #        pass
-        #    while not binascii.hexlify(handle._io_stream.read(1)) == b'02':
-        #        pass
-        #    handle._io_stream.read(5)
-
-        # TODO - THIS IS A Template object
-
-        stream.read(18)
-        self.pattern_interval = stream.read_double('interval')
-
-        # symbol pattern
-        pattern_part_count = stream.read_int('pattern parts')
-
-        self.pattern_parts = []
-        for p in range(pattern_part_count):
-            filled_squares = stream.read_double()
-            empty_squares = stream.read_double()
-            self.pattern_parts.append([filled_squares, empty_squares])
-
-        pattern = ''
-        for p in self.pattern_parts:
-            pattern += '-' * int(p[0]) + '.' * int(p[1])
-        stream.log('deciphered marker line pattern {}'.format(pattern))
+        self.template = stream.read_object('template')
 
         if binascii.hexlify(stream.read(1)) == b'f5':
             stream.log('detected end markers', -1)
