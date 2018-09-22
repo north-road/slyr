@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+Marker symbol layers
+"""
+
 import binascii
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.stream import Stream
@@ -137,7 +142,8 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         stream.read(4)
         stream.read(6)
 
-        font = stream.read_object('font')
+        # std OLE font .. maybe contains useful stuff like bold/etc, but these aren't exposed in ArcGIS anyway..
+        _ = stream.read_object('font')
 
 
 class ArrowMarkerSymbolLayer(MarkerSymbolLayer):

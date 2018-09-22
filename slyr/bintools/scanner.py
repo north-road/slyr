@@ -10,8 +10,7 @@ import binascii
 from colorama import Fore
 
 from slyr.parser.stream import Stream
-from slyr.parser.color_parser import InvalidColorException
-from slyr.parser.object_registry import REGISTRY, UnknownGuidException
+from slyr.parser.object_registry import REGISTRY
 from slyr.parser.objects.colors import Color
 
 
@@ -104,8 +103,11 @@ class StringScan(ObjectScan):
     PRINTABLE = set(string.printable)
 
     @staticmethod
-    def strip_non_ascii(string):
-        return ''.join(filter(lambda x: x in StringScan.PRINTABLE, string))
+    def strip_non_ascii(s):
+        """
+        Removes all non-ascii characters from a string
+        """
+        return ''.join(filter(lambda x: x in StringScan.PRINTABLE, s))
 
     def check_handle(self, file_handle):
         try:
@@ -113,7 +115,7 @@ class StringScan(ObjectScan):
             string_value = Stream(file_handle).read_string()
             if string_value and StringScan.strip_non_ascii(string_value) == string_value:
                 return StringMatch(start, file_handle.tell() - start, string_value)
-        except:  # nopep8
+        except:  # nopep8, pylint: disable=bare-except
             return None
 
 
@@ -156,7 +158,7 @@ class GuidCodeScan(ObjectScan):
             if obj is None:
                 return None
             return GuidCodeMatch(file_handle.tell() - 16, 16, str(obj.__class__.__name__))
-        except:  # nopep8
+        except:  # nopep8, pylint: disable=bare-except
             return None
 
 
@@ -192,7 +194,7 @@ class DoubleScan(ObjectScan):
             if -1000 < real_value < 10000 and (real_value > 0.00001 or real_value < -0.00001) \
                     and round(real_value * 10) == real_value * 10:
                 return DoubleMatch(file_handle.tell() - 8, 8, real_value)
-        except:  # nopep8
+        except:  # nopep8, pylint: disable=bare-except
             return None
 
 
@@ -227,7 +229,7 @@ class IntScan(ObjectScan):
             int_value = unpack("<I", file_handle.read(4))[0]
             if -100 < int_value < 255 and int_value != 0:
                 return IntMatch(file_handle.tell() - 4, 4, int_value)
-        except:  # nopep8
+        except:  # nopep8, pylint: disable=bare-except
             return None
 
 
@@ -274,7 +276,7 @@ class ColorScan(ObjectScan):
                 return ColorMatch(start, file_handle.tell() - start, color.color_model, color)
             else:
                 return None
-        except:  # nopep8
+        except:  # nopep8, pylint: disable=bare-except
             return None
 
 

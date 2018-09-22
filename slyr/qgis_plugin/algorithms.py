@@ -33,8 +33,9 @@ from qgis.core import (QgsProcessingAlgorithm,
 from processing.core.ProcessingConfig import ProcessingConfig
 
 from slyr.bintools.extractor import Extractor
-from slyr.parser.symbol_parser import read_symbol, UnreadableSymbolException
-from slyr.parser.color_parser import read_color_and_model, InvalidColorException
+from slyr.parser.stream import Stream
+from slyr.parser.exceptions import (UnreadableSymbolException,
+                                    InvalidColorException)
 from slyr.converters.qgis import (Symbol_to_QgsSymbol,
                                   symbol_color_to_qcolor,
                                   NotImplementedException)
@@ -141,8 +142,9 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     feedback.pushInfo('Corrected to unique name of {}'.format(unique_name))
 
                 handle = BytesIO(raw_symbol[Extractor.BLOB])
+                stream = Stream(handle)
                 try:
-                    symbol = read_symbol(file_handle=handle)
+                    symbol = stream.read_object()
                 except UnreadableSymbolException as e:
                     feedback.reportError('Error reading symbol {}: {}'.format(name, e))
                     unreadable += 1
@@ -242,8 +244,9 @@ class StyleToGpl(QgsProcessingAlgorithm):
             feedback.pushInfo('{}/{}: {}'.format(index + 1, len(raw_colors), name))
 
             handle = BytesIO(raw_color[Extractor.BLOB])
+            stream = Stream(handle)
             try:
-                _, color = read_color_and_model(handle)
+                color = stream.read_object()
             except InvalidColorException:
                 feedback.reportError('Error reading color {}'.format(name))
                 unreadable += 1

@@ -151,16 +151,17 @@ class DictionaryConverter(Converter):
 
     @staticmethod
     def convert_decoration(decoration: LineDecoration) -> dict:
+        """
+        Converts a LineDecoration object
+        """
         out = {
             'decorations': []
         }
         for d in decoration.decorations:
-
-            decoration_converter = DictionaryConverter()
-            if isinstance(d, (LineDecoration)):
+            if isinstance(d, LineDecoration):
                 marker_converter = DictionaryConverter()
                 out['decorations'].append(marker_converter.convert_decoration(d))
-            elif isinstance(d, (SimpleLineDecoration)):
+            elif isinstance(d, SimpleLineDecoration):
                 marker_converter = DictionaryConverter()
                 out['decorations'].append(marker_converter.convert_simple_line_decoration(d))
         return out

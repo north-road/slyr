@@ -1,29 +1,38 @@
 #!/usr/bin/env python
+"""
+Color objects
+"""
 
 import binascii
 from slyr.parser.object import Object
-from slyr.parser.color_parser import InvalidColorException, cielab_to_rgb
-
-"""
-Extracts colors from a style blob
-"""
+from slyr.parser.exceptions import InvalidColorException
+from slyr.parser.color_parser import cielab_to_rgb
 
 
 class Color(Object):
+    """
+    Base class for color objects
+    """
 
     def __init__(self):
         self.model = ''
         self.dither = False
         self.is_null = False
 
-    def read_color(self, stream):
-        pass
+    def read_color(self, stream):  # pylint: disable=unused-argument
+        """
+        Reads the color from the stream. Subclasses must implement this
+        """
+        assert False
 
     def to_dict(self) -> dict:
+        """
+        Returns a dictionary representation of the color
+        :return:
+        """
         return {}
 
     def read(self, stream):
-        start = stream.tell()
         self.read_color(stream)
 
         self.dither = binascii.hexlify(stream.read(1)) == b'01'
@@ -33,6 +42,9 @@ class Color(Object):
 
 
 class RgbColor(Color):
+    """
+    RGB Color
+    """
 
     def __init__(self):
         super().__init__()
@@ -58,7 +70,11 @@ class RgbColor(Color):
         except OverflowError:
             raise InvalidColorException()
 
-        if self.red > 255 or self.red < 0 or self.blue > 255 or self.blue < 0 or self.green > 255 or self.green < 0:
+        if self.red > 255 or self.red < 0:
+            raise InvalidColorException()
+        if self.blue > 255 or self.blue < 0:
+            raise InvalidColorException()
+        if self.green > 255 or self.green < 0:
             raise InvalidColorException()
 
     def to_dict(self):
@@ -66,6 +82,9 @@ class RgbColor(Color):
 
 
 class CMYKColor(Color):
+    """
+    CYMK Color
+    """
 
     def __init__(self):
         super().__init__()
@@ -96,6 +115,9 @@ class CMYKColor(Color):
 
 
 class HSVColor(RgbColor):
+    """
+    HSV Color
+    """
 
     def __init__(self):
         super().__init__()
@@ -107,6 +129,9 @@ class HSVColor(RgbColor):
 
 
 class HSLColor(RgbColor):
+    """
+    HSL Color, actually exposed in ArcGIS as a "named color" (I think)
+    """
 
     @staticmethod
     def guid():
@@ -114,6 +139,9 @@ class HSLColor(RgbColor):
 
 
 class GrayColor(RgbColor):
+    """
+    Grayscale Color
+    """
 
     @staticmethod
     def guid():

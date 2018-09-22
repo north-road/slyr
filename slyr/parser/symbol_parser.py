@@ -1,17 +1,17 @@
 #!/usr/bin/env python
+"""
+Extracts a symbol from a style blob
+"""
+
+import binascii
 
 from slyr.parser.stream import Stream
 from slyr.parser.object import Object
 
 from slyr.parser.objects.symbol_layer import SymbolLayer
 
-from slyr.parser.exceptions import UnreadableSymbolException
-from slyr.parser.color_parser import InvalidColorException
-import binascii
-
-"""
-Extracts a symbol from a style blob
-"""
+from slyr.parser.exceptions import (UnreadableSymbolException,
+                                    InvalidColorException)
 
 
 class Symbol(Object):
@@ -54,9 +54,6 @@ class LineSymbol(Symbol):
     Line symbol
     """
 
-    def __init__(self):
-        super().__init__()
-
     @staticmethod
     def guid():
         return '7914e5fa-c892-11d0-8bb6-080009ee4e41'
@@ -67,23 +64,22 @@ class LineSymbol(Symbol):
             layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
             self.levels.extend([layer])
 
-        if True:
-            # the next section varies in size. To handle this we jump forward to a known anchor
-            # point, and then move back by a known amount
+        # the next section varies in size. To handle this we jump forward to a known anchor
+        # point, and then move back by a known amount
 
-            # burn up to the 02
-            stream.log('burning up to 02...')
-            while not binascii.hexlify(stream.read(1)) == b'02':
-                pass
+        # burn up to the 02
+        stream.log('burning up to 02...')
+        while not binascii.hexlify(stream.read(1)) == b'02':
+            pass
 
-            # jump back a known amount
-            stream.rewind(8 * number_layers + 1)
+        # jump back a known amount
+        stream.rewind(8 * number_layers + 1)
 
-        else:
-            stream.read(1)
+        # TODO - replace the fragile bit above!
+        #   stream.read(1)
 
-            stream.read_double('unknown size')
-            stream.read_double('unknown size')
+        #   stream.read_double('unknown size')
+        #   stream.read_double('unknown size')
 
         for l in self.levels:
             l.read_enabled(stream)
@@ -98,6 +94,7 @@ class FillSymbol(Symbol):
 
     def __init__(self):
         super().__init__()
+        self.color = None
 
     @staticmethod
     def guid():
@@ -109,7 +106,7 @@ class FillSymbol(Symbol):
         number_layers = stream.read_int('layers')
         for i in range(number_layers):
             stream.consume_padding()
-            layer = stream.read_object('symbol layer')
+            layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
             self.levels.extend([layer])
 
         # the next section varies in size. To handle this we jump forward to a known anchor
@@ -143,6 +140,7 @@ class MarkerSymbol(Symbol):
         self.halo = False
         self.halo_size = 0
         self.halo_symbol = None
+        self.color = None
 
     @staticmethod
     def guid():
@@ -150,12 +148,12 @@ class MarkerSymbol(Symbol):
 
     def _read(self, stream: Stream):
         # consume section of unknown purpose
-        unknown_size = stream.read_double('unknown size')
+        _ = stream.read_double('unknown size')
 
         unknown_object = stream.read_object('unknown')
         if unknown_object is not None:
             assert False, unknown_object
-        unknown_size = stream.read_double('unknown size')
+        _ = stream.read_double('unknown size')
 
         self.color = stream.read_object('color')
 
@@ -178,7 +176,7 @@ class MarkerSymbol(Symbol):
         # useful stuff
         number_layers = stream.read_int('layers')
         for i in range(number_layers):
-            layer = stream.read_object('layer')
+            layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
             self.levels.extend([layer])
 
         for l in self.levels:
@@ -186,8 +184,8 @@ class MarkerSymbol(Symbol):
         for l in self.levels:
             l.read_locked(stream)
 
-        unknown_size = stream.read_double('unknown size')
-        unknown_size = stream.read_double('unknown size')
+        _ = stream.read_double('unknown size')
+        _ = stream.read_double('unknown size')
 
 
 def read_symbol(_io_stream, debug=False):

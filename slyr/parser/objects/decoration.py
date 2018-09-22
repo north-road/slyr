@@ -1,8 +1,16 @@
+#!/usr/bin/env python
+"""
+Line decorations
+"""
+
 from slyr.parser.object import Object
 from slyr.parser.stream import Stream
 
 
 class LineDecoration(Object):
+    """
+    Line decoration, consisting of a number of decoration elements
+    """
 
     def __init__(self):
         super().__init__()
@@ -21,7 +29,7 @@ class LineDecoration(Object):
         # next bit is probably number of decorations?
         count = stream.read_uint('count of decorations')
         for i in range(count):
-            decoration = stream.read_object('decoration element')
+            decoration = stream.read_object('decoration element {}/{}'.format(i, count))
             self.decorations.append(decoration)
 
 
@@ -64,6 +72,6 @@ class SimpleLineDecoration(Object):
 
         # next bit is the positions themselves -- maybe we can infer this from the number of positions
         # alone. E.g. 2 positions = 0, 1. 3 positions = 0, 0.5, 1
-        for i in range(marker_number_positions):
+        for _ in range(marker_number_positions):
             self.marker_positions.append(stream.read_double())
         stream.log('marker positions are {}'.format(self.marker_positions))

@@ -9,6 +9,7 @@ import os
 from slyr.converters.dictionary import DictionaryConverter
 from slyr.parser.symbol_parser import read_symbol
 from slyr.parser.object_registry import ObjectRegistry
+from slyr.parser.initalize_registry import initialize_registry
 
 expected = {
     'marker_bin':
@@ -1002,8 +1003,8 @@ expected = {
                  'type': 'FillSymbol'},
             'Black CMYK.bin':
                 {'levels': [{'color': {'C': 0, 'K': 100, 'M': 0, 'Y': 0,
-                       'dither': False,
-                       'is_null': False},
+                                       'dither': False,
+                                       'is_null': False},
                              'color_model': 'cmyk',
                              'enabled': True,
                              'locked': False,
@@ -14342,8 +14343,8 @@ expected = {
     },
     'cmyk_bin': {
         'C 50 M 0 Y 0 B 0.bin': {'levels': [{'color': {'C': 50, 'K': 0, 'M': 0, 'Y': 0,
-                       'dither': False,
-                       'is_null': False},
+                                                       'dither': False,
+                                                       'is_null': False},
                                              'color_model': 'cmyk',
                                              'enabled': True,
                                              'locked': False,
@@ -14361,8 +14362,8 @@ expected = {
                                              'type': 'SimpleFillSymbolLayer'}],
                                  'type': 'FillSymbol'},
         'C 0 M 100 Y 0 B 0.bin': {'levels': [{'color': {'C': 0, 'K': 0, 'M': 100, 'Y': 0,
-                       'dither': False,
-                       'is_null': False},
+                                                        'dither': False,
+                                                        'is_null': False},
                                               'color_model': 'cmyk',
                                               'enabled': True,
                                               'locked': False,
@@ -14380,8 +14381,8 @@ expected = {
                                               'type': 'SimpleFillSymbolLayer'}],
                                   'type': 'FillSymbol'},
         'C 100 M 0 Y 0 B 0.bin': {'levels': [{'color': {'C': 100, 'K': 0, 'M': 0, 'Y': 0,
-                       'dither': False,
-                       'is_null': False},
+                                                        'dither': False,
+                                                        'is_null': False},
                                               'color_model': 'cmyk',
                                               'enabled': True,
                                               'locked': False,
@@ -14399,8 +14400,8 @@ expected = {
                                               'type': 'SimpleFillSymbolLayer'}],
                                   'type': 'FillSymbol'},
         'C 0 M 0 Y 100 B 0.bin': {'levels': [{'color': {'C': 0, 'K': 0, 'M': 0, 'Y': 100,
-                       'dither': False,
-                       'is_null': False},
+                                                        'dither': False,
+                                                        'is_null': False},
                                               'color_model': 'cmyk',
                                               'enabled': True,
                                               'locked': False,
@@ -14418,8 +14419,8 @@ expected = {
                                               'type': 'SimpleFillSymbolLayer'}],
                                   'type': 'FillSymbol'},
         'C 15 M 24 Y 33 B 42.bin': {'levels': [{'color': {'C': 15, 'K': 42, 'M': 24, 'Y': 33,
-                       'dither': False,
-                       'is_null': False},
+                                                          'dither': False,
+                                                          'is_null': False},
                                                 'color_model': 'cmyk',
                                                 'enabled': True,
                                                 'locked': False,
@@ -14437,8 +14438,8 @@ expected = {
                                                 'type': 'SimpleFillSymbolLayer'}],
                                     'type': 'FillSymbol'},
         'C 0 M 50 Y 0 B 0.bin': {'levels': [{'color': {'C': 0, 'K': 0, 'M': 50, 'Y': 0,
-                       'dither': False,
-                       'is_null': False},
+                                                       'dither': False,
+                                                       'is_null': False},
                                              'color_model': 'cmyk',
                                              'enabled': True,
                                              'locked': False,
@@ -14456,8 +14457,8 @@ expected = {
                                              'type': 'SimpleFillSymbolLayer'}],
                                  'type': 'FillSymbol'},
         'C 0 M 0 Y 50 B 0.bin': {'levels': [{'color': {'C': 0, 'K': 0, 'M': 0, 'Y': 50,
-                       'dither': False,
-                       'is_null': False},
+                                                       'dither': False,
+                                                       'is_null': False},
                                              'color_model': 'cmyk',
                                              'enabled': True,
                                              'locked': False,
@@ -14475,8 +14476,8 @@ expected = {
                                              'type': 'SimpleFillSymbolLayer'}],
                                  'type': 'FillSymbol'},
         'C 0 M 0 Y 0 B 100.bin': {'levels': [{'color': {'C': 0, 'K': 100, 'M': 0, 'Y': 0,
-                       'dither': False,
-                       'is_null': False},
+                                                        'dither': False,
+                                                        'is_null': False},
                                               'color_model': 'cmyk',
                                               'enabled': True,
                                               'locked': False,
@@ -14494,8 +14495,8 @@ expected = {
                                               'type': 'SimpleFillSymbolLayer'}],
                                   'type': 'FillSymbol'},
         'C 0 M 0 Y 0 B 50.bin': {'levels': [{'color': {'C': 0, 'K': 50, 'M': 0, 'Y': 0,
-                       'dither': False,
-                       'is_null': False},
+                                                       'dither': False,
+                                                       'is_null': False},
                                              'color_model': 'cmyk',
                                              'enabled': True,
                                              'locked': False,
@@ -14514,8 +14515,6 @@ expected = {
                                  'type': 'FillSymbol'}
     }
 }
-
-from slyr.parser.initalize_registry import initialize_registry
 
 initialize_registry()
 
@@ -14597,9 +14596,12 @@ class TestSymbolParser(unittest.TestCase):
         """
         Test GUID parsing
         """
-        self.assertEqual(ObjectRegistry.guid_to_hex('7914e603-c892-11d0-8bb6-080009ee4e41'), b'03e6147992c8d0118bb6080009ee4e41')
-        self.assertEqual(ObjectRegistry.hex_to_guid(b'03e6147992c8d0118bb6080009ee4e41'), '7914e603-c892-11d0-8bb6-080009ee4e41')
-        self.assertEqual(ObjectRegistry.hex_to_guid(b'f5883d531a0ad211b27f0000f878229e'), '533d88f5-0a1a-11d2-b27f-0000f878229e')
+        self.assertEqual(ObjectRegistry.guid_to_hex('7914e603-c892-11d0-8bb6-080009ee4e41'),
+                         b'03e6147992c8d0118bb6080009ee4e41')
+        self.assertEqual(ObjectRegistry.hex_to_guid(b'03e6147992c8d0118bb6080009ee4e41'),
+                         '7914e603-c892-11d0-8bb6-080009ee4e41')
+        self.assertEqual(ObjectRegistry.hex_to_guid(b'f5883d531a0ad211b27f0000f878229e'),
+                         '533d88f5-0a1a-11d2-b27f-0000f878229e')
 
 
 if __name__ == '__main__':

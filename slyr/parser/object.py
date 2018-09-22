@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""
+Base class for persistent objects
+"""
 
 
 class Object:

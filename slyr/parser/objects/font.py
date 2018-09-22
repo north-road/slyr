@@ -1,9 +1,17 @@
+#!/usr/bin/env python
+"""
+std OLE Font
+"""
+
+from struct import unpack
 from slyr.parser.object import Object
 from slyr.parser.stream import Stream
-from struct import unpack
 
 
 class Font(Object):
+    """
+    A standard OLE font object
+    """
 
     def __init__(self):
         super().__init__()

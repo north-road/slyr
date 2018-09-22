@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+Line symbol layer subclasses
+"""
+
 import binascii
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.stream import Stream
@@ -15,6 +20,9 @@ class LineSymbolLayer(SymbolLayer):
 
     @staticmethod
     def read_cap(stream: Stream):
+        """
+        Reads a line cap style from the stream
+        """
         cap_bin = stream.read_uchar()
         if cap_bin == 0:
             return 'butt'
@@ -27,6 +35,9 @@ class LineSymbolLayer(SymbolLayer):
 
     @staticmethod
     def read_join(stream: Stream):
+        """
+        Reads a line join style from the stream
+        """
         join_bin = stream.read_uchar()
         if join_bin == 0:
             return 'miter'
@@ -48,8 +59,7 @@ class LineSymbolLayer(SymbolLayer):
                  2: 'dotted',
                  3: 'dash dot',
                  4: 'dash dot dot',
-                 5: 'null'
-                 }
+                 5: 'null'}
         if line_type not in types:
             raise UnreadableSymbolException('unknown line type {} at {}'.format(line_type, hex(stream.tell() - 4)))
         return types[line_type]
