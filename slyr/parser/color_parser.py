@@ -1,14 +1,9 @@
 #!/usr/bin/env python
+"""
+Extracts colors from a persistent stream binary
+"""
 
 from slyr.parser.color_lut import COLOR_LUT
-
-"""
-Extracts colors from a style blob
-"""
-
-
-class InvalidColorException(Exception):
-    pass
 
 
 def xyz_to_rgb(x, y, z):
@@ -102,7 +97,13 @@ def scale_and_round(r, g, b):
 
 
 def round_lab(l, a, b):
+    """
+    Rounds l/a/b values
+    """
     def round_val(v):
+        """
+        Round a lab color component
+        """
         return round(v * 10000) / 10000.0
 
     return round_val(l), round_val(a), round_val(b)

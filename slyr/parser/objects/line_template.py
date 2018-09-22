@@ -1,10 +1,15 @@
 #!/usr/bin/env python
-
+"""
+Line template
+"""
 from slyr.parser.object import Object
 from slyr.parser.stream import Stream
 
 
 class LineTemplate(Object):
+    """
+    Line pattern template
+    """
 
     def __init__(self):
         super().__init__()

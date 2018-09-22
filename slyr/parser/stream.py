@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""
+Binary stream representing persistent objects
+"""
 
 from struct import unpack
 import binascii

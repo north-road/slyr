@@ -1,9 +1,18 @@
+#!/usr/bin/env python
+"""
+A registry for all known objects which can be decoded from a Stream
+"""
+
 from slyr.parser.object import Object
 from slyr.parser.exceptions import (NotImplementedException,
                                     UnknownGuidException)
 
 
 class ObjectRegistry:
+    """
+    A registry for all known objects which can be decoded from a Stream.
+    """
+
     NOT_IMPLEMENTED_GUIDS = {
         '9a1eba10-cdf9-11d3-81eb-0080c79f0371': 'DotDensityFillSymbol',
         '7914e609-c892-11d0-8bb6-080009ee4e41': 'GradientFillSymbol',
@@ -39,6 +48,13 @@ class ObjectRegistry:
 
     @staticmethod
     def guid_to_hex(guid: str):
+        """
+        Converts a string GUID to the binary equivalent stored in a block
+        E.g.
+        '7914e603-c892-11d0-8bb6-080009ee4e41' to
+        03e6147992c8d0118bb6080009ee4e41
+        """
+
         # I don't understand the reason why, but GUIDs are stored in a strange format
         # in the blobs. E.g. a GUID of
         # 7914e603-c892-11d0-8bb6-080009ee4e41

@@ -25,6 +25,9 @@ QGIS Plugin interface to SLYR conversions
 
 from qgis.core import QgsApplication
 from slyr.qgis_plugin.provider import SlyrProvider
+from slyr.parser.initalize_registry import initialize_registry
+
+initialize_registry()
 
 
 class SlyrPlugin:

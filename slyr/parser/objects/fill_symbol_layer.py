@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+Fill symbol layers
+"""
+
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.stream import Stream
 
@@ -18,9 +23,6 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
     """
     Simple fill symbol layer
     """
-
-    def __init__(self):
-        super().__init__()
 
     @staticmethod
     def guid():

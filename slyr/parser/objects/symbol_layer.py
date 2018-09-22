@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+Symbol layers base class
+"""
+
 import binascii
 from slyr.parser.object import Object
 from slyr.parser.stream import Stream
