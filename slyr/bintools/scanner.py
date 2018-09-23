@@ -262,8 +262,7 @@ class ColorMatch(ObjectMatch):
         elif self.color_model == 'cmyk':
             return 'CMYK:' + str(self.matched_color['C']) + ',' + str(self.matched_color['M']) + ',' + str(
                 self.matched_color['Y']) + ',' + str(self.matched_color['K'])
-        else:
-            assert False
+        return None
 
 
 class ColorScan(ObjectScan):
