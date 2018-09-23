@@ -284,5 +284,44 @@ class ColorScan(ObjectScan):
         return None
 
 
+class PersistentMatch(ObjectMatch):
+    """
+    Persistent object match
+    """
+
+    def __init__(self, match_start, match_length, persistent_object):
+        super().__init__(match_start, match_length)
+        self.persistent_object = persistent_object
+
+    @staticmethod
+    def precedence():
+        return 10
+
+    @staticmethod
+    def color():
+        return Fore.LIGHTYELLOW_EX
+
+    def value(self):
+        return self.persistent_object.__class__.__name__
+
+
+class PersistentScan(ObjectScan):
+    """
+    Scans for persistent objects
+    """
+
+    def check_handle(self, file_handle):
+        try:
+            stream = Stream(file_handle)
+            o = stream.read_object()
+            if o is not None:
+                return PersistentMatch(file_handle.tell() - 1, 1, o)
+            else:
+                return None
+        except:  # nopep8, pylint: disable=bare-except
+            pass
+        return None
+
+
 SCANNERS = [StringScan(), GuidCodeScan(), DoubleScan(), IntScan(),
-            ColorScan()]
+            ColorScan(), PersistentScan()]
