@@ -47,14 +47,11 @@ class SymbolLayer(Object):
         """
         return [b'0d00000000000000']
 
-    def read(self, stream: Stream):
+    def read(self, stream: Stream, version):
         """
         Reads the symbol layer information. Internally calls _read method
         for individual layer types
         """
-        unknown = binascii.hexlify(stream.read(2))
-        stream.log('!!unknown of {}'.format(unknown))
-
         self._read(stream)
 
         # look for 0d terminator

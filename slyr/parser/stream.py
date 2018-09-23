@@ -8,6 +8,7 @@ import binascii
 from typing import Optional
 from slyr.parser.object_registry import ObjectRegistry, REGISTRY
 from slyr.parser.object import Object
+from slyr.parser.exceptions import UnsupportedVersionException
 
 
 class Stream:
@@ -97,6 +98,16 @@ class Stream:
             self.log('read uint {} of {}'.format(debug_string, res), 4)
         return res
 
+    def read_ushort(self, debug_string: str = '') -> int:
+        """
+        Reads an unsigned short from the stream.
+        :return:
+        """
+        res = unpack("<H", self._io_stream.read(2))[0]
+        if debug_string:
+            self.log('read ushort {} of {}'.format(debug_string, res), 2)
+        return res
+
     def read_guid(self, debug_string: str = '') -> str:
         """
         Reads a GUID from the stream
@@ -139,7 +150,15 @@ class Stream:
 
         if res is not None:
             self.debug_depth += 1
-            res.read(self)
+
+            version = self.read_ushort('version')
+            if version not in res.compatible_versions():
+                raise UnsupportedVersionException(
+                    'Cannot read {} version {}, only support version(s): {}'.format(res.__class__.__name__, version,
+                                                                                    ','.join([str(v) for v in
+                                                                                             res.compatible_versions()])))
+
+            res.read(self, version)
             self.log('ended {}'.format(res.__class__.__name__))
             if self.debug:
                 print('')

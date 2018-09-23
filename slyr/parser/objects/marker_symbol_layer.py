@@ -20,6 +20,10 @@ class MarkerSymbolLayer(SymbolLayer):
         self.outline_layer = None
         self.outline_symbol = None
 
+    @staticmethod
+    def compatible_versions():
+        return [2]
+
 
 class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
     """
@@ -40,12 +44,11 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
     def guid():
         return '7914e5fe-c892-11d0-8bb6-080009ee4e41'
 
-    def read(self, stream: Stream):
+    def read(self, stream: Stream, version):
         """
         Reads the symbol layer information. Internally calls _read method
         for individual layer types
         """
-        stream.read(2)
         self._read(stream)
 
         # look for 0d terminator
@@ -114,6 +117,10 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
     def guid():
         return '7914e600-c892-11d0-8bb6-080009ee4e41'
 
+    @staticmethod
+    def compatible_versions():
+        return [4]
+
     def terminator(self):
         return None
 
@@ -163,6 +170,10 @@ class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
     @staticmethod
     def guid():
         return '88539431-e06e-11d1-b277-0000f878229e'
+
+    @staticmethod
+    def compatible_versions():
+        return [2]
 
     def terminator(self):
         return [b'ffff', b'2440']

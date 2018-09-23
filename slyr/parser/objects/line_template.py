@@ -20,9 +20,7 @@ class LineTemplate(Object):
     def guid():
         return '41093a71-cce1-11d0-bfaa-0080c7e24280'
 
-    def read(self, stream: Stream):
-        stream.read(2)
-
+    def read(self, stream: Stream, version):
         self.pattern_interval = stream.read_double('pattern interval')
 
         pattern_part_count = stream.read_int('pattern parts')
