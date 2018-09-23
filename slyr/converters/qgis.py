@@ -16,20 +16,26 @@ from qgis.PyQt.QtCore import (Qt, QPointF)
 from qgis.PyQt.QtGui import (QColor)
 
 from slyr.parser.symbol_parser import (
-    SimpleLineSymbolLayer,
-    CartographicLineSymbolLayer,
-    FillSymbolLayer,
-    SimpleFillSymbolLayer,
-    SymbolLayer,
-    LineSymbolLayer,
     FillSymbol,
     LineSymbol,
-    MarkerSymbol,
+    MarkerSymbol
+)
+from slyr.parser.objects.symbol_layer import (
+    SymbolLayer
+)
+from slyr.parser.objects.line_symbol_layer import (
+    SimpleLineSymbolLayer,
+    CartographicLineSymbolLayer,
+    LineSymbolLayer)
+from slyr.parser.objects.fill_symbol_layer import (
+    FillSymbolLayer,
+    SimpleFillSymbolLayer
+)
+from slyr.parser.objects.marker_symbol_layer import (
     MarkerSymbolLayer,
     SimpleMarkerSymbolLayer,
     CharacterMarkerSymbolLayer
 )
-
 from slyr.converters.converter import NotImplementedException
 
 
