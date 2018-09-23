@@ -26,7 +26,7 @@ class ObjectScan:
         :return: match if found, or None
         """
         start = file_handle.tell()
-        res = self.check_handle(file_handle)
+        res = self.check_handle(file_handle)  # pylint: disable=assignment-from-none
         file_handle.seek(start)
         return res
 
