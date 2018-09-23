@@ -36,7 +36,7 @@ class Symbol(Object):
 
     def read(self, stream: Stream, version):
         stream.read(8)
-        self._read(stream)
+        self._read(stream, version)
         # do we end in 02?
         check = binascii.hexlify(stream.read(1))
         if check != b'02':
