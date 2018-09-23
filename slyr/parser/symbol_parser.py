@@ -23,7 +23,7 @@ class Symbol(Object):
         super().__init__()
         self.levels = []
 
-    def _read(self, stream: Stream):
+    def _read(self, stream: Stream, version):
         """
         Should be implemented in subclasses, to handle reading of that particular
         symbol type
@@ -62,7 +62,7 @@ class LineSymbol(Symbol):
     def guid():
         return '7914e5fa-c892-11d0-8bb6-080009ee4e41'
 
-    def _read(self, stream: Stream):
+    def _read(self, stream: Stream, version):
         number_layers = stream.read_uint('layer count')
         for i in range(number_layers):
             layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
@@ -104,7 +104,11 @@ class FillSymbol(Symbol):
     def guid():
         return '7914e604-c892-11d0-8bb6-080009ee4e41'
 
-    def _read(self, stream: Stream):
+    @staticmethod
+    def compatible_versions():
+        return [1, 2]
+
+    def _read(self, stream: Stream, version):
         self.color = stream.read_object('color')
 
         number_layers = stream.read_int('layers')
@@ -154,7 +158,7 @@ class MarkerSymbol(Symbol):
     def compatible_versions():
         return [3]
 
-    def _read(self, stream: Stream):
+    def _read(self, stream: Stream, version):
         # consume section of unknown purpose
         _ = stream.read_double('unknown size')
 

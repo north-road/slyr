@@ -35,10 +35,11 @@ from processing.core.ProcessingConfig import ProcessingConfig
 from slyr.bintools.extractor import Extractor
 from slyr.parser.stream import Stream
 from slyr.parser.exceptions import (UnreadableSymbolException,
-                                    InvalidColorException)
+                                    InvalidColorException,
+                                    UnsupportedVersionException,
+                                    NotImplementedException)
 from slyr.converters.qgis import (Symbol_to_QgsSymbol,
-                                  symbol_color_to_qcolor,
-                                  NotImplementedException)
+                                  symbol_color_to_qcolor)
 
 
 class StyleToQgisXml(QgsProcessingAlgorithm):
@@ -147,6 +148,14 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     symbol = stream.read_object()
                 except UnreadableSymbolException as e:
                     feedback.reportError('Error reading symbol {}: {}'.format(name, e))
+                    unreadable += 1
+                    continue
+                except NotImplementedException as e:
+                    feedback.reportError('Parsing {} is not supported: {}'.format(name, e))
+                    unreadable += 1
+                    continue
+                except UnsupportedVersionException as e:
+                    feedback.reportError('Cannot read {} version: {}'.format(name, e))
                     unreadable += 1
                     continue
 
