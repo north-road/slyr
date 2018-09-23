@@ -16,8 +16,16 @@ class Object:
         """
         return ''
 
-    def read(self, stream):
+    @staticmethod
+    def compatible_versions():
+        """
+        Returns the list of compatible object versions
+        """
+        return [1]
+
+    def read(self, stream, version):
         """
         Reads the object from the given stream
         """
         pass
+

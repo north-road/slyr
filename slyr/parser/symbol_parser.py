@@ -30,8 +30,12 @@ class Symbol(Object):
         """
         pass
 
-    def read(self, stream: Stream):
-        stream.read(10)
+    @staticmethod
+    def compatible_versions():
+        return [2]
+
+    def read(self, stream: Stream, version):
+        stream.read(8)
         self._read(stream)
         # do we end in 02?
         check = binascii.hexlify(stream.read(1))
@@ -145,6 +149,10 @@ class MarkerSymbol(Symbol):
     @staticmethod
     def guid():
         return '7914e5ff-c892-11d0-8bb6-080009ee4e41'
+
+    @staticmethod
+    def compatible_versions():
+        return [3]
 
     def _read(self, stream: Stream):
         # consume section of unknown purpose

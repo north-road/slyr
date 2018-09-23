@@ -32,7 +32,7 @@ class Color(Object):
         """
         return {}
 
-    def read(self, stream):
+    def read(self, stream, version):
         self.read_color(stream)
 
         self.dither = binascii.hexlify(stream.read(1)) == b'01'
@@ -58,8 +58,8 @@ class RgbColor(Color):
         return '7ee9c496-d123-11d0-8383-080009b996cc'
 
     def read_color(self, stream):
-        stream.log('Skipping 5 bytes')  # looks like 01 00 01 00 00 ?
-        stream.read(5)
+        stream.log('Skipping 3 bytes')  # looks like 01 00 00 ?
+        stream.read(3)
 
         lab_l = stream.read_double()
         lab_a = stream.read_double()
@@ -99,9 +99,13 @@ class CMYKColor(Color):
     def guid():
         return '7ee9c497-d123-11d0-8383-080009b996cc'
 
+    @staticmethod
+    def compatible_versions():
+        return [4]
+
     def read_color(self, stream):
-        stream.log('Skipping 4 bytes')
-        stream.read(4)
+        stream.log('Skipping 2 bytes')
+        stream.read(2)
 
         # CMYK is nice and easy - it's just direct char representations of the C/M/Y/K integer components!
         self.cyan = stream.read_uchar()

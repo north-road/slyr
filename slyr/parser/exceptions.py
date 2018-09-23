@@ -4,6 +4,13 @@ SLYR Exceptions
 """
 
 
+class UnsupportedVersionException(Exception):
+    """
+    Thrown when an object of an unsupported version is encountered
+    """
+    pass
+
+
 class UnreadableSymbolException(Exception):
     """
     Thrown when a symbol could not be read, for whatever reason
