@@ -28,7 +28,7 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
     def guid():
         return '7914e603-c892-11d0-8bb6-080009ee4e41'
 
-    def _read(self, stream: Stream):
+    def read(self, stream: Stream, version):
         # first bit is either an entire LineSymbol or just a LineSymbolLayer
         outline = stream.read_object('outline')
         if outline is not None:
@@ -38,3 +38,4 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
                 self.outline_symbol = outline
 
         self.color = stream.read_object('color')
+        self.read_0d_terminator(stream)

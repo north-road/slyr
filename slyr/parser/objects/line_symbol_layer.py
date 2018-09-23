@@ -79,12 +79,13 @@ class SimpleLineSymbolLayer(LineSymbolLayer):
     def guid():
         return '7914e5f9-c892-11d0-8bb6-080009ee4e41'
 
-    def _read(self, stream: Stream):
+    def read(self, stream: Stream, version):
         self.color = stream.read_object('color')
         self.width = stream.read_double('width')
 
         self.line_type = self.read_line_type(stream)
         stream.log('read line type of {}'.format(self.line_type))
+        self.read_0d_terminator(stream)
 
 
 class CartographicLineSymbolLayer(LineSymbolLayer):
@@ -105,7 +106,7 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
     def guid():
         return '7914e5fb-c892-11d0-8bb6-080009ee4e41'
 
-    def _read(self, stream: Stream):
+    def read(self, stream: Stream, version):
         self.cap = self.read_cap(stream)
 
         unknown = binascii.hexlify(stream.read(3))
@@ -127,6 +128,7 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         self.template = stream.read_object('template')
 
         self.decoration = stream.read_object('decoration')
+        self.read_0d_terminator(stream)
 
 
 class MarkerLineSymbolLayer(LineSymbolLayer):
@@ -151,7 +153,7 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
     def compatible_versions():
         return [2]
 
-    def _read(self, stream: Stream):
+    def read(self, stream: Stream, version):
         self.cap = self.read_cap(stream)
         stream.log('read cap of {}'.format(self.cap), 1)
 
@@ -159,3 +161,5 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         self.pattern_marker = stream.read_object('pattern marker')
         self.template = stream.read_object('template')
         self.decoration = stream.read_object('decoration')
+
+        self.read_0d_terminator(stream)

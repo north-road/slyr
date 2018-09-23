@@ -6,6 +6,7 @@ Symbol layers base class
 import binascii
 from slyr.parser.object import Object
 from slyr.parser.stream import Stream
+from slyr.parser.exceptions import UnreadableSymbolException
 
 
 class SymbolLayer(Object):
@@ -34,33 +35,12 @@ class SymbolLayer(Object):
         self.locked = locked == 1
         stream.log('read layer locked ({})'.format(self.locked), 4)
 
-    def _read(self, stream: Stream):
+    @staticmethod
+    def read_0d_terminator(stream):
         """
-        Should be implemented in subclasses, to handle reading of that particular
-        symbol layer type
+        Tries the read the standard 0d00000000000000 layer terminator,
+        raising a UnreadableSymbolException if it's not found.
         """
-        pass
-
-    def terminator(self):
-        """
-        Returns the symbol layer terminator, if present
-        """
-        return [b'0d00000000000000']
-
-    def read(self, stream: Stream, version):
-        """
-        Reads the symbol layer information. Internally calls _read method
-        for individual layer types
-        """
-        self._read(stream)
-
-        # look for 0d terminator
-        if self.terminator() is not None:
-            stream.log('looking for {}'.format(self.terminator()))
-
-            terminator_len = int(len(self.terminator()[0]) / 2)
-            while True:
-                start = stream.tell()
-                if binascii.hexlify(stream.read(terminator_len)) in self.terminator():
-                    break
-                stream.seek(start + 1)
+        check = binascii.hexlify(stream.read(8))
+        if check != b'0d00000000000000':
+            raise UnreadableSymbolException('Did not find expected layer terminator, got {} at {}'.format(check, hex(stream.tell() - 8)))
