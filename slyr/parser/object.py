@@ -28,4 +28,3 @@ class Object:
         Reads the object from the given stream
         """
         pass
-

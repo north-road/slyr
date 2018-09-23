@@ -11,17 +11,11 @@ from slyr.parser.symbol_parser import (
     LineSymbol,
     MarkerSymbol,
 )
+from slyr.parser.exceptions import NotImplementedException
 from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.objects.line_symbol_layer import LineSymbolLayer
 from slyr.parser.objects.fill_symbol_layer import FillSymbolLayer
 from slyr.parser.objects.marker_symbol_layer import MarkerSymbolLayer
-
-
-class NotImplementedException(Exception):
-    """
-    Raised when a symbol type or symbol layer type is not yet implemented in the converter
-    """
-    pass
 
 
 class Converter:
