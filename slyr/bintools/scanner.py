@@ -30,13 +30,13 @@ class ObjectScan:
         file_handle.seek(start)
         return res
 
-    def check_handle(self, file_handle):
+    def check_handle(self, file_handle):  # pylint: disable=unused-argument
         """
         Runs scan check. Subclasses should implement their logic here
         :param file_handle: handle to scan
         :return: match if found, or None
         """
-        pass
+        return None
 
 
 class ObjectMatch:
