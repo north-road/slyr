@@ -45,36 +45,6 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         return '7914e5fe-c892-11d0-8bb6-080009ee4e41'
 
     def read(self, stream: Stream, version):
-        """
-        Reads the symbol layer information. Internally calls _read method
-        for individual layer types
-        """
-        self._read(stream)
-
-        # look for 0d terminator
-        if not binascii.hexlify(stream.read(8)) == b'0d00000000000000':
-            raise UnreadableSymbolException()
-
-        stream.read_double('unknown')
-
-        self.x_offset = stream.read_double('x offset')
-        self.y_offset = stream.read_double('y offset')
-
-        has_outline = stream.read_uchar()
-        if has_outline == 1:
-            self.outline_enabled = True
-        self.outline_width = stream.read_double('outline width')
-        self.outline_color = stream.read_object('outline color')
-
-        protector = 0
-        while not binascii.hexlify(stream.read(1)) == b'ff':
-            protector += 1
-            if protector > 100:
-                raise UnreadableSymbolException('Could not find end point of simple marker')
-
-        stream.read(1)
-
-    def _read(self, stream: Stream):
         self.color = stream.read_object('color')
         self.size = stream.read_double('size')
 
@@ -93,6 +63,25 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
                                                            type_code))
         stream.log('found a {}'.format(type_dict[type_code]), 4)
         self.type = type_dict[type_code]
+
+        # look for 0d terminator
+        if not binascii.hexlify(stream.read(8)) == b'0d00000000000000':
+            raise UnreadableSymbolException()
+
+        stream.read_double('unknown')
+
+        self.x_offset = stream.read_double('x offset')
+        self.y_offset = stream.read_double('y offset')
+
+        has_outline = stream.read_uchar()
+        if has_outline == 1:
+            self.outline_enabled = True
+        self.outline_width = stream.read_double('outline width')
+        self.outline_color = stream.read_object('outline color')
+
+        check = binascii.hexlify(stream.read(2))
+        if check != b'ffff':
+            raise UnreadableSymbolException('Expected ffff at {}, got {}'.format(check, hex(stream.tell() - 2)))
 
 
 class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
@@ -121,10 +110,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
     def compatible_versions():
         return [4]
 
-    def terminator(self):
-        return None
-
-    def _read(self, stream: Stream):
+    def read(self, stream: Stream, version):
         self.color = stream.read_object('color')
 
         self.unicode = stream.read_int('unicode')
@@ -175,10 +161,7 @@ class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
     def compatible_versions():
         return [2]
 
-    def terminator(self):
-        return [b'ffff', b'2440']
-
-    def _read(self, stream: Stream):
+    def read(self, stream: Stream, version):
         self.color = stream.read_object('color')
 
         self.size = stream.read_double('size')
@@ -187,7 +170,13 @@ class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
 
         # 12 bytes unknown purpose
         stream.log('skipping 12 unknown bytes')
-        stream.read(12)
+
+        _ = stream.read_uint('unknown')
+        self.read_0d_terminator(stream)
 
         self.x_offset = stream.read_double('x offset')
         self.y_offset = stream.read_double('y offset')
+
+        check = binascii.hexlify(stream.read(2))
+        if check != b'ffff':
+            raise UnreadableSymbolException('Expected ffff at {}, got {}'.format(check, hex(stream.tell() - 2)))
