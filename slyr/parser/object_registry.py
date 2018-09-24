@@ -55,12 +55,8 @@ class ObjectRegistry:
         03e6147992c8d0118bb6080009ee4e41
         """
 
-        # I don't understand the reason why, but GUIDs are stored in a strange format
-        # in the blobs. E.g. a GUID of
-        # 7914e603-c892-11d0-8bb6-080009ee4e41
-        # is stored as
-        # 03e6147992c8d0118bb6080009ee4e41
-        # This function converts GUIDs to the blob format
+        # Note: this is correct - confirmed by checking against WINE source
+        # https://github.com/wine-mirror/wine/blob/6d801377055911d914226a3c6af8d8637a63fa13/dlls/compobj.dll16/compobj.c#L380
 
         g = guid.replace('-', '')
         res = b''
