@@ -14,6 +14,19 @@ Relationship to .lyr files
 ===
 While .lyr files include much more than just a layer's symbology, they do appear to utilise the same symbol section format as .style files. It may be possible to automatically detect the symbol sections within lyr files and automatically extract them, avoiding the need for the intermediate .style file.
 
+Style binaries
+==============
+
+The style binary blobs themselves are serialized COM objects. Some details on how ArcGIS handles persistence is available at http://edndoc.esri.com/arcobjects/9.2/NET/f39eb22f-fa51-4fb6-a413-55d33adddcac.htm . Basically, the binary blob is a stream, where individual COM objects can be read directly from the stream. Object types are identified by unique class IDs.
+
+First, the class ID is read from the stream. Binary representations of CLSIDs are not a direct encoding of the CLSID string - rather the parts of the CLSID are written in different order. This appears to be an internal detail how Windows WriteClassStm operates.
+
+The CLSID string of `{7914e603-c892-11d0-8bb6-080009ee4e41}` is written as the binary representation `03e6147992c8d0118bb6080009ee4e41`.
+
+See e.g. https://github.com/wine-mirror/wine/blob/6d801377055911d914226a3c6af8d8637a63fa13/dlls/compobj.dll16/compobj.c#L380 for how WINE re-implements this encoding.  
+
+Following an object CLSID, ESRI objects then write a two byte short value representing the object's version. Different object versions will be encoded differently, and may require special handling.
+
 Specification for Symbol Sections
 ===
 
