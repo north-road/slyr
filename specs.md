@@ -1,12 +1,12 @@
-This is a work-in-progress reverse-engineered specification of ESRI .style files
+This is a work-in-progress reverse-engineered specification of ESRI .style files. This document tends to be out of date, with the best documentation of the specification being the Python parser code itself.
 
 Specification of .style files
 ===
 ESRI .style files are actually renamed Microsoft Access databases. Renaming the .style file to .mdb allows it to be opened directly within Access. 
 
-The database contains a number of tables for the different style types, eg "Line Symbols", "Marker Symbols", "Color Ramps". While these tables contain fields for the symbol name, category, and tags, unfortunately the symbol itself is stored inside a binary data column.
+The database contains a number of tables for the different style types, eg "Line Symbols", "Marker Symbols", "Color Ramps". While these tables contain fields for the symbol name, category, and tags, unfortunately the symbol itself is stored inside a binary data column. Note that earlier versions of style files (pre ArcGIS 10?) do not have the tags field in these tables.
 
-The included `bintools/extract_bin.py` script can bulk export these symbol binary blobs from a .style file.
+The included `slyr/tools/style_to_bin.py` script can bulk export these symbol binary blobs from a .style file. (Note that all command line tools in slyr require mdbtools within the current path). 
 
 We'll refer to a binary blob representing a single symbol as a "symbol section".
 
