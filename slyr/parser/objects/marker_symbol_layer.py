@@ -101,6 +101,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         self.outline_color = None
         self.outline_width = 0.0
         self.font = None
+        self.std_font = None
 
     @staticmethod
     def guid():
@@ -136,7 +137,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         stream.read(6)
 
         # std OLE font .. maybe contains useful stuff like bold/etc, but these aren't exposed in ArcGIS anyway..
-        _ = stream.read_object('font')
+        self.std_font = stream.read_object('font')
 
 
 class ArrowMarkerSymbolLayer(MarkerSymbolLayer):

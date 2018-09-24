@@ -19,7 +19,8 @@ class Object:
     @staticmethod
     def compatible_versions():
         """
-        Returns the list of compatible object versions
+        Returns the list of compatible object versions, or None to skip
+        ESRI version bytes
         """
         return [1]
 

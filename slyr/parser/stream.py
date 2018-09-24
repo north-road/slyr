@@ -151,12 +151,15 @@ class Stream:
         if res is not None:
             self.debug_depth += 1
 
-            version = self.read_ushort('version')
-            if version not in res.compatible_versions():
-                supported_versions = ','.join([str(v) for v in res.compatible_versions()])
-                raise UnsupportedVersionException(
-                    'Cannot read {} version {}, only support version(s): {}'.format(
-                        res.__class__.__name__, version, supported_versions))
+            version = 1
+            compatible_versions = res.compatible_versions()
+            if compatible_versions is not None:
+                version = self.read_ushort('version')
+                if version not in res.compatible_versions():
+                    supported_versions = ','.join([str(v) for v in res.compatible_versions()])
+                    raise UnsupportedVersionException(
+                        'Cannot read {} version {}, only support version(s): {}'.format(
+                            res.__class__.__name__, version, supported_versions))
 
             res.read(self, version)
             self.log('ended {}'.format(res.__class__.__name__))

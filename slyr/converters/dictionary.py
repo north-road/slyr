@@ -36,6 +36,7 @@ from slyr.parser.objects.decoration import (
     LineDecoration,
     SimpleLineDecoration
 )
+from slyr.parser.objects.font import Font
 
 
 class DictionaryConverter(Converter):
@@ -320,11 +321,14 @@ class DictionaryConverter(Converter):
             'color_model': layer.color.model,
             'unicode': layer.unicode,
             'font': layer.font,
+            'std_font': None,
             'size': layer.size,
             'angle': layer.angle,
             'x_offset': layer.x_offset,
             'y_offset': layer.y_offset
         }
+        if layer.std_font is not None:
+            out['std_font'] = DictionaryConverter.convert_font(layer.std_font)
         return out
 
     @staticmethod
@@ -349,3 +353,16 @@ class DictionaryConverter(Converter):
         Converts a color
         """
         return color.to_dict() if color is not None else None
+
+    @staticmethod
+    def convert_font(font: Font) -> dict:
+        """
+        Converts a font
+        """
+        return {'font_name': font.font_name,
+                'charset': font.charset,
+                'weight': font.weight,
+                'size': font.size,
+                'italic': font.italic,
+                'strikethrough': font.strikethrough,
+                'underline': font.underline}
