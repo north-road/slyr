@@ -120,19 +120,21 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         self.x_offset = stream.read_double('x offset')
         self.y_offset = stream.read_double('y offset')
 
-        # unknown - ends with FFFF
-        while not binascii.hexlify(stream.read(2)) == b'ffff':
-            stream.rewind(1)
+        stream.read_double('unknown 1')
+        stream.read_double('unknown 2')
+
+        self.read_0d_terminator(stream)
+        if binascii.hexlify(stream.read(2)) != b'ffff':
+            raise UnreadableSymbolException('Expected ffff')
 
         self.font = stream.read_string('font name')
 
-        # large unknown block
-        protector = 0
-        while not binascii.hexlify(stream.read(2)) == b'9001':
-            stream.rewind(1)
-            protector += 1
-            if protector > 100:
-                raise UnreadableSymbolException('Could not find end point of character marker')
+        # lot of unknown stuff
+        stream.read_double('unknown 3')  # or object?
+        stream.read_double('unknown 4')  # or object?
+        if binascii.hexlify(stream.read(2)) != b'9001':
+            raise UnreadableSymbolException('Expected 9001')
+
         stream.read(4)
         stream.read(6)
 
