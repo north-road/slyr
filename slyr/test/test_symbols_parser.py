@@ -274,6 +274,30 @@ expected = {
                     'type': 'MarkerSymbol',
                     'levels': [None]
                 },
+            'Picture symbol brick.bin':
+                {
+                    'skip': True,
+                    'type': 'MarkerSymbol',
+                    'levels': [None]
+                },
+            'Picture symbol brick Red_Blue.bin':
+                {
+                    'skip': True,
+                    'type': 'MarkerSymbol',
+                    'levels': [None]
+                },
+            'Picture symbol brick swap FG_BG.bin':
+                {
+                    'skip': True,
+                    'type': 'MarkerSymbol',
+                    'levels': [None]
+                },
+            'Picture symbol brick Angle 45 Offset X 13 Y 17.bin':
+                {
+                    'skip': True,
+                    'type': 'MarkerSymbol',
+                    'levels': [None]
+                },
             'R255 G0 B0 circle marker size 12.bin':
                 {
                     'type': 'MarkerSymbol',
@@ -7306,7 +7330,41 @@ expected = {
                     'levels': [None],
                     # xoffset 0, y offset 0, separation 12,12, grid, red circle marker
                 },
+            'Marker fill offset 3 4 separation 5 6.bin':
+                {
+                    'skip': True,
+                },
             'Picture fill.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None]
+                },
+            'Picture Fill Circle.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None]
+                },
+            'Picture Fill Circle Swap FgBg.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None]
+                },
+            'Picture Fill Circle Red Outline.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None]
+                },
+            'Picture Fill Circle Angle 45 Scale X 13 Y 14 Fore Red Back Blue.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None]
+                },
+            'Picture Fill Circle X offset -37 Y offset -47 X sep 57 Y sep 67.bin':
                 {
                     'skip': True,
                     'type': 'FillSymbol',
@@ -13805,6 +13863,12 @@ expected = {
                     'skip': True,
                     'levels': [None]
                 },
+            'Hash line symbol width 8 angle 45.bin':
+                {
+                    'type': 'LineSymbol',
+                    'skip': True,
+                    'levels': [None]
+                },
             'Line disabled.bin':
                 {
                     'type': 'LineSymbol',
@@ -14064,6 +14128,36 @@ expected = {
                     ]
                 },
             'Picture line symbol width 8.bin':
+                {
+                    'type': 'LineSymbol',
+                    'skip': True,
+                    'levels': [None]
+                },
+            'Picture Line Check.bin':
+                {
+                    'type': 'LineSymbol',
+                    'skip': True,
+                    'levels': [None]
+                },
+            'Picture Line Check Width 13.bin':
+                {
+                    'type': 'LineSymbol',
+                    'skip': True,
+                    'levels': [None]
+                },
+            'Picture Line Check Swap FgBg.bin':
+                {
+                    'type': 'LineSymbol',
+                    'skip': True,
+                    'levels': [None]
+                },
+            'Picture Line Check Red_Blue.bin':
+                {
+                    'type': 'LineSymbol',
+                    'skip': True,
+                    'levels': [None]
+                },
+            'Picture Line Check Scale X 17 Y 19.bin':
                 {
                     'type': 'LineSymbol',
                     'skip': True,
@@ -14505,6 +14599,48 @@ expected = {
                                                                'width': 8.0},
                                              'type': 'SimpleFillSymbolLayer'}],
                                  'type': 'FillSymbol'}
+    },
+    'ramps_bin': {
+        'Multi-part Color Ramp.bin':
+            {
+                'skip': True
+            },
+        'Algorithmic Color Ramp CIELAB.bin':
+            {
+                'skip': True
+            },
+        'Algorithmic Color Ramp HSV.bin':
+            {
+                'skip': True
+            },
+        'Algorithmic Color Ramp LabLch.bin':
+            {
+                'skip': True
+            },
+        'Algorithmic Color Ramp Red to Green.bin':
+            {
+                'skip': True
+            },
+        'Preset Color Ramp 13 colors R_G_B.bin':
+            {
+                'skip': True
+            },
+        'Random Val 12-52 Sat 13-53 Hue 14-54.bin':
+            {
+                'skip': True
+            },
+        'Random Val 12-52 Sat 13-53 Hue 14-54 same everywhere.bin':
+            {
+                'skip': True
+            },
+        'Random Val 12-100 Sat 13-99 Hue 14-36.bin':
+            {
+                'skip': True
+            },
+        'Random Val 12-100 Sat 13-99 Hue 14-360.bin':
+            {
+                'skip': True
+            },
     }
 }
 
@@ -14582,6 +14718,14 @@ class TestSymbolParser(unittest.TestCase):
         """
         path = os.path.join(os.path.dirname(
             __file__), 'styles', 'cmyk_bin')
+        self.run_symbol_checks(path)
+
+    def test_ramps(self):
+        """
+        Test color ramp parsing
+        """
+        path = os.path.join(os.path.dirname(
+            __file__), 'styles', 'ramps_bin')
         self.run_symbol_checks(path)
 
     def test_guid_parsing(self):
