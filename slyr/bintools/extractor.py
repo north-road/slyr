@@ -20,6 +20,7 @@ class Extractor:
     FILL_SYMBOLS = 'Fill symbols'
     LINE_SYMBOLS = 'Line symbols'
     MARKER_SYMBOLS = 'Marker symbols'
+    COLOR_RAMPS = 'Color ramps'
 
     NAME = 'NAME'
     TAGS = 'TAGS'
