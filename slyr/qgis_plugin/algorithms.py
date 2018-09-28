@@ -29,7 +29,9 @@ from qgis.core import (QgsProcessingAlgorithm,
                        QgsProcessingParameterFile,
                        QgsProcessingParameterFileDestination,
                        QgsProcessingOutputNumber,
-                       QgsStyle)
+                       QgsStyle,
+                       QgsColorRamp,
+                       QgsSymbol)
 from processing.core.ProcessingConfig import ProcessingConfig
 
 from slyr.bintools.extractor import Extractor
@@ -54,9 +56,11 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
     MARKER_SYMBOL_COUNT = 'MARKER_SYMBOL_COUNT'
     LINE_SYMBOL_COUNT = 'LINE_SYMBOL_COUNT'
     FILL_SYMBOL_COUNT = 'FILL_SYMBOL_COUNT'
+    COLOR_RAMP_COUNT = 'COLOR_RAMP_COUNT'
     UNREADABLE_MARKER_SYMBOLS = 'UNREADABLE_MARKER_SYMBOLS'
     UNREADABLE_LINE_SYMBOLS = 'UNREADABLE_LINE_SYMBOLS'
     UNREADABLE_FILL_SYMBOLS = 'UNREADABLE_FILL_SYMBOLS'
+    UNREADABLE_COLOR_RAMPS = 'UNREADABLE_COLOR_RAMPS'
 
     def createInstance(self):  # pylint: disable=missing-docstring
         return StyleToQgisXml()
@@ -89,9 +93,11 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         self.addOutput(QgsProcessingOutputNumber(self.FILL_SYMBOL_COUNT, 'Fill Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.LINE_SYMBOL_COUNT, 'Line Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.MARKER_SYMBOL_COUNT, 'Marker Symbol Count'))
+        self.addOutput(QgsProcessingOutputNumber(self.COLOR_RAMP_COUNT, 'Color Ramp Count'))
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_FILL_SYMBOLS, 'Unreadable Fill Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_LINE_SYMBOLS, 'Unreadable Line Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_MARKER_SYMBOLS, 'Unreadable Marker Symbol Count'))
+        self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_COLOR_RAMPS, 'Unreadable Color Ramps'))
 
     def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements,too-many-branches
         input_file = self.parameterAsString(parameters, self.INPUT, context)
@@ -122,7 +128,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
             return candidate
 
         for type_index, symbol_type in enumerate(
-                (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS)):
+                (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS, Extractor.COLOR_RAMPS)):
             feedback.pushInfo('Importing {} from {}'.format(symbol_type, input_file))
 
             raw_symbols = Extractor.extract_styles(input_file, symbol_type, mdbtools_path=mdbtools_folder)
@@ -171,7 +177,10 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     unreadable += 1
                     continue
 
-                style.addSymbol(unique_name, qgis_symbol)
+                if isinstance(qgis_symbol, QgsSymbol):
+                    style.addSymbol(unique_name, qgis_symbol)
+                elif isinstance(qgis_symbol, QgsColorRamp):
+                    style.addColorRamp(unique_name, qgis_symbol)
 
             if symbol_type == Extractor.FILL_SYMBOLS:
                 results[self.FILL_SYMBOL_COUNT] = len(raw_symbols)
@@ -180,6 +189,9 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 results[self.LINE_SYMBOL_COUNT] = len(raw_symbols)
                 results[self.UNREADABLE_LINE_SYMBOLS] = unreadable
             elif symbol_type == Extractor.MARKER_SYMBOLS:
+                results[self.MARKER_SYMBOL_COUNT] = len(raw_symbols)
+                results[self.UNREADABLE_MARKER_SYMBOLS] = unreadable
+            elif symbol_type == Extractor.COLOR_RAMPS:
                 results[self.MARKER_SYMBOL_COUNT] = len(raw_symbols)
                 results[self.UNREADABLE_MARKER_SYMBOLS] = unreadable
 

@@ -7,13 +7,17 @@ Converts parsed symbol properties to QGIS Symbols
 from qgis.core import (QgsUnitTypes,
                        QgsSimpleLineSymbolLayer,
                        QgsSimpleFillSymbolLayer,
+                       QgsSymbol,
                        QgsFillSymbol,
                        QgsLineSymbol,
                        QgsMarkerSymbol,
                        QgsEllipseSymbolLayer,
                        QgsSimpleMarkerSymbolLayer,
                        QgsSimpleMarkerSymbolLayerBase,
-                       QgsFontMarkerSymbolLayer)
+                       QgsFontMarkerSymbolLayer,
+                       QgsPresetSchemeColorRamp,
+                       QgsLimitedRandomColorRamp,
+                       QgsGradientColorRamp)
 from qgis.PyQt.QtCore import (Qt, QPointF)
 from qgis.PyQt.QtGui import (QColor)
 
@@ -42,6 +46,12 @@ from slyr.parser.objects.marker_symbol_layer import (
     SimpleMarkerSymbolLayer,
     ArrowMarkerSymbolLayer,
     CharacterMarkerSymbolLayer
+)
+from slyr.parser.objects.ramps import (
+    ColorRamp,
+    AlgorithmicColorRamp,
+    PresetColorRamp,
+    RandomColorRamp
 )
 from slyr.converters.converter import NotImplementedException
 
@@ -370,6 +380,55 @@ def add_symbol_layers(out, symbol):
     return out
 
 
+def ColorRamp_to_QgsColorRamp(ramp: ColorRamp):
+    """
+    Converts a ColorRamp to a QgsColorRamp
+    """
+    if isinstance(ramp, PresetColorRamp):
+        return PresetColorRamp_to_QgsColorRamp(ramp)
+    elif isinstance(ramp, RandomColorRamp):
+        return RandomColorRamp_to_QgsColorRamp(ramp)
+    elif isinstance(ramp, AlgorithmicColorRamp):
+        return AlgorithmicColorRamp_to_QgsColorRamp(ramp)
+    else:
+        raise NotImplementedException('Converting {} not implemented yet'.format(ramp.__class__.__name__))
+
+
+def PresetColorRamp_to_QgsColorRamp(ramp: PresetColorRamp):
+    """
+    Converts a PresetColorRamp to a QgsColorRamp
+    """
+    colors = [symbol_color_to_qcolor(c) for c in ramp.colors]
+    out = QgsPresetSchemeColorRamp(colors)
+    return out
+
+
+def RandomColorRamp_to_QgsColorRamp(ramp: RandomColorRamp):
+    """
+    Converts a RandomColorRamp to a QgsColorRamp
+    """
+
+    def fix_range(val):
+        # Saturation/values range from 0-100 in esri symbols, 0-255 in qgis
+        return 255 * val / 100
+
+    # TODO - how to correctly handle color count option?
+    out = QgsLimitedRandomColorRamp(count=100,
+                                    hueMax=ramp.hue_max, hueMin=ramp.hue_min,
+                                    satMax=fix_range(ramp.sat_max), satMin=fix_range(ramp.sat_min),
+                                    valMax=fix_range(ramp.val_max), valMin=fix_range(ramp.val_min))
+    return out
+
+
+def AlgorithmicColorRamp_to_QgsColorRamp(ramp: AlgorithmicColorRamp):
+    """
+    Converts a AlgorithmicColorRamp to a QgsColorRamp
+    """
+    out = QgsGradientColorRamp(symbol_color_to_qcolor(ramp.color1),
+                               symbol_color_to_qcolor(ramp.color2))
+    return out
+
+
 def Symbol_to_QgsSymbol(symbol):
     """
     Converts a raw Symbol to a QgsSymbol
@@ -385,6 +444,9 @@ def Symbol_to_QgsSymbol(symbol):
                 raise NotImplementedException('Marker halos are not yet supported')
         except AttributeError:
             pass
+    elif issubclass(symbol.__class__, ColorRamp):
+        out = ColorRamp_to_QgsColorRamp(symbol)
+        return out
     else:
         raise NotImplementedException()
 
