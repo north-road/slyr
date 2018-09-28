@@ -192,8 +192,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 results[self.MARKER_SYMBOL_COUNT] = len(raw_symbols)
                 results[self.UNREADABLE_MARKER_SYMBOLS] = unreadable
             elif symbol_type == Extractor.COLOR_RAMPS:
-                results[self.MARKER_SYMBOL_COUNT] = len(raw_symbols)
-                results[self.UNREADABLE_MARKER_SYMBOLS] = unreadable
+                results[self.COLOR_RAMP_COUNT] = len(raw_symbols)
+                results[self.UNREADABLE_COLOR_RAMPS] = unreadable
 
         style.exportXml(output_file)
         results[self.OUTPUT] = output_file
