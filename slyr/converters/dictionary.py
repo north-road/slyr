@@ -38,6 +38,7 @@ from slyr.parser.objects.decoration import (
     SimpleLineDecoration
 )
 from slyr.parser.objects.font import Font
+from slyr.parser.objects.ramps import ColorRamp
 
 
 class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
@@ -381,3 +382,6 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
                 'italic': font.italic,
                 'strikethrough': font.strikethrough,
                 'underline': font.underline}
+
+    def convert_color_ramp(self, ramp: ColorRamp):
+        self.out = ramp.to_dict()
