@@ -137,7 +137,7 @@ class Stream:
         terminator = binascii.hexlify(self._io_stream.read(2))
         assert terminator == b'0000'
         self.log('found string "{}"'.format(string))
-        return string[:-1]
+        return string
 
     def read_object(self, debug_string: str = '') -> Optional[Object]:
         """
