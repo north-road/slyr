@@ -123,7 +123,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         stream.read_double('unknown 1')
         stream.read_double('unknown 2')
 
-        self.read_0d_terminator(stream)
+        stream.read_0d_terminator()
         if binascii.hexlify(stream.read(2)) != b'ffff':
             raise UnreadableSymbolException('Expected ffff')
 
@@ -132,8 +132,9 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         # lot of unknown stuff
         stream.read_double('unknown 3')  # or object?
         stream.read_double('unknown 4')  # or object?
-        if binascii.hexlify(stream.read(2)) != b'9001':
-            raise UnreadableSymbolException('Expected 9001')
+
+        stream.read_uchar('unknown')
+        stream.read_uchar('unknown')
 
         stream.read(4)
         stream.read(6)
@@ -175,7 +176,7 @@ class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
         stream.log('skipping 12 unknown bytes')
 
         _ = stream.read_uint('unknown')
-        self.read_0d_terminator(stream)
+        stream.read_0d_terminator()
 
         self.x_offset = stream.read_double('x offset')
         self.y_offset = stream.read_double('y offset')
