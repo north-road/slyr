@@ -1294,6 +1294,10 @@ expected = {
                     'angle': 90,
                     'style': 'rectangular'
                 },
+'Gradient fill Intervals 13 Percent 14 Angle 15.bin':
+    {
+      'skip': True
+    },
             'Line fill.bin':
                 {
                     'skip': True,
@@ -1313,6 +1317,11 @@ expected = {
                     'offset': 0,
                     'separation': 5.0,
                     # red lines, width 1.0
+                },
+            'Line fill green outline.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
                 },
             'many layers.bin':
                 {'levels': [{'color': {'B': 0,
@@ -7365,6 +7374,18 @@ expected = {
                     'levels': [None]
                 },
             'Picture Fill Circle X offset -37 Y offset -47 X sep 57 Y sep 67.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None]
+                },
+            'Picture Fill EMF.bin':
+                {
+                    'skip': True,
+                    'type': 'FillSymbol',
+                    'levels': [None]
+                },
+            'Picture Fill EMF Red Transparent Color.bin':
                 {
                     'skip': True,
                     'type': 'FillSymbol',
