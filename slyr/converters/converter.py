@@ -16,6 +16,7 @@ from slyr.parser.objects.symbol_layer import SymbolLayer
 from slyr.parser.objects.line_symbol_layer import LineSymbolLayer
 from slyr.parser.objects.fill_symbol_layer import FillSymbolLayer
 from slyr.parser.objects.marker_symbol_layer import MarkerSymbolLayer
+from slyr.parser.objects.ramps import ColorRamp
 
 
 class Converter:
@@ -34,6 +35,8 @@ class Converter:
             self.convert_line_symbol(symbol)
         elif issubclass(symbol.__class__, (MarkerSymbolLayer, MarkerSymbol)):
             self.convert_marker_symbol(symbol)
+        elif issubclass(symbol.__class__, ColorRamp):
+            self.convert_color_ramp(symbol)
         else:
             raise NotImplementedException(str(symbol.__class__))
 
@@ -54,3 +57,9 @@ class Converter:
         Converts a MarkerSymbol
         """
         raise NotImplementedException('Marker symbol conversion not implemented')
+
+    def convert_color_ramp(self, ramp: ColorRamp):  # pylint: disable=unused-argument
+        """
+        Converts a color ramp
+        """
+        raise NotImplementedException('Color ramp conversion not implemented')

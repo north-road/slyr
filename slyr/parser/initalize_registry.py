@@ -36,6 +36,11 @@ from slyr.parser.symbol_parser import (
     LineSymbol,
     MarkerSymbol
 )
+from slyr.parser.objects.ramps import (
+    RandomColorRamp,
+    PresetColorRamp,
+    MultiPartColorRamp
+)
 
 
 def initialize_registry():
@@ -63,3 +68,6 @@ def initialize_registry():
     REGISTRY.register(FillSymbol)
     REGISTRY.register(LineSymbol)
     REGISTRY.register(MarkerSymbol)
+    REGISTRY.register(RandomColorRamp)
+    REGISTRY.register(PresetColorRamp)
+    REGISTRY.register(MultiPartColorRamp)
