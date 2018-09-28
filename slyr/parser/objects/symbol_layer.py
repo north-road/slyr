@@ -42,13 +42,3 @@ class SymbolLayer(Object):
 
         """
         self.tags = stream.read_string('layer tags')
-
-    @staticmethod
-    def read_0d_terminator(stream):
-        """
-        Tries the read the standard 0d00000000000000 layer terminator,
-        raising a UnreadableSymbolException if it's not found.
-        """
-        check = binascii.hexlify(stream.read(8))
-        if check != b'0d00000000000000':
-            raise UnreadableSymbolException('Did not find expected layer terminator, got {} at {}'.format(check, hex(stream.tell() - 8)))

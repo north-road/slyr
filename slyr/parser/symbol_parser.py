@@ -8,8 +8,6 @@ import binascii
 from slyr.parser.stream import Stream
 from slyr.parser.object import Object
 
-from slyr.parser.objects.symbol_layer import SymbolLayer
-
 from slyr.parser.exceptions import (UnreadableSymbolException,
                                     InvalidColorException)
 
@@ -23,35 +21,6 @@ class Symbol(Object):
         super().__init__()
         self.levels = []
 
-    def _read(self, stream: Stream, version):
-        """
-        Should be implemented in subclasses, to handle reading of that particular
-        symbol type
-        """
-        pass
-
-    @staticmethod
-    def compatible_versions():
-        return [2]
-
-    def read(self, stream: Stream, version):
-        stream.read(8)
-        self._read(stream, version)
-        # do we end in 02?
-        check = binascii.hexlify(stream.read(1))
-        if check != b'02':
-            raise UnreadableSymbolException(
-                'Found unexpected value {} at {}, expected x02'.format(check, hex(stream.tell() - 1)))
-        stream.read(5)
-
-        # PROBLEMATIC!!
-
-        check = binascii.hexlify(stream.read(1))
-        if check == b'02':
-            stream.read(5)
-        else:
-            stream.rewind(1)
-
 
 class LineSymbol(Symbol):
     """
@@ -62,33 +31,24 @@ class LineSymbol(Symbol):
     def guid():
         return '7914e5fa-c892-11d0-8bb6-080009ee4e41'
 
-    def _read(self, stream: Stream, version):
+    @staticmethod
+    def compatible_versions():
+        return [1, 2]
+
+    def read(self, stream: Stream, version):
+        if not stream.read_0d_terminator():
+            raise UnreadableSymbolException('Could not find 0d terminator at {}'.format(hex(stream.tell() - 8)))
+
         number_layers = stream.read_uint('layer count')
         for i in range(number_layers):
             layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
             self.levels.extend([layer])
 
-        # the next section varies in size. To handle this we jump forward to a known anchor
-        # point, and then move back by a known amount
-
-        # burn up to the 02
-        stream.log('burning up to 02...')
-        while not binascii.hexlify(stream.read(1)) == b'02':
-            pass
-
-        # jump back a known amount
-        stream.rewind(8 * number_layers + 1)
-
-        # TODO - replace the fragile bit above!
-        #   stream.read(1)
-
-        #   stream.read_double('unknown size')
-        #   stream.read_double('unknown size')
-
         for l in self.levels:
             l.read_enabled(stream)
         for l in self.levels:
             l.read_locked(stream)
+
         if version >= 2:
             for l in self.levels:
                 l.read_tags(stream)
@@ -111,26 +71,18 @@ class FillSymbol(Symbol):
     def compatible_versions():
         return [1, 2]
 
-    def _read(self, stream: Stream, version):
+    def read(self, stream: Stream, version):
+        if not stream.read_0d_terminator():
+            raise UnreadableSymbolException('Could not find 0d terminator at {}'.format(hex(stream.tell() - 8)))
+
         self.color = stream.read_object('color')
 
         number_layers = stream.read_int('layers')
         for i in range(number_layers):
-            stream.consume_padding()
             layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
             self.levels.extend([layer])
 
-        # the next section varies in size. To handle this we jump forward to a known anchor
-        # point, and then move back by a known amount
-
-        # burn up to the 02
-        stream.log('burning up to 02...')
-        while not binascii.hexlify(stream.read(1)) == b'02':
-            pass
-
-        # jump back a known amount
-        stream.rewind(8 * number_layers + 1)
-
+        # stream.read(4)
         for l in self.levels:
             l.read_enabled(stream)
         for l in self.levels:
@@ -160,15 +112,16 @@ class MarkerSymbol(Symbol):
 
     @staticmethod
     def compatible_versions():
-        return [3]
+        return [2, 3]
 
-    def _read(self, stream: Stream, version):
-        # consume section of unknown purpose
+    def read(self, stream: Stream, version):
+        if not stream.read_0d_terminator():
+            raise UnreadableSymbolException('Could not find 0d terminator at {}'.format(hex(stream.tell() - 8)))
+
+        # consume unused properties
         _ = stream.read_double('unknown size')
-
-        unknown_object = stream.read_object('unknown')
-        if unknown_object is not None:
-            assert False, unknown_object
+        _ = stream.read_double('unknown size')
+        _ = stream.read_double('unknown size')
         _ = stream.read_double('unknown size')
 
         self.color = stream.read_object('color')
@@ -177,17 +130,6 @@ class MarkerSymbol(Symbol):
         self.halo_size = stream.read_double('halo size')
 
         self.halo_symbol = stream.read_object('halo')
-
-        # not sure about this - there's an extra 02 here if a full fill symbol is used for the halo
-        if False and isinstance(self.halo_symbol, Symbol):
-            check = binascii.hexlify(stream.read(1))
-            if check != b'02':
-                raise UnreadableSymbolException(
-                    'Found unexpected value {} at {}, expected x02'.format(check, hex(stream.tell() - 1)))
-            stream.read(1)
-
-        if isinstance(self.halo_symbol, SymbolLayer):
-            stream.read(4)
 
         # useful stuff
         number_layers = stream.read_int('layers')

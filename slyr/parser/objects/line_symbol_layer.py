@@ -85,7 +85,7 @@ class SimpleLineSymbolLayer(LineSymbolLayer):
 
         self.line_type = self.read_line_type(stream)
         stream.log('read line type of {}'.format(self.line_type))
-        self.read_0d_terminator(stream)
+        stream.read_0d_terminator()
 
 
 class CartographicLineSymbolLayer(LineSymbolLayer):
@@ -128,7 +128,11 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         self.template = stream.read_object('template')
 
         self.decoration = stream.read_object('decoration')
-        self.read_0d_terminator(stream)
+        stream.read_0d_terminator()  # maybe attached to decoration instead?
+
+        _ = stream.read_uchar('unknown char')
+        _ = stream.read_double()
+        _ = stream.read_double()
 
 
 class MarkerLineSymbolLayer(LineSymbolLayer):
@@ -162,4 +166,9 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         self.template = stream.read_object('template')
         self.decoration = stream.read_object('decoration')
 
-        self.read_0d_terminator(stream)
+        stream.read_0d_terminator()  # maybe attached to decoration instead?
+
+        _ = stream.read_uchar('unknown char')
+        _ = stream.read_double('unknown double')
+        _ = stream.read_double('unknown double')
+        _ = stream.read_double('unknown double')

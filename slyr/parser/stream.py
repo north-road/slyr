@@ -131,8 +131,8 @@ class Stream:
             self.log('start {}'.format(debug_string))
 
         length = unpack("<I", self._io_stream.read(4))[0]
-        self.log('string of length {}'.format(int(length/2-1)), 4)
-        buffer = self._io_stream.read(length-2)
+        self.log('string of length {}'.format(int(length / 2 - 1)), 4)
+        buffer = self._io_stream.read(length - 2)
         string = buffer.decode('utf-16')
         terminator = binascii.hexlify(self._io_stream.read(2))
         assert terminator == b'0000'
@@ -171,13 +171,10 @@ class Stream:
 
         return res
 
-    def consume_padding(self):
+    def read_0d_terminator(self) -> bool:
         """
-        Swallows up '00' padding from a file handle.
-
-        Use with caution! This is fragile if a possible valid '00' byte follows the padding.
+        Tries the read the standard 0d00000000000000 layer terminator,
+        and returns True if it's found.
         """
-        last_position = self._io_stream.tell()
-        while binascii.hexlify(self._io_stream.read(1)) == b'00':
-            last_position = self._io_stream.tell()
-        self._io_stream.seek(last_position)
+        check = binascii.hexlify(self.read(8))
+        return check[:8] == b'0d000000'

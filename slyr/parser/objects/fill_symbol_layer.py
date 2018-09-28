@@ -38,7 +38,8 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
                 self.outline_symbol = outline
 
         self.color = stream.read_object('color')
-        self.read_0d_terminator(stream)
+        stream.read_0d_terminator()
+        _ = stream.read_int('unknown int')
 
 
 class ColorSymbol(FillSymbolLayer):
@@ -52,4 +53,4 @@ class ColorSymbol(FillSymbolLayer):
 
     def read(self, stream: Stream, version):
         self.color = stream.read_object('color')
-        self.read_0d_terminator(stream)
+        stream.read_0d_terminator()
