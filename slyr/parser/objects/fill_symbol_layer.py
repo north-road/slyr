@@ -133,3 +133,45 @@ class LineFillSymbolLayer(FillSymbolLayer):
         self.separation = stream.read_double('separation')
 
         stream.read_0d_terminator()
+
+
+class MarkerFillSymbolLayer(FillSymbolLayer):
+    """
+    Marker fill symbol layer
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.random = False
+        self.offset_x = 0
+        self.offset_y = 0
+        self.separation_x = 0
+        self.separation_y = 0
+        self.marker = None
+
+    @staticmethod
+    def guid():
+        return '7914e608-c892-11d0-8bb6-080009ee4e41'
+
+    def read(self, stream: Stream, version):
+        self.random = bool(stream.read_int('random'))
+        self.offset_x = stream.read_double('offset x')
+        self.offset_y = stream.read_double('offset y')
+        self.separation_x = stream.read_double('separation x')
+        self.separation_y = stream.read_double('separation y')
+        _ = stream.read_double('unused double')
+        _ = stream.read_double('unused double')
+
+        self.marker = stream.read_object('fill marker')
+
+        # either an entire LineSymbol or just a LineSymbolLayer
+        outline = stream.read_object('outline')
+        if outline is not None:
+            if issubclass(outline.__class__, SymbolLayer):
+                self.outline_layer = outline
+            else:
+                self.outline_symbol = outline
+
+        stream.read_0d_terminator()
+
+        _ = stream.read_double('unused double')
