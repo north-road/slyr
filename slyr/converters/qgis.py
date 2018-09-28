@@ -4,11 +4,13 @@
 Converts parsed symbol properties to QGIS Symbols
 """
 
-from qgis.core import (QgsSimpleLineSymbolLayer,
+from qgis.core import (QgsUnitTypes,
+                       QgsSimpleLineSymbolLayer,
                        QgsSimpleFillSymbolLayer,
                        QgsFillSymbol,
                        QgsLineSymbol,
                        QgsMarkerSymbol,
+                       QgsEllipseSymbolLayer,
                        QgsSimpleMarkerSymbolLayer,
                        QgsSimpleMarkerSymbolLayerBase,
                        QgsFontMarkerSymbolLayer)
@@ -38,6 +40,7 @@ from slyr.parser.objects.fill_symbol_layer import (
 from slyr.parser.objects.marker_symbol_layer import (
     MarkerSymbolLayer,
     SimpleMarkerSymbolLayer,
+    ArrowMarkerSymbolLayer,
     CharacterMarkerSymbolLayer
 )
 from slyr.converters.converter import NotImplementedException
@@ -52,13 +55,6 @@ def symbol_color_to_qcolor(color):
         return QColor.fromCmykF(color.cyan / 100, color.magenta / 100, color.yellow / 100, color.black / 100)
 
     return QColor(color.red, color.green, color.blue, 0 if color.is_null else 255)
-
-
-def points_to_mm(points):
-    """
-    Converts a point size to mm
-    """
-    return points * 0.352778
 
 
 def symbol_pen_to_qpenstyle(style):
@@ -113,7 +109,8 @@ def append_SimpleFillSymbolLayer(symbol, layer):
         if layer.outline_layer:
             if isinstance(layer.outline_layer, (SimpleLineSymbolLayer, CartographicLineSymbolLayer)):
                 out.setStrokeColor(symbol_color_to_qcolor(layer.outline_layer.color))
-                out.setStrokeWidth(points_to_mm(layer.outline_layer.width))
+                out.setStrokeWidth(layer.outline_layer.width)
+                out.setStrokeWidthUnit(QgsUnitTypes.RenderPoints)
             if isinstance(layer.outline_layer, SimpleLineSymbolLayer):
                 out.setStrokeStyle(symbol_pen_to_qpenstyle(layer.outline_layer.line_type))
             if isinstance(layer.outline_layer, CartographicLineSymbolLayer):
@@ -147,7 +144,8 @@ def append_SimpleLineSymbolLayer(symbol, layer):
     out = QgsSimpleLineSymbolLayer(color)
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    out.setWidth(points_to_mm(layer.width))
+    out.setWidth(layer.width)
+    out.setWidthUnit(QgsUnitTypes.RenderPoints)
     out.setPenStyle(symbol_pen_to_qpenstyle(layer.line_type))
     # out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
     # better matching of null stroke color to QGIS symbology
@@ -166,11 +164,12 @@ def apply_template_to_LineSymbolLayer_custom_dash(template, layer):
 
     dash_vector = []
     for part in template.pattern_parts:
-        dash_vector.append(points_to_mm(part[0] * interval))
-        dash_vector.append(points_to_mm(part[1] * interval))
+        dash_vector.append(part[0] * interval)
+        dash_vector.append(part[1] * interval)
 
     layer.setCustomDashVector(dash_vector)
     layer.setUseCustomDashPattern(True)
+    layer.setCustomDashPatternUnit(QgsUnitTypes.RenderPoints)
 
 
 def append_CartographicLineSymbolLayer(symbol, layer):
@@ -181,7 +180,8 @@ def append_CartographicLineSymbolLayer(symbol, layer):
     out = QgsSimpleLineSymbolLayer(color)
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    out.setWidth(points_to_mm(layer.width))
+    out.setWidth(layer.width)
+    out.setWidthUnit(QgsUnitTypes.RenderPoints)
     out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
     out.setPenCapStyle(symbol_pen_to_qpencapstyle(layer.cap))
     if layer.template is not None:
@@ -216,13 +216,13 @@ def marker_type_to_qgis_type(marker_type):
         raise NotImplementedException('Marker type {} not implemented'.format(marker_type))
 
 
-def append_SimpleMarkerSymbolLayer(symbol, layer):
+def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer):
     """
     Appends a SimpleMarkerSymbolLayer to a symbol
     """
     marker_type = marker_type_to_qgis_type(layer.type)
-    size = points_to_mm(layer.size)
-    out = QgsSimpleMarkerSymbolLayer(marker_type, size)
+    out = QgsSimpleMarkerSymbolLayer(marker_type, layer.size)
+    out.setSizeUnit(QgsUnitTypes.RenderPoints)
 
     color = symbol_color_to_qcolor(layer.color)
     if marker_type in ('circle', 'square', 'diamond'):
@@ -232,20 +232,52 @@ def append_SimpleMarkerSymbolLayer(symbol, layer):
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    out.setOffset(QPointF(points_to_mm(layer.x_offset), points_to_mm(layer.y_offset)))
+    out.setOffset(QPointF(layer.x_offset, layer.y_offset))
+    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     if layer.outline_enabled:
         outline_color = symbol_color_to_qcolor(layer.outline_color)
         if marker_type in ('circle', 'square', 'diamond'):
             out.setStrokeColor(outline_color)
-            out.setStrokeWidth(points_to_mm(layer.outline_width))
+            out.setStrokeWidth(layer.outline_width)
+            out.setStrokeWidthUnit(QgsUnitTypes.RenderPoints)
         else:
             # for stroke-only symbols, we need to add the outline as an additional
             # symbol layer
-            outline_layer = QgsSimpleMarkerSymbolLayer(marker_type, size)
+            outline_layer = QgsSimpleMarkerSymbolLayer(marker_type, layer.size)
+            outline_layer.setSizeUnit(QgsUnitTypes.RenderPoints)
             outline_layer.setStrokeColor(outline_color)
-            outline_layer.setStrokeWidth(points_to_mm(layer.outline_width))
+            outline_layer.setStrokeWidth(layer.outline_width)
+            outline_layer.setStrokeWidthUnit(QgsUnitTypes.RenderPoints)
             symbol.appendSymbolLayer(outline_layer)
+
+    symbol.appendSymbolLayer(out)
+
+
+def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer):
+    """
+    Appends a ArrowMarkerSymbolLayer to a symbol
+    """
+    out = QgsEllipseSymbolLayer()
+    out.setSymbolName('triangle')
+    out.setStrokeStyle(Qt.NoPen)
+
+    out.setSymbolHeight(layer.size)
+    out.setSymbolHeightUnit(QgsUnitTypes.RenderPoints)
+    out.setSymbolWidth(layer.width)
+    out.setSymbolWidthUnit(QgsUnitTypes.RenderPoints)
+
+    color = symbol_color_to_qcolor(layer.color)
+    out.setColor(color)
+    out.setStrokeColor(color)  # why not, makes the symbol a bit easier to modify in qgis
+
+    # TODO -- confirm whether ArcGIS has same offset/rotation linkages as QGIS does!
+    out.setOffset(QPointF(layer.x_offset, layer.y_offset))
+    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+    out.setAngle(360 - layer.angle)
+
+    out.setEnabled(layer.enabled)
+    out.setLocked(layer.locked)
 
     symbol.appendSymbolLayer(out)
 
@@ -256,16 +288,17 @@ def append_CharacterMarkerSymbolLayer(symbol, layer):
     """
     font_family = layer.font
     character = chr(layer.unicode)
-    size = points_to_mm(layer.size)
     color = symbol_color_to_qcolor(layer.color)
     angle = 360 - layer.angle
 
-    out = QgsFontMarkerSymbolLayer(font_family, character, size, color, angle)
+    out = QgsFontMarkerSymbolLayer(font_family, character, layer.size, color, angle)
+    out.setSizeUnit(QgsUnitTypes.RenderPoints)
 
     # TODO
     # out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    out.setOffset(QPointF(points_to_mm(layer.x_offset), points_to_mm(layer.y_offset)))
+    out.setOffset(QPointF(layer.x_offset, layer.y_offset))
+    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     symbol.appendSymbolLayer(out)
 
@@ -298,6 +331,8 @@ def append_MarkerSymbolLayer(symbol, layer):
     """
     if isinstance(layer, SimpleMarkerSymbolLayer):
         append_SimpleMarkerSymbolLayer(symbol, layer)
+    elif isinstance(layer, ArrowMarkerSymbolLayer):
+        append_ArrowMarkerSymbolLayer(symbol, layer)
     elif isinstance(layer, CharacterMarkerSymbolLayer):
         append_CharacterMarkerSymbolLayer(symbol, layer)
     else:
