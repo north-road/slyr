@@ -17,6 +17,7 @@ class SymbolLayer(Object):
     def __init__(self):
         self.locked = False
         self.enabled = True
+        self.tags = ''
 
     def read_enabled(self, stream: Stream):
         """

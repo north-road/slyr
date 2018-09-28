@@ -89,6 +89,9 @@ class LineSymbol(Symbol):
             l.read_enabled(stream)
         for l in self.levels:
             l.read_locked(stream)
+        if version >= 2:
+            for l in self.levels:
+                l.read_tags(stream)
 
 
 class FillSymbol(Symbol):
@@ -133,8 +136,9 @@ class FillSymbol(Symbol):
         for l in self.levels:
             l.read_locked(stream)
 
-        # unknown_size = stream.read_double('unknown size')
-        # stream.read(2)
+        if version >= 2:
+            for l in self.levels:
+                l.read_tags(stream)
 
 
 class MarkerSymbol(Symbol):
@@ -198,6 +202,10 @@ class MarkerSymbol(Symbol):
 
         _ = stream.read_double('unknown size')
         _ = stream.read_double('unknown size')
+
+        if version >= 3:
+            for l in self.levels:
+                l.read_tags(stream)
 
 
 def read_symbol(_io_stream, debug=False):
