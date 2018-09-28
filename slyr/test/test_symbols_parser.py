@@ -14813,7 +14813,43 @@ expected = {
              'same_everywhere': False,
              'saturation_range': [13, 99],
              'value_range': [12, 100]},
-    }
+    },
+    'color_symbol':
+        {
+            'color_symbol_blue_band_3.bin':
+                {'levels': [{'color': {'B': 255,
+                                       'G': 0,
+                                       'R': 0,
+                                       'dither': True,
+                                       'is_null': False},
+                             'color_model': 'rgb',
+                             'enabled': True,
+                             'locked': False,
+                             'type': 'ColorSymbol'}],
+                 'type': 'FillSymbol'},
+            'color_symbol_green_band_2.bin':
+                {'levels': [{'color': {'B': 0,
+                                       'G': 255,
+                                       'R': 0,
+                                       'dither': True,
+                                       'is_null': False},
+                             'color_model': 'rgb',
+                             'enabled': True,
+                             'locked': False,
+                             'type': 'ColorSymbol'}],
+                 'type': 'FillSymbol'},
+            'color_symbol_red_band_1.bin':
+                {'levels': [{'color': {'B': 0,
+                                       'G': 0,
+                                       'R': 255,
+                                       'dither': True,
+                                       'is_null': False},
+                             'color_model': 'rgb',
+                             'enabled': True,
+                             'locked': False,
+                             'type': 'ColorSymbol'}],
+                 'type': 'FillSymbol'}
+        }
 }
 
 initialize_registry()
@@ -14898,6 +14934,14 @@ class TestSymbolParser(unittest.TestCase):
         """
         path = os.path.join(os.path.dirname(
             __file__), 'styles', 'ramps_bin')
+        self.run_symbol_checks(path)
+
+    def test_color_symbol(self):
+        """
+        Test color symbol parsing
+        """
+        path = os.path.join(os.path.dirname(
+            __file__), 'styles', 'color_symbol')
         self.run_symbol_checks(path)
 
     def test_guid_parsing(self):
