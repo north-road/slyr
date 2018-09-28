@@ -59,10 +59,6 @@ class FillSymbol(Symbol):
     Fill symbol
     """
 
-    def __init__(self):
-        super().__init__()
-        self.color = None
-
     @staticmethod
     def guid():
         return '7914e604-c892-11d0-8bb6-080009ee4e41'
@@ -75,7 +71,7 @@ class FillSymbol(Symbol):
         if not stream.read_0d_terminator():
             raise UnreadableSymbolException('Could not find 0d terminator at {}'.format(hex(stream.tell() - 8)))
 
-        self.color = stream.read_object('color')
+        _ = stream.read_object('unused color')
 
         number_layers = stream.read_int('layers')
         for i in range(number_layers):
@@ -104,7 +100,6 @@ class MarkerSymbol(Symbol):
         self.halo = False
         self.halo_size = 0
         self.halo_symbol = None
-        self.color = None
 
     @staticmethod
     def guid():
@@ -118,13 +113,14 @@ class MarkerSymbol(Symbol):
         if not stream.read_0d_terminator():
             raise UnreadableSymbolException('Could not find 0d terminator at {}'.format(hex(stream.tell() - 8)))
 
-        # consume unused properties
-        _ = stream.read_double('unknown size')
-        _ = stream.read_double('unknown size')
-        _ = stream.read_double('unknown size')
-        _ = stream.read_double('unknown size')
-
-        self.color = stream.read_object('color')
+        # consume unused properties - MultiLayerMarkerSymbol implements IMarkerSymbol
+        # so that the size/offsets/angle are required properties. But they aren't used
+        # or exposed anywhere for MultiLayerMarkerSymbol
+        _ = stream.read_double('unused marker size')
+        _ = stream.read_double('unused marker x/y/offset or angle')
+        _ = stream.read_double('unused marker x/y/offset or angle')
+        _ = stream.read_double('unused marker x/y/offset or angle')
+        _ = stream.read_object('unused color')
 
         self.halo = stream.read_int() == 1
         self.halo_size = stream.read_double('halo size')
