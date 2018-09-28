@@ -150,6 +150,21 @@ def append_SimpleLineSymbolLayer(symbol, layer):
     symbol.appendSymbolLayer(out)
 
 
+def apply_template_to_LineSymbolLayer_custom_dash(template, layer):
+    """
+    Applies a line template to a QgsSimpleLineSymbolLayer custom dash pattern
+    """
+    interval = template.pattern_interval
+
+    dash_vector = []
+    for part in template.pattern_parts:
+        dash_vector.append(points_to_mm(part[0] * interval))
+        dash_vector.append(points_to_mm(part[1] * interval))
+
+    layer.setCustomDashVector(dash_vector)
+    layer.setUseCustomDashPattern(True)
+
+
 def append_CartographicLineSymbolLayer(symbol, layer):
     """
     Appends a CartographicLineSymbolLayer to a symbol
@@ -161,22 +176,14 @@ def append_CartographicLineSymbolLayer(symbol, layer):
     out.setWidth(points_to_mm(layer.width))
     out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
     out.setPenCapStyle(symbol_pen_to_qpencapstyle(layer.cap))
-    if layer.pattern_parts:
-        interval = layer.pattern_interval
-
-        dash_vector = []
-        for part in layer.pattern_parts:
-            dash_vector.append(points_to_mm(part[0] * interval))
-            dash_vector.append(points_to_mm(part[1] * interval))
-
-        out.setCustomDashVector(dash_vector)
-        out.setUseCustomDashPattern(True)
+    if layer.template is not None:
+        apply_template_to_LineSymbolLayer_custom_dash(layer.template, out)
 
     # better matching of null stroke color to QGIS symbology
     if out.color().alpha() == 0:
         out.setPenStyle(Qt.NoPen)
 
-    if layer.marker_positions or layer.marker:
+    if layer.decoration is not None:
         raise NotImplementedException('Cartographic line start/end markers are not yet supported')
 
     # todo - change to new symbol layer if outline offset set
