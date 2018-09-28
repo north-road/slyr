@@ -14264,6 +14264,32 @@ expected = {
                         }
                     ]
                 },
+            'Two levels with tags.bin':
+                {'levels': [{'color': {'B': 0,
+                                       'G': 0,
+                                       'R': 255,
+                                       'dither': False,
+                                       'is_null': False},
+                             'color_model': 'rgb',
+                             'enabled': True,
+                             'line_type': 'solid',
+                             'locked': False,
+                             'tags': 'l2 tags',
+                             'type': 'SimpleLineSymbolLayer',
+                             'width': 1.0},
+                            {'color': {'B': 110,
+                                       'G': 110,
+                                       'R': 110,
+                                       'dither': True,
+                                       'is_null': False},
+                             'color_model': 'rgb',
+                             'enabled': True,
+                             'line_type': 'solid',
+                             'locked': True,
+                             'tags': 'Layer1tags',
+                             'type': 'SimpleLineSymbolLayer',
+                             'width': 1.0}],
+                 'type': 'LineSymbol'},
             'Three levels.bin':
                 {
                     'type': 'LineSymbol',
