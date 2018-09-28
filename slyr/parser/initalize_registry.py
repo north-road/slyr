@@ -39,7 +39,8 @@ from slyr.parser.symbol_parser import (
 from slyr.parser.objects.ramps import (
     RandomColorRamp,
     PresetColorRamp,
-    MultiPartColorRamp
+    MultiPartColorRamp,
+    AlgorithmicColorRamp
 )
 
 
@@ -71,3 +72,4 @@ def initialize_registry():
     REGISTRY.register(RandomColorRamp)
     REGISTRY.register(PresetColorRamp)
     REGISTRY.register(MultiPartColorRamp)
+    REGISTRY.register(AlgorithmicColorRamp)

@@ -35,7 +35,6 @@ class ObjectRegistry:
         '99dccb66-2e09-11d3-a626-0008c7bf3347': 'RasterRGBSymbol',
         '50317369-bd70-11d3-9f79-00c04f6bc709': 'StackedChartSymbol',
         '2b74125d-5c1b-4dbd-967a-7412dfff1f09': 'TextMarkerSymbol',
-        'beb8709b-c0b4-11d0-8379-080009b996cc': 'AlgorithmicColorRamp',
     }
 
     def __init__(self):
