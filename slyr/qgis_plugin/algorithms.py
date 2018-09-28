@@ -37,7 +37,8 @@ from slyr.parser.stream import Stream
 from slyr.parser.exceptions import (UnreadableSymbolException,
                                     InvalidColorException,
                                     UnsupportedVersionException,
-                                    NotImplementedException)
+                                    NotImplementedException,
+                                    UnknownGuidException)
 from slyr.converters.qgis import (Symbol_to_QgsSymbol,
                                   symbol_color_to_qcolor)
 
@@ -156,6 +157,10 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     continue
                 except UnsupportedVersionException as e:
                     feedback.reportError('Cannot read {} version: {}'.format(name, e))
+                    unreadable += 1
+                    continue
+                except UnknownGuidException as e:
+                    feedback.reportError(str(e))
                     unreadable += 1
                     continue
 
