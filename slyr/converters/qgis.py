@@ -124,13 +124,16 @@ def append_SimpleFillSymbolLayer(symbol, layer):
 
             # todo - change to new symbol layer if outline offset, template, etc set
             symbol.appendSymbolLayer(out)
-        else:
+        elif layer.outline_symbol:
             # outline is a symbol itself
             out.setStrokeStyle(Qt.NoPen)
             symbol.appendSymbolLayer(out)
 
             # get all layers from outline
             append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol)
+        else:
+            out.setStrokeStyle(Qt.NoPen)
+            symbol.appendSymbolLayer(out)
     elif isinstance(layer, ColorSymbol):
         out.setStrokeStyle(Qt.NoPen)
         symbol.appendSymbolLayer(out)
