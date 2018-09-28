@@ -24,7 +24,7 @@ def clean_symbol_name_for_file(symbol_name):
     file_name = file_name.replace('*', '_')
     file_name = file_name.replace('"', '_')
     file_name = file_name.replace(':', '_')
-    return file_name
+    return file_name.strip()
 
 
 parser = argparse.ArgumentParser()
