@@ -109,7 +109,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
 
     @staticmethod
     def compatible_versions():
-        return [3, 4]
+        return [2, 3, 4]
 
     def read(self, stream: Stream, version):
         self.color = stream.read_object('color')
@@ -123,25 +123,30 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         stream.read_double('unknown 1')
         stream.read_double('unknown 2')
 
+        if version == 2:
+            self.std_font = stream.read_object('font')
+            self.font = self.std_font.font_name
+
         stream.read_0d_terminator()
         if binascii.hexlify(stream.read(2)) != b'ffff':
             raise UnreadableSymbolException('Expected ffff')
 
-        self.font = stream.read_string('font name')
+        if version >= 3:
+            self.font = stream.read_string('font name')
 
-        # lot of unknown stuff
-        stream.read_double('unknown 3')  # or object?
-        stream.read_double('unknown 4')  # or object?
+            # lot of unknown stuff
+            stream.read_double('unknown 3')  # or object?
+            stream.read_double('unknown 4')  # or object?
 
-        stream.read_uchar('unknown')
-        stream.read_uchar('unknown')
+            stream.read_uchar('unknown')
+            stream.read_uchar('unknown')
 
-        stream.read(4)
-        stream.read(6)
+            stream.read(4)
+            stream.read(6)
 
-        if version >= 4:
-            # std OLE font .. maybe contains useful stuff like bold/etc, but these aren't exposed in ArcGIS anyway..
-            self.std_font = stream.read_object('font')
+            if version >= 4:
+                # std OLE font .. maybe contains useful stuff like bold/etc, but these aren't exposed in ArcGIS anyway..
+                self.std_font = stream.read_object('font')
 
 
 class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
