@@ -36,6 +36,13 @@ class SymbolLayer(Object):
         self.locked = locked == 1
         stream.log('read layer locked ({})'.format(self.locked), 4)
 
+    def read_tags(self, stream: Stream):
+        """
+        Reads the layer tags
+
+        """
+        self.tags = stream.read_string('layer tags')
+
     @staticmethod
     def read_0d_terminator(stream):
         """
