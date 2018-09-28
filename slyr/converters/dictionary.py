@@ -26,6 +26,7 @@ from slyr.parser.objects.fill_symbol_layer import (
     SimpleFillSymbolLayer,
     GradientFillSymbolLayer,
     LineFillSymbolLayer,
+    MarkerFillSymbolLayer,
     FillSymbolLayer,
     ColorSymbol)
 from slyr.parser.objects.marker_symbol_layer import (
@@ -128,6 +129,8 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
             return self.convert_gradient_fill_symbol_layer(layer)
         elif isinstance(layer, LineFillSymbolLayer):
             return self.convert_line_fill_symbol_layer(layer)
+        elif isinstance(layer, MarkerFillSymbolLayer):
+            return self.convert_marker_fill_symbol_layer(layer)
         else:
             raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
@@ -203,6 +206,31 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
         out['angle'] = layer.angle
         out['offset'] = layer.offset
         out['separation'] = layer.separation
+
+        return out
+
+    def convert_marker_fill_symbol_layer(self, layer: MarkerFillSymbolLayer) -> dict:
+        """
+        Converts a MarkerFillSymbolLayer
+        """
+        out = {
+        }
+
+        if layer.outline_layer:
+            out['outline_layer'] = self.convert_symbol_layer(layer.outline_layer)
+        if layer.outline_symbol:
+            outline_converter = DictionaryConverter()
+            out['outline_symbol'] = outline_converter.convert_symbol(layer.outline_symbol)
+        if issubclass(layer.marker.__class__, Symbol):
+            line_converter = DictionaryConverter()
+            out['marker'] = line_converter.convert_symbol(layer.marker)
+        else:
+            out['marker'] = self.convert_symbol_layer(layer.marker)
+        out['offset_x'] = layer.offset_x
+        out['offset_y'] = layer.offset_y
+        out['separation_x'] = layer.separation_x
+        out['separation_y'] = layer.separation_y
+        out['random'] = layer.random
 
         return out
 
