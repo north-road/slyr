@@ -6,6 +6,7 @@ Converts a binary style file blob to a symbol and dumps its properties to the co
 
 import argparse
 import pprint
+from io import BytesIO
 
 from slyr.parser.symbol_parser import read_symbol
 from slyr.converters.dictionary import DictionaryConverter
@@ -29,7 +30,9 @@ if args.scan:
 
     print('Scanning....')
     with open(args.file, 'rb') as f:
+        data = BytesIO(f.read())
 
+    with data as f:
         f.seek(0, 2)
         length_file = f.tell()
         f.seek(0)
