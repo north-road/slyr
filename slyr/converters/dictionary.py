@@ -109,6 +109,8 @@ class DictionaryConverter(Converter):
         out['type'] = type(layer).__name__
         out['enabled'] = layer.enabled
         out['locked'] = layer.locked
+        if layer.tags:
+            out['tags'] = layer.tags
         return out
 
     def convert_fill_symbol_layer(self, layer: FillSymbolLayer) -> dict:
