@@ -230,7 +230,7 @@ class IntScan(ObjectScan):
     def check_handle(self, file_handle):
         try:
             int_value = unpack("<I", file_handle.read(4))[0]
-            if -100 < int_value < 25500 and int_value != 0:
+            if -100 < int_value < 1125500 and int_value != 0:
                 return IntMatch(file_handle.tell() - 4, 4, int_value)
         except:  # nopep8, pylint: disable=bare-except
             pass
