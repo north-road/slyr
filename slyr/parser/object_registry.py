@@ -23,6 +23,7 @@ class ObjectRegistry:
         '22c8c5a1-84fc-11d4-834d-0080c79f0371': 'PictureLineSymbol',
         '7914e602-c892-11d0-8bb6-080009ee4e41': 'PictureMarkerSymbol',
         'b65a3e74-2993-11d1-9a43-0080c7ec5c96': 'TextSymbol',
+        'b81f9ae0-026e-11d3-9c1f-00c04f5aa6ed': 'ColorSymbol1'
     }
 
     def __init__(self):
@@ -41,7 +42,7 @@ class ObjectRegistry:
         if guid == '00000000-0000-0000-0000-000000000000':
             return None
         if guid in self.NOT_IMPLEMENTED_GUIDS:
-            raise NotImplementedException('{} are not implemented yet'.format(self.NOT_IMPLEMENTED_GUIDS[guid]))
+            raise NotImplementedException('{} objects are not yet supported'.format(self.NOT_IMPLEMENTED_GUIDS[guid]))
         elif guid not in self.objects:
             raise UnknownGuidException('Unknown GUID: {}'.format(guid))
         return self.objects[guid]()
