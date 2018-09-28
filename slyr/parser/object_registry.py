@@ -23,6 +23,18 @@ class ObjectRegistry:
         '22c8c5a1-84fc-11d4-834d-0080c79f0371': 'PictureLineSymbol',
         '7914e602-c892-11d0-8bb6-080009ee4e41': 'PictureMarkerSymbol',
         'b65a3e74-2993-11d1-9a43-0080c7ec5c96': 'TextSymbol',
+        '5031736A-BD70-11D3-9F79-00C04F6BC709': 'BarChartSymbol',
+        '6E8EC8F7-E90A-11D5-A129-00508BD60CB9': 'CharacterMarker3DSymbol',
+        '773F7274-AEFB-11D5-8112-00C04FA0ADF8': 'Marker3DSymbol',
+        '470B7275-3552-11D6-A12D-00508BD60CB9': 'SimpleLine3DSymbol',
+        '773F7270-AEFB-11D5-8112-00C04FA0ADF8': 'SimpleMarker3DSymbol',
+        '8D738780-C069-42E0-9DFA-2B7B61707BA9': 'TextureFillSymbol',
+        'B5710C9C-A9BC-4A16-B578-54BE176ED57B': 'TextureLineSymbol',
+        '40987040-204C-11D3-A3F2-0004AC1B1D86': 'ColorRampSymbol',
+        '50317368-BD70-11D3-9F79-00C04F6BC709': 'PieChartSymbol',
+        '99DCCB66-2E09-11D3-A626-0008C7BF3347': 'RasterRGBSymbol',
+        '50317369-BD70-11D3-9F79-00C04F6BC709': 'StackedChartSymbol',
+        '2B74125D-5C1B-4DBD-967A-7412DFFF1F09': 'TextMarkerSymbol',
     }
 
     def __init__(self):
