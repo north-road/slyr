@@ -32,7 +32,8 @@ from slyr.parser.objects.line_symbol_layer import (
     LineSymbolLayer)
 from slyr.parser.objects.fill_symbol_layer import (
     FillSymbolLayer,
-    SimpleFillSymbolLayer
+    SimpleFillSymbolLayer,
+    ColorSymbol
 )
 from slyr.parser.objects.marker_symbol_layer import (
     MarkerSymbolLayer,
@@ -108,27 +109,31 @@ def append_SimpleFillSymbolLayer(symbol, layer):
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
 
-    if layer.outline_layer:
-        if isinstance(layer.outline_layer, (SimpleLineSymbolLayer, CartographicLineSymbolLayer)):
-            out.setStrokeColor(symbol_color_to_qcolor(layer.outline_layer.color))
-            out.setStrokeWidth(points_to_mm(layer.outline_layer.width))
-        if isinstance(layer.outline_layer, SimpleLineSymbolLayer):
-            out.setStrokeStyle(symbol_pen_to_qpenstyle(layer.outline_layer.line_type))
-        if isinstance(layer.outline_layer, CartographicLineSymbolLayer):
-            out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.outline_layer.join))
-        # better matching of null stroke color to QGIS symbology
-        if out.strokeColor().alpha() == 0:
-            out.setStrokeStyle(Qt.NoPen)
+    if isinstance(layer, SimpleFillSymbolLayer):
+        if layer.outline_layer:
+            if isinstance(layer.outline_layer, (SimpleLineSymbolLayer, CartographicLineSymbolLayer)):
+                out.setStrokeColor(symbol_color_to_qcolor(layer.outline_layer.color))
+                out.setStrokeWidth(points_to_mm(layer.outline_layer.width))
+            if isinstance(layer.outline_layer, SimpleLineSymbolLayer):
+                out.setStrokeStyle(symbol_pen_to_qpenstyle(layer.outline_layer.line_type))
+            if isinstance(layer.outline_layer, CartographicLineSymbolLayer):
+                out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.outline_layer.join))
+            # better matching of null stroke color to QGIS symbology
+            if out.strokeColor().alpha() == 0:
+                out.setStrokeStyle(Qt.NoPen)
 
-        # todo - change to new symbol layer if outline offset set
-        symbol.appendSymbolLayer(out)
-    else:
-        # outline is a symbol itself
+            # todo - change to new symbol layer if outline offset, template, etc set
+            symbol.appendSymbolLayer(out)
+        else:
+            # outline is a symbol itself
+            out.setStrokeStyle(Qt.NoPen)
+            symbol.appendSymbolLayer(out)
+
+            # get all layers from outline
+            append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol)
+    elif isinstance(layer, ColorSymbol):
         out.setStrokeStyle(Qt.NoPen)
         symbol.appendSymbolLayer(out)
-
-        # get all layers from outline
-        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol)
 
 
 def append_SimpleLineSymbolLayer(symbol, layer):
@@ -266,7 +271,7 @@ def append_FillSymbolLayer(symbol, layer):
     """
     Appends a FillSymbolLayer to a symbol
     """
-    if isinstance(layer, SimpleFillSymbolLayer):
+    if isinstance(layer, (SimpleFillSymbolLayer, ColorSymbol)):
         append_SimpleFillSymbolLayer(symbol, layer)
     else:
         raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
