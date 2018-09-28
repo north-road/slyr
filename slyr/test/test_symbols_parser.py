@@ -14675,45 +14675,144 @@ expected = {
     },
     'ramps_bin': {
         'Multi-part Color Ramp.bin':
-            {
-                'skip': True
-            },
+            {'part_lengths': [1.0, 1.0, 1.0],
+             'parts': [{'hue_range': [0, 360],
+                        'ramp_name_type': 'Random Color Ramp',
+                        'same_everywhere': False,
+                        'saturation_range': [0, 100],
+                        'value_range': [0, 100]},
+                       {'colors': [{'B': 0,
+                                    'G': 255,
+                                    'R': 0,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 237,
+                                    'R': 18,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 219,
+                                    'R': 36,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 201,
+                                    'R': 54,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 183,
+                                    'R': 72,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 165,
+                                    'R': 90,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 147,
+                                    'R': 108,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 129,
+                                    'R': 126,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 111,
+                                    'R': 144,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 93,
+                                    'R': 162,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 75,
+                                    'R': 180,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 57,
+                                    'R': 198,
+                                    'dither': True,
+                                    'is_null': False},
+                                   {'B': 0,
+                                    'G': 39,
+                                    'R': 216,
+                                    'dither': True,
+                                    'is_null': False}],
+                        'ramp_name_type': 'Preset Color Ramp'},
+                       {'algorithm': 0,
+                        'color1': {'B': 44,
+                                   'G': 44,
+                                   'R': 245,
+                                   'dither': True,
+                                   'is_null': False},
+                        'color2': {'B': 0,
+                                   'G': 0,
+                                   'R': 128,
+                                   'dither': True,
+                                   'is_null': False},
+                        'ramp_name_type': 'Algorithmic Color Ramp'}],
+             'ramp_name_type': 'Multi-part Color Ramp'},
         'Algorithmic Color Ramp CIELAB.bin':
-            {
-                'skip': True
-            },
+            {'algorithm': 1,
+             'color1': {'B': 44, 'G': 44, 'R': 245, 'dither': True, 'is_null': False},
+             'color2': {'B': 0, 'G': 0, 'R': 128, 'dither': True, 'is_null': False},
+             'ramp_name_type': 'Algorithmic Color Ramp'},
         'Algorithmic Color Ramp HSV.bin':
-            {
-                'skip': True
-            },
+            {'algorithm': 0,
+             'color1': {'B': 44, 'G': 44, 'R': 245, 'dither': True, 'is_null': False},
+             'color2': {'B': 0, 'G': 0, 'R': 128, 'dither': True, 'is_null': False},
+             'ramp_name_type': 'Algorithmic Color Ramp'},
         'Algorithmic Color Ramp LabLch.bin':
-            {
-                'skip': True
-            },
+            {'algorithm': 2,
+             'color1': {'B': 44, 'G': 44, 'R': 245, 'dither': True, 'is_null': False},
+             'color2': {'B': 0, 'G': 0, 'R': 128, 'dither': True, 'is_null': False},
+             'ramp_name_type': 'Algorithmic Color Ramp'},
         'Algorithmic Color Ramp Red to Green.bin':
-            {
-                'skip': True
-            },
+            {'algorithm': 0,
+             'color1': {'B': 0, 'G': 0, 'R': 255, 'dither': True, 'is_null': False},
+             'color2': {'B': 0, 'G': 255, 'R': 0, 'dither': True, 'is_null': False},
+             'ramp_name_type': 'Algorithmic Color Ramp'},
         'Preset Color Ramp 13 colors R_G_B.bin':
-            {
-                'skip': True
-            },
+            {'colors': [{'B': 0, 'G': 0, 'R': 255, 'dither': True, 'is_null': False},
+                        {'B': 0, 'G': 255, 'R': 0, 'dither': True, 'is_null': False},
+                        {'B': 255, 'G': 0, 'R': 0, 'dither': True, 'is_null': False},
+                        {'B': 0, 'G': 0, 'R': 255, 'dither': True, 'is_null': False},
+                        {'B': 0, 'G': 255, 'R': 0, 'dither': True, 'is_null': False},
+                        {'B': 255, 'G': 0, 'R': 0, 'dither': True, 'is_null': False},
+                        {'B': 0, 'G': 0, 'R': 255, 'dither': True, 'is_null': False},
+                        {'B': 0, 'G': 255, 'R': 0, 'dither': True, 'is_null': False},
+                        {'B': 255, 'G': 0, 'R': 0, 'dither': True, 'is_null': False},
+                        {'B': 0, 'G': 0, 'R': 255, 'dither': True, 'is_null': False},
+                        {'B': 0, 'G': 255, 'R': 0, 'dither': True, 'is_null': False},
+                        {'B': 255, 'G': 0, 'R': 0, 'dither': True, 'is_null': False},
+                        {'B': 0, 'G': 0, 'R': 255, 'dither': True, 'is_null': False}],
+             'ramp_name_type': 'Preset Color Ramp'},
         'Random Val 12-52 Sat 13-53 Hue 14-54.bin':
-            {
-                'skip': True
-            },
+            {'hue_range': [14, 54],
+             'ramp_name_type': 'Random Color Ramp',
+             'same_everywhere': False,
+             'saturation_range': [13, 53],
+             'value_range': [12, 52]},
         'Random Val 12-52 Sat 13-53 Hue 14-54 same everywhere.bin':
-            {
-                'skip': True
-            },
-        'Random Val 12-100 Sat 13-99 Hue 14-36.bin':
-            {
-                'skip': True
-            },
+            {'hue_range': [14, 54],
+             'ramp_name_type': 'Random Color Ramp',
+             'same_everywhere': True,
+             'saturation_range': [13, 53],
+             'value_range': [12, 52]},
         'Random Val 12-100 Sat 13-99 Hue 14-360.bin':
-            {
-                'skip': True
-            },
+            {'hue_range': [14, 360],
+             'ramp_name_type': 'Random Color Ramp',
+             'same_everywhere': False,
+             'saturation_range': [13, 99],
+             'value_range': [12, 100]},
     }
 }
 
