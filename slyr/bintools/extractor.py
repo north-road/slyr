@@ -13,8 +13,14 @@ class Extractor:
     Extracts style information and blobs from .style databases
     """
 
-    __NEWLINE = b'!!newline!!'
-    __DELIMITER = b',,,,,,,'
+    # something to keep in mind... mdb-export is somewhat... fragile
+    # and tends to apply text formatting options and escaping within
+    # binary blobs too. So we overwrite all the default newline, delimiter,
+    # and quotation characters with strings which are almost guaranteed
+    # to never come up in an ESRI style blob ;)
+    __NEWLINE = b'arcgissuxxxxxxxxxx'
+    __DELIMITER = b'reallynooneneedstopayourexorbitantlicensingfeesjustembracethefossinstead'
+    __QUOTE = b'qgisisthebestweallknowthat'
 
     COLORS = 'Colors'
     FILL_SYMBOLS = 'Fill symbols'
@@ -43,6 +49,8 @@ class Extractor:
 
         export_args = [binary,
                        '-H',
+                       '-q',
+                       '{}'.format(Extractor.__QUOTE.decode('ASCII')),
                        '-R',
                        '{}'.format(Extractor.__NEWLINE.decode('ASCII')),
                        '-d',
@@ -51,6 +59,8 @@ class Extractor:
                        'raw',
                        file_path,
                        symbol_type]
+
+        print(' '.join(export_args))
 
         CREATE_NO_WINDOW = 0x08000000
         try:
@@ -72,28 +82,28 @@ class Extractor:
             else:
                 assert False, 'Error reading style table'
 
+            def remove_quote(val):
+                """
+                Removes the custom quotation character from start/end of values
+                """
+                if val[:len(Extractor.__QUOTE)] == Extractor.__QUOTE:
+                    val = val[len(Extractor.__QUOTE):]
+                if val[-len(Extractor.__QUOTE):] == Extractor.__QUOTE:
+                    val = val[:-len(Extractor.__QUOTE)]
+                return val
+
             def extract_text(val):
                 """
                 Extracts a text component from a binary part
                 :param val: binary field value
                 :return: str value
                 """
+                val = remove_quote(val)
                 val = val.decode('UTF-8')
-                if val.startswith('"'):
-                    val = val[1:]
-                    if val.endswith('"'):
-                        val = val[:-1]
-                return val.strip()
+                return val
 
-            # need to strip " " from blob
-            if blob[0] == 0x22:
-                blob = blob[1:]
-                while not blob[-1] != 0x22:
-                    blob = blob[:-1]
-                blob = blob[:-1]
-
-            # also need to convert "" -> "
-            blob = blob.replace(b'""', b'"')
+            # need to strip __QUOTE from blob too
+            blob = remove_quote(blob)
 
             # on windows, mdbtools does a weird thing and replaces all 0a bytes with 0a0d. Wonderful wonderful
             # Windows new endings come round to bite us again
