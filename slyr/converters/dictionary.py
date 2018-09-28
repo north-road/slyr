@@ -24,7 +24,8 @@ from slyr.parser.objects.line_symbol_layer import (
 )
 from slyr.parser.objects.fill_symbol_layer import (
     SimpleFillSymbolLayer,
-    FillSymbolLayer)
+    FillSymbolLayer,
+    ColorSymbol)
 from slyr.parser.objects.marker_symbol_layer import (
     SimpleMarkerSymbolLayer,
     CharacterMarkerSymbolLayer,
@@ -116,6 +117,8 @@ class DictionaryConverter(Converter):
         """
         if isinstance(layer, SimpleFillSymbolLayer):
             return self.convert_simple_fill_symbol_layer(layer)
+        elif isinstance(layer, ColorSymbol):
+                return self.convert_color_symbol(layer)
         else:
             raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
@@ -134,6 +137,16 @@ class DictionaryConverter(Converter):
             outline_converter = DictionaryConverter()
             out['outline_symbol'] = outline_converter.convert_symbol(layer.outline_symbol)
 
+        return out
+
+    def convert_color_symbol(self, layer: ColorSymbol) -> dict:
+        """
+        Converts a ColorSymbol
+        """
+        out = {
+            'color': DictionaryConverter.convert_color(layer.color),
+            'color_model': layer.color.model,
+        }
         return out
 
     @staticmethod

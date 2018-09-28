@@ -39,3 +39,17 @@ class SimpleFillSymbolLayer(FillSymbolLayer):
 
         self.color = stream.read_object('color')
         self.read_0d_terminator(stream)
+
+
+class ColorSymbol(FillSymbolLayer):
+    """
+    Officially 'ColorSymbol for raster rendering' -- but sometimes found in fill symbols!
+    """
+
+    @staticmethod
+    def guid():
+        return 'b81f9ae0-026e-11d3-9c1f-00c04f5aa6ed'
+
+    def read(self, stream: Stream, version):
+        self.color = stream.read_object('color')
+        self.read_0d_terminator(stream)
