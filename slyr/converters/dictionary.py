@@ -40,7 +40,7 @@ from slyr.parser.objects.decoration import (
 from slyr.parser.objects.font import Font
 
 
-class DictionaryConverter(Converter):
+class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
     """
     Converts symbols to a Python dictionary
     """
@@ -120,7 +120,7 @@ class DictionaryConverter(Converter):
         if isinstance(layer, SimpleFillSymbolLayer):
             return self.convert_simple_fill_symbol_layer(layer)
         elif isinstance(layer, ColorSymbol):
-                return self.convert_color_symbol(layer)
+            return self.convert_color_symbol(layer)
         else:
             raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 

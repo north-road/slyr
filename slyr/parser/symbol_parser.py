@@ -3,8 +3,6 @@
 Extracts a symbol from a style blob
 """
 
-import binascii
-
 from slyr.parser.stream import Stream
 from slyr.parser.object import Object
 
