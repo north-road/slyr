@@ -1,6 +1,8 @@
 .coverage
+.gitattributes
 .noseids
 *.pyc
+*.orig
 *.ldb
 **/.idea/**
 **/.pytest_cache/**
