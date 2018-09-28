@@ -131,9 +131,11 @@ class Stream:
             self.log('start {}'.format(debug_string))
 
         length = unpack("<I", self._io_stream.read(4))[0]
-        self.log('string of length {}'.format(length), 4)
-        buffer = self._io_stream.read(length)
+        self.log('string of length {}'.format(int(length/2-1)), 4)
+        buffer = self._io_stream.read(length-2)
         string = buffer.decode('utf-16')
+        terminator = binascii.hexlify(self._io_stream.read(2))
+        assert terminator == b'0000'
         self.log('found string "{}"'.format(string))
         return string[:-1]
 
