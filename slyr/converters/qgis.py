@@ -277,7 +277,7 @@ def append_FillSymbolLayer(symbol, layer):
     if isinstance(layer, (SimpleFillSymbolLayer, ColorSymbol)):
         append_SimpleFillSymbolLayer(symbol, layer)
     else:
-        raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
+        raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
 
 def append_LineSymbolLayer(symbol, layer):
@@ -289,7 +289,7 @@ def append_LineSymbolLayer(symbol, layer):
     elif isinstance(layer, CartographicLineSymbolLayer):
         append_CartographicLineSymbolLayer(symbol, layer)
     else:
-        raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
+        raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
 
 def append_MarkerSymbolLayer(symbol, layer):
@@ -301,7 +301,7 @@ def append_MarkerSymbolLayer(symbol, layer):
     elif isinstance(layer, CharacterMarkerSymbolLayer):
         append_CharacterMarkerSymbolLayer(symbol, layer)
     else:
-        raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
+        raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
 
 def append_SymbolLayer_to_QgsSymbolLayer(symbol, layer):
@@ -316,7 +316,7 @@ def append_SymbolLayer_to_QgsSymbolLayer(symbol, layer):
         elif issubclass(layer.__class__, MarkerSymbolLayer):
             append_MarkerSymbolLayer(symbol, layer)
         else:
-            raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
+            raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
     else:
         for l in layer.levels:
             append_SymbolLayer_to_QgsSymbolLayer(symbol, l)
@@ -347,7 +347,7 @@ def Symbol_to_QgsSymbol(symbol):
         out = QgsMarkerSymbol()
         try:
             if symbol.halo:
-                raise NotImplementedException('Mark halos are not yet supported')
+                raise NotImplementedException('Marker halos are not yet supported')
         except AttributeError:
             pass
     else:
