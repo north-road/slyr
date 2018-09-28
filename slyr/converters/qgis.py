@@ -7,7 +7,6 @@ Converts parsed symbol properties to QGIS Symbols
 from qgis.core import (QgsUnitTypes,
                        QgsSimpleLineSymbolLayer,
                        QgsSimpleFillSymbolLayer,
-                       QgsSymbol,
                        QgsFillSymbol,
                        QgsLineSymbol,
                        QgsMarkerSymbol,
