@@ -510,7 +510,7 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
             'color_background': DictionaryConverter.convert_color(layer.color_background),
             'color_background_model': layer.color_background.model,
             'color_transparent': DictionaryConverter.convert_color(layer.color_transparent),
-            'color_transparent_model': layer.color_transparent.model,
+            'color_transparent_model': None if not layer.color_transparent else layer.color_transparent.model,
             'size': layer.size,
             'angle': layer.angle,
             'x_offset': layer.x_offset,
