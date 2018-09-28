@@ -109,7 +109,7 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
 
     @staticmethod
     def compatible_versions():
-        return [4]
+        return [3, 4]
 
     def read(self, stream: Stream, version):
         self.color = stream.read_object('color')
@@ -139,8 +139,9 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
         stream.read(4)
         stream.read(6)
 
-        # std OLE font .. maybe contains useful stuff like bold/etc, but these aren't exposed in ArcGIS anyway..
-        self.std_font = stream.read_object('font')
+        if version >= 4:
+            # std OLE font .. maybe contains useful stuff like bold/etc, but these aren't exposed in ArcGIS anyway..
+            self.std_font = stream.read_object('font')
 
 
 class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
