@@ -6,7 +6,10 @@ Picture handling utilities
 
 import io
 import base64
-from PIL import Image
+try:
+    from PIL import Image
+except:
+    import Image
 
 
 class PictureUtils:
