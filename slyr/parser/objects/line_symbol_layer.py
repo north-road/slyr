@@ -128,7 +128,7 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
         self.template = stream.read_object('template')
 
         self.decoration = stream.read_object('decoration')
-        stream.read_0d_terminator()  # maybe attached to decoration instead?
+        stream.read_0d_terminator()
 
         _ = stream.read_uchar('unknown char')
         _ = stream.read_double()
@@ -141,7 +141,7 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
     """
 
     def __init__(self):
-        LineSymbolLayer.__init__(self)
+        super().__init__()
         self.cap = None
         self.join = None
         self.offset = None
@@ -166,9 +166,15 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
         self.template = stream.read_object('template')
         self.decoration = stream.read_object('decoration')
 
-        stream.read_0d_terminator()  # maybe attached to decoration instead?
+        stream.read_0d_terminator()
 
+        _ = stream.read_double('unknown double')
+        _ = stream.read_int('unknown int')
         _ = stream.read_uchar('unknown char')
-        _ = stream.read_double('unknown double')
-        _ = stream.read_double('unknown double')
+
+        self.join = self.read_join(stream)
+        unknown = binascii.hexlify(stream.read(3))
+        if unknown != b'000000':
+            raise UnreadableSymbolException('Differing unknown string {}'.format(unknown))
+
         _ = stream.read_double('unknown double')
