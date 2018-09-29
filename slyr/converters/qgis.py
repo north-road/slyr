@@ -408,7 +408,9 @@ def RandomColorRamp_to_QgsColorRamp(ramp: RandomColorRamp):
     """
 
     def fix_range(val):
-        # Saturation/values range from 0-100 in esri symbols, 0-255 in qgis
+        """
+        Converts saturation/values range from 0-100 in esri symbols, to 0-255 for QGIS
+        """
         return 255 * val / 100
 
     # TODO - how to correctly handle color count option?
