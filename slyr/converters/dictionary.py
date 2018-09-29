@@ -20,7 +20,8 @@ from slyr.parser.objects.line_symbol_layer import (
     LineSymbolLayer,
     SimpleLineSymbolLayer,
     CartographicLineSymbolLayer,
-    MarkerLineSymbolLayer
+    MarkerLineSymbolLayer,
+    HashLineSymbolLayer
 )
 from slyr.parser.objects.fill_symbol_layer import (
     SimpleFillSymbolLayer,
@@ -253,6 +254,8 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
             return DictionaryConverter.convert_simple_line_symbol_layer(layer)
         elif isinstance(layer, CartographicLineSymbolLayer):
             return DictionaryConverter.convert_cartographic_line_symbol_layer(layer)
+        elif isinstance(layer, HashLineSymbolLayer):
+            return DictionaryConverter.convert_hash_line_symbol_layer(layer)
         elif isinstance(layer, MarkerLineSymbolLayer):
             return DictionaryConverter.convert_marker_line_symbol_layer(layer)
         else:
@@ -375,6 +378,43 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
         elif isinstance(layer.pattern_marker, (Symbol)):
             marker_converter = DictionaryConverter()
             out['pattern_marker'] = marker_converter.convert_symbol(layer.pattern_marker)
+
+        if layer.decoration is not None:
+            if isinstance(layer.decoration, (LineDecoration)):
+                marker_converter = DictionaryConverter()
+                out['decoration'] = marker_converter.convert_decoration(layer.decoration)
+            elif isinstance(layer.decoration, (SimpleLineDecoration)):
+                marker_converter = DictionaryConverter()
+                out['decoration'] = marker_converter.convert_simple_line_decoration(layer.decoration)
+
+        return out
+
+    @staticmethod
+    def convert_hash_line_symbol_layer(layer: HashLineSymbolLayer) -> dict:
+        """
+        Converts a HashLineSymbolLayer
+        """
+        out = {
+            'color': DictionaryConverter.convert_color(layer.color),
+            'color_model': layer.color.model,
+            'width': layer.width,
+            'offset': layer.offset,
+            'cap': layer.cap,
+            'join': layer.join,
+            'template': None,
+            'decoration': None,
+            'line': None
+        }
+        if layer.template is not None:
+            converter = DictionaryConverter()
+            out['template'] = converter.convert_template(layer.template)
+
+        if isinstance(layer.line, (SymbolLayer)):
+            marker_converter = DictionaryConverter()
+            out['line'] = marker_converter.convert_symbol_layer(layer.line)
+        elif isinstance(layer.line, (Symbol)):
+            marker_converter = DictionaryConverter()
+            out['line'] = marker_converter.convert_symbol(layer.line)
 
         if layer.decoration is not None:
             if isinstance(layer.decoration, (LineDecoration)):

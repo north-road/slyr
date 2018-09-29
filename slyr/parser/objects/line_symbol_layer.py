@@ -178,3 +178,54 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
             raise UnreadableSymbolException('Differing unknown string {}'.format(unknown))
 
         _ = stream.read_double('unknown double')
+
+
+class HashLineSymbolLayer(LineSymbolLayer):
+    """
+    Hash line symbol layer
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.cap = None
+        self.join = None
+        self.offset = None
+        self.template = None
+        self.decoration = None
+        self.line = None
+        self.width = 0
+        self.angle = 90
+
+    @staticmethod
+    def guid():
+        return '7914e5fc-c892-11d0-8bb6-080009ee4e41'
+
+    @staticmethod
+    def compatible_versions():
+        return [1]
+
+    def read(self, stream: Stream, version):
+        self.angle = stream.read_double('angle')
+        self.cap = self.read_cap(stream)
+        unknown = binascii.hexlify(stream.read(3))
+        if unknown != b'000000':
+            raise UnreadableSymbolException('Differing unknown string {}'.format(unknown))
+        self.join = self.read_join(stream)
+        unknown = binascii.hexlify(stream.read(3))
+        if unknown != b'000000':
+            raise UnreadableSymbolException('Differing unknown string {}'.format(unknown))
+        self.width = stream.read_double('width')
+        stream.read(1)
+        self.offset = stream.read_double('offset')
+
+        self.line = stream.read_object('line')
+
+        self.color = stream.read_object('color')
+        self.template = stream.read_object('template')
+
+        self.decoration = stream.read_object('decoration')
+        stream.read_0d_terminator()
+
+        _ = stream.read_uchar('unknown char')
+        _ = stream.read_double('unknown')
+        _ = stream.read_double('unknown')

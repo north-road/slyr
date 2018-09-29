@@ -14,8 +14,6 @@ class ObjectRegistry:
     """
 
     NOT_IMPLEMENTED_GUIDS = {
-        '7914e5fc-c892-11d0-8bb6-080009ee4e41': 'HashLineSymbol',
-
         # Picture layers
         'd842b082-330c-11d2-9168-0000f87808ee': 'PictureFillSymbol',
         '22c8c5a1-84fc-11d4-834d-0080c79f0371': 'PictureLineSymbol',
