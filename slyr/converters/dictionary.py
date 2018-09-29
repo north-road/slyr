@@ -146,7 +146,7 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
         return out
 
     @staticmethod
-    def convert_gradient_type(gradient_type: int)->str:
+    def convert_gradient_type(gradient_type: int) -> str:
         """
         Converts a gradient type to string
         """
@@ -158,7 +158,7 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
             return 'buffered'
         elif gradient_type == GradientFillSymbolLayer.RECTANGULAR:
             return 'rectangular'
-        assert False
+        raise NotImplementedException('Gradient type {} not implemented yet'.format(gradient_type))
 
     def convert_gradient_fill_symbol_layer(self, layer: GradientFillSymbolLayer) -> dict:
         """
