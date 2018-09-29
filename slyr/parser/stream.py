@@ -3,12 +3,12 @@
 Binary stream representing persistent objects
 """
 
-from struct import unpack
+from struct import unpack, error
 import binascii
 from typing import Optional
 from slyr.parser.object_registry import ObjectRegistry, REGISTRY
 from slyr.parser.object import Object
-from slyr.parser.exceptions import UnsupportedVersionException
+from slyr.parser.exceptions import UnsupportedVersionException, UnreadableSymbolException
 
 
 class Stream:
@@ -83,7 +83,11 @@ class Stream:
         Reads an int from the stream.
         :return:
         """
-        res = unpack("<L", self._io_stream.read(4))[0]
+        try:
+            res = unpack("<L", self._io_stream.read(4))[0]
+        except error:  # struct.error
+            raise UnreadableSymbolException('Truncated integer')
+
         if debug_string:
             self.log('read int {} of {}'.format(debug_string, res), 4)
         return res
@@ -185,4 +189,7 @@ class Stream:
         """
         embedded_file_length = self.read_int('binary length')
         self.log('Found embedded file {} of length {}'.format(debug_string, embedded_file_length))
-        return self.read(embedded_file_length)
+        try:
+            return self.read(embedded_file_length)
+        except error:  # struct.error
+            raise UnreadableSymbolException('Truncated file binary')

@@ -4,6 +4,7 @@
 Converts parsed symbol properties to QGIS Symbols
 """
 
+import base64
 from qgis.core import (QgsUnitTypes,
                        QgsSimpleLineSymbolLayer,
                        QgsSimpleFillSymbolLayer,
@@ -12,6 +13,7 @@ from qgis.core import (QgsUnitTypes,
                        QgsMarkerSymbol,
                        QgsEllipseSymbolLayer,
                        QgsSimpleMarkerSymbolLayer,
+                       QgsSvgMarkerSymbolLayer,
                        QgsSimpleMarkerSymbolLayerBase,
                        QgsFontMarkerSymbolLayer,
                        QgsPresetSchemeColorRamp,
@@ -44,7 +46,8 @@ from slyr.parser.objects.marker_symbol_layer import (
     MarkerSymbolLayer,
     SimpleMarkerSymbolLayer,
     ArrowMarkerSymbolLayer,
-    CharacterMarkerSymbolLayer
+    CharacterMarkerSymbolLayer,
+    PictureMarkerSymbolLayer
 )
 from slyr.parser.objects.ramps import (
     ColorRamp,
@@ -53,6 +56,7 @@ from slyr.parser.objects.ramps import (
     RandomColorRamp
 )
 from slyr.converters.converter import NotImplementedException
+from slyr.parser.pictures import PictureUtils
 
 
 def symbol_color_to_qcolor(color):
@@ -303,11 +307,28 @@ def append_CharacterMarkerSymbolLayer(symbol, layer):
     out = QgsFontMarkerSymbolLayer(font_family, character, layer.size, color, angle)
     out.setSizeUnit(QgsUnitTypes.RenderPoints)
 
-    # TODO
-    # out.setEnabled(layer.enabled)
+    TODO
+    out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
     out.setOffset(QPointF(layer.x_offset, layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+
+    symbol.appendSymbolLayer(out)
+
+
+def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer):
+    """
+    Appends a PictureMarkerSymbolLayer to a symbol
+    """
+    svg = PictureUtils.to_embedded_svg(layer.file)
+    svg_base64 = base64.b64encode(svg.encode('UTF-8')).decode('UTF-8')
+    path = 'base64:{}'.format(svg_base64)
+
+    out = QgsSvgMarkerSymbolLayer(path, layer.size, layer.angle)
+
+    out.setEnabled(layer.enabled)
+    out.setLocked(layer.locked)
+    out.setOffset(QPointF(points_to_mm(layer.x_offset), points_to_mm(layer.y_offset)))
 
     symbol.appendSymbolLayer(out)
 
@@ -344,6 +365,8 @@ def append_MarkerSymbolLayer(symbol, layer):
         append_ArrowMarkerSymbolLayer(symbol, layer)
     elif isinstance(layer, CharacterMarkerSymbolLayer):
         append_CharacterMarkerSymbolLayer(symbol, layer)
+    elif isinstance(layer, PictureMarkerSymbolLayer):
+        append_PictureMarkerSymbolLayer(symbol, layer)
     else:
         raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 

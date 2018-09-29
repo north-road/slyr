@@ -518,6 +518,7 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
             'swap_fg_bg': layer.swap_fb_gb,
             'picture': PictureUtils.to_base64_png(layer.file)
         }
+
         return out
 
     @staticmethod
