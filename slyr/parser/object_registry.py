@@ -17,7 +17,6 @@ class ObjectRegistry:
         # Picture layers
         'd842b082-330c-11d2-9168-0000f87808ee': 'PictureFillSymbol',
         '22c8c5a1-84fc-11d4-834d-0080c79f0371': 'PictureLineSymbol',
-        '7914e602-c892-11d0-8bb6-080009ee4e41': 'PictureMarkerSymbol',
 
         # Uncommon stuff
         '9a1eba10-cdf9-11d3-81eb-0080c79f0371': 'DotDensityFillSymbol',

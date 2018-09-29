@@ -178,3 +178,11 @@ class Stream:
         """
         check = binascii.hexlify(self.read(8))
         return check[:8] == b'0d000000'
+
+    def read_embedded_file(self, debug_string: str = '') -> bin:
+        """
+        Reads an embedded file stored within the stream.
+        """
+        embedded_file_length = self.read_int('binary length')
+        self.log('Found embedded file {} of length {}'.format(debug_string, embedded_file_length))
+        return self.read(embedded_file_length)
