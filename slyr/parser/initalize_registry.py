@@ -19,7 +19,8 @@ from slyr.parser.objects.decoration import (
 from slyr.parser.objects.line_symbol_layer import (
     SimpleLineSymbolLayer,
     CartographicLineSymbolLayer,
-    MarkerLineSymbolLayer
+    MarkerLineSymbolLayer,
+    HashLineSymbolLayer
 )
 from slyr.parser.objects.fill_symbol_layer import (
     SimpleFillSymbolLayer,
@@ -79,3 +80,4 @@ def initialize_registry():
     REGISTRY.register(GradientFillSymbolLayer)
     REGISTRY.register(LineFillSymbolLayer)
     REGISTRY.register(MarkerFillSymbolLayer)
+    REGISTRY.register(HashLineSymbolLayer)
