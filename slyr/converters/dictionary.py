@@ -34,6 +34,7 @@ from slyr.parser.objects.marker_symbol_layer import (
     SimpleMarkerSymbolLayer,
     CharacterMarkerSymbolLayer,
     ArrowMarkerSymbolLayer,
+    PictureMarkerSymbolLayer
 )
 from slyr.parser.objects.marker_symbol_layer import MarkerSymbolLayer
 from slyr.parser.objects.line_template import LineTemplate
@@ -43,6 +44,7 @@ from slyr.parser.objects.decoration import (
 )
 from slyr.parser.objects.font import Font
 from slyr.parser.objects.ramps import ColorRamp
+from slyr.parser.pictures import PictureUtils
 
 
 class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
@@ -437,6 +439,8 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
             return DictionaryConverter.convert_character_marker_symbol_layer(layer)
         elif isinstance(layer, ArrowMarkerSymbolLayer):
             return DictionaryConverter.convert_arrow_marker_symbol_layer(layer)
+        elif isinstance(layer, PictureMarkerSymbolLayer):
+            return DictionaryConverter.convert_picture_marker_symbol_layer(layer)
         else:
             raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
@@ -492,6 +496,27 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
             'angle': layer.angle,
             'x_offset': layer.x_offset,
             'y_offset': layer.y_offset
+        }
+        return out
+
+    @staticmethod
+    def convert_picture_marker_symbol_layer(layer: PictureMarkerSymbolLayer) -> dict:
+        """
+        Converts a PictureMarkerSymbolLayer
+        """
+        out = {
+            'color_foreground': DictionaryConverter.convert_color(layer.color_foreground),
+            'color_foreground_model': layer.color_foreground.model,
+            'color_background': DictionaryConverter.convert_color(layer.color_background),
+            'color_background_model': layer.color_background.model,
+            'color_transparent': DictionaryConverter.convert_color(layer.color_transparent),
+            'color_transparent_model': layer.color_transparent.model,
+            'size': layer.size,
+            'angle': layer.angle,
+            'x_offset': layer.x_offset,
+            'y_offset': layer.y_offset,
+            'swap_fg_bg': layer.swap_fb_gb,
+            'picture': PictureUtils.to_base64_png(layer.file)
         }
         return out
 

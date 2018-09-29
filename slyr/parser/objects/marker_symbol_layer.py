@@ -190,3 +190,59 @@ class ArrowMarkerSymbolLayer(MarkerSymbolLayer):
         check = binascii.hexlify(stream.read(2))
         if check != b'ffff':
             raise UnreadableSymbolException('Expected ffff at {}, got {}'.format(check, hex(stream.tell() - 2)))
+
+
+class PictureMarkerSymbolLayer(MarkerSymbolLayer):
+    """
+    Picture marker symbol layer
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.size = 0
+        self.x_offset = 0
+        self.y_offset = 0
+        self.angle = 0
+
+        self.file = None
+
+        self.color_foreground = None
+        self.color_background = None
+        self.color_transparent = None
+        self.swap_fb_gb = False
+
+    @staticmethod
+    def guid():
+        return '7914e602-c892-11d0-8bb6-080009ee4e41'
+
+    @staticmethod
+    def compatible_versions():
+        return [9]
+
+    def read(self, stream: Stream, version):
+        stream.read_int('unknown')
+        stream.read_int('unknown 2')
+
+        self.file = stream.read_embedded_file('image')
+
+        self.color_foreground = stream.read_object('color 1')
+        self.color_background = stream.read_object('color 2')
+        self.color_transparent = stream.read_object('color 3')
+
+        self.angle = stream.read_double('angle')
+        self.size = stream.read_double('size')
+        self.x_offset = stream.read_double('x offset')
+        self.y_offset = stream.read_double('y offset')
+
+        stream.read_double('unknown')
+        stream.read_double('unknown')
+
+        stream.read_0d_terminator()
+        self.swap_fb_gb = bool(stream.read_uchar('swap fgbg'))
+
+        check = binascii.hexlify(stream.read(2))
+        if check != b'ffff':
+            raise UnreadableSymbolException('Expected ffff at {}, got {}'.format(check, hex(stream.tell() - 2)))
+
+        # unknown
+        stream.read(6)
