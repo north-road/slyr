@@ -96,3 +96,40 @@ class GradientFillSymbolLayer(FillSymbolLayer):
 
         self.type = stream.read_uint('Gradient type')
         stream.read_0d_terminator()
+
+
+class LineFillSymbolLayer(FillSymbolLayer):
+    """
+    Line fill symbol layer
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.angle = 0
+        self.offset = 0
+        self.separation = 0
+        self.line = None
+
+    @staticmethod
+    def guid():
+        return '7914e606-c892-11d0-8bb6-080009ee4e41'
+
+    def read(self, stream: Stream, version):
+        _ = stream.read_double('unused double')
+        _ = stream.read_double('unused double')
+
+        self.line = stream.read_object('pattern line')
+
+        # either an entire LineSymbol or just a LineSymbolLayer
+        outline = stream.read_object('outline')
+        if outline is not None:
+            if issubclass(outline.__class__, SymbolLayer):
+                self.outline_layer = outline
+            else:
+                self.outline_symbol = outline
+
+        self.angle = stream.read_double('angle')
+        self.offset = stream.read_double('offset')
+        self.separation = stream.read_double('separation')
+
+        stream.read_0d_terminator()

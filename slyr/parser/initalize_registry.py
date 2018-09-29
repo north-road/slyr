@@ -24,7 +24,8 @@ from slyr.parser.objects.line_symbol_layer import (
 from slyr.parser.objects.fill_symbol_layer import (
     SimpleFillSymbolLayer,
     ColorSymbol,
-    GradientFillSymbolLayer
+    GradientFillSymbolLayer,
+    LineFillSymbolLayer
 )
 from slyr.parser.objects.marker_symbol_layer import (
     ArrowMarkerSymbolLayer,
@@ -75,3 +76,4 @@ def initialize_registry():
     REGISTRY.register(MultiPartColorRamp)
     REGISTRY.register(AlgorithmicColorRamp)
     REGISTRY.register(GradientFillSymbolLayer)
+    REGISTRY.register(LineFillSymbolLayer)
