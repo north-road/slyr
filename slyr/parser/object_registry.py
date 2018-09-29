@@ -15,7 +15,6 @@ class ObjectRegistry:
 
     NOT_IMPLEMENTED_GUIDS = {
         '9a1eba10-cdf9-11d3-81eb-0080c79f0371': 'DotDensityFillSymbol',
-        '7914e609-c892-11d0-8bb6-080009ee4e41': 'GradientFillSymbol',
         '7914e5fc-c892-11d0-8bb6-080009ee4e41': 'HashLineSymbol',
         '7914e606-c892-11d0-8bb6-080009ee4e41': 'LineFillSymbol',
         '7914e608-c892-11d0-8bb6-080009ee4e41': 'MarkerFillSymbol',

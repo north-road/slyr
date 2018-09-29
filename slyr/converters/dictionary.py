@@ -24,6 +24,7 @@ from slyr.parser.objects.line_symbol_layer import (
 )
 from slyr.parser.objects.fill_symbol_layer import (
     SimpleFillSymbolLayer,
+    GradientFillSymbolLayer,
     FillSymbolLayer,
     ColorSymbol)
 from slyr.parser.objects.marker_symbol_layer import (
@@ -122,6 +123,8 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
             return self.convert_simple_fill_symbol_layer(layer)
         elif isinstance(layer, ColorSymbol):
             return self.convert_color_symbol(layer)
+        elif isinstance(layer, GradientFillSymbolLayer):
+            return self.convert_gradient_fill_symbol_layer(layer)
         else:
             raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
@@ -139,6 +142,41 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
         if layer.outline_symbol:
             outline_converter = DictionaryConverter()
             out['outline_symbol'] = outline_converter.convert_symbol(layer.outline_symbol)
+
+        return out
+
+    @staticmethod
+    def convert_gradient_type(gradient_type: int)->str:
+        """
+        Converts a gradient type to string
+        """
+        if gradient_type == GradientFillSymbolLayer.LINEAR:
+            return 'linear'
+        elif gradient_type == GradientFillSymbolLayer.CIRCULAR:
+            return 'circular'
+        elif gradient_type == GradientFillSymbolLayer.BUFFERED:
+            return 'buffered'
+        elif gradient_type == GradientFillSymbolLayer.RECTANGULAR:
+            return 'rectangular'
+        assert False
+
+    def convert_gradient_fill_symbol_layer(self, layer: GradientFillSymbolLayer) -> dict:
+        """
+        Converts a GradientFillSymbolLayer
+        """
+        out = {
+        }
+
+        if layer.outline_layer:
+            out['outline_layer'] = self.convert_symbol_layer(layer.outline_layer)
+        if layer.outline_symbol:
+            outline_converter = DictionaryConverter()
+            out['outline_symbol'] = outline_converter.convert_symbol(layer.outline_symbol)
+        out['ramp'] = layer.ramp.to_dict()
+        out['percent'] = layer.percent
+        out['angle'] = layer.angle
+        out['intervals'] = layer.intervals
+        out['gradient_type'] = self.convert_gradient_type(layer.type)
 
         return out
 
