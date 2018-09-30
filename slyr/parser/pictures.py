@@ -4,7 +4,6 @@
 Picture handling utilities
 """
 
-import io
 import base64
 from PyQt5.QtCore import QBuffer
 from PyQt5.QtGui import QImage
