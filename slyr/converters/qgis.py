@@ -18,7 +18,8 @@ from qgis.core import (QgsUnitTypes,
                        QgsFontMarkerSymbolLayer,
                        QgsPresetSchemeColorRamp,
                        QgsLimitedRandomColorRamp,
-                       QgsGradientColorRamp)
+                       QgsGradientColorRamp,
+                       QgsMarkerLineSymbolLayer)
 from qgis.PyQt.QtCore import (Qt, QPointF)
 from qgis.PyQt.QtGui import (QColor)
 
@@ -32,6 +33,10 @@ from slyr.parser.objects.symbol_layer import (
 )
 from slyr.parser.objects.colors import (
     CMYKColor
+)
+from slyr.parser.objects.decoration import (
+    SimpleLineDecoration,
+    LineDecoration
 )
 from slyr.parser.objects.line_symbol_layer import (
     SimpleLineSymbolLayer,
@@ -197,6 +202,49 @@ def apply_template_to_LineSymbolLayer_custom_dash(template, layer):
     layer.setCustomDashPatternUnit(QgsUnitTypes.RenderPoints)
 
 
+def append_Decorations(symbol, decorations: LineDecoration):
+    """
+    Appends decorations to the given symbol
+    """
+    if len(decorations.decorations) > 1:
+        raise NotImplementedException('Multiple line decorations are not yet supported')
+    elif not decorations.decorations:
+        return
+
+    decoration = decorations.decorations[0]
+    positions = decoration.marker_positions[:]
+
+    marker = Symbol_to_QgsSymbol(decoration.marker)
+    if decoration.flip_all:
+        marker.setAngle(270)
+    else:
+        marker.setAngle(90)
+
+    # TODO - verify what happens in Arc with both flip_all/flip_first checked
+
+    if 0 in positions:
+        # start marker
+        line = QgsMarkerLineSymbolLayer(not decoration.fixed_angle)
+        start_marker = marker.clone()
+        if decoration.flip_first:
+            start_marker.setAngle(270)
+        line.setSubSymbol(start_marker)
+        line.setPlacement(QgsMarkerLineSymbolLayer.FirstVertex)
+        symbol.appendSymbolLayer(line)
+
+    if 1 in positions:
+        # end marker
+        line = QgsMarkerLineSymbolLayer(not decoration.fixed_angle)
+        line.setSubSymbol(marker.clone())
+        line.setPlacement(QgsMarkerLineSymbolLayer.LastVertex)
+        symbol.appendSymbolLayer(line)
+
+    # TODO other positions
+    other_positions = [p for p in positions if p != 0 and p != 1]
+    if other_positions:
+        raise NotImplementedException('Non start/end decoration positions are not implemented')
+
+
 def append_CartographicLineSymbolLayer(symbol, layer):
     """
     Appends a CartographicLineSymbolLayer to a symbol
@@ -216,11 +264,11 @@ def append_CartographicLineSymbolLayer(symbol, layer):
     if out.color().alpha() == 0:
         out.setPenStyle(Qt.NoPen)
 
-    if layer.decoration is not None:
-        raise NotImplementedException('Cartographic line start/end markers are not yet supported')
-
     # todo - change to new symbol layer if outline offset set
     symbol.appendSymbolLayer(out)
+
+    if layer.decoration is not None:
+        append_Decorations(symbol, layer.decoration)
 
 
 def marker_type_to_qgis_type(marker_type):
