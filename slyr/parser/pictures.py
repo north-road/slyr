@@ -6,10 +6,8 @@ Picture handling utilities
 
 import io
 import base64
-try:
-    from PIL import Image
-except:
-    import Image
+from PyQt5.QtCore import QBuffer
+from PyQt5.QtGui import QImage
 
 
 class PictureUtils:
@@ -25,13 +23,14 @@ class PictureUtils:
         """
 
         # read image from embedded file
-        img = Image.open(io.BytesIO(data))
+        image = QImage()
+        image.loadFromData(data)
 
         # convert to PNG
-        png_data = io.BytesIO()
-        img.save(png_data, format="png")
+        png_data = QBuffer()
+        image.save(png_data, "png")
 
-        encoded = base64.b64encode(png_data.getvalue()).decode('UTF-8')
+        encoded = base64.b64encode(png_data.data()).decode('UTF-8')
 
         return encoded
 
@@ -41,9 +40,12 @@ class PictureUtils:
         Converts embedded image data to a PNG embedded within
         an svg.... phew!
         """
-        size = Image.open(io.BytesIO(data)).size
+        image = QImage()
+        image.loadFromData(data)
+        size = image.size()
+
         encoded = PictureUtils.to_base64_png(data)
 
         return """<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <image width="{}" height="{}" xlink:href="data:image/png;base64,{}"/>
-</svg>""".format(size[0], size[1], encoded)
+</svg>""".format(size.width(), size.height(), encoded)
