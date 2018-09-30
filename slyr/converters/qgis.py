@@ -173,12 +173,24 @@ def apply_template_to_LineSymbolLayer_custom_dash(template, layer):
     """
     Applies a line template to a QgsSimpleLineSymbolLayer custom dash pattern
     """
+    if len(template.pattern_parts) == 0:
+        return
+
     interval = template.pattern_interval
 
     dash_vector = []
     for part in template.pattern_parts:
-        dash_vector.append(part[0] * interval)
-        dash_vector.append(part[1] * interval)
+        if part[0] == 0:
+            # QGIS skips drawing a 0 part, so fake it
+            dash_vector.append(0.000001 * interval)
+        else:
+            dash_vector.append(part[0] * interval)
+
+        if part[1] == 0:
+            # QGIS skips drawing a 0 part, so fake it
+            dash_vector.append(0.000001 * interval)
+        else:
+            dash_vector.append(part[1] * interval)
 
     layer.setCustomDashVector(dash_vector)
     layer.setUseCustomDashPattern(True)
