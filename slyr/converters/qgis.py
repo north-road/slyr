@@ -40,6 +40,7 @@ from slyr.parser.objects.decoration import (
 from slyr.parser.objects.line_symbol_layer import (
     SimpleLineSymbolLayer,
     CartographicLineSymbolLayer,
+    MarkerLineSymbolLayer,
     LineSymbolLayer)
 from slyr.parser.objects.fill_symbol_layer import (
     FillSymbolLayer,
@@ -241,10 +242,13 @@ def append_Decorations(symbol, decorations: LineDecoration):
     # TODO other positions
     other_positions = [p for p in positions if p not in (0, 1)]
     if other_positions:
+        # Would need to use data defined marker placement distance, e.g. $length/3
+        # and offset first marker by $length/3 to avoid placing a marker at the start
+        # of the line
         raise NotImplementedException('Non start/end decoration positions are not implemented')
 
 
-def append_CartographicLineSymbolLayer(symbol, layer):
+def append_CartographicLineSymbolLayer(symbol, layer: CartographicLineSymbolLayer):
     """
     Appends a CartographicLineSymbolLayer to a symbol
     """
@@ -263,8 +267,55 @@ def append_CartographicLineSymbolLayer(symbol, layer):
     if out.color().alpha() == 0:
         out.setPenStyle(Qt.NoPen)
 
-    # todo - change to new symbol layer if outline offset set
+    # TODO - verify that offset is in correct direction
+    out.setOffset(layer.offset)
+    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+
     symbol.appendSymbolLayer(out)
+
+    if layer.decoration is not None:
+        append_Decorations(symbol, layer.decoration)
+
+
+def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer):
+    """
+    Appends a MarkerLineSymbolLayer to a symbol
+    """
+    template = layer.template
+
+    # first work out total length of pattern
+    current_length = 0
+    for t in template.pattern_parts:
+        current_length += t[0]
+        current_length += t[1]
+
+    total_length = current_length * template.pattern_interval
+
+    # TODO -- do markers get rotated to follow line?
+    marker = Symbol_to_QgsSymbol(layer.pattern_marker)
+    marker.setAngle(90)
+
+    current_offset_from_start = 0
+    for t in template.pattern_parts:
+        if t[0]:
+            # marker
+            line = QgsMarkerLineSymbolLayer(True)
+            start_marker = marker.clone()
+            line.setSubSymbol(start_marker)
+            # TODO verify that line offset is same direction
+            line.setOffset(layer.offset)
+            line.setOffsetUnit(QgsUnitTypes.RenderPoints)
+            line.setInterval(total_length)
+            line.setIntervalUnit(QgsUnitTypes.RenderPoints)
+            line.setOffsetAlongLine(current_offset_from_start + template.pattern_interval / 2)
+            line.setOffsetAlongLineUnit(QgsUnitTypes.RenderPoints)
+            symbol.appendSymbolLayer(line)
+
+            current_offset_from_start += template.pattern_interval * t[0]
+
+        if t[1]:
+            # space
+            current_offset_from_start += template.pattern_interval * t[1]
 
     if layer.decoration is not None:
         append_Decorations(symbol, layer.decoration)
@@ -410,6 +461,8 @@ def append_LineSymbolLayer(symbol, layer):
         append_SimpleLineSymbolLayer(symbol, layer)
     elif isinstance(layer, CartographicLineSymbolLayer):
         append_CartographicLineSymbolLayer(symbol, layer)
+    elif isinstance(layer, MarkerLineSymbolLayer):
+        append_MarkerLineSymbolLayer(symbol, layer)
     else:
         raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
