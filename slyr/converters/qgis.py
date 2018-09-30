@@ -35,7 +35,6 @@ from slyr.parser.objects.colors import (
     CMYKColor
 )
 from slyr.parser.objects.decoration import (
-    SimpleLineDecoration,
     LineDecoration
 )
 from slyr.parser.objects.line_symbol_layer import (
@@ -178,7 +177,7 @@ def apply_template_to_LineSymbolLayer_custom_dash(template, layer):
     """
     Applies a line template to a QgsSimpleLineSymbolLayer custom dash pattern
     """
-    if len(template.pattern_parts) == 0:
+    if not template.pattern_parts:
         return
 
     interval = template.pattern_interval
@@ -240,7 +239,7 @@ def append_Decorations(symbol, decorations: LineDecoration):
         symbol.appendSymbolLayer(line)
 
     # TODO other positions
-    other_positions = [p for p in positions if p != 0 and p != 1]
+    other_positions = [p for p in positions if p not in (0, 1)]
     if other_positions:
         raise NotImplementedException('Non start/end decoration positions are not implemented')
 
