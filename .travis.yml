@@ -50,7 +50,6 @@ install:
   - pip install --upgrade pip
   - pip install --upgrade pylint
   - pip install --upgrade pycodestyle
-  - python3 -m pip install Pillow
   - docker run -d --name qgis-testing-environment -v ${TRAVIS_BUILD_DIR}:/tests_directory -e DISPLAY=:99 ${IMAGE}:${QGIS_VERSION_TAG}
   - sleep 10
   - docker exec -it qgis-testing-environment sh -c "qgis_setup.sh slyr"

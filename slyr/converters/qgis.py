@@ -307,7 +307,6 @@ def append_CharacterMarkerSymbolLayer(symbol, layer):
     out = QgsFontMarkerSymbolLayer(font_family, character, layer.size, color, angle)
     out.setSizeUnit(QgsUnitTypes.RenderPoints)
 
-    TODO
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
     out.setOffset(QPointF(layer.x_offset, layer.y_offset))
@@ -328,7 +327,8 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer):
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    out.setOffset(QPointF(points_to_mm(layer.x_offset), points_to_mm(layer.y_offset)))
+    out.setOffset(QPointF(layer.x_offset, layer.y_offset))
+    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     symbol.appendSymbolLayer(out)
 

@@ -326,10 +326,7 @@ expected = {
                              'color_transparent_model': 'rgb',
                              'enabled': True,
                              'locked': False,
-                             'picture': b'iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBM'
-                                        b'VEX///8AAABVwtN+AAAAK0lEQVR4nGNgaECD9BH4jwYGyBmY7hgN'
-                                        b'j9HwGA2P0fAYDY/R8BgND5qHBwAQgL8fpFBBMAAAAABJRU5ErkJg'
-                                        b'gg==',
+                             'picture': 'iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAAttAAALbQGADqTRAAAAK0lEQVRIiWNgaECD9BH4jwYGyBmY7hgNj9HwGA2P0fAYDY/R8BgND5qHBwAQgL8f2nA90AAAAABJRU5ErkJggg==',
                              'size': 8.0,
                              'swap_fg_bg': False,
                              'type': 'PictureMarkerSymbolLayer',
@@ -361,10 +358,7 @@ expected = {
                              'color_transparent_model': 'rgb',
                              'enabled': True,
                              'locked': False,
-                             'picture': b'iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBM'
-                                        b'VEX///8AAABVwtN+AAAAK0lEQVR4nGNgaECD9BH4jwYGyBmY7hgN'
-                                        b'j9HwGA2P0fAYDY/R8BgND5qHBwAQgL8fpFBBMAAAAABJRU5ErkJg'
-                                        b'gg==',
+                             'picture': 'iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAAttAAALbQGADqTRAAAAK0lEQVRIiWNgaECD9BH4jwYGyBmY7hgNj9HwGA2P0fAYDY/R8BgND5qHBwAQgL8f2nA90AAAAABJRU5ErkJggg==',
                              'size': 8.0,
                              'swap_fg_bg': False,
                              'type': 'PictureMarkerSymbolLayer',
@@ -396,10 +390,7 @@ expected = {
                              'color_transparent_model': 'rgb',
                              'enabled': True,
                              'locked': False,
-                             'picture': b'iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBM'
-                                        b'VEX///8AAABVwtN+AAAAK0lEQVR4nGNgaECD9BH4jwYGyBmY7hgN'
-                                        b'j9HwGA2P0fAYDY/R8BgND5qHBwAQgL8fpFBBMAAAAABJRU5ErkJg'
-                                        b'gg==',
+                             'picture': 'iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAAttAAALbQGADqTRAAAAK0lEQVRIiWNgaECD9BH4jwYGyBmY7hgNj9HwGA2P0fAYDY/R8BgND5qHBwAQgL8f2nA90AAAAABJRU5ErkJggg==',
                              'size': 8.0,
                              'swap_fg_bg': True,
                              'type': 'PictureMarkerSymbolLayer',
@@ -431,10 +422,7 @@ expected = {
                              'color_transparent_model': 'rgb',
                              'enabled': True,
                              'locked': False,
-                             'picture': b'iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBM'
-                                        b'VEX///8AAABVwtN+AAAAK0lEQVR4nGNgaECD9BH4jwYGyBmY7hgN'
-                                        b'j9HwGA2P0fAYDY/R8BgND5qHBwAQgL8fpFBBMAAAAABJRU5ErkJg'
-                                        b'gg==',
+                             'picture': 'iVBORw0KGgoAAAANSUhEUgAAAIAAAACAAQMAAAD58POIAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAAttAAALbQGADqTRAAAAK0lEQVRIiWNgaECD9BH4jwYGyBmY7hgNj9HwGA2P0fAYDY/R8BgND5qHBwAQgL8f2nA90AAAAABJRU5ErkJggg==',
                              'size': 8.0,
                              'swap_fg_bg': False,
                              'type': 'PictureMarkerSymbolLayer',
