@@ -19,7 +19,8 @@ from qgis.core import (QgsUnitTypes,
                        QgsPresetSchemeColorRamp,
                        QgsLimitedRandomColorRamp,
                        QgsGradientColorRamp,
-                       QgsMarkerLineSymbolLayer)
+                       QgsMarkerLineSymbolLayer,
+                       QgsLinePatternFillSymbolLayer)
 from qgis.PyQt.QtCore import (Qt, QPointF)
 from qgis.PyQt.QtGui import (QColor)
 
@@ -45,7 +46,8 @@ from slyr.parser.objects.line_symbol_layer import (
 from slyr.parser.objects.fill_symbol_layer import (
     FillSymbolLayer,
     SimpleFillSymbolLayer,
-    ColorSymbol
+    ColorSymbol,
+    LineFillSymbolLayer
 )
 from slyr.parser.objects.marker_symbol_layer import (
     MarkerSymbolLayer,
@@ -114,7 +116,7 @@ def symbol_pen_to_qpenjoinstyle(style):
     return types[style]
 
 
-def append_SimpleFillSymbolLayer(symbol, layer):
+def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer):
     """
     Appends a SimpleFillSymbolLayer to a symbol
     """
@@ -152,6 +154,29 @@ def append_SimpleFillSymbolLayer(symbol, layer):
     elif isinstance(layer, ColorSymbol):
         out.setStrokeStyle(Qt.NoPen)
         symbol.appendSymbolLayer(out)
+
+
+def append_LineFillSymbolLayer(symbol, layer: LineFillSymbolLayer):
+    """
+    Appends a LineFillSymbolLayer to a symbol
+    """
+    line = Symbol_to_QgsSymbol(layer.line)
+
+    out = QgsLinePatternFillSymbolLayer()
+    out.setSubSymbol(line)
+    # TODO - confirm that angle is correct orientation
+    out.setLineAngle(360 - layer.angle)
+    out.setDistance(layer.separation)
+    out.setDistanceUnit(QgsUnitTypes.RenderPoints)
+    out.setOffset(layer.offset)
+    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+
+    symbol.appendSymbolLayer(out)
+    if layer.outline_layer:
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_layer)
+    elif layer.outline_symbol:
+        # get all layers from outline
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol)
 
 
 def append_SimpleLineSymbolLayer(symbol, layer):
@@ -449,6 +474,8 @@ def append_FillSymbolLayer(symbol, layer):
     """
     if isinstance(layer, (SimpleFillSymbolLayer, ColorSymbol)):
         append_SimpleFillSymbolLayer(symbol, layer)
+    elif isinstance(layer, LineFillSymbolLayer):
+        append_LineFillSymbolLayer(symbol, layer)
     else:
         raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
