@@ -20,7 +20,8 @@ from qgis.core import (QgsUnitTypes,
                        QgsLimitedRandomColorRamp,
                        QgsGradientColorRamp,
                        QgsMarkerLineSymbolLayer,
-                       QgsLinePatternFillSymbolLayer)
+                       QgsLinePatternFillSymbolLayer,
+                       QgsPointPatternFillSymbolLayer)
 from qgis.PyQt.QtCore import (Qt, QPointF)
 from qgis.PyQt.QtGui import (QColor)
 
@@ -47,7 +48,8 @@ from slyr.parser.objects.fill_symbol_layer import (
     FillSymbolLayer,
     SimpleFillSymbolLayer,
     ColorSymbol,
-    LineFillSymbolLayer
+    LineFillSymbolLayer,
+    MarkerFillSymbolLayer
 )
 from slyr.parser.objects.marker_symbol_layer import (
     MarkerSymbolLayer,
@@ -170,6 +172,33 @@ def append_LineFillSymbolLayer(symbol, layer: LineFillSymbolLayer):
     out.setDistanceUnit(QgsUnitTypes.RenderPoints)
     out.setOffset(layer.offset)
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+
+    symbol.appendSymbolLayer(out)
+    if layer.outline_layer:
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_layer)
+    elif layer.outline_symbol:
+        # get all layers from outline
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol)
+
+
+def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbolLayer):
+    """
+    Appends a MarkerFillSymbolLayer to a symbol
+    """
+    marker = Symbol_to_QgsSymbol(layer.marker)
+
+    out = QgsPointPatternFillSymbolLayer()
+    out.setSubSymbol(marker)
+
+    out.setDistanceX(layer.separation_x)
+    out.setDistanceXUnit(QgsUnitTypes.RenderPoints)
+    out.setDistanceY(layer.separation_y)
+    out.setDistanceYUnit(QgsUnitTypes.RenderPoints)
+
+    out.setDisplacementX(layer.offset_x)
+    out.setDisplacementXUnit(QgsUnitTypes.RenderPoints)
+    out.setDisplacementY(layer.offset_y)
+    out.setDisplacementYUnit(QgsUnitTypes.RenderPoints)
 
     symbol.appendSymbolLayer(out)
     if layer.outline_layer:
@@ -476,6 +505,8 @@ def append_FillSymbolLayer(symbol, layer):
         append_SimpleFillSymbolLayer(symbol, layer)
     elif isinstance(layer, LineFillSymbolLayer):
         append_LineFillSymbolLayer(symbol, layer)
+    elif isinstance(layer, MarkerFillSymbolLayer):
+        append_MarkerFillSymbolLayer(symbol, layer)
     else:
         raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
