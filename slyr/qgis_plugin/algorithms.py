@@ -31,7 +31,9 @@ from qgis.core import (QgsProcessingAlgorithm,
                        QgsProcessingOutputNumber,
                        QgsStyle,
                        QgsColorRamp,
-                       QgsSymbol)
+                       QgsSymbol,
+                       QgsProcessingFeedback)
+from qgis.PyQt.QtGui import QFontDatabase
 from processing.core.ProcessingConfig import ProcessingConfig
 
 from slyr.bintools.extractor import Extractor
@@ -178,6 +180,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     continue
 
                 if isinstance(qgis_symbol, QgsSymbol):
+                    self.check_for_missing_fonts(qgis_symbol, feedback)
                     style.addSymbol(unique_name, qgis_symbol)
                 elif isinstance(qgis_symbol, QgsColorRamp):
                     style.addColorRamp(unique_name, qgis_symbol)
@@ -198,6 +201,20 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         style.exportXml(output_file)
         results[self.OUTPUT] = output_file
         return results
+
+    def check_for_missing_fonts(self, symbol: QgsSymbol, feedback: QgsProcessingFeedback):
+        """
+        Checks for missing (not installed) fonts, and warns
+        """
+
+        for l in symbol.symbolLayers():
+            try:
+                font = l.fontFamily()
+            except AttributeError:
+                continue
+
+            if font not in QFontDatabase().families():
+                feedback.reportError('Warning: font {} not available on system'.format(font))
 
 
 class StyleToGpl(QgsProcessingAlgorithm):
