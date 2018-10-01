@@ -172,6 +172,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     unreadable += 1
                     continue
 
+                self.check_for_unsupported_property(symbol, feedback)
+
                 try:
                     qgis_symbol = Symbol_to_QgsSymbol(symbol)
                 except NotImplementedException as e:
@@ -202,7 +204,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         results[self.OUTPUT] = output_file
         return results
 
-    def check_for_missing_fonts(self, symbol: QgsSymbol, feedback: QgsProcessingFeedback):
+    @staticmethod
+    def check_for_missing_fonts(symbol: QgsSymbol, feedback: QgsProcessingFeedback):
         """
         Checks for missing (not installed) fonts, and warns
         """
@@ -215,6 +218,25 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
             if font not in QFontDatabase().families():
                 feedback.reportError('Warning: font {} not available on system'.format(font))
+
+    @staticmethod
+    def check_for_unsupported_property(symbol, feedback: QgsProcessingFeedback):
+        """
+        Checks for properties of ESRI symbols which have no equivalent in QGIS,
+        and warns
+        """
+        try:
+            for l in symbol.levels:
+                StyleToQgisXml.check_for_unsupported_property(l, feedback)
+        except AttributeError:
+            pass
+
+        try:
+            if symbol.random:
+                feedback.reportError('Warning: random marker fills are not supported by QGIS (considering sponsoring this feature!)')
+
+        except AttributeError:
+            return
 
 
 class StyleToGpl(QgsProcessingAlgorithm):
