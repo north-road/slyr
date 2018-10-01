@@ -108,6 +108,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         mdbtools_folder = ProcessingConfig.getSetting('MDB_PATH')
 
         style = QgsStyle()
+        style.createMemoryDatabase()
 
         results = {}
 
@@ -145,6 +146,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 if feedback.isCanceled():
                     break
                 name = raw_symbol[Extractor.NAME]
+                tags = raw_symbol[Extractor.TAGS].split(';')
                 feedback.pushInfo('{}/{}: {}'.format(index + 1, len(raw_symbols), name))
 
                 unique_name = make_name_unique(name)
@@ -183,9 +185,15 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
                 if isinstance(qgis_symbol, QgsSymbol):
                     self.check_for_missing_fonts(qgis_symbol, feedback)
-                    style.addSymbol(unique_name, qgis_symbol)
+                    style.addSymbol(unique_name, qgis_symbol, True)
                 elif isinstance(qgis_symbol, QgsColorRamp):
-                    style.addColorRamp(unique_name, qgis_symbol)
+                    style.addColorRamp(unique_name, qgis_symbol, True)
+
+                if tags:
+                    if isinstance(qgis_symbol, QgsSymbol):
+                        assert style.tagSymbol(QgsStyle.SymbolEntity, unique_name, tags)
+                    elif isinstance(qgis_symbol, QgsColorRamp):
+                        assert style.tagSymbol(QgsStyle.ColorrampEntity, unique_name, tags)
 
             if symbol_type == Extractor.FILL_SYMBOLS:
                 results[self.FILL_SYMBOL_COUNT] = len(raw_symbols)
