@@ -45,6 +45,7 @@ from slyr.parser.exceptions import (UnreadableSymbolException,
                                     UnknownGuidException)
 from slyr.converters.qgis import (Symbol_to_QgsSymbol,
                                   symbol_color_to_qcolor)
+from slyr.parser.objects.fill_symbol_layer import MarkerFillSymbolLayer
 
 
 class StyleToQgisXml(QgsProcessingAlgorithm):
@@ -241,10 +242,15 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
         try:
             if symbol.random:
-                feedback.reportError('Warning: random marker fills are not supported by QGIS (considering sponsoring this feature!)')
-
+                feedback.reportError(
+                    'Warning: random marker fills are not supported by QGIS (considering sponsoring this feature!)')
         except AttributeError:
             return
+
+        if isinstance(symbol, MarkerFillSymbolLayer):
+            if symbol.offset_x or symbol.offset_y:
+                feedback.reportError(
+                    'Warning: marker fill offset X or Y is not supported by QGIS (considering sponsoring this feature!)')
 
 
 class StyleToGpl(QgsProcessingAlgorithm):
