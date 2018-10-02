@@ -205,10 +205,11 @@ def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbolLayer):
     out.setDistanceY(layer.separation_y)
     out.setDistanceYUnit(QgsUnitTypes.RenderPoints)
 
-    out.setDisplacementX(layer.offset_x)
-    out.setDisplacementXUnit(QgsUnitTypes.RenderPoints)
-    out.setDisplacementY(layer.offset_y)
-    out.setDisplacementYUnit(QgsUnitTypes.RenderPoints)
+    # Offset is not supported - displacement in QGIS has a different meaning!
+    # out.setDisplacementX(layer.offset_x)
+    # out.setDisplacementXUnit(QgsUnitTypes.RenderPoints)
+    # out.setDisplacementY(layer.offset_y)
+    # out.setDisplacementYUnit(QgsUnitTypes.RenderPoints)
 
     symbol.appendSymbolLayer(out)
     if layer.outline_layer:
