@@ -68,6 +68,17 @@ from slyr.converters.converter import NotImplementedException
 from slyr.parser.pictures import PictureUtils
 
 
+def convert_angle(angle: float) -> float:
+    """
+    Converts an ESRI angle (counter-clockwise) to a QGIS angle (clockwise)
+    """
+    a = 360 - angle
+    if a > 180:
+        # instead of "359", use "-1"
+        a -= 360
+    return a
+
+
 def symbol_color_to_qcolor(color):
     """
     Converts a symbol color to a QColor
@@ -166,8 +177,7 @@ def append_LineFillSymbolLayer(symbol, layer: LineFillSymbolLayer):
 
     out = QgsLinePatternFillSymbolLayer()
     out.setSubSymbol(line)
-    # TODO - confirm that angle is correct orientation
-    out.setLineAngle(360 - layer.angle)
+    out.setLineAngle(convert_angle(layer.angle))
     out.setDistance(layer.separation)
     out.setDistanceUnit(QgsUnitTypes.RenderPoints)
     out.setOffset(layer.offset)
@@ -451,7 +461,13 @@ def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer):
     # TODO -- confirm whether ArcGIS has same offset/rotation linkages as QGIS does!
     out.setOffset(QPointF(layer.x_offset, layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
-    out.setAngle(360 - layer.angle)
+
+    angle = 90 - layer.angle
+    if angle <= -180:
+        angle += 360
+    if angle > 180:
+        angle -= 360
+    out.setAngle(angle)
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
