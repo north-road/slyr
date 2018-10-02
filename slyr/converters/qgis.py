@@ -410,21 +410,27 @@ def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer):
     out.setSizeUnit(QgsUnitTypes.RenderPoints)
 
     color = symbol_color_to_qcolor(layer.color)
-    if marker_type in ('circle', 'square', 'diamond'):
+
+    stroke_only_symbol = layer.type not in ('circle', 'square', 'diamond')
+    if not stroke_only_symbol:
         out.setColor(color)
     else:
         out.setStrokeColor(color)
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
+    # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
     out.setOffset(QPointF(layer.x_offset, layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     if layer.outline_enabled:
         outline_color = symbol_color_to_qcolor(layer.outline_color)
-        if marker_type in ('circle', 'square', 'diamond'):
+        if not stroke_only_symbol:
             out.setStrokeColor(outline_color)
-            out.setStrokeWidth(layer.outline_width)
+            # Better match to how ESRI renders this if we divide the outline width by 2,
+            # because ESRI renders the stroke below the symbol. Maybe we should split this
+            # into two layers?
+            out.setStrokeWidth(layer.outline_width / 2)
             out.setStrokeWidthUnit(QgsUnitTypes.RenderPoints)
         else:
             # for stroke-only symbols, we need to add the outline as an additional
@@ -435,6 +441,8 @@ def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer):
             outline_layer.setStrokeWidth(layer.outline_width)
             outline_layer.setStrokeWidthUnit(QgsUnitTypes.RenderPoints)
             symbol.appendSymbolLayer(outline_layer)
+    elif not stroke_only_symbol:
+        out.setStrokeStyle(Qt.NoPen)
 
     symbol.appendSymbolLayer(out)
 
