@@ -43,6 +43,7 @@ from slyr.parser.objects.line_symbol_layer import (
     SimpleLineSymbolLayer,
     CartographicLineSymbolLayer,
     MarkerLineSymbolLayer,
+    HashLineSymbolLayer,
     LineSymbolLayer)
 from slyr.parser.objects.fill_symbol_layer import (
     FillSymbolLayer,
@@ -546,6 +547,9 @@ def append_LineSymbolLayer(symbol, layer):
         append_CartographicLineSymbolLayer(symbol, layer)
     elif isinstance(layer, MarkerLineSymbolLayer):
         append_MarkerLineSymbolLayer(symbol, layer)
+    elif isinstance(layer, HashLineSymbolLayer):
+        raise NotImplementedException(
+            'QGIS does not have a hash line symbol type (considering sponsoring this feature!)')
     else:
         raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
