@@ -285,8 +285,6 @@ def append_Decorations(symbol, decorations: LineDecoration):
     else:
         marker.setAngle(90)
 
-    # TODO - verify what happens in Arc with both flip_all/flip_first checked
-
     if 0 in positions:
         # start marker
         line = QgsMarkerLineSymbolLayer(not decoration.fixed_angle)
@@ -294,6 +292,7 @@ def append_Decorations(symbol, decorations: LineDecoration):
         if decoration.flip_first:
             start_marker.setAngle(270)
         line.setSubSymbol(start_marker)
+        # TODO - maybe need to offset this by marker width / 4? seems a better match to ESRI
         line.setPlacement(QgsMarkerLineSymbolLayer.FirstVertex)
         symbol.appendSymbolLayer(line)
 
@@ -302,6 +301,7 @@ def append_Decorations(symbol, decorations: LineDecoration):
         line = QgsMarkerLineSymbolLayer(not decoration.fixed_angle)
         line.setSubSymbol(marker.clone())
         line.setPlacement(QgsMarkerLineSymbolLayer.LastVertex)
+        # TODO - maybe need to offset this by marker width / 4? seems a better match to ESRI
         symbol.appendSymbolLayer(line)
 
     # TODO other positions
@@ -332,7 +332,6 @@ def append_CartographicLineSymbolLayer(symbol, layer: CartographicLineSymbolLaye
     if out.color().alpha() == 0:
         out.setPenStyle(Qt.NoPen)
 
-    # TODO - verify that offset is in correct direction
     out.setOffset(layer.offset)
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
@@ -356,7 +355,6 @@ def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer):
 
     total_length = current_length * template.pattern_interval
 
-    # TODO -- do markers get rotated to follow line?
     marker = Symbol_to_QgsSymbol(layer.pattern_marker)
     marker.setAngle(90)
 
@@ -367,7 +365,6 @@ def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer):
             line = QgsMarkerLineSymbolLayer(True)
             start_marker = marker.clone()
             line.setSubSymbol(start_marker)
-            # TODO verify that line offset is same direction
             line.setOffset(layer.offset)
             line.setOffsetUnit(QgsUnitTypes.RenderPoints)
             line.setInterval(total_length)
@@ -459,7 +456,8 @@ def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer):
     out.setColor(color)
     out.setStrokeColor(color)  # why not, makes the symbol a bit easier to modify in qgis
 
-    # TODO -- confirm whether ArcGIS has same offset/rotation linkages as QGIS does!
+    # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
+
     out.setOffset(QPointF(layer.x_offset, layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
@@ -483,13 +481,14 @@ def append_CharacterMarkerSymbolLayer(symbol, layer):
     font_family = layer.font
     character = chr(layer.unicode)
     color = symbol_color_to_qcolor(layer.color)
-    angle = 360 - layer.angle
+    angle = convert_angle(layer.angle)
 
     out = QgsFontMarkerSymbolLayer(font_family, character, layer.size, color, angle)
     out.setSizeUnit(QgsUnitTypes.RenderPoints)
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
+    # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
     out.setOffset(QPointF(layer.x_offset, layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
@@ -508,6 +507,7 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer):
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
+    # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
     out.setOffset(QPointF(layer.x_offset, layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
