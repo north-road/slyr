@@ -245,4 +245,3 @@ class PictureFillSymbolLayer(FillSymbolLayer):
         stream.read(6)
         if version < 8:
             stream.read(4)
-
