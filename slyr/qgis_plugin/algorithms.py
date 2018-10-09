@@ -29,6 +29,7 @@ from qgis.core import (QgsProcessingAlgorithm,
                        QgsProcessingParameterFile,
                        QgsProcessingParameterFileDestination,
                        QgsProcessingOutputNumber,
+                       QgsProcessingParameterFolderDestination,
                        QgsStyle,
                        QgsColorRamp,
                        QgsSymbol,
@@ -45,7 +46,8 @@ from slyr.parser.exceptions import (UnreadableSymbolException,
                                     UnknownGuidException)
 from slyr.converters.qgis import (Symbol_to_QgsSymbol,
                                   symbol_color_to_qcolor)
-from slyr.parser.objects.fill_symbol_layer import MarkerFillSymbolLayer
+from slyr.parser.objects.fill_symbol_layer import (MarkerFillSymbolLayer,
+                                                   PictureFillSymbolLayer)
 
 
 class StyleToQgisXml(QgsProcessingAlgorithm):
@@ -55,6 +57,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
     INPUT = 'INPUT'
     OUTPUT = 'OUTPUT'
+    PICTURE_FOLDER = 'PICTURE_FOLDER'
 
     MARKER_SYMBOL_COUNT = 'MARKER_SYMBOL_COUNT'
     LINE_SYMBOL_COUNT = 'LINE_SYMBOL_COUNT'
@@ -92,6 +95,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
                                                                 'Destination XML file', fileFilter="XML files (*.xml)"))
+        self.addParameter(QgsProcessingParameterFolderDestination(self.PICTURE_FOLDER,
+                                                                  'Store extracted pictures in', optional=True))
 
         self.addOutput(QgsProcessingOutputNumber(self.FILL_SYMBOL_COUNT, 'Fill Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.LINE_SYMBOL_COUNT, 'Line Symbol Count'))
@@ -102,9 +107,14 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_MARKER_SYMBOLS, 'Unreadable Marker Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_COLOR_RAMPS, 'Unreadable Color Ramps'))
 
-    def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements,too-many-branches
+    def processAlgorithm(self, parameters, context,
+                         feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements,too-many-branches
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
+
+        picture_folder = self.parameterAsString(parameters, self.PICTURE_FOLDER, context)
+        if not picture_folder:
+            picture_folder, _ = os.path.split(output_file)
 
         mdbtools_folder = ProcessingConfig.getSetting('MDB_PATH')
 
@@ -178,7 +188,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 self.check_for_unsupported_property(symbol, feedback)
 
                 try:
-                    qgis_symbol = Symbol_to_QgsSymbol(symbol)
+                    qgis_symbol = Symbol_to_QgsSymbol(symbol, picture_folder=picture_folder, symbol_name=unique_name)
                 except NotImplementedException as e:
                     feedback.reportError(str(e))
                     unreadable += 1
@@ -247,7 +257,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         except AttributeError:
             return
 
-        if isinstance(symbol, MarkerFillSymbolLayer):
+        if isinstance(symbol, (MarkerFillSymbolLayer, PictureFillSymbolLayer)):
             if symbol.offset_x or symbol.offset_y:
                 feedback.reportError(
                     'Warning: marker fill offset X or Y is not supported by QGIS (considering sponsoring this feature!)')
@@ -296,7 +306,8 @@ class StyleToGpl(QgsProcessingAlgorithm):
         self.addOutput(QgsProcessingOutputNumber(self.COLOR_COUNT, 'Color Count'))
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_COLOR_COUNT, 'Unreadable Color Count'))
 
-    def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements
+    def processAlgorithm(self, parameters, context,
+                         feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
 

@@ -175,3 +175,74 @@ class MarkerFillSymbolLayer(FillSymbolLayer):
         stream.read_0d_terminator()
 
         _ = stream.read_double('unused double')
+
+
+class PictureFillSymbolLayer(FillSymbolLayer):
+    """
+    Picture fill symbol layer
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.angle = 0
+        self.scale_x = 1
+        self.scale_y = 1
+        self.offset_x = 0
+        self.offset_y = 0
+        self.separation_x = 0
+        self.separation_y = 0
+
+        self.file = None
+
+        self.color_foreground = None
+        self.color_background = None
+        self.color_transparent = None
+        self.swap_fb_gb = False
+
+    @staticmethod
+    def guid():
+        return 'd842b082-330c-11d2-9168-0000f87808ee'
+
+    @staticmethod
+    def compatible_versions():
+        return [7, 8]
+
+    def read(self, stream: Stream, version):
+        if version >= 8:
+            stream.read(8)
+        else:
+            stream.read(26)
+
+        self.file = stream.read_embedded_file('image')
+
+        self.color_background = stream.read_object('color bg')
+        self.color_foreground = stream.read_object('color fg')
+        self.color_transparent = stream.read_object('color trans')
+
+        # either an entire LineSymbol or just a LineSymbolLayer
+        outline = stream.read_object('outline')
+        if outline is not None:
+            if issubclass(outline.__class__, SymbolLayer):
+                self.outline_layer = outline
+            else:
+                self.outline_symbol = outline
+
+        self.angle = stream.read_double('angle')
+        self.scale_x = stream.read_double('scale_x')
+        self.scale_y = stream.read_double('scale_y')
+
+        self.offset_x = stream.read_double('offset x')
+        self.offset_y = stream.read_double('offset y')
+        self.separation_x = stream.read_double('separation x')
+        self.separation_y = stream.read_double('separation y')
+
+        stream.read(16)
+
+        stream.read_0d_terminator()
+
+        self.swap_fb_gb = bool(stream.read_uchar('swap fgbg'))
+
+        stream.read(6)
+        if version <= 8:
+            stream.read(4)
+

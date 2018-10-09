@@ -27,7 +27,8 @@ from slyr.parser.objects.fill_symbol_layer import (
     ColorSymbol,
     GradientFillSymbolLayer,
     LineFillSymbolLayer,
-    MarkerFillSymbolLayer
+    MarkerFillSymbolLayer,
+    PictureFillSymbolLayer
 )
 from slyr.parser.objects.marker_symbol_layer import (
     ArrowMarkerSymbolLayer,
@@ -83,3 +84,5 @@ def initialize_registry():
     REGISTRY.register(MarkerFillSymbolLayer)
     REGISTRY.register(HashLineSymbolLayer)
     REGISTRY.register(PictureMarkerSymbolLayer)
+    REGISTRY.register(PictureFillSymbolLayer)
+
