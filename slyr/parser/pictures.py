@@ -58,7 +58,7 @@ class PictureUtils:
         return image.width()
 
     @staticmethod
-    def set_colors(data: bin, fg: QColor, bg: QColor, trans: QColor) -> bin:
+    def set_colors(data: bin, fg: QColor, bg: QColor, trans: QColor) -> bin:  # pylint: disable=too-many-locals
         """
         Burns foreground and background colors into a raster image, and returns
         the results as a PNG binary
