@@ -29,6 +29,7 @@ from slyr.parser.objects.fill_symbol_layer import (
     LineFillSymbolLayer,
     MarkerFillSymbolLayer,
     FillSymbolLayer,
+    PictureFillSymbolLayer,
     ColorSymbol)
 from slyr.parser.objects.marker_symbol_layer import (
     SimpleMarkerSymbolLayer,
@@ -134,6 +135,8 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
             return self.convert_line_fill_symbol_layer(layer)
         elif isinstance(layer, MarkerFillSymbolLayer):
             return self.convert_marker_fill_symbol_layer(layer)
+        elif isinstance(layer, PictureFillSymbolLayer):
+            return self.convert_picture_fill_symbol_layer(layer)
         else:
             raise NotImplementedException('{} not implemented yet'.format(layer.__class__))
 
@@ -235,6 +238,36 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
         out['separation_y'] = layer.separation_y
         out['random'] = layer.random
 
+        return out
+
+    def convert_picture_fill_symbol_layer(self, layer: PictureFillSymbolLayer) -> dict:
+        """
+        Converts a PictureFillSymbolLayer
+        """
+        out = {
+            'color_foreground': DictionaryConverter.convert_color(layer.color_foreground),
+            'color_foreground_model': layer.color_foreground.model if layer.color_foreground else None,
+            'color_background': DictionaryConverter.convert_color(layer.color_background),
+            'color_background_model': layer.color_background.model,
+            'color_transparent': DictionaryConverter.convert_color(layer.color_transparent),
+            'color_transparent_model': None if not layer.color_transparent else layer.color_transparent.model,
+            'swap_fg_bg': layer.swap_fb_gb,
+        }
+
+        if layer.outline_layer:
+            out['outline_layer'] = self.convert_symbol_layer(layer.outline_layer)
+        if layer.outline_symbol:
+            outline_converter = DictionaryConverter()
+            out['outline_symbol'] = outline_converter.convert_symbol(layer.outline_symbol)
+
+        out['picture'] = PictureUtils.to_base64_png(layer.file)
+        out['angle'] = layer.angle
+        out['scale_x'] = layer.scale_x
+        out['scale_y'] = layer.scale_y
+        out['offset_x'] = layer.offset_x
+        out['offset_y'] = layer.offset_y
+        out['separation_x'] = layer.separation_x
+        out['separation_y'] = layer.separation_y
         return out
 
     def convert_color_symbol(self, layer: ColorSymbol) -> dict:
