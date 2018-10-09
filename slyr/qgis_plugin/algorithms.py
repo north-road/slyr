@@ -107,8 +107,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_MARKER_SYMBOLS, 'Unreadable Marker Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_COLOR_RAMPS, 'Unreadable Color Ramps'))
 
-    def processAlgorithm(self, parameters, context,
-                         feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements,too-many-branches
+    def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements,too-many-branches
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
 
@@ -306,8 +305,7 @@ class StyleToGpl(QgsProcessingAlgorithm):
         self.addOutput(QgsProcessingOutputNumber(self.COLOR_COUNT, 'Color Count'))
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_COLOR_COUNT, 'Unreadable Color Count'))
 
-    def processAlgorithm(self, parameters, context,
-                         feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements
+    def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
 

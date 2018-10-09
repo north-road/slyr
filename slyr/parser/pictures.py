@@ -58,7 +58,11 @@ class PictureUtils:
         return image.width()
 
     @staticmethod
-    def set_colors(data: bin, fg: QColor, bg: QColor, trans:QColor) -> bin:
+    def set_colors(data: bin, fg: QColor, bg: QColor, trans: QColor) -> bin:
+        """
+        Burns foreground and background colors into a raster image, and returns
+        the results as a PNG binary
+        """
         image = QImage()
         image.loadFromData(data)
 
@@ -68,7 +72,9 @@ class PictureUtils:
 
         fg_rgba = qRgba(fg.red(), fg.green(), fg.blue(), fg.alpha()) if fg else None
         bg_rgba = qRgba(bg.red(), bg.green(), bg.blue(), bg.alpha()) if bg else None
-        trans_rgba = qRgba(trans.red(), trans.green(), trans.blue(), trans.alpha()) if trans else None
+
+        # TODO: what's this even for?
+        _ = qRgba(trans.red(), trans.green(), trans.blue(), trans.alpha()) if trans else None
 
         for y in range(image.height()):
             start = y * image.width() * 4

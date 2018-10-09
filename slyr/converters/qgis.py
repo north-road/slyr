@@ -224,6 +224,9 @@ def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbolLayer, symbol_na
 
 
 def write_picture(content: bin, symbol_name: str, picture_folder: str, fg, bg, trans):
+    """
+    Writes a picture binary content to a file, converting raster colors if necessary
+    """
     fg_color = symbol_color_to_qcolor(fg) if fg else None
     bg_color = symbol_color_to_qcolor(bg) if bg else None
     trans_color = symbol_color_to_qcolor(trans) if trans else None
@@ -242,14 +245,14 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, symbol_
         raise NotImplementedException('Picture fill separation x or y are not supported yet')
 
     image_path = write_picture(layer.file, symbol_name, picture_folder, layer.color_foreground, layer.color_background,
-                  layer.color_transparent)
+                               layer.color_transparent)
 
     out = QgsRasterFillSymbolLayer(image_path)
 
     # TODO - maybe want to use marker fill if separation is non-zero
 
     # TODO - maybe we want to convert to points/mm so print layouts work nicely
-    out.setWidth(layer.scale_x*PictureUtils.width_pixels(layer.file))
+    out.setWidth(layer.scale_x * PictureUtils.width_pixels(layer.file))
     out.setWidthUnit(QgsUnitTypes.RenderPixels)
 
     out.setAngle(convert_angle(layer.angle))
@@ -262,7 +265,7 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, symbol_
         append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, symbol_name, picture_folder)
 
 
-def append_SimpleLineSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str):
+def append_SimpleLineSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str):  # pylint: disable=unused-argument
     """
     Appends a SimpleLineSymbolLayer to a symbol
     """
@@ -599,7 +602,7 @@ def append_LineSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str)
         raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
 
-def append_MarkerSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str):
+def append_MarkerSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str):  # pylint: disable=unused-argument
     """
     Appends a MarkerSymbolLayer to a QgsSymbol
     """

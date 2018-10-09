@@ -85,4 +85,3 @@ def initialize_registry():
     REGISTRY.register(HashLineSymbolLayer)
     REGISTRY.register(PictureMarkerSymbolLayer)
     REGISTRY.register(PictureFillSymbolLayer)
-
