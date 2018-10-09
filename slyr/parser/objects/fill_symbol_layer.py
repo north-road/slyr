@@ -243,6 +243,6 @@ class PictureFillSymbolLayer(FillSymbolLayer):
         self.swap_fb_gb = bool(stream.read_uchar('swap fgbg'))
 
         stream.read(6)
-        if version <= 8:
+        if version < 8:
             stream.read(4)
 
