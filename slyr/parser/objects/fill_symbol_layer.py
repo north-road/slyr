@@ -205,10 +205,12 @@ class PictureFillSymbolLayer(FillSymbolLayer):
 
     @staticmethod
     def compatible_versions():
-        return [7, 8]
+        return [4, 7, 8]
 
     def read(self, stream: Stream, version):
-        if version == 7:
+        if version == 4:
+            self.picture = stream.read_object('picture')
+        elif version == 7:
             _ = stream.read_ushort('pic version?')
             _ = stream.read_uint('picture type?')
             self.picture = stream.read_object('picture')
@@ -241,6 +243,9 @@ class PictureFillSymbolLayer(FillSymbolLayer):
         stream.read_0d_terminator()
 
         self.swap_fb_gb = bool(stream.read_uchar('swap fgbg'))
+
+        if version <= 4:
+            return
 
         stream.read(6)
         if version < 8:
