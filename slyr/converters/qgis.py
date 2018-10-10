@@ -24,8 +24,7 @@ from qgis.core import (QgsUnitTypes,
                        QgsMarkerLineSymbolLayer,
                        QgsLinePatternFillSymbolLayer,
                        QgsPointPatternFillSymbolLayer,
-                       QgsRasterFillSymbolLayer,
-                       QgsSVGFillSymbolLayer)
+                       QgsRasterFillSymbolLayer)
 from qgis.PyQt.QtCore import (Qt, QPointF)
 from qgis.PyQt.QtGui import (QColor)
 
