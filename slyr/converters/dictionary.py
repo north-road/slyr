@@ -4,7 +4,7 @@
 Converts parsed symbol properties to a Python dictionary
 """
 
-from typing import Union
+from typing import Union, Optional
 from slyr.converters.converter import (
     Converter,
     NotImplementedException
@@ -45,6 +45,10 @@ from slyr.parser.objects.decoration import (
 )
 from slyr.parser.objects.font import Font
 from slyr.parser.objects.ramps import ColorRamp
+from slyr.parser.objects.picture import (Picture,
+                                         BmpPicture,
+                                         EmfPicture,
+                                         StdPicture)
 from slyr.parser.pictures import PictureUtils
 
 
@@ -240,6 +244,27 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
 
         return out
 
+    @staticmethod
+    def convert_picture(picture: Picture) -> Optional[dict]:
+        """
+        Converts a picture
+        """
+        if picture is None:
+            return None
+        if issubclass(picture.__class__, StdPicture):
+            picture = picture.picture
+        out = {
+            'type': picture.__class__.__name__,
+        }
+
+        if issubclass(picture.__class__, BmpPicture):
+            out['content'] = PictureUtils.to_base64_png(picture.content)
+        elif issubclass(picture.__class__, EmfPicture):
+            out['content'] = PictureUtils.to_base64(picture.content)
+        else:
+            raise NotImplementedException('{} picture conversion not implemented'.format(picture.__class__.__name__))
+        return out
+
     def convert_picture_fill_symbol_layer(self, layer: PictureFillSymbolLayer) -> dict:
         """
         Converts a PictureFillSymbolLayer
@@ -260,7 +285,7 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
             outline_converter = DictionaryConverter()
             out['outline_symbol'] = outline_converter.convert_symbol(layer.outline_symbol)
 
-        out['picture'] = PictureUtils.to_base64_png(layer.file)
+        out['picture'] = DictionaryConverter.convert_picture(layer.picture)
         out['angle'] = layer.angle
         out['scale_x'] = layer.scale_x
         out['scale_y'] = layer.scale_y
@@ -537,20 +562,14 @@ class DictionaryConverter(Converter):  # pylint: disable=too-many-public-methods
         """
         Converts a PictureMarkerSymbolLayer
         """
-        out = {
-            'color_foreground': DictionaryConverter.convert_color(layer.color_foreground),
-            'color_foreground_model': layer.color_foreground.model,
-            'color_background': DictionaryConverter.convert_color(layer.color_background),
-            'color_background_model': layer.color_background.model,
-            'color_transparent': DictionaryConverter.convert_color(layer.color_transparent),
-            'color_transparent_model': None if not layer.color_transparent else layer.color_transparent.model,
-            'size': layer.size,
-            'angle': layer.angle,
-            'x_offset': layer.x_offset,
-            'y_offset': layer.y_offset,
-            'swap_fg_bg': layer.swap_fb_gb,
-            'picture': PictureUtils.to_base64_png(layer.file)
-        }
+        out = {'color_foreground': DictionaryConverter.convert_color(layer.color_foreground),
+               'color_foreground_model': layer.color_foreground.model,
+               'color_background': DictionaryConverter.convert_color(layer.color_background),
+               'color_background_model': layer.color_background.model,
+               'color_transparent': DictionaryConverter.convert_color(layer.color_transparent),
+               'color_transparent_model': None if not layer.color_transparent else layer.color_transparent.model,
+               'size': layer.size, 'angle': layer.angle, 'x_offset': layer.x_offset, 'y_offset': layer.y_offset,
+               'swap_fg_bg': layer.swap_fb_gb, 'picture': DictionaryConverter.convert_picture(layer.picture)}
 
         return out
 

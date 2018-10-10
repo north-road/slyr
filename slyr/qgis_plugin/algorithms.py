@@ -28,6 +28,7 @@ from io import BytesIO
 from qgis.core import (QgsProcessingAlgorithm,
                        QgsProcessingParameterFile,
                        QgsProcessingParameterFileDestination,
+                       QgsProcessingParameterBoolean,
                        QgsProcessingOutputNumber,
                        QgsProcessingParameterFolderDestination,
                        QgsStyle,
@@ -57,6 +58,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
     INPUT = 'INPUT'
     OUTPUT = 'OUTPUT'
+    EMBED_PICTURES = 'EMBED_PICTURES'
     PICTURE_FOLDER = 'PICTURE_FOLDER'
 
     MARKER_SYMBOL_COUNT = 'MARKER_SYMBOL_COUNT'
@@ -97,6 +99,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                                                                 'Destination XML file', fileFilter="XML files (*.xml)"))
         self.addParameter(QgsProcessingParameterFolderDestination(self.PICTURE_FOLDER,
                                                                   'Store extracted pictures in', optional=True))
+        self.addParameter(QgsProcessingParameterBoolean(self.EMBED_PICTURES,
+                                                        'Embed pictures where possible', defaultValue=False))
 
         self.addOutput(QgsProcessingOutputNumber(self.FILL_SYMBOL_COUNT, 'Fill Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.LINE_SYMBOL_COUNT, 'Line Symbol Count'))
@@ -110,6 +114,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements,too-many-branches
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
+        embed_pictures = self.parameterAsBool(parameters, self.EMBED_PICTURES, context)
 
         picture_folder = self.parameterAsString(parameters, self.PICTURE_FOLDER, context)
         if not picture_folder:
@@ -187,7 +192,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 self.check_for_unsupported_property(symbol, feedback)
 
                 try:
-                    qgis_symbol = Symbol_to_QgsSymbol(symbol, picture_folder=picture_folder, symbol_name=unique_name)
+                    qgis_symbol = Symbol_to_QgsSymbol(symbol, picture_folder=picture_folder,
+                                                      symbol_name=unique_name, embed_pictures=embed_pictures)
                 except NotImplementedException as e:
                     feedback.reportError(str(e))
                     unreadable += 1

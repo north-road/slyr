@@ -35,6 +35,28 @@ class PictureUtils:
         return encoded
 
     @staticmethod
+    def to_base64(data: bin) -> str:
+        """
+        Converts generic picture data to base 64
+        """
+        encoded = base64.b64encode(data).decode('UTF-8')
+        return encoded
+
+    @staticmethod
+    def is_emf(data: bin) -> bool:
+        """
+        Returns true if the data is an EMF file
+        """
+
+        # bit of a hack
+        image = QImage()
+        image.loadFromData(data)
+        if image.isNull():
+            return True
+
+        return False
+
+    @staticmethod
     def to_png(data: bin, path: str):
         """
         Reads embedded image data, and saves as a PNG

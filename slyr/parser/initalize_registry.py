@@ -48,6 +48,7 @@ from slyr.parser.objects.ramps import (
     MultiPartColorRamp,
     AlgorithmicColorRamp
 )
+from slyr.parser.objects.picture import StdPicture
 
 
 def initialize_registry():
@@ -85,3 +86,4 @@ def initialize_registry():
     REGISTRY.register(HashLineSymbolLayer)
     REGISTRY.register(PictureMarkerSymbolLayer)
     REGISTRY.register(PictureFillSymbolLayer)
+    REGISTRY.register(StdPicture)

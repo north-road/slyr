@@ -9,6 +9,7 @@ from typing import Optional
 from slyr.parser.object_registry import ObjectRegistry, REGISTRY
 from slyr.parser.object import Object
 from slyr.parser.exceptions import UnsupportedVersionException, UnreadableSymbolException
+from slyr.parser.objects.picture import Picture
 
 
 class Stream:
@@ -102,6 +103,16 @@ class Stream:
             self.log('read uint {} of {}'.format(debug_string, res), 4)
         return res
 
+    def read_ulong(self, debug_string: str = '') -> int:
+        """
+        Reads an ulong from the stream.
+        :return:
+        """
+        res = unpack("<l", self._io_stream.read(4))[0]
+        if debug_string:
+            self.log('read ulong {} of {}'.format(debug_string, res), 4)
+        return res
+
     def read_ushort(self, debug_string: str = '') -> int:
         """
         Reads an unsigned short from the stream.
@@ -193,3 +204,11 @@ class Stream:
             return self.read(embedded_file_length)
         except error:  # struct.error
             raise UnreadableSymbolException('Truncated file binary')
+
+    def read_picture(self, debug_string: str = '') -> Picture:
+        """
+        Reads an embedded picture from the stream and returns it
+        """
+        self.log('Reading picture {}'.format(debug_string))
+        pic = Picture.create_from_stream(self)
+        return pic
