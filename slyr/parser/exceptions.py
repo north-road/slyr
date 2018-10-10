@@ -38,3 +38,17 @@ class InvalidColorException(Exception):
     Thrown when an error was encountered while converting a color
     """
     pass
+
+
+class UnknownPictureTypeException(Exception):
+    """
+    Thrown on encountering an unknown picture type
+    """
+    pass
+
+
+class UnreadablePictureException(Exception):
+    """
+    Thrown on encountering an unreadable picture
+    """
+    pass

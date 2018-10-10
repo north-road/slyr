@@ -6,6 +6,7 @@ Converts parsed symbol properties to QGIS Symbols
 
 import base64
 import os
+import subprocess
 from qgis.core import (QgsUnitTypes,
                        QgsSimpleLineSymbolLayer,
                        QgsSimpleFillSymbolLayer,
@@ -37,6 +38,9 @@ from slyr.parser.objects.symbol_layer import (
 )
 from slyr.parser.objects.colors import (
     CMYKColor
+)
+from slyr.parser.objects.picture import (
+    EmfPicture
 )
 from slyr.parser.objects.decoration import (
     LineDecoration
@@ -70,6 +74,17 @@ from slyr.parser.objects.ramps import (
 )
 from slyr.converters.converter import NotImplementedException
 from slyr.parser.pictures import PictureUtils
+
+
+class Context:
+    """
+    Symbol conversion context
+    """
+
+    def __init__(self):
+        self.symbol_name = ''
+        self.picture_folder = ''
+        self.embed_pictures = True
 
 
 def convert_angle(angle: float) -> float:
@@ -133,7 +148,7 @@ def symbol_pen_to_qpenjoinstyle(style):
     return types[style]
 
 
-def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer, symbol_name: str, picture_folder: str):
+def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer, context: Context):
     """
     Appends a SimpleFillSymbolLayer to a symbol
     """
@@ -164,7 +179,7 @@ def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer, symbol_na
             symbol.appendSymbolLayer(out)
 
             # get all layers from outline
-            append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, symbol_name, picture_folder)
+            append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, context)
         else:
             out.setStrokeStyle(Qt.NoPen)
             symbol.appendSymbolLayer(out)
@@ -173,11 +188,11 @@ def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer, symbol_na
         symbol.appendSymbolLayer(out)
 
 
-def append_LineFillSymbolLayer(symbol, layer: LineFillSymbolLayer, symbol_name: str, picture_folder: str):
+def append_LineFillSymbolLayer(symbol, layer: LineFillSymbolLayer, context: Context):
     """
     Appends a LineFillSymbolLayer to a symbol
     """
-    line = Symbol_to_QgsSymbol(layer.line, symbol_name, picture_folder)
+    line = Symbol_to_QgsSymbol(layer.line, context.symbol_name, context.picture_folder, context.embed_pictures)
 
     out = QgsLinePatternFillSymbolLayer()
     out.setSubSymbol(line)
@@ -189,17 +204,17 @@ def append_LineFillSymbolLayer(symbol, layer: LineFillSymbolLayer, symbol_name: 
 
     symbol.appendSymbolLayer(out)
     if layer.outline_layer:
-        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_layer, symbol_name, picture_folder)
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_layer, context)
     elif layer.outline_symbol:
         # get all layers from outline
-        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, symbol_name, picture_folder)
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, context)
 
 
-def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbolLayer, symbol_name: str, picture_folder: str):
+def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbolLayer, context: Context):
     """
     Appends a MarkerFillSymbolLayer to a symbol
     """
-    marker = Symbol_to_QgsSymbol(layer.marker, symbol_name, picture_folder)
+    marker = Symbol_to_QgsSymbol(layer.marker, context.symbol_name, context.picture_folder, context.embed_pictures)
 
     out = QgsPointPatternFillSymbolLayer()
     out.setSubSymbol(marker)
@@ -217,10 +232,10 @@ def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbolLayer, symbol_na
 
     symbol.appendSymbolLayer(out)
     if layer.outline_layer:
-        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_layer, symbol_name, picture_folder)
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_layer, context)
     elif layer.outline_symbol:
         # get all layers from outline
-        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, symbol_name, picture_folder)
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, context)
 
 
 def write_picture(content: bin, symbol_name: str, picture_folder: str, fg, bg, trans):
@@ -236,15 +251,56 @@ def write_picture(content: bin, symbol_name: str, picture_folder: str, fg, bg, t
     return path
 
 
-def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, symbol_name: str, picture_folder: str):
+def write_svg(content: str, symbol_name: str, picture_folder: str):
+    """
+    Writes a picture binary content to an SVG file
+    """
+    path = os.path.join(picture_folder, symbol_name + '.svg')
+    with open(path, 'wt') as f:
+        f.write(content)
+    return path
+
+
+def emf_to_svg(emf_path: str, svg_path: str, inkscape_path: str = None):
+    """
+    Converts an EMF file to an SVG file (using inkscape)
+    """
+    binary = 'inkscape'
+    if inkscape_path is not None:
+        binary = os.path.join(inkscape_path, binary)
+
+    export_args = [binary,
+                   '--file',
+                   emf_path,
+                   '--export-plain-svg',
+                   svg_path]
+
+    print(' '.join(export_args))
+
+    CREATE_NO_WINDOW = 0x08000000
+    try:
+        _ = subprocess.run(export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW)
+    except ValueError:
+        _ = subprocess.run(export_args, stdout=subprocess.PIPE)
+
+
+def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context: Context):
     """
     Appends a PictureFillSymbolLayer to a symbol
     """
+    if issubclass(layer.picture.__class__, EmfPicture):
+        path = os.path.join(context.picture_folder, context.symbol_name + '.emf')
+        with open(path, 'wb') as f:
+            f.write(layer.picture.content)
+
+        raise NotImplementedException('EMF pictures not implemented yet')
 
     if layer.separation_y or layer.separation_x:
         raise NotImplementedException('Picture fill separation x or y are not supported yet')
 
-    image_path = write_picture(layer.file, symbol_name, picture_folder, layer.color_foreground, layer.color_background,
+    image_path = write_picture(layer.picture.content, context.symbol_name, context.picture_folder,
+                               layer.color_foreground,
+                               layer.color_background,
                                layer.color_transparent)
 
     out = QgsRasterFillSymbolLayer(image_path)
@@ -252,20 +308,20 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, symbol_
     # TODO - maybe want to use marker fill if separation is non-zero
 
     # TODO - maybe we want to convert to points/mm so print layouts work nicely
-    out.setWidth(layer.scale_x * PictureUtils.width_pixels(layer.file))
+    out.setWidth(layer.scale_x * PictureUtils.width_pixels(layer.picture.content))
     out.setWidthUnit(QgsUnitTypes.RenderPixels)
 
     out.setAngle(convert_angle(layer.angle))
 
     symbol.appendSymbolLayer(out)
     if layer.outline_layer:
-        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_layer, symbol_name, picture_folder)
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_layer, context)
     elif layer.outline_symbol:
         # get all layers from outline
-        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, symbol_name, picture_folder)
+        append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, context)
 
 
-def append_SimpleLineSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str):  # pylint: disable=unused-argument
+def append_SimpleLineSymbolLayer(symbol, layer, context: Context):  # pylint: disable=unused-argument
     """
     Appends a SimpleLineSymbolLayer to a symbol
     """
@@ -313,7 +369,7 @@ def apply_template_to_LineSymbolLayer_custom_dash(template, layer):
     layer.setCustomDashPatternUnit(QgsUnitTypes.RenderPoints)
 
 
-def append_Decorations(symbol, decorations: LineDecoration, symbol_name: str, picture_folder: str):
+def append_Decorations(symbol, decorations: LineDecoration, context: Context):
     """
     Appends decorations to the given symbol
     """
@@ -325,7 +381,7 @@ def append_Decorations(symbol, decorations: LineDecoration, symbol_name: str, pi
     decoration = decorations.decorations[0]
     positions = decoration.marker_positions[:]
 
-    marker = Symbol_to_QgsSymbol(decoration.marker, symbol_name, picture_folder)
+    marker = Symbol_to_QgsSymbol(decoration.marker, context.symbol_name, context.picture_folder, context.embed_pictures)
     if decoration.flip_all:
         marker.setAngle(270)
     else:
@@ -359,8 +415,7 @@ def append_Decorations(symbol, decorations: LineDecoration, symbol_name: str, pi
         raise NotImplementedException('Non start/end decoration positions are not implemented')
 
 
-def append_CartographicLineSymbolLayer(symbol, layer: CartographicLineSymbolLayer, symbol_name: str,
-                                       picture_folder: str):
+def append_CartographicLineSymbolLayer(symbol, layer: CartographicLineSymbolLayer, context: Context):
     """
     Appends a CartographicLineSymbolLayer to a symbol
     """
@@ -385,10 +440,10 @@ def append_CartographicLineSymbolLayer(symbol, layer: CartographicLineSymbolLaye
     symbol.appendSymbolLayer(out)
 
     if layer.decoration is not None:
-        append_Decorations(symbol, layer.decoration, symbol_name, picture_folder)
+        append_Decorations(symbol, layer.decoration, context)
 
 
-def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer, symbol_name: str, picture_folder: str):
+def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer, context: Context):
     """
     Appends a MarkerLineSymbolLayer to a symbol
     """
@@ -402,7 +457,8 @@ def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer, symbol_na
 
     total_length = current_length * template.pattern_interval
 
-    marker = Symbol_to_QgsSymbol(layer.pattern_marker, symbol_name, picture_folder)
+    marker = Symbol_to_QgsSymbol(layer.pattern_marker, context.symbol_name, context.picture_folder,
+                                 context.embed_pictures)
     marker.setAngle(90)
 
     current_offset_from_start = 0
@@ -427,7 +483,7 @@ def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer, symbol_na
             current_offset_from_start += template.pattern_interval * t[1]
 
     if layer.decoration is not None:
-        append_Decorations(symbol, layer.decoration, symbol_name, picture_folder)
+        append_Decorations(symbol, layer.decoration, context)
 
 
 def marker_type_to_qgis_type(marker_type):
@@ -448,7 +504,7 @@ def marker_type_to_qgis_type(marker_type):
         raise NotImplementedException('Marker type {} not implemented'.format(marker_type))
 
 
-def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer):
+def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer, context: Context):  # pylint: disable=unused-argument
     """
     Appends a SimpleMarkerSymbolLayer to a symbol
     """
@@ -494,7 +550,7 @@ def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer):
     symbol.appendSymbolLayer(out)
 
 
-def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer):
+def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer, context: Context):  # pylint: disable=unused-argument
     """
     Appends a ArrowMarkerSymbolLayer to a symbol
     """
@@ -529,7 +585,7 @@ def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer):
     symbol.appendSymbolLayer(out)
 
 
-def append_CharacterMarkerSymbolLayer(symbol, layer):
+def append_CharacterMarkerSymbolLayer(symbol, layer, context: Context):  # pylint: disable=unused-argument
     """
     Appends a CharacterMarkerSymbolLayer to a symbol
     """
@@ -550,13 +606,28 @@ def append_CharacterMarkerSymbolLayer(symbol, layer):
     symbol.appendSymbolLayer(out)
 
 
-def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer):
+def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer, context: Context):
     """
     Appends a PictureMarkerSymbolLayer to a symbol
     """
-    svg = PictureUtils.to_embedded_svg(layer.file)
-    svg_base64 = base64.b64encode(svg.encode('UTF-8')).decode('UTF-8')
-    path = 'base64:{}'.format(svg_base64)
+    if issubclass(layer.picture.__class__, EmfPicture):
+        path = os.path.join(context.picture_folder, context.symbol_name + '.emf')
+        with open(path, 'wb') as f:
+            f.write(layer.picture.content)
+
+        svg_path = os.path.join(context.picture_folder, context.symbol_name + '.svg')
+
+        emf_to_svg(path, svg_path)
+
+        raise NotImplementedException('EMF pictures not implemented yet')
+
+    if context.embed_pictures:
+        svg = PictureUtils.to_embedded_svg(layer.picture.content)
+        svg_base64 = base64.b64encode(svg.encode('UTF-8')).decode('UTF-8')
+        path = 'base64:{}'.format(svg_base64)
+    else:
+        svg = PictureUtils.to_embedded_svg(layer.picture.content)
+        path = write_svg(svg, context.symbol_name, context.picture_folder)
 
     out = QgsSvgMarkerSymbolLayer(path, layer.size, layer.angle)
 
@@ -569,32 +640,32 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer):
     symbol.appendSymbolLayer(out)
 
 
-def append_FillSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str):
+def append_FillSymbolLayer(symbol, layer, context: Context):
     """
     Appends a FillSymbolLayer to a symbol
     """
     if isinstance(layer, (SimpleFillSymbolLayer, ColorSymbol)):
-        append_SimpleFillSymbolLayer(symbol, layer, symbol_name, picture_folder)
+        append_SimpleFillSymbolLayer(symbol, layer, context)
     elif isinstance(layer, LineFillSymbolLayer):
-        append_LineFillSymbolLayer(symbol, layer, symbol_name, picture_folder)
+        append_LineFillSymbolLayer(symbol, layer, context)
     elif isinstance(layer, MarkerFillSymbolLayer):
-        append_MarkerFillSymbolLayer(symbol, layer, symbol_name, picture_folder)
+        append_MarkerFillSymbolLayer(symbol, layer, context)
     elif isinstance(layer, PictureFillSymbolLayer):
-        append_PictureFillSymbolLayer(symbol, layer, symbol_name, picture_folder)
+        append_PictureFillSymbolLayer(symbol, layer, context)
     else:
         raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
 
-def append_LineSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str):
+def append_LineSymbolLayer(symbol, layer, context: Context):
     """
     Appends a LineSymbolLayer to a QgsSymbol
     """
     if isinstance(layer, SimpleLineSymbolLayer):
-        append_SimpleLineSymbolLayer(symbol, layer, symbol_name, picture_folder)
+        append_SimpleLineSymbolLayer(symbol, layer, context)
     elif isinstance(layer, CartographicLineSymbolLayer):
-        append_CartographicLineSymbolLayer(symbol, layer, symbol_name, picture_folder)
+        append_CartographicLineSymbolLayer(symbol, layer, context)
     elif isinstance(layer, MarkerLineSymbolLayer):
-        append_MarkerLineSymbolLayer(symbol, layer, symbol_name, picture_folder)
+        append_MarkerLineSymbolLayer(symbol, layer, context)
     elif isinstance(layer, HashLineSymbolLayer):
         raise NotImplementedException(
             'QGIS does not have a hash line symbol type (considering sponsoring this feature!)')
@@ -602,50 +673,50 @@ def append_LineSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str)
         raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
 
-def append_MarkerSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str):  # pylint: disable=unused-argument
+def append_MarkerSymbolLayer(symbol, layer, context: Context):
     """
     Appends a MarkerSymbolLayer to a QgsSymbol
     """
     if isinstance(layer, SimpleMarkerSymbolLayer):
-        append_SimpleMarkerSymbolLayer(symbol, layer)
+        append_SimpleMarkerSymbolLayer(symbol, layer, context)
     elif isinstance(layer, ArrowMarkerSymbolLayer):
-        append_ArrowMarkerSymbolLayer(symbol, layer)
+        append_ArrowMarkerSymbolLayer(symbol, layer, context)
     elif isinstance(layer, CharacterMarkerSymbolLayer):
-        append_CharacterMarkerSymbolLayer(symbol, layer)
+        append_CharacterMarkerSymbolLayer(symbol, layer, context)
     elif isinstance(layer, PictureMarkerSymbolLayer):
-        append_PictureMarkerSymbolLayer(symbol, layer)
+        append_PictureMarkerSymbolLayer(symbol, layer, context)
     else:
         raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
 
-def append_SymbolLayer_to_QgsSymbolLayer(symbol, layer, symbol_name: str, picture_folder: str):
+def append_SymbolLayer_to_QgsSymbolLayer(symbol, layer, context: Context):
     """
     Appends a SymbolLayer to a QgsSymbolLayer
     """
     if issubclass(layer.__class__, SymbolLayer):
         if issubclass(layer.__class__, FillSymbolLayer):
-            append_FillSymbolLayer(symbol, layer, symbol_name, picture_folder)
+            append_FillSymbolLayer(symbol, layer, context)
         elif issubclass(layer.__class__, LineSymbolLayer):
-            append_LineSymbolLayer(symbol, layer, symbol_name, picture_folder)
+            append_LineSymbolLayer(symbol, layer, context)
         elif issubclass(layer.__class__, MarkerSymbolLayer):
-            append_MarkerSymbolLayer(symbol, layer, symbol_name, picture_folder)
+            append_MarkerSymbolLayer(symbol, layer, context)
         else:
             raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
     else:
         for l in layer.levels:
-            append_SymbolLayer_to_QgsSymbolLayer(symbol, l, symbol_name, picture_folder)
+            append_SymbolLayer_to_QgsSymbolLayer(symbol, l, context)
 
 
-def add_symbol_layers(out, symbol, symbol_name: str, picture_folder: str):
+def add_symbol_layers(out, symbol, context: Context):
     """
     Adds all symbol layers to a symbol
     """
     out.deleteSymbolLayer(0)
     if issubclass(symbol.__class__, SymbolLayer):
-        append_SymbolLayer_to_QgsSymbolLayer(out, symbol, symbol_name, picture_folder)
+        append_SymbolLayer_to_QgsSymbolLayer(out, symbol, context)
     else:
         for l in symbol.levels:
-            append_SymbolLayer_to_QgsSymbolLayer(out, l, symbol_name, picture_folder)
+            append_SymbolLayer_to_QgsSymbolLayer(out, l, context)
     return out
 
 
@@ -700,7 +771,7 @@ def AlgorithmicColorRamp_to_QgsColorRamp(ramp: AlgorithmicColorRamp):
     return out
 
 
-def Symbol_to_QgsSymbol(symbol, symbol_name: str, picture_folder: str):
+def Symbol_to_QgsSymbol(symbol, symbol_name: str, picture_folder: str, embed_pictures: bool):
     """
     Converts a raw Symbol to a QgsSymbol
     """
@@ -721,6 +792,10 @@ def Symbol_to_QgsSymbol(symbol, symbol_name: str, picture_folder: str):
     else:
         raise NotImplementedException()
 
-    add_symbol_layers(out, symbol, symbol_name, picture_folder)
+    context = Context()
+    context.symbol_name = symbol_name
+    context.picture_folder = picture_folder
+    context.embed_pictures = embed_pictures
+    add_symbol_layers(out, symbol, context)
 
     return out

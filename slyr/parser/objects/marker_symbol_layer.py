@@ -204,7 +204,7 @@ class PictureMarkerSymbolLayer(MarkerSymbolLayer):
         self.y_offset = 0
         self.angle = 0
 
-        self.file = None
+        self.picture = None
 
         self.color_foreground = None
         self.color_background = None
@@ -217,16 +217,17 @@ class PictureMarkerSymbolLayer(MarkerSymbolLayer):
 
     @staticmethod
     def compatible_versions():
-        return [8, 9]
+        return [4, 5, 8, 9]
 
     def read(self, stream: Stream, version):
-        if version >= 9:
-            stream.read_int('unknown')
-            stream.read_int('unknown 2')
-        else:
-            stream.read(26)
-
-        self.file = stream.read_embedded_file('image')
+        if version in (4, 5):
+            self.picture = stream.read_object('picture')
+        elif version == 8:
+            _ = stream.read_ushort('pic version?')
+            _ = stream.read_uint('picture type?')
+            self.picture = stream.read_object('picture')
+        elif version == 9:
+            self.picture = stream.read_picture('picture')
 
         if version <= 8:
             _ = stream.read_object()
@@ -251,6 +252,9 @@ class PictureMarkerSymbolLayer(MarkerSymbolLayer):
         check = binascii.hexlify(stream.read(2))
         if check != b'ffff':
             raise UnreadableSymbolException('Expected ffff at {}, got {}'.format(check, hex(stream.tell() - 2)))
+
+        if version < 6:
+            return
 
         stream.read(6)
         if version <= 8:

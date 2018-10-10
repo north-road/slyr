@@ -192,7 +192,7 @@ class PictureFillSymbolLayer(FillSymbolLayer):
         self.separation_x = 0
         self.separation_y = 0
 
-        self.file = None
+        self.picture = None
 
         self.color_foreground = None
         self.color_background = None
@@ -208,12 +208,12 @@ class PictureFillSymbolLayer(FillSymbolLayer):
         return [7, 8]
 
     def read(self, stream: Stream, version):
-        if version >= 8:
-            stream.read(8)
-        else:
-            stream.read(26)
-
-        self.file = stream.read_embedded_file('image')
+        if version == 7:
+            _ = stream.read_ushort('pic version?')
+            _ = stream.read_uint('picture type?')
+            self.picture = stream.read_object('picture')
+        elif version == 8:
+            self.picture = stream.read_picture('picture')
 
         self.color_background = stream.read_object('color bg')
         self.color_foreground = stream.read_object('color fg')
