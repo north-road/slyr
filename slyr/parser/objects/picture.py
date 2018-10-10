@@ -50,7 +50,7 @@ class Picture(Object):
         if version == 2:
             if pic_type == 0:
                 pic = EmfPicture()
-            elif pic_type == 1:
+            elif pic_type in (1, 2):
                 pic = BmpPicture()
             else:
                 raise UnknownPictureTypeException('Unknown picture type {}'.format(pic_type))
@@ -113,14 +113,18 @@ class BmpPicture(Picture):
 
         # some checks to verify that we've hit a BMP header
         check = binascii.hexlify(content[:2])
-        if check != b'424d':
+        if check == b'424d':
+            # BMP file
+            # next bit should be size again
+            size2 = struct.unpack("<I", content[2:6])[0]
+            if len(content) != size2:
+                raise UnreadablePictureException(
+                    'Bitmap size {} did not match size in header {}'.format(len(content), size2))
+        elif binascii.hexlify(content[:2]) == b'8950':
+            # GIF file -- we just treat this the same as bmp
+            pass
+        else:
             raise UnreadablePictureException('Expected 424d (\'BM\'), got {}'.format(check))
-
-        # next bit should be size again
-        size2 = struct.unpack("<I", content[2:6])[0]
-        if len(content) != size2:
-            raise UnreadablePictureException(
-                'Bitmap size {} did not match size in header {}'.format(len(content), size2))
 
         # all good! rewind and store bitmap
         self.content = content
