@@ -266,6 +266,10 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
             if symbol.offset_x or symbol.offset_y:
                 feedback.reportError(
                     'Warning: marker fill offset X or Y is not supported by QGIS (considering sponsoring this feature!)')
+        if isinstance(symbol, PictureFillSymbolLayer):
+            if symbol.separation_x or symbol.separation_y:
+                feedback.reportError(
+                    'Warning: picture fill separation X or Y is not supported by QGIS (considering sponsoring this feature!)')
 
 
 class StyleToGpl(QgsProcessingAlgorithm):

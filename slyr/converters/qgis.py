@@ -308,17 +308,12 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
         raise NotImplementedException('EMF Picture fills not supported yet')
 
     # use raster fill
-    if layer.separation_y or layer.separation_x:
-        raise NotImplementedException('Picture fill separation x or y are not supported yet')
-
     image_path = write_picture(picture, context.symbol_name, context.picture_folder,
                                layer.color_foreground,
                                layer.color_background,
                                layer.color_transparent)
 
     out = QgsRasterFillSymbolLayer(image_path)
-
-    # TODO - maybe want to use marker fill if separation is non-zero
 
     # TODO - maybe we want to convert to points/mm so print layouts work nicely
     out.setWidth(layer.scale_x * PictureUtils.width_pixels(picture.content))
