@@ -24,7 +24,8 @@ from qgis.core import (QgsUnitTypes,
                        QgsMarkerLineSymbolLayer,
                        QgsLinePatternFillSymbolLayer,
                        QgsPointPatternFillSymbolLayer,
-                       QgsRasterFillSymbolLayer)
+                       QgsRasterFillSymbolLayer,
+                       QgsSVGFillSymbolLayer)
 from qgis.PyQt.QtCore import (Qt, QPointF)
 from qgis.PyQt.QtGui import (QColor)
 
@@ -40,7 +41,8 @@ from slyr.parser.objects.colors import (
     CMYKColor
 )
 from slyr.parser.objects.picture import (
-    EmfPicture
+    EmfPicture,
+    StdPicture
 )
 from slyr.parser.objects.decoration import (
     LineDecoration
@@ -238,14 +240,16 @@ def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbolLayer, context: 
         append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, context)
 
 
-def write_picture(content: bin, symbol_name: str, picture_folder: str, fg, bg, trans):
+def write_picture(picture, symbol_name: str, picture_folder: str, fg, bg, trans):
     """
     Writes a picture binary content to a file, converting raster colors if necessary
     """
+    if issubclass(picture.__class__, StdPicture):
+        picture = picture.picture
     fg_color = symbol_color_to_qcolor(fg) if fg else None
     bg_color = symbol_color_to_qcolor(bg) if bg else None
     trans_color = symbol_color_to_qcolor(trans) if trans else None
-    new_content = PictureUtils.set_colors(content, fg_color, bg_color, trans_color)
+    new_content = PictureUtils.set_colors(picture.content, fg_color, bg_color, trans_color)
     path = os.path.join(picture_folder, symbol_name + '.png')
     PictureUtils.to_png(new_content, path)
     return path
@@ -288,17 +292,26 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
     """
     Appends a PictureFillSymbolLayer to a symbol
     """
-    if issubclass(layer.picture.__class__, EmfPicture):
+    picture = layer.picture
+    if issubclass(picture.__class__, StdPicture):
+        picture = picture.picture
+
+    if issubclass(picture.__class__, EmfPicture):
         path = os.path.join(context.picture_folder, context.symbol_name + '.emf')
         with open(path, 'wb') as f:
-            f.write(layer.picture.content)
+            f.write(picture.content)
 
-        raise NotImplementedException('EMF pictures not implemented yet')
+        svg_path = os.path.join(context.picture_folder, context.symbol_name + '.svg')
+        emf_to_svg(path, svg_path)
 
+        #        out = QgsSVGFillSymbolLayer(svg_path)
+        raise NotImplementedException('EMF Picture fills not supported yet')
+
+    # use raster fill
     if layer.separation_y or layer.separation_x:
         raise NotImplementedException('Picture fill separation x or y are not supported yet')
 
-    image_path = write_picture(layer.picture.content, context.symbol_name, context.picture_folder,
+    image_path = write_picture(picture, context.symbol_name, context.picture_folder,
                                layer.color_foreground,
                                layer.color_background,
                                layer.color_transparent)
@@ -308,7 +321,7 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
     # TODO - maybe want to use marker fill if separation is non-zero
 
     # TODO - maybe we want to convert to points/mm so print layouts work nicely
-    out.setWidth(layer.scale_x * PictureUtils.width_pixels(layer.picture.content))
+    out.setWidth(layer.scale_x * PictureUtils.width_pixels(picture.content))
     out.setWidthUnit(QgsUnitTypes.RenderPixels)
 
     out.setAngle(convert_angle(layer.angle))
@@ -504,7 +517,8 @@ def marker_type_to_qgis_type(marker_type):
         raise NotImplementedException('Marker type {} not implemented'.format(marker_type))
 
 
-def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer, context: Context):  # pylint: disable=unused-argument
+def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer,
+                                   context: Context):  # pylint: disable=unused-argument
     """
     Appends a SimpleMarkerSymbolLayer to a symbol
     """
@@ -550,7 +564,8 @@ def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer, conte
     symbol.appendSymbolLayer(out)
 
 
-def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer, context: Context):  # pylint: disable=unused-argument
+def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer,
+                                  context: Context):  # pylint: disable=unused-argument
     """
     Appends a ArrowMarkerSymbolLayer to a symbol
     """
@@ -610,26 +625,27 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer, con
     """
     Appends a PictureMarkerSymbolLayer to a symbol
     """
-    if issubclass(layer.picture.__class__, EmfPicture):
+    picture = layer.picture
+    if issubclass(picture.__class__, StdPicture):
+        picture = picture.picture
+
+    if issubclass(picture.__class__, EmfPicture):
         path = os.path.join(context.picture_folder, context.symbol_name + '.emf')
         with open(path, 'wb') as f:
-            f.write(layer.picture.content)
+            f.write(picture.content)
 
         svg_path = os.path.join(context.picture_folder, context.symbol_name + '.svg')
-
         emf_to_svg(path, svg_path)
-
-        raise NotImplementedException('EMF pictures not implemented yet')
-
-    if context.embed_pictures:
-        svg = PictureUtils.to_embedded_svg(layer.picture.content)
-        svg_base64 = base64.b64encode(svg.encode('UTF-8')).decode('UTF-8')
-        path = 'base64:{}'.format(svg_base64)
     else:
-        svg = PictureUtils.to_embedded_svg(layer.picture.content)
-        path = write_svg(svg, context.symbol_name, context.picture_folder)
+        if context.embed_pictures:
+            svg = PictureUtils.to_embedded_svg(layer.picture.content)
+            svg_base64 = base64.b64encode(svg.encode('UTF-8')).decode('UTF-8')
+            svg_path = 'base64:{}'.format(svg_base64)
+        else:
+            svg = PictureUtils.to_embedded_svg(layer.picture.content)
+            svg_path = write_svg(svg, context.symbol_name, context.picture_folder)
 
-    out = QgsSvgMarkerSymbolLayer(path, layer.size, layer.angle)
+    out = QgsSvgMarkerSymbolLayer(svg_path, layer.size, layer.angle)
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
