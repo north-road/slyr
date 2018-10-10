@@ -64,9 +64,8 @@ class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
         stream.log('found a {}'.format(type_dict[type_code]), 4)
         self.type = type_dict[type_code]
 
-        # look for 0d terminator
-        if not binascii.hexlify(stream.read(8)) == b'0d00000000000000':
-            raise UnreadableSymbolException()
+        if not stream.read_0d_terminator():
+            raise UnreadableSymbolException('Could not find 0d terminator at {}'.format(hex(stream.tell() - 8)))
 
         stream.read_double('unknown')
 
