@@ -5,26 +5,12 @@ Dumps the contents of an ESRI .style file to separate bin files
 """
 
 import argparse
-from io import BytesIO
 import os
 from slyr.bintools.extractor import Extractor
 from slyr.parser.initalize_registry import initialize_registry
+from slyr.bintools.file_utils import FileUtils
 
 initialize_registry()
-
-
-def clean_symbol_name_for_file(symbol_name):
-    """nasty little function to remove some characters which will choke"""
-    file_name = symbol_name
-    file_name = file_name.replace('/', '_')
-    file_name = file_name.replace('>', '_')
-    file_name = file_name.replace('<', '_')
-    file_name = file_name.replace('\\', '_')
-    file_name = file_name.replace('?', '_')
-    file_name = file_name.replace('*', '_')
-    file_name = file_name.replace('"', '_')
-    file_name = file_name.replace(':', '_')
-    return file_name.strip()
 
 
 parser = argparse.ArgumentParser()
@@ -44,7 +30,7 @@ for symbol_type in [Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MA
         symbol_name = raw_symbol[Extractor.NAME]
         print('Extracting {}'.format(symbol_name))
 
-        out_filename = clean_symbol_name_for_file(symbol_name) + '.bin'
+        out_filename = FileUtils.clean_symbol_name_for_file(symbol_name) + '.bin'
         file = os.path.join(output_path, out_filename)
         with open(file, 'wb') as e:
             e.write(raw_symbol[Extractor.BLOB])

@@ -60,8 +60,6 @@ class Extractor:
                        file_path,
                        symbol_type]
 
-        print(' '.join(export_args))
-
         CREATE_NO_WINDOW = 0x08000000
         try:
             result = subprocess.run(export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW)
