@@ -44,7 +44,8 @@ from slyr.parser.exceptions import (UnreadableSymbolException,
                                     InvalidColorException,
                                     UnsupportedVersionException,
                                     NotImplementedException,
-                                    UnknownGuidException)
+                                    UnknownGuidException,
+                                    UnreadablePictureException)
 from slyr.converters.qgis import (Symbol_to_QgsSymbol,
                                   symbol_color_to_qcolor,
                                   Context)
@@ -195,6 +196,10 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     unreadable += 1
                     continue
                 except UnknownGuidException as e:
+                    feedback.reportError(str(e))
+                    unreadable += 1
+                    continue
+                except UnreadablePictureException as e:
                     feedback.reportError(str(e))
                     unreadable += 1
                     continue

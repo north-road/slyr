@@ -29,6 +29,7 @@ from qgis.PyQt.QtCore import (Qt, QPointF)
 from qgis.PyQt.QtGui import (QColor, QFont, QFontMetricsF, QPainter, QPainterPath, QBrush)
 from qgis.PyQt.QtSvg import QSvgGenerator
 
+from slyr.bintools.file_utils import FileUtils
 from slyr.parser.symbol_parser import (
     FillSymbol,
     LineSymbol,
@@ -242,6 +243,20 @@ def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbolLayer, context: 
         append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, context)
 
 
+def symbol_name_to_filename(symbol_name: str, picture_folder: str, extension: str) -> str:
+    """
+    Returns a new unique filename for the given symbol to use
+    """
+    safe_symbol_name = FileUtils.clean_symbol_name_for_file(symbol_name)
+    path = os.path.join(picture_folder, safe_symbol_name + '.' + extension)
+    counter = 1
+    while os.path.exists(path):
+        path = os.path.join(picture_folder, safe_symbol_name + '_' + str(counter) + '.' + extension)
+        counter += 1
+
+    return path
+
+
 def write_picture(picture, symbol_name: str, picture_folder: str, fg, bg, trans):
     """
     Writes a picture binary content to a file, converting raster colors if necessary
@@ -252,7 +267,8 @@ def write_picture(picture, symbol_name: str, picture_folder: str, fg, bg, trans)
     bg_color = symbol_color_to_qcolor(bg) if bg else None
     trans_color = symbol_color_to_qcolor(trans) if trans else None
     new_content = PictureUtils.set_colors(picture.content, fg_color, bg_color, trans_color)
-    path = os.path.join(picture_folder, symbol_name + '.png')
+
+    path = symbol_name_to_filename(symbol_name, picture_folder, 'png')
     PictureUtils.to_png(new_content, path)
     return path
 
@@ -261,7 +277,7 @@ def write_svg(content: str, symbol_name: str, picture_folder: str):
     """
     Writes a picture binary content to an SVG file
     """
-    path = os.path.join(picture_folder, symbol_name + '.svg')
+    path = symbol_name_to_filename(symbol_name, picture_folder, 'svg')
     with open(path, 'wt') as f:
         f.write(content)
     return path
@@ -299,11 +315,11 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
         picture = picture.picture
 
     if issubclass(picture.__class__, EmfPicture):
-        path = os.path.join(context.picture_folder, context.symbol_name + '.emf')
+        path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'emf')
         with open(path, 'wb') as f:
             f.write(picture.content)
 
-        svg_path = os.path.join(context.picture_folder, context.symbol_name + '.svg')
+        svg_path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'svg')
         emf_to_svg(path, svg_path)
 
         #        out = QgsSVGFillSymbolLayer(svg_path)
@@ -533,7 +549,7 @@ def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer,
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
     # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
-    out.setOffset(QPointF(layer.x_offset, layer.y_offset))
+    out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     if layer.outline_enabled:
@@ -580,7 +596,7 @@ def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer,
 
     # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
 
-    out.setOffset(QPointF(layer.x_offset, layer.y_offset))
+    out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     angle = 90 - layer.angle
@@ -606,7 +622,7 @@ def append_CharacterMarkerSymbolLayer(symbol, layer, context: Context):  # pylin
         append_CharacterMarkerSymbolLayerAsFont(symbol, layer, context)
 
 
-def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):
+def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):  # pylint: disable=too-many-locals
     """
     Appends a CharacterMarkerSymbolLayer to a symbol, rendering the font character
     to an SVG file.
@@ -618,15 +634,21 @@ def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):
 
     font = QFont(font_family)
     font.setPointSizeF(layer.size)
-    rect = QFontMetricsF(font).tightBoundingRect(character)
-    rect.adjust(-1, -1, 1, 1)
+
+    # Using the rect of a painter path gives better results then using font metrics
+    path = QPainterPath()
+    path.setFillRule(Qt.WindingFill)
+    path.addText(0, 0, font, character)
+
+    rect = path.boundingRect()
+
+    font_bounding_rect = QFontMetricsF(font).boundingRect(character)
+
+    # adjust size -- marker size in esri is the font size, svg marker size in qgis is the svg rect size
+    scale = rect.width() / font_bounding_rect.width()
 
     gen = QSvgGenerator()
-    i = 1
-    svg_path = os.path.join(context.picture_folder, context.symbol_name + '_font.svg')
-    while os.path.exists(svg_path):
-        svg_path = os.path.join(context.picture_folder, context.symbol_name + '_font_' + str(i) + '.svg')
-        i += 1
+    svg_path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'svg')
     gen.setFileName(svg_path)
     gen.setViewBox(rect)
 
@@ -640,9 +662,6 @@ def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):
     else:
         painter.setBrush(QBrush(color))
     painter.setPen(Qt.NoPen)
-    path = QPainterPath()
-    path.setFillRule(Qt.WindingFill)
-    path.addText(0, 0, font, character)
     painter.drawPath(path)
     painter.end()
 
@@ -660,7 +679,7 @@ def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):
     out = QgsSvgMarkerSymbolLayer(svg_path)
 
     out.setSizeUnit(QgsUnitTypes.RenderPoints)
-    out.setSize(rect.width() / 96 * 72)
+    out.setSize(scale * rect.width())
     out.setAngle(angle)
     out.setFillColor(color)
     out.setStrokeWidth(0)
@@ -668,7 +687,7 @@ def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
     # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
-    out.setOffset(QPointF(layer.x_offset, layer.y_offset))
+    out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     symbol.appendSymbolLayer(out)
@@ -689,7 +708,7 @@ def append_CharacterMarkerSymbolLayerAsFont(symbol, layer, context: Context):  #
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
     # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
-    out.setOffset(QPointF(layer.x_offset, layer.y_offset))
+    out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     symbol.appendSymbolLayer(out)
@@ -704,11 +723,11 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer, con
         picture = picture.picture
 
     if issubclass(picture.__class__, EmfPicture):
-        path = os.path.join(context.picture_folder, context.symbol_name + '.emf')
+        path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'emf')
         with open(path, 'wb') as f:
             f.write(picture.content)
 
-        svg_path = os.path.join(context.picture_folder, context.symbol_name + '.svg')
+        svg_path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'svg')
         emf_to_svg(path, svg_path)
     else:
         if context.embed_pictures:
@@ -724,7 +743,7 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer, con
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
     # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
-    out.setOffset(QPointF(layer.x_offset, layer.y_offset))
+    out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     symbol.appendSymbolLayer(out)
