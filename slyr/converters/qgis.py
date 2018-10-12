@@ -7,6 +7,7 @@ Converts parsed symbol properties to QGIS Symbols
 import base64
 import os
 import subprocess
+import math
 from qgis.core import (QgsUnitTypes,
                        QgsSimpleLineSymbolLayer,
                        QgsSimpleFillSymbolLayer,
@@ -114,6 +115,15 @@ def symbol_color_to_qcolor(color):
     return QColor(color.red, color.green, color.blue, 0 if color.is_null else 255)
 
 
+def adjust_offset_for_rotation(offset, rotation):
+    """
+    Adjusts marker offset to account for rotation
+    """
+    angle = -math.radians(rotation)
+    return QPointF(offset.x() * math.cos(angle) - offset.y() * math.sin(angle),
+                   offset.x() * math.sin(angle) + offset.y() * math.cos(angle))
+
+
 def symbol_pen_to_qpenstyle(style):
     """
     Converts a symbol pen style to a QPenStyle
@@ -217,7 +227,7 @@ def append_LineFillSymbolLayer(symbol, layer: LineFillSymbolLayer, context: Cont
 
     out = QgsLinePatternFillSymbolLayer()
     out.setSubSymbol(line)
-    out.setLineAngle(convert_angle(layer.angle))
+    out.setLineAngle(layer.angle)
     out.setDistance(layer.separation)
     out.setDistanceUnit(QgsUnitTypes.RenderPoints)
     out.setOffset(layer.offset)
@@ -574,10 +584,13 @@ def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer,
         outline_color = symbol_color_to_qcolor(layer.outline_color)
         if not stroke_only_symbol:
             out.setStrokeColor(outline_color)
-            # Better match to how ESRI renders this if we divide the outline width by 2,
-            # because ESRI renders the stroke below the symbol. Maybe we should split this
-            # into two layers?
-            out.setStrokeWidth(layer.outline_width / 2)
+            if not layer.color.is_null:
+                # Better match to how ESRI renders this if we divide the outline width by 2,
+                # because ESRI renders the stroke below the symbol. Maybe we should split this
+                # into two layers?
+                out.setStrokeWidth(layer.outline_width / 2)
+            else:
+                out.setStrokeWidth(layer.outline_width)
             out.setStrokeWidthUnit(QgsUnitTypes.RenderPoints)
         else:
             # for stroke-only symbols, we need to add the outline as an additional
@@ -612,10 +625,7 @@ def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer,
     out.setColor(color)
     out.setStrokeColor(color)  # why not, makes the symbol a bit easier to modify in qgis
 
-    if (layer.x_offset or layer.y_offset) and layer.angle:
-        raise NotImplementedException('Marker offset/angle combination not supported')
-
-    out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
+    out.setOffset(adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset),layer.angle))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     angle = 90 - layer.angle
@@ -706,10 +716,7 @@ def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):  # 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
 
-    if (layer.x_offset or layer.y_offset) and layer.angle:
-        raise NotImplementedException('Marker offset/angle combination not supported')
-
-    out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
+    out.setOffset(adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset), layer.angle))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     symbol.appendSymbolLayer(out)
@@ -730,10 +737,7 @@ def append_CharacterMarkerSymbolLayerAsFont(symbol, layer, context: Context):  #
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
 
-    if (layer.x_offset or layer.y_offset) and layer.angle:
-        raise NotImplementedException('Marker offset/angle combination not supported')
-
-    out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
+    out.setOffset(adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset), layer.angle))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     symbol.appendSymbolLayer(out)
@@ -755,23 +759,23 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer, con
         svg_path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'svg')
         emf_to_svg(path, svg_path)
     else:
+        svg = PictureUtils.to_embedded_svg(picture.content,
+                                           symbol_color_to_qcolor(layer.color_foreground),
+                                           symbol_color_to_qcolor(layer.color_background),
+                                           symbol_color_to_qcolor(layer.color_transparent))
         if context.embed_pictures:
-            svg = PictureUtils.to_embedded_svg(layer.picture.content)
             svg_base64 = base64.b64encode(svg.encode('UTF-8')).decode('UTF-8')
             svg_path = 'base64:{}'.format(svg_base64)
         else:
-            svg = PictureUtils.to_embedded_svg(layer.picture.content)
             svg_path = write_svg(svg, context.symbol_name, context.picture_folder)
 
     out = QgsSvgMarkerSymbolLayer(svg_path, layer.size, layer.angle)
+    out.setSizeUnit(QgsUnitTypes.RenderPoints)
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
 
-    if (layer.x_offset or layer.y_offset) and layer.angle:
-        raise NotImplementedException('Marker offset/angle combination not supported')
-
-    out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
+    out.setOffset(adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset), layer.angle))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     symbol.appendSymbolLayer(out)
@@ -918,11 +922,6 @@ def Symbol_to_QgsSymbol(symbol, context: Context):
         out = QgsLineSymbol()
     elif issubclass(symbol.__class__, (MarkerSymbol, MarkerSymbolLayer)):
         out = QgsMarkerSymbol()
-        try:
-            if symbol.halo:
-                raise NotImplementedException('Marker halos are not yet supported')
-        except AttributeError:
-            pass
     elif issubclass(symbol.__class__, ColorRamp):
         out = ColorRamp_to_QgsColorRamp(symbol)
         return out
