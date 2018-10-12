@@ -115,16 +115,19 @@ class PictureUtils:
         return png_data.data()
 
     @staticmethod
-    def to_embedded_svg(data: bin) -> str:
+    def to_embedded_svg(data: bin, fg: QColor, bg: QColor, trans: QColor) -> str:
         """
         Converts embedded image data to a PNG embedded within
         an svg.... phew!
         """
+
         image = QImage()
         image.loadFromData(data)
         size = image.size()
 
-        encoded = PictureUtils.to_base64_png(data)
+        png_data = PictureUtils.set_colors(data, fg, bg, trans)
+
+        encoded = PictureUtils.to_base64_png(png_data)
 
         return """<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <image width="{}" height="{}" xlink:href="data:image/png;base64,{}"/>

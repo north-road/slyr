@@ -291,7 +291,12 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
             if symbol.separation_x or symbol.separation_y:
                 feedback.reportError(
                     'Warning: picture fill separation X or Y is not supported by QGIS (considering sponsoring this feature!)')
-
+        try:
+            if symbol.halo:
+                feedback.reportError(
+                    'Halos are not supported by QGIS (considering sponsoring this feature!)')
+        except AttributeError:
+            pass
 
 class StyleToGpl(QgsProcessingAlgorithm):
     """
