@@ -520,8 +520,9 @@ def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer, context: 
             # marker
             line = QgsMarkerLineSymbolLayer(True)
             start_marker = marker.clone()
+            start_marker.setAngle(start_marker.angle()-90)
             line.setSubSymbol(start_marker)
-            line.setOffset(layer.offset)
+            line.setOffset(-layer.offset)
             line.setOffsetUnit(QgsUnitTypes.RenderPoints)
             line.setInterval(total_length)
             line.setIntervalUnit(QgsUnitTypes.RenderPoints)
