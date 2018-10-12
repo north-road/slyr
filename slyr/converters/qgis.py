@@ -176,7 +176,14 @@ def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer, context: 
             if out.strokeColor().alpha() == 0:
                 out.setStrokeStyle(Qt.NoPen)
 
-            # todo - change to new symbol layer if outline offset, template, etc set
+            # TODO
+            if layer.outline_layer.offset:
+                raise NotImplementedException('Fill outline offset not supported')
+            if layer.outline_layer.template:
+                raise NotImplementedException('Fill outline template not supported')
+            if layer.outline_layer.decoration:
+                raise NotImplementedException('Fill outline decoration not supported')
+
             symbol.appendSymbolLayer(out)
         elif layer.outline_symbol:
             # outline is a symbol itself
@@ -361,12 +368,11 @@ def append_SimpleLineSymbolLayer(symbol, layer, context: Context):  # pylint: di
     out.setWidth(layer.width)
     out.setWidthUnit(QgsUnitTypes.RenderPoints)
     out.setPenStyle(symbol_pen_to_qpenstyle(layer.line_type))
-    # out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
+
     # better matching of null stroke color to QGIS symbology
     if out.color().alpha() == 0:
         out.setPenStyle(Qt.NoPen)
 
-    # todo - change to new symbol layer if outline offset set
     symbol.appendSymbolLayer(out)
 
 
