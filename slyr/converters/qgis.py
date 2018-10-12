@@ -26,7 +26,8 @@ from qgis.core import (QgsUnitTypes,
                        QgsPointPatternFillSymbolLayer,
                        QgsRasterFillSymbolLayer)
 from qgis.PyQt.QtCore import (Qt, QPointF)
-from qgis.PyQt.QtGui import (QColor)
+from qgis.PyQt.QtGui import (QColor, QFont, QFontMetricsF, QPainter, QPainterPath, QBrush)
+from qgis.PyQt.QtSvg import QSvgGenerator
 
 from slyr.parser.symbol_parser import (
     FillSymbol,
@@ -86,6 +87,8 @@ class Context:
         self.symbol_name = ''
         self.picture_folder = ''
         self.embed_pictures = True
+        self.convert_fonts = False
+        self.parameterise_svg = False
 
 
 def convert_angle(angle: float) -> float:
@@ -596,6 +599,84 @@ def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer,
 def append_CharacterMarkerSymbolLayer(symbol, layer, context: Context):  # pylint: disable=unused-argument
     """
     Appends a CharacterMarkerSymbolLayer to a symbol
+    """
+    if context.convert_fonts:
+        append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context)
+    else:
+        append_CharacterMarkerSymbolLayerAsFont(symbol, layer, context)
+
+
+def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):
+    """
+    Appends a CharacterMarkerSymbolLayer to a symbol, rendering the font character
+    to an SVG file.
+    """
+    font_family = layer.font
+    character = chr(layer.unicode)
+    color = symbol_color_to_qcolor(layer.color)
+    angle = convert_angle(layer.angle)
+
+    font = QFont(font_family)
+    font.setPointSizeF(layer.size)
+    rect = QFontMetricsF(font).tightBoundingRect(character)
+    rect.adjust(-1, -1, 1, 1)
+
+    gen = QSvgGenerator()
+    i = 1
+    svg_path = os.path.join(context.picture_folder, context.symbol_name + '_font.svg')
+    while os.path.exists(svg_path):
+        svg_path = os.path.join(context.picture_folder, context.symbol_name + '_font_' + str(i) + '.svg')
+        i += 1
+    gen.setFileName(svg_path)
+    gen.setViewBox(rect)
+
+    painter = QPainter(gen)
+    painter.setFont(font)
+
+    # todo -- size!
+
+    if context.parameterise_svg:
+        painter.setBrush(QBrush(QColor(255, 0, 0)))
+    else:
+        painter.setBrush(QBrush(color))
+    painter.setPen(Qt.NoPen)
+    path = QPainterPath()
+    path.setFillRule(Qt.WindingFill)
+    path.addText(0, 0, font, character)
+    painter.drawPath(path)
+    painter.end()
+
+    if context.parameterise_svg:
+        with open(svg_path, 'r') as f:
+            t = f.read()
+
+        t = t.replace('#ff0000', 'param(fill)')
+        t = t.replace('fill-opacity="1" ', 'fill-opacity="param(fill-opacity)"')
+        t = t.replace('stroke="none"',
+                      'stroke="param(outline)" stroke-opacity="param(outline-opacity) 1" stroke-width="param(outline-width) 0"')
+        with open(svg_path, 'w') as f:
+            f.write(t)
+
+    out = QgsSvgMarkerSymbolLayer(svg_path)
+
+    out.setSizeUnit(QgsUnitTypes.RenderPoints)
+    out.setSize(rect.width() / 96 * 72)
+    out.setAngle(angle)
+    out.setFillColor(color)
+    out.setStrokeWidth(0)
+
+    out.setEnabled(layer.enabled)
+    out.setLocked(layer.locked)
+    # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
+    out.setOffset(QPointF(layer.x_offset, layer.y_offset))
+    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+
+    symbol.appendSymbolLayer(out)
+
+
+def append_CharacterMarkerSymbolLayerAsFont(symbol, layer, context: Context):  # pylint: disable=unused-argument
+    """
+    Appends a CharacterMarkerSymbolLayer to a symbol, using QGIS font marker symbols
     """
     font_family = layer.font
     character = chr(layer.unicode)
