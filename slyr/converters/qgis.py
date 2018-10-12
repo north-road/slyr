@@ -163,7 +163,7 @@ def symbol_pen_to_qpenjoinstyle(style):
     return types[style]
 
 
-def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer, context: Context):
+def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer, context: Context):  # pylint: disable=too-many-branches
     """
     Appends a SimpleFillSymbolLayer to a symbol
     """
@@ -520,7 +520,7 @@ def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer, context: 
             # marker
             line = QgsMarkerLineSymbolLayer(True)
             start_marker = marker.clone()
-            start_marker.setAngle(start_marker.angle()-90)
+            start_marker.setAngle(start_marker.angle() - 90)
             line.setSubSymbol(start_marker)
             line.setOffset(-layer.offset)
             line.setOffsetUnit(QgsUnitTypes.RenderPoints)
@@ -626,7 +626,7 @@ def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer,
     out.setColor(color)
     out.setStrokeColor(color)  # why not, makes the symbol a bit easier to modify in qgis
 
-    out.setOffset(adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset),layer.angle))
+    out.setOffset(adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset), layer.angle))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
     angle = 90 - layer.angle

@@ -298,6 +298,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         except AttributeError:
             pass
 
+
 class StyleToGpl(QgsProcessingAlgorithm):
     """
     Converts .style databases to GPL color palette files
