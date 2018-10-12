@@ -177,12 +177,21 @@ def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer, context: 
                 out.setStrokeStyle(Qt.NoPen)
 
             # TODO
-            if layer.outline_layer.offset:
-                raise NotImplementedException('Fill outline offset not supported')
-            if layer.outline_layer.template:
-                raise NotImplementedException('Fill outline template not supported')
-            if layer.outline_layer.decoration:
-                raise NotImplementedException('Fill outline decoration not supported')
+            try:
+                if layer.outline_layer.offset:
+                    raise NotImplementedException('Fill outline offset not supported')
+            except AttributeError:
+                pass
+            try:
+                if layer.outline_layer.template:
+                    raise NotImplementedException('Fill outline template not supported')
+            except AttributeError:
+                pass
+            try:
+                if layer.outline_layer.decoration:
+                    raise NotImplementedException('Fill outline decoration not supported')
+            except AttributeError:
+                pass
 
             symbol.appendSymbolLayer(out)
         elif layer.outline_symbol:
@@ -557,7 +566,7 @@ def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer,
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
+
     out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
@@ -603,7 +612,8 @@ def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer,
     out.setColor(color)
     out.setStrokeColor(color)  # why not, makes the symbol a bit easier to modify in qgis
 
-    # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
+    if (layer.x_offset or layer.y_offset) and layer.angle:
+        raise NotImplementedException('Marker offset/angle combination not supported')
 
     out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
@@ -695,7 +705,10 @@ def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):  # 
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
+
+    if (layer.x_offset or layer.y_offset) and layer.angle:
+        raise NotImplementedException('Marker offset/angle combination not supported')
+
     out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
@@ -716,7 +729,10 @@ def append_CharacterMarkerSymbolLayerAsFont(symbol, layer, context: Context):  #
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
+
+    if (layer.x_offset or layer.y_offset) and layer.angle:
+        raise NotImplementedException('Marker offset/angle combination not supported')
+
     out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
@@ -751,7 +767,10 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer, con
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    # TODO ArcGIS does not have the same offset/rotation linkages as QGIS does!
+
+    if (layer.x_offset or layer.y_offset) and layer.angle:
+        raise NotImplementedException('Marker offset/angle combination not supported')
+
     out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
     out.setOffsetUnit(QgsUnitTypes.RenderPoints)
 
