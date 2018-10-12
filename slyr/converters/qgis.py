@@ -333,9 +333,12 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
 
     out = QgsRasterFillSymbolLayer(image_path)
 
-    # TODO - maybe we want to convert to points/mm so print layouts work nicely
-    out.setWidth(layer.scale_x * PictureUtils.width_pixels(picture.content))
-    out.setWidthUnit(QgsUnitTypes.RenderPixels)
+    # convert to points, so that print layouts work nicely. It's a better match for Arc anyway
+    width_in_pixels = layer.scale_x * PictureUtils.width_pixels(picture.content)
+    width_in_in_points = width_in_pixels / 96 * 72
+
+    out.setWidth(width_in_in_points)
+    out.setWidthUnit(QgsUnitTypes.RenderPoints)
 
     out.setAngle(convert_angle(layer.angle))
 
