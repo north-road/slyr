@@ -46,7 +46,8 @@ from slyr.parser.exceptions import (UnreadableSymbolException,
                                     NotImplementedException,
                                     UnknownGuidException)
 from slyr.converters.qgis import (Symbol_to_QgsSymbol,
-                                  symbol_color_to_qcolor)
+                                  symbol_color_to_qcolor,
+                                  Context)
 from slyr.parser.objects.fill_symbol_layer import (MarkerFillSymbolLayer,
                                                    PictureFillSymbolLayer)
 
@@ -191,9 +192,15 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
                 self.check_for_unsupported_property(symbol, feedback)
 
+                context = Context()
+                context.symbol_name = unique_name
+                context.picture_folder = picture_folder
+                context.embed_pictures = embed_pictures
+                context.convert_fonts = convert_fonts
+                context.parameterise_svg = parameterize
+
                 try:
-                    qgis_symbol = Symbol_to_QgsSymbol(symbol, picture_folder=picture_folder,
-                                                      symbol_name=unique_name, embed_pictures=embed_pictures)
+                    qgis_symbol = Symbol_to_QgsSymbol(symbol, context)
                 except NotImplementedException as e:
                     feedback.reportError(str(e))
                     unreadable += 1

@@ -193,7 +193,7 @@ def append_LineFillSymbolLayer(symbol, layer: LineFillSymbolLayer, context: Cont
     """
     Appends a LineFillSymbolLayer to a symbol
     """
-    line = Symbol_to_QgsSymbol(layer.line, context.symbol_name, context.picture_folder, context.embed_pictures)
+    line = Symbol_to_QgsSymbol(layer.line, context)
 
     out = QgsLinePatternFillSymbolLayer()
     out.setSubSymbol(line)
@@ -215,7 +215,7 @@ def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbolLayer, context: 
     """
     Appends a MarkerFillSymbolLayer to a symbol
     """
-    marker = Symbol_to_QgsSymbol(layer.marker, context.symbol_name, context.picture_folder, context.embed_pictures)
+    marker = Symbol_to_QgsSymbol(layer.marker, context)
 
     out = QgsPointPatternFillSymbolLayer()
     out.setSubSymbol(marker)
@@ -388,7 +388,7 @@ def append_Decorations(symbol, decorations: LineDecoration, context: Context):
     decoration = decorations.decorations[0]
     positions = decoration.marker_positions[:]
 
-    marker = Symbol_to_QgsSymbol(decoration.marker, context.symbol_name, context.picture_folder, context.embed_pictures)
+    marker = Symbol_to_QgsSymbol(decoration.marker, context)
     if decoration.flip_all:
         marker.setAngle(270)
     else:
@@ -464,8 +464,7 @@ def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer, context: 
 
     total_length = current_length * template.pattern_interval
 
-    marker = Symbol_to_QgsSymbol(layer.pattern_marker, context.symbol_name, context.picture_folder,
-                                 context.embed_pictures)
+    marker = Symbol_to_QgsSymbol(layer.pattern_marker, context)
     marker.setAngle(90)
 
     current_offset_from_start = 0
@@ -781,7 +780,7 @@ def AlgorithmicColorRamp_to_QgsColorRamp(ramp: AlgorithmicColorRamp):
     return out
 
 
-def Symbol_to_QgsSymbol(symbol, symbol_name: str, picture_folder: str, embed_pictures: bool):
+def Symbol_to_QgsSymbol(symbol, context: Context):
     """
     Converts a raw Symbol to a QgsSymbol
     """
@@ -802,10 +801,6 @@ def Symbol_to_QgsSymbol(symbol, symbol_name: str, picture_folder: str, embed_pic
     else:
         raise NotImplementedException()
 
-    context = Context()
-    context.symbol_name = symbol_name
-    context.picture_folder = picture_folder
-    context.embed_pictures = embed_pictures
     add_symbol_layers(out, symbol, context)
 
     return out
