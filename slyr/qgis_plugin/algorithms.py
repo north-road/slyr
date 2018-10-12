@@ -61,6 +61,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
     OUTPUT = 'OUTPUT'
     EMBED_PICTURES = 'EMBED_PICTURES'
     PICTURE_FOLDER = 'PICTURE_FOLDER'
+    CONVERT_FONTS = 'CONVERT_FONTS'
+    PARAMETERIZE = 'PARAMETERIZE'
 
     MARKER_SYMBOL_COUNT = 'MARKER_SYMBOL_COUNT'
     LINE_SYMBOL_COUNT = 'LINE_SYMBOL_COUNT'
@@ -102,6 +104,11 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                                                                   'Store extracted pictures in', optional=True))
         self.addParameter(QgsProcessingParameterBoolean(self.EMBED_PICTURES,
                                                         'Embed pictures where possible', defaultValue=False))
+        self.addParameter(QgsProcessingParameterBoolean(self.CONVERT_FONTS,
+                                                        'Convert font markers to SVG files', defaultValue=False))
+        self.addParameter(QgsProcessingParameterBoolean(self.PARAMETERIZE,
+                                                        'Create parameterized SVG files where possible',
+                                                        defaultValue=False))
 
         self.addOutput(QgsProcessingOutputNumber(self.FILL_SYMBOL_COUNT, 'Fill Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.LINE_SYMBOL_COUNT, 'Line Symbol Count'))
@@ -116,6 +123,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
         embed_pictures = self.parameterAsBool(parameters, self.EMBED_PICTURES, context)
+        convert_fonts = self.parameterAsBool(parameters, self.CONVERT_FONTS, context)
+        parameterize = self.parameterAsBool(parameters, self.PARAMETERIZE, context)
 
         picture_folder = self.parameterAsString(parameters, self.PICTURE_FOLDER, context)
         if not picture_folder:
