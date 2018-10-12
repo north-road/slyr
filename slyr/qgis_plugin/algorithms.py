@@ -260,7 +260,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 feedback.reportError(
                     'Warning: random marker fills are not supported by QGIS (considering sponsoring this feature!)')
         except AttributeError:
-            return
+            pass
 
         if isinstance(symbol, (MarkerFillSymbolLayer, PictureFillSymbolLayer)):
             if symbol.offset_x or symbol.offset_y:
