@@ -437,7 +437,7 @@ def append_SimpleLineSymbolLayer(symbol, layer, context: Context):
     out = QgsSimpleLineSymbolLayer(color)
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    out.setWidth(context.convert_size(layer.width))
+    out.setWidth(context.convert_size(max(0, layer.width)))  # sometimes lines have negative width?
     out.setWidthUnit(context.units)
     out.setPenStyle(symbol_pen_to_qpenstyle(layer.line_type))
 
@@ -545,7 +545,7 @@ def append_CartographicLineSymbolLayer(symbol, layer: CartographicLineSymbolLaye
     out = QgsSimpleLineSymbolLayer(color)
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    out.setWidth(context.convert_size(layer.width))
+    out.setWidth(context.convert_size(max(0, layer.width)))  # sometimes lines have negative width?
     out.setWidthUnit(context.units)
     out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
     out.setPenCapStyle(symbol_pen_to_qpencapstyle(layer.cap))
