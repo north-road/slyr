@@ -92,8 +92,8 @@ class PictureUtils:
         ucharptr = image.bits()
         ucharptr.setsize(image.byteCount() * image.height())
 
-        fg_rgba = qRgba(fg.red(), fg.green(), fg.blue(), fg.alpha()) if fg else None
-        bg_rgba = qRgba(bg.red(), bg.green(), bg.blue(), bg.alpha()) if bg else None
+        fg_rgba = qRgba(fg.red(), fg.green(), fg.blue(), fg.alpha()) if fg and fg.isValid() else None
+        bg_rgba = qRgba(bg.red(), bg.green(), bg.blue(), bg.alpha()) if bg and bg.isValid() else None
 
         # TODO: what's this even for?
         _ = qRgba(trans.red(), trans.green(), trans.blue(), trans.alpha()) if trans else None

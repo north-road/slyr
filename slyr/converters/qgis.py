@@ -17,6 +17,7 @@ from qgis.core import (QgsUnitTypes,
                        QgsEllipseSymbolLayer,
                        QgsSimpleMarkerSymbolLayer,
                        QgsSvgMarkerSymbolLayer,
+                       QgsSVGFillSymbolLayer,
                        QgsSimpleMarkerSymbolLayerBase,
                        QgsFontMarkerSymbolLayer,
                        QgsPresetSchemeColorRamp,
@@ -91,6 +92,7 @@ class Context:
         self.embed_pictures = True
         self.convert_fonts = False
         self.parameterise_svg = False
+        self.force_svg_instead_of_raster = False
         self.units = QgsUnitTypes.RenderPoints
 
     def convert_size(self, size: float) -> float:
@@ -120,6 +122,9 @@ def symbol_color_to_qcolor(color):
     """
     Converts a symbol color to a QColor
     """
+    if color is None:
+        return QColor()
+
     if isinstance(color, CMYKColor):
         # CMYK color
         return QColor.fromCmykF(color.cyan / 100, color.magenta / 100, color.yellow / 100, color.black / 100)
@@ -354,33 +359,52 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
     if issubclass(picture.__class__, StdPicture):
         picture = picture.picture
 
-    if issubclass(picture.__class__, EmfPicture):
-        path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'emf')
-        with open(path, 'wb') as f:
-            f.write(picture.content)
+    if issubclass(picture.__class__, EmfPicture) or context.force_svg_instead_of_raster:
+        if issubclass(picture.__class__, EmfPicture):
+            path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'emf')
+            with open(path, 'wb') as f:
+                f.write(picture.content)
 
-        svg_path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'svg')
-        emf_to_svg(path, svg_path)
+            svg_path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'svg')
+            emf_to_svg(path, svg_path)
+        else:
+            svg = PictureUtils.to_embedded_svg(picture.content,
+                                               symbol_color_to_qcolor(layer.color_foreground),
+                                               symbol_color_to_qcolor(layer.color_background),
+                                               symbol_color_to_qcolor(layer.color_transparent))
+            if context.embed_pictures:
+                svg_base64 = base64.b64encode(svg.encode('UTF-8')).decode('UTF-8')
+                svg_path = 'base64:{}'.format(svg_base64)
+            else:
+                svg_path = write_svg(svg, context.symbol_name, context.picture_folder)
 
-        #        out = QgsSVGFillSymbolLayer(svg_path)
-        raise NotImplementedException('EMF Picture fills not supported yet')
+        width_in_pixels = layer.scale_x * PictureUtils.width_pixels(picture.content)
+        width_in_in_points = width_in_pixels / 96 * 72
 
-    # use raster fill
-    image_path = write_picture(picture, context.symbol_name, context.picture_folder,
-                               layer.color_foreground,
-                               layer.color_background,
-                               layer.color_transparent)
+        out = QgsSVGFillSymbolLayer(svg_path, context.convert_size(width_in_in_points))
+        out.setPatternWidthUnit(context.units)
 
-    out = QgsRasterFillSymbolLayer(image_path)
+        if layer.angle:
+            raise NotImplementedException('SVG fill with angle not implemented')
 
-    # convert to points, so that print layouts work nicely. It's a better match for Arc anyway
-    width_in_pixels = layer.scale_x * PictureUtils.width_pixels(picture.content)
-    width_in_in_points = width_in_pixels / 96 * 72
+    else:
 
-    out.setWidth(context.convert_size(width_in_in_points))
-    out.setWidthUnit(context.units)
+        # use raster fill
+        image_path = write_picture(picture, context.symbol_name, context.picture_folder,
+                                   layer.color_foreground,
+                                   layer.color_background,
+                                   layer.color_transparent)
 
-    out.setAngle(convert_angle(layer.angle))
+        out = QgsRasterFillSymbolLayer(image_path)
+
+        # convert to points, so that print layouts work nicely. It's a better match for Arc anyway
+        width_in_pixels = layer.scale_x * PictureUtils.width_pixels(picture.content)
+        width_in_in_points = width_in_pixels / 96 * 72
+
+        out.setWidth(context.convert_size(width_in_in_points))
+        out.setWidthUnit(context.units)
+
+        out.setAngle(convert_angle(layer.angle))
 
     symbol.appendSymbolLayer(out)
     if layer.outline_layer:
