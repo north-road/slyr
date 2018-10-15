@@ -25,20 +25,26 @@ SLYR QGIS Processing algorithms
 
 import os
 from io import BytesIO
-from qgis.core import (QgsProcessingAlgorithm,
+from qgis.core import (QgsProcessing,
+                       QgsProcessingAlgorithm,
                        QgsProcessingParameterFile,
                        QgsProcessingParameterFileDestination,
                        QgsProcessingParameterBoolean,
                        QgsProcessingParameterEnum,
+                       QgsProcessingParameterFeatureSink,
                        QgsProcessingOutputNumber,
                        QgsProcessingParameterFolderDestination,
                        QgsProcessingParameterDefinition,
                        QgsStyle,
+                       QgsFeature,
+                       QgsFields,
+                       QgsField,
                        QgsColorRamp,
                        QgsSymbol,
                        QgsUnitTypes,
                        QgsProcessingFeedback)
 from qgis.PyQt.QtGui import QFontDatabase
+from qgis.PyQt.QtCore import QVariant
 from processing.core.ProcessingConfig import ProcessingConfig
 
 from slyr.bintools.extractor import Extractor
@@ -70,6 +76,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
     UNITS = 'UNITS'
     FORCE_SVG = 'FORCE_SVG'
     RELATIVE_PATHS = 'RELATIVE_PATHS'
+    REPORT = 'REPORT'
 
     MARKER_SYMBOL_COUNT = 'MARKER_SYMBOL_COUNT'
     LINE_SYMBOL_COUNT = 'LINE_SYMBOL_COUNT'
@@ -117,6 +124,9 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                                                         'Create parameterized SVG files where possible',
                                                         defaultValue=False))
 
+        self.addParameter(QgsProcessingParameterFeatureSink(self.REPORT, 'Create report of unconvertable symbols',
+                                                            QgsProcessing.TypeVector, None, True, False))
+
         unit_param = QgsProcessingParameterEnum(self.UNITS,
                                                 'Units for symbols', ['Points', 'Millimeters'],
                                                 defaultValue=0)
@@ -160,6 +170,12 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
             picture_folder, _ = os.path.split(output_file)
 
         mdbtools_folder = ProcessingConfig.getSetting('MDB_PATH')
+
+        fields = QgsFields()
+        fields.append(QgsField('name', QVariant.String, '', 60))
+        fields.append(QgsField('warning', QVariant.String, '', 250))
+
+        sink, dest = self.parameterAsSink(parameters, self.REPORT, context, fields)
 
         style = QgsStyle()
         style.createMemoryDatabase()
@@ -209,30 +225,47 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
                 handle = BytesIO(raw_symbol[Extractor.BLOB])
                 stream = Stream(handle)
+
+                f = QgsFeature()
                 try:
                     symbol = stream.read_object()
                 except UnreadableSymbolException as e:
                     feedback.reportError('Error reading symbol {}: {}'.format(name, e))
                     unreadable += 1
+                    if sink:
+                        f.setAttributes([name, 'Error reading symbol: {}'.format(e)])
+                        sink.addFeature(f)
                     continue
                 except NotImplementedException as e:
                     feedback.reportError('Parsing {} is not supported: {}'.format(name, e))
                     unreadable += 1
+                    if sink:
+                        f.setAttributes([name, 'Parsing not supported: {}'.format(e)])
+                        sink.addFeature(f)
                     continue
                 except UnsupportedVersionException as e:
                     feedback.reportError('Cannot read {} version: {}'.format(name, e))
                     unreadable += 1
+                    if sink:
+                        f.setAttributes([name, 'Version not supported: {}'.format(e)])
+                        sink.addFeature(f)
                     continue
                 except UnknownGuidException as e:
                     feedback.reportError(str(e))
                     unreadable += 1
+                    if sink:
+                        f.setAttributes([name, 'Unknown object: {}'.format(e)])
+                        sink.addFeature(f)
                     continue
                 except UnreadablePictureException as e:
                     feedback.reportError(str(e))
                     unreadable += 1
+                    if sink:
+                        f.setAttributes([name, 'Unreadable picture: {}'.format(e)])
+                        sink.addFeature(f)
                     continue
 
-                self.check_for_unsupported_property(symbol, feedback)
+                self.check_for_unsupported_property(name, symbol, feedback, sink)
 
                 context = Context()
                 context.symbol_name = unique_name
@@ -250,6 +283,9 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 except NotImplementedException as e:
                     feedback.reportError(str(e))
                     unreadable += 1
+                    if sink:
+                        f.setAttributes([name, str(e)])
+                        sink.addFeature(f)
                     continue
 
                 if isinstance(qgis_symbol, QgsSymbol):
@@ -279,6 +315,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
 
         style.exportXml(output_file)
         results[self.OUTPUT] = output_file
+        results[self.REPORT] = dest
         return results
 
     @staticmethod
@@ -297,14 +334,17 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 feedback.reportError('Warning: font {} not available on system'.format(font))
 
     @staticmethod
-    def check_for_unsupported_property(symbol, feedback: QgsProcessingFeedback):
+    def check_for_unsupported_property(name,  # pylint:disable=too-many-branches
+                                       symbol,
+                                       feedback: QgsProcessingFeedback,
+                                       sink):
         """
         Checks for properties of ESRI symbols which have no equivalent in QGIS,
         and warns
         """
         try:
             for l in symbol.levels:
-                StyleToQgisXml.check_for_unsupported_property(l, feedback)
+                StyleToQgisXml.check_for_unsupported_property(name, l, feedback, sink)
         except AttributeError:
             pass
 
@@ -312,6 +352,11 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
             if symbol.random:
                 feedback.reportError(
                     'Warning: random marker fills are not supported by QGIS (considering sponsoring this feature!)')
+                if sink:
+                    f = QgsFeature()
+                    f.setAttributes([name, 'Random marker fills not supported by QGIS'])
+                    sink.addFeature(f)
+
         except AttributeError:
             pass
 
@@ -319,14 +364,31 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
             if symbol.offset_x or symbol.offset_y:
                 feedback.reportError(
                     'Warning: marker fill offset X or Y is not supported by QGIS (considering sponsoring this feature!)')
+
+                if sink:
+                    f = QgsFeature()
+                    f.setAttributes([name, 'Marker fill offset X or Y not supported by QGIS'])
+                    sink.addFeature(f)
+
         if isinstance(symbol, PictureFillSymbolLayer):
             if symbol.separation_x or symbol.separation_y:
                 feedback.reportError(
                     'Warning: picture fill separation X or Y is not supported by QGIS (considering sponsoring this feature!)')
+
+                if sink:
+                    f = QgsFeature()
+                    f.setAttributes([name, 'Picture fill separation X or Y not supported by QGIS'])
+                    sink.addFeature(f)
+
         try:
             if symbol.halo:
                 feedback.reportError(
                     'Halos are not supported by QGIS (considering sponsoring this feature!)')
+                if sink:
+                    f = QgsFeature()
+                    f.setAttributes([name, 'Marker halos not supported by QGIS'])
+                    sink.addFeature(f)
+
         except AttributeError:
             pass
 
