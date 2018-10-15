@@ -12,12 +12,14 @@ Status
 - RGB colors can be parsed, within a maximum of 1 unit difference in either the R/G/B components.
 - 100% color match for other color types, including HSV, CMYK, Grayscale, etc
 - Fill symbols
-    - complete support for all fill types!
+    - complete support for all fill types!*
 - Line symbols
-    - complete support for all line types, except for picture lines
+    - complete support for all line types, except for picture lines*
 - Marker symbols
-    - complete support for all marker types!
+    - complete support for all marker types!*
 - All color ramp types can be parsed
+
+* Depending on the symbol version. If you encounter different symbol versions, please open a bug report with the style files attached.
 
 Tools
 =====
