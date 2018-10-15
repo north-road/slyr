@@ -359,6 +359,9 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
     if issubclass(picture.__class__, StdPicture):
         picture = picture.picture
 
+    if layer.swap_fb_gb:
+        raise NotImplementedException('Swap FG/BG color not implemented')
+
     if issubclass(picture.__class__, EmfPicture) or context.force_svg_instead_of_raster:
         if issubclass(picture.__class__, EmfPicture):
             path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'emf')
@@ -388,7 +391,6 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
             raise NotImplementedException('SVG fill with angle not implemented')
 
     else:
-
         # use raster fill
         image_path = write_picture(picture, context.symbol_name, context.picture_folder,
                                    layer.color_foreground,
@@ -810,6 +812,9 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer, con
     picture = layer.picture
     if issubclass(picture.__class__, StdPicture):
         picture = picture.picture
+
+    if layer.swap_fb_gb:
+        raise NotImplementedException('Swap FG/BG color not implemented')
 
     if issubclass(picture.__class__, EmfPicture):
         path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'emf')
