@@ -69,6 +69,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
     PARAMETERIZE = 'PARAMETERIZE'
     UNITS = 'UNITS'
     FORCE_SVG = 'FORCE_SVG'
+    RELATIVE_PATHS = 'RELATIVE_PATHS'
 
     MARKER_SYMBOL_COUNT = 'MARKER_SYMBOL_COUNT'
     LINE_SYMBOL_COUNT = 'LINE_SYMBOL_COUNT'
@@ -127,6 +128,11 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         force_svg.setFlags(force_svg.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
         self.addParameter(force_svg)
 
+        relative_paths = QgsProcessingParameterBoolean(self.RELATIVE_PATHS,
+                                                       'Use relative paths for images', defaultValue=False)
+        relative_paths.setFlags(relative_paths.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        self.addParameter(relative_paths)
+
         self.addOutput(QgsProcessingOutputNumber(self.FILL_SYMBOL_COUNT, 'Fill Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.LINE_SYMBOL_COUNT, 'Line Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.MARKER_SYMBOL_COUNT, 'Marker Symbol Count'))
@@ -147,6 +153,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         parameterize = self.parameterAsBool(parameters, self.PARAMETERIZE, context)
         units = self.parameterAsEnum(parameters, self.UNITS, context)
         force_svg = self.parameterAsBool(parameters, self.FORCE_SVG, context)
+        relative_paths = self.parameterAsBool(parameters, self.RELATIVE_PATHS, context)
 
         picture_folder = self.parameterAsString(parameters, self.PICTURE_FOLDER, context)
         if not picture_folder:
@@ -234,6 +241,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 context.convert_fonts = convert_fonts
                 context.parameterise_svg = parameterize
                 context.force_svg_instead_of_raster = force_svg
+                context.relative_paths = relative_paths
+                context.style_folder, _ = os.path.split(output_file)
                 context.units = QgsUnitTypes.RenderPoints if units == 0 else QgsUnitTypes.RenderMillimeters
 
                 try:
