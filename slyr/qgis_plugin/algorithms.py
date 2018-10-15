@@ -60,6 +60,7 @@ from slyr.converters.qgis import (Symbol_to_QgsSymbol,
                                   Context)
 from slyr.parser.objects.fill_symbol_layer import (MarkerFillSymbolLayer,
                                                    PictureFillSymbolLayer)
+from slyr.parser.objects.line_symbol_layer import HashLineSymbolLayer
 
 
 class StyleToQgisXml(QgsProcessingAlgorithm):
@@ -124,7 +125,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                                                         'Create parameterized SVG files where possible',
                                                         defaultValue=False))
 
-        self.addParameter(QgsProcessingParameterFeatureSink(self.REPORT, 'Create report of unconvertable symbols',
+        self.addParameter(QgsProcessingParameterFeatureSink(self.REPORT, 'Unconvertable symbols report',
                                                             QgsProcessing.TypeVector, None, True, False))
 
         unit_param = QgsProcessingParameterEnum(self.UNITS,
@@ -349,6 +350,36 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
             pass
 
         try:
+            if symbol.outline_symbol:
+                StyleToQgisXml.check_for_unsupported_property(name, symbol.outline_symbol, feedback, sink)
+        except AttributeError:
+            pass
+
+        try:
+            if symbol.outline_layer:
+                StyleToQgisXml.check_for_unsupported_property(name, symbol.outline_layer, feedback, sink)
+        except AttributeError:
+            pass
+
+        try:
+            if symbol.line:
+                StyleToQgisXml.check_for_unsupported_property(name, symbol.line, feedback, sink)
+        except AttributeError:
+            pass
+
+        try:
+            if symbol.marker:
+                StyleToQgisXml.check_for_unsupported_property(name, symbol.marker, feedback, sink)
+        except AttributeError:
+            pass
+
+        try:
+            if symbol.pattern_marker:
+                StyleToQgisXml.check_for_unsupported_property(name, symbol.pattern_marker, feedback, sink)
+        except AttributeError:
+            pass
+
+        try:
             if symbol.random:
                 feedback.reportError(
                     'Warning: random marker fills are not supported by QGIS (considering sponsoring this feature!)')
@@ -380,6 +411,14 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     f.setAttributes([name, 'Picture fill separation X or Y not supported by QGIS'])
                     sink.addFeature(f)
 
+        if isinstance(symbol, HashLineSymbolLayer):
+            feedback.reportError(
+                'QGIS does not have a hash line symbol type (considering sponsoring this feature!)')
+
+            if sink:
+                f = QgsFeature()
+                f.setAttributes([name, 'Hash line symbols are not supported by QGIS'])
+                sink.addFeature(f)
         try:
             if symbol.halo:
                 feedback.reportError(
