@@ -4,6 +4,8 @@
 Converts parsed symbol properties to QGIS Symbols
 """
 
+#  pylint: disable=too-many-lines
+
 import base64
 import os
 import subprocess
@@ -27,7 +29,7 @@ from qgis.core import (QgsUnitTypes,
                        QgsLinePatternFillSymbolLayer,
                        QgsPointPatternFillSymbolLayer,
                        QgsRasterFillSymbolLayer)
-from qgis.PyQt.QtCore import (Qt, QPointF)
+from qgis.PyQt.QtCore import (Qt, QPointF, QDir)
 from qgis.PyQt.QtGui import (QColor, QFont, QFontMetricsF, QPainter, QPainterPath, QBrush)
 from qgis.PyQt.QtSvg import QSvgGenerator
 
@@ -89,10 +91,12 @@ class Context:
     def __init__(self):
         self.symbol_name = ''
         self.picture_folder = ''
+        self.style_folder = ''
         self.embed_pictures = True
         self.convert_fonts = False
         self.parameterise_svg = False
         self.force_svg_instead_of_raster = False
+        self.relative_paths = False
         self.units = QgsUnitTypes.RenderPoints
 
     def convert_size(self, size: float) -> float:
@@ -105,6 +109,15 @@ class Context:
             return size * 0.352778
         else:
             assert False, 'Unsupported unit type'
+
+    def convert_path(self, path: str) -> str:
+        """
+        Converts an absolute path for storage in the symbol
+        """
+        if not self.relative_paths:
+            return path
+
+        return QDir(self.style_folder).relativeFilePath(path)
 
 
 def convert_angle(angle: float) -> float:
@@ -370,6 +383,8 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
 
             svg_path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'svg')
             emf_to_svg(path, svg_path)
+
+            svg_path = context.convert_path(svg_path)
         else:
             svg = PictureUtils.to_embedded_svg(picture.content,
                                                symbol_color_to_qcolor(layer.color_foreground),
@@ -380,6 +395,7 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
                 svg_path = 'base64:{}'.format(svg_base64)
             else:
                 svg_path = write_svg(svg, context.symbol_name, context.picture_folder)
+                svg_path = context.convert_path(svg_path)
 
         width_in_pixels = layer.scale_x * PictureUtils.width_pixels(picture.content)
         width_in_in_points = width_in_pixels / 96 * 72
@@ -760,6 +776,8 @@ def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):  # 
         with open(svg_path, 'w') as f:
             f.write(t)
 
+    svg_path = context.convert_path(svg_path)
+
     out = QgsSvgMarkerSymbolLayer(svg_path)
 
     out.setSizeUnit(context.units)
@@ -820,6 +838,7 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer, con
 
         svg_path = symbol_name_to_filename(context.symbol_name, context.picture_folder, 'svg')
         emf_to_svg(path, svg_path)
+        svg_path = context.convert_path(svg_path)
     else:
         svg = PictureUtils.to_embedded_svg(picture.content,
                                            symbol_color_to_qcolor(layer.color_foreground),
@@ -830,6 +849,7 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer, con
             svg_path = 'base64:{}'.format(svg_base64)
         else:
             svg_path = write_svg(svg, context.symbol_name, context.picture_folder)
+            svg_path = context.convert_path(svg_path)
 
     out = QgsSvgMarkerSymbolLayer(svg_path, context.convert_size(layer.size), layer.angle)
     out.setSizeUnit(context.units)
