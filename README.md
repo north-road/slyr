@@ -10,16 +10,14 @@ Status
 =====
 
 - RGB colors can be parsed, within a maximum of 1 unit difference in either the R/G/B components.
+- 100% color match for other color types, including HSV, CMYK, Grayscale, etc
 - Fill symbols
-    - complete support for Simple Fill layers
+    - complete support for all fill types!
 - Line symbols
-    - complete support for Simple Line layers
-    - near complete support for Cartographic Line layers, including custom dash patterns. Arrows cannot be decoded yet.
+    - complete support for all line types, except for picture lines
 - Marker symbols
-    - support for halos
-    - complete support for Simple Marker layers
-    - complete support for Character Marker layers
-    - complete support for Arrow Marker layers
+    - complete support for all marker types!
+- All color ramp types can be parsed
 
 Tools
 =====
@@ -36,7 +34,9 @@ QGIS Plugin
 
 SLYR also functions as a QGIS plugin (for QGIS >= 3.2). Just copy the whole slyr folder to your QGIS profile Python -> plugins path, launch QGIS and enable the plugin.
 
-The plugin adds a new group to the Processing Toolbox for "SLYR", containing tools for conversion of style databases to QGIS symbol styles. Note that Windows users will first need to setup the path to the mdbtools binaries via Options - Processing - Providers - SLYR.
+The plugin adds a new group to the Processing Toolbox for "SLYR", containing tools for conversion of style databases to QGIS symbol styles. Note that Windows users will first need to setup the path to the mdbtools binaries via Options - Processing - Providers - SLYR. There's also an algorithm for converting color palettes stored in style files to the standard GPL color palette text format.
+
+The plugin throws warnings (and optionally creates a report) containing properties which cannot be translated to QGIS symbology. If you get these warnings, PLEASE consider sponsoring the feature development within QGIS itself! Everyone benefits, and you'll usually be pleasantly suprised at how inexpensive this can be!
 
 * And no, this won't be distributed by the normal QGIS plugin channel. It's provided "as-is", with no support offered whatsoever.
  
