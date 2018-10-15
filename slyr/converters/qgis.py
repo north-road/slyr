@@ -461,7 +461,14 @@ def append_Decorations(symbol, decorations: LineDecoration, context: Context):
         start_marker = marker.clone()
         if decoration.flip_first:
             start_marker.setAngle(270)
+        for l in range(start_marker.symbolLayerCount()):
+            layer = start_marker.symbolLayer(l)
+            if layer.offset().x() or layer.offset().y():
+                # adjust marker offset to account for rotation of line markers
+                layer.setOffset(adjust_offset_for_rotation(layer.offset(), 90))
+
         line.setSubSymbol(start_marker)
+
         # TODO - maybe need to offset this by marker width / 4? seems a better match to ESRI
         line.setPlacement(QgsMarkerLineSymbolLayer.FirstVertex)
         symbol.appendSymbolLayer(line)
@@ -469,7 +476,15 @@ def append_Decorations(symbol, decorations: LineDecoration, context: Context):
     if 1 in positions:
         # end marker
         line = QgsMarkerLineSymbolLayer(not decoration.fixed_angle)
-        line.setSubSymbol(marker.clone())
+
+        end_marker = marker.clone()
+        for l in range(end_marker.symbolLayerCount()):
+            layer = end_marker.symbolLayer(l)
+            if layer.offset().x() or layer.offset().y():
+                # adjust marker offset to account for rotation of line markers
+                layer.setOffset(adjust_offset_for_rotation(layer.offset(), 270))
+
+        line.setSubSymbol(end_marker)
         line.setPlacement(QgsMarkerLineSymbolLayer.LastVertex)
         # TODO - maybe need to offset this by marker width / 4? seems a better match to ESRI
         symbol.appendSymbolLayer(line)
