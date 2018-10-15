@@ -384,11 +384,8 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
         width_in_pixels = layer.scale_x * PictureUtils.width_pixels(picture.content)
         width_in_in_points = width_in_pixels / 96 * 72
 
-        out = QgsSVGFillSymbolLayer(svg_path, context.convert_size(width_in_in_points))
+        out = QgsSVGFillSymbolLayer(svg_path, context.convert_size(width_in_in_points), convert_angle(layer.angle))
         out.setPatternWidthUnit(context.units)
-
-        if layer.angle:
-            raise NotImplementedException('SVG fill with angle not implemented')
 
     else:
         # use raster fill
