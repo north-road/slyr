@@ -343,41 +343,8 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         Checks for properties of ESRI symbols which have no equivalent in QGIS,
         and warns
         """
-        try:
-            for l in symbol.levels:
-                StyleToQgisXml.check_for_unsupported_property(name, l, feedback, sink)
-        except AttributeError:
-            pass
-
-        try:
-            if symbol.outline_symbol:
-                StyleToQgisXml.check_for_unsupported_property(name, symbol.outline_symbol, feedback, sink)
-        except AttributeError:
-            pass
-
-        try:
-            if symbol.outline_layer:
-                StyleToQgisXml.check_for_unsupported_property(name, symbol.outline_layer, feedback, sink)
-        except AttributeError:
-            pass
-
-        try:
-            if symbol.line:
-                StyleToQgisXml.check_for_unsupported_property(name, symbol.line, feedback, sink)
-        except AttributeError:
-            pass
-
-        try:
-            if symbol.marker:
-                StyleToQgisXml.check_for_unsupported_property(name, symbol.marker, feedback, sink)
-        except AttributeError:
-            pass
-
-        try:
-            if symbol.pattern_marker:
-                StyleToQgisXml.check_for_unsupported_property(name, symbol.pattern_marker, feedback, sink)
-        except AttributeError:
-            pass
+        for c in symbol.children():
+            StyleToQgisXml.check_for_unsupported_property(name, c, feedback, sink)
 
         try:
             if symbol.random:
@@ -387,7 +354,6 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                     f = QgsFeature()
                     f.setAttributes([name, 'Random marker fills not supported by QGIS'])
                     sink.addFeature(f)
-
         except AttributeError:
             pass
 
@@ -419,6 +385,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 f = QgsFeature()
                 f.setAttributes([name, 'Hash line symbols are not supported by QGIS'])
                 sink.addFeature(f)
+
         try:
             if symbol.halo:
                 feedback.reportError(

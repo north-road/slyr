@@ -24,6 +24,16 @@ class MarkerSymbolLayer(SymbolLayer):
     def compatible_versions():
         return [2]
 
+    def children(self):
+        res = super().children()
+        if self.color:
+            res.append(self.color)
+        if self.outline_layer:
+            res.append(self.outline_layer)
+        if self.outline_symbol:
+            res.append(self.outline_symbol)
+        return res
+
 
 class SimpleMarkerSymbolLayer(MarkerSymbolLayer):
     """
@@ -109,6 +119,14 @@ class CharacterMarkerSymbolLayer(MarkerSymbolLayer):
     @staticmethod
     def compatible_versions():
         return [2, 3, 4]
+
+    def children(self):
+        res = super().children()
+        if self.outline_color:
+            res.append(self.outline_color)
+        if self.std_font:
+            res.append(self.std_font)
+        return res
 
     def read(self, stream: Stream, version):
         self.color = stream.read_object('color')
@@ -217,6 +235,18 @@ class PictureMarkerSymbolLayer(MarkerSymbolLayer):
     @staticmethod
     def compatible_versions():
         return [4, 5, 8, 9]
+
+    def children(self):
+        res = super().children()
+        if self.picture:
+            res.append(self.picture)
+        if self.color_foreground:
+            res.append(self.color_foreground)
+        if self.color_background:
+            res.append(self.color_background)
+        if self.color_transparent:
+            res.append(self.color_transparent)
+        return res
 
     def read(self, stream: Stream, version):
         if version in (4, 5):

@@ -18,6 +18,16 @@ class FillSymbolLayer(SymbolLayer):
         self.outline_layer = None
         self.outline_symbol = None
 
+    def children(self):
+        res = super().children()
+        if self.color:
+            res.append(self.color)
+        if self.outline_layer:
+            res.append(self.outline_layer)
+        if self.outline_symbol:
+            res.append(self.outline_symbol)
+        return res
+
 
 class SimpleFillSymbolLayer(FillSymbolLayer):
     """
@@ -78,6 +88,12 @@ class GradientFillSymbolLayer(FillSymbolLayer):
     def guid():
         return '7914e609-c892-11d0-8bb6-080009ee4e41'
 
+    def children(self):
+        res = super().children()
+        if self.ramp:
+            res.append(self.ramp)
+        return res
+
     def read(self, stream: Stream, version):
         self.ramp = stream.read_object('Color ramp')
         _ = stream.read_object('unused color')
@@ -113,6 +129,12 @@ class LineFillSymbolLayer(FillSymbolLayer):
     @staticmethod
     def guid():
         return '7914e606-c892-11d0-8bb6-080009ee4e41'
+
+    def children(self):
+        res = super().children()
+        if self.line:
+            res.append(self.line)
+        return res
 
     def read(self, stream: Stream, version):
         _ = stream.read_double('unused double')
@@ -152,6 +174,12 @@ class MarkerFillSymbolLayer(FillSymbolLayer):
     @staticmethod
     def guid():
         return '7914e608-c892-11d0-8bb6-080009ee4e41'
+
+    def children(self):
+        res = super().children()
+        if self.marker:
+            res.append(self.marker)
+        return res
 
     def read(self, stream: Stream, version):
         self.random = bool(stream.read_int('random'))
@@ -202,6 +230,18 @@ class PictureFillSymbolLayer(FillSymbolLayer):
     @staticmethod
     def guid():
         return 'd842b082-330c-11d2-9168-0000f87808ee'
+
+    def children(self):
+        res = super().children()
+        if self.picture:
+            res.append(self.picture)
+        if self.color_foreground:
+            res.append(self.color_foreground)
+        if self.color_background:
+            res.append(self.color_background)
+        if self.color_transparent:
+            res.append(self.color_transparent)
+        return res
 
     @staticmethod
     def compatible_versions():

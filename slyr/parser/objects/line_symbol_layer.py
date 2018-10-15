@@ -18,6 +18,12 @@ class LineSymbolLayer(SymbolLayer):
         super().__init__()
         self.color = None
 
+    def children(self):
+        res = super().children()
+        if self.color:
+            res.append(self.color)
+        return res
+
     @staticmethod
     def read_cap(stream: Stream):
         """
@@ -106,6 +112,14 @@ class CartographicLineSymbolLayer(LineSymbolLayer):
     def guid():
         return '7914e5fb-c892-11d0-8bb6-080009ee4e41'
 
+    def children(self):
+        res = super().children()
+        if self.template:
+            res.append(self.template)
+        if self.decoration:
+            res.append(self.decoration)
+        return res
+
     def read(self, stream: Stream, version):
         self.cap = self.read_cap(stream)
 
@@ -157,6 +171,16 @@ class MarkerLineSymbolLayer(LineSymbolLayer):
     def compatible_versions():
         return [2]
 
+    def children(self):
+        res = super().children()
+        if self.template:
+            res.append(self.template)
+        if self.decoration:
+            res.append(self.decoration)
+        if self.pattern_marker:
+            res.append(self.pattern_marker)
+        return res
+
     def read(self, stream: Stream, version):
         self.cap = self.read_cap(stream)
         stream.log('read cap of {}'.format(self.cap), 1)
@@ -203,6 +227,16 @@ class HashLineSymbolLayer(LineSymbolLayer):
     @staticmethod
     def compatible_versions():
         return [1]
+
+    def children(self):
+        res = super().children()
+        if self.template:
+            res.append(self.template)
+        if self.decoration:
+            res.append(self.decoration)
+        if self.line:
+            res.append(self.line)
+        return res
 
     def read(self, stream: Stream, version):
         self.angle = stream.read_double('angle')

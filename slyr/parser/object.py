@@ -3,6 +3,8 @@
 Base class for persistent objects
 """
 
+from typing import List
+
 
 class Object:
     """
@@ -29,3 +31,9 @@ class Object:
         Reads the object from the given stream
         """
         pass
+
+    def children(self) -> List['slyr.parser.Object']:
+        """
+        Returns a list of all child objects referenced by this object
+        """
+        return []

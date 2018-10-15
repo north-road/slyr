@@ -80,6 +80,12 @@ class StdPicture(Object):
     def compatible_versions():
         return None
 
+    def children(self):
+        res = super().children()
+        if self.picture:
+            res.append(self.picture)
+        return res
+
     def read(self, stream, version):
         constant = stream.read_ulong()
         if constant != 0x0000746C:
