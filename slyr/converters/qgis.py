@@ -99,7 +99,7 @@ class Context:
         self.relative_paths = False
         self.units = QgsUnitTypes.RenderPoints
 
-    def convert_size(self, size: float) -> float:
+    def convert_size(self, size: float) -> float:  # pylint: disable=inconsistent-return-statements
         """
         Returns a size converted to the desired symbol units
         """
