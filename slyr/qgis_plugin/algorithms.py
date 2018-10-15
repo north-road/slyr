@@ -68,6 +68,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
     CONVERT_FONTS = 'CONVERT_FONTS'
     PARAMETERIZE = 'PARAMETERIZE'
     UNITS = 'UNITS'
+    FORCE_SVG = 'FORCE_SVG'
 
     MARKER_SYMBOL_COUNT = 'MARKER_SYMBOL_COUNT'
     LINE_SYMBOL_COUNT = 'LINE_SYMBOL_COUNT'
@@ -121,6 +122,11 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         unit_param.setFlags(unit_param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
         self.addParameter(unit_param)
 
+        force_svg = QgsProcessingParameterBoolean(self.FORCE_SVG,
+                                                  'Force use of SVG fill instead of raster fill', defaultValue=False)
+        force_svg.setFlags(force_svg.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        self.addParameter(force_svg)
+
         self.addOutput(QgsProcessingOutputNumber(self.FILL_SYMBOL_COUNT, 'Fill Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.LINE_SYMBOL_COUNT, 'Line Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.MARKER_SYMBOL_COUNT, 'Marker Symbol Count'))
@@ -140,6 +146,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         convert_fonts = self.parameterAsBool(parameters, self.CONVERT_FONTS, context)
         parameterize = self.parameterAsBool(parameters, self.PARAMETERIZE, context)
         units = self.parameterAsEnum(parameters, self.UNITS, context)
+        force_svg = self.parameterAsBool(parameters, self.FORCE_SVG, context)
 
         picture_folder = self.parameterAsString(parameters, self.PICTURE_FOLDER, context)
         if not picture_folder:
@@ -226,6 +233,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 context.embed_pictures = embed_pictures
                 context.convert_fonts = convert_fonts
                 context.parameterise_svg = parameterize
+                context.force_svg_instead_of_raster = force_svg
                 context.units = QgsUnitTypes.RenderPoints if units == 0 else QgsUnitTypes.RenderMillimeters
 
                 try:
