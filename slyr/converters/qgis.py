@@ -892,8 +892,9 @@ def append_LineSymbolLayer(symbol, layer, context: Context):
     elif isinstance(layer, MarkerLineSymbolLayer):
         append_MarkerLineSymbolLayer(symbol, layer, context)
     elif isinstance(layer, HashLineSymbolLayer):
-        raise NotImplementedException(
-            'QGIS does not have a hash line symbol type (considering sponsoring this feature!)')
+        return  # instead of aborting the symbol parsing, convert whatever we can instead...
+        # raise NotImplementedException(
+        #    'QGIS does not have a hash line symbol type (considering sponsoring this feature!)')
     else:
         raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
