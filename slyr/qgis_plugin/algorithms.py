@@ -29,11 +29,14 @@ from qgis.core import (QgsProcessingAlgorithm,
                        QgsProcessingParameterFile,
                        QgsProcessingParameterFileDestination,
                        QgsProcessingParameterBoolean,
+                       QgsProcessingParameterEnum,
                        QgsProcessingOutputNumber,
                        QgsProcessingParameterFolderDestination,
+                       QgsProcessingParameterDefinition,
                        QgsStyle,
                        QgsColorRamp,
                        QgsSymbol,
+                       QgsUnitTypes,
                        QgsProcessingFeedback)
 from qgis.PyQt.QtGui import QFontDatabase
 from processing.core.ProcessingConfig import ProcessingConfig
@@ -64,6 +67,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
     PICTURE_FOLDER = 'PICTURE_FOLDER'
     CONVERT_FONTS = 'CONVERT_FONTS'
     PARAMETERIZE = 'PARAMETERIZE'
+    UNITS = 'UNITS'
 
     MARKER_SYMBOL_COUNT = 'MARKER_SYMBOL_COUNT'
     LINE_SYMBOL_COUNT = 'LINE_SYMBOL_COUNT'
@@ -111,6 +115,12 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                                                         'Create parameterized SVG files where possible',
                                                         defaultValue=False))
 
+        unit_param = QgsProcessingParameterEnum(self.UNITS,
+                                                'Units for symbols', ['Points', 'Millimeters'],
+                                                defaultValue=0)
+        unit_param.setFlags(unit_param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        self.addParameter(unit_param)
+
         self.addOutput(QgsProcessingOutputNumber(self.FILL_SYMBOL_COUNT, 'Fill Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.LINE_SYMBOL_COUNT, 'Line Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.MARKER_SYMBOL_COUNT, 'Marker Symbol Count'))
@@ -120,12 +130,16 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_MARKER_SYMBOLS, 'Unreadable Marker Symbol Count'))
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_COLOR_RAMPS, 'Unreadable Color Ramps'))
 
-    def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements,too-many-branches
+    def processAlgorithm(self,  # pylint:disable=missing-docstring,too-many-locals,too-many-statements,too-many-branches
+                         parameters,
+                         context,
+                         feedback):
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
         embed_pictures = self.parameterAsBool(parameters, self.EMBED_PICTURES, context)
         convert_fonts = self.parameterAsBool(parameters, self.CONVERT_FONTS, context)
         parameterize = self.parameterAsBool(parameters, self.PARAMETERIZE, context)
+        units = self.parameterAsEnum(parameters, self.UNITS, context)
 
         picture_folder = self.parameterAsString(parameters, self.PICTURE_FOLDER, context)
         if not picture_folder:
@@ -212,6 +226,7 @@ class StyleToQgisXml(QgsProcessingAlgorithm):
                 context.embed_pictures = embed_pictures
                 context.convert_fonts = convert_fonts
                 context.parameterise_svg = parameterize
+                context.units = QgsUnitTypes.RenderPoints if units == 0 else QgsUnitTypes.RenderMillimeters
 
                 try:
                     qgis_symbol = Symbol_to_QgsSymbol(symbol, context)
@@ -342,7 +357,10 @@ class StyleToGpl(QgsProcessingAlgorithm):
         self.addOutput(QgsProcessingOutputNumber(self.COLOR_COUNT, 'Color Count'))
         self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_COLOR_COUNT, 'Unreadable Color Count'))
 
-    def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=missing-docstring,too-many-locals,too-many-statements
+    def processAlgorithm(self,  # pylint: disable=missing-docstring,too-many-locals,too-many-statements
+                         parameters,
+                         context,
+                         feedback):
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
 

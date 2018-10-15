@@ -91,6 +91,18 @@ class Context:
         self.embed_pictures = True
         self.convert_fonts = False
         self.parameterise_svg = False
+        self.units = QgsUnitTypes.RenderPoints
+
+    def convert_size(self, size: float) -> float:
+        """
+        Returns a size converted to the desired symbol units
+        """
+        if self.units == QgsUnitTypes.RenderPoints:
+            return size
+        elif self.units == QgsUnitTypes.RenderMillimeters:
+            return size * 0.352778
+        else:
+            assert False, 'Unsupported unit type'
 
 
 def convert_angle(angle: float) -> float:
@@ -163,7 +175,9 @@ def symbol_pen_to_qpenjoinstyle(style):
     return types[style]
 
 
-def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer, context: Context):  # pylint: disable=too-many-branches
+def append_SimpleFillSymbolLayer(symbol,  # pylint: disable=too-many-branches
+                                 layer: SimpleFillSymbolLayer,
+                                 context: Context):
     """
     Appends a SimpleFillSymbolLayer to a symbol
     """
@@ -176,8 +190,8 @@ def append_SimpleFillSymbolLayer(symbol, layer: SimpleFillSymbolLayer, context: 
         if layer.outline_layer:
             if isinstance(layer.outline_layer, (SimpleLineSymbolLayer, CartographicLineSymbolLayer)):
                 out.setStrokeColor(symbol_color_to_qcolor(layer.outline_layer.color))
-                out.setStrokeWidth(layer.outline_layer.width)
-                out.setStrokeWidthUnit(QgsUnitTypes.RenderPoints)
+                out.setStrokeWidth(context.convert_size(layer.outline_layer.width))
+                out.setStrokeWidthUnit(context.units)
             if isinstance(layer.outline_layer, SimpleLineSymbolLayer):
                 out.setStrokeStyle(symbol_pen_to_qpenstyle(layer.outline_layer.line_type))
             if isinstance(layer.outline_layer, CartographicLineSymbolLayer):
@@ -228,10 +242,10 @@ def append_LineFillSymbolLayer(symbol, layer: LineFillSymbolLayer, context: Cont
     out = QgsLinePatternFillSymbolLayer()
     out.setSubSymbol(line)
     out.setLineAngle(layer.angle)
-    out.setDistance(layer.separation)
-    out.setDistanceUnit(QgsUnitTypes.RenderPoints)
-    out.setOffset(layer.offset)
-    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+    out.setDistance(context.convert_size(layer.separation))
+    out.setDistanceUnit(context.units)
+    out.setOffset(context.convert_size(layer.offset))
+    out.setOffsetUnit(context.units)
 
     symbol.appendSymbolLayer(out)
     if layer.outline_layer:
@@ -250,10 +264,10 @@ def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbolLayer, context: 
     out = QgsPointPatternFillSymbolLayer()
     out.setSubSymbol(marker)
 
-    out.setDistanceX(layer.separation_x)
-    out.setDistanceXUnit(QgsUnitTypes.RenderPoints)
-    out.setDistanceY(layer.separation_y)
-    out.setDistanceYUnit(QgsUnitTypes.RenderPoints)
+    out.setDistanceX(context.convert_size(layer.separation_x))
+    out.setDistanceXUnit(context.units)
+    out.setDistanceY(context.convert_size(layer.separation_y))
+    out.setDistanceYUnit(context.units)
 
     # Offset is not supported - displacement in QGIS has a different meaning!
     # out.setDisplacementX(layer.offset_x)
@@ -363,8 +377,8 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
     width_in_pixels = layer.scale_x * PictureUtils.width_pixels(picture.content)
     width_in_in_points = width_in_pixels / 96 * 72
 
-    out.setWidth(width_in_in_points)
-    out.setWidthUnit(QgsUnitTypes.RenderPoints)
+    out.setWidth(context.convert_size(width_in_in_points))
+    out.setWidthUnit(context.units)
 
     out.setAngle(convert_angle(layer.angle))
 
@@ -376,7 +390,7 @@ def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbolLayer, context
         append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, context)
 
 
-def append_SimpleLineSymbolLayer(symbol, layer, context: Context):  # pylint: disable=unused-argument
+def append_SimpleLineSymbolLayer(symbol, layer, context: Context):
     """
     Appends a SimpleLineSymbolLayer to a symbol
     """
@@ -384,8 +398,8 @@ def append_SimpleLineSymbolLayer(symbol, layer, context: Context):  # pylint: di
     out = QgsSimpleLineSymbolLayer(color)
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    out.setWidth(layer.width)
-    out.setWidthUnit(QgsUnitTypes.RenderPoints)
+    out.setWidth(context.convert_size(layer.width))
+    out.setWidthUnit(context.units)
     out.setPenStyle(symbol_pen_to_qpenstyle(layer.line_type))
 
     # better matching of null stroke color to QGIS symbology
@@ -395,32 +409,32 @@ def append_SimpleLineSymbolLayer(symbol, layer, context: Context):  # pylint: di
     symbol.appendSymbolLayer(out)
 
 
-def apply_template_to_LineSymbolLayer_custom_dash(template, layer):
+def apply_template_to_LineSymbolLayer_custom_dash(template, layer, context: Context):
     """
     Applies a line template to a QgsSimpleLineSymbolLayer custom dash pattern
     """
     if not template.pattern_parts:
         return
 
-    interval = template.pattern_interval
+    interval = context.convert_size(template.pattern_interval)
 
     dash_vector = []
     for part in template.pattern_parts:
         if part[0] == 0:
             # QGIS skips drawing a 0 part, so fake it
-            dash_vector.append(0.000001 * interval)
+            dash_vector.append(0.000001)
         else:
             dash_vector.append(part[0] * interval)
 
         if part[1] == 0:
             # QGIS skips drawing a 0 part, so fake it
-            dash_vector.append(0.000001 * interval)
+            dash_vector.append(0.000001)
         else:
             dash_vector.append(part[1] * interval)
 
     layer.setCustomDashVector(dash_vector)
     layer.setUseCustomDashPattern(True)
-    layer.setCustomDashPatternUnit(QgsUnitTypes.RenderPoints)
+    layer.setCustomDashPatternUnit(context.units)
 
 
 def append_Decorations(symbol, decorations: LineDecoration, context: Context):
@@ -477,19 +491,19 @@ def append_CartographicLineSymbolLayer(symbol, layer: CartographicLineSymbolLaye
     out = QgsSimpleLineSymbolLayer(color)
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
-    out.setWidth(layer.width)
-    out.setWidthUnit(QgsUnitTypes.RenderPoints)
+    out.setWidth(context.convert_size(layer.width))
+    out.setWidthUnit(context.units)
     out.setPenJoinStyle(symbol_pen_to_qpenjoinstyle(layer.join))
     out.setPenCapStyle(symbol_pen_to_qpencapstyle(layer.cap))
     if layer.template is not None:
-        apply_template_to_LineSymbolLayer_custom_dash(layer.template, out)
+        apply_template_to_LineSymbolLayer_custom_dash(layer.template, out, context)
 
     # better matching of null stroke color to QGIS symbology
     if out.color().alpha() == 0:
         out.setPenStyle(Qt.NoPen)
 
-    out.setOffset(layer.offset)
-    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+    out.setOffset(context.convert_size(layer.offset))
+    out.setOffsetUnit(context.units)
 
     symbol.appendSymbolLayer(out)
 
@@ -522,12 +536,12 @@ def append_MarkerLineSymbolLayer(symbol, layer: MarkerLineSymbolLayer, context: 
             start_marker = marker.clone()
             start_marker.setAngle(start_marker.angle() - 90)
             line.setSubSymbol(start_marker)
-            line.setOffset(-layer.offset)
-            line.setOffsetUnit(QgsUnitTypes.RenderPoints)
-            line.setInterval(total_length)
-            line.setIntervalUnit(QgsUnitTypes.RenderPoints)
-            line.setOffsetAlongLine(current_offset_from_start + template.pattern_interval / 2)
-            line.setOffsetAlongLineUnit(QgsUnitTypes.RenderPoints)
+            line.setOffset(-context.convert_size(layer.offset))
+            line.setOffsetUnit(context.units)
+            line.setInterval(context.convert_size(total_length))
+            line.setIntervalUnit(context.units)
+            line.setOffsetAlongLine(context.convert_size(current_offset_from_start + template.pattern_interval / 2))
+            line.setOffsetAlongLineUnit(context.units)
             symbol.appendSymbolLayer(line)
 
             current_offset_from_start += template.pattern_interval * t[0]
@@ -559,13 +573,13 @@ def marker_type_to_qgis_type(marker_type):
 
 
 def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer,
-                                   context: Context):  # pylint: disable=unused-argument
+                                   context: Context):
     """
     Appends a SimpleMarkerSymbolLayer to a symbol
     """
     marker_type = marker_type_to_qgis_type(layer.type)
-    out = QgsSimpleMarkerSymbolLayer(marker_type, layer.size)
-    out.setSizeUnit(QgsUnitTypes.RenderPoints)
+    out = QgsSimpleMarkerSymbolLayer(marker_type, context.convert_size(layer.size))
+    out.setSizeUnit(context.units)
 
     color = symbol_color_to_qcolor(layer.color)
 
@@ -578,8 +592,8 @@ def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer,
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
 
-    out.setOffset(QPointF(layer.x_offset, -layer.y_offset))
-    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+    out.setOffset(QPointF(context.convert_size(layer.x_offset), -context.convert_size(layer.y_offset)))
+    out.setOffsetUnit(context.units)
 
     if layer.outline_enabled:
         outline_color = symbol_color_to_qcolor(layer.outline_color)
@@ -589,18 +603,18 @@ def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer,
                 # Better match to how ESRI renders this if we divide the outline width by 2,
                 # because ESRI renders the stroke below the symbol. Maybe we should split this
                 # into two layers?
-                out.setStrokeWidth(layer.outline_width / 2)
+                out.setStrokeWidth(context.convert_size(layer.outline_width / 2))
             else:
-                out.setStrokeWidth(layer.outline_width)
-            out.setStrokeWidthUnit(QgsUnitTypes.RenderPoints)
+                out.setStrokeWidth(context.convert_size(layer.outline_width))
+            out.setStrokeWidthUnit(context.units)
         else:
             # for stroke-only symbols, we need to add the outline as an additional
             # symbol layer
-            outline_layer = QgsSimpleMarkerSymbolLayer(marker_type, layer.size)
-            outline_layer.setSizeUnit(QgsUnitTypes.RenderPoints)
+            outline_layer = QgsSimpleMarkerSymbolLayer(marker_type, context.convert_size(layer.size))
+            outline_layer.setSizeUnit(context.units)
             outline_layer.setStrokeColor(outline_color)
-            outline_layer.setStrokeWidth(layer.outline_width)
-            outline_layer.setStrokeWidthUnit(QgsUnitTypes.RenderPoints)
+            outline_layer.setStrokeWidth(context.convert_size(layer.outline_width))
+            outline_layer.setStrokeWidthUnit(context.units)
             symbol.appendSymbolLayer(outline_layer)
     elif not stroke_only_symbol:
         out.setStrokeStyle(Qt.NoPen)
@@ -609,7 +623,7 @@ def append_SimpleMarkerSymbolLayer(symbol, layer: SimpleMarkerSymbolLayer,
 
 
 def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer,
-                                  context: Context):  # pylint: disable=unused-argument
+                                  context: Context):
     """
     Appends a ArrowMarkerSymbolLayer to a symbol
     """
@@ -617,17 +631,19 @@ def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer,
     out.setSymbolName('triangle')
     out.setStrokeStyle(Qt.NoPen)
 
-    out.setSymbolHeight(layer.size)
-    out.setSymbolHeightUnit(QgsUnitTypes.RenderPoints)
-    out.setSymbolWidth(layer.width)
-    out.setSymbolWidthUnit(QgsUnitTypes.RenderPoints)
+    out.setSymbolHeight(context.convert_size(layer.size))
+    out.setSymbolHeightUnit(context.units)
+    out.setSymbolWidth(context.convert_size(layer.width))
+    out.setSymbolWidthUnit(context.units)
 
     color = symbol_color_to_qcolor(layer.color)
     out.setColor(color)
     out.setStrokeColor(color)  # why not, makes the symbol a bit easier to modify in qgis
 
-    out.setOffset(adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset), layer.angle))
-    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+    out.setOffset(
+        adjust_offset_for_rotation(QPointF(context.convert_size(layer.x_offset), -context.convert_size(layer.y_offset)),
+                                   layer.angle))
+    out.setOffsetUnit(context.units)
 
     angle = 90 - layer.angle
     if angle <= -180:
@@ -642,7 +658,7 @@ def append_ArrowMarkerSymbolLayer(symbol, layer: ArrowMarkerSymbolLayer,
     symbol.appendSymbolLayer(out)
 
 
-def append_CharacterMarkerSymbolLayer(symbol, layer, context: Context):  # pylint: disable=unused-argument
+def append_CharacterMarkerSymbolLayer(symbol, layer, context: Context):
     """
     Appends a CharacterMarkerSymbolLayer to a symbol
     """
@@ -708,8 +724,8 @@ def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):  # 
 
     out = QgsSvgMarkerSymbolLayer(svg_path)
 
-    out.setSizeUnit(QgsUnitTypes.RenderPoints)
-    out.setSize(scale * rect.width())
+    out.setSizeUnit(context.units)
+    out.setSize(context.convert_size(scale * rect.width()))
     out.setAngle(angle)
     out.setFillColor(color)
     out.setStrokeWidth(0)
@@ -717,13 +733,15 @@ def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):  # 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
 
-    out.setOffset(adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset), layer.angle))
-    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+    out.setOffset(
+        adjust_offset_for_rotation(QPointF(context.convert_size(layer.x_offset), -context.convert_size(layer.y_offset)),
+                                   layer.angle))
+    out.setOffsetUnit(context.units)
 
     symbol.appendSymbolLayer(out)
 
 
-def append_CharacterMarkerSymbolLayerAsFont(symbol, layer, context: Context):  # pylint: disable=unused-argument
+def append_CharacterMarkerSymbolLayerAsFont(symbol, layer, context: Context):
     """
     Appends a CharacterMarkerSymbolLayer to a symbol, using QGIS font marker symbols
     """
@@ -732,14 +750,16 @@ def append_CharacterMarkerSymbolLayerAsFont(symbol, layer, context: Context):  #
     color = symbol_color_to_qcolor(layer.color)
     angle = convert_angle(layer.angle)
 
-    out = QgsFontMarkerSymbolLayer(font_family, character, layer.size, color, angle)
-    out.setSizeUnit(QgsUnitTypes.RenderPoints)
+    out = QgsFontMarkerSymbolLayer(font_family, character, context.convert_size(layer.size), color, angle)
+    out.setSizeUnit(context.units)
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
 
-    out.setOffset(adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset), layer.angle))
-    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+    out.setOffset(
+        adjust_offset_for_rotation(QPointF(context.convert_size(layer.x_offset), -context.convert_size(layer.y_offset)),
+                                   layer.angle))
+    out.setOffsetUnit(context.units)
 
     symbol.appendSymbolLayer(out)
 
@@ -770,14 +790,16 @@ def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbolLayer, con
         else:
             svg_path = write_svg(svg, context.symbol_name, context.picture_folder)
 
-    out = QgsSvgMarkerSymbolLayer(svg_path, layer.size, layer.angle)
-    out.setSizeUnit(QgsUnitTypes.RenderPoints)
+    out = QgsSvgMarkerSymbolLayer(svg_path, context.convert_size(layer.size), layer.angle)
+    out.setSizeUnit(context.units)
 
     out.setEnabled(layer.enabled)
     out.setLocked(layer.locked)
 
-    out.setOffset(adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset), layer.angle))
-    out.setOffsetUnit(QgsUnitTypes.RenderPoints)
+    out.setOffset(
+        adjust_offset_for_rotation(QPointF(context.convert_size(layer.x_offset), -context.convert_size(layer.y_offset)),
+                                   layer.angle))
+    out.setOffsetUnit(context.units)
 
     symbol.appendSymbolLayer(out)
 
