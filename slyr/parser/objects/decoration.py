@@ -20,6 +20,11 @@ class LineDecoration(Object):
     def guid():
         return '533d88f5-0a1a-11d2-b27f-0000f878229e'
 
+    def children(self):
+        res = super().children()
+        res.extend(self.decorations)
+        return res
+
     def read(self, stream: Stream, version):
         """
         Reads the decoration information
@@ -47,6 +52,12 @@ class SimpleLineDecoration(Object):
     @staticmethod
     def guid():
         return '533d88f3-0a1a-11d2-b27f-0000f878229e'
+
+    def children(self):
+        res = super().children()
+        if self.marker:
+            res.append(self.marker)
+        return res
 
     def read(self, stream: Stream, version):
         """

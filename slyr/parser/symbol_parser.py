@@ -19,6 +19,13 @@ class Symbol(Object):
         super().__init__()
         self.levels = []
 
+    def children(self):
+        res = super().children()
+        for l in self.levels:
+            if l:
+                res.append(l)
+        return res
+
 
 class LineSymbol(Symbol):
     """
@@ -76,7 +83,6 @@ class FillSymbol(Symbol):
             layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
             self.levels.extend([layer])
 
-        # stream.read(4)
         for l in self.levels:
             l.read_enabled(stream)
         for l in self.levels:
@@ -106,6 +112,12 @@ class MarkerSymbol(Symbol):
     @staticmethod
     def compatible_versions():
         return [2, 3]
+
+    def children(self):
+        res = super().children()
+        if self.halo_symbol:
+            res.append(self.halo_symbol)
+        return res
 
     def read(self, stream: Stream, version):
         if not stream.read_0d_terminator():

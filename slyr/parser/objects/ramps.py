@@ -86,6 +86,11 @@ class PresetColorRamp(ColorRamp):
     def guid():
         return 'beb8709a-c0b4-11d0-8379-080009b996cc'
 
+    def children(self):
+        res = super().children()
+        res.extend(self.colors)
+        return res
+
     def read(self, stream, version):
         self.read_ramp_name_type(stream)
 
@@ -117,6 +122,13 @@ class MultiPartColorRamp(ColorRamp):
     @staticmethod
     def compatible_versions():
         return [2]
+
+    def children(self):
+        res = super().children()
+        for p in self.parts:
+            if p:
+                res.append(p)
+        return res
 
     def read(self, stream, version):
         self.read_ramp_name_type(stream)
@@ -155,6 +167,14 @@ class AlgorithmicColorRamp(ColorRamp):
     @staticmethod
     def compatible_versions():
         return [1]
+
+    def children(self):
+        res = super().children()
+        if self.color1:
+            res.append(self.color1)
+        if self.color2:
+            res.append(self.color2)
+        return res
 
     def read(self, stream, version):
         self.read_ramp_name_type(stream)
