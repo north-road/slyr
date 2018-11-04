@@ -9,6 +9,7 @@ A Python library and set of command line tools for extraction, parsing, and conv
 Status
 =====
 
+- Currently only ESRI .style database files are supported. There's similarities between .style blobs and .lyr files, but more work is required in order to directly support .lyr file conversion. In the meantime, it is necessary to use ArcGIS to convert a .lyr file to a .style database prior to conversion with SLYR.
 - RGB colors can be parsed, within a maximum of 1 unit difference in either the R/G/B components.
 - 100% color match for other color types, including HSV, CMYK, Grayscale, etc
 - Fill symbols
