@@ -4,12 +4,14 @@
 
 A Python library and set of command line tools for extraction, parsing, and conversion of ESRI `.lyr` and `.style` files.
 
+**This repo contains an early, open-source version of SLYR, which lags in features and capabilities from the full SLYR version. Read more about the full version and how you can obtain it at https://north-road.com/slyr/.**
+
 [![Build Status](https://travis-ci.org/nyalldawson/slyr.svg?branch=master)](https://travis-ci.org/nyalldawson/slyr)
 
 Status
 =====
 
-- Currently only ESRI .style database files are supported. There's similarities between .style blobs and .lyr files, but more work is required in order to directly support .lyr file conversion. In the meantime, it is necessary to use ArcGIS to convert a .lyr file to a .style database prior to conversion with SLYR.
+- This open-source version only supports ESRI .style database files. See https://north-road.com/slyr/ for the version which supports direct LYR file conversion. Otherwise, it is necessary to use ArcGIS to convert a .lyr file to a .style database prior to conversion with this version.
 - RGB colors can be parsed, within a maximum of 1 unit difference in either the R/G/B components.
 - 100% color match for other color types, including HSV, CMYK, Grayscale, etc
 - Fill symbols
