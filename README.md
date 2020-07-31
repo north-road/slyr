@@ -1,10 +1,10 @@
 ![SLYR Logo](logo.png)
 
-# SLYR
+# SLYR (community edition)
 
-A Python library and set of command line tools for extraction, parsing, and conversion of ESRI `.lyr` and `.style` files.
+A QGIS plugin for extraction, parsing, and conversion of ESRI `.lyr`, `.mxd` and `.style` files.
 
-**This repo contains an early, open-source version of SLYR, which lags in features and capabilities from the full SLYR version. Read more about the full version and how you can obtain it at https://north-road.com/slyr/.**
+**This repo contains the community, open-source version of SLYR, which lags in features and capabilities from the full SLYR version. Read more about the full version and how you can obtain it at https://north-road.com/slyr/.**
 
 [![Build Status](https://travis-ci.org/nyalldawson/slyr.svg?branch=master)](https://travis-ci.org/nyalldawson/slyr)
 
@@ -42,8 +42,6 @@ SLYR also functions as a QGIS plugin (for QGIS >= 3.2). Just copy the whole slyr
 The plugin adds a new group to the Processing Toolbox for "SLYR", containing tools for conversion of style databases to QGIS symbol styles. Note that Windows users will first need to setup the path to the mdbtools binaries via Options - Processing - Providers - SLYR. There's also an algorithm for converting color palettes stored in style files to the standard GPL color palette text format.
 
 The plugin throws warnings (and optionally creates a report) containing properties which cannot be translated to QGIS symbology. If you get these warnings, PLEASE consider sponsoring the feature development within QGIS itself! Everyone benefits, and you'll usually be pleasantly suprised at how inexpensive this can be! Just shoot us an email to info@north-road.com to discuss.
-
-* And no, this won't be distributed by the normal QGIS plugin channel. It's provided "as-is", with no support offered whatsoever.
  
 Specifications
 ==============
