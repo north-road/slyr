@@ -46,13 +46,8 @@ from slyr_community.qgis_plugin.integrations.browser import (
     MxdDropHandler,
     DatDropHandler,
     NameDropHandler,
-    LayoutDropHandler,
-    USE_PROJECT_OPEN_HANDLER,
+    LayoutDropHandler
 )
-try:
-    from slyr.qgis_plugin.integrations.browser import MxdProjectOpenHandler
-except ImportError:
-    pass
 
 from slyr_community.qgis_plugin.gui_utils import GuiUtils
 
@@ -146,10 +141,6 @@ class SlyrPlugin:
         self.options_factory.setTitle('SLYR')
         self.iface.registerOptionsWidgetFactory(self.options_factory)
 
-        if USE_PROJECT_OPEN_HANDLER:
-            self.open_handler = MxdProjectOpenHandler()
-            self.iface.registerCustomProjectOpenHandler(self.open_handler)
-
     def initProcessing(self):
         """Create the Processing provider"""
         QgsApplication.processingRegistry().addProvider(self.provider)
@@ -165,7 +156,3 @@ class SlyrPlugin:
         self.iface.unregisterCustomDropHandler(self.name_drop_handler)
         self.iface.unregisterOptionsWidgetFactory(self.options_factory)
         self.iface.unregisterCustomLayoutDropHandler(self.layout_drop_handler)
-
-        if USE_PROJECT_OPEN_HANDLER:
-            self.iface.unregisterCustomProjectOpenHandler(self.open_handler)
-

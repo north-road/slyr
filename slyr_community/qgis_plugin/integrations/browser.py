@@ -48,11 +48,6 @@ from qgis.gui import (
 )
 
 USE_PROJECT_OPEN_HANDLER = False
-try:
-    from qgis.gui import QgsCustomProjectOpenHandler
-    USE_PROJECT_OPEN_HANDLER = True
-except ImportError:
-    pass
 
 try:
     from qgis.core import QgsLegendPatchShape
