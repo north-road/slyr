@@ -76,7 +76,6 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
         self.inkscape_path_widget.setStorageMode(QgsFileWidget.GetFile)
 
         s = QSettings()
-        self.key_line_edit.setText(s.value('/plugins/slyr/license'))
         self.enable_annotations.setChecked(int(s.value('/plugins/slyr/enable_annotations', 0)))
         self.enable_layouts.setChecked(int(s.value('/plugins/slyr/convert_layouts', 1)))
         self.convert_font_to_svg.setChecked(int(s.value('/plugins/slyr/convert_font_to_svg', 0)))
