@@ -1,0 +1,123 @@
+{'halo': False,
+ 'halo_size': 2.0,
+ 'halo_symbol': {'color': {'B': 255,
+                           'G': 255,
+                           'R': 255,
+                           'dither': True,
+                           'is_null': False,
+                           'type': 'RgbColor',
+                           'version': 1},
+                 'enabled': True,
+                 'fill_style': 'solid',
+                 'locked': False,
+                 'outline': {'color': {'B': 110,
+                                       'G': 110,
+                                       'R': 110,
+                                       'dither': True,
+                                       'is_null': False,
+                                       'type': 'RgbColor',
+                                       'version': 1},
+                             'enabled': True,
+                             'line_type': 'solid',
+                             'locked': False,
+                             'symbol_level': 0,
+                             'type': 'SimpleLineSymbol',
+                             'version': 1,
+                             'width': 0.0},
+                 'symbol_level': 0,
+                 'type': 'SimpleFillSymbol',
+                 'version': 1},
+ 'levels': [{'angle': 0.0,
+             'color_background': {'B': 255,
+                                  'G': 255,
+                                  'R': 255,
+                                  'dither': True,
+                                  'is_null': False,
+                                  'type': 'RgbColor',
+                                  'version': 1},
+             'color_foreground': {'B': 0,
+                                  'G': 0,
+                                  'R': 0,
+                                  'dither': False,
+                                  'is_null': True,
+                                  'type': 'RgbColor',
+                                  'version': 1},
+             'color_transparent': None,
+             'enabled': True,
+             'locked': False,
+             'picture': {'content': b'AQAAAHQAAACAAQAAwv3//5kBAADc/f//4C4AAO65'
+                                    b'///tMQAAG73//yBFTUYAAAEA+AYAABUAAAADAAAA'
+                                    b'DQAAAFgAAAAAAAAAAAQAAAADAABAAQAA8AAAAEEA'
+                                    b'ZABvAGIAZQAgAFMAeQBzAHQAZQBtAHMAAAARAAAA'
+                                    b'DAAAAAgAAAASAAAADAAAAAEAAAAKAAAAEAAAAAAA'
+                                    b'AAAAAAAADAAAABAAAAAAAAAAAAAAAAkAAAAQAAAA'
+                                    b'4QAAAOoAAAALAAAAEAAAAEsAAABOAAAAJwAAABgA'
+                                    b'AAABAAAAAQAAAAAAAAAAAAAAJQAAAAwAAAABAAAA'
+                                    b'XwAAADQAAAACAAAALAAAAAAAAAAsAAAAAAAAAAAA'
+                                    b'AQACAAAAAAAAAAAAAAAAAAAAAAAAACUAAAAMAAAA'
+                                    b'AgAAADsAAAAIAAAAGwAAABAAAACmBAAAhPn//1gA'
+                                    b'AAAgBQAAhgEAAMX9//+UAQAA1/3//0EBAAClBIH5'
+                                    b'owSB+aEEgPmfBID5nwSA+Z8EgPmeBH/5ngR/+Z4E'
+                                    b'f/mdBH75nQR++Z0EfvmbBHz5mwR8+ZsEfPmZBHv5'
+                                    b'mQR7+ZkEe/mYBHr5mAR6+ZgEevmYBHv5mAR8+ZgE'
+                                    b'fvmVBHv5lgR7+ZUEd/mVBHb5lQRy+ZUEcPmWBHH5'
+                                    b'lgRx+ZYEcfmXBHL5lwRy+ZcEcvmZBHT5mQR0+ZkE'
+                                    b'dPmbBHb5mwR2+ZsEdvmbBHb5mwR2+ZsEdvmcBHf5'
+                                    b'nAR3+ZwEd/mcBHf5nAR3+ZwEd/mcBHf5nAR3+ZwE'
+                                    b'd/mbBHf5mwR3+ZsEd/maBHf5mgR3+ZoEd/maBHj5'
+                                    b'mgR4+ZoEePmcBHr5pASA+aQEefmkBHX5pARy+aQE'
+                                    b'bvmlBGz5pQRs+aUEbPmlBGj5pQRo+aUEaPmlBGX5'
+                                    b'pQRl+aUEZfmlBGP5pQRj+aUEY/mlBGD5pQRg+aUE'
+                                    b'YPmlBGD5pQRg+aUEYPmZBF/5mQRf+ZkEX/mZBF35'
+                                    b'mQRd+ZkEXfmlBF35pQRd+aUEXfmlBFv5pQRb+aUE'
+                                    b'W/mlBFv5pQRb+aUEW/mkBFr5pARa+aQEWvmkBFr5'
+                                    b'pARa+aQEWvmjBFn5owRZ+aMEWfmjBFn5owRZ+aME'
+                                    b'WfmiBFf5ogRX+aIEV/miBFf5ogRX+aIEV/miBFT5'
+                                    b'pART+aYEUvmmBFX5pgRV+aYEVfmmBFX5pgRV+aYE'
+                                    b'VfmmBFX5pgRV+aYEVfmlBFX5pQRV+aUEVfmlBFb5'
+                                    b'pQRW+aUEVvmkBFb5pARW+aQEVvmkBFb5pARW+aQE'
+                                    b'VvmkBFf5pARX+aQEV/mkBFf5pARX+aQEV/mlBFj5'
+                                    b'pQRY+aUEWPmlBFn5pQRZ+aUEWfmmBFj5pQRX+aYE'
+                                    b'V/mnBFf5pwRX+acEV/moBFf5qARX+agEV/moBFn5'
+                                    b'qARZ+agEWfmoBFj5qARY+agEWPmoBFj5qARY+agE'
+                                    b'WPmpBFf5qQRX+akEV/mpBFb5qQRW+akEVvmoBFb5'
+                                    b'qARW+agEVvmoBFb5qARW+agEVvmoBFX5qARV+agE'
+                                    b'VfmnBFX5pwRV+acEVfmnBFX5pwRV+acEVfmmBFX5'
+                                    b'pgRV+aYEVfmmBFL5pgRS+aYEUvmqBFP5qgRT+asE'
+                                    b'V/mqBFf5qgRX+aoEV/mqBFj5qgRY+aoEWPmqBFn5'
+                                    b'qgRZ+aoEWfmqBFn5qgRZ+aoEWfmpBFr5qQRa+akE'
+                                    b'WvmpBFr5qQRa+akEWvmoBFv5qARb+agEW/mnBFv5'
+                                    b'pwRb+acEW/moBF35qARd+agEXfm0BF35tARd+bQE'
+                                    b'Xfm0BF/5tARf+bQEX/moBGD5qARg+agEYPmoBGj5'
+                                    b'qQRx+akEefmpBHr5qQR9+awEfPmsBHz5rAR8+awE'
+                                    b'fPmtBHz5rQR8+a0EfPmuBHv5rgR7+a4Ee/mvBHv5'
+                                    b'rwR7+a8Ee/mwBHr5sAR6+bAEevmyBHn5sgR5+bIE'
+                                    b'efmzBHj5swR4+bMEePmzBHj5swR4+bMEePmzBHf5'
+                                    b'swR3+bMEd/myBHf5sgR3+bIEd/mxBHf5sQR3+bEE'
+                                    b'd/mxBHf5sQR3+bEEd/m0BHX5tQR0+bgEcPm4BHX5'
+                                    b'uQR7+bUEfvm1BHz5tQR8+bUEfPm1BHv5tQR7+bUE'
+                                    b'e/m1BHr5tQR6+bUEevm1BHr5tQR6+bUEevmyBHz5'
+                                    b'sQR++a4EgPmsBID5rASA+awEgPmrBIH5qwSB+asE'
+                                    b'gfmqBIH5qgSB+aoEgfmqBIH5qgSB+aoEgfmoBIL5'
+                                    b'qASC+agEgvmnBIP5pwSD+acEg/k9AAAACAAAADwA'
+                                    b'AAAIAAAAQAAAABgAAACfhgEAn4YBAGF5/v9hef7/'
+                                    b'WwAAADwAAACAAQAAwf3//5oBAADc/f//AQAAAAYA'
+                                    b'AAAGAAAAggSS+YIERvnLBEb5ywSS+YIEkvmCBJL5'
+                                    b'KAAAAAwAAAABAAAAKAAAAAwAAAACAAAADgAAABQA'
+                                    b'AAAAAAAAEAAAABQAAAA=',
+                         'picture_type': 'EmfPicture',
+                         'type': 'StdPicture',
+                         'version': 1},
+             'rotate_with_transform': True,
+             'size': 15.0,
+             'swap_fg_bg': False,
+             'symbol_level': 0,
+             'type': 'PictureMarkerSymbol',
+             'version': 8,
+             'x_offset': 0.0,
+             'x_scale': 1.0,
+             'y_offset': 0.0,
+             'y_scale': 1.0}],
+ 'symbol_level': 0,
+ 'type': 'MultiLayerMarkerSymbol',
+ 'version': 3}

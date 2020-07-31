@@ -1,0 +1,139 @@
+{'halo': False,
+ 'halo_size': 2.0,
+ 'halo_symbol': {'color': {'B': 255,
+                           'G': 255,
+                           'R': 255,
+                           'dither': True,
+                           'is_null': False,
+                           'type': 'RgbColor',
+                           'version': 1},
+                 'enabled': True,
+                 'fill_style': 'solid',
+                 'locked': False,
+                 'outline': {'color': {'B': 110,
+                                       'G': 110,
+                                       'R': 110,
+                                       'dither': True,
+                                       'is_null': False,
+                                       'type': 'RgbColor',
+                                       'version': 1},
+                             'enabled': True,
+                             'line_type': 'solid',
+                             'locked': False,
+                             'symbol_level': 0,
+                             'type': 'SimpleLineSymbol',
+                             'version': 1,
+                             'width': 0.0},
+                 'symbol_level': 0,
+                 'type': 'SimpleFillSymbol',
+                 'version': 1},
+ 'levels': [{'angle': 0.0,
+             'color_background': {'B': 0,
+                                  'G': 0,
+                                  'R': 0,
+                                  'dither': True,
+                                  'is_null': False,
+                                  'type': 'RgbColor',
+                                  'version': 1},
+             'color_foreground': {'B': 0,
+                                  'G': 0,
+                                  'R': 0,
+                                  'dither': False,
+                                  'is_null': True,
+                                  'type': 'RgbColor',
+                                  'version': 1},
+             'color_transparent': {'B': 255,
+                                   'G': 255,
+                                   'R': 255,
+                                   'dither': True,
+                                   'is_null': False,
+                                   'type': 'RgbColor',
+                                   'version': 1},
+             'enabled': True,
+             'locked': False,
+             'picture': {'content': b'Qk0+CAAAAAAAAD4AAAAoAAAAgAAAAIAAAAABAAEA'
+                                    b'AAAAAAAIAABtCwAAbQsAAAIAAAACAAAA////AAAA'
+                                    b'AAD/////////////////////gACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAP////////////////////8AgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACA////////////////'
+                                    b'/////4AAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgAD/////'
+                                    b'////////////////AIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgP////////////////////+AAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAA/////////////////////wCA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAID/////////////'
+                                    b'////////gACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAP//'
+                                    b'//////////////////8AgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACA/////////////////////4AAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgAD/////////////////////'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgP//////////'
+                                    b'//////////+AAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'/////////////////////wCAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAID/////////////////////gACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAP//////////////////'
+                                    b'//8AgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACA////////'
+                                    b'/////////////4AAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA'
+                                    b'gAD/////////////////////AIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA'
+                                    b'AIAAgACAAIAAgA==',
+                         'type': 'BmpPicture',
+                         'version': None},
+             'rotate_with_transform': True,
+             'size': 8.0,
+             'swap_fg_bg': True,
+             'symbol_level': 0,
+             'type': 'PictureMarkerSymbol',
+             'version': 9,
+             'x_offset': 0.0,
+             'x_scale': 1.0,
+             'y_offset': 0.0,
+             'y_scale': 1.0}],
+ 'symbol_level': 0,
+ 'type': 'MultiLayerMarkerSymbol',
+ 'version': 3}

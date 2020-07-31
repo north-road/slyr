@@ -1,0 +1,12 @@
+{'color': {'B': 0,
+           'G': 255,
+           'R': 0,
+           'dither': True,
+           'is_null': False,
+           'type': 'RgbColor',
+           'version': 1},
+ 'enabled': True,
+ 'locked': False,
+ 'symbol_level': 0,
+ 'type': 'ColorSymbol',
+ 'version': 1}

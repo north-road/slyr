@@ -1,0 +1,109 @@
+{'levels': [{'enabled': True,
+             'fill_symbol': {'angle': 0.0,
+                             'color_background': {'B': 0,
+                                                  'G': 0,
+                                                  'R': 0,
+                                                  'dither': True,
+                                                  'is_null': False,
+                                                  'type': 'RgbColor',
+                                                  'version': 1},
+                             'color_background_model': 'rgb',
+                             'color_foreground': {'B': 0,
+                                                  'G': 0,
+                                                  'R': 0,
+                                                  'dither': False,
+                                                  'is_null': True,
+                                                  'type': 'RgbColor',
+                                                  'version': 1},
+                             'color_foreground_model': 'rgb',
+                             'color_transparent': {'B': 255,
+                                                   'G': 255,
+                                                   'R': 255,
+                                                   'dither': True,
+                                                   'is_null': False,
+                                                   'type': 'RgbColor',
+                                                   'version': 1},
+                             'color_transparent_model': 'rgb',
+                             'enabled': True,
+                             'locked': False,
+                             'offset_x': 0.0,
+                             'offset_y': 0.0,
+                             'picture': {'content': b'Qk0uBAAAAAAAAD4AAAAoAAAA'
+                                                    b'VAAAAFQAAAABAAEAAAAAAPAD'
+                                                    b'AADEDgAAxA4AAAAAAAAAAAAA'
+                                                    b'////AAAAAAAxzjGOcYxzjGOc'
+                                                    b'YADOMc5xjnOMc5xjkADOMc5x'
+                                                    b'jnOMc5xjkAAxzjGOcYxzjGOc'
+                                                    b'YAAxzjGOcYxzjGOcYADOMc5x'
+                                                    b'jnOMc5xjkADOMc5xjnOMc5xj'
+                                                    b'kAAxzjGOcYxzjGOcYAAxzjGO'
+                                                    b'cYxzjGOcYADOMc5xjnOMc5xj'
+                                                    b'kADOMc5xjnOMc5xjkAAxzjGO'
+                                                    b'cYxzjGOcYAAxzjGOcYxzjGOc'
+                                                    b'YADOMc5xjnOMc5xjkADOMc5x'
+                                                    b'jnOMc5xjkAAxzjGOcYxzjGOc'
+                                                    b'YAAxzjGOcYxzjGOcYADOMc5x'
+                                                    b'jnOMc5xjkADOMc5xjnOMc5xj'
+                                                    b'kAAxzjGOcYxzjGOcYAAxzjGO'
+                                                    b'cYxzjGOcYADOMc5xjnOMc5xj'
+                                                    b'kADOMc5xjnOMc5xjkAAxzjGO'
+                                                    b'cYxzjGOcYAAxzjGOcYxzjGOc'
+                                                    b'YADOMc5xjnOMc5xjkADOMc5x'
+                                                    b'jnOMc5xjkAAxzjGOcYxzjGOc'
+                                                    b'YAAxzjGOcYxzjGOcYADOMc5x'
+                                                    b'jnOMc5xjkADOMc5xjnOMc5xj'
+                                                    b'kAAxzjGOcYxzjGOcYAAxzjGO'
+                                                    b'cYxzjGOcYADOMc5xjnOMc5xj'
+                                                    b'kADOMc5xjnOMc5xjkAAxzjGO'
+                                                    b'cYxzjGOcYAAxzjGOcYxzjGOc'
+                                                    b'YADOMc5xjnOMc5xjkADOMc5x'
+                                                    b'jnOMc5xjkAAxzjGOcYxzjGOc'
+                                                    b'YAAxzjGOcYxzjGOcYADOMc5x'
+                                                    b'jnOMc5xjkADOMc5xjnOMc5xj'
+                                                    b'kAAxzjGOcYxzjGOcYAAxzjGO'
+                                                    b'cYxzjGOcYADOMc5xjnOMc5xj'
+                                                    b'kADOMc5xjnOMc5xjkAAxzjGO'
+                                                    b'cYxzjGOcYAAxzjGOcYxzjGOc'
+                                                    b'YADOMc5xjnOMc5xjkADOMc5x'
+                                                    b'jnOMc5xjkAAxzjGOcYxzjGOc'
+                                                    b'YAAxzjGOcYxzjGOcYADOMc5x'
+                                                    b'jnOMc5xjkADOMc5xjnOMc5xj'
+                                                    b'kAAxzjGOcYxzjGOcYAAxzjGO'
+                                                    b'cYxzjGOcYADOMc5xjnOMc5xj'
+                                                    b'kADOMc5xjnOMc5xjkAAxzjGO'
+                                                    b'cYxzjGOcYAAxzjGOcYxzjGOc'
+                                                    b'YADOMc5xjnOMc5xjkADOMc5x'
+                                                    b'jnOMc5xjkAAxzjGOcYxzjGOc'
+                                                    b'YAAxzjGOcYxzjGOcYADOMc5x'
+                                                    b'jnOMc5xjkADOMc5xjnOMc5xj'
+                                                    b'kAAxzjGOcYxzjGOcYAAxzjGO'
+                                                    b'cYxzjGOcYADOMc5xjnOMc5xj'
+                                                    b'kADOMc5xjnOMc5xjkAAxzjGO'
+                                                    b'cYxzjGOcYAAxzjGOcYxzjGOc'
+                                                    b'YADOMc5xjnOMc5xjkADOMc5x'
+                                                    b'jnOMc5xjkAAxzjGOcYxzjGOc'
+                                                    b'YAAxzjGOcYxzjGOcYADOMc5x'
+                                                    b'jnOMc5xjkADOMc5xjnOMc5xj'
+                                                    b'kAAxzjGOcYxzjGOcYAAxzjGO'
+                                                    b'cYxzjGOcYADOMc5xjnOMc5xj'
+                                                    b'kADOMc5xjnOMc5xjkAAxzjGO'
+                                                    b'cYxzjGOcYAA=',
+                                         'type': 'BmpPicture',
+                                         'version': None},
+                             'scale_x': 1.0,
+                             'scale_y': 1.0,
+                             'separation_x': 0.0,
+                             'separation_y': 0.0,
+                             'swap_fg_bg': True,
+                             'symbol_level': 0,
+                             'type': 'PictureFillSymbol',
+                             'version': 8},
+             'locked': False,
+             'offset': 0.0,
+             'symbol_level': 0,
+             'type': 'PictureLineSymbol',
+             'version': 1,
+             'width': 1.0}],
+ 'symbol_level': 0,
+ 'type': 'MultiLayerLineSymbol',
+ 'version': 2}

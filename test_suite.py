@@ -81,7 +81,7 @@ def test_package(package='slyr'):
 
 def test_environment():
     """Test package with an environment variable."""
-    package = os.environ.get('TESTING_PACKAGE', 'slyr')
+    package = os.environ.get('TESTING_PACKAGE', 'slyr_community')
     test_loader = unittest.defaultTestLoader
     test_suite = test_loader.discover(package)
     _run_tests(test_suite, package)
@@ -89,7 +89,7 @@ def test_environment():
 
 def test_qgis3():
     """Run all QGIS3 tests"""
-    test_package('slyr.test')
+    test_package('slyr_community.test')
 
 
 

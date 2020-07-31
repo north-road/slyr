@@ -1,0 +1,91 @@
+{'levels': [{'angle': 0.0,
+             'color_background': {'B': 0,
+                                  'G': 0,
+                                  'R': 0,
+                                  'dither': False,
+                                  'is_null': True,
+                                  'type': 'RgbColor',
+                                  'version': 1},
+             'color_background_model': 'rgb',
+             'color_foreground': {'B': 0,
+                                  'G': 0,
+                                  'R': 0,
+                                  'dither': True,
+                                  'is_null': False,
+                                  'type': 'RgbColor',
+                                  'version': 1},
+             'color_foreground_model': 'rgb',
+             'color_transparent': {'B': 255,
+                                   'G': 255,
+                                   'R': 255,
+                                   'dither': True,
+                                   'is_null': False,
+                                   'type': 'RgbColor',
+                                   'version': 1},
+             'color_transparent_model': 'rgb',
+             'enabled': True,
+             'locked': False,
+             'offset_x': -37.0,
+             'offset_y': -47.0,
+             'outline': {'color': {'B': 110,
+                                   'G': 110,
+                                   'R': 110,
+                                   'dither': True,
+                                   'is_null': False,
+                                   'type': 'RgbColor',
+                                   'version': 1},
+                         'enabled': True,
+                         'line_type': 'solid',
+                         'locked': False,
+                         'symbol_level': 0,
+                         'type': 'SimpleLineSymbol',
+                         'version': 1,
+                         'width': 1.0},
+             'picture': {'content': b'Qk0KBAAAAAAAAD4AAAAoAAAAUAAAAFEAAAABAAEA'
+                                    b'AAAAAMwDAADEDgAAxA4AAAAAAAAAAAAAAAAAAP//'
+                                    b'/wDOc5znOc5znOc5AAC/r+v6/r+v6/r+AAC/r+v6'
+                                    b'/r+v6/r+AAB/3/f9/3/f9/3/AAB/3/f9/3/f9/3/'
+                                    b'AAC/r+v6/r+v6/r+AAC/r+v6/r+v6/r+AADOc5zn'
+                                    b'Oc5znOc5AADx/H8fx/H8fx/HAADOc5znOc5znOc5'
+                                    b'AAC/r+v6/r+v6/r+AAC/r+v6/r+v6/r+AAB/3/f9'
+                                    b'/3/f9/3/AAB/3/f9/3/f9/3/AAC/r+v6/r+v6/r+'
+                                    b'AAC/r+v6/r+v6/r+AADOc5znOc5znOc5AADx/H8f'
+                                    b'x/H8fx/HAADOc5znOc5znOc5AAC/r+v6/r+v6/r+'
+                                    b'AAC/r+v6/r+v6/r+AAB/3/f9/3/f9/3/AAB/3/f9'
+                                    b'/3/f9/3/AAC/r+v6/r+v6/r+AAC/r+v6/r+v6/r+'
+                                    b'AADOc5znOc5znOc5AADx/H8fx/H8fx/HAADOc5zn'
+                                    b'Oc5znOc5AAC/r+v6/r+v6/r+AAC/r+v6/r+v6/r+'
+                                    b'AAB/3/f9/3/f9/3/AAB/3/f9/3/f9/3/AAC/r+v6'
+                                    b'/r+v6/r+AAC/r+v6/r+v6/r+AADOc5znOc5znOc5'
+                                    b'AADx/H8fx/H8fx/HAADOc5znOc5znOc5AAC/r+v6'
+                                    b'/r+v6/r+AAC/r+v6/r+v6/r+AAB/3/f9/3/f9/3/'
+                                    b'AAB/3/f9/3/f9/3/AAC/r+v6/r+v6/r+AAC/r+v6'
+                                    b'/r+v6/r+AADOc5znOc5znOc5AADx/H8fx/H8fx/H'
+                                    b'AADOc5znOc5znOc5AAC/r+v6/r+v6/r+AAC/r+v6'
+                                    b'/r+v6/r+AAB/3/f9/3/f9/3/AAB/3/f9/3/f9/3/'
+                                    b'AAC/r+v6/r+v6/r+AAC/r+v6/r+v6/r+AADOc5zn'
+                                    b'Oc5znOc5AADx/H8fx/H8fx/HAADOc5znOc5znOc5'
+                                    b'AAC/r+v6/r+v6/r+AAC/r+v6/r+v6/r+AAB/3/f9'
+                                    b'/3/f9/3/AAB/3/f9/3/f9/3/AAC/r+v6/r+v6/r+'
+                                    b'AAC/r+v6/r+v6/r+AADOc5znOc5znOc5AADx/H8f'
+                                    b'x/H8fx/HAADOc5znOc5znOc5AAC/r+v6/r+v6/r+'
+                                    b'AAC/r+v6/r+v6/r+AAB/3/f9/3/f9/3/AAB/3/f9'
+                                    b'/3/f9/3/AAC/r+v6/r+v6/r+AAC/r+v6/r+v6/r+'
+                                    b'AADOc5znOc5znOc5AADx/H8fx/H8fx/HAADOc5zn'
+                                    b'Oc5znOc5AAC/r+v6/r+v6/r+AAC/r+v6/r+v6/r+'
+                                    b'AAB/3/f9/3/f9/3/AAB/3/f9/3/f9/3/AAC/r+v6'
+                                    b'/r+v6/r+AAC/r+v6/r+v6/r+AADOc5znOc5znOc5'
+                                    b'AADx/H8fx/H8fx/HAAA=',
+                         'type': 'BmpPicture',
+                         'version': None},
+             'scale_x': 1.0,
+             'scale_y': 1.0,
+             'separation_x': 57.0,
+             'separation_y': 67.0,
+             'swap_fg_bg': False,
+             'symbol_level': 0,
+             'type': 'PictureFillSymbol',
+             'version': 8}],
+ 'symbol_level': 0,
+ 'type': 'MultiLayerFillSymbol',
+ 'version': 2}

@@ -1,0 +1,87 @@
+{'levels': [{'angle': 0.0,
+             'color_background': {'B': 240,
+                                  'G': 240,
+                                  'R': 240,
+                                  'dither': True,
+                                  'is_null': True,
+                                  'type': 'RgbColor',
+                                  'version': 1},
+             'color_background_model': 'rgb',
+             'color_foreground': {'B': 0,
+                                  'G': 38,
+                                  'R': 115,
+                                  'dither': False,
+                                  'is_null': False,
+                                  'type': 'RgbColor',
+                                  'version': 1},
+             'color_foreground_model': 'rgb',
+             'color_transparent': {'B': 255,
+                                   'G': 255,
+                                   'R': 255,
+                                   'dither': False,
+                                   'is_null': False,
+                                   'type': 'RgbColor',
+                                   'version': 1},
+             'color_transparent_model': 'rgb',
+             'enabled': True,
+             'locked': False,
+             'offset_x': 0.0,
+             'offset_y': 0.0,
+             'outline': {'levels': [{'color': {'B': 240,
+                                               'G': 240,
+                                               'R': 240,
+                                               'dither': True,
+                                               'is_null': True,
+                                               'type': 'RgbColor',
+                                               'version': 1},
+                                     'enabled': True,
+                                     'line_type': 'solid',
+                                     'locked': False,
+                                     'symbol_level': 0,
+                                     'type': 'SimpleLineSymbol',
+                                     'version': 1,
+                                     'width': 0.4}],
+                         'symbol_level': 0,
+                         'type': 'MultiLayerLineSymbol',
+                         'version': 1},
+             'picture': {'content': b'Qk0aAwAAAAAAAD4AAAAoAAAAQgAAAD0AAAABAAEA'
+                                    b'AAAAANwCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//'
+                                    b'/wD///////7//4AAAAD7bd7+///ffcAAAADf///3'
+                                    b'63f3/8AAAAD///vfv/79/8AAAAD+23/+///ff8AA'
+                                    b'AAB3//d7/t//7sAAAAD////v9/33/8AAAADdtu3/'
+                                    b'v/++/8AAAAD////f/////cAAAAD3//v9/tvv78AA'
+                                    b'AAC//9//9///v8AAAAD/tv93v/d9/0AAAAD9//v/'
+                                    b'////78AAAAD3/9/++7///cAAAAC///9v3/dvf8AA'
+                                    b'AAD/tuv9///798AAAAD///9/+79//0AAAAD7/9/3'
+                                    b'v/f938AAAADf2////793/cAAAAD//33e9////8AA'
+                                    b'AAD/f////f+/u4AAAADb9+9vv9v7/8AAAAD////7'
+                                    b'///u/8AAAAD/vv3++/+/7sAAAAC//////237v8AA'
+                                    b'AAD299uvv//f+8AAAAD////7///9/0AAAADf/v7+'
+                                    b'9/7/f8AAAAD+//f3fbf37cAAAAD/99+/3/+9/8AA'
+                                    b'AAB///7/99//v8AAAADvvvf3f/3f/0AAAAD/99+/'
+                                    b'7v/7/8AAAAD9//7///fvW8AAAAB/fvf2377//8AA'
+                                    b'AAD/99/f+//3/0AAAAD3//7//u99W8AAAAB/3v/2'
+                                    b't////8AAAADe//ff/7vf/8AAAAD/979+/f/7W0AA'
+                                    b'AAD7vf/37/7//8AAAAB////f/7/f/8AAAADe7+v7'
+                                    b'fff7bcAAAAD3/39/77///8AAAAD/t/////7tv4AA'
+                                    b'AAD7///f//f//8AAAAB/3ff17b//7cAAAAD/f97/'
+                                    b'//93f8AAAADt9////7v/+0AAAAD//v/dve/d38AA'
+                                    b'AAB/v+7//////8AAAADd9//v7bbve0AAAAD///9/'
+                                    b'f////8AAAAD/vvf//+2/78AAAAC7993v9v/2/sAA'
+                                    b'AAD/////f////8AAAADvf/d9/22/38AAAAB/7b/3'
+                                    b'+//3/cAAAAD9//3fv///f8AAAAD32//7/rd/70AA'
+                                    b'AAC//3t/7//3/8AAAAA=',
+                         'picture_type': 'BmpPicture',
+                         'type': 'StdPicture',
+                         'version': 1},
+             'scale_x': 1.0,
+             'scale_y': 1.0,
+             'separation_x': 0.0,
+             'separation_y': 0.0,
+             'swap_fg_bg': False,
+             'symbol_level': 0,
+             'type': 'PictureFillSymbol',
+             'version': 4}],
+ 'symbol_level': 0,
+ 'type': 'MultiLayerFillSymbol',
+ 'version': 1}

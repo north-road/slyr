@@ -1,0 +1,6 @@
+{'hue_range': [14, 360],
+ 'same_everywhere': False,
+ 'saturation_range': [13, 99],
+ 'type': 'RandomColorRamp',
+ 'value_range': [12, 100],
+ 'version': 1}

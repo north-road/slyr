@@ -1,0 +1,204 @@
+{'levels': [{'angle': 0.0,
+             'color': {'B': 255,
+                       'G': 255,
+                       'R': 255,
+                       'dither': True,
+                       'is_null': False,
+                       'type': 'RgbColor',
+                       'version': 1},
+             'enabled': True,
+             'locked': False,
+             'outline': {'color': {'B': 110,
+                                   'G': 110,
+                                   'R': 110,
+                                   'dither': True,
+                                   'is_null': False,
+                                   'type': 'RgbColor',
+                                   'version': 1},
+                         'enabled': True,
+                         'line_type': 'solid',
+                         'locked': False,
+                         'symbol_level': 0,
+                         'type': 'SimpleLineSymbol',
+                         'version': 1,
+                         'width': 1.0},
+             'size': 5.0,
+             'symbol_level': 0,
+             'texture': {'color': None,
+                         'picture': {'content': b'/9j/4AAQSkZJRgABAQAAAQABAAD/'
+                                                b'2wBDAAgGBgcGBQgHBwcJCQgKDBQN'
+                                                b'DAsLDBkSEw8UHRofHh0aHBwgJC4n'
+                                                b'ICIsIxwcKDcpLDAxNDQ0Hyc5PTgy'
+                                                b'PC4zNDL/2wBDAQkJCQwLDBgNDRgy'
+                                                b'IRwhMjIyMjIyMjIyMjIyMjIyMjIy'
+                                                b'MjIyMjIyMjIyMjIyMjIyMjIyMjIy'
+                                                b'MjIyMjIyMjIyMjL/wAARCAA8AEwD'
+                                                b'ASIAAhEBAxEB/8QAHwAAAQUBAQEB'
+                                                b'AQEAAAAAAAAAAAECAwQFBgcICQoL'
+                                                b'/8QAtRAAAgEDAwIEAwUFBAQAAAF9'
+                                                b'AQIDAAQRBRIhMUEGE1FhByJxFDKB'
+                                                b'kaEII0KxwRVS0fAkM2JyggkKFhcY'
+                                                b'GRolJicoKSo0NTY3ODk6Q0RFRkdI'
+                                                b'SUpTVFVWV1hZWmNkZWZnaGlqc3R1'
+                                                b'dnd4eXqDhIWGh4iJipKTlJWWl5iZ'
+                                                b'mqKjpKWmp6ipqrKztLW2t7i5usLD'
+                                                b'xMXGx8jJytLT1NXW19jZ2uHi4+Tl'
+                                                b'5ufo6erx8vP09fb3+Pn6/8QAHwEA'
+                                                b'AwEBAQEBAQEBAQAAAAAAAAECAwQF'
+                                                b'BgcICQoL/8QAtREAAgECBAQDBAcF'
+                                                b'BAQAAQJ3AAECAxEEBSExBhJBUQdh'
+                                                b'cRMiMoEIFEKRobHBCSMzUvAVYnLR'
+                                                b'ChYkNOEl8RcYGRomJygpKjU2Nzg5'
+                                                b'OkNERUZHSElKU1RVVldYWVpjZGVm'
+                                                b'Z2hpanN0dXZ3eHl6goOEhYaHiImK'
+                                                b'kpOUlZaXmJmaoqOkpaanqKmqsrO0'
+                                                b'tba3uLm6wsPExcbHyMnK0tPU1dbX'
+                                                b'2Nna4uPk5ebn6Onq8vP09fb3+Pn6'
+                                                b'/9oADAMBAAIRAxEAPwD3ueeG1t5b'
+                                                b'i4ljhgiQvJJIwVUUDJJJ4AA5zXh+'
+                                                b'p39j8d/GNlounnUofDekpNPe3Qby'
+                                                b'/Pdvki2KVYA8ZG/BKtJwCOfRNJZ/'
+                                                b'iN4Lni8V+F59Lt7mXYbCedt7ohVl'
+                                                b'ckBGX5weCB93PINXDb+FPhz4fuL9'
+                                                b'LO00nT4UiSeaG3JZgCETeVBdzlup'
+                                                b'yeST3NAHQQQQ2tvFb28UcMESBI44'
+                                                b'1CqigYAAHAAHGK4vWPhrZ+JfGia9'
+                                                b'4h1CfULO12fYdKZAsEOB8+/r5m5g'
+                                                b'G7dAp3KABh6l+0F4IsbhYrc6lqCF'
+                                                b'AxltbYKoOT8p8xkOeM9McjnrXKTa'
+                                                b'x8QvjBqNxbaIk+i+DbrEDzyxKN8W'
+                                                b'W3Nu+87HaVKRnaOFY4JYgHq+g+P9'
+                                                b'C8T+IbzSNFknvfscXmT3sUR+zK2/'
+                                                b'aE3nqxwSMAqQCQTg1Jean4U8Iaza'
+                                                b'wTR2mn6hr9xsjMNoQ13LuA+dkXru'
+                                                b'kHLH+I+9HgvwTpHgjRlstNt4xO6J'
+                                                b'9ruQDuuJFUAsckkDOSFBwNxx1NY/'
+                                                b'xM+Hk3jm3064sNVk07VNLeSW0kAO'
+                                                b'0swUjJHzKdyIQwzjng8YAO0vr+z0'
+                                                b'yzkvL+7gtLWPG+aeQRouSAMseBkk'
+                                                b'D8a8/wD+F6+Af7R+zf2pP5PleZ9r'
+                                                b'+ySeXuzjZjbv3Y5+7tx3zxXPj4V+'
+                                                b'PfElnDp3jPxzu0yDYot7EFzcICCw'
+                                                b'kYqmWG1cM4k5yfr7B9gs/wCzv7O+'
+                                                b'yQfYfK8j7N5Y8vy8bdm3ptxxjpig'
+                                                b'Dn/Clh4Rvpbjxh4btIDJq+fMvEjd'
+                                                b'DLtYhsK2NuWUk4A3EZOTg11Fc/rO'
+                                                b'seH/AIfeF3u7hILDTbfIitraJU3u'
+                                                b'xJ2RoMAsTk9u5JABNedx/HLUtVea'
+                                                b'bw58PdZ1XT0fYLlSwO7aCQwSNwCM'
+                                                b'9Nx4weM4oA9cmv7O3vLazmu4I7q6'
+                                                b'3fZ4XkAeXaMttU8tgcnHSvO/id8N'
+                                                b'9a+IOqaXHDr8dnosCMZrdoixWXnE'
+                                                b'igEByQQuGI2gEjO4ivPL3WNR+IXx'
+                                                b'FtvHegeDr7U9I0GJEMUk6wvLIm+R'
+                                                b'SME5ZWYHYu8naufv4r6HsLr7dp1t'
+                                                b'efZ57fz4kl8m4TZJHuAO117MM4I7'
+                                                b'GgDh9b1DwP8ACjR57uz07SrfUoLR'
+                                                b'VhtIDFHd3CFgqgk/Oy7gCzHd90nk'
+                                                b'irnw58ReJvFWl3Gsa7pdpp1hcOG0'
+                                                b'yKPd5rRc/M+TggjbtIC5wTjBXPL6'
+                                                b'r8CLHXPHlx4h1PXbu5s7i48+WxeP'
+                                                b'52GP9X5u7IQHAAC5CgKDkbq7TxD4'
+                                                b'i0L4deEgZZYIY7S08uwsnmIefy1C'
+                                                b'rGucseqAtg4zk8UAeZ/Er4g614g8'
+                                                b'SxeBfAM8n2ze63U8Ehgl82MsWiV3'
+                                                b'2hQAhYsD82QAcZDeyaFa3lj4e0yz'
+                                                b'1G4+0X0FpFFcTby/mSKgDNuPJyQT'
+                                                b'k8mvmT4U+OofBVxrGv69pGpX0GoO'
+                                                b'sP8AasUQkZZsl2jLuQCXBDH5s/ID'
+                                                b'g9R9V0AeT+IvjR5XiiTwr4U0KfWN'
+                                                b'ZEslrukby41mUY4HVlU7txJQAKTu'
+                                                b'x8wr/wDCQ/HP/oTND/7/AC//ACRX'
+                                                b'SeO/GWkeBkuW0+0tJ/FmqIgtrSOE'
+                                                b'mW7YMI0LlBkhcnaCRu2lVOenWaFd'
+                                                b'Xl94e0y81G3+z309pFLcQ7CnlyMg'
+                                                b'LLtPIwSRg8igDx+w+EHinxZrFtq3'
+                                                b'xI1/7VDHskGnwOT1UbkO0KkXKoG8'
+                                                b'sHdg8g4avZNK0qx0PS7fTNMto7az'
+                                                b't02RRJ0UfzJJySTySSTkmuD8QfFf'
+                                                b'/hGPiBB4e1bQJ7fTJ5Uij1iSbZG2'
+                                                b'5VJYBlClVZwGO/gZPtW5rnxL8H+H'
+                                                b'Li2g1TWo4nubdbqExwySrJExIVwy'
+                                                b'KQQdp70AbmiaJp3hzR4NJ0m3+z2M'
+                                                b'G7y4t7Pt3MWPLEk8knrXj+ia/wDG'
+                                                b'7xHrEF5HpFjpdim6KSG/tjBCzBSd'
+                                                b'zKxM56gAp8uQPRq2J/HOs+Jvi5p2'
+                                                b'heFL7Ph6z2Pqd9bWyXMUhKmTYZBk'
+                                                b'KpChAQVIYv1wK9YoA4f4nePbPwX4'
+                                                b'XvTFewLrcsW2ytt4Mm5yVEm3B+Vc'
+                                                b'M2SNpK7c5NcH8Pvhq3jR4fH3jqaS'
+                                                b'+vLx1mhtGiWNJERditKu0BgQqkAY'
+                                                b'BABJYMQPQPFEXgCx8S23iDxLcabF'
+                                                b'rFhbh7c3Nz84jUuQVh3fOQxbBCk5'
+                                                b'HHIFcve/ErxD4v1uPSvhxYxyWDpJ'
+                                                b'FLrt9aTeRHLs3YU7cKVGPvg5ZgNu'
+                                                b'OWAPTLq/0fw5p0H2y7sdLsU2wQ+d'
+                                                b'IkEa4HyoucAcA4A7D2ryfxP8aLfX'
+                                                b'opvDPgO0vtQ1m/8A9Ht7pUMSKGX5'
+                                                b'nQkhwyjPJChcFicLzzHjDwX428Q/'
+                                                b'EDw/4a8WeIoLm1u/tR0+/htUG0Ku'
+                                                b'5w0ahDuISPIyQN3BODX0HpWlWOh6'
+                                                b'Xb6ZpltHbWdumyKJOij+ZJOSSeSS'
+                                                b'Sck0Aeb/AAx+E6+HHj8R+Inku/FE'
+                                                b'rtMXMzMLcurBgSDiRyGO5jkZ6dNz'
+                                                b'eqVHPPDa28txcSxwwRIXkkkYKqKB'
+                                                b'kkk8AAc5rwDTfiR8RPiP4qay8J+X'
+                                                b'p2lwXB825S0jZord3AVpfNZlLhQT'
+                                                b'tQgthsZxwAel/Fua8X4dahZ2Giz6'
+                                                b'tdX2LVIYrUziPPJkZRyNoUlW5w+y'
+                                                b'vOPBf7P1hqXhe1vvE0+q2epXGZDa'
+                                                b'wtHH5KZ+UMGVjuI+Y9MbsEAg593v'
+                                                b'7630zTrm/vJPLtbWJ5pn2k7UUEsc'
+                                                b'Dk4APSufsfiP4K1CzjuofFGlJG+c'
+                                                b'Ce5WFxgkco5DDp3HPXpQBw/hn4A+'
+                                                b'HbfwuLbxHb/atZk8zzLu2upAsWSQ'
+                                                b'vljCjgYPzKfmJ6jAruPB3hfVPDH9'
+                                                b'oxX3ii+1u1nlElqt8N0luOQQZCxL'
+                                                b'5G3sBlSQBuNdRXnfxn8W6v4O8FQ3'
+                                                b'uizRwXc97Hb+c0YcopV3JUNkZ+QD'
+                                                b'kHgnvggA2NU+Gng/WvEDa7qWix3W'
+                                                b'oO6O8kk0hVigAXKbthGFAwRg981u'
+                                                b'aZ/Y9p5ukaT9hh+w48yytNi/Z9+W'
+                                                b'GUX7u7k9Bnk1x/wXkvLv4Z2Oo3+p'
+                                                b'X1/dXss0ryXk5lKbXMYVSeQuEBxz'
+                                                b'yW9a80+P+mw+HfGOheKdLaSHVLp2'
+                                                b'kkckMvmQeV5bhWBGcEAjodo465AO'
+                                                b'30PSPHniT4kWHiPxXYWmj6foyTCy'
+                                                b's4pEmaQyqynLKx5C7cscD5RhRliO'
+                                                b'08XeMtH8FaO2o6tN6eXbRsnnTfMq'
+                                                b'nYrMN2NwJ9BXQV8ufBiNvGXxem1j'
+                                                b'XppL28t7eS+DyhSGlDIikgjACh8q'
+                                                b'BjaVXGAMUAdfe6v48+MKR2+gWcmh'
+                                                b'eD7l5Le4vZXQvOgbliOGxgbdqcEl'
+                                                b'lZyM7TQ7Lxf8D7e5W4sY/EHhee4a'
+                                                b'WR7AET2mAMzMpXgGNeVyVBUfOufm'
+                                                b'90ooAz7G+0vxNocd1ayQX+mX0RAJ'
+                                                b'XckiHIZWU/iCpHHIIrwzxd+z1qV7'
+                                                b'4lu7zw5fabDp9y5lFvclozCzEkoo'
+                                                b'RCNg7dMDjHGSfBONtD+Lni3w5aTS'
+                                                b'Np8KTrtkClnMM4SNiQBztd+mAc9O'
+                                                b'Bj6DoA//2Q==',
+                                     'type': 'BmpPicture',
+                                     'version': None},
+                         'transparency': 0.0,
+                         'transparent_texture_color': {'B': 255,
+                                                       'G': 255,
+                                                       'R': 255,
+                                                       'dither': True,
+                                                       'is_null': True,
+                                                       'type': 'RgbColor',
+                                                       'version': 1},
+                         'type': 'GeometryMaterial',
+                         'version': 2},
+             'transparency_color': {'B': 255,
+                                    'G': 255,
+                                    'R': 255,
+                                    'dither': True,
+                                    'is_null': True,
+                                    'type': 'RgbColor',
+                                    'version': 1},
+             'type': 'TextureFillSymbol',
+             'version': 2}],
+ 'symbol_level': 0,
+ 'type': 'MultiLayerFillSymbol',
+ 'version': 2}
