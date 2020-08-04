@@ -75,7 +75,7 @@ class Extractor:
     ID = 'ID'
     BLOB = 'BLOB'
 
-    MDB_EXPORT_BINARY = 'xxxxmdb-export'
+    MDB_EXPORT_BINARY = 'mdb-export'
 
     @staticmethod
     def is_windows() -> bool:

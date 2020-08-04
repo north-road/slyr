@@ -69,6 +69,7 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
         self.setObjectName('slyrOptions')
         self.picture_store.setStorageMode(QgsFileWidget.GetDirectory)
         self.inkscape_path_widget.setStorageMode(QgsFileWidget.GetFile)
+        self.mdbtools_path_widget.setStorageMode(QgsFileWidget.GetDirectory)
 
         s = QSettings()
         self.enable_annotations.setChecked(int(s.value('/plugins/slyr/enable_annotations', 0)))
@@ -81,6 +82,7 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
         self.symbol_units.setCurrentIndex(self.symbol_units.findData(prev_units))
         self.picture_store.setFilePath(s.value('/plugins/slyr/picture_store_folder', ''))
         self.inkscape_path_widget.setFilePath(s.value('/plugins/slyr/inkscape_path', 'inkscape'))
+        self.mdbtools_path_widget.setFilePath(s.value('/plugins/slyr/mdbtools_path', ''))
 
     def apply(self):
         s = QSettings()
@@ -90,6 +92,7 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
         s.setValue('/plugins/slyr/symbol_units', self.symbol_units.currentData())
         s.setValue('/plugins/slyr/picture_store_folder', self.picture_store.filePath())
         s.setValue('/plugins/slyr/inkscape_path', self.inkscape_path_widget.filePath())
+        s.setValue('/plugins/slyr/mdbtools_path', self.mdbtools_path_widget.filePath())
         s.setValue('/plugins/slyr/store_relative', 0 if not self.store_relative.isChecked() else 1)
         s.setValue('/plugins/slyr/embed_pictures', 0 if not self.embed_pictures.isChecked() else 1)
         s.setValue('/plugins/slyr/apply_tweaks', 0 if not self.apply_tweaks.isChecked() else 1)
