@@ -36,6 +36,7 @@ from qgis.gui import (
     QgsFileWidget
 )
 from qgis.PyQt.QtCore import QSettings
+from slyr_community.bintools.extractor import Extractor
 from slyr_community.qgis_plugin.provider import SlyrProvider
 from slyr_community.parser.initalize_registry import initialize_registry
 from slyr_community.parser.object_registry import REGISTRY
@@ -70,6 +71,9 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
         self.picture_store.setStorageMode(QgsFileWidget.GetDirectory)
         self.inkscape_path_widget.setStorageMode(QgsFileWidget.GetFile)
         self.mdbtools_path_widget.setStorageMode(QgsFileWidget.GetDirectory)
+
+        if not Extractor.is_windows():
+            self.label_mdb_tools_win.hide()
 
         s = QSettings()
         self.enable_annotations.setChecked(int(s.value('/plugins/slyr/enable_annotations', 0)))
