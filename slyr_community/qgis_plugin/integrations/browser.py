@@ -93,7 +93,6 @@ def show_warning(short_message, title, long_message, level=Qgis.Warning, message
     return message_bar.pushWidget(message_widget, level, 0)
 
 
-
 def open_settings(message_bar_widget=None):
     """
     Opens the settings dialog at the SLYR options page
@@ -129,7 +128,7 @@ class LayoutDropHandler(QgsLayoutCustomDropHandler):
         super().__init__(parent)
 
     def handlePaste(self, designer_iface, pastePoint, data):
-        if not 'application/x-qt-windows-mime;value="Esri Graphics List"' in data.formats():
+        if 'application/x-qt-windows-mime;value="Esri Graphics List"' not in data.formats():
             return False, []
 
         message = '<p>Pasting page layout elements requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'

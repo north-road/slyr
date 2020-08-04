@@ -21,7 +21,7 @@ EXTRAS = metadata.txt icon.png
 
 EXTRA_DIRS =
 
-PEP8EXCLUDE=pydev,conf.py,third_party,ui,slyr/parser/color_lut.py
+PEP8EXCLUDE=pydev,conf.py,third_party,ui,slyr_community/parser/color_lut.py
 
 default:
 

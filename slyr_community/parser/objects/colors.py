@@ -149,6 +149,7 @@ class GrayColor(RgbColor):
     """
     Grayscale Color
     """
+
     @staticmethod
     def cls_id():
         return '7ee9c495-d123-11d0-8383-080009b996cc'

@@ -28,7 +28,8 @@ from slyr_community.parser.objects.symbol_layer import SymbolLayer
 from slyr_community.parser.objects.color_ramp_symbol import ColorRampSymbol
 from slyr_community.parser.objects.colors import Color, RgbColor, CmykColor, HsvColor, HlsColor, GrayColor
 from slyr_community.parser.objects.character_marker3d_symbol import CharacterMarker3DSymbol
-from slyr_community.parser.objects.multi_layer_symbols import MultiLayerSymbol, MultiLayerLineSymbol, MultiLayerFillSymbol, \
+from slyr_community.parser.objects.multi_layer_symbols import MultiLayerSymbol, MultiLayerLineSymbol, \
+    MultiLayerFillSymbol, \
     MultiLayerMarkerSymbol
 from slyr_community.parser.objects.geometry_material import GeometryMaterial
 from slyr_community.parser.objects.multi_patch import MultiPatch

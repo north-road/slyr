@@ -58,7 +58,7 @@ class Context:
         self.invalid_layer_resolver = None
         self.warned_crs_definitions = set()
         self.layer_type_hint = None
-        self.ignore_online_sources = False # debugging only!
+        self.ignore_online_sources = False  # debugging only!
 
     def get_picture_store_folder(self):
         if self.picture_folder:

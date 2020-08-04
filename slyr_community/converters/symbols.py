@@ -139,9 +139,12 @@ class SymbolConverter:
         elif issubclass(symbol.__class__, (MultiLayerLineSymbol, LineSymbolLayer, SimpleLine3DSymbol)):
             out = QgsLineSymbol()
         elif issubclass(symbol.__class__, (
-        MultiLayerMarkerSymbol, MarkerSymbolLayer, Marker3DSymbol, SimpleMarker3DSymbol, CharacterMarker3DSymbol)):
+                MultiLayerMarkerSymbol, MarkerSymbolLayer, Marker3DSymbol, SimpleMarker3DSymbol,
+                CharacterMarker3DSymbol)):
             if isinstance(symbol, MultiLayerMarkerSymbol) and symbol.halo and context.unsupported_object_callback:
-                context.unsupported_object_callback('{}: Marker halos are not supported by QGIS'.format(context.layer_name or context.symbol_name), level=Context.WARNING)
+                context.unsupported_object_callback(
+                    '{}: Marker halos are not supported by QGIS'.format(context.layer_name or context.symbol_name),
+                    level=Context.WARNING)
             out = QgsMarkerSymbol()
         elif issubclass(symbol.__class__, ColorRamp):
             out = ColorRampConverter.ColorRamp_to_QgsColorRamp(symbol)
@@ -152,7 +155,8 @@ class SymbolConverter:
             out.deleteSymbolLayer(0)
             return out
         else:
-            raise NotImplementedException('{} symbols require the licensed version of SLYR'.format(symbol.__class__.__name__))
+            raise NotImplementedException(
+                '{} symbols require the licensed version of SLYR'.format(symbol.__class__.__name__))
 
         SymbolConverter.add_symbol_layers(out, symbol, context)
 
@@ -435,17 +439,21 @@ class SymbolConverter:
                     stops = [QgsGradientStop(1 - percent, ramp.color1())] + stops
                     ramp.setStops(stops)
 
-        if isinstance(layer, GradientFillSymbol) and layer.type in (GradientFillSymbol.RECTANGULAR, GradientFillSymbol.BUFFERED):
+        if isinstance(layer, GradientFillSymbol) and layer.type in (
+        GradientFillSymbol.RECTANGULAR, GradientFillSymbol.BUFFERED):
             if context.unsupported_object_callback and layer.type == GradientFillSymbol.RECTANGULAR:
                 context.unsupported_object_callback(
-                    '{}: Rectangular gradients are not supported in QGIS, using buffered gradient instead'.format(context.layer_name or context.symbol_name),
+                    '{}: Rectangular gradients are not supported in QGIS, using buffered gradient instead'.format(
+                        context.layer_name or context.symbol_name),
                     level=Context.WARNING)
 
             if Qgis.QGIS_VERSION_INT < 30900:
                 # can cause crash in < 3.10
                 if context.unsupported_object_callback:
-                    context.unsupported_object_callback('{}: Buffered gradients are not supported in QGIS < 3.10'.format(context.layer_name or context.symbol_name),
-                                                        Context.WARNING)
+                    context.unsupported_object_callback(
+                        '{}: Buffered gradients are not supported in QGIS < 3.10'.format(
+                            context.layer_name or context.symbol_name),
+                        Context.WARNING)
                     return None
                 else:
                     raise NotImplementedException('Buffered gradients are not supported in QGIS < 3.10')
@@ -510,14 +518,17 @@ class SymbolConverter:
         """
         Appends a MarkerFillSymbolLayer to a symbol
         """
-        if layer.random and Qgis.QGIS_VERSION_INT < 31100 and  context.unsupported_object_callback:
-            context.unsupported_object_callback('{}: Random marker fills are only supported on QGIS 3.12 or later'.format(context.layer_name or context.symbol_name),
-                                                level=Context.WARNING)
+        if layer.random and Qgis.QGIS_VERSION_INT < 31100 and context.unsupported_object_callback:
+            context.unsupported_object_callback(
+                '{}: Random marker fills are only supported on QGIS 3.12 or later'.format(
+                    context.layer_name or context.symbol_name),
+                level=Context.WARNING)
 
         if Qgis.QGIS_VERSION_INT < 30700 and context.unsupported_object_callback:
             if layer.offset_x or layer.offset_y:
                 context.unsupported_object_callback(
-                    '{}: Marker fill offset X or Y is only supported on QGIS 3.8 or later'.format(context.layer_name or context.symbol_name), level=Context.WARNING)
+                    '{}: Marker fill offset X or Y is only supported on QGIS 3.8 or later'.format(
+                        context.layer_name or context.symbol_name), level=Context.WARNING)
 
         marker = SymbolConverter.Symbol_to_QgsSymbol(layer.marker, context)
 
@@ -581,7 +592,7 @@ class SymbolConverter:
                        '--export-plain-svg',
                        svg_path]
 
-        #print(' '.join(export_args))
+        # print(' '.join(export_args))
 
         CREATE_NO_WINDOW = 0x08000000
         try:
@@ -601,7 +612,7 @@ class SymbolConverter:
                            emf_path
                            ]
 
-            #print(' '.join(export_args))
+            # print(' '.join(export_args))
 
             CREATE_NO_WINDOW = 0x08000000
             try:
@@ -621,7 +632,7 @@ class SymbolConverter:
                            emf_path
                            ]
 
-            #print(' '.join(export_args))
+            # print(' '.join(export_args))
 
             CREATE_NO_WINDOW = 0x08000000
             try:
@@ -636,7 +647,8 @@ class SymbolConverter:
             # didn't work
             if context.unsupported_object_callback:
                 context.unsupported_object_callback(
-                        'Conversion of EMF content requires a valid path to an Inkscape install setup in the SLYR options', level=Context.CRITICAL)
+                    'Conversion of EMF content requires a valid path to an Inkscape install setup in the SLYR options',
+                    level=Context.CRITICAL)
 
     @staticmethod
     def write_svg(content: str, symbol_name: str, picture_folder: str):
@@ -661,7 +673,8 @@ class SymbolConverter:
         if picture is None or picture.content is None:
             if context and context.unsupported_object_callback:
                 context.unsupported_object_callback(
-                        '{}: Picture data is missing or corrupt'.format(context.layer_name or context.symbol_name), level=Context.CRITICAL)
+                    '{}: Picture data is missing or corrupt'.format(context.layer_name or context.symbol_name),
+                    level=Context.CRITICAL)
             return None
         else:
             return PictureUtils.set_colors(picture.content, fg_color, bg_color, trans_color, swap_fg_bg)
@@ -685,9 +698,11 @@ class SymbolConverter:
         if Qgis.QGIS_VERSION_INT < 30700 and context.unsupported_object_callback:
             if layer.offset_x or layer.offset_y:
                 context.unsupported_object_callback(
-                    '{}: Marker fill offset X or Y is only supported on QGIS 3.8 or later'.format(context.layer_name or context.symbol_name), level=Context.WARNING)
+                    '{}: Marker fill offset X or Y is only supported on QGIS 3.8 or later'.format(
+                        context.layer_name or context.symbol_name), level=Context.WARNING)
         if (layer.separation_x or layer.separation_y) and context.unsupported_object_callback:
-            context.unsupported_object_callback('{}: Picture fill separation X or Y is not supported by QGIS'.format(context.layer_name or context.symbol_name),
+            context.unsupported_object_callback('{}: Picture fill separation X or Y is not supported by QGIS'.format(
+                context.layer_name or context.symbol_name),
                                                 level=Context.WARNING)
 
         picture = layer.picture
@@ -980,8 +995,10 @@ class SymbolConverter:
                     line.setHashAngle(ConversionUtils.convert_angle(layer.angle - 90))
                 else:
                     if context.unsupported_object_callback:
-                        context.unsupported_object_callback('{}: Hashed line symbols require QGIS 3.8 or greater'.format(context.layer_name or context.symbol_name),
-                                                            Context.CRITICAL)
+                        context.unsupported_object_callback(
+                            '{}: Hashed line symbols require QGIS 3.8 or greater'.format(
+                                context.layer_name or context.symbol_name),
+                            Context.CRITICAL)
                         return
                     else:
                         raise NotImplementedException('Hashed line symbols require QGIS 3.8 or greater')
@@ -1020,8 +1037,10 @@ class SymbolConverter:
                             line.setHashAngle(ConversionUtils.convert_angle(layer.angle - 90))
                         else:
                             if context.unsupported_object_callback:
-                                context.unsupported_object_callback('{}: Hashed line symbols require QGIS 3.8 or greater'.format(context.layer_name or context.symbol_name),
-                                                                    Context.CRITICAL)
+                                context.unsupported_object_callback(
+                                    '{}: Hashed line symbols require QGIS 3.8 or greater'.format(
+                                        context.layer_name or context.symbol_name),
+                                    Context.CRITICAL)
                                 return
                             else:
                                 raise NotImplementedException('Hashed line symbols require QGIS 3.8 or greater')
@@ -1436,7 +1455,9 @@ class SymbolConverter:
 
                 if not os.path.exists(svg_path):
                     if context.unsupported_object_callback:
-                        context.unsupported_object_callback('{}: Conversion of EMF picture failed'.format(context.layer_name or context.symbol_name), level=Context.CRITICAL)
+                        context.unsupported_object_callback(
+                            '{}: Conversion of EMF picture failed'.format(context.layer_name or context.symbol_name),
+                            level=Context.CRITICAL)
 
                 if context.embed_pictures and os.path.exists(svg_path):
                     with open(svg_path, 'rb') as svg_file:
@@ -1460,7 +1481,8 @@ class SymbolConverter:
         else:
             if context.embed_pictures:
                 picture_data = SymbolConverter.get_picture_data(picture, layer.color_foreground, layer.color_background,
-                                                                layer.color_transparent, layer.swap_fb_gb, context=context)
+                                                                layer.color_transparent, layer.swap_fb_gb,
+                                                                context=context)
                 image_base64 = base64.b64encode(picture_data).decode('UTF-8')
                 image_path = 'base64:{}'.format(image_base64)
             else:
