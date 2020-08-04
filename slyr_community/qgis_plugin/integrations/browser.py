@@ -64,7 +64,7 @@ from qgis.PyQt.QtXml import QDomDocument
 from qgis.utils import iface
 from processing import execAlgorithmDialog
 
-from slyr_community.bintools.extractor import Extractor
+from slyr_community.bintools.extractor import Extractor, MissingBinaryException
 from slyr_community.parser.stream import Stream
 from slyr_community.parser.exceptions import (UnreadableSymbolException,
                                     UnsupportedVersionException,
@@ -216,7 +216,13 @@ class StyleDropHandler(QgsCustomDropHandler):
 
         for type_index, symbol_type in enumerate(types_to_extract):
 
-            raw_symbols = Extractor.extract_styles(input_file, symbol_type)
+            try:
+                raw_symbols = Extractor.extract_styles(input_file, symbol_type)
+            except MissingBinaryException:
+                show_warning('MDB Tools utility not found', 'Convert style', 'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the SLYR options panel.',
+                             level=Qgis.Critical)
+                progress_dialog.deleteLater()
+                return False
 
             if feedback.isCanceled():
                 break

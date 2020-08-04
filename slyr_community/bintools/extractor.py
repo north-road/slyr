@@ -25,7 +25,16 @@ Dumps the contents of an ESRI .style file to a set of binary blobs
 
 import os
 import subprocess
+import sys
+from ctypes import cdll
 from PyQt5.QtCore import QSettings
+
+
+class MissingBinaryException(Exception):
+    """
+    Thrown when a binary utility is not available
+    """
+    pass
 
 
 class Extractor:
@@ -66,22 +75,95 @@ class Extractor:
     ID = 'ID'
     BLOB = 'BLOB'
 
+    MDB_EXPORT_BINARY = 'xxxxmdb-export'
+
     @staticmethod
-    def extract_styles(file_path: str, symbol_type: str, mdbtools_path=None):  # pylint: disable=too-many-locals
+    def is_windows() -> bool:
+        """
+        Returns True if the plugin is running on Windows
+        """
+        return os.name == 'nt'
+
+    @staticmethod
+    def get_process_startup_info():
+        """
+        Returns the correct startup info to use when calling commands for different platforms
+        """
+        # For MS-Windows, we need to hide the console window.
+        si = None
+        if Extractor.is_windows():
+            si = subprocess.STARTUPINFO()
+            si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+            si.wShowWindow = subprocess.SW_HIDE
+        return si
+
+    @staticmethod
+    def get_windows_code_page():
+        """
+        Determines MS-Windows CMD.exe shell codepage.
+        Used into GRASS exec script under MS-Windows.
+        """
+        return str(cdll.kernel32.GetACP())
+
+    @staticmethod
+    def get_process_keywords():
+        """
+        Returns the correct process keywords dict to use when calling commands for different platforms
+        """
+        kw = {}
+        if Extractor.is_windows():
+            kw['startupinfo'] = Extractor.get_process_startup_info()
+            if sys.version_info >= (3, 6):
+                kw['encoding'] = "cp{}".format(Extractor.get_windows_code_page())
+        return kw
+
+    @staticmethod
+    def get_mdb_tools_binary_path(executable: str) -> str:
+        """
+        Calculates the path for a MDB tools binary
+        :param executable: mdb tools executable name
+        :return: path for executable
+        """
+        mdbtools_path = QSettings().value('/plugins/slyr/mdbtools_path')
+        if mdbtools_path:
+            return os.path.join(mdbtools_path, executable)
+        elif Extractor.is_windows():
+            return os.path.join(os.path.dirname(__file__), 'bin', executable)
+        return executable
+
+    @staticmethod
+    def is_mdb_tools_binary_available(executable: str) -> bool:
+        """
+        Returns True if an MDB tools binary is available for execution
+        :param executable: mdb tools executable name
+        :return: True if binary is available
+        """
+
+        command = [Extractor.get_mdb_tools_binary_path(Extractor.MDB_EXPORT_BINARY)]
+        try:
+            with subprocess.Popen(command,
+                                  stdout=subprocess.PIPE,
+                                  stdin=subprocess.DEVNULL,
+                                  stderr=subprocess.STDOUT,
+                                  universal_newlines=True,
+                                  **Extractor.get_process_keywords()) as proc:
+                for line in proc.stdout:
+                    if 'Usage: mdb-export' in line:
+                        return True
+        except FileNotFoundError:
+            pass
+
+        return False
+
+    @staticmethod
+    def extract_styles(file_path: str, symbol_type: str):  # pylint: disable=too-many-locals
         """
         Extracts all matching styles of a given symbol type from a .style file
         :param file_path: path to .style file
         :param symbol_type: symbol type to extract, e.g. Extractor.FILL_SYMBOLS
         :return: list of raw symbols, ready for parsing
         """
-
-        binary = 'mdb-export'
-
-        mdbtools_path = QSettings().value('/plugins/slyr/mdbtools_path')
-        if mdbtools_path:
-            binary = os.path.join(mdbtools_path, binary)
-        elif os.name == 'nt':
-            binary = os.path.join(os.path.dirname(__file__), 'bin', binary)
+        binary = Extractor.get_mdb_tools_binary_path(Extractor.MDB_EXPORT_BINARY)
 
         export_args = [binary,
                        '-H',
@@ -100,7 +182,12 @@ class Extractor:
         try:
             result = subprocess.run(export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW)
         except ValueError:
-            result = subprocess.run(export_args, stdout=subprocess.PIPE)
+            try:
+                result = subprocess.run(export_args, stdout=subprocess.PIPE)
+            except FileNotFoundError:
+                raise MissingBinaryException
+        except FileNotFoundError:
+            raise MissingBinaryException
 
         raw_symbols = []
         for r in result.stdout.split(Extractor.__NEWLINE):
@@ -139,7 +226,7 @@ class Extractor:
             # need to strip __QUOTE from blob too
             blob = remove_quote(blob)
 
-            if os.name == 'nt':
+            if Extractor.is_windows():
                 # on windows, mdbtools does a weird thing and replaces all 0a bytes with 0a0d. Wonderful wonderful
                 # Windows new endings come round to bite us again
                 blob = blob.replace(b'\r\n', b'\n')

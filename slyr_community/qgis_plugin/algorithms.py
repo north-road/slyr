@@ -59,7 +59,7 @@ except ImportError:
 
 from qgis.PyQt.QtCore import QVariant
 
-from slyr_community.bintools.extractor import Extractor
+from slyr_community.bintools.extractor import Extractor, MissingBinaryException
 from slyr_community.parser.stream import Stream
 from slyr_community.parser.exceptions import (UnreadableSymbolException,
                                               InvalidColorException,
@@ -199,7 +199,12 @@ class StyleToQgisXml(SlyrAlgorithm):
         for type_index, symbol_type in enumerate(symbols_to_extract):
             feedback.pushInfo('Importing {} from {}'.format(symbol_type, input_file))
 
-            raw_symbols = Extractor.extract_styles(input_file, symbol_type)
+            try:
+                raw_symbols = Extractor.extract_styles(input_file, symbol_type)
+            except MissingBinaryException:
+                raise QgsProcessingException(
+                    'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the SLYR options panel.')
+
             feedback.pushInfo('Found {} symbols of type "{}"\n\n'.format(len(raw_symbols), symbol_type))
 
             if feedback.isCanceled():
@@ -416,7 +421,11 @@ class StyleToGpl(SlyrAlgorithm):
 
         feedback.pushInfo('Importing colors from {}'.format(input_file))
 
-        raw_colors = Extractor.extract_styles(input_file, Extractor.COLORS)
+        try:
+            raw_colors = Extractor.extract_styles(input_file, Extractor.COLORS)
+        except MissingBinaryException:
+            raise QgsProcessingException('The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the SLYR options panel.')
+
         feedback.pushInfo('Found {} colors'.format(len(raw_colors)))
 
         unreadable = 0
