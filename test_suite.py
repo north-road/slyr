@@ -45,7 +45,7 @@ def _run_tests(test_suite, package_name, with_coverage=False):
     print('########')
     if with_coverage:
         cov = coverage.Coverage(
-            source=['/slyr'],
+            source=['/slyr_community'],
             omit=['*/test/*' ],
         )
         cov.start()
@@ -64,7 +64,7 @@ def _run_tests(test_suite, package_name, with_coverage=False):
             print(fin.read())
 
 
-def test_package(package='slyr'):
+def test_package(package='slyr_community'):
     """Test package.
     This function is called by travis without arguments.
 
