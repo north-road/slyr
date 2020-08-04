@@ -125,6 +125,11 @@ class StyleToQgisXml(SlyrAlgorithm):
     def shortHelpString(self):  # pylint: disable=missing-docstring
         return "Converts ESRI style database to a QGIS XML Style library"
 
+    def canExecute(self):
+        if not Extractor.is_mdb_tools_binary_available(Extractor.MDB_EXPORT_BINARY):
+            return False, 'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the Settings - Options dialog, under the SLYR tab.'
+        return True, None
+
     def initAlgorithm(self, config=None):  # pylint: disable=missing-docstring,unused-argument
         self.addParameter(QgsProcessingParameterFile(
             self.INPUT, 'Style database', extension='style'))
@@ -220,8 +225,8 @@ class StyleToQgisXml(SlyrAlgorithm):
                 feedback.pushInfo('{}/{}: {}'.format(index + 1, len(raw_symbols), name))
 
                 if symbol_type in (
-                Extractor.AREA_PATCHES, Extractor.LINE_PATCHES, Extractor.TEXT_SYMBOLS, Extractor.MAPLEX_LABELS,
-                Extractor.LABELS):
+                        Extractor.AREA_PATCHES, Extractor.LINE_PATCHES, Extractor.TEXT_SYMBOLS, Extractor.MAPLEX_LABELS,
+                        Extractor.LABELS):
                     if symbol_type == Extractor.AREA_PATCHES:
                         type_string = 'area patches'
                     elif symbol_type == Extractor.LINE_PATCHES:
@@ -396,6 +401,11 @@ class StyleToGpl(SlyrAlgorithm):
         return "Converts ESRI style database to a GPL format color palette file, extracting all color entities " \
                "saved in the style."
 
+    def canExecute(self):
+        if not Extractor.is_mdb_tools_binary_available(Extractor.MDB_EXPORT_BINARY):
+            return False, 'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the Settings - Options dialog, under the SLYR tab.'
+        return True, None
+
     def initAlgorithm(self, config=None):  # pylint: disable=missing-docstring,unused-argument
         self.addParameter(QgsProcessingParameterFile(
             self.INPUT, 'Style database', extension='style'))
@@ -424,7 +434,8 @@ class StyleToGpl(SlyrAlgorithm):
         try:
             raw_colors = Extractor.extract_styles(input_file, Extractor.COLORS)
         except MissingBinaryException:
-            raise QgsProcessingException('The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the SLYR options panel.')
+            raise QgsProcessingException(
+                'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the SLYR options panel.')
 
         feedback.pushInfo('Found {} colors'.format(len(raw_colors)))
 

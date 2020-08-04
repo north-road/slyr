@@ -24,6 +24,7 @@ Browser and app integrations for LYR/STYLE file integration with QGIS
 """
 
 from io import BytesIO
+from functools import partial
 import html
 from qgis.core import (
     QgsApplication,
@@ -67,10 +68,10 @@ from processing import execAlgorithmDialog
 from slyr_community.bintools.extractor import Extractor, MissingBinaryException
 from slyr_community.parser.stream import Stream
 from slyr_community.parser.exceptions import (UnreadableSymbolException,
-                                    UnsupportedVersionException,
-                                    NotImplementedException,
-                                    UnknownClsidException,
-                                    UnreadablePictureException)
+                                              UnsupportedVersionException,
+                                              NotImplementedException,
+                                              UnknownClsidException,
+                                              UnreadablePictureException)
 from slyr_community.converters.context import Context
 from slyr_community.converters.symbols import SymbolConverter
 from slyr_community.qgis_plugin.gui_utils import GuiUtils
@@ -89,11 +90,21 @@ def show_warning(short_message, title, long_message, level=Qgis.Warning, message
     details_button = QPushButton("Details")
     details_button.clicked.connect(show_details)
     message_widget.layout().addWidget(details_button)
-    message_bar.pushWidget(message_widget, level, 0)
+    return message_bar.pushWidget(message_widget, level, 0)
+
+
+
+def open_settings(message_bar_widget=None):
+    """
+    Opens the settings dialog at the SLYR options page
+    """
+    iface.showOptionsDialog(iface.mainWindow(), currentPage='slyrOptions')
+    if message_bar_widget:
+        iface.messageBar().popWidget(message_bar_widget)
 
 
 if USE_PROJECT_OPEN_HANDLER:
-    class MxdProjectOpenHandler (QgsCustomProjectOpenHandler):
+    class MxdProjectOpenHandler(QgsCustomProjectOpenHandler):
 
         def filters(self):
             return ['ArcGIS MXD Documents (*.mxd *.MXD)',
@@ -160,6 +171,15 @@ class StyleDropHandler(QgsCustomDropHandler):
         """
         Opens a .style file
         """
+
+        if not Extractor.is_mdb_tools_binary_available(Extractor.MDB_EXPORT_BINARY):
+            bar = iface.messageBar()
+            widget = bar.createMessage('SLYR', "MDB Tools utility not found")
+            settings_button = QPushButton("Configure…", pressed=partial(open_settings, widget))
+            widget.layout().addWidget(settings_button)
+            bar.pushWidget(widget, Qgis.Critical)
+            return True
+
         style = QgsStyle()
         style.createMemoryDatabase()
 
@@ -209,8 +229,10 @@ class StyleDropHandler(QgsCustomDropHandler):
         warnings = set()
         errors = set()
 
-        types_to_extract = [Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS, Extractor.COLOR_RAMPS,
-                 Extractor.TEXT_SYMBOLS, Extractor.LABELS, Extractor.MAPLEX_LABELS, Extractor.AREA_PATCHES, Extractor.LINE_PATCHES]
+        types_to_extract = [Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS,
+                            Extractor.COLOR_RAMPS,
+                            Extractor.TEXT_SYMBOLS, Extractor.LABELS, Extractor.MAPLEX_LABELS, Extractor.AREA_PATCHES,
+                            Extractor.LINE_PATCHES]
 
         type_percent = 100 / len(types_to_extract)
 
@@ -219,10 +241,11 @@ class StyleDropHandler(QgsCustomDropHandler):
             try:
                 raw_symbols = Extractor.extract_styles(input_file, symbol_type)
             except MissingBinaryException:
-                show_warning('MDB Tools utility not found', 'Convert style', 'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the SLYR options panel.',
+                show_warning('MDB Tools utility not found', 'Convert style',
+                             'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the SLYR options panel.',
                              level=Qgis.Critical)
                 progress_dialog.deleteLater()
-                return False
+                return True
 
             if feedback.isCanceled():
                 break
@@ -234,10 +257,9 @@ class StyleDropHandler(QgsCustomDropHandler):
                 name = raw_symbol[Extractor.NAME]
                 tags = raw_symbol[Extractor.TAGS].split(';')
 
-
                 if symbol_type in (
-                Extractor.AREA_PATCHES, Extractor.LINE_PATCHES, Extractor.TEXT_SYMBOLS, Extractor.MAPLEX_LABELS,
-                Extractor.LABELS):
+                        Extractor.AREA_PATCHES, Extractor.LINE_PATCHES, Extractor.TEXT_SYMBOLS, Extractor.MAPLEX_LABELS,
+                        Extractor.LABELS):
                     if symbol_type == Extractor.AREA_PATCHES:
                         type_string = 'area patches'
                     elif symbol_type == Extractor.LINE_PATCHES:
@@ -251,7 +273,8 @@ class StyleDropHandler(QgsCustomDropHandler):
                     else:
                         type_string = ''
 
-                    unreadable.append('<b>{}</b>: {} conversion requires a licensed version of the SLYR plugin'.format(html.escape(name), type_string))
+                    unreadable.append('<b>{}</b>: {} conversion requires a licensed version of the SLYR plugin'.format(
+                        html.escape(name), type_string))
                     continue
 
                 unique_name = make_name_unique(name)
@@ -291,7 +314,6 @@ class StyleDropHandler(QgsCustomDropHandler):
 
                 context.unsupported_object_callback = unsupported_object_callback
                 # context.style_folder, _ = os.path.split(output_file)
-
 
                 try:
                     qgis_symbol = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
@@ -414,6 +436,7 @@ class LyrDropHandler(QgsCustomDropHandler):
 
 
 blocker = None
+
 
 class MxdDropHandler(QgsCustomDropHandler):
     """
@@ -684,7 +707,7 @@ class EsriMxdItem(QgsDataItem):
         if self.path().lower().endswith('mxd'):
             action_text = QCoreApplication.translate('SLYR', '&Open MXD…')
         elif self.path().lower().endswith('mxt'):
-                action_text = QCoreApplication.translate('SLYR', '&Open MXT…')
+            action_text = QCoreApplication.translate('SLYR', '&Open MXT…')
         elif self.path().lower().endswith('sxd'):
             action_text = QCoreApplication.translate('SLYR', '&Open ArcScene SXD…')
         elif self.path().lower().endswith('pmf'):
@@ -718,7 +741,8 @@ class EsriDatItem(QgsDataItem):
         # Runs in a thread!
         self.setState(QgsDataItem.Populating)
 
-        error_item = QgsErrorItem(self, "Bookmark conversion requires a licensed version of the SLYR plugin", self.path() + '/error')
+        error_item = QgsErrorItem(self, "Bookmark conversion requires a licensed version of the SLYR plugin",
+                                  self.path() + '/error')
         self.child_items.append(error_item)
 
     def hasDragEnabled(self):  # pylint: disable=missing-docstring
