@@ -132,7 +132,7 @@
       <item row="1" column="0" colspan="2">
        <widget class="QLabel" name="label_mdb_tools_win">
         <property name="text">
-         <string>The MDB Tools utility can be downloaded from &lt;a href=&quot;https://github.com/lsgunth/mdbtools-win&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/lsgunth/mdbtools-win&lt;/span&gt;&lt;/a&gt;.</string>
+         <string>The MDB Tools utility can be downloaded from &lt;a href=&quot;https://github.com/lsgunth/mdbtools-win/archive/master.zip&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/lsgunth/mdbtools-win/archive/master.zip&lt;/span&gt;&lt;/a&gt;.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
