@@ -18,11 +18,18 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+"""
+Conversion utilities
+"""
+
 import math
 from qgis.PyQt.QtCore import Qt, QPointF
 
 
 class ConversionUtils:
+    """
+    Conversion utilities
+    """
 
     @staticmethod
     def convert_angle(angle: float) -> float:

@@ -26,20 +26,20 @@ QGIS Plugin interface to SLYR conversions
 from qgis.core import (
     Qgis,
     QgsApplication,
-    QgsUnitTypes,
-    QgsExpression
+    QgsUnitTypes
 )
-
 from qgis.gui import (
     QgsOptionsWidgetFactory,
     QgsOptionsPageWidget,
     QgsFileWidget
 )
+
 from qgis.PyQt.QtCore import QSettings
+from qgis.PyQt import uic
+
 from slyr_community.bintools.extractor import Extractor
 from slyr_community.qgis_plugin.provider import SlyrProvider
 from slyr_community.parser.initalize_registry import initialize_registry
-from slyr_community.parser.object_registry import REGISTRY
 from slyr_community.qgis_plugin.integrations.browser import (
     StyleDropHandler,
     SlyrDataItemProvider,
@@ -49,10 +49,7 @@ from slyr_community.qgis_plugin.integrations.browser import (
     NameDropHandler,
     LayoutDropHandler
 )
-
 from slyr_community.qgis_plugin.gui_utils import GuiUtils
-
-from qgis.PyQt import uic
 
 initialize_registry()
 
@@ -61,6 +58,9 @@ OPTIONS_WIDGET, OPTIONS_BASE = uic.loadUiType(
 
 
 class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
+    """
+    SLYR options widget
+    """
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -89,6 +89,9 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
         self.mdbtools_path_widget.setFilePath(s.value('/plugins/slyr/mdbtools_path', ''))
 
     def apply(self):
+        """
+        Applies the new settings
+        """
         s = QSettings()
         s.setValue('/plugins/slyr/enable_annotations', 0 if not self.enable_annotations.isChecked() else 1)
         s.setValue('/plugins/slyr/convert_layouts', 0 if not self.enable_layouts.isChecked() else 1)
@@ -103,14 +106,17 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
 
 
 class SlyrOptionsFactory(QgsOptionsWidgetFactory):
+    """
+    Factory class for SLYR options widget
+    """
 
-    def __init__(self):
+    def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
 
-    def icon(self):
+    def icon(self):  # pylint: disable=missing-function-docstring
         return GuiUtils.get_icon('icon.svg')
 
-    def createWidget(self, parent):
+    def createWidget(self, parent):  # pylint: disable=missing-function-docstring
         return ConfigOptionsPage(parent)
 
 

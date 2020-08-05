@@ -26,5 +26,5 @@ QGIS Plugin interface to SLYR conversions
 
 def classFactory(iface):
     """invoke plugin"""
-    from slyr_community.plugin import SlyrPlugin
+    from slyr_community.plugin import SlyrPlugin    # pylint: disable=import-outside-toplevel
     return SlyrPlugin(iface)

@@ -171,7 +171,7 @@ class StyleDropHandler(QgsCustomDropHandler):
         Opens a .style file
         """
 
-        if not Extractor.is_mdb_tools_binary_available(Extractor.MDB_EXPORT_BINARY):
+        if not Extractor.is_mdb_tools_binary_available():
             bar = iface.messageBar()
             widget = bar.createMessage('SLYR', "MDB Tools utility not found")
             settings_button = QPushButton("Configure…", pressed=partial(open_settings, widget))

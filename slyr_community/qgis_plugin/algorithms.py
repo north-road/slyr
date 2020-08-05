@@ -126,7 +126,7 @@ class StyleToQgisXml(SlyrAlgorithm):
         return "Converts ESRI style database to a QGIS XML Style library"
 
     def canExecute(self):
-        if not Extractor.is_mdb_tools_binary_available(Extractor.MDB_EXPORT_BINARY):
+        if not Extractor.is_mdb_tools_binary_available():
             return False, 'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the Settings - Options dialog, under the SLYR tab.'
         return True, None
 
@@ -402,7 +402,7 @@ class StyleToGpl(SlyrAlgorithm):
                "saved in the style."
 
     def canExecute(self):
-        if not Extractor.is_mdb_tools_binary_available(Extractor.MDB_EXPORT_BINARY):
+        if not Extractor.is_mdb_tools_binary_available():
             return False, 'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the Settings - Options dialog, under the SLYR tab.'
         return True, None
 

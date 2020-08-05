@@ -17,6 +17,11 @@
 #  *   (at your option) any later version.                                   *
 #  *                                                                         *
 #  ***************************************************************************/
+
+"""
+Color ramp conversion utilities
+"""
+
 from qgis.core import (QgsPresetSchemeColorRamp,
                        QgsLimitedRandomColorRamp,
                        QgsGradientColorRamp,
@@ -33,6 +38,9 @@ from slyr_community.converters.color import ColorConverter
 
 
 class ColorRampConverter:
+    """
+    Color ramp converter
+    """
 
     @staticmethod
     def ColorRamp_to_QgsColorRamp(ramp: ColorRamp):
@@ -88,7 +96,7 @@ class ColorRampConverter:
         return out
 
     @staticmethod
-    def MultiPartColorRamp_to_QgsColorRamp(ramp: MultiPartColorRamp):
+    def MultiPartColorRamp_to_QgsColorRamp(ramp: MultiPartColorRamp):  # pylint: disable=too-many-branches
         """
         Converts a MultiPartColorRamp to a QgsColorRamp
         """

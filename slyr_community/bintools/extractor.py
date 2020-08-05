@@ -34,7 +34,6 @@ class MissingBinaryException(Exception):
     """
     Thrown when a binary utility is not available
     """
-    pass
 
 
 class Extractor:
@@ -132,10 +131,9 @@ class Extractor:
         return executable
 
     @staticmethod
-    def is_mdb_tools_binary_available(executable: str) -> bool:
+    def is_mdb_tools_binary_available() -> bool:
         """
-        Returns True if an MDB tools binary is available for execution
-        :param executable: mdb tools executable name
+        Returns True if the MDB tools binary is available for execution
         :return: True if binary is available
         """
 
