@@ -40,6 +40,7 @@ class Font(Object):
         204: 'cp1251',  # RUSSIAN_CHARSET
         222: 'cp874',  # THAI
         238: 'cp1250',  # EASTEUROPE_CHARSET
+        254: 'utf-8',  # see https://tedwvc.wordpress.com/2019/09/09/new-utf-8-features-in-windows-10-1903/
         # MAC_CHARSET? (77?)
         # OEM_CHARSET (255)
     }
