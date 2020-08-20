@@ -1372,7 +1372,11 @@ class SymbolConverter:
         out = QgsSvgMarkerSymbolLayer(svg_path)
 
         out.setSizeUnit(context.units)
-        out.setSize(context.convert_size(scale * rect.width()))
+        # esri symbol sizes are for height, QGIS are for width
+        if out.defaultAspectRatio() != 1 and out.defaultAspectRatio() != 0:
+            out.setSize(context.convert_size(scale * rect.width()) / out.defaultAspectRatio())
+        else:
+            out.setSize(context.convert_size(scale * rect.width()))
         out.setAngle(angle)
         out.setFillColor(color)
         out.setStrokeWidth(0)
@@ -1478,6 +1482,11 @@ class SymbolConverter:
                     svg_path = context.convert_path(svg_path)
 
             out = QgsSvgMarkerSymbolLayer(svg_path, context.convert_size(layer.size), layer.angle)
+
+            # esri symbol sizes are for height, QGIS are for width
+            if out.defaultAspectRatio() != 1 and out.defaultAspectRatio() != 0:
+                out.setSize(context.convert_size(layer.size) / out.defaultAspectRatio())
+
         else:
             if context.embed_pictures:
                 picture_data = SymbolConverter.get_picture_data(picture, layer.color_foreground, layer.color_background,
