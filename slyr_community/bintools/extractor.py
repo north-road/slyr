@@ -183,10 +183,10 @@ class Extractor:
         except ValueError:
             try:
                 result = subprocess.run(export_args, stdout=subprocess.PIPE)  # pylint: disable=subprocess-run-check
-            except FileNotFoundError:
-                raise MissingBinaryException
-        except FileNotFoundError:
-            raise MissingBinaryException
+            except FileNotFoundError as e:
+                raise MissingBinaryException from e
+        except FileNotFoundError as e:
+            raise MissingBinaryException from e
 
         raw_symbols = []
         for r in result.stdout.split(Extractor.__NEWLINE):

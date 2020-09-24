@@ -22,9 +22,9 @@ class MultiLayerSymbol(Object):
 
     def children(self):
         res = super().children()
-        for l in self.layers:
-            if l:
-                res.append(l)
+        for layer in self.layers:
+            if layer:
+                res.append(layer)
         return res
 
     def to_dict(self):  # pylint: disable=method-hidden
@@ -58,14 +58,14 @@ class MultiLayerLineSymbol(MultiLayerSymbol):
             layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
             self.layers.extend([layer])
 
-        for l in self.layers:
-            l.read_enabled(stream)
-        for l in self.layers:
-            l.read_locked(stream)
+        for layer in self.layers:
+            layer.read_enabled(stream)
+        for layer in self.layers:
+            layer.read_locked(stream)
 
         if version >= 2:
-            for l in self.layers:
-                l.read_tags(stream)
+            for layer in self.layers:
+                layer.read_tags(stream)
 
 
 class MultiLayerFillSymbol(MultiLayerSymbol):
@@ -91,14 +91,14 @@ class MultiLayerFillSymbol(MultiLayerSymbol):
             layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
             self.layers.extend([layer])
 
-        for l in self.layers:
-            l.read_enabled(stream)
-        for l in self.layers:
-            l.read_locked(stream)
+        for layer in self.layers:
+            layer.read_enabled(stream)
+        for layer in self.layers:
+            layer.read_locked(stream)
 
         if version >= 2:
-            for l in self.layers:
-                l.read_tags(stream)
+            for layer in self.layers:
+                layer.read_tags(stream)
 
 
 class MultiLayerMarkerSymbol(MultiLayerSymbol):
@@ -156,15 +156,15 @@ class MultiLayerMarkerSymbol(MultiLayerSymbol):
             layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
             self.layers.extend([layer])
 
-        for l in self.layers:
-            l.read_enabled(stream)
-        for l in self.layers:
-            l.read_locked(stream)
+        for layer in self.layers:
+            layer.read_enabled(stream)
+        for layer in self.layers:
+            layer.read_locked(stream)
 
         if version > 1:
             _ = stream.read_double('unknown size')
             _ = stream.read_double('unknown size')
 
         if version >= 3:
-            for l in self.layers:
-                l.read_tags(stream)
+            for layer in self.layers:
+                layer.read_tags(stream)

@@ -60,8 +60,8 @@ class DecorationConverter:
 
         marker = SymbolConverter.Symbol_to_QgsSymbol(decoration.marker, context)
         if decoration.flip_all:
-            for l in range(marker.symbolLayerCount()):
-                layer = marker.symbolLayer(l)
+            for layer_index in range(marker.symbolLayerCount()):
+                layer = marker.symbolLayer(layer_index)
                 layer.setAngle(layer.angle() + 180)
 
         if 0 in positions:
@@ -69,11 +69,11 @@ class DecorationConverter:
             line = QgsMarkerLineSymbolLayer(not decoration.fixed_angle)
             start_marker = marker.clone()
             if decoration.flip_first:
-                for l in range(marker.symbolLayerCount()):
-                    layer = start_marker.symbolLayer(l)
+                for layer_index in range(marker.symbolLayerCount()):
+                    layer = start_marker.symbolLayer(layer_index)
                     layer.setAngle(layer.angle() + 180)
-            for l in range(start_marker.symbolLayerCount()):
-                layer = start_marker.symbolLayer(l)
+            for layer_index in range(start_marker.symbolLayerCount()):
+                layer = start_marker.symbolLayer(layer_index)
                 if layer.offset().x() or layer.offset().y():
                     # adjust marker offset to account for rotation of line markers
                     offset = ConversionUtils.adjust_offset_for_rotation(layer.offset(), layer.angle())
@@ -95,8 +95,8 @@ class DecorationConverter:
             line = QgsMarkerLineSymbolLayer(not decoration.fixed_angle)
 
             end_marker = marker.clone()
-            for l in range(end_marker.symbolLayerCount()):
-                layer = end_marker.symbolLayer(l)
+            for layer_index in range(end_marker.symbolLayerCount()):
+                layer = end_marker.symbolLayer(layer_index)
                 if layer.offset().x() or layer.offset().y():
                     # adjust marker offset to account for rotation of line markers
                     offset = ConversionUtils.adjust_offset_for_rotation(layer.offset(), layer.angle())
@@ -117,8 +117,8 @@ class DecorationConverter:
             line = QgsMarkerLineSymbolLayer(not decoration.fixed_angle)
 
             end_marker = marker.clone()
-            for l in range(end_marker.symbolLayerCount()):
-                layer = end_marker.symbolLayer(l)
+            for layer_index in range(end_marker.symbolLayerCount()):
+                layer = end_marker.symbolLayer(layer_index)
                 if layer.offset().x() or layer.offset().y():
                     # adjust marker offset to account for rotation of line markers
                     offset = ConversionUtils.adjust_offset_for_rotation(layer.offset(), layer.angle())

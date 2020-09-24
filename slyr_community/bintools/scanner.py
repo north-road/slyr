@@ -149,11 +149,7 @@ class GuidCodeScan(ObjectScan):
     def check_handle(self, file_handle):
         try:
             guid_bin = binascii.hexlify(file_handle.read(16))
-            guid = REGISTRY.hex_to_guid(guid_bin)
-
-            # check first in unimplemented types
-            if guid in REGISTRY.NOT_IMPLEMENTED_GUIDS:
-                return GuidCodeMatch(file_handle.tell() - 16, 16, REGISTRY.NOT_IMPLEMENTED_GUIDS[guid])
+            guid = REGISTRY.hex_to_clsid(guid_bin)
 
             obj = REGISTRY.create_object(guid)
             if obj is None:

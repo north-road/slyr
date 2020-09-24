@@ -142,8 +142,8 @@ class Stream:
         """
         try:
             res = unpack("<L", self._io_stream.read(4))[0]
-        except error:  # struct.error
-            raise UnreadableSymbolException('Truncated integer')
+        except error as e:  # struct.error
+            raise UnreadableSymbolException('Truncated integer') from e
 
         if debug_string:
             self.log('read int {} of {}'.format(debug_string, res), 4)

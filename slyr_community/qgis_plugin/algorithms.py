@@ -213,7 +213,7 @@ class StyleToQgisXml(SlyrAlgorithm):
             try:
                 raw_symbols = Extractor.extract_styles(input_file, symbol_type)
             except MissingBinaryException:
-                raise QgsProcessingException(
+                raise QgsProcessingException(  # pylint: disable=raise-missing-from
                     'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the SLYR options panel.')
 
             feedback.pushInfo('Found {} symbols of type "{}"\n\n'.format(len(raw_symbols), symbol_type))
@@ -440,7 +440,7 @@ class StyleToGpl(SlyrAlgorithm):
         try:
             raw_colors = Extractor.extract_styles(input_file, Extractor.COLORS)
         except MissingBinaryException:
-            raise QgsProcessingException(
+            raise QgsProcessingException(  # pylint: disable=too-many-branches
                 'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the SLYR options panel.')
 
         feedback.pushInfo('Found {} colors'.format(len(raw_colors)))
