@@ -144,7 +144,7 @@ class Extractor:
                                   stdin=subprocess.DEVNULL,
                                   stderr=subprocess.STDOUT,
                                   universal_newlines=True,
-                                  startupinfo=Extractor.get_process_keywords()['startupinfo']) as proc:
+                                  **Extractor.get_process_keywords()) as proc:
                 for line in proc.stdout:
                     if 'Usage' in line:
                         return True
