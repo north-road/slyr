@@ -32,8 +32,8 @@ class MultiLayerSymbol(Object):
             'levels': [],
             'symbol_level': self.symbol_level
         }
-        for l in self.layers:
-            out['levels'].append(l.to_dict())
+        for layer in self.layers:
+            out['levels'].append(layer.to_dict())
         return out
 
 
