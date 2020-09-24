@@ -70,8 +70,8 @@ class RgbColor(Color):
 
         try:
             self.red, self.green, self.blue = cielab_to_rgb(lab_l, lab_a, lab_b)
-        except OverflowError:
-            raise InvalidColorException()
+        except OverflowError as e:
+            raise InvalidColorException() from e
 
         if self.red > 255 or self.red < 0:
             raise InvalidColorException()

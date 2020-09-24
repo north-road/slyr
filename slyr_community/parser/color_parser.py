@@ -36,10 +36,10 @@ def apply_gamma(r, g, b):
     return r, g, b
 
 
-def cielab_to_xyz(l, a, b):
+def cielab_to_xyz(l_value, a, b):
     """Translate lab color to xyz. See http://www.brucelindbloom.com/"""
 
-    fy = (l + 16) / 116.0
+    fy = (l_value + 16) / 116.0
     fz = fy - (b / 200.0)
     fx = a / 500.0 + fy
     e = 0.008856
@@ -48,10 +48,10 @@ def cielab_to_xyz(l, a, b):
         xr = fx ** 3
     else:
         xr = (116 * fx - 16) / k
-    if l > k * e:
-        yr = ((l + 16) / 116.0) ** 3
+    if l_value > k * e:
+        yr = ((l_value + 16) / 116.0) ** 3
     else:
-        yr = l / k
+        yr = l_value / k
     if fz ** 3 > e:
         zr = fz ** 3
     else:
@@ -96,7 +96,7 @@ def scale_and_round(r, g, b):
     return r, g, b
 
 
-def round_lab(l, a, b):
+def round_lab(l_value, a, b):
     """
     Rounds l/a/b values
     """
@@ -106,17 +106,17 @@ def round_lab(l, a, b):
         """
         return round(v * 10000) / 10000.0
 
-    return round_val(l), round_val(a), round_val(b)
+    return round_val(l_value), round_val(a), round_val(b)
 
 
-def lookup_lab(l, a, b):
+def lookup_lab(l_value, a, b):
     """
     Attempts to lookup an ESRI CIELAB in the manual lookup conversion table.
     This table contains overrides for which the standard LAB->XYZ->RGB conversion
     formula results in a color difference of more than 1 unit in the red, green
     or blue component when compared to ESRI's internal CIELAB -> RGB conversion.
     """
-    lut_l, lut_a, lut_b = round_lab(l, a, b)
+    lut_l, lut_a, lut_b = round_lab(l_value, a, b)
     if (lut_l, lut_a, lut_b) in COLOR_LUT:
         (r, g, b) = COLOR_LUT[(lut_l, lut_a, lut_b)]
         return r, g, b
@@ -124,11 +124,11 @@ def lookup_lab(l, a, b):
     return None
 
 
-def cielab_to_rgb(l, a, b):
+def cielab_to_rgb(l_value, a, b):
     """
     Converts an ESRI CIELAB value to a RGB value
     """
-    lut_result = lookup_lab(l, a, b)
+    lut_result = lookup_lab(l_value, a, b)
     if lut_result is not None:
         return lut_result
 

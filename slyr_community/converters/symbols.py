@@ -176,8 +176,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         s = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
         if issubclass(symbol.__class__, MultiLayerFillSymbol):
             all_null = True
-            for l in symbol.layers:
-                if isinstance(l, SimpleFillSymbol) and symbol.layers[0].fill_style == SimpleFillSymbol.STYLE_NULL:
+            for layer in symbol.layers:
+                if isinstance(layer, SimpleFillSymbol) and symbol.layers[0].fill_style == SimpleFillSymbol.STYLE_NULL:
                     continue
                 all_null = False
             if all_null:
@@ -212,8 +212,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         if issubclass(symbol.__class__, SymbolLayer):
             SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(out, symbol, context)
         else:
-            for l in symbol.layers:
-                SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(out, l, context)
+            for layer in symbol.layers:
+                SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(out, layer, context)
 
         if out.symbolLayerCount() == 0:
             # we appended nothing! Add a dummy invisible layer to avoid QGIS adding a default layer to this
@@ -259,8 +259,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             else:
                 raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
         else:
-            for l in layer.layers:
-                SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(symbol, l, context)
+            for sublayer in layer.layers:
+                SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(symbol, sublayer, context)
 
     @staticmethod
     def append_FillSymbolLayer(symbol, layer, context: Context):
