@@ -25,7 +25,6 @@ Dumps the contents of an ESRI .style file to a set of binary blobs
 
 import os
 import subprocess
-import sys
 from ctypes import cdll
 from PyQt5.QtCore import QSettings
 
