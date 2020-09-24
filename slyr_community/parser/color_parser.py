@@ -133,4 +133,4 @@ def cielab_to_rgb(l_value, a, b):
         return lut_result
 
     # lab value not present in lookup table, use standard conversion formula
-    return scale_and_round(*apply_gamma(*xyz_to_rgb(*cielab_to_xyz(l, a, b))))
+    return scale_and_round(*apply_gamma(*xyz_to_rgb(*cielab_to_xyz(l_value, a, b))))
