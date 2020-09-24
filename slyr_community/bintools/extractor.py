@@ -111,7 +111,7 @@ class Extractor:
         """
         kw = {}
         if Extractor.is_windows():
-            kw['startupinfo'] = Extractor.get_process_startup_info()            
+            kw['startupinfo'] = Extractor.get_process_startup_info()           
         return kw
 
     @staticmethod
@@ -123,7 +123,7 @@ class Extractor:
         """
         mdbtools_path = QSettings().value('/plugins/slyr/mdbtools_path')
         if mdbtools_path:
-            return os.path.join(mdbtools_path, executable)
+            return os.path.join(mdbtools_path, executable)			
         elif Extractor.is_windows():
             return os.path.join(os.path.dirname(__file__), 'bin', executable)
         return executable
@@ -134,7 +134,7 @@ class Extractor:
         Returns True if the MDB tools binary is available for execution
         :return: True if binary is available
         """
-
+		
         command = [Extractor.get_mdb_tools_binary_path(Extractor.MDB_EXPORT_BINARY)]
         try:
             with subprocess.Popen(command,
