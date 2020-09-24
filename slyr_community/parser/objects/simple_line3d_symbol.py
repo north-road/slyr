@@ -2,7 +2,7 @@
 """
 Serializable object subclass
 """
-
+from typing import Optional
 from slyr_community.parser.objects.symbol_layer import SymbolLayer
 from slyr_community.parser.stream import Stream
 
@@ -21,13 +21,18 @@ class SimpleLine3DSymbol(SymbolLayer):
         return '470b7275-3552-11d6-a12d-00508bd60cb9'
 
     @staticmethod
-    def type_to_string(type) -> str:
-        if type == SimpleLine3DSymbol.TUBE:
+    def type_to_string(line_type) -> Optional[str]:
+        """
+        Converts a line type to a string representation
+        """
+
+        if line_type == SimpleLine3DSymbol.TUBE:
             return 'tube'
-        elif type == SimpleLine3DSymbol.STRIP:
+        elif line_type == SimpleLine3DSymbol.STRIP:
             return 'strip'
-        elif type == SimpleLine3DSymbol.WALL:
+        elif line_type == SimpleLine3DSymbol.WALL:
             return 'wall'
+        return None
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -44,7 +49,7 @@ class SimpleLine3DSymbol(SymbolLayer):
 
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'color': self.color.to_dict() if self.color is not None else None,
             'width': self.width,

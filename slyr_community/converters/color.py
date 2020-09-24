@@ -18,11 +18,18 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+"""
+Color converter
+"""
+
 from qgis.PyQt.QtGui import QColor
 from slyr_community.parser.objects.colors import CmykColor
 
 
 class ColorConverter:
+    """
+    Color converter
+    """
 
     @staticmethod
     def color_to_qcolor(color):

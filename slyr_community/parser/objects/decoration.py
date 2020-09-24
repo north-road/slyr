@@ -22,7 +22,7 @@ class LineDecoration(Object):
         super().__init__()
         self.decorations = []
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'decorations': []
         }
@@ -65,7 +65,7 @@ class SimpleLineDecorationElement(Object):
         self.marker_positions = []
         self.position_as_ratio = True
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'fixed_angle': self.fixed_angle,
             'flip_first': self.flip_first,

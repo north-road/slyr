@@ -28,7 +28,7 @@ class Color(Object):
         """
         assert False
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict:  # pylint: disable=method-hidden
         """
         Returns a dictionary representation of the color
         :return:
@@ -80,7 +80,7 @@ class RgbColor(Color):
         if self.green > 255 or self.green < 0:
             raise InvalidColorException()
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {'R': self.red, 'G': self.green, 'B': self.blue, 'dither': self.dither, 'is_null': self.is_null}
 
 
@@ -116,7 +116,7 @@ class CmykColor(Color):
         self.yellow = stream.read_uchar()
         self.black = stream.read_uchar()
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {'C': self.cyan, 'M': self.magenta, 'Y': self.yellow, 'K': self.black, 'dither': self.dither,
                 'is_null': self.is_null}
 

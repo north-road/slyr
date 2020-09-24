@@ -22,10 +22,17 @@
 """
 Browser and app integrations for LYR/STYLE file integration with QGIS
 """
-
+import html
 from io import BytesIO
 from functools import partial
-import html
+
+from qgis.PyQt.QtCore import QFileInfo, QDir, QCoreApplication
+from qgis.PyQt.QtWidgets import (
+    QAction,
+    QProgressDialog,
+    QPushButton)
+from qgis.PyQt.QtXml import QDomDocument
+
 from qgis.core import (
     QgsApplication,
     Qgis,
@@ -47,22 +54,8 @@ from qgis.gui import (
     QgsStyleManagerDialog,
     QgsLayoutCustomDropHandler
 )
-
-USE_PROJECT_OPEN_HANDLER = False
-
-try:
-    from qgis.core import QgsLegendPatchShape
-except ImportError:
-    pass
-
-from qgis.PyQt.QtCore import QFileInfo, QDir, QCoreApplication
-from qgis.PyQt.QtWidgets import (
-    QAction,
-    QProgressDialog,
-    QPushButton)
-from qgis.PyQt.QtXml import QDomDocument
-
 from qgis.utils import iface
+
 from processing import execAlgorithmDialog
 
 from slyr_community.bintools.extractor import Extractor, MissingBinaryException
@@ -76,9 +69,20 @@ from slyr_community.converters.context import Context
 from slyr_community.converters.symbols import SymbolConverter
 from slyr_community.qgis_plugin.gui_utils import GuiUtils
 
+USE_PROJECT_OPEN_HANDLER = False
+
+try:
+    from qgis.core import QgsLegendPatchShape  # pylint: disable=unused-import,ungrouped-imports
+except ImportError:
+    pass
+
 
 def show_warning(short_message, title, long_message, level=Qgis.Warning, message_bar=None):
-    def show_details(details):
+    """
+    Shows a warning via the QGIS message bar
+    """
+
+    def show_details(_):
         dialog = QgsMessageOutput.createMessageOutput()
         dialog.setTitle(title)
         dialog.setMessage(long_message, QgsMessageOutput.MessageHtml)
@@ -103,31 +107,40 @@ def open_settings(message_bar_widget=None):
 
 
 if USE_PROJECT_OPEN_HANDLER:
-    class MxdProjectOpenHandler(QgsCustomProjectOpenHandler):
+    class MxdProjectOpenHandler(QgsCustomProjectOpenHandler):  # pylint: disable=undefined-variable
+        """
+        Custom project open handler for MXD documents
+        """
 
-        def filters(self):
+        def filters(self):  # pylint: disable=missing-function-docstring
             return ['ArcGIS MXD Documents (*.mxd *.MXD)',
                     'ArcGIS MXT Templates (*.mxt *.MXT)',
                     'ArcReader Published Map Files (*.pmf *.PMF)',
                     'ArcScene SXD Documents (*.sxd *.SXD)',
                     ]
 
-        def handleProjectOpen(self, file):
+        def handleProjectOpen(self, file):  # pylint: disable=missing-function-docstring
             return MxdDropHandler.open_mxd(file)
 
-        def createDocumentThumbnailAfterOpen(self):
+        def createDocumentThumbnailAfterOpen(self):  # pylint: disable=missing-function-docstring
             return True
 
-        def icon(self):
+        def icon(self):  # pylint: disable=missing-function-docstring
             return GuiUtils.get_icon('mxd.svg')
 
 
 class LayoutDropHandler(QgsLayoutCustomDropHandler):
+    """
+    Handles pasting layout elements from ArcMap
+    """
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None):  # pylint: disable=useless-super-delegation
         super().__init__(parent)
 
-    def handlePaste(self, designer_iface, pastePoint, data):
+    def handlePaste(self,  # pylint: disable=missing-function-docstring,unused-argument
+                    designer_iface,  # pylint: disable=unused-argument
+                    pastePoint,  # pylint: disable=unused-argument
+                    data):  # pylint: disable=unused-argument
         if 'application/x-qt-windows-mime;value="Esri Graphics List"' not in data.formats():
             return False, []
 
@@ -138,15 +151,19 @@ class LayoutDropHandler(QgsLayoutCustomDropHandler):
 
 
 class NameDropHandler(QgsCustomDropHandler):
+    """
+    Handles dropping ESRI name mime data
+    """
+
     DATA_TYPE = 'application/x-qt-windows-mime;value="ESRI Names"'
 
-    def customUriProviderKey(self):
+    def customUriProviderKey(self):  # pylint: disable=missing-function-docstring
         return 'esri_names'
 
-    def canHandleMimeData(self, data):
+    def canHandleMimeData(self, data):  # pylint: disable=missing-function-docstring
         return data.hasFormat(NameDropHandler.DATA_TYPE)
 
-    def handleMimeDataV2(self, data):
+    def handleMimeDataV2(self, data):  # pylint: disable=missing-function-docstring
         if data.hasFormat(NameDropHandler.DATA_TYPE):
             message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
             show_warning('Could not handle item drop', '', message,
@@ -172,11 +189,11 @@ class StyleDropHandler(QgsCustomDropHandler):
         """
 
         if not Extractor.is_mdb_tools_binary_available():
-            bar = iface.messageBar()
-            widget = bar.createMessage('SLYR', "MDB Tools utility not found")
+            message_bar = iface.messageBar()
+            widget = message_bar.createMessage('SLYR', "MDB Tools utility not found")
             settings_button = QPushButton("Configure…", pressed=partial(open_settings, widget))
             widget.layout().addWidget(settings_button)
-            bar.pushWidget(widget, Qgis.Critical)
+            message_bar.pushWidget(widget, Qgis.Critical)
             return True
 
         style = QgsStyle()
@@ -307,9 +324,11 @@ class StyleDropHandler(QgsCustomDropHandler):
 
                 def unsupported_object_callback(msg, level=Context.WARNING):
                     if level == Context.WARNING:
-                        warnings.add('<b>{}</b>: {}'.format(html.escape(unique_name), html.escape(msg)))
+                        warnings.add('<b>{}</b>: {}'.format(html.escape(unique_name),  # pylint: disable=cell-var-from-loop
+                                                            html.escape(msg)))
                     elif level == Context.CRITICAL:
-                        errors.add('<b>{}</b>: {}'.format(html.escape(unique_name), html.escape(msg)))
+                        errors.add('<b>{}</b>: {}'.format(html.escape(unique_name),  # pylint: disable=cell-var-from-loop
+                                                          html.escape(msg)))
 
                 context.unsupported_object_callback = unsupported_object_callback
                 # context.style_folder, _ = os.path.split(output_file)
@@ -395,10 +414,10 @@ class LyrDropHandler(QgsCustomDropHandler):
 
         return True
 
-    def canHandleMimeData(self, data):
+    def canHandleMimeData(self, data):  # pylint: disable=missing-function-docstring
         return data.hasFormat('application/x-qt-windows-mime;value="ESRI Layers"')
 
-    def handleMimeDataV2(self, data):
+    def handleMimeDataV2(self, data):  # pylint: disable=missing-function-docstring
         if data.hasFormat('application/x-qt-windows-mime;value="ESRI Layers"'):
             message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
             show_warning('Could not handle item drop', '', message,
@@ -408,7 +427,7 @@ class LyrDropHandler(QgsCustomDropHandler):
         return False
 
     @staticmethod
-    def open_lyr_stream(stream, input_file=''):
+    def open_lyr_stream(stream, input_file=''):  # pylint: disable=unused-argument
         """
         Opens a lyr file from a binary object
         """
@@ -449,7 +468,7 @@ class MxdDropHandler(QgsCustomDropHandler):
         return self.open_mxd(file)
 
     @staticmethod
-    def open_mxd(input_file, use_warnings=True):
+    def open_mxd(input_file, use_warnings=True):  # pylint: disable=unused-argument
         """
         Opens an MXD file in the current project
         """
@@ -473,6 +492,9 @@ class DatDropHandler(QgsCustomDropHandler):
 
     @staticmethod
     def is_bookmark_dat(file):
+        """
+        Tests whether a file is an ESRI bookmark dat file
+        """
         if not file.lower().endswith('.dat'):
             return False
         # check for file signature
@@ -480,7 +502,7 @@ class DatDropHandler(QgsCustomDropHandler):
             try:
                 if not f.read(4) == b'\xd0\xcf\x11\xe0':
                     return False
-            except Exception:
+            except Exception:  # pylint: disable=broad-except
                 return False
 
         return True
@@ -493,14 +515,14 @@ class DatDropHandler(QgsCustomDropHandler):
         return True
 
     @staticmethod
-    def get_bookmarks(input_file):
+    def get_bookmarks(input_file):  # pylint: disable=unused-argument
         """
         Returns a list of bookmarks from a file
         """
         return []
 
     @staticmethod
-    def open_dat(input_file):
+    def open_dat(input_file):  # pylint: disable=unused-argument
         """
         Opens an dat bookmark file in the current project
         """
@@ -571,11 +593,11 @@ class EsriLyrItem(QgsDataItem):
     Data item for .lyr files
     """
 
-    def __init__(self, parent, name, path, object=None, layer_path=''):
+    def __init__(self, parent, name, path, lyr_object=None, layer_path=''):
         super().__init__(QgsDataItem.Custom, parent, name, path)
         self.setCapabilities(QgsDataItem.Fertile | QgsDataItem.Collapse)
         self.layer_path = layer_path or path
-        self.object = object
+        self.object = lyr_object
         if path:
             self.setIcon(GuiUtils.get_icon('icon.svg'))
         else:
@@ -583,7 +605,7 @@ class EsriLyrItem(QgsDataItem):
 
         if self.object:
             self.setState(QgsDataItem.Populated)
-        self.setToolTip(QDir.toNativeSeparators(path) if not object else object.name)
+        self.setToolTip(QDir.toNativeSeparators(path) if not lyr_object else lyr_object.name)
         self.child_items = []
 
     def hasDragEnabled(self):  # pylint: disable=missing-docstring
@@ -597,17 +619,20 @@ class EsriLyrItem(QgsDataItem):
         return True
 
     def add_children(self):
+        """
+        Adds a child data item from the LYR
+        """
         for c in self.object.children:
             self.addChildItem(EsriLyrItem(self, c.name, '', c, self.layer_path))
 
-    def createChildren(self):
+    def createChildren(self):  # pylint: disable=missing-function-docstring
         # Runs in a thread!
         self.setState(QgsDataItem.Populating)
 
-        def add_layer(layer):
+        def add_layer(layer):  # pylint: disable=unused-variable
             self.child_items.append(EsriLyrItem(self, layer.name, '', layer, self.path()))
 
-        def add_group(group):
+        def add_group(group):  # pylint: disable=unused-variable
             self.child_items.append(EsriLyrItem(self, group.name, '', group, self.path()))
 
         self.setState(QgsDataItem.Populated)
@@ -628,7 +653,9 @@ class EsriLyrItem(QgsDataItem):
         LyrDropHandler.open_lyr(self.path())
 
     def open_object(self):
-        pass
+        """
+        Opens a LYR or sublayer from a LYR file
+        """
 
     def extract_symbols(self):
         """
@@ -640,11 +667,17 @@ class EsriLyrItem(QgsDataItem):
         return True
 
     def save_as_qlr(self):
+        """
+        Saves the lyr as a QLR file
+        """
         message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
         show_warning('Licensed version required', 'Convert LYR', message,
                      level=Qgis.Critical, message_bar=iface.messageBar())
 
     def save_as_qml(self):
+        """
+        Saves the lyr as a QML file
+        """
         message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
         show_warning('Licensed version required', 'Convert LYR', message,
                      level=Qgis.Critical, message_bar=iface.messageBar())
@@ -736,7 +769,7 @@ class EsriDatItem(QgsDataItem):
         self.child_items = []
         self.bookmark = bookmark
 
-    def createChildren(self):
+    def createChildren(self):  # pylint: disable=missing-function-docstring
         # Runs in a thread!
         self.setState(QgsDataItem.Populating)
 
@@ -782,6 +815,10 @@ class EsriDatItem(QgsDataItem):
         DatDropHandler.open_dat(self.path())
 
     def zoom_to_bookmark(self):
+        """
+        Zooms the canvas to a bookmark
+        """
+
         if not self.bookmark:
             return
 

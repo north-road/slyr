@@ -41,7 +41,7 @@ class TextureFillSymbol(SymbolLayer):
         stream.read_int('raster op', expected=13)
         self.symbol_level = stream.read_int('level')
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {
             'texture': self.texture.to_dict() if self.texture else None,
             'color': self.color.to_dict() if self.color else None,

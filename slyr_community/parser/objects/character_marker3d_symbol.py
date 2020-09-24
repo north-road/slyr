@@ -75,7 +75,7 @@ class CharacterMarker3DSymbol(SymbolLayer):
         self.maintain_aspect_ratio = stream.read_ushort('maintain aspect ratio') != 0
         self.billboard_display = stream.read_ushort('billboard display') != 0
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden  # pylint: disable=method-hidden
         return {
             'color': self.color.to_dict() if self.color else None,
             'unicode': self.unicode,

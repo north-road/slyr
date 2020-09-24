@@ -22,7 +22,7 @@ class LineTemplate(Object):
         self.pattern_interval = 0
         self.pattern_parts = []
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'pattern_interval': self.pattern_interval,
             'pattern_parts': self.pattern_parts

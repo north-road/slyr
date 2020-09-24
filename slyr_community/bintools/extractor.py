@@ -178,10 +178,11 @@ class Extractor:
 
         CREATE_NO_WINDOW = 0x08000000
         try:
-            result = subprocess.run(export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW)
+            result = subprocess.run(export_args, stdout=subprocess.PIPE,  # pylint: disable=subprocess-run-check
+                                    creationflags=CREATE_NO_WINDOW)
         except ValueError:
             try:
-                result = subprocess.run(export_args, stdout=subprocess.PIPE)
+                result = subprocess.run(export_args, stdout=subprocess.PIPE)  # pylint: disable=subprocess-run-check
             except FileNotFoundError:
                 raise MissingBinaryException
         except FileNotFoundError:

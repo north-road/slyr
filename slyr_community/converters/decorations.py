@@ -18,6 +18,10 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+"""
+Decoration converter
+"""
+
 from qgis.core import QgsMarkerLineSymbolLayer
 from slyr_community.parser.objects.decoration import LineDecoration, SimpleLineDecorationElement
 from slyr_community.converters.context import Context
@@ -26,6 +30,9 @@ from slyr_community.parser.exceptions import NotImplementedException
 
 
 class DecorationConverter:
+    """
+    Decoration converter
+    """
 
     @staticmethod
     def append_decorations(symbol, decorations: LineDecoration, context: Context, enabled: bool, locked: bool):
@@ -39,13 +46,17 @@ class DecorationConverter:
             DecorationConverter.append_decoration(symbol, decoration, context, enabled, locked)
 
     @staticmethod
-    def append_decoration(symbol, decoration: SimpleLineDecorationElement, context: Context, enabled: bool, locked: bool):
+    def append_decoration(symbol,  # pylint: disable=too-many-branches,too-many-statements
+                          decoration: SimpleLineDecorationElement,
+                          context: Context,
+                          enabled: bool,
+                          locked: bool):
         """
         Appends decorations to the given symbol
         """
         positions = decoration.marker_positions[:]
 
-        from slyr_community.converters.symbols import SymbolConverter
+        from slyr_community.converters.symbols import SymbolConverter  # pylint: disable=import-outside-toplevel,cyclic-import
 
         marker = SymbolConverter.Symbol_to_QgsSymbol(decoration.marker, context)
         if decoration.flip_all:

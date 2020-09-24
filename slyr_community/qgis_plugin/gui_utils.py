@@ -18,6 +18,9 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+"""
+GUI Utilities
+"""
 
 import os
 from qgis.PyQt.QtGui import QIcon

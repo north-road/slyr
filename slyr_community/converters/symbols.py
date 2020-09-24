@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# pylint: disable=too-many-lines
 
 # /***************************************************************************
 # symbols.py
@@ -17,6 +18,11 @@
 #  *   (at your option) any later version.                                   *
 #  *                                                                         *
 #  ***************************************************************************/
+
+"""
+Symbol converter
+"""
+
 import os
 import subprocess
 import base64
@@ -124,7 +130,7 @@ from slyr_community.parser.objects.picture import (
 from slyr_community.bintools.file_utils import FileUtils
 
 
-class SymbolConverter:
+class SymbolConverter:  # pylint: disable=too-many-public-methods
     """
     Converts ArcObjects symbols to QGIS symbols
     """
@@ -164,6 +170,9 @@ class SymbolConverter:
 
     @staticmethod
     def symbol_to_color(symbol, context: Context):
+        """
+        Converts an ESRI symbol to a single color best representing the symbol
+        """
         s = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
         if issubclass(symbol.__class__, MultiLayerFillSymbol):
             all_null = True
@@ -188,6 +197,9 @@ class SymbolConverter:
 
     @staticmethod
     def symbol_to_line_width(symbol, context: Context):
+        """
+        Converts an ESRI symbol to a single line width value best representing the symbol
+        """
         s = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
         return s.width()
 
@@ -219,7 +231,9 @@ class SymbolConverter:
         return out
 
     @staticmethod
-    def append_SymbolLayer_to_QgsSymbolLayer(symbol, layer, context: Context):
+    def append_SymbolLayer_to_QgsSymbolLayer(symbol,  # pylint: disable=too-many-statements,too-many-branches
+                                             layer,
+                                             context: Context):
         """
         Appends a SymbolLayer to a QgsSymbolLayer
         """
@@ -297,7 +311,7 @@ class SymbolConverter:
             raise NotImplementedException('Converting {} not implemented yet'.format(layer.__class__.__name__))
 
     @staticmethod
-    def append_SimpleFillSymbolLayer(symbol,  # pylint: disable=too-many-branches
+    def append_SimpleFillSymbolLayer(symbol,  # pylint: disable=too-many-branches,too-many-statements
                                      layer: SimpleFillSymbol,
                                      context: Context):
         """
@@ -313,9 +327,11 @@ class SymbolConverter:
                 # these properties are not supported in QGIS simple fill, so we need
                 # to add an additional outline layer to support them
                 uses_complex_outline = (hasattr(layer.outline, 'offset') and layer.outline.offset) \
-                                       or (hasattr(layer.outline, 'template') and layer.outline.template and len(
-                    layer.outline.template.pattern_parts) > 0) \
-                                       or (hasattr(layer.outline, 'decoration') and layer.outline.decoration)
+                                       or (hasattr(layer.outline, 'template') and
+                                           layer.outline.template and
+                                           len(layer.outline.template.pattern_parts) > 0) \
+                                       or (hasattr(layer.outline, 'decoration') and
+                                           layer.outline.decoration)
                 if not uses_complex_outline:
                     # great, we can avoid the extra symbol layer!
                     if isinstance(layer.outline, (SimpleLineSymbol, CartographicLineSymbol)):
@@ -418,7 +434,9 @@ class SymbolConverter:
             SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline, context)
 
     @staticmethod
-    def append_GradientFillSymbolLayer(symbol, layer: Union[GradientFillSymbol, ColorRampSymbol], context: Context):
+    def append_GradientFillSymbolLayer(symbol,  # pylint: disable=too-many-statements,too-many-branches
+                                       layer: Union[GradientFillSymbol, ColorRampSymbol],
+                                       context: Context):
         """
         Appends a append_GradientFillSymbolLayer to a symbol
         """
@@ -439,8 +457,8 @@ class SymbolConverter:
                     stops = [QgsGradientStop(1 - percent, ramp.color1())] + stops
                     ramp.setStops(stops)
 
-        if isinstance(layer, GradientFillSymbol) and layer.type in (
-        GradientFillSymbol.RECTANGULAR, GradientFillSymbol.BUFFERED):
+        if isinstance(layer, GradientFillSymbol) \
+                and layer.type in (GradientFillSymbol.RECTANGULAR, GradientFillSymbol.BUFFERED):
             if context.unsupported_object_callback and layer.type == GradientFillSymbol.RECTANGULAR:
                 context.unsupported_object_callback(
                     '{}: Rectangular gradients are not supported in QGIS, using buffered gradient instead'.format(
@@ -454,7 +472,7 @@ class SymbolConverter:
                         '{}: Buffered gradients are not supported in QGIS < 3.10'.format(
                             context.layer_name or context.symbol_name),
                         Context.WARNING)
-                    return None
+                    return
                 else:
                     raise NotImplementedException('Buffered gradients are not supported in QGIS < 3.10')
             out = QgsShapeburstFillSymbolLayer()
@@ -533,7 +551,7 @@ class SymbolConverter:
         marker = SymbolConverter.Symbol_to_QgsSymbol(layer.marker, context)
 
         if layer.random and Qgis.QGIS_VERSION_INT >= 31100:
-            from qgis.core import QgsRandomMarkerFillSymbolLayer
+            from qgis.core import QgsRandomMarkerFillSymbolLayer  # pylint: disable=import-outside-toplevel
 
             density = layer.separation_x * layer.separation_y / 10
             out = QgsRandomMarkerFillSymbolLayer(1, QgsRandomMarkerFillSymbolLayer.DensityBasedCount, density)
@@ -597,9 +615,10 @@ class SymbolConverter:
         CREATE_NO_WINDOW = 0x08000000
         try:
             try:
-                _ = subprocess.run(export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW)
+                _ = subprocess.run(export_args, stdout=subprocess.PIPE,  # pylint: disable=subprocess-run-check
+                                   creationflags=CREATE_NO_WINDOW)
             except ValueError:
-                _ = subprocess.run(export_args, stdout=subprocess.PIPE)
+                _ = subprocess.run(export_args, stdout=subprocess.PIPE)  # pylint: disable=subprocess-run-check
         except FileNotFoundError:
             pass
 
@@ -617,9 +636,10 @@ class SymbolConverter:
             CREATE_NO_WINDOW = 0x08000000
             try:
                 try:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW)
+                    _ = subprocess.run(export_args, stdout=subprocess.PIPE,  # pylint: disable=subprocess-run-check
+                                       creationflags=CREATE_NO_WINDOW)
                 except ValueError:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE)
+                    _ = subprocess.run(export_args, stdout=subprocess.PIPE)  # pylint: disable=subprocess-run-check
             except FileNotFoundError:
                 pass
 
@@ -637,9 +657,10 @@ class SymbolConverter:
             CREATE_NO_WINDOW = 0x08000000
             try:
                 try:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW)
+                    _ = subprocess.run(export_args, stdout=subprocess.PIPE,  # pylint: disable=subprocess-run-check
+                                       creationflags=CREATE_NO_WINDOW)
                 except ValueError:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE)
+                    _ = subprocess.run(export_args, stdout=subprocess.PIPE)  # pylint: disable=subprocess-run-check
             except FileNotFoundError:
                 pass
 
@@ -661,7 +682,7 @@ class SymbolConverter:
         return path
 
     @staticmethod
-    def get_picture_data(picture, fg, bg, trans, swap_fg_bg=False, context=None):
+    def get_picture_data(picture, fg, bg, trans, context=None):
         """
         Retrieves picture binary content, converting raster colors if necessary
         """
@@ -677,21 +698,23 @@ class SymbolConverter:
                     level=Context.CRITICAL)
             return None
         else:
-            return PictureUtils.set_colors(picture.content, fg_color, bg_color, trans_color, swap_fg_bg)
+            return PictureUtils.set_colors(picture.content, fg_color, bg_color, trans_color)
 
     @staticmethod
-    def write_picture(picture, symbol_name: str, picture_folder: str, fg, bg, trans, swap_fg_bg=False, context=None):
+    def write_picture(picture, symbol_name: str, picture_folder: str, fg, bg, trans, context=None):
         """
         Writes a picture binary content to a file, converting raster colors if necessary
         """
-        new_content = SymbolConverter.get_picture_data(picture, fg, bg, trans, swap_fg_bg, context=context)
+        new_content = SymbolConverter.get_picture_data(picture, fg, bg, trans, context=context)
 
         path = SymbolConverter.symbol_name_to_filename(symbol_name, picture_folder, 'png')
         PictureUtils.to_png(new_content, path)
         return path
 
     @staticmethod
-    def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbol, context: Context):
+    def append_PictureFillSymbolLayer(symbol,  # pylint: disable=too-many-statements,too-many-branches,too-many-locals
+                                      layer: PictureFillSymbol,
+                                      context: Context):
         """
         Appends a PictureFillSymbolLayer to a symbol
         """
@@ -702,8 +725,7 @@ class SymbolConverter:
                         context.layer_name or context.symbol_name), level=Context.WARNING)
         if (layer.separation_x or layer.separation_y) and context.unsupported_object_callback:
             context.unsupported_object_callback('{}: Picture fill separation X or Y is not supported by QGIS'.format(
-                context.layer_name or context.symbol_name),
-                                                level=Context.WARNING)
+                context.layer_name or context.symbol_name), level=Context.WARNING)
 
         picture = layer.picture
         if issubclass(picture.__class__, StdPicture):
@@ -743,7 +765,7 @@ class SymbolConverter:
             # use raster fill
             if context.embed_pictures and Qgis.QGIS_VERSION_INT >= 30600:
                 picture_data = SymbolConverter.get_picture_data(picture, layer.color_foreground, layer.color_background,
-                                                                None, layer.swap_fb_gb, context=context)
+                                                                None, context=context)
                 if picture_data:
                     image_base64 = base64.b64encode(picture_data).decode('UTF-8')
                     image_path = 'base64:{}'.format(image_base64)
@@ -754,7 +776,7 @@ class SymbolConverter:
                                                            context.get_picture_store_folder(),
                                                            layer.color_foreground,
                                                            layer.color_background,
-                                                           None, layer.swap_fb_gb, context=context)
+                                                           None, context=context)
 
             out = QgsRasterFillSymbolLayer(image_path)
 
@@ -960,7 +982,9 @@ class SymbolConverter:
                                                    locked=layer.locked)
 
     @staticmethod
-    def append_TemplatedLineSymbolLayer(symbol, layer: Union[MarkerLineSymbol, HashLineSymbol], context: Context):
+    def append_TemplatedLineSymbolLayer(symbol,  # pylint: disable=too-many-statements,too-many-branches
+                                        layer: Union[MarkerLineSymbol, HashLineSymbol],
+                                        context: Context):
         """
         Appends a MarkerLineSymbolLayer or HashLineSymbol to a symbol
         """
@@ -980,7 +1004,8 @@ class SymbolConverter:
         elif isinstance(layer, HashLineSymbol):
             sub_symbol = SymbolConverter.Symbol_to_QgsSymbol(layer.line, context)
 
-        if len(template.pattern_parts) == 1 and template.pattern_parts[0][1] == 0:
+        if len(template.pattern_parts) == 1 and \
+                template.pattern_parts[0][1] == 0:  # pylint: disable=too-many-nested-blocks
             # special case! (Not described anywhere in ArcMap docs!!)
             # actually means "center of line segment"
             start_symbol = sub_symbol.clone()
@@ -1008,7 +1033,7 @@ class SymbolConverter:
             line.setOffsetUnit(context.units)
 
             if Qgis.QGIS_VERSION_INT >= 30900:
-                from qgis.core import QgsTemplatedLineSymbolLayerBase
+                from qgis.core import QgsTemplatedLineSymbolLayerBase  # pylint: disable=import-outside-toplevel
                 if hasattr(QgsTemplatedLineSymbolLayerBase, 'SegmentCenter'):
                     line.setPlacement(QgsMarkerLineSymbolLayer.SegmentCenter)
                 else:
@@ -1308,7 +1333,9 @@ class SymbolConverter:
             SymbolConverter.append_CharacterMarkerSymbolLayerAsFont(symbol, layer.character_marker_symbol, context)
 
     @staticmethod
-    def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context: Context):  # pylint: disable=too-many-locals
+    def append_CharacterMarkerSymbolLayerAsSvg(symbol,  # pylint: disable=too-many-locals,too-many-statements
+                                               layer,
+                                               context: Context):
         """
         Appends a CharacterMarkerSymbolLayer to a symbol, rendering the font character
         to an SVG file.
@@ -1432,7 +1459,9 @@ class SymbolConverter:
         symbol.appendSymbolLayer(out)
 
     @staticmethod
-    def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbol, context: Context):
+    def append_PictureMarkerSymbolLayer(symbol,  # pylint: disable=too-many-branches
+                                        layer: PictureMarkerSymbol,
+                                        context: Context):
         """
         Appends a PictureMarkerSymbolLayer to a symbol
         """
@@ -1490,7 +1519,7 @@ class SymbolConverter:
         else:
             if context.embed_pictures:
                 picture_data = SymbolConverter.get_picture_data(picture, layer.color_foreground, layer.color_background,
-                                                                layer.color_transparent, layer.swap_fb_gb,
+                                                                layer.color_transparent,
                                                                 context=context)
                 image_base64 = base64.b64encode(picture_data).decode('UTF-8')
                 image_path = 'base64:{}'.format(image_base64)
@@ -1499,7 +1528,7 @@ class SymbolConverter:
                                                            context.get_picture_store_folder(),
                                                            layer.color_foreground,
                                                            layer.color_background,
-                                                           layer.color_transparent, layer.swap_fb_gb, context=context)
+                                                           layer.color_transparent, context=context)
             # unsure -- should this angle be converted? probably!
             out = QgsRasterMarkerSymbolLayer(image_path, context.convert_size(layer.size), layer.angle)
 

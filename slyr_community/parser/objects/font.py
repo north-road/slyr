@@ -63,7 +63,7 @@ class Font(Object):
     def compatible_versions():
         return None
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {'font_name': self.font_name,
                 'charset': self.charset,
                 'weight': self.weight,

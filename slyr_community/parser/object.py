@@ -61,7 +61,6 @@ class Object:
         """
         Reads the object from the given stream
         """
-        pass
 
     def children(self) -> List['Object']:
         """
@@ -69,7 +68,7 @@ class Object:
         """
         return []
 
-    def to_dict(self) -> Optional[dict]:
+    def to_dict(self) -> Optional[dict]:  # pylint: disable=method-hidden
         """
         Converts the object to a dictionary
         """

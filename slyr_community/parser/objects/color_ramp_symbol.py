@@ -53,7 +53,7 @@ class ColorRampSymbol(Object):
             self.horizontal = stream.read_ushort('horizontal') != 0
             self.show_ticks = stream.read_ushort('show ticks') != 0
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {
             'color': self.color.to_dict() if self.color else None,
             'color_ramp': self.color_ramp.to_dict() if self.color_ramp else None,

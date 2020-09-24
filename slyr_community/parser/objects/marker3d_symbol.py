@@ -88,7 +88,7 @@ class Marker3DSymbol(SymbolLayer):
             stream.read_ushort('unknown', expected=0)
             stream.read_int('unknown', expected=0)
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {
             'color': self.color.to_dict() if self.color else None,
             'geometry': self.geometry.to_dict() if self.geometry else None,
