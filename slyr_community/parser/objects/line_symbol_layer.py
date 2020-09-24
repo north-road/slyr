@@ -8,7 +8,6 @@ COMPLETE INTERPRETATION of most common subclasses
 from slyr_community.parser.objects.symbol_layer import SymbolLayer
 from slyr_community.parser.stream import Stream
 from slyr_community.parser.exceptions import UnreadableSymbolException
-from slyr_community.parser.object import not_implemented
 
 
 class LineSymbolLayer(SymbolLayer):
@@ -91,7 +90,7 @@ class SimpleLineSymbol(LineSymbolLayer):
     def compatible_versions():
         return [1]
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'color': self.color.to_dict() if self.color is not None else None,
             'width': self.width,
@@ -130,7 +129,7 @@ class CartographicLineSymbol(LineSymbolLayer):
         self.flip = False
         self.line_start_offset = 0
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'color': self.color.to_dict() if self.color is not None else None,
             'width': self.width,
@@ -205,7 +204,7 @@ class MarkerLineSymbol(LineSymbolLayer):
     def compatible_versions():
         return [2]
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'color': self.color.to_dict() if self.color is not None else None,
             'offset': self.offset,
@@ -283,7 +282,7 @@ class HashLineSymbol(LineSymbolLayer):
     def compatible_versions():
         return [1]
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'color': self.color.to_dict() if self.color is not None else None,
             'width': self.width,
@@ -361,7 +360,7 @@ class PictureLineSymbol(LineSymbolLayer):
         self.width = stream.read_double('width')
         self.fill_symbol = stream.read_object('fill symbol')
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {
             'width': self.width,
             'offset': self.offset,

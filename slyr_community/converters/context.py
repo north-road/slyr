@@ -18,6 +18,10 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+"""
+Conversion context
+"""
+
 import tempfile
 import os
 from qgis.PyQt.QtCore import (
@@ -61,6 +65,9 @@ class Context:
         self.ignore_online_sources = False  # debugging only!
 
     def get_picture_store_folder(self):
+        """
+        Returns the destination folder for converted pictures
+        """
         if self.picture_folder:
             if not os.path.exists(self.picture_folder):
                 os.makedirs(self.picture_folder)

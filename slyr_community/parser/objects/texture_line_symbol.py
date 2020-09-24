@@ -31,7 +31,7 @@ class TextureLineSymbol(SymbolLayer):
         self.texture_fill_symbol = stream.read_object('texture fill symbol')
         self.vertical_orientation = stream.read_uchar('vertical orientation') != 0
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {
             'texture_fill_symbol': self.texture_fill_symbol.to_dict() if self.texture_fill_symbol else None,
             'vertical_orientation': self.vertical_orientation,

@@ -5,10 +5,10 @@ Marker symbol layers
 COMPLETE INTERPRETATION of most common subclasses
 """
 
-import binascii
 from slyr_community.parser.objects.symbol_layer import SymbolLayer
 from slyr_community.parser.stream import Stream
 from slyr_community.parser.exceptions import UnreadableSymbolException
+from slyr_community.parser.objects.picture import Picture
 
 
 class MarkerSymbolLayer(SymbolLayer):
@@ -47,7 +47,7 @@ class SimpleMarkerSymbol(MarkerSymbolLayer):
         self.rotate_with_transform = False
         self.angle = 0
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'color': self.color.to_dict() if self.color is not None else None,
             'marker_type': self.type,
@@ -132,7 +132,7 @@ class CharacterMarkerSymbol(MarkerSymbolLayer):
     def compatible_versions():
         return [1, 2, 3, 4]
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'color': self.color.to_dict() if self.color is not None else None,
             'unicode': self.unicode,
@@ -187,7 +187,7 @@ class CharacterMarkerSymbol(MarkerSymbolLayer):
 
             stream.read_int('font weight')
             stream.read_int('unknown', expected=0)
-            stream.read_int('font size * 10000') / 10000
+            stream.read_int('font size * 10000')
 
             if version >= 4:
                 # std OLE font .. maybe contains useful stuff like bold/etc, but these aren't exposed in ArcGIS anyway..
@@ -225,7 +225,7 @@ class ArrowMarkerSymbol(MarkerSymbolLayer):
             res.append(self.color)
         return res
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'color': self.color.to_dict() if self.color is not None else None,
             'size': self.size,
@@ -285,7 +285,7 @@ class PictureMarkerSymbol(MarkerSymbolLayer):
     def compatible_versions():
         return [3, 4, 5, 7, 8, 9]
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {'color_foreground': self.color_foreground.to_dict() if self.color_foreground is not None else None,
                'color_background': self.color_background.to_dict() if self.color_background is not None else None,
                'color_transparent': self.color_transparent.to_dict() if self.color_transparent is not None else None,
@@ -318,7 +318,7 @@ class PictureMarkerSymbol(MarkerSymbolLayer):
             _ = stream.read_uint('picture type?')
             self.picture = stream.read_object('picture')
         elif version == 9:
-            self.picture = stream.read_picture('picture')
+            self.picture = Picture.create_from_stream(stream)
 
         if version < 4:
             _ = stream.read_object()

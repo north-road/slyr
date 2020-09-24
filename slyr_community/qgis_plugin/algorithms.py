@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# pylint: disable=too-many-lines
+
 # /***************************************************************************
 # context.py
 # ----------
@@ -25,6 +27,9 @@ SLYR QGIS Processing algorithms
 
 import os
 from io import BytesIO
+
+from qgis.PyQt.QtCore import QVariant
+
 from qgis.core import (Qgis,
                        QgsProcessing,
                        QgsProcessingAlgorithm,
@@ -44,21 +49,6 @@ from qgis.core import (Qgis,
                        QgsColorRamp,
                        QgsSymbol)
 
-HAS_BOOLEAN_OUTPUT = False
-try:
-    from qgis.core import QgsProcessingOutputBoolean
-
-    HAS_BOOLEAN_OUTPUT = True
-except ImportError:
-    pass
-
-try:
-    from qgis.core import QgsLegendPatchShape
-except ImportError:
-    pass
-
-from qgis.PyQt.QtCore import QVariant
-
 from slyr_community.bintools.extractor import Extractor, MissingBinaryException
 from slyr_community.parser.stream import Stream
 from slyr_community.parser.exceptions import (UnreadableSymbolException,
@@ -71,10 +61,26 @@ from slyr_community.converters.context import Context
 from slyr_community.converters.symbols import SymbolConverter
 from slyr_community.converters.color import ColorConverter
 
+HAS_BOOLEAN_OUTPUT = False
+try:
+    from qgis.core import QgsProcessingOutputBoolean  # pylint: disable=ungrouped-imports
+
+    HAS_BOOLEAN_OUTPUT = True
+except ImportError:
+    pass
+
+try:
+    from qgis.core import QgsLegendPatchShape  # pylint: disable=unused-import, ungrouped-imports
+except ImportError:
+    pass
+
 
 class SlyrAlgorithm(QgsProcessingAlgorithm):
+    """
+    Base class for SLYR algorithms
+    """
 
-    def canExecute(self):
+    def canExecute(self):  # pylint: disable=missing-function-docstring
         return True, None
 
 
@@ -300,7 +306,7 @@ class StyleToQgisXml(SlyrAlgorithm):
 
                     if sink:
                         f = QgsFeature()
-                        f.setAttributes([name, msg])
+                        f.setAttributes([name, msg])  # pylint: disable=cell-var-from-loop
                         sink.addFeature(f)
 
                 context = Context()
@@ -601,9 +607,8 @@ class LyrToQml(SlyrAlgorithm):
         return 'lyr'
 
     def shortHelpString(self):  # pylint: disable=missing-docstring
-        return "Converts an ESRI LYR file to a QGIS QML file. If multiple layers are present in the LYR file, each will "
-
-    "be converted to an individual QML file."
+        return """Converts an ESRI LYR file to a QGIS QML file. If multiple layers are present in the LYR file, each will
+be converted to an individual QML file."""
 
     def initAlgorithm(self, config=None):  # pylint: disable=missing-docstring,unused-argument
         self.addParameter(QgsProcessingParameterFile(

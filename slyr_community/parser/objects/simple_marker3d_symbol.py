@@ -25,21 +25,20 @@ class SimpleMarker3DSymbol(SymbolLayer):
 
     @staticmethod
     def type_to_string(symbol_type) -> str:
-        if symbol_type == SimpleMarker3DSymbol.TETRAHEDRON:
-            return 'tetrahedron'
-        elif symbol_type == SimpleMarker3DSymbol.CUBE:
-            return 'cube'
-        elif symbol_type == SimpleMarker3DSymbol.CONE:
-            return 'cone'
-        elif symbol_type == SimpleMarker3DSymbol.CYLINDER:
-            return 'cylinder'
-        elif symbol_type == SimpleMarker3DSymbol.DIAMOND:
-            return 'diamond'
-        elif symbol_type == SimpleMarker3DSymbol.SPHERE:
-            return 'sphere'
-        elif symbol_type == SimpleMarker3DSymbol.SPHERE_FRAME:
-            return 'sphere_frame'
-        assert False
+        """
+        Converts a symbol type to a string representation
+        """
+        type_map = {
+            SimpleMarker3DSymbol.TETRAHEDRON: 'tetrahedron',
+            SimpleMarker3DSymbol.CUBE: 'cube',
+            SimpleMarker3DSymbol.CONE: 'cone',
+            SimpleMarker3DSymbol.CYLINDER: 'cylinder',
+            SimpleMarker3DSymbol.DIAMOND: 'diamond',
+            SimpleMarker3DSymbol.SPHERE: 'sphere',
+            SimpleMarker3DSymbol.SPHERE_FRAME: 'sphere_frame',
+        }
+        assert symbol_type in type_map
+        return type_map[symbol_type]
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -59,6 +58,7 @@ class SimpleMarker3DSymbol(SymbolLayer):
         self.z_rotation = 0
         self.x_rotation = 0
         self.y_rotation = 0
+        self.type = 0
 
     @staticmethod
     def compatible_versions():
@@ -91,7 +91,7 @@ class SimpleMarker3DSymbol(SymbolLayer):
         self.keep_aspect_ratio = stream.read_ushort('keep aspect ratio') != 0
         self.billboard_display = stream.read_ushort('display front face') != 0
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {
             'width': self.width,
             'quality': self.quality,

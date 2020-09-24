@@ -46,7 +46,7 @@ class SymbolLayer(Object):
 
         self.to_dict = to_dict_(self.to_dict)
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         raise NotImplementedException('{} not implemented yet'.format(self.__class__))
 
     def read_enabled(self, stream: Stream):

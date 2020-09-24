@@ -8,6 +8,7 @@ COMPLETE INTERPRETATION of common subclasses
 from slyr_community.parser.objects.symbol_layer import SymbolLayer
 from slyr_community.parser.stream import Stream
 from slyr_community.parser.exceptions import NotImplementedException
+from slyr_community.parser.objects.picture import Picture
 
 
 class FillSymbolLayer(SymbolLayer):
@@ -49,30 +50,27 @@ class SimpleFillSymbol(FillSymbolLayer):
 
     @staticmethod
     def fill_style_to_string(style):
-        if style == SimpleFillSymbol.STYLE_SOLID:
-            return 'solid'
-        elif style == SimpleFillSymbol.STYLE_NULL:
-            return 'null'
-        elif style == SimpleFillSymbol.STYLE_HORIZONTAL:
-            return 'horizontal'
-        elif style == SimpleFillSymbol.STYLE_VERTICAL:
-            return 'vertical'
-        elif style == SimpleFillSymbol.STYLE_FORWARD_DIAGONAL:
-            return 'forward_diagonal'
-        elif style == SimpleFillSymbol.STYLE_BACKWARD_DIAGONAL:
-            return 'backward_diagonal'
-        elif style == SimpleFillSymbol.STYLE_CROSS:
-            return 'cross'
-        elif style == SimpleFillSymbol.STYLE_DIAGONAL_CROSS:
-            return 'diagonal_cross'
-
-        assert False
+        """
+        Converts a fill style value to a string representation
+        """
+        style_map = {
+            SimpleFillSymbol.STYLE_SOLID: 'solid',
+            SimpleFillSymbol.STYLE_NULL: 'null',
+            SimpleFillSymbol.STYLE_HORIZONTAL: 'horizontal',
+            SimpleFillSymbol.STYLE_VERTICAL: 'vertical',
+            SimpleFillSymbol.STYLE_FORWARD_DIAGONAL: 'forward_diagonal',
+            SimpleFillSymbol.STYLE_BACKWARD_DIAGONAL: 'backward_diagonal',
+            SimpleFillSymbol.STYLE_CROSS: 'cross',
+            SimpleFillSymbol.STYLE_DIAGONAL_CROSS: 'diagonal_cross',
+        }
+        assert style in style_map
+        return style_map[style]
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
         self.fill_style = SimpleFillSymbol.STYLE_SOLID
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {'color': self.color.to_dict() if self.color is not None else None}
         if self.outline:
             out['outline'] = self.outline.to_dict()
@@ -102,7 +100,7 @@ class ColorSymbol(FillSymbolLayer):
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
         stream.read_int('unknown int')
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {
             'color': self.color.to_dict() if self.color is not None else None,
             'type': 'ColorSymbol'
@@ -147,7 +145,7 @@ class GradientFillSymbol(FillSymbolLayer):
             return 'rectangular'
         raise NotImplementedException('Gradient type {} not implemented yet'.format(gradient_type))
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict:  # pylint: disable=method-hidden
         out = {'ramp': self.ramp.to_dict(),
                'percent': self.percent,
                'angle': self.angle,
@@ -196,7 +194,7 @@ class LineFillSymbol(FillSymbolLayer):
         self.separation = 0
         self.line = None
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {'line_symbol': self.line.to_dict() if self.line is not None else None, 'angle': self.angle,
                'offset': self.offset, 'separation': self.separation}
         if self.outline:
@@ -245,7 +243,7 @@ class MarkerFillSymbol(FillSymbolLayer):
         self.marker = None
         self.grid_angle = 0
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {'marker': None if self.marker is None else self.marker.to_dict(), 'offset_x': self.offset_x,
                'offset_y': self.offset_y, 'separation_x': self.separation_x, 'separation_y': self.separation_y,
                'random': self.random, 'grid_angle': self.grid_angle}
@@ -320,7 +318,7 @@ class PictureFillSymbol(FillSymbolLayer):
     def compatible_versions():
         return [3, 4, 7, 8]
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'color_foreground': self.color_foreground.to_dict() if self.color_foreground is not None else None,
             'color_foreground_model': self.color_foreground.model if self.color_foreground else None,
@@ -352,7 +350,7 @@ class PictureFillSymbol(FillSymbolLayer):
             _ = stream.read_uint('picture type?')
             self.picture = stream.read_object('picture')
         elif version == 8:
-            self.picture = stream.read_picture('picture')
+            self.picture = Picture.create_from_stream(stream)
 
         self.color_background = stream.read_object('color bg')
         self.color_foreground = stream.read_object('color fg')

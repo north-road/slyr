@@ -11,7 +11,6 @@ from PyQt5.QtGui import QImage, QColor, qRgba, QPainter, qRed, qGreen, qBlue
 from slyr_community.parser.exceptions import UnreadablePictureException
 from slyr_community.converters.color import ColorConverter
 from slyr_community.parser.objects.picture import StdPicture
-from qgis.core import QgsImageOperation
 
 
 class PictureUtils:
@@ -85,6 +84,10 @@ class PictureUtils:
 
     @staticmethod
     def colorize_picture(picture, color):
+        """
+        Applies a color overlay to a picture, emulating the ArcMap
+        results
+        """
         if issubclass(picture.__class__, StdPicture):
             picture = picture.picture
 
@@ -130,8 +133,7 @@ class PictureUtils:
         return image
 
     @staticmethod
-    def set_colors(data: bin, fg: QColor, bg: QColor, trans: QColor,
-                   swap_fg_bg=False) -> bin:  # pylint: disable=too-many-locals
+    def set_colors(data: bin, fg: QColor, bg: QColor, trans: QColor) -> bin:  # pylint: disable=too-many-locals
         """
         Burns foreground and background colors into a raster image, and returns
         the results as a PNG binary
@@ -160,7 +162,7 @@ class PictureUtils:
                 rgba = struct.unpack('I', ucharptr[x_start:x_start + 4])[0]
                 if trans and abs(qRed(rgba) - trans.red()) < COLOR_TOLERANCE and abs(
                         qGreen(rgba) - trans.green()) < COLOR_TOLERANCE and abs(
-                        qBlue(rgba) - trans.blue()) < COLOR_TOLERANCE:
+                            qBlue(rgba) - trans.blue()) < COLOR_TOLERANCE:
                     ucharptr[x_start:x_start + 4] = struct.pack('I', qRgba(0, 0, 0, 0))
                 elif fg_rgba is not None and abs(qRed(rgba) - fg_comp) < COLOR_TOLERANCE and abs(
                         qGreen(rgba) - fg_comp) < COLOR_TOLERANCE and abs(qBlue(rgba) - fg_comp) < COLOR_TOLERANCE:

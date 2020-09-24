@@ -3,8 +3,14 @@
 Unit
 """
 
+from typing import Optional
+
 
 class Units:
+    """
+    Unit values
+    """
+
     DISTANCE_UNKNOWN = 0
     DISTANCE_INCHES = 1
     DISTANCE_POINTS = 2
@@ -32,57 +38,43 @@ class Units:
     TIME_UNITS_CENTURIES = 10
 
     @staticmethod
-    def distance_unit_to_string(unit):
-        if unit == Units.DISTANCE_UNKNOWN:
-            return 'unknown'
-        elif unit == Units.DISTANCE_INCHES:
-            return 'inches'
-        elif unit == Units.DISTANCE_POINTS:
-            return 'points'
-        elif unit == Units.DISTANCE_FEET:
-            return 'feet'
-        elif unit == Units.DISTANCE_YARDS:
-            return 'yards'
-        elif unit == Units.DISTANCE_MILES:
-            return 'miles'
-        elif unit == Units.DISTANCE_NAUTICAL_MILES:
-            return 'nautical_miles'
-        elif unit == Units.DISTANCE_MILLIMETERS:
-            return 'millimeters'
-        elif unit == Units.DISTANCE_CENTIMETERS:
-            return 'centimeters'
-        elif unit == Units.DISTANCE_METERS:
-            return 'meters'
-        elif unit == Units.DISTANCE_KILOMETERS:
-            return 'kilometers'
-        elif unit == Units.DISTANCE_DECIMAL_DEGREES:
-            return 'decimal_degrees'
-        elif unit == Units.DISTANCE_DECIMETERS:
-            return 'decimeters'
-        return None
+    def distance_unit_to_string(unit) -> Optional[str]:
+        """
+        Converts a distance unit to a string representation
+        """
+        unit_map = {
+            Units.DISTANCE_UNKNOWN: 'unknown',
+            Units.DISTANCE_INCHES: 'inches',
+            Units.DISTANCE_POINTS: 'points',
+            Units.DISTANCE_FEET: 'feet',
+            Units.DISTANCE_YARDS: 'yards',
+            Units.DISTANCE_MILES: 'miles',
+            Units.DISTANCE_NAUTICAL_MILES: 'nautical_miles',
+            Units.DISTANCE_MILLIMETERS: 'millimeters',
+            Units.DISTANCE_CENTIMETERS: 'centimeters',
+            Units.DISTANCE_METERS: 'meters',
+            Units.DISTANCE_KILOMETERS: 'kilometers',
+            Units.DISTANCE_DECIMAL_DEGREES: 'decimal_degrees',
+            Units.DISTANCE_DECIMETERS: 'decimeters',
+        }
+        return unit_map.get(unit, None)
 
     @staticmethod
-    def time_unit_to_string(unit):
-        if unit == Units.TIME_UNITS_UNKNOWN:
-            return 'unknown'
-        elif unit == Units.TIME_UNITS_MILLISECONDS:
-            return 'milliseconds'
-        elif unit == Units.TIME_UNITS_SECONDS:
-            return 'seconds'
-        elif unit == Units.TIME_UNITS_MINUTES:
-            return 'minutes'
-        elif unit == Units.TIME_UNITS_HOURS:
-            return 'hours'
-        elif unit == Units.TIME_UNITS_DAYS:
-            return 'days'
-        elif unit == Units.TIME_UNITS_WEEKS:
-            return 'weeks'
-        elif unit == Units.TIME_UNITS_MONTHS:
-            return 'months'
-        elif unit == Units.TIME_UNITS_YEARS:
-            return 'years'
-        elif unit == Units.TIME_UNITS_DECADES:
-            return 'decades'
-        elif unit == Units.TIME_UNITS_CENTURIES:
-            return 'centuries'
-        return None
+    def time_unit_to_string(unit) -> Optional[str]:
+        """
+        Converts a time unit to a string representation
+        """
+        unit_map = {
+            Units.TIME_UNITS_UNKNOWN: 'unknown',
+            Units.TIME_UNITS_MILLISECONDS: 'milliseconds',
+            Units.TIME_UNITS_SECONDS: 'seconds',
+            Units.TIME_UNITS_MINUTES: 'minutes',
+            Units.TIME_UNITS_HOURS: 'hours',
+            Units.TIME_UNITS_DAYS: 'days',
+            Units.TIME_UNITS_WEEKS: 'weeks',
+            Units.TIME_UNITS_MONTHS: 'months',
+            Units.TIME_UNITS_YEARS: 'years',
+            Units.TIME_UNITS_DECADES: 'decades',
+            Units.TIME_UNITS_CENTURIES: 'centuries',
+        }
+        return unit_map.get(unit, None)

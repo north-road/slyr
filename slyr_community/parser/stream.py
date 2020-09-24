@@ -40,8 +40,15 @@ class Stream:
     VBARRAY = 8192
     USER_PASSWORD = 8209  # byte array
 
-    def __init__(self, io_stream, debug: bool = False, offset: int = 0, force_layer=False, extract_doc_structure=True,
-                 parse_doc_structure_only=False, tolerant=True, path=''):
+    def __init__(self,
+                 io_stream,
+                 debug: bool = False,
+                 offset: int = 0,
+                 force_layer=False,  # pylint: disable=unused-argument
+                 extract_doc_structure=True,  # pylint: disable=unused-argument
+                 parse_doc_structure_only=False,  # pylint: disable=unused-argument
+                 tolerant=True,
+                 path=''):  # pylint: disable=unused-argument
         """
         Constructor for Streams
         :param io_stream: input stream, usually a file handle
@@ -394,7 +401,7 @@ class Stream:
             except CustomExtensionClsidException as e:
                 self.log('!!!Custom extension encountered -- only partial read of {}'.format(res.__class__.__name__),
                          16)
-                e.object = res
+                e.custom_object = res
                 self.debug_depth -= 1
                 raise e
             self.log('ended {}'.format(res.__class__.__name__))
@@ -405,17 +412,10 @@ class Stream:
 
         return res
 
-    def read_picture(self, debug_string: str = ''):
+    def read_variant(self, variant_type=None, debug_string: str = '', expected=None):  # pylint: disable=too-many-branches
         """
-        Reads an embedded picture from the stream and returns it
+        Reads a variant value from the stream
         """
-        from slyr_community.parser.objects.picture import Picture
-
-        self.log('Reading picture {}'.format(debug_string))
-        pic = Picture.create_from_stream(self)
-        return pic
-
-    def read_variant(self, variant_type=None, debug_string: str = '', expected=None):
         if debug_string:
             self.log('reading variant {}'.format(debug_string))
         if variant_type is None:

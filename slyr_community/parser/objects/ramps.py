@@ -6,7 +6,6 @@ COMPLETE INTERPRETATION
 """
 
 from slyr_community.parser.object import Object
-from slyr_community.parser.stream import Stream
 
 
 class ColorRamp(Object):
@@ -18,7 +17,7 @@ class ColorRamp(Object):
         super().__init__()
         self.ramp_name_type = ''
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict:  # pylint: disable=method-hidden
         """
         Returns a dictionary representation of the color
         :return:
@@ -58,7 +57,7 @@ class RandomColorRamp(ColorRamp):
         self.hue_min = stream.read_ushort('hue min')
         self.hue_max = stream.read_ushort('hue max')
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {'value_range': [self.val_min, self.val_max], 'saturation_range': [self.sat_min, self.sat_max],
                 'hue_range': [self.hue_min, self.hue_max], 'same_everywhere': self.same_everywhere}
 
@@ -91,7 +90,7 @@ class PresetColorRamp(ColorRamp):
         for i in range(color_count):
             self.colors.append(stream.read_object('Color {}'.format(i + 1)))
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {'colors': [c.to_dict() for c in self.colors]}
 
 
@@ -130,7 +129,7 @@ class MultiPartColorRamp(ColorRamp):
             for i in range(count):
                 self.part_lengths.append(stream.read_double('Length {}'.format(i + 1)))
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {'parts': [p.to_dict() for p in self.parts],
                 'part_lengths': self.part_lengths}
 
@@ -173,7 +172,7 @@ class AlgorithmicColorRamp(ColorRamp):
         self.color1 = stream.read_object('Color 1')
         self.color2 = stream.read_object('Color 2')
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {'color1': self.color1.to_dict(),
                 'color2': self.color2.to_dict(),
                 'algorithm': self.algorithm}

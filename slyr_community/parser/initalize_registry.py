@@ -20,8 +20,8 @@ def initialize_registry():
 
         return all_subclasses
 
-    from slyr_community.parser.object import Object
-    from slyr_community.parser.object_registry import REGISTRY
+    from slyr_community.parser.object import Object  # pylint: disable=import-outside-toplevel
+    from slyr_community.parser.object_registry import REGISTRY  # pylint: disable=import-outside-toplevel
 
     for c in get_all_subclasses(Object):
         REGISTRY.register(c)

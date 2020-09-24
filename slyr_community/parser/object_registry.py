@@ -105,6 +105,9 @@ class ObjectRegistry:
 
     @staticmethod
     def hex_to_clsid2(hex_value) -> list:
+        """
+        Converts a raw hex value to a clsid
+        """
         res = (int(hex_value[6:8].decode(), base=16) * 0x1000000 +
                int(hex_value[4:6].decode(), base=16) * 0x10000 +
                int(hex_value[2:4].decode(), base=16) * 0x100 +

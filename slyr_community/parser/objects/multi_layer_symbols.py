@@ -27,7 +27,7 @@ class MultiLayerSymbol(Object):
                 res.append(l)
         return res
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = {
             'levels': [],
             'symbol_level': self.symbol_level
@@ -120,7 +120,7 @@ class MultiLayerMarkerSymbol(MultiLayerSymbol):
     def compatible_versions():
         return [1, 2, 3]
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         out = super().to_dict()
         out['halo'] = self.halo
         out['halo_size'] = self.halo_size

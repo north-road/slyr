@@ -45,7 +45,7 @@ class GeometryMaterial(Object):
             self.picture = BmpPicture()
             self.picture.read(stream, 1)
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {
             'transparency': self.transparency,
             'color': self.color.to_dict() if self.color else None,

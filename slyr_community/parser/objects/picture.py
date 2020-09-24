@@ -65,7 +65,7 @@ class Picture(Object):
             raise UnreadablePictureException('Unknown picture version {}'.format(version))
         return pic
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {
             'type': self.__class__.__name__,
             'content': base64.b64encode(self.content)
@@ -89,7 +89,7 @@ class StdPicture(Object):
     def compatible_versions():
         return None
 
-    def to_dict(self):
+    def to_dict(self):  # pylint: disable=method-hidden
         return {
             'picture_type': None if self.picture is None else self.picture.__class__.__name__,
             'content': base64.b64encode(self.picture.content)
@@ -134,6 +134,9 @@ class BmpPicture(Picture):
         self.content = self.read_from_stream(stream)
 
     def read_from_stream(self, stream: Stream):
+        """
+        Reads a picture object from a stream
+        """
         size = stream.read_uint('Pixmap size')
 
         check = stream.read(2)
@@ -167,7 +170,6 @@ class BmpPicture(Picture):
 
             first = True
             while True:
-                chunk_start = stream.tell()
                 chunk_size = struct.unpack(">I", stream.read(4))[0]
                 chunk_type = stream.read(4)
                 if first:
@@ -209,7 +211,7 @@ class BmpPicture(Picture):
             # PNG file
 
             self.format = BmpPicture.FORMAT_PNG
-        elif check == check == b'\x01\x00':
+        elif check == b'\x01\x00':
             # EMF file
             self.format = BmpPicture.FORMAT_EMF
         else:
