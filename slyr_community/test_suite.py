@@ -81,7 +81,7 @@ def test_package(package='slyr_community'):
 
 def test_environment():
     """Test package with an environment variable."""
-    package = os.environ.get('TESTING_PACKAGE', 'slyr_community')
+    package = os.environ.get('TESTING_PACKAGE', '')
     test_loader = unittest.defaultTestLoader
     test_suite = test_loader.discover(package)
     _run_tests(test_suite, package)
