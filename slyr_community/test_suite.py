@@ -12,11 +12,13 @@ Test Suite.
 import sys
 import os
 import unittest
-import qgis  # NOQA  For SIP API to V2 if run outside of QGIS
+import tempfile
+from osgeo import gdal
+import qgis  # pylint: disable=unused-import
 
 try:
     from pip import main as pipmain
-except:
+except ImportError:
     from pip._internal import main as pipmain
 
 try:
@@ -24,15 +26,12 @@ try:
 except ImportError:
     pipmain(['install', 'coverage'])
     import coverage
-import tempfile
-from osgeo import gdal
-from qgis.PyQt import Qt
 
 __author__ = 'Alessandro Pasotti'
 __revision__ = '$Format:%H$'
 __date__ = '30/04/2018'
 __copyright__ = (
-    'Copyright 2018, LINZ')
+    'Copyright 2018, North Road')
 
 
 def _run_tests(test_suite, package_name, with_coverage=False):
@@ -41,12 +40,11 @@ def _run_tests(test_suite, package_name, with_coverage=False):
     print('########')
     print('%s tests has been discovered in %s' % (count, package_name))
     print('Python GDAL : %s' % gdal.VersionInfo('VERSION_NUM'))
-    print('QT : %s' % Qt.QT_VERSION)
     print('########')
     if with_coverage:
         cov = coverage.Coverage(
             source=['/slyr_community'],
-            omit=['*/test/*' ],
+            omit=['*/test/*'],
         )
         cov.start()
 
@@ -81,17 +79,11 @@ def test_package(package='slyr_community'):
 
 def test_environment():
     """Test package with an environment variable."""
-    package = os.environ.get('TESTING_PACKAGE', '')
+    package = os.environ.get('TESTING_PACKAGE', 'slyr_community')
     test_loader = unittest.defaultTestLoader
     test_suite = test_loader.discover(package)
     _run_tests(test_suite, package)
 
 
-def test_qgis3():
-    """Run all QGIS3 tests"""
-    test_package('slyr_community.test')
-
-
-
 if __name__ == '__main__':
-    test_qgis3()
+    test_package()
