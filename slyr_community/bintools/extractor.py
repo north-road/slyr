@@ -25,7 +25,6 @@ Dumps the contents of an ESRI .style file to a set of binary blobs
 
 import os
 import subprocess
-import sys
 from ctypes import cdll
 from PyQt5.QtCore import QSettings
 
@@ -112,8 +111,6 @@ class Extractor:
         kw = {}
         if Extractor.is_windows():
             kw['startupinfo'] = Extractor.get_process_startup_info()
-            if sys.version_info >= (3, 6):
-                kw['encoding'] = "cp{}".format(Extractor.get_windows_code_page())
         return kw
 
     @staticmethod
