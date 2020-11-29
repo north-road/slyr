@@ -214,6 +214,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         else:
             for layer in symbol.layers:
                 SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(out, layer, context)
+            if symbol.symbol_level != 0xffffffff:
+                # 0xffffffff = sub layers have own level
+                for i in range(out.symbolLayerCount()):
+                    out.symbolLayer(i).setRenderingPass(symbol.symbol_level)
 
         if out.symbolLayerCount() == 0:
             # we appended nothing! Add a dummy invisible layer to avoid QGIS adding a default layer to this
@@ -410,6 +414,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         out = QgsLinePatternFillSymbolLayer()
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
         out.setSubSymbol(line)
         out.setLineAngle(layer.angle)
 
@@ -483,6 +489,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             out.setColorRamp(ramp)
             out.setEnabled(layer.enabled)
             out.setLocked(layer.locked)
+            if layer.symbol_level != 0xffffffff:
+                out.setRenderingPass(layer.symbol_level)
             symbol.appendSymbolLayer(out)
             return
         elif isinstance(layer, GradientFillSymbol) and layer.type == GradientFillSymbol.CIRCULAR:
@@ -529,6 +537,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         if isinstance(layer, GradientFillSymbol):
             out.setEnabled(layer.enabled)
             out.setLocked(layer.locked)
+            if layer.symbol_level != 0xffffffff:
+                out.setRenderingPass(layer.symbol_level)
         symbol.appendSymbolLayer(out)
 
     @staticmethod
@@ -573,6 +583,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         out.setSubSymbol(marker)
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
 
         symbol.appendSymbolLayer(out)
         if isinstance(layer.outline, MultiLayerLineSymbol):
@@ -792,6 +804,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
         symbol.appendSymbolLayer(out)
         if isinstance(layer.outline, MultiLayerLineSymbol):
             # get all layers from outline
@@ -847,6 +861,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
         symbol.appendSymbolLayer(out)
         if isinstance(layer.outline, MultiLayerLineSymbol):
             # get all layers from outline
@@ -863,6 +879,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         out = QgsSimpleLineSymbolLayer(color)
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
         out.setWidth(context.convert_size(context.fix_line_width(layer.width)))  # sometimes lines have negative width?
         out.setWidthUnit(context.units)
         # for arcgis, a pen width of 0 is not drawn, yet in QGIS it's a "hairline" size
@@ -901,6 +919,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         out = QgsSimpleLineSymbolLayer(color)
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
         out.setWidth(context.convert_size(context.fix_line_width(layer.width)))  # sometimes lines have negative width?
         out.setWidthUnit(context.units)
         out.setPenCapStyle(Qt.RoundCap)
@@ -953,6 +973,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         out = QgsSimpleLineSymbolLayer(color)
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
         out.setWidth(context.convert_size(context.fix_line_width(layer.width)))  # sometimes lines have negative width?
         out.setWidthUnit(context.units)
         out.setPenJoinStyle(ConversionUtils.symbol_pen_to_qpenjoinstyle(layer.join))
@@ -1044,6 +1066,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             line.setEnabled(layer.enabled)
             line.setLocked(layer.locked)
+            if layer.symbol_level != 0xffffffff:
+                line.setRenderingPass(layer.symbol_level)
             symbol.appendSymbolLayer(line)
         else:
             current_offset_from_start = 0
@@ -1081,6 +1105,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
                     line.setEnabled(layer.enabled)
                     line.setLocked(layer.locked)
+                    if layer.symbol_level != 0xffffffff:
+                        line.setRenderingPass(layer.symbol_level)
 
                     symbol.appendSymbolLayer(line)
 
@@ -1129,6 +1155,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         out.setSizeUnit(context.units)
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
         symbol.appendSymbolLayer(out)
 
     @staticmethod
@@ -1165,6 +1193,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
 
         out.setOffset(
             ConversionUtils.adjust_offset_for_rotation(
@@ -1231,6 +1261,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
 
         out.setOffset(QPointF(context.convert_size(layer.x_offset), -context.convert_size(layer.y_offset)))
         out.setOffsetUnit(context.units)
@@ -1297,6 +1329,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
 
         symbol.appendSymbolLayer(out)
 
@@ -1410,6 +1444,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
 
         out.setOffset(
             ConversionUtils.adjust_offset_for_rotation(
@@ -1450,6 +1486,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
 
         temp_offset = ConversionUtils.adjust_offset_for_rotation(QPointF(layer.x_offset, -layer.y_offset), layer.angle)
         out.setOffset(QPointF(context.convert_size(temp_offset.x() + x_offset_points),
@@ -1535,6 +1573,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         out.setSizeUnit(context.units)
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
         out.setOffset(
             ConversionUtils.adjust_offset_for_rotation(
                 QPointF(context.convert_size(layer.x_offset), -context.convert_size(layer.y_offset)),
