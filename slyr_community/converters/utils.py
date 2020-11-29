@@ -22,6 +22,7 @@
 Conversion utilities
 """
 
+from typing import Optional
 import math
 import os
 from pathlib import Path
@@ -93,16 +94,15 @@ class ConversionUtils:
         }
         return types[style]
 
-
     @staticmethod
-    def path_insensitive(path):
+    def path_insensitive(path) -> Optional[str]:
         """
         Recursive part of path_insensitive to do the work.
         """
         return ConversionUtils._path_insensitive(path) or path
 
     @staticmethod
-    def _path_insensitive(path):
+    def _path_insensitive(path) -> Optional[str]:
         """
         Recursive part of path_insensitive to do the work.
         """
@@ -126,22 +126,22 @@ class ConversionUtils:
         if not os.path.exists(dirname):
             dirname = ConversionUtils._path_insensitive(dirname)
             if not dirname:
-                return
+                return None
 
         # at this point, the directory exists but not the file
 
         try:  # we are expecting dirname to be a directory, but it could be a file
             files = os.listdir(dirname)
         except OSError:
-            return
+            return None
 
-        baselow = base.lower()
+        base_low = base.lower()
         try:
-            basefinal = next(fl for fl in files if fl.lower() == baselow)
+            base_final = next(fl for fl in files if fl.lower() == base_low)
         except StopIteration:
-            return
+            return None
 
-        if basefinal:
-            return Path(os.path.join(dirname, basefinal) + suffix).as_posix()
+        if base_final:
+            return Path(os.path.join(dirname, base_final) + suffix).as_posix()
         else:
-            return
+            return None
