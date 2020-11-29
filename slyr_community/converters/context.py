@@ -22,8 +22,9 @@
 Conversion context
 """
 
-import tempfile
 import os
+import tempfile
+
 from qgis.PyQt.QtCore import (
     QSettings,
     QDir
@@ -45,6 +46,7 @@ class Context:
     def __init__(self):
         s = QSettings()
         self.layer_name = ''
+        self.file_name = ''
         self.dataset_name = ''
         self.symbol_name = ''
         self.picture_folder = s.value('/plugins/slyr/picture_store_folder', '')
