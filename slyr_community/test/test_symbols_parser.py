@@ -300,7 +300,7 @@ class TestSymbolParser(unittest.TestCase):
 
     maxDiff = None
 
-    UPDATE = True
+    UPDATE = False
 
     @staticmethod
     def read_symbol(_io_stream):
