@@ -18,17 +18,20 @@ class MultiPatch(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
+        self.crs = None
 
     @staticmethod
     def compatible_versions():
-        return [2]
+        return [1, 2]
 
     def read(self, stream: Stream, version):
         size = stream.read_int('size')
         # TODO - reverse engineer
         stream.read(size)
-        return
+
+        self.crs = stream.read_object('crs')
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
+            'crs': self.crs.to_dict() if self.crs else None
         }

@@ -2,6 +2,7 @@
 """
 Serializable object subclass
 """
+
 from typing import Optional
 from slyr_community.parser.objects.symbol_layer import SymbolLayer
 from slyr_community.parser.stream import Stream

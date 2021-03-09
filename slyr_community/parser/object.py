@@ -5,7 +5,7 @@ Base class for persistent objects
 
 import functools
 from typing import List, Optional
-from slyr_community.parser.exceptions import NotImplementedException
+from slyr_community.parser.exceptions import NotImplementedException, PartiallyImplementedException
 
 
 class Object:
@@ -96,4 +96,26 @@ def not_implemented(cls):
 
     cls.read = not_implemented_(cls.read, cls)
     cls.compatible_versions = not_implemented_(cls.compatible_versions, cls)
+    return cls
+
+def partially_implemented(cls):
+    """
+    Decorator which raises a PartiallyImplementedException on object read
+    """
+
+    def partially_implemented_(func, cls):
+        """
+        Raises a PartiallyImplementedException on call
+        """
+
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):  # pylint: disable=unused-argument
+            """
+            Wrapper which raises a PartiallyImplementedException on function call
+            """
+            raise PartiallyImplementedException('{} objects are not fully supported'.format(cls.__name__))
+
+        return wrapper
+
+    cls.compatible_versions = partially_implemented_(cls.compatible_versions, cls)
     return cls
