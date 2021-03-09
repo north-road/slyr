@@ -22,19 +22,12 @@
 Conversion utilities
 """
 
-from typing import Optional
 import math
 import os
 from pathlib import Path
+from typing import Optional
 
-from qgis.PyQt.QtCore import Qt, QPointF, QVariant
-from slyr_community.bintools.extractor import Extractor
-from qgis.core import (
-    QgsField,
-    QgsFields,
-    QgsMemoryProviderUtils,
-    QgsFeature
-)
+from qgis.PyQt.QtCore import Qt, QPointF
 
 
 class ConversionUtils:
