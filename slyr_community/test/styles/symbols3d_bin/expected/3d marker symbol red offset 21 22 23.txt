@@ -36,7 +36,7 @@
                        'version': 1},
              'display_face_front': True,
              'enabled': True,
-             'geometry': {'type': 'MultiPatch', 'version': 2},
+             'geometry': {'crs': None, 'type': 'MultiPatch', 'version': 2},
              'keep_aspect': True,
              'locked': False,
              'material_draping': True,
