@@ -23,6 +23,14 @@ class NotImplementedException(Exception):
     """
 
 
+class PartiallyImplementedException(Exception):
+    """
+    Thrown when attempting to read/convert an object, which is known
+    but only partially implemented, and if we know the size of the object
+    from other means we should always use that instead
+    """
+
+
 class UnknownClsidException(Exception):
     """
     Thrown on encountering an unknown CLSID

@@ -9,6 +9,8 @@ from slyr_community.parser.stream import Stream
 from slyr_community.parser.object import Object
 from slyr_community.parser.objects.symbol_layer import SymbolLayer
 
+from slyr_community.parser.exceptions import UnreadableSymbolException
+
 
 class MultiLayerSymbol(Object):
     """

@@ -46,8 +46,6 @@ class Marker3DSymbol(SymbolLayer):
 
         self.geometry = stream.read_object('multipatch')
 
-        stream.read_double('unknown', expected=0)
-        stream.read_double('unknown', expected=0)
         stream.read_int('unknown', expected=9)
 
         self.origin_x = stream.read_double('origin x')

@@ -28,7 +28,7 @@ class Color(Object):
         """
         assert False
 
-    def to_dict(self) -> dict:  # pylint: disable=method-hidden
+    def to_dict(self) -> dict:
         """
         Returns a dictionary representation of the color
         :return:
@@ -149,7 +149,6 @@ class GrayColor(RgbColor):
     """
     Grayscale Color
     """
-
     @staticmethod
     def cls_id():
         return '7ee9c495-d123-11d0-8383-080009b996cc'
