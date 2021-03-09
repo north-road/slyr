@@ -27,7 +27,14 @@ import math
 import os
 from pathlib import Path
 
-from qgis.PyQt.QtCore import Qt, QPointF
+from qgis.PyQt.QtCore import Qt, QPointF, QVariant
+from slyr_community.bintools.extractor import Extractor
+from qgis.core import (
+    QgsField,
+    QgsFields,
+    QgsMemoryProviderUtils,
+    QgsFeature
+)
 
 
 class ConversionUtils:
@@ -99,7 +106,10 @@ class ConversionUtils:
         """
         Recursive part of path_insensitive to do the work.
         """
-        return ConversionUtils._path_insensitive(path) or path
+        try:
+            return ConversionUtils._path_insensitive(path) or path
+        except PermissionError:
+            return path
 
     @staticmethod
     def _path_insensitive(path) -> Optional[str]:
@@ -122,6 +132,9 @@ class ConversionUtils:
 
             base = os.path.basename(dirname)
             dirname = os.path.dirname(dirname)
+
+        if not base:
+            return None
 
         if not os.path.exists(dirname):
             dirname = ConversionUtils._path_insensitive(dirname)

@@ -98,6 +98,7 @@ def not_implemented(cls):
     cls.compatible_versions = not_implemented_(cls.compatible_versions, cls)
     return cls
 
+
 def partially_implemented(cls):
     """
     Decorator which raises a PartiallyImplementedException on object read

@@ -60,6 +60,7 @@ class Context:
         self.inkscape_path = s.value('/plugins/slyr/inkscape_path', 'inkscape')
         self.convert_annotations = int(s.value('/plugins/slyr/enable_annotations', 0))
         self.convert_layouts = int(s.value('/plugins/slyr/convert_layouts', 1))
+        self.convert_esri_fonts_to_simple_markers = int(s.value('/plugins/slyr/convert_fonts_to_simple_markers', 1))
         self.unsupported_object_callback = None
         self.invalid_layer_resolver = None
         self.warned_crs_definitions = set()
