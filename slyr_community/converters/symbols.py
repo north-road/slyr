@@ -1423,10 +1423,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                  'overlay': QgsSimpleMarkerSymbolLayerBase.Cross,
                  'overlay_angle': 45},
             65: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
-                 'shape_size_factor': 8.129480/12.129480,
+                 'shape_size_factor': 8.129480 / 12.129480,
                  'outline_only': True,
                  'overlay': QgsSimpleMarkerSymbolLayerBase.Cross,
-                 'overlay_size_factor': 13.249480/8.129480 },
+                 'overlay_size_factor': 13.249480 / 8.129480},
             66: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
                  'shape_size_factor': 0.8548989734102369,
                  'outline_only': True,
@@ -1685,7 +1685,6 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 elif marker_type == QgsSimpleMarkerSymbolLayerBase.AsteriskFill:
                     simple_size = (1.3632460 * layer.size) / 2.0
 
-
             simple_size *= conversion_properties.get('shape_size_factor', 1)
 
             out = QgsSimpleMarkerSymbolLayer(marker_type, context.convert_size(simple_size))
@@ -1843,7 +1842,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                     QPointF(context.convert_size(layer.x_offset), -context.convert_size(y_offset)),
                     angle))
 
-            overlay.setOffset(QPointF(overlay.offset().x(), overlay.offset().y() * conversion_properties.get('overlay_y_offset_factor', 0)))
+            overlay.setOffset(QPointF(overlay.offset().x(),
+                                      overlay.offset().y() * conversion_properties.get('overlay_y_offset_factor', 0)))
 
             overlay.setOffsetUnit(context.units)
             symbol.appendSymbolLayer(overlay)
@@ -1884,7 +1884,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 out.setOffset(QPointF(out.offset().x(),
                                       out.size() * conversion_properties['overlay_y_offset']))
 
-            out.setOffset(QPointF(out.offset().x(), out.offset().y() * conversion_properties.get('overlay_y_offset_factor', 1)))
+            out.setOffset(
+                QPointF(out.offset().x(), out.offset().y() * conversion_properties.get('overlay_y_offset_factor', 1)))
 
             out.setOffsetUnit(context.units)
             out.setStrokeStyle(Qt.NoPen)
