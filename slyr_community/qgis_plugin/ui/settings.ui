@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
-    <height>656</height>
+    <width>581</width>
+    <height>679</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -65,28 +65,55 @@
       <string>Conversion Settings</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1">
-      <item row="4" column="1">
-       <widget class="QgsFileWidget" name="picture_store" native="true">
-        <property name="focusPolicy">
-         <enum>Qt::StrongFocus</enum>
-        </property>
-       </widget>
-      </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Store extracted pictures in</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>Units for symbols</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="2">
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Store extracted pictures in</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QCheckBox" name="apply_tweaks">
+        <property name="toolTip">
+         <string>If checked, symbol settings will be tweaked during conversion to result in a closer visual match between ArcGIS rendering and QGIS rendering. If unchecked, symbol settings will be converted exactly, without changes.</string>
+        </property>
+        <property name="text">
+         <string>Tweak symbol conversion for better visual match</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="symbol_units"/>
+      </item>
+      <item row="5" column="1">
+       <widget class="QgsFileWidget" name="picture_store" native="true">
+        <property name="focusPolicy">
+         <enum>Qt::StrongFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="convert_font_to_svg">
+        <property name="text">
+         <string>Convert font markers to SVG files</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QCheckBox" name="embed_pictures">
+        <property name="text">
+         <string>Embed pictures inside symbols when possible</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2">
        <widget class="QCheckBox" name="store_relative">
         <property name="text">
          <string>Store relative paths for files instead of absolute paths</string>
@@ -94,29 +121,9 @@
        </widget>
       </item>
       <item row="0" column="0" colspan="2">
-       <widget class="QCheckBox" name="convert_font_to_svg">
+       <widget class="QCheckBox" name="convert_font_to_simple_marker">
         <property name="text">
-         <string>Convert font markers to SVG files</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QComboBox" name="symbol_units"/>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="embed_pictures">
-        <property name="text">
-         <string>Embed pictures inside symbols when possible</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QCheckBox" name="apply_tweaks">
-        <property name="toolTip">
-         <string>If checked, symbol settings will be tweaked during conversion to result in a closer visual match between ArcGIS rendering and QGIS rendering. If unchecked, symbol settings will be converted exactly, without changes.</string>
-        </property>
-        <property name="text">
-         <string>Tweak symbol conversion for better visual match</string>
+         <string>Convert font markers to simple marker symbols where possible</string>
         </property>
        </widget>
       </item>
