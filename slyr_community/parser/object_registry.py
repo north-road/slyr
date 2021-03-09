@@ -24,7 +24,7 @@ class ObjectRegistry:
         if not cls_id:
             return
         else:
-            cls_id = tuple([int(c, base=16) for c in cls_id.split('-')])
+            cls_id = tuple(int(c, base=16) for c in cls_id.split('-'))
             self.classes.append(object_class)
 
         # assert cls_id not in self.objects, (object_class, self.objects[cls_id])
