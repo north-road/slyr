@@ -23,11 +23,12 @@
 Symbol converter
 """
 
-import os
-import subprocess
 import base64
 import math
-from typing import Union
+import os
+import subprocess
+from typing import Union, Tuple
+
 from qgis.core import (Qgis,
                        QgsUnitTypes,
                        QgsSimpleLineSymbolLayer,
@@ -196,12 +197,34 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         return s.color()
 
     @staticmethod
-    def symbol_to_line_width(symbol, context: Context):
+    def symbol_to_line_width(symbol, context: Context) -> float:
         """
         Converts an ESRI symbol to a single line width value best representing the symbol
         """
         s = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
         return s.width()
+
+    @staticmethod
+    def symbol_to_marker_size(symbol, context: Context) -> float:
+        """
+        Converts an ESRI symbol to a single marker size value best representing the symbol
+        """
+        s = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
+        return s.size()
+
+    @staticmethod
+    def symbol_to_marker_shape(symbol, context: Context) -> str:
+        """
+        Converts an ESRI symbol to a marker shape string ("circle" or "square") best representing the symbol
+        """
+        if isinstance(symbol, SimpleMarkerSymbol):
+            return symbol.type
+
+        elif isinstance(symbol, MultiLayerMarkerSymbol) and len(symbol.layers) == 1 and isinstance(symbol.layers[0],
+                                                                                                   SimpleMarkerSymbol):
+            return symbol.layers[0].type
+
+        return 'circle'
 
     @staticmethod
     def add_symbol_layers(out, symbol, context: Context):
@@ -325,6 +348,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         out = QgsSimpleFillSymbolLayer(fill_color)
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
 
         if isinstance(layer, SimpleFillSymbol):
             if layer.outline and not isinstance(layer.outline, MultiLayerLineSymbol):
@@ -1334,12 +1359,253 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         symbol.appendSymbolLayer(out)
 
+    ESRI_FONTS_TO_QGIS_MARKERS = {
+        'ESRI Default Marker': {
+            32: None,
+            33: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle},
+            34: {'shape': QgsSimpleMarkerSymbolLayerBase.Square},
+            35: {'shape': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle},
+            36: {'shape': QgsSimpleMarkerSymbolLayerBase.Pentagon},
+            37: {'shape': QgsSimpleMarkerSymbolLayerBase.Hexagon},
+            40: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True},
+            41: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                 'outline_only': True},
+            42: {'shape': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                 'outline_only': True},
+            43: {'shape': QgsSimpleMarkerSymbolLayerBase.Pentagon,
+                 'outline_only': True},
+            44: {'shape': QgsSimpleMarkerSymbolLayerBase.Hexagon,
+                 'outline_only': True},
+            46: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle},
+            47: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle},
+            48: {'shape': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle},
+            49: {'shape': QgsSimpleMarkerSymbolLayerBase.Pentagon,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle},
+            50: {'shape': QgsSimpleMarkerSymbolLayerBase.Hexagon,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle},
+            53: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Square},
+            54: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Square},
+            55: {'shape': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Square},
+            56: {'shape': QgsSimpleMarkerSymbolLayerBase.Pentagon,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Square},
+            57: {'shape': QgsSimpleMarkerSymbolLayerBase.Hexagon,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Square},
+            60: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'overlay': QgsSimpleMarkerSymbolLayerBase.SemiCircle,
+                 'overlay_angle': 90
+                 },
+            61: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'overlay': QgsSimpleMarkerSymbolLayerBase.Line},
+            62: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'overlay': QgsSimpleMarkerSymbolLayerBase.Cross},
+            63: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'overlay': QgsSimpleMarkerSymbolLayerBase.Cross,
+                 'overlay_angle': 45},
+            65: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'shape_size_factor': 8.129480/12.129480,
+                 'outline_only': True,
+                 'overlay': QgsSimpleMarkerSymbolLayerBase.Cross,
+                 'overlay_size_factor': 13.249480/8.129480 },
+            66: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'shape_size_factor': 0.8548989734102369,
+                 'outline_only': True,
+                 'overlay': QgsSimpleMarkerSymbolLayerBase.Cross,
+                 'overlay_size_factor': 13.249480 / 8.129480,
+                 'overlay_angle': 45},
+            72: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'stroke_size_factor': 2.813333333333333,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'overlay_size_factor': 1.3654742518282246},
+            73: {'shape': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                 'outline_only': True,
+                 'stroke_size_factor': 1.5143456548019383,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                 'overlay_size_factor': 0.26396286832045446,
+                 'overlay_y_offset_factor': 1.3703703703703705},
+            74: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                 'outline_only': True,
+                 'shape_size_factor': 0.8895253547555213,
+                 'stroke_size_factor': 1.9410120363760561,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Square,
+                 'overlay_size_factor': 1.6658045385884221},
+            75: {'shape': QgsSimpleMarkerSymbolLayerBase.Pentagon,
+                 'outline_only': True,
+                 'shape_size_factor': 1.0098932629689819,
+                 'stroke_size_factor': 1.9410120363760561,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Pentagon,
+                 'overlay_size_factor': 0.3228621997955166,
+                 'overlay_y_offset': 0.14955468922886098},
+            76: {'shape': QgsSimpleMarkerSymbolLayerBase.Hexagon,
+                 'outline_only': True,
+                 'shape_size_factor': 1.0098932629689819,
+                 'stroke_size_factor': 1.9410120363760561,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Hexagon,
+                 'overlay_size_factor': 0.3228621997955166,
+                 'overlay_angle': 90},
+            87: {'ellipse_marker_type': 'diamond',
+                 'outline_only': True,
+                 'width_factor': 2.620000 / 13.990840,
+                 'height_factor': 4.590840 / 13.990840},
+            88: {'ellipse_marker_type': 'diamond',
+                 'width_factor': 2.620000 / 13.990840,
+                 'height_factor': 4.590840 / 13.990840},
+            89: {'ellipse_marker_type': 'diamond',
+                 'outline_only': True,
+                 'width_factor': 2.260000 / 13.990840,
+                 'height_factor': 3.930840 / 13.990840,
+                 'stroke_scale': 0.991667 / 0.791667},
+            94: {'shape': QgsSimpleMarkerSymbolLayerBase.Star},
+            95: {'shape': QgsSimpleMarkerSymbolLayerBase.Star,
+                 'outline_only': True},
+        }
+    }
+
+    if Qgis.QGIS_VERSION_INT >= 31800:
+        ESRI_FONTS_TO_QGIS_MARKERS['ESRI Default Marker'].update({
+            38: {
+                'shape': QgsSimpleMarkerSymbolLayerBase.Octagon,
+            },
+            39: {
+                'shape': QgsSimpleMarkerSymbolLayerBase.SquareWithCorners,
+            },
+            45: {
+                'shape': QgsSimpleMarkerSymbolLayerBase.Octagon,
+                'outline_only': True
+            },
+            51: {'shape': QgsSimpleMarkerSymbolLayerBase.Octagon,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle},
+            52: {'shape': QgsSimpleMarkerSymbolLayerBase.SquareWithCorners,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle},
+            58: {'shape': QgsSimpleMarkerSymbolLayerBase.Octagon,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Square},
+            59: {'shape': QgsSimpleMarkerSymbolLayerBase.SquareWithCorners,
+                 'outline_only': True,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Square},
+            77: {'shape': QgsSimpleMarkerSymbolLayerBase.Octagon,
+                 'outline_only': True,
+                 'shape_size_factor': 1.0098932629689819,
+                 'stroke_size_factor': 1.9410120363760561,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Octagon,
+                 'overlay_size_factor': 0.3228621997955166},
+            78: {'shape': QgsSimpleMarkerSymbolLayerBase.SquareWithCorners,
+                 'outline_only': True,
+                 'shape_size_factor': 1.0098932629689819,
+                 'stroke_size_factor': 1.0876792732278202,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.SquareWithCorners,
+                 'overlay_size_factor': 0.3228621997955166},
+            106: {
+                'shape': QgsSimpleMarkerSymbolLayerBase.AsteriskFill,
+                'outline_only': True
+            },
+            107: {
+                'shape': QgsSimpleMarkerSymbolLayerBase.AsteriskFill,
+            },
+        })
+
+    ALIAS_FONTS = {
+        'ESRI AMFM Water': {38: {'font_name': 'ESRI Default Marker',
+                                 'character': 33},
+                            84: {'font_name': 'ESRI Default Marker',
+                                 'character': 33},
+                            108: {'font_name': 'ESRI Default Marker',
+                                  'character': 33}},
+        'ESRI Geometric Symbols': {
+            34: {'font_name': 'ESRI Default Marker',
+                 'character': 33,
+                 'vertical_offset_factor': 0},
+            35: {'font_name': 'ESRI Default Marker',
+                 'character': 33,
+                 'vertical_offset_factor': 0},
+        }
+    }
+
+    REPLACE_FONTS = {
+        'SIGEOM_SYMBOL2': {
+            61473: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 33},
+            61474: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 34},
+            61475: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 35},
+            61476: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 36},
+            61477: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 37},
+            61478: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 38},
+            61479: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 39},
+            61480: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 40},
+            61481: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 41},
+            61482: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 42},
+            61483: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 43},
+            61484: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 44},
+            61485: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 45},
+            61486: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 46},
+            61487: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 47},
+            61488: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 48},
+            61489: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 49},
+            61490: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 50},
+            61491: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 51},
+            61492: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 52},
+            61493: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 53},
+            61494: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 54},
+            61495: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 55},
+            61496: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 56},
+            61497: {'font_name': 'SIGEOM_SYMBOL2', 'unicode': 57},
+        }
+    }
+
     @staticmethod
-    def append_CharacterMarkerSymbolLayer(symbol, layer, context: Context):
+    def can_convert_esri_font_character_to_simple_marker(font_name: str, character: int) -> bool:
+        if font_name in SymbolConverter.ALIAS_FONTS and character in SymbolConverter.ALIAS_FONTS[font_name]:
+            alias = SymbolConverter.ALIAS_FONTS[font_name][character]
+            font_name = alias['font_name']
+            character = alias['character']
+
+        return character in SymbolConverter.ESRI_FONTS_TO_QGIS_MARKERS.get(font_name, {})
+
+    @staticmethod
+    def replace_char_if_needed(font_name: str, character: int) -> Tuple[str, int]:
+        """
+        Replaces font name and unicode using REPLACE_FONTS
+        """
+        if font_name in SymbolConverter.REPLACE_FONTS:
+            if character in SymbolConverter.REPLACE_FONTS[font_name]:
+                conversion = SymbolConverter.REPLACE_FONTS[font_name][character]
+                font_name = conversion['font_name']
+                character = conversion['unicode']
+        return font_name, character
+
+    @staticmethod
+    def append_CharacterMarkerSymbolLayer(symbol, layer: CharacterMarkerSymbol, context: Context):
         """
         Appends a CharacterMarkerSymbolLayer to a symbol
         """
-        if context.convert_fonts:
+        font, unicode = SymbolConverter.replace_char_if_needed(layer.font, layer.unicode)
+
+        if context.convert_esri_fonts_to_simple_markers and SymbolConverter.can_convert_esri_font_character_to_simple_marker(
+                font, unicode):
+            SymbolConverter.append_CharacterMarkerSymbolLayerAsSimpleMarker(symbol, layer, context)
+        elif context.convert_fonts:
             SymbolConverter.append_CharacterMarkerSymbolLayerAsSvg(symbol, layer, context)
         else:
             SymbolConverter.append_CharacterMarkerSymbolLayerAsFont(symbol, layer, context)
@@ -1367,19 +1633,277 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             SymbolConverter.append_CharacterMarkerSymbolLayerAsFont(symbol, layer.character_marker_symbol, context)
 
     @staticmethod
-    def append_CharacterMarkerSymbolLayerAsSvg(symbol,  # pylint: disable=too-many-locals,too-many-statements
-                                               layer,
-                                               context: Context):
+    def append_CharacterMarkerSymbolLayerAsSimpleMarker(symbol,  # pylint: disable=too-many-locals,too-many-statements
+                                                        layer: CharacterMarkerSymbol,
+                                                        context: Context):
+        """
+        Appends a CharacterMarkerSymbolLayer to a symbol, converting the symbol to a simple qgis marker
+        """
+        font_name, character = SymbolConverter.replace_char_if_needed(layer.font, layer.unicode)
+
+        vertical_offset_factor = 0
+        if font_name in SymbolConverter.ALIAS_FONTS and character in SymbolConverter.ALIAS_FONTS[font_name]:
+            alias = SymbolConverter.ALIAS_FONTS[font_name][character]
+            font_name = alias['font_name']
+            character = alias['character']
+            vertical_offset_factor = alias.get('vertical_offset_factor', 0)
+
+        conversion_properties = SymbolConverter.ESRI_FONTS_TO_QGIS_MARKERS[font_name][character]
+        if conversion_properties is None:
+            if symbol.symbolLayerCount():
+                # don't add an empty shell
+                return
+
+            # add an effectively "null" symbol
+            out = QgsSimpleMarkerSymbolLayer(QgsSimpleMarkerSymbolLayerBase.Circle, 8)
+            out.setColor(QColor(255, 255, 255, 0))
+            out.setStrokeStyle(Qt.NoPen)
+            out.setLocked(True)
+            out.setEnabled(layer.enabled)
+            symbol.appendSymbolLayer(out)
+            return
+
+        angle_offset = 0
+        outline_stroke_width = 1
+        size_scale_factor = 1
+        if 'shape' in conversion_properties:
+            marker_type = conversion_properties.get('shape', QgsSimpleMarkerSymbolLayerBase.Square)
+
+            if marker_type in (QgsSimpleMarkerSymbolLayerBase.Circle,
+                               QgsSimpleMarkerSymbolLayerBase.Square,
+                               QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                               QgsSimpleMarkerSymbolLayerBase.Pentagon):
+                simple_size = (1.47272 * layer.size) / 2.0
+            elif marker_type == QgsSimpleMarkerSymbolLayerBase.Hexagon:
+                simple_size = (1.47272 * layer.size * 4.178160 / 4.418160) / 2.0
+            elif marker_type == QgsSimpleMarkerSymbolLayerBase.Star:
+                simple_size = (1.47272 * layer.size * 12.327200 / 14.727200) / 2.0
+            elif Qgis.QGIS_VERSION_INT >= 31800:
+                if marker_type in (QgsSimpleMarkerSymbolLayerBase.Octagon,
+                                   QgsSimpleMarkerSymbolLayerBase.SquareWithCorners):
+                    simple_size = (1.3632460 * layer.size) / 2.0
+                elif marker_type == QgsSimpleMarkerSymbolLayerBase.AsteriskFill:
+                    simple_size = (1.3632460 * layer.size) / 2.0
+
+
+            simple_size *= conversion_properties.get('shape_size_factor', 1)
+
+            out = QgsSimpleMarkerSymbolLayer(marker_type, context.convert_size(simple_size))
+            stroke_only_symbol = not QgsSimpleMarkerSymbolLayerBase.shapeIsFilled(
+                marker_type) or conversion_properties.get('outline_only', False)
+
+            y_offset = layer.y_offset + vertical_offset_factor * simple_size
+
+            SHAPE_BASED_OFFSET = {
+                QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle: 1.8 / 14.7272,
+                QgsSimpleMarkerSymbolLayerBase.Pentagon: 0.2 / 4.418160,
+                QgsSimpleMarkerSymbolLayerBase.Star: 0.600000 / 12.327200
+            }
+
+            if marker_type in SHAPE_BASED_OFFSET:
+                y_offset -= simple_size * SHAPE_BASED_OFFSET[marker_type]
+
+            if marker_type == QgsSimpleMarkerSymbolLayerBase.Hexagon:
+                angle_offset += 90
+
+            if marker_type == QgsSimpleMarkerSymbolLayerBase.Star:
+                outline_stroke_width = (layer.size / 48) * 1.016667 / 0.416667
+            else:
+                outline_stroke_width = layer.size / 48
+
+            outline_stroke_width *= conversion_properties.get('stroke_size_factor', 1)
+
+            if marker_type != QgsSimpleMarkerSymbolLayerBase.Star:
+                size_scale_factor = 10.781760 / 11.781760
+
+        elif 'ellipse_marker_type' in conversion_properties:
+            symbol_name = conversion_properties['ellipse_marker_type']
+
+            simple_size = (1.47272 * layer.size) / 2.0
+
+            out = QgsEllipseSymbolLayer()
+            out.setSymbolName(symbol_name)
+            out.setSymbolWidth(simple_size * conversion_properties.get('width_factor', 1))
+            out.setSymbolHeight(simple_size * conversion_properties.get('height_factor', 1))
+
+            stroke_only_symbol = conversion_properties.get('outline_only', False)
+            y_offset = layer.y_offset + vertical_offset_factor * simple_size
+            outline_stroke_width = layer.size / 24
+
+            outline_stroke_width *= conversion_properties.get('stroke_scale', 1)
+
+        out.setSizeUnit(context.units)
+
+        color = ColorConverter.color_to_qcolor(layer.color)
+        out.setPenJoinStyle(Qt.MiterJoin)
+
+        out.setEnabled(layer.enabled)
+        out.setLocked(layer.locked or character == 32)
+        if layer.symbol_level != 0xffffffff:
+            out.setRenderingPass(layer.symbol_level)
+
+        angle = ConversionUtils.convert_angle(layer.angle)
+        angle += angle_offset
+
+        out.setAngle(angle)
+
+        out.setOffset(
+            ConversionUtils.adjust_offset_for_rotation(
+                QPointF(context.convert_size(layer.x_offset), -context.convert_size(y_offset)),
+                angle))
+
+        out.setOffsetUnit(context.units)
+
+        if not stroke_only_symbol:
+            out.setStrokeStyle(Qt.NoPen)
+
+        appended_to_prev_layer = False
+        if not stroke_only_symbol:
+            out.setColor(color)
+        else:
+            if symbol.symbolLayerCount() > 0:
+                prev_layer = symbol.symbolLayer(symbol.symbolLayerCount() - 1)
+
+                # in ESRI land people often place outline only versions of font markers over the filled
+                # versions in order to get an outline
+                if isinstance(out, QgsSimpleMarkerSymbolLayer) and isinstance(prev_layer,
+                                                                              QgsSimpleMarkerSymbolLayer) and out.type() == prev_layer.type() and \
+                        prev_layer.size() == out.size() and prev_layer.angle() == out.angle() and \
+                        prev_layer.offset() == out.offset() and prev_layer.strokeStyle() == Qt.NoPen:
+                    # effectively the same symbol, just an outline version of it! Let's make the results nice
+                    # and QGIS-esque by just adding the stroke to the previous layer instead of creating a brand
+                    # new layer
+                    appended_to_prev_layer = True
+                    prev_layer.setStrokeStyle(Qt.SolidLine)
+                    prev_layer.setStrokeColor(color)
+                    prev_layer.setStrokeWidth(context.convert_size(layer.size / 48))
+                    prev_layer.setStrokeWidthUnit(context.units)
+                elif isinstance(out, QgsEllipseSymbolLayer) and isinstance(prev_layer,
+                                                                           QgsEllipseSymbolLayer) and out.symbolName() == prev_layer.symbolName() and \
+                        prev_layer.symbolHeight() == out.symbolHeight() and prev_layer.symbolWidth() == out.symbolWidth() and prev_layer.angle() == out.angle() and \
+                        prev_layer.offset() == out.offset() and prev_layer.strokeStyle() == Qt.NoPen:
+                    # effectively the same symbol, just an outline version of it! Let's make the results nice
+                    # and QGIS-esque by just adding the stroke to the previous layer instead of creating a brand
+                    # new layer
+                    appended_to_prev_layer = True
+                    prev_layer.setStrokeStyle(Qt.SolidLine)
+                    prev_layer.setStrokeColor(color)
+                    prev_layer.setStrokeWidth(context.convert_size(layer.size / 24))
+                    prev_layer.setStrokeWidthUnit(context.units)
+
+            if not appended_to_prev_layer:
+                out.setStrokeColor(color)
+
+        if not appended_to_prev_layer and conversion_properties.get('outline_only', False):
+            out.setColor(QColor(255, 255, 255, 0))
+            out.setStrokeWidth(context.convert_size(outline_stroke_width))
+            out.setStrokeWidthUnit(context.units)
+            out.setSize(out.size() * size_scale_factor)
+
+        if not appended_to_prev_layer:
+            symbol.appendSymbolLayer(out)
+
+        if 'overlay' in conversion_properties:
+            # Add overlay layer
+            marker_type = conversion_properties['overlay']
+
+            overlay_size = out.size() * conversion_properties.get('overlay_size_factor', 1)
+
+            overlay = QgsSimpleMarkerSymbolLayer(marker_type, overlay_size)
+            overlay.setSizeUnit(context.units)
+
+            stroke_only_symbol = not QgsSimpleMarkerSymbolLayerBase.shapeIsFilled(marker_type)
+
+            color = ColorConverter.color_to_qcolor(layer.color)
+
+            if not stroke_only_symbol:
+                overlay.setColor(color)
+                out.setStrokeStyle(Qt.NoPen)
+            else:
+                overlay.setStrokeColor(color)
+
+            if marker_type == QgsSimpleMarkerSymbolLayerBase.Star:
+                overlay.setStrokeWidth(context.convert_size(layer.size / 48) * 1.016667 / 0.416667)
+            else:
+                overlay.setStrokeWidth(context.convert_size(layer.size / 48))
+            overlay.setStrokeWidthUnit(context.units)
+
+            overlay.setEnabled(layer.enabled)
+            overlay.setLocked(layer.locked or character == 32)
+            if layer.symbol_level != 0xffffffff:
+                overlay.setRenderingPass(layer.symbol_level)
+
+            angle = ConversionUtils.convert_angle(layer.angle)
+            angle += conversion_properties.get('overlay_angle', 0)
+
+            overlay.setAngle(angle)
+
+            overlay.setOffset(
+                ConversionUtils.adjust_offset_for_rotation(
+                    QPointF(context.convert_size(layer.x_offset), -context.convert_size(y_offset)),
+                    angle))
+
+            overlay.setOffset(QPointF(overlay.offset().x(), overlay.offset().y() * conversion_properties.get('overlay_y_offset_factor', 0)))
+
+            overlay.setOffsetUnit(context.units)
+            symbol.appendSymbolLayer(overlay)
+
+        if 'central_overlay' in conversion_properties:
+            # Add central dot symbol layer
+            marker_type = conversion_properties['central_overlay']
+
+            simple_size = (1.47272 * layer.size) / 2.0
+            if marker_type == QgsSimpleMarkerSymbolLayerBase.Circle:
+                simple_size *= 2.901760 / 11.781760
+            elif marker_type == QgsSimpleMarkerSymbolLayerBase.Square:
+                simple_size *= 2.041760 / 11.781760
+
+            simple_size *= conversion_properties.get('overlay_size_factor', 1)
+
+            out = QgsSimpleMarkerSymbolLayer(marker_type, context.convert_size(simple_size))
+            out.setSizeUnit(context.units)
+            color = ColorConverter.color_to_qcolor(layer.color)
+            out.setColor(color)
+
+            out.setEnabled(layer.enabled)
+            out.setLocked(layer.locked or character == 32)
+            if layer.symbol_level != 0xffffffff:
+                out.setRenderingPass(layer.symbol_level)
+
+            angle = ConversionUtils.convert_angle(layer.angle)
+            angle += conversion_properties.get('overlay_angle', 0)
+
+            out.setAngle(angle)
+
+            out.setOffset(
+                ConversionUtils.adjust_offset_for_rotation(
+                    QPointF(context.convert_size(layer.x_offset), -context.convert_size(y_offset)),
+                    angle))
+
+            if 'overlay_y_offset' in conversion_properties:
+                out.setOffset(QPointF(out.offset().x(),
+                                      out.size() * conversion_properties['overlay_y_offset']))
+
+            out.setOffset(QPointF(out.offset().x(), out.offset().y() * conversion_properties.get('overlay_y_offset_factor', 1)))
+
+            out.setOffsetUnit(context.units)
+            out.setStrokeStyle(Qt.NoPen)
+            symbol.appendSymbolLayer(out)
+
+    @staticmethod
+    def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer,
+                                               context: Context):  # pylint: disable=too-many-locals,too-many-statements
         """
         Appends a CharacterMarkerSymbolLayer to a symbol, rendering the font character
         to an SVG file.
         """
-        font_family = layer.font
+        font_family, unicode = SymbolConverter.replace_char_if_needed(layer.font, layer.unicode)
+
         if context.unsupported_object_callback and font_family not in QFontDatabase().families():
             context.unsupported_object_callback('Font {} not available on system'.format(font_family),
                                                 level=Context.WARNING)
 
-        character = chr(layer.unicode)
+        character = chr(unicode)
         color = ColorConverter.color_to_qcolor(layer.color)
         angle = ConversionUtils.convert_angle(layer.angle)
 
@@ -1460,12 +1984,13 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         """
         Appends a CharacterMarkerSymbolLayer to a symbol, using QGIS font marker symbols
         """
-        font_family = layer.font
+        font_family, unicode = SymbolConverter.replace_char_if_needed(layer.font, layer.unicode)
+
         if context.unsupported_object_callback and font_family not in QFontDatabase().families():
             context.unsupported_object_callback('Font {} not available on system'.format(font_family),
                                                 level=Context.WARNING)
 
-        character = chr(layer.unicode)
+        character = chr(unicode)
         color = ColorConverter.color_to_qcolor(layer.color)
         angle = ConversionUtils.convert_angle(layer.angle)
 
