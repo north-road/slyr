@@ -213,7 +213,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         return s.size()
 
     @staticmethod
-    def symbol_to_marker_shape(symbol, context: Context) -> str:
+    def symbol_to_marker_shape(symbol, context: Context) -> str:  # pylint: disable=unused-argument
         """
         Converts an ESRI symbol to a marker shape string ("circle" or "square") best representing the symbol
         """
@@ -1576,6 +1576,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
     @staticmethod
     def can_convert_esri_font_character_to_simple_marker(font_name: str, character: int) -> bool:
+        """
+        Returns True if a font marker with the specified name and character can be converted to a simple marker
+        """
         if font_name in SymbolConverter.ALIAS_FONTS and character in SymbolConverter.ALIAS_FONTS[font_name]:
             alias = SymbolConverter.ALIAS_FONTS[font_name][character]
             font_name = alias['font_name']
@@ -1633,7 +1636,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             SymbolConverter.append_CharacterMarkerSymbolLayerAsFont(symbol, layer.character_marker_symbol, context)
 
     @staticmethod
-    def append_CharacterMarkerSymbolLayerAsSimpleMarker(symbol,  # pylint: disable=too-many-locals,too-many-statements
+    def append_CharacterMarkerSymbolLayerAsSimpleMarker(symbol,  # pylint: disable=too-many-locals,too-many-statements,too-many-branches
                                                         layer: CharacterMarkerSymbol,
                                                         context: Context):
         """
@@ -1765,10 +1768,22 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
                 # in ESRI land people often place outline only versions of font markers over the filled
                 # versions in order to get an outline
-                if isinstance(out, QgsSimpleMarkerSymbolLayer) and isinstance(prev_layer,
-                                                                              QgsSimpleMarkerSymbolLayer) and out.type() == prev_layer.type() and \
-                        prev_layer.size() == out.size() and prev_layer.angle() == out.angle() and \
-                        prev_layer.offset() == out.offset() and prev_layer.strokeStyle() == Qt.NoPen:
+                can_condense_to_simple_marker = isinstance(out, QgsSimpleMarkerSymbolLayer) and \
+                                                isinstance(prev_layer, QgsSimpleMarkerSymbolLayer) and \
+                                                out.type() == prev_layer.type() and \
+                                                prev_layer.size() == out.size() and prev_layer.angle() == out.angle() and \
+                                                prev_layer.offset() == out.offset() and prev_layer.strokeStyle() == Qt.NoPen
+
+                can_condense_to_ellipse_marker = isinstance(out, QgsEllipseSymbolLayer) and \
+                                                 isinstance(prev_layer, QgsEllipseSymbolLayer) and \
+                                                 out.symbolName() == prev_layer.symbolName() and \
+                                                 prev_layer.symbolHeight() == out.symbolHeight() and \
+                                                 prev_layer.symbolWidth() == out.symbolWidth() and \
+                                                 prev_layer.angle() == out.angle() and \
+                                                 prev_layer.offset() == out.offset() and \
+                                                 prev_layer.strokeStyle() == Qt.NoPen
+
+                if can_condense_to_simple_marker:
                     # effectively the same symbol, just an outline version of it! Let's make the results nice
                     # and QGIS-esque by just adding the stroke to the previous layer instead of creating a brand
                     # new layer
@@ -1777,10 +1792,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                     prev_layer.setStrokeColor(color)
                     prev_layer.setStrokeWidth(context.convert_size(layer.size / 48))
                     prev_layer.setStrokeWidthUnit(context.units)
-                elif isinstance(out, QgsEllipseSymbolLayer) and isinstance(prev_layer,
-                                                                           QgsEllipseSymbolLayer) and out.symbolName() == prev_layer.symbolName() and \
-                        prev_layer.symbolHeight() == out.symbolHeight() and prev_layer.symbolWidth() == out.symbolWidth() and prev_layer.angle() == out.angle() and \
-                        prev_layer.offset() == out.offset() and prev_layer.strokeStyle() == Qt.NoPen:
+                elif can_condense_to_ellipse_marker:
                     # effectively the same symbol, just an outline version of it! Let's make the results nice
                     # and QGIS-esque by just adding the stroke to the previous layer instead of creating a brand
                     # new layer
@@ -1892,8 +1904,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             symbol.appendSymbolLayer(out)
 
     @staticmethod
-    def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer,
-                                               context: Context):  # pylint: disable=too-many-locals,too-many-statements
+    def append_CharacterMarkerSymbolLayerAsSvg(symbol, layer,  # pylint: disable=too-many-locals,too-many-statements
+                                               context: Context):
         """
         Appends a CharacterMarkerSymbolLayer to a symbol, rendering the font character
         to an SVG file.

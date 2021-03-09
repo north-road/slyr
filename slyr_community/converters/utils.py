@@ -105,7 +105,7 @@ class ConversionUtils:
             return path
 
     @staticmethod
-    def _path_insensitive(path) -> Optional[str]:
+    def _path_insensitive(path) -> Optional[str]:  # pylint: disable=too-many-return-statements
         """
         Recursive part of path_insensitive to do the work.
         """
