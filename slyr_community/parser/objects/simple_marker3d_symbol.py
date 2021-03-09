@@ -58,6 +58,7 @@ class SimpleMarker3DSymbol(SymbolLayer):
         self.z_rotation = 0
         self.x_rotation = 0
         self.y_rotation = 0
+        self.type = 0
 
     @staticmethod
     def compatible_versions():
