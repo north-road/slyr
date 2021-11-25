@@ -143,7 +143,7 @@ class Extractor:
                                   universal_newlines=True,
                                   **Extractor.get_process_keywords()) as proc:
                 for line in proc.stdout:
-                    if 'Usage' in line:
+                    if 'row-delimiter' in line:
                         return True
         except FileNotFoundError:
             pass
