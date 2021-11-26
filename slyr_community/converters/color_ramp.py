@@ -73,15 +73,15 @@ class ColorRampConverter:
         Converts a RandomColorRamp to a QgsColorRamp
         """
 
-        def fix_range(val):
+        def fix_range(val) -> int:
             """
             Converts saturation/values range from 0-100 in esri symbols, to 0-255 for QGIS
             """
-            return 255 * val / 100
+            return min(int(round(255 * val / 100)), 255)
 
         # TODO - how to correctly handle color count option?
         out = QgsLimitedRandomColorRamp(count=100,
-                                        hueMax=ramp.hue_max, hueMin=ramp.hue_min,
+                                        hueMax=int(round(ramp.hue_max)), hueMin=int(round(ramp.hue_min)),
                                         satMax=fix_range(ramp.sat_max), satMin=fix_range(ramp.sat_min),
                                         valMax=fix_range(ramp.val_max), valMin=fix_range(ramp.val_min))
         return out
