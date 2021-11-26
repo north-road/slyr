@@ -25,6 +25,7 @@ Dumps the contents of an ESRI .style file to a set of binary blobs
 
 import os
 import subprocess
+import sys
 from ctypes import cdll
 from PyQt5.QtCore import QSettings
 
@@ -111,6 +112,8 @@ class Extractor:
         kw = {}
         if Extractor.is_windows():
             kw['startupinfo'] = Extractor.get_process_startup_info()
+            if sys.version_info >= (3, 6):
+                kw['encoding'] = "cp{}".format(Extractor.get_windows_code_page())
         return kw
 
     @staticmethod
@@ -151,7 +154,7 @@ class Extractor:
         return False
 
     @staticmethod
-    def remove_quote(val):
+    def _remove_quote(val):
         """
         Removes the custom quotation character from start/end of values
         """
@@ -162,14 +165,36 @@ class Extractor:
         return val
 
     @staticmethod
-    def extract_text(val):
+    def _extract_text(val):
         """
         Extracts a text component from a binary part
         :param val: binary field value
         :return: str value
         """
-        val = Extractor.remove_quote(val)
-        val = val.decode('UTF-8')
+        val = Extractor._remove_quote(val)
+        try:
+            val = val.decode('UTF-8')
+        except UnicodeDecodeError:
+            val = val.decode('latin-1')
+        return val
+
+    @staticmethod
+    def _format_value(val):
+        """
+        Tries to convert a string value to a nicer type
+        """
+        val = Extractor._extract_text(val)
+        if val == '':
+            return None
+
+        try:
+            res = float(val)
+            if int(res) == res:
+                return int(res)
+            return res
+        except ValueError:
+            pass
+
         return val
 
     @staticmethod
@@ -222,7 +247,7 @@ class Extractor:
                 assert False, 'Error reading style table'
 
             # need to strip __QUOTE from blob too
-            blob = Extractor.remove_quote(blob)
+            blob = Extractor._remove_quote(blob)
 
             if Extractor.is_windows():
                 # on windows, mdbtools does a weird thing and replaces all 0a bytes with 0a0d. Wonderful wonderful
@@ -230,10 +255,10 @@ class Extractor:
                 blob = blob.replace(b'\r\n', b'\n')
 
             symbol = {
-                Extractor.NAME: Extractor.extract_text(name),
-                Extractor.CATEGORY: Extractor.extract_text(category),
-                Extractor.TAGS: Extractor.extract_text(tags) if tags else '',
-                Extractor.ID: Extractor.extract_text(symbol_id),
+                Extractor.NAME: Extractor._extract_text(name),
+                Extractor.CATEGORY: Extractor._extract_text(category),
+                Extractor.TAGS: Extractor._extract_text(tags) if tags else '',
+                Extractor.ID: Extractor._extract_text(symbol_id),
                 Extractor.BLOB: blob
             }
             raw_symbols.append(symbol)
