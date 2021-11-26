@@ -368,15 +368,19 @@ class PictureFillSymbol(FillSymbolLayer):
         self.separation_x = stream.read_double('separation x')
         self.separation_y = stream.read_double('separation y')
 
-        stream.read(16)
+        stream.read_double('dpi?') #, expected=(0, 9.014173228346458, 96))
+        stream.read_double('dpi?') #, expected=(0, 9.014173228346458, 96))
 
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
 
         self.swap_fb_gb = bool(stream.read_uchar('swap fgbg'))
 
-        if version < 4:
-            return
+        if version >= 4:
+            stream.read_int('unknown', expected=0)
+            stream.read_ushort('unknown', expected=0)
 
-        stream.read(6)
         if 4 < version < 8:
-            stream.read(4)
+            size = stream.read_int('picture size')
+            if size:
+                self.picture = Picture()
+                self.picture.content = stream.read(size)

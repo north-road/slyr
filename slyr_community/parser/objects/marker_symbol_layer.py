@@ -179,19 +179,20 @@ class CharacterMarkerSymbol(MarkerSymbolLayer):
             self.rotate_with_transform = stream.read_ushort('rotate with transform') != 0
 
         if version >= 3:
-            self.font = stream.read_string('font name')
+            self.font = stream.read_string('font name').strip()
 
             # lot of unknown stuff
-            stream.read_double('unknown 3', expected=0)  # or object?
-            stream.read_double('unknown 4', expected=0)  # or object?
+            stream.read_int('unknown 3a', expected=(0, 1))
+            stream.read_int('unknown 3b', expected=(0, 1))
+            stream.read_double('unknown 4', expected=0)
 
             stream.read_int('font weight')
             stream.read_int('unknown', expected=0)
             stream.read_int('font size * 10000')
 
-            if version >= 4:
-                # std OLE font .. maybe contains useful stuff like bold/etc, but these aren't exposed in ArcGIS anyway..
-                self.std_font = stream.read_object('font')
+        if version >= 4:
+            # std OLE font .. maybe contains useful stuff like bold/etc, but these aren't exposed in ArcGIS anyway..
+            self.std_font = stream.read_object('font')
 
 
 class ArrowMarkerSymbol(MarkerSymbolLayer):
