@@ -43,6 +43,14 @@ class Font(Object):
         254: 'utf-8',  # see https://tedwvc.wordpress.com/2019/09/09/new-utf-8-features-in-windows-10-1903/
         # MAC_CHARSET? (77?)
         # OEM_CHARSET (255)
+        # Guessed values
+        100: 'utf-8',
+        108: 'utf-8',
+        116: 'utf-8',
+        148: 'utf-8',
+        232: 'utf-8',
+        236: 'utf-8',
+        244: 'utf-8'
     }
 
     @staticmethod
@@ -92,4 +100,4 @@ class Font(Object):
         self.size = stream.read_int('font size') / 10000
 
         name_length = stream.read_uchar('font name size')
-        self.font_name = stream.read(name_length).decode(Font.CHARSET_MAP[self.charset])
+        self.font_name = stream.read(name_length).decode(Font.CHARSET_MAP[self.charset]).strip()

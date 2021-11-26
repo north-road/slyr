@@ -37,27 +37,35 @@ class Units:
     TIME_UNITS_DECADES = 9
     TIME_UNITS_CENTURIES = 10
 
+    UNIT_TO_STRING_MAP = {
+        DISTANCE_UNKNOWN: 'unknown',
+        DISTANCE_INCHES: 'inches',
+        DISTANCE_POINTS: 'points',
+        DISTANCE_FEET: 'feet',
+        DISTANCE_YARDS: 'yards',
+        DISTANCE_MILES: 'miles',
+        DISTANCE_NAUTICAL_MILES: 'nautical_miles',
+        DISTANCE_MILLIMETERS: 'millimeters',
+        DISTANCE_CENTIMETERS: 'centimeters',
+        DISTANCE_METERS: 'meters',
+        DISTANCE_KILOMETERS: 'kilometers',
+        DISTANCE_DECIMAL_DEGREES: 'decimal_degrees',
+        DISTANCE_DECIMETERS: 'decimeters',
+    }
+
     @staticmethod
     def distance_unit_to_string(unit) -> Optional[str]:
         """
         Converts a distance unit to a string representation
         """
-        unit_map = {
-            Units.DISTANCE_UNKNOWN: 'unknown',
-            Units.DISTANCE_INCHES: 'inches',
-            Units.DISTANCE_POINTS: 'points',
-            Units.DISTANCE_FEET: 'feet',
-            Units.DISTANCE_YARDS: 'yards',
-            Units.DISTANCE_MILES: 'miles',
-            Units.DISTANCE_NAUTICAL_MILES: 'nautical_miles',
-            Units.DISTANCE_MILLIMETERS: 'millimeters',
-            Units.DISTANCE_CENTIMETERS: 'centimeters',
-            Units.DISTANCE_METERS: 'meters',
-            Units.DISTANCE_KILOMETERS: 'kilometers',
-            Units.DISTANCE_DECIMAL_DEGREES: 'decimal_degrees',
-            Units.DISTANCE_DECIMETERS: 'decimeters',
-        }
-        return unit_map.get(unit, None)
+        return Units.UNIT_TO_STRING_MAP.get(unit, None)
+
+    @staticmethod
+    def string_to_distance_unit(unit: str):
+        """
+        Converts a string to a distance unit
+        """
+        return [k for k, v in Units.UNIT_TO_STRING_MAP.items() if v == unit][0]
 
     @staticmethod
     def time_unit_to_string(unit) -> Optional[str]:

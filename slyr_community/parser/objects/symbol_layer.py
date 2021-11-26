@@ -75,6 +75,6 @@ class SymbolLayer(Object):
         Reads the symbol level from the stream
         """
         # actually raster op
-        assert stream.read_int('terminator') == 13
+        stream.read_int('raster op', expected=13)
         # symbol level of 0xffffffff = merge and join
         return stream.read_int('symbol level')
