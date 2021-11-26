@@ -346,10 +346,10 @@ class TestSymbolParser(unittest.TestCase):
 
                 symbol = self.read_symbol(f)
                 if self.UPDATE:
-                    with open(expected_file, 'w') as o:
+                    with open(expected_file, 'w', encoding='utf8') as o:
                         pprint.pprint(symbol.to_dict(), o)
                 else:
-                    with open(expected_file, 'r') as o:
+                    with open(expected_file, 'r', encoding='utf8') as o:
                         expected_res = ast.literal_eval(o.read())
                     self.assertEqual(expected_res, symbol.to_dict())
 

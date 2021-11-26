@@ -714,7 +714,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         Writes a picture binary content to an SVG file
         """
         path = SymbolConverter.symbol_name_to_filename(symbol_name, picture_folder, 'svg')
-        with open(path, 'wt') as f:
+        with open(path, 'wt', encoding='utf8') as f:
             f.write(content)
         return path
 
@@ -1951,7 +1951,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         painter.drawPath(path)
         painter.end()
 
-        with open(svg_path, 'r') as f:
+        with open(svg_path, 'r', encoding='utf8') as f:
             t = f.read()
 
         t = t.replace('#ff0000', 'param(fill)')
@@ -1963,7 +1963,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             svg_content = base64.b64encode(t.encode('UTF-8')).decode('UTF-8')
             svg_path = 'base64:{}'.format(svg_content)
         else:
-            with open(svg_path, 'w') as f:
+            with open(svg_path, 'w', encoding='utf8') as f:
                 f.write(t)
             svg_path = context.convert_path(svg_path)
 

@@ -469,7 +469,7 @@ class StyleToGpl(SlyrAlgorithm):
         results[self.COLOR_COUNT] = len(raw_colors)
         results[self.UNREADABLE_COLOR_COUNT] = unreadable
 
-        with open(output_file, 'wt') as f:
+        with open(output_file, 'wt', encoding='utf8') as f:
             f.write('GIMP Palette\n')
             f.write('Name: {}\n'.format(file_name))
             f.write('Columns: 4\n')
