@@ -20,13 +20,10 @@ def xyz_to_rgb(x, y, z):
 def apply_gamma(r, g, b):
     """Apply gamma conversion"""
 
-    # Convert to zero negative values
-    if r < 0:
-        r = 0
-    if g < 0:
-        g = 0
-    if b < 0:
-        b = 0
+    # Convert to negative values to zero
+    r = max(r, 0)
+    g = max(g, 0)
+    b = max(b, 0)
 
     # Gamma companding 1.8
     r = r ** (1 / 1.8)
