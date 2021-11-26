@@ -690,7 +690,6 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         elif layer.outline_symbol:
             SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, context)
 
-
     @staticmethod
     def symbol_name_to_filename(symbol_name: str, picture_folder: str, extension: str) -> str:
         """
@@ -2463,7 +2462,6 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         font = QFont(font_family)
         font.setPointSizeF(layer.size)
         font_metrics = QFontMetricsF(font)
-
 
         # This seems to give best conversion match to ESRI - vs tightBoundingRect
         rect = font_metrics.boundingRect(character)

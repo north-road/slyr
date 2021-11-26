@@ -37,6 +37,7 @@ from qgis.core import (
 
 from slyr.parser.exceptions import NotImplementedException
 
+
 class Context:
     """
     Symbol conversion context
