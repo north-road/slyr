@@ -35,7 +35,7 @@ from qgis.core import (
     QgsUnitTypes
 )
 
-from slyr.parser.exceptions import NotImplementedException
+from slyr_community.parser.exceptions import NotImplementedException
 
 
 class Context:
