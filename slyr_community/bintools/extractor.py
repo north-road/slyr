@@ -151,6 +151,28 @@ class Extractor:
         return False
 
     @staticmethod
+    def remove_quote(val):
+        """
+        Removes the custom quotation character from start/end of values
+        """
+        if val[:len(Extractor.__QUOTE)] == Extractor.__QUOTE:
+            val = val[len(Extractor.__QUOTE):]
+        if val[-len(Extractor.__QUOTE):] == Extractor.__QUOTE:
+            val = val[:-len(Extractor.__QUOTE)]
+        return val
+
+    @staticmethod
+    def extract_text(val):
+        """
+        Extracts a text component from a binary part
+        :param val: binary field value
+        :return: str value
+        """
+        val = Extractor.remove_quote(val)
+        val = val.decode('UTF-8')
+        return val
+
+    @staticmethod
     def extract_styles(file_path: str, symbol_type: str):  # pylint: disable=too-many-locals
         """
         Extracts all matching styles of a given symbol type from a .style file
@@ -199,28 +221,8 @@ class Extractor:
             else:
                 assert False, 'Error reading style table'
 
-            def remove_quote(val):
-                """
-                Removes the custom quotation character from start/end of values
-                """
-                if val[:len(Extractor.__QUOTE)] == Extractor.__QUOTE:
-                    val = val[len(Extractor.__QUOTE):]
-                if val[-len(Extractor.__QUOTE):] == Extractor.__QUOTE:
-                    val = val[:-len(Extractor.__QUOTE)]
-                return val
-
-            def extract_text(val):
-                """
-                Extracts a text component from a binary part
-                :param val: binary field value
-                :return: str value
-                """
-                val = remove_quote(val)
-                val = val.decode('UTF-8')
-                return val
-
             # need to strip __QUOTE from blob too
-            blob = remove_quote(blob)
+            blob = Extractor.remove_quote(blob)
 
             if Extractor.is_windows():
                 # on windows, mdbtools does a weird thing and replaces all 0a bytes with 0a0d. Wonderful wonderful
@@ -228,10 +230,10 @@ class Extractor:
                 blob = blob.replace(b'\r\n', b'\n')
 
             symbol = {
-                Extractor.NAME: extract_text(name),
-                Extractor.CATEGORY: extract_text(category),
-                Extractor.TAGS: extract_text(tags) if tags else '',
-                Extractor.ID: extract_text(symbol_id),
+                Extractor.NAME: Extractor.extract_text(name),
+                Extractor.CATEGORY: Extractor.extract_text(category),
+                Extractor.TAGS: Extractor.extract_text(tags) if tags else '',
+                Extractor.ID: Extractor.extract_text(symbol_id),
                 Extractor.BLOB: blob
             }
             raw_symbols.append(symbol)
