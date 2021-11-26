@@ -161,10 +161,17 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             SymbolConverter.append_GradientFillSymbolLayer(out, symbol, context)
             out.deleteSymbolLayer(0)
             return out
+        elif issubclass(symbol.__class__, DotDensityFillSymbol):
+            out = QgsFillSymbol()
+            SymbolConverter.append_DotDensityFillSymbolLayer(out, symbol, context)
+            out.deleteSymbolLayer(0)
+            return out
         else:
             raise NotImplementedException(
                 '{} symbols require the licensed version of SLYR'.format(symbol.__class__.__name__))
 
+        context.current_symbol = symbol
+        context.current_symbol_layer = None
         SymbolConverter.add_symbol_layers(out, symbol, context)
 
         return out
@@ -197,12 +204,36 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         return s.color()
 
     @staticmethod
+    def symbol_to_line_color(symbol, context: Context):
+        """
+        Converts an ESRI symbol to a single color best representing the symbol's line color
+        """
+        s = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
+        if isinstance(s, QgsFillSymbol):
+            for i in range(s.symbolLayerCount()):
+                layer = s.symbolLayer(i)
+                if isinstance(layer, QgsSimpleFillSymbolLayer):
+                    return layer.strokeColor()
+                elif isinstance(layer, QgsSimpleLineSymbolLayer):
+                    return layer.color()
+        else:
+            return s.color()
+
+    @staticmethod
     def symbol_to_line_width(symbol, context: Context) -> float:
         """
         Converts an ESRI symbol to a single line width value best representing the symbol
         """
         s = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
-        return s.width()
+        if isinstance(s, QgsFillSymbol):
+            for i in range(s.symbolLayerCount()):
+                layer = s.symbolLayer(i)
+                if isinstance(layer, QgsSimpleFillSymbolLayer):
+                    return layer.strokeWidth()
+                elif isinstance(layer, QgsSimpleLineSymbolLayer):
+                    return layer.width()
+        else:
+            return s.width()
 
     @staticmethod
     def symbol_to_marker_size(symbol, context: Context) -> float:
@@ -302,6 +333,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             SymbolConverter.append_MarkerFillSymbolLayer(symbol, layer, context)
         elif isinstance(layer, PictureFillSymbol):
             SymbolConverter.append_PictureFillSymbolLayer(symbol, layer, context)
+        elif isinstance(layer, DotDensityFillSymbol):
+            SymbolConverter.append_DotDensityFillSymbolLayer(symbol, layer, context)
         elif isinstance(layer, GradientFillSymbol):
             SymbolConverter.append_GradientFillSymbolLayer(symbol, layer, context)
         else:
@@ -442,7 +475,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         if layer.symbol_level != 0xffffffff:
             out.setRenderingPass(layer.symbol_level)
         out.setSubSymbol(line)
-        out.setLineAngle(layer.angle)
+        out.setLineAngle(layer.angle or 0)
 
         separation = layer.separation
         # if context.apply_conversion_tweaks:
@@ -619,11 +652,51 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline, context)
 
     @staticmethod
+    def append_DotDensityFillSymbolLayer(symbol, layer: DotDensityFillSymbol, context: Context):
+        """
+        Appends a DotDensityFillSymbol to a symbol
+        """
+        if Qgis.QGIS_VERSION_INT < 31100 and context.unsupported_object_callback:
+            raise NotImplementedException(
+                '{}: Dot density fills are only supported on QGIS 3.12 or later'.format(
+                    context.layer_name or context.symbol_name))
+
+        if len(layer.markers) > 1:
+            raise NotImplementedException(
+                '{}: Dot density fills with multiple markers are not currently support'.format(
+                    context.layer_name or context.symbol_name))
+
+        marker = SymbolConverter.Symbol_to_QgsSymbol(layer.markers[0], context)
+
+        from qgis.core import QgsRandomMarkerFillSymbolLayer  # pylint: disable=import-outside-toplevel
+
+        out = QgsRandomMarkerFillSymbolLayer(layer.dot_counts[0], QgsRandomMarkerFillSymbolLayer.AbsoluteCount)
+        out.setClipPoints(layer.use_mask)
+        out.setSeed(layer.seed)
+
+        out.setSubSymbol(marker)
+        out.setEnabled(True)
+        out.setLocked(False)
+
+        symbol.appendSymbolLayer(out)
+
+        if isinstance(layer.outline_symbol, MultiLayerLineSymbol):
+            # get all layers from outline
+            SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, context)
+        elif layer.outline_symbol:
+            SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline_symbol, context)
+
+
+    @staticmethod
     def symbol_name_to_filename(symbol_name: str, picture_folder: str, extension: str) -> str:
         """
         Returns a new unique filename for the given symbol to use
         """
         safe_symbol_name = FileUtils.clean_symbol_name_for_file(symbol_name)
+
+        if not safe_symbol_name:
+            safe_symbol_name = str(uuid.uuid4())
+
         path = os.path.join(picture_folder, safe_symbol_name + '.' + extension)
         counter = 1
         while os.path.exists(path):
@@ -777,6 +850,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             svg_path = SymbolConverter.symbol_name_to_filename(context.symbol_name, context.get_picture_store_folder(),
                                                                'svg')
             SymbolConverter.emf_to_svg(path, svg_path, inkscape_path=context.inkscape_path, context=context)
+            # no longer need the emf file
+            os.remove(path)
+
             if not os.path.exists(svg_path):
                 if context.unsupported_object_callback:
                     context.unsupported_object_callback(
@@ -788,6 +864,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             if context.embed_pictures and os.path.exists(svg_path):
                 with open(svg_path, 'rb') as svg_file:
                     svg_content = base64.b64encode(svg_file.read()).decode('UTF-8')
+                # no longer need the svg file
+                os.remove(svg_path)
                 svg_path = 'base64:{}'.format(svg_content)
             else:
                 svg_path = context.convert_path(svg_path)
@@ -1433,6 +1511,14 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                  'overlay': QgsSimpleMarkerSymbolLayerBase.Cross,
                  'overlay_size_factor': 13.249480 / 8.129480,
                  'overlay_angle': 45},
+            68: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross2,
+                 'outline_only': True,
+                 'shape_size_factor': 0.8919171482489955,
+                 'stroke_size_factor': 3.581800012565442},
+            69: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross,
+                 'outline_only': True,
+                 'shape_size_factor': 0.8919171482489955,
+                 'stroke_size_factor': 4.88062371717723},
             72: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
                  'outline_only': True,
                  'stroke_size_factor': 2.813333333333333,
@@ -1464,6 +1550,44 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                  'central_overlay': QgsSimpleMarkerSymbolLayerBase.Hexagon,
                  'overlay_size_factor': 0.3228621997955166,
                  'overlay_angle': 90},
+            80: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'shape_size_factor': 0.9571292527171059,
+                 'stroke_size_factor': 2.90101098080052,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'overlay_size_factor': 2.1608275432262554,
+                 'overlay_angle': 0},
+            82: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'shape_size_factor': 0.9736180059208173,
+                 'stroke_size_factor': 1.7810108595221255,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'overlay_size_factor': 1.7135893730603813,
+                 'central_overlay_outline_only': True,
+                 'overlay_angle': 0},
+            83: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                 'outline_only': True,
+                 'shape_size_factor': 0.9967022604060128,
+                 'stroke_size_factor': 1.087677451111691,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Cross2,
+                 'overlay_size_factor': 0.8836814401705497,
+                 'overlay_angle': 0},
+            85: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'shape_size_factor': 0.9736180059208173,
+                 'stroke_size_factor': 1.7810108595221255,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                 'overlay_size_factor': 0.8552535423790505,
+                 'central_overlay_outline_only': True,
+                 'overlay_angle': 0},
+            86: {'shape': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                 'outline_only': True,
+                 'shape_size_factor': 1.0445196446967753,
+                 'stroke_size_factor': 1.7810108595221255,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                 'overlay_size_factor': 0.4931118372114387,
+                 'overlay_y_offset_factor': 1.0354584362120463,
+                 'overlay_angle': 0},
             87: {'ellipse_marker_type': 'diamond',
                  'outline_only': True,
                  'width_factor': 2.620000 / 13.990840,
@@ -1476,9 +1600,210 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                  'width_factor': 2.260000 / 13.990840,
                  'height_factor': 3.930840 / 13.990840,
                  'stroke_scale': 0.991667 / 0.791667},
+            90: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'shape_size_factor': 0.9736180059208173,
+                 'stroke_size_factor': 1.7810108595221255,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Star,
+                 'overlay_size_factor': 0.4780225994961215,
+                 'overlay_angle': 0},
+            91: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'shape_size_factor': 1.0065955123282395,
+                 'stroke_size_factor': 0.7676774164607211,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Star,
+                 'overlay_size_factor': 0.3663622404027745,
+                 'overlay_angle': 0},
+            92: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'shape_size_factor': 1.0065955123282395,
+                 'stroke_size_factor': 0.7676774164607211,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Star,
+                 'overlay_size_factor': 0.894485560438875,
+                 'overlay_angle': 0},
+            93: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'shape_size_factor': 1.0065955123282395,
+                 'stroke_size_factor': 0.7676774164607211,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Star,
+                 'overlay_size_factor': 0.894485560438875,
+                 'overlay_stroke_factor': 1.55,
+                 'central_overlay_outline_only': True,
+                 'overlay_angle': 0},
+            96: {'shape': QgsSimpleMarkerSymbolLayerBase.Star,
+                 'outline_only': True,
+                 'shape_size_factor': 1.0065955123282395,
+                 'stroke_size_factor': 0.7676774164607211,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Star,
+                 'overlay_size_factor': 0.2562107512450968,
+                 'overlay_y_offset_factor': 1.2943551873662755,
+                 'overlay_angle': 0},
             94: {'shape': QgsSimpleMarkerSymbolLayerBase.Star},
             95: {'shape': QgsSimpleMarkerSymbolLayerBase.Star,
                  'outline_only': True},
+            169: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                  'outline_only': True,
+                  'shape_size_factor': 1.0296797668134352,
+                  'stroke_size_factor': 0.927677433786206,
+                  'central_overlay': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'overlay_size_factor': 0.7782984300309329,
+                  'overlay_stroke_factor': 5.229436512101896,
+                  'central_overlay_outline_only': True,
+                  'overlay_angle': 0},
+            170: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                  'outline_only': True,
+                  'shape_size_factor': 1.0296797668134352,
+                  'stroke_size_factor': 0.927677433786206,
+                  'central_overlay': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'overlay_size_factor': 0.7782984300309329,
+                  'overlay_stroke_factor': 5.229436512101896,
+                  'central_overlay_outline_only': True,
+                  'overlay_angle': 45},
+            171: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                  'outline_only': True,
+                  'shape_size_factor': 1.0296797668134352},
+            172: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                  'shape_size_factor': 0.9165104847042012},
+            183: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                  'shape_size_factor': 0.9451800361718738},
+            185: {'shape': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                  'shape_size_factor': 0.9451800361718738},
+            196: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                  'shape_size_factor': 0.9451800361718738},
+            199: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                  'shape_size_factor': 0.5770026383764989},
+            200: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                  'shape_size_factor': 0.6418863601191265},
+            201: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                  'shape_size_factor': 0.9390556014511079},
+            203: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'outline_only': True,
+                  'shape_size_factor': 0.9006464914345718,
+                  'stroke_size_factor': 4.880623717177232},
+            204: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'outline_only': True,
+                  'shape_size_factor': 0.9006464914345718,
+                  'stroke_size_factor': 4.541800142061113},
+            205: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'outline_only': True,
+                  'shape_size_factor': 0.9268345209913009,
+                  'stroke_size_factor': 3.920623587681562},
+            206: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'outline_only': True,
+                  'shape_size_factor': 0.9442932073624539,
+                  'stroke_size_factor': 3.2994470333020107},
+            207: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'outline_only': True,
+                  'shape_size_factor': 0.963497762370722,
+                  'stroke_size_factor': 2.6217998830697717},
+            208: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'outline_only': True,
+                  'shape_size_factor': 0.9757188428305291,
+                  'stroke_size_factor': 2.17003511624828},
+            209: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'outline_only': True,
+                  'shape_size_factor': 0.9931775292016818,
+                  'stroke_size_factor': 1.7182703494267881},
+            210: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'outline_only': True,
+                  'shape_size_factor': 1.0071444782986039,
+                  'stroke_size_factor': 1.2665055826052964},
+            211: {'shape': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'outline_only': True,
+                  'shape_size_factor': 1.019365558758411,
+                  'stroke_size_factor': 0.8712114116364911},
+        },
+        'ESRI Geology USGS 95-525': {
+            35: {'shape': QgsSimpleMarkerSymbolLayerBase.Line,
+                 'outline_only': True,
+                 'shape_size_factor': 0.15666864070024933,
+                 'stroke_size_factor': 1.433351703353058},
+        },
+        'ESRI Cartography': {
+            72: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'shape_size_factor': 0.939134942311759,
+                 'stroke_size_factor': 2.829715050724875,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'overlay_size_factor': 1.6504965013928692,
+                 'overlay_stroke_factor': 1.0000002023905774,
+                 'central_overlay_outline_only': True,
+                 },
+            73: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'shape_size_factor': 0.8986625474008189,
+                 'stroke_size_factor': 3.9642602704644765,
+                 'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'overlay_size_factor': 1.5753070239000497,
+                 'overlay_stroke_factor': 1.0000002023905774,
+                 'central_overlay_outline_only': True,
+                 },
+            74: {'shape': QgsSimpleMarkerSymbolLayerBase.Line,
+                 'outline_only': True,
+                 'shape_size_factor': 0.8986625474008189,
+                 'stroke_size_factor': 3.9642602704644765,
+                 'cap_style': Qt.RoundCap
+                 },
+            77: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'outline_only': True,
+                 'shape_size_factor': 0.2106318339148362,
+                 'stroke_size_factor': 3.0410493984906326
+                 },
+            78: {'shape': QgsSimpleMarkerSymbolLayerBase.Circle,
+                 'shape_size_factor': 0.29211369052653874
+                 },
+            179: {'shape': QgsSimpleMarkerSymbolLayerBase.Line,
+                  'outline_only': True,
+                  'shape_size_factor': 0.9674656187494172,
+                  'stroke_size_factor': 1.8697152494067508,
+                  'cap_style': Qt.RoundCap
+                  },
+        },
+        'ESRI AMFM Gas': {
+            165: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                  'outline_only': True,
+                  'shape_size_factor': 0.9742110179012407,
+                  'stroke_size_factor': 0.9533518026939961,
+                  'central_overlay': QgsSimpleMarkerSymbolLayerBase.Cross,
+                  'overlay_size_factor': 0.8603691048301341,
+                  'overlay_stroke_factor': 1.0000002023905774,
+                  'central_overlay_outline_only': True,
+                  },
+        },
+        'ESRI AMFM Water': {
+            205: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                  'shape_size_factor': 0.9112477418018482
+                  },
+            206: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                  'outline_only': True,
+                  'shape_size_factor': 0.9854471388522006,
+                  'stroke_size_factor': 2.309715072769748,
+                  },
+            214: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                  'outline_only': True,
+                  'shape_size_factor': 0.9674656187494172,
+                  'stroke_size_factor': 1.8697152494067508,
+                  'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle,
+                  'overlay_size_factor': 0.8603691048301341,
+                  'overlay_stroke_factor': 1.0000002023905774
+                  },
+        },
+        'ESRI Fire Incident NFPA': {
+            172: {'shape': QgsSimpleMarkerSymbolLayerBase.Square,
+                  'outline_only': True,
+                  'shape_size_factor': 1.0861846438215081,
+                  'stroke_size_factor': 1.3460789941423195,
+                  'central_overlay': QgsSimpleMarkerSymbolLayerBase.Circle,
+                  'overlay_size_factor': 2.965674412261938,
+                  'overlay_stroke_factor': 1.0000002023905774,
+                  'central_overlay_outline_only': True,
+                  },
+        },
+        'ESRI Geometric Symbols': {
+            36: {'shape': QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
+                 'shape_size_factor': 1.0583678399557281,
+                 'vertical_offset_factor': 0
+                 },
         }
     }
 
@@ -1525,6 +1850,12 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             107: {
                 'shape': QgsSimpleMarkerSymbolLayerBase.AsteriskFill,
             },
+            173: {'shape': QgsSimpleMarkerSymbolLayerBase.SquareWithCorners,
+                  'outline_only': True,
+                  'shape_size_factor': 1.093806079589203},
+            176: {'shape': QgsSimpleMarkerSymbolLayerBase.Octagon,
+                  'outline_only': True,
+                  'shape_size_factor': 1.0617429232013191},
         })
 
     ALIAS_FONTS = {
@@ -1541,6 +1872,88 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             35: {'font_name': 'ESRI Default Marker',
                  'character': 33,
                  'vertical_offset_factor': 0},
+        },
+        'ESRI NIMA VMAP1&2 LN': {
+            35: {'font_name': 'ESRI NIMA City Graphic PT',
+                 'character': 37},
+        },
+        'ESRI NIMA VMAP1&2 PT': {
+            35: {'font_name': 'ESRI NIMA City Graphic PT',
+                 'character': 37},
+        },
+        'ESRI SDS 2.00 1': {
+            249: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 249},
+            196: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 196},
+            172: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 172},
+            171: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 171},
+            168: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 168},
+            167: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 167},
+            166: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 166},
+            161: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 161},
+            125: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 125},
+            124: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 124},
+            123: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 123},
+            121: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 121},
+            120: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 120},
+            119: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 119},
+            118: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 118},
+            117: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 117},
+            105: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 105},
+            104: {'font_name': 'ESRI SDS 1.95 1',
+                  'character': 104},
+            62: {'font_name': 'ESRI SDS 1.95 1',
+                 'character': 62},
+            61: {'font_name': 'ESRI SDS 1.95 1',
+                 'character': 61},
+        },
+        'ESRI SDS 2.00 2': {
+            220: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 220},
+            210: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 220},
+            209: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 209},
+            206: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 206},
+            205: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 205},
+            204: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 204},
+            203: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 203},
+            202: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 202},
+            198: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 198},
+            186: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 186},
+            185: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 185},
+            174: {'font_name': 'ESRI SDS 1.95 2',
+                  'character': 174},
+            44: {'font_name': 'ESRI SDS 1.95 2',
+                 'character': 44},
+            43: {'font_name': 'ESRI SDS 1.95 2',
+                 'character': 43},
+            39: {'font_name': 'ESRI SDS 1.95 2',
+                 'character': 39},
         }
     }
 
@@ -1666,6 +2079,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             symbol.appendSymbolLayer(out)
             return
 
+        if isinstance(layer, CharacterMarkerSymbol):
+            color = ColorConverter.color_to_qcolor(layer.color)
+
         angle_offset = 0
         outline_stroke_width = 1
         size_scale_factor = 1
@@ -1675,7 +2091,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             if marker_type in (QgsSimpleMarkerSymbolLayerBase.Circle,
                                QgsSimpleMarkerSymbolLayerBase.Square,
                                QgsSimpleMarkerSymbolLayerBase.EquilateralTriangle,
-                               QgsSimpleMarkerSymbolLayerBase.Pentagon):
+                               QgsSimpleMarkerSymbolLayerBase.Pentagon,
+                               QgsSimpleMarkerSymbolLayerBase.Line,
+                               QgsSimpleMarkerSymbolLayerBase.Cross,
+                               QgsSimpleMarkerSymbolLayerBase.Cross2):
                 simple_size = (1.47272 * layer.size) / 2.0
             elif marker_type == QgsSimpleMarkerSymbolLayerBase.Hexagon:
                 simple_size = (1.47272 * layer.size * 4.178160 / 4.418160) / 2.0
@@ -1701,6 +2120,12 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 QgsSimpleMarkerSymbolLayerBase.Pentagon: 0.2 / 4.418160,
                 QgsSimpleMarkerSymbolLayerBase.Star: 0.600000 / 12.327200
             }
+
+            if 'cap_style' in conversion_properties:
+                try:
+                    out.setPenCapStyle(conversion_properties['cap_style'])
+                except AttributeError:
+                    pass
 
             if marker_type in SHAPE_BASED_OFFSET:
                 y_offset -= simple_size * SHAPE_BASED_OFFSET[marker_type]
@@ -1729,15 +2154,15 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             out.setSymbolHeight(simple_size * conversion_properties.get('height_factor', 1))
 
             stroke_only_symbol = conversion_properties.get('outline_only', False)
-            y_offset = layer.y_offset + vertical_offset_factor * simple_size
+            y_offset = (layer.y_offset or 0) + vertical_offset_factor * simple_size
             outline_stroke_width = layer.size / 24
 
             outline_stroke_width *= conversion_properties.get('stroke_scale', 1)
 
         out.setSizeUnit(context.units)
 
-        color = ColorConverter.color_to_qcolor(layer.color)
-        out.setPenJoinStyle(Qt.MiterJoin)
+        if isinstance(out, (QgsSimpleMarkerSymbolLayer, QgsEllipseSymbolLayer)):
+            out.setPenJoinStyle(Qt.MiterJoin)
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked or character == 32)
@@ -1756,29 +2181,34 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setOffsetUnit(context.units)
 
-        if not stroke_only_symbol:
+        if not stroke_only_symbol and isinstance(out, (QgsSimpleMarkerSymbolLayer, QgsEllipseSymbolLayer)):
             out.setStrokeStyle(Qt.NoPen)
 
         appended_to_prev_layer = False
-        if not stroke_only_symbol:
+
+        if not stroke_only_symbol and isinstance(out, (QgsSimpleMarkerSymbolLayer, QgsEllipseSymbolLayer)):
             out.setColor(color)
         else:
             if symbol.symbolLayerCount() > 0:
                 prev_layer = symbol.symbolLayer(symbol.symbolLayerCount() - 1)
+                prev_converted_layer = context.current_symbol.layers[
+                    context.current_symbol_layer - 1] if context.current_symbol_layer else None
 
                 # in ESRI land people often place outline only versions of font markers over the filled
                 # versions in order to get an outline
-                can_condense_to_simple_marker = isinstance(out, QgsSimpleMarkerSymbolLayer) and \
+
+                can_condense_to_simple_marker = prev_converted_layer is not None and \
+                                                isinstance(out, QgsSimpleMarkerSymbolLayer) and \
                                                 isinstance(prev_layer, QgsSimpleMarkerSymbolLayer) and \
                                                 out.type() == prev_layer.type() and \
-                                                prev_layer.size() == out.size() and prev_layer.angle() == out.angle() and \
+                                                prev_converted_layer.size == layer.size and prev_layer.angle() == out.angle() and \
                                                 prev_layer.offset() == out.offset() and prev_layer.strokeStyle() == Qt.NoPen
 
-                can_condense_to_ellipse_marker = isinstance(out, QgsEllipseSymbolLayer) and \
+                can_condense_to_ellipse_marker = prev_converted_layer is not None and \
+                                                 isinstance(out, QgsEllipseSymbolLayer) and \
                                                  isinstance(prev_layer, QgsEllipseSymbolLayer) and \
                                                  out.symbolName() == prev_layer.symbolName() and \
-                                                 prev_layer.symbolHeight() == out.symbolHeight() and \
-                                                 prev_layer.symbolWidth() == out.symbolWidth() and \
+                                                 prev_converted_layer.size == layer.size and \
                                                  prev_layer.angle() == out.angle() and \
                                                  prev_layer.offset() == out.offset() and \
                                                  prev_layer.strokeStyle() == Qt.NoPen
@@ -1790,7 +2220,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                     appended_to_prev_layer = True
                     prev_layer.setStrokeStyle(Qt.SolidLine)
                     prev_layer.setStrokeColor(color)
-                    prev_layer.setStrokeWidth(context.convert_size(layer.size / 48))
+                    prev_layer.setStrokeWidth(context.convert_size(context.fix_line_width(layer.size / 48)))
                     prev_layer.setStrokeWidthUnit(context.units)
                 elif can_condense_to_ellipse_marker:
                     # effectively the same symbol, just an outline version of it! Let's make the results nice
@@ -1799,15 +2229,17 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                     appended_to_prev_layer = True
                     prev_layer.setStrokeStyle(Qt.SolidLine)
                     prev_layer.setStrokeColor(color)
-                    prev_layer.setStrokeWidth(context.convert_size(layer.size / 24))
+                    prev_layer.setStrokeWidth(context.convert_size(context.fix_line_width(layer.size / 24)))
                     prev_layer.setStrokeWidthUnit(context.units)
 
             if not appended_to_prev_layer:
                 out.setStrokeColor(color)
 
         if not appended_to_prev_layer and conversion_properties.get('outline_only', False):
-            out.setColor(QColor(255, 255, 255, 0))
-            out.setStrokeWidth(context.convert_size(outline_stroke_width))
+            if not isinstance(out, QgsSimpleMarkerSymbolLayerBase) or QgsSimpleMarkerSymbolLayerBase.shapeIsFilled(
+                    out.shape()):
+                out.setColor(QColor(255, 255, 255, 0))
+            out.setStrokeWidth(context.convert_size(context.fix_line_width(outline_stroke_width)))
             out.setStrokeWidthUnit(context.units)
             out.setSize(out.size() * size_scale_factor)
 
@@ -1825,8 +2257,6 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             stroke_only_symbol = not QgsSimpleMarkerSymbolLayerBase.shapeIsFilled(marker_type)
 
-            color = ColorConverter.color_to_qcolor(layer.color)
-
             if not stroke_only_symbol:
                 overlay.setColor(color)
                 out.setStrokeStyle(Qt.NoPen)
@@ -1834,9 +2264,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 overlay.setStrokeColor(color)
 
             if marker_type == QgsSimpleMarkerSymbolLayerBase.Star:
-                overlay.setStrokeWidth(context.convert_size(layer.size / 48) * 1.016667 / 0.416667)
+                overlay.setStrokeWidth(
+                    context.convert_size(context.fix_line_width(layer.size / 48 * 1.016667 / 0.416667)))
             else:
-                overlay.setStrokeWidth(context.convert_size(layer.size / 48))
+                overlay.setStrokeWidth(context.convert_size(context.fix_line_width(layer.size / 48)))
             overlay.setStrokeWidthUnit(context.units)
 
             overlay.setEnabled(layer.enabled)
@@ -1872,10 +2303,23 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             simple_size *= conversion_properties.get('overlay_size_factor', 1)
 
+            stroke_only_symbol = not QgsSimpleMarkerSymbolLayerBase.shapeIsFilled(
+                marker_type) or conversion_properties.get('central_overlay_outline_only', False)
+
             out = QgsSimpleMarkerSymbolLayer(marker_type, context.convert_size(simple_size))
             out.setSizeUnit(context.units)
-            color = ColorConverter.color_to_qcolor(layer.color)
-            out.setColor(color)
+
+            if not stroke_only_symbol:
+                out.setColor(color)
+                out.setStrokeStyle(Qt.NoPen)
+            else:
+                out.setColor(QColor(255, 255, 255, 0))
+                out.setStrokeColor(color)
+                out.setStrokeStyle(Qt.SolidLine)
+
+                out.setStrokeWidth(context.convert_size(context.fix_line_width(
+                    outline_stroke_width * conversion_properties.get('overlay_stroke_factor', 1))))
+                out.setStrokeWidthUnit(context.units)
 
             out.setEnabled(layer.enabled)
             out.setLocked(layer.locked or character == 32)
@@ -1889,7 +2333,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             out.setOffset(
                 ConversionUtils.adjust_offset_for_rotation(
-                    QPointF(context.convert_size(layer.x_offset), -context.convert_size(y_offset)),
+                    QPointF(context.convert_size(layer.x_offset or 0), -context.convert_size(y_offset)),
                     angle))
 
             if 'overlay_y_offset' in conversion_properties:
@@ -1951,7 +2395,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         painter.drawPath(path)
         painter.end()
 
-        with open(svg_path, 'r', encoding='utf8') as f:
+        with open(svg_path, 'r', encoding='utf-8') as f:
             t = f.read()
 
         t = t.replace('#ff0000', 'param(fill)')
@@ -1961,6 +2405,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         if context.embed_pictures:
             svg_content = base64.b64encode(t.encode('UTF-8')).decode('UTF-8')
+            # no longer need the svg file
+            os.remove(svg_path)
             svg_path = 'base64:{}'.format(svg_content)
         else:
             with open(svg_path, 'w', encoding='utf8') as f:
@@ -2004,14 +2450,16 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                                                 level=Context.WARNING)
 
         character = chr(unicode)
-        color = ColorConverter.color_to_qcolor(layer.color)
-        angle = ConversionUtils.convert_angle(layer.angle)
+
+        if isinstance(layer, CharacterMarkerSymbol):
+            color = ColorConverter.color_to_qcolor(layer.color)
 
         # we need to calculate the character bounding box, as ESRI font marker symbols are rendered centered
         # on the character's bounding box (not the overall font metrics, like QGIS does)
         font = QFont(font_family)
         font.setPointSizeF(layer.size)
         font_metrics = QFontMetricsF(font)
+
 
         # This seems to give best conversion match to ESRI - vs tightBoundingRect
         rect = font_metrics.boundingRect(character)
@@ -2061,6 +2509,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 svg_path = SymbolConverter.symbol_name_to_filename(context.symbol_name,
                                                                    context.get_picture_store_folder(), 'svg')
                 SymbolConverter.emf_to_svg(path, svg_path, inkscape_path=context.inkscape_path, context=context)
+                # no longer need the emf file
+                os.remove(path)
 
                 if not os.path.exists(svg_path):
                     if context.unsupported_object_callback:
@@ -2071,6 +2521,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 if context.embed_pictures and os.path.exists(svg_path):
                     with open(svg_path, 'rb') as svg_file:
                         svg_content = base64.b64encode(svg_file.read()).decode('UTF-8')
+                    # no longer need the svg file
+                    os.remove(svg_path)
                     svg_path = 'base64:{}'.format(svg_content)
                 else:
                     svg_path = context.convert_path(svg_path)
