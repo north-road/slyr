@@ -2455,8 +2455,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         character = chr(unicode)
 
-        if isinstance(layer, CharacterMarkerSymbol):
-            color = ColorConverter.color_to_qcolor(layer.color)
+        color = ColorConverter.color_to_qcolor(layer.color)
+        angle = ConversionUtils.convert_angle(layer.angle)
 
         # we need to calculate the character bounding box, as ESRI font marker symbols are rendered centered
         # on the character's bounding box (not the overall font metrics, like QGIS does)
