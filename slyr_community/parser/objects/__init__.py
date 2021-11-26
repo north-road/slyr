@@ -33,3 +33,4 @@ from slyr_community.parser.objects.multi_layer_symbols import MultiLayerSymbol, 
     MultiLayerMarkerSymbol
 from slyr_community.parser.objects.geometry_material import GeometryMaterial
 from slyr_community.parser.objects.multi_patch import MultiPatch
+from slyr_community.parser.objects.dot_density_fill_symbol import DotDensityFillSymbol

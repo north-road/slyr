@@ -27,6 +27,7 @@ import base64
 import math
 import os
 import subprocess
+import uuid
 from typing import Union, Tuple
 
 from qgis.core import (Qgis,
@@ -120,6 +121,7 @@ from slyr_community.parser.objects.character_marker3d_symbol import CharacterMar
 from slyr_community.parser.objects.texture_fill_symbol import TextureFillSymbol
 from slyr_community.parser.objects.color_ramp_symbol import ColorRampSymbol
 from slyr_community.parser.objects.ramps import ColorRamp
+from slyr_community.parser.objects.dot_density_fill_symbol import DotDensityFillSymbol
 from slyr_community.converters.color_ramp import ColorRampConverter
 from slyr_community.converters.utils import ConversionUtils
 from slyr_community.converters.pictures import PictureUtils
@@ -216,6 +218,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                     return layer.strokeColor()
                 elif isinstance(layer, QgsSimpleLineSymbolLayer):
                     return layer.color()
+            return None
         else:
             return s.color()
 
@@ -232,6 +235,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                     return layer.strokeWidth()
                 elif isinstance(layer, QgsSimpleLineSymbolLayer):
                     return layer.width()
+            return None
         else:
             return s.width()
 
