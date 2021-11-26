@@ -368,8 +368,8 @@ class PictureFillSymbol(FillSymbolLayer):
         self.separation_x = stream.read_double('separation x')
         self.separation_y = stream.read_double('separation y')
 
-        stream.read_double('dpi?') #, expected=(0, 9.014173228346458, 96))
-        stream.read_double('dpi?') #, expected=(0, 9.014173228346458, 96))
+        stream.read_double('dpi?')  # , expected=(0, 9.014173228346458, 96))
+        stream.read_double('dpi?')  # , expected=(0, 9.014173228346458, 96))
 
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
 
