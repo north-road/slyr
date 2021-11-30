@@ -208,7 +208,6 @@ class Extractor:
         binary = Extractor.get_mdb_tools_binary_path(Extractor.MDB_EXPORT_BINARY)
 
         export_args = [binary,
-                       '-H',
                        '-q',
                        '{}'.format(Extractor.__QUOTE.decode('ASCII')),
                        '-R',
@@ -233,18 +232,46 @@ class Extractor:
             raise MissingBinaryException from e
 
         raw_symbols = []
+        headers = None
+        symbol_id_idx = None
+        name_idx = None
+        category_idx = None
+        blob_idx = None
+        tags_idx = None
         for r in result.stdout.split(Extractor.__NEWLINE):
             if not r:
                 continue
 
+            if headers is None:
+                headers = r.split(Extractor.__DELIMITER)
+                for idx, header in enumerate(headers):
+                    header = header.decode('utf-8')
+                    if header.lower().strip() == 'name':
+                        name_idx = idx
+                    elif header.lower().strip() == 'category':
+                        category_idx = idx
+                    elif header.lower().strip() == 'object':
+                        blob_idx = idx
+                    elif header.lower().strip() == 'tags':
+                        tags_idx = idx
+                    elif header.lower().strip() == 'id':
+                        symbol_id_idx = idx
+                    else:
+                        assert False, header
+                continue
+
             res = r.split(Extractor.__DELIMITER)
-            if len(res) == 5:
-                symbol_id, name, category, blob, tags = res
-            elif len(res) == 4:
-                symbol_id, name, category, blob = res
-                tags = None
-            else:
-                assert False, 'Error reading style table'
+            symbol_id = name = category = blob = tags = None
+            if symbol_id_idx is not None:
+                symbol_id = res[symbol_id_idx]
+            if name_idx is not None:
+                name = res[name_idx]
+            if category_idx is not None:
+                category = res[category_idx]
+            if blob_idx is not None:
+                blob = res[blob_idx]
+            if tags_idx is not None:
+                tags = res[tags_idx]
 
             # need to strip __QUOTE from blob too
             blob = Extractor._remove_quote(blob)
