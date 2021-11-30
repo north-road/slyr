@@ -198,7 +198,7 @@ class Extractor:
         return val
 
     @staticmethod
-    def extract_styles(file_path: str, symbol_type: str):  # pylint: disable=too-many-locals
+    def extract_styles(file_path: str, symbol_type: str):  # pylint: disable=too-many-locals,too-many-branches,too-many-statements
         """
         Extracts all matching styles of a given symbol type from a .style file
         :param file_path: path to .style file
