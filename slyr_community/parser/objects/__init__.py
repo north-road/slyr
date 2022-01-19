@@ -34,3 +34,12 @@ from slyr_community.parser.objects.multi_layer_symbols import MultiLayerSymbol, 
 from slyr_community.parser.objects.geometry_material import GeometryMaterial
 from slyr_community.parser.objects.multi_patch import MultiPatch
 from slyr_community.parser.objects.dot_density_fill_symbol import DotDensityFillSymbol
+from .geometry import Geometry
+from .feature_layer import FeatureLayer
+from .vector_renderer import VectorRendererBase
+from .unique_value_renderer import UniqueValueRenderer
+from .class_breaks_renderer import ClassBreaksRenderer
+from .proportional_symbol_renderer import ProportionalSymbolRenderer
+from .chart_renderer import ChartRenderer
+from .s52_renderer import S52Renderer
+from .simple_renderer import SimpleRenderer
