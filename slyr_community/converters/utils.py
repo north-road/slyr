@@ -24,10 +24,19 @@ Conversion utilities
 
 import math
 import os
+import re
 from pathlib import Path
 from typing import Optional
 
-from qgis.PyQt.QtCore import Qt, QPointF
+from qgis.PyQt.QtCore import Qt, QPointF, QVariant
+from qgis.core import (
+    QgsField,
+    QgsFields,
+    QgsMemoryProviderUtils,
+    QgsFeature
+)
+
+from ..bintools.extractor import Extractor
 
 
 class ConversionUtils:
@@ -95,7 +104,41 @@ class ConversionUtils:
         return types[style]
 
     @staticmethod
-    def path_insensitive(path) -> Optional[str]:
+    def convert_mdb_table_to_memory_layer(file_path: str, table_name: str):
+        """
+        Extracts the contents of a non-spatial table from a MDB to a memory layer
+        :param file_path: path to .mdb file
+        :param table_name: table name to extract
+        """
+        rows = Extractor.extract_non_spatial_table_from_mdb(file_path, table_name)
+
+        header = rows[0]
+        rows = rows[1:]
+
+        fields = QgsFields()
+        for idx, h in enumerate(header):
+            # sniff first row
+            if isinstance(rows[0][idx], float):
+                field_type = QVariant.Double
+            elif isinstance(rows[0][idx], int):
+                field_type = QVariant.Int
+            else:
+                field_type = QVariant.String
+
+            fields.append(QgsField(h, field_type))
+
+        layer = QgsMemoryProviderUtils.createMemoryLayer(table_name, fields)
+
+        for row in rows:
+            f = QgsFeature()
+            f.initAttributes(len(row))
+            f.setAttributes(row)
+            layer.dataProvider().addFeature(f)
+
+        return layer
+
+    @staticmethod
+    def path_insensitive(path):
         """
         Recursive part of path_insensitive to do the work.
         """
@@ -151,3 +194,31 @@ class ConversionUtils:
             return Path(os.path.join(dirname, base_final) + suffix).as_posix()
         else:
             return None
+
+    @staticmethod
+    def is_absolute_path(path: str) -> bool:
+        """
+        Returns True if a path is an absolute path
+        """
+        if path.startswith('.'):
+            return False
+
+        if path.startswith(r'//'):
+            return True
+
+        return bool(re.match(r'^\w:', path))
+
+    @staticmethod
+    def get_absolute_path(path: str, base: str) -> str:
+        """
+        Converts a path to an absolute path, in a case insensitive way
+        """
+
+        path = path.replace('\\', '/')
+
+        if ConversionUtils.is_absolute_path(path):
+            return ConversionUtils.path_insensitive(path)
+
+        res = ConversionUtils.path_insensitive('{}/{}'.format(base, path))
+        res = res.replace('/./', '/')
+        return res
