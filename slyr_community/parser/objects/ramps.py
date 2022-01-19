@@ -5,7 +5,7 @@ Color ramps
 COMPLETE INTERPRETATION
 """
 
-from slyr_community.parser.object import Object
+from ..object import Object
 
 
 class ColorRamp(Object):

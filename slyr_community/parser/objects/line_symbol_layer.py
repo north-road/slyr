@@ -5,9 +5,9 @@ Line symbol layer subclasses
 COMPLETE INTERPRETATION of most common subclasses
 """
 
-from slyr_community.parser.objects.symbol_layer import SymbolLayer
-from slyr_community.parser.stream import Stream
-from slyr_community.parser.exceptions import UnreadableSymbolException
+from .symbol_layer import SymbolLayer
+from ..stream import Stream
+from ..exceptions import UnreadableSymbolException
 
 
 class LineSymbolLayer(SymbolLayer):

@@ -3,8 +3,8 @@
 Serializable object subclass
 """
 
-from slyr_community.parser.objects.symbol_layer import SymbolLayer
-from slyr_community.parser.stream import Stream
+from .symbol_layer import SymbolLayer
+from ..stream import Stream
 
 
 class TextureFillSymbol(SymbolLayer):

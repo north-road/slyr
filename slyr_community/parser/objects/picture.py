@@ -8,9 +8,9 @@ COMPLETE INTERPRETATION
 import binascii
 import struct
 import base64
-from slyr_community.parser.object import Object
-from slyr_community.parser.exceptions import UnreadablePictureException
-from slyr_community.parser.stream import Stream
+from ..object import Object
+from ..exceptions import UnreadablePictureException
+from ..stream import Stream
 
 
 class Picture(Object):

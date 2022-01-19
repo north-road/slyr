@@ -5,10 +5,10 @@ Fill symbol layers
 COMPLETE INTERPRETATION of common subclasses
 """
 
-from slyr_community.parser.objects.symbol_layer import SymbolLayer
-from slyr_community.parser.stream import Stream
-from slyr_community.parser.exceptions import NotImplementedException
-from slyr_community.parser.objects.picture import Picture
+from .symbol_layer import SymbolLayer
+from ..stream import Stream
+from ..exceptions import NotImplementedException
+from .picture import Picture
 
 
 class FillSymbolLayer(SymbolLayer):
