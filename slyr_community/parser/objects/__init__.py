@@ -188,3 +188,16 @@ from .workspace_factory import (
 from .workspace_name import WorkspaceName
 from .xy_event2_fields_properties import XYEvent2FieldsProperties
 from .xy_event_source_name import XYEventSourceName
+from .raster_layer import RasterLayer
+from .wmts_layer import WmtsLayer
+from .wms_layer import WmsMapLayer, WmsGroupLayer, WmsLayer
+from .tin_layer import TinLayer
+from .raster_basemap_layer import RasterBasemapLayer
+from .map_server_rest_layer import MapServerRESTLayer, MapServerRESTSubLayer
+from .image_server_layer import ImageServerLayer, UnknownImageServerExtension1, \
+    UnknownImageServerExtension2
+from .internet_tiled_layer import InternetTiledLayer, MSVirtualEarthLayerProvider, TileCacheInfo, \
+    OpenStreetMapProvider
+from .las_dataset_layer import LasDatasetLayer
+from .map_server_layer import MapServerLayer, MapServerSubLayer, MapServerBasicSublayer
+from .base_map_layer import BaseMapLayer
