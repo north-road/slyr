@@ -438,8 +438,8 @@ class VectorRendererConverter:
 
             outline = SymbolConverter.Symbol_to_QgsSymbol(renderer.fill_symbol.outline_symbol, context)
             start = s.symbolLayerCount()
-            for l in range(outline.symbolLayerCount()):
-                s.insertSymbolLayer(start, outline.symbolLayer(l).clone())
+            for symbol_layer_index in range(outline.symbolLayerCount()):
+                s.insertSymbolLayer(start, outline.symbolLayer(symbol_layer_index).clone())
 
             s.deleteSymbolLayer(0)
             s.setClipFeaturesToExtent(False)
@@ -581,8 +581,8 @@ class VectorRendererConverter:
         Applies data defined color to a symbol
         """
         prop = QgsProperty.fromExpression(expression)
-        for l in range(symbol.symbolLayerCount()):
-            layer = symbol.symbolLayer(l)
+        for symbol_layer_index in range(symbol.symbolLayerCount()):
+            layer = symbol.symbolLayer(symbol_layer_index)
             layer.setDataDefinedProperty(QgsSymbolLayer.PropertyFillColor, prop)
             layer.setDataDefinedProperty(QgsSymbolLayer.PropertyStrokeColor, prop)
             layer.setDataDefinedProperty(QgsSymbolLayer.PropertySecondaryColor, prop)

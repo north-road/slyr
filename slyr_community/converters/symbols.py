@@ -415,12 +415,12 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             if layer.outline and not isinstance(layer.outline, MultiLayerLineSymbol):
                 # these properties are not supported in QGIS simple fill, so we need
                 # to add an additional outline layer to support them
-                uses_complex_outline = (hasattr(layer.outline, 'offset') and layer.outline.offset) \
-                                       or (hasattr(layer.outline, 'template')
-                                           and layer.outline.template
-                                           and len(layer.outline.template.pattern_parts) > 0) \
-                                       or (hasattr(layer.outline, 'decoration')
-                                           and layer.outline.decoration)
+                uses_complex_outline = (hasattr(layer.outline, 'offset') and layer.outline.offset) or \
+                                       (hasattr(layer.outline, 'template') and
+                                           layer.outline.template and
+                                           len(layer.outline.template.pattern_parts) > 0) or \
+                                       (hasattr(layer.outline, 'decoration') and
+                                           layer.outline.decoration)
                 if not uses_complex_outline:
                     # great, we can avoid the extra symbol layer!
                     if isinstance(layer.outline, (SimpleLineSymbol, CartographicLineSymbol)):
@@ -550,8 +550,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                     stops = [QgsGradientStop(1 - percent, ramp.color1())] + stops
                     ramp.setStops(stops)
 
-        if (isinstance(layer, GradientFillSymbol) \
-                and layer.type in (GradientFillSymbol.RECTANGULAR, GradientFillSymbol.BUFFERED)):
+        if (isinstance(layer, GradientFillSymbol) and
+                 layer.type in (GradientFillSymbol.RECTANGULAR, GradientFillSymbol.BUFFERED)):
             if context.unsupported_object_callback and (
                     (isinstance(layer, GradientFillSymbol) and layer.type == GradientFillSymbol.RECTANGULAR)):
                 context.unsupported_object_callback(
@@ -1187,8 +1187,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         elif isinstance(layer, HashLineSymbol):
             sub_symbol = SymbolConverter.Symbol_to_QgsSymbol(layer.line, context)
 
-        if (len(template.pattern_parts) == 1  # pylint: disable=too-many-nested-blocks
-                and template.pattern_parts[0][1] == 0):
+        if (len(template.pattern_parts) == 1 and  # pylint: disable=too-many-nested-blocks
+                 template.pattern_parts[0][1] == 0):
             # special case! (Not described anywhere in ArcMap docs!!)
             # actually means "center of line segment"
             start_symbol = sub_symbol.clone()
