@@ -357,7 +357,7 @@ class LabelConverter:
             # raise UnreadableSymbolException('Converting callouts requires QGIS 3.10 or later')
             return None
 
-        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel
+        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel,cyclic-import
 
         res = QgsSimpleLineCallout()
         symbol = SymbolConverter.Symbol_to_QgsSymbol(callout.line_symbol, context)
@@ -387,7 +387,7 @@ class LabelConverter:
         if callout.border_symbol and context.unsupported_object_callback:
             context.unsupported_object_callback('Callout border symbols are not supported by QGIS')
 
-        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel
+        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel,cyclic-import
 
         if callout.style == LineCallout.STYLE_BASE:
             res = QgsManhattanLineCallout()
@@ -439,7 +439,7 @@ class LabelConverter:
             context.unsupported_object_callback('Oval style balloon callouts are not supported by QGIS')
             return None
 
-        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel
+        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel,cyclic-import
         res = QgsBalloonCallout()
 
         if not callout.fill_symbol:

@@ -26,18 +26,11 @@ Symbol converter
 import base64
 import math
 import os
-import random
-import re
 import subprocess
 import uuid
-from copy import deepcopy
-from enum import Enum
-from random import randint
 from typing import (
     Union,
-    Tuple,
-    List,
-    Optional
+    Tuple
 )
 
 from qgis.core import (Qgis,
@@ -60,18 +53,7 @@ from qgis.core import (Qgis,
                        QgsGradientFillSymbolLayer,
                        QgsGradientStop,
                        QgsShapeburstFillSymbolLayer,
-                       QgsGeometryGeneratorSymbolLayer,
-                       QgsRectangle,
-                       QgsMarkerSymbolLayer,
-                       QgsFilledMarkerSymbolLayer,
-                       QgsCentroidFillSymbolLayer,
-                       QgsPointPatternFillSymbolLayer,
-                       QgsSymbolLayer,
-                       QgsLineSymbolLayer,
-                       QgsSymbol,
-                       QgsFillSymbolLayer,
-                       QgsProperty,
-                       QgsWkbTypes
+                       QgsPointPatternFillSymbolLayer
                        )
 
 try:
@@ -90,8 +72,7 @@ from qgis.PyQt.QtCore import (
     Qt,
     QPointF,
     QLineF,
-    QBuffer,
-    QRectF
+    QBuffer
 )
 from qgis.PyQt.QtGui import (
     QColor,
@@ -100,9 +81,7 @@ from qgis.PyQt.QtGui import (
     QFontMetricsF,
     QPainterPath,
     QPainter,
-    QBrush,
-    QImage,
-    QTransform
+    QBrush
 )
 from qgis.PyQt.QtSvg import QSvgGenerator, QSvgRenderer
 
@@ -150,7 +129,6 @@ from ..parser.objects.texture_fill_symbol import TextureFillSymbol
 from ..parser.objects.color_ramp_symbol import ColorRampSymbol
 from ..parser.objects.ramps import ColorRamp
 
-from .text_format import TextSymbolConverter
 from .labels import LabelConverter
 from .color_ramp import ColorRampConverter
 from .utils import ConversionUtils
@@ -200,6 +178,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             out.deleteSymbolLayer(0)
             return out
         elif issubclass(symbol.__class__, TextSymbol):
+            from .text_format import TextSymbolConverter  # pylint: disable=import-outside-toplevel,cyclic-import
             return TextSymbolConverter.text_symbol_to_qgstextformat(symbol, context)
         elif issubclass(symbol.__class__, LabelStyle) or issubclass(symbol.__class__, MaplexLabelStyle):
             return LabelConverter.convert_label_style(symbol, context)
@@ -335,8 +314,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         return out
 
     @staticmethod
-    def append_SymbolLayer_to_QgsSymbolLayer(symbol, layer,
-                                             context: Context):  # pylint: disable=too-many-statements,too-many-branches
+    def append_SymbolLayer_to_QgsSymbolLayer(symbol,  # pylint: disable=too-many-statements,too-many-branches
+                                             layer,
+                                             context: Context):
         """
         Appends a SymbolLayer to a QgsSymbolLayer
         """
@@ -547,8 +527,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(symbol, layer.outline, context)
 
     @staticmethod
-    def append_GradientFillSymbolLayer(symbol, layer: Union[GradientFillSymbol, ColorRampSymbol],
-                                       context: Context):  # pylint: disable=too-many-statements,too-many-branches
+    def append_GradientFillSymbolLayer(symbol,  # pylint: disable=too-many-statements,too-many-branches
+                                       layer: Union[GradientFillSymbol, ColorRampSymbol],
+                                       context: Context):
         """
         Appends a append_GradientFillSymbolLayer to a symbol
         """
@@ -570,7 +551,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                     ramp.setStops(stops)
 
         if (isinstance(layer, GradientFillSymbol) \
-            and layer.type in (GradientFillSymbol.RECTANGULAR, GradientFillSymbol.BUFFERED)):
+                and layer.type in (GradientFillSymbol.RECTANGULAR, GradientFillSymbol.BUFFERED)):
             if context.unsupported_object_callback and (
                     (isinstance(layer, GradientFillSymbol) and layer.type == GradientFillSymbol.RECTANGULAR)):
                 context.unsupported_object_callback(
@@ -779,10 +760,12 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         CREATE_NO_WINDOW = 0x08000000
         try:
             try:
-                _ = subprocess.run(export_args, stdout=subprocess.PIPE,
-                                   creationflags=CREATE_NO_WINDOW)  # pylint: disable=subprocess-run-check
+                _ = subprocess.run(export_args,  # pylint: disable=subprocess-run-check
+                                   stdout=subprocess.PIPE,
+                                   creationflags=CREATE_NO_WINDOW)
             except ValueError:
-                _ = subprocess.run(export_args, stdout=subprocess.PIPE)  # pylint: disable=subprocess-run-check
+                _ = subprocess.run(export_args,  # pylint: disable=subprocess-run-check
+                                   stdout=subprocess.PIPE)
         except FileNotFoundError:
             pass
 
@@ -800,10 +783,12 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             CREATE_NO_WINDOW = 0x08000000
             try:
                 try:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE,
-                                       creationflags=CREATE_NO_WINDOW)  # pylint: disable=subprocess-run-check
+                    _ = subprocess.run(export_args,  # pylint: disable=subprocess-run-check
+                                       stdout=subprocess.PIPE,
+                                       creationflags=CREATE_NO_WINDOW)
                 except ValueError:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE)  # pylint: disable=subprocess-run-check
+                    _ = subprocess.run(export_args,  # pylint: disable=subprocess-run-check
+                                       stdout=subprocess.PIPE)
             except FileNotFoundError:
                 pass
 
@@ -821,10 +806,12 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             CREATE_NO_WINDOW = 0x08000000
             try:
                 try:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE,
-                                       creationflags=CREATE_NO_WINDOW)  # pylint: disable=subprocess-run-check
+                    _ = subprocess.run(export_args,  # pylint: disable=subprocess-run-check
+                                       stdout=subprocess.PIPE,
+                                       creationflags=CREATE_NO_WINDOW)
                 except ValueError:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE)  # pylint: disable=subprocess-run-check
+                    _ = subprocess.run(export_args,  # pylint: disable=subprocess-run-check
+                                       stdout=subprocess.PIPE)
             except FileNotFoundError:
                 pass
 
@@ -876,8 +863,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         return path
 
     @staticmethod
-    def append_PictureFillSymbolLayer(symbol, layer: PictureFillSymbol,
-                                      context: Context):  # pylint: disable=too-many-statements,too-many-branches,too-many-locals
+    def append_PictureFillSymbolLayer(symbol,  # pylint: disable=too-many-statements,too-many-branches,too-many-locals
+                                      layer: PictureFillSymbol,
+                                      context: Context):
         """
         Appends a PictureFillSymbolLayer to a symbol
         """
@@ -1177,8 +1165,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                                                    locked=layer.locked)
 
     @staticmethod
-    def append_TemplatedLineSymbolLayer(symbol, layer: Union[MarkerLineSymbol, HashLineSymbol],
-                                        context: Context):  # pylint: disable=too-many-statements,too-many-branches
+    def append_TemplatedLineSymbolLayer(symbol,  # pylint: disable=too-many-statements,too-many-branches
+                                        layer: Union[MarkerLineSymbol, HashLineSymbol],
+                                        context: Context):
         """
         Appends a MarkerLineSymbolLayer or HashLineSymbol to a symbol
         """
@@ -1198,8 +1187,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         elif isinstance(layer, HashLineSymbol):
             sub_symbol = SymbolConverter.Symbol_to_QgsSymbol(layer.line, context)
 
-        if len(template.pattern_parts) == 1 and template.pattern_parts[0][
-            1] == 0:  # pylint: disable=too-many-nested-blocks
+        if (len(template.pattern_parts) == 1  # pylint: disable=too-many-nested-blocks
+                and template.pattern_parts[0][1] == 0):
             # special case! (Not described anywhere in ArcMap docs!!)
             # actually means "center of line segment"
             start_symbol = sub_symbol.clone()
@@ -2459,9 +2448,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             symbol.appendSymbolLayer(out)
 
     @staticmethod
-    def append_CharacterMarkerSymbolLayerAsSvg(symbol,
+    def append_CharacterMarkerSymbolLayerAsSvg(symbol,  # pylint: disable=too-many-locals,too-many-statements
                                                layer: CharacterMarkerSymbol,
-                                               context: Context):  # pylint: disable=too-many-locals,too-many-statements
+                                               context: Context):
         """
         Appends a CharacterMarkerSymbolLayer to a symbol, rendering the font character
         to an SVG file.
@@ -2552,9 +2541,6 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             if layer.symbol_level != 0xffffffff:
                 out.setRenderingPass(layer.symbol_level)
 
-        offset_x = layer.x_offset or 0
-        offset_y = layer.y_offset or 0
-
         out.setOffset(
             ConversionUtils.adjust_offset_for_rotation(
                 QPointF(context.convert_size(layer.x_offset or 0), -context.convert_size(layer.y_offset or 0)),
@@ -2565,7 +2551,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         symbol.appendSymbolLayer(out)
 
     @staticmethod
-    def append_CharacterMarkerSymbolLayerAsFont(symbol, layer: CharacterMarkerSymbol,
+    def append_CharacterMarkerSymbolLayerAsFont(symbol,  # pylint: disable=too-many-locals
+                                                layer: CharacterMarkerSymbol,
                                                 context: Context):
         """
         Appends a CharacterMarkerSymbolLayer to a symbol, using QGIS font marker symbols
@@ -2616,8 +2603,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         symbol.appendSymbolLayer(out)
 
     @staticmethod
-    def append_PictureMarkerSymbolLayer(symbol, layer: PictureMarkerSymbol,
-                                        context: Context):  # pylint: disable=too-many-branches
+    def append_PictureMarkerSymbolLayer(symbol,  # pylint: disable=too-many-branches
+                                        layer: PictureMarkerSymbol,
+                                        context: Context):
         """
         Appends a PictureMarkerSymbolLayer to a symbol
         """
