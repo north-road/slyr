@@ -58,7 +58,7 @@ class SlyrProvider(QgsProcessingProvider):
         return 'slyr'
 
     def name(self):  # pylint: disable=missing-docstring
-        return 'SLYR (community)'
+        return 'SLYR (community edition)'
 
     def longName(self):  # pylint: disable=missing-docstring
         return 'Converts ESRI Style and LYR files'

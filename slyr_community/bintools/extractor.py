@@ -28,6 +28,7 @@ import subprocess
 import sys
 from ctypes import cdll
 from PyQt5.QtCore import QSettings
+from slyr_community.parser.exceptions import RequiresLicenseException
 
 
 class MissingBinaryException(Exception):
@@ -196,6 +197,16 @@ class Extractor:
             pass
 
         return val
+
+    @staticmethod
+    def extract_non_spatial_table_from_mdb(file_path: str, table_name: str):
+        """
+        Extracts the contents of a non-spatial table from a MDB to a raw text file
+        :param file_path: path to .mdb file
+        :param table_name: table name to extract
+        :return: list of row values (first line is header)
+        """
+        raise RequiresLicenseException('Converting {} document requires a licensed version of SLYR'.format(file_path))
 
     @staticmethod
     def extract_styles(file_path: str, symbol_type: str):  # pylint: disable=too-many-locals,too-many-branches,too-many-statements

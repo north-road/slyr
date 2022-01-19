@@ -22,6 +22,10 @@ class NotImplementedException(Exception):
     but not yet implemented
     """
 
+    def __init__(self, message, original_object=None):
+        super(Exception, self).__init__(message)  # pylint: disable=bad-super-call
+        self.original_object = original_object
+
 
 class PartiallyImplementedException(Exception):
     """
@@ -34,6 +38,12 @@ class PartiallyImplementedException(Exception):
 class UnknownClsidException(Exception):
     """
     Thrown on encountering an unknown CLSID
+    """
+
+
+class UnknownObjectTypeException(Exception):
+    """
+    Thrown on encountering an unknown CIM object type
     """
 
 
@@ -69,4 +79,10 @@ class EmptyDocumentException(Exception):
 class DocumentTypeException(Exception):
     """
     Thrown on encountering a document of unexpected type
+    """
+
+
+class RequiresLicenseException(Exception):
+    """
+    Raised when functionality requires a valid license
     """
