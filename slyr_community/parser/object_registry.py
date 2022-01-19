@@ -3,7 +3,13 @@
 A registry for all known objects which can be decoded from a Stream
 """
 
-from slyr_community.parser.exceptions import UnknownClsidException, CustomExtensionClsidException
+from typing import Optional
+from .exceptions import (
+    UnknownClsidException,
+    CustomExtensionClsidException,
+    UnknownObjectTypeException
+)
+from .object import CustomObject
 
 
 class ObjectRegistry:
@@ -51,8 +57,25 @@ class ObjectRegistry:
             return self.objects[clsid]()
         elif clsid in CUSTOM_EXTENSION_CLSIDS:
             raise CustomExtensionClsidException('Custom extension: {}-{}-{}-{}-{}'.format(*[hex(c)[2:] for c in clsid]),
+                                                custom_object=CustomObject(
+                                                    '{}-{}-{}-{}-{}'.format(*[hex(c)[2:] for c in clsid])),
                                                 clsid='{}-{}-{}-{}-{}'.format(*[hex(c)[2:] for c in clsid]))
         raise UnknownClsidException('Unknown CLSID: {}-{}-{}-{}-{}'.format(*[hex(c)[2:] for c in clsid]))
+
+    def create_object_from_dict(self, source: Optional[dict]) -> Optional['Object']:
+        """
+        Attempts to create an object from a dictionary
+        """
+        if source is None:
+            return None
+        class_name = source['type']
+        object_class = [c for _, c in self.objects.items() if c.__name__ == class_name]
+        if not object_class:
+            raise KeyError('No registered object of type {}'.format(class_name))
+
+        res = object_class[0].from_dict(source)
+        res.version = object_class[0].compatible_versions()[-1] if object_class[0].compatible_versions() else 1
+        return res
 
     @staticmethod
     def clsid_to_hex(clsid: str):
@@ -124,4 +147,6 @@ class ObjectRegistry:
 REGISTRY = ObjectRegistry()
 
 CUSTOM_EXTENSION_CLSIDS = [
+    (303619097, 62360, 19521, 36253, 102151985440480),
+    (3175125693, 60317, 19703, 41548, 123483059945585)  # MediaMapper?
 ]

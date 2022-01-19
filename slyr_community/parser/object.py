@@ -5,7 +5,8 @@ Base class for persistent objects
 
 import functools
 from typing import List, Optional
-from slyr_community.parser.exceptions import NotImplementedException, PartiallyImplementedException
+
+from .exceptions import NotImplementedException, PartiallyImplementedException
 
 
 class Object:
@@ -28,12 +29,15 @@ class Object:
                 if d is not None:
                     d['type'] = self.__class__.__name__
                     d['version'] = self.version
+                    if self.ref_id is not None:
+                        d['ref_id'] = self.ref_id
                 return d
 
             return wrapper
 
         self.to_dict = to_dict_(self.to_dict)
         self.version = None
+        self.ref_id = None
 
     @staticmethod
     def cls_id():
@@ -74,6 +78,13 @@ class Object:
         """
         raise NotImplementedException('{} objects are not yet supported'.format(self.__class__.__name__))
 
+    @classmethod
+    def from_dict(cls, definition: dict) -> Optional['Object']:
+        """
+        Creates the object from a dictionary
+        """
+        raise NotImplementedException('{} objects are not yet supported'.format(cls.__name__))
+
 
 def not_implemented(cls):
     """
@@ -97,6 +108,18 @@ def not_implemented(cls):
     cls.read = not_implemented_(cls.read, cls)
     cls.compatible_versions = not_implemented_(cls.compatible_versions, cls)
     return cls
+
+
+class CustomObject(Object):
+
+    def __init__(self, clsid):
+        super().__init__()
+        self.clsid = clsid
+
+    def to_dict(self):  # pylint: disable=method-hidden
+        return {
+            'clsid': self.clsid
+        }
 
 
 def partially_implemented(cls):
