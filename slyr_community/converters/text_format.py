@@ -237,7 +237,7 @@ class TextSymbolConverter:
 
         # QGIS has no option for halo symbols. Instead, we just get the color from the symbol
         if text_symbol.halo_symbol:
-            from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel
+            from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel,cyclic-import
             halo_symbol = SymbolConverter.Symbol_to_QgsSymbol(text_symbol.halo_symbol, context)
             if halo_symbol:
                 buffer_color = halo_symbol.color()
