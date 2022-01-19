@@ -23,10 +23,11 @@ Decoration converter
 """
 
 from qgis.core import QgsMarkerLineSymbolLayer
-from slyr_community.parser.objects.decoration import LineDecoration, SimpleLineDecorationElement
-from slyr_community.converters.context import Context
-from slyr_community.converters.utils import ConversionUtils
-from slyr_community.parser.exceptions import NotImplementedException
+
+from .context import Context
+from .utils import ConversionUtils
+from ..parser.exceptions import NotImplementedException
+from ..parser.objects.decoration import LineDecoration, SimpleLineDecorationElement
 
 
 class DecorationConverter:
@@ -56,7 +57,7 @@ class DecorationConverter:
         """
         positions = decoration.marker_positions[:]
 
-        from slyr_community.converters.symbols import SymbolConverter  # pylint: disable=import-outside-toplevel,cyclic-import
+        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel,cyclic-import
 
         marker = SymbolConverter.Symbol_to_QgsSymbol(decoration.marker, context)
         if decoration.flip_all:
