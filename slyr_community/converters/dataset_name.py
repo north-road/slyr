@@ -155,7 +155,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                 encoding = 'ISO-8859-1'
             else:
                 # we ALWAYS use the cpg file - QGIS behavior of ignoring this by default is broken
-                with open(cpg_path, 'rt') as f:
+                with open(cpg_path, 'rt', encoding='utf8') as f:
                     cpg = f.readline().strip()
                     # using gdal logic, see https://github.com/OSGeo/gdal/blob/a1220c07a5a81404a0036e0e9c010ea74863ca95/gdal/ogr/ogrsf_frmts/shape/ogrshapelayer.cpp#L433
 
