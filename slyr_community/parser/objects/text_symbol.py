@@ -7,7 +7,6 @@ FULL INTERPRETATION.
 """
 
 from ..object import Object
-from ..object_registry import REGISTRY, CLSIDS
 from ..stream import Stream
 
 
@@ -168,9 +167,7 @@ class TextSymbol(Object):
         self.flip_angle = stream.read_double('flip_angle')
         self.type_setting = stream.read_uchar('type setting') != 0
 
-        path_type = stream.read_clsid('text path')
-        assert path_type in [REGISTRY.parse_clsid(CLSIDS[k]) for k in
-                             ('OverposterTextPath', 'SimpleTextPath', 'WordTextPath', 'BezierTextPath')]
+        stream.read_clsid('text path')
 
         self.background_symbol = stream.read_object('background symbol')
         self.text_fill_symbol = stream.read_object('text fill symbol')
@@ -187,7 +184,7 @@ class TextSymbol(Object):
             self.rotate_with_transform = stream.read_ushort('rotate with transform') != 0
 
         if version > 2:
-            assert stream.read_clsid('parser') in [REGISTRY.parse_clsid(CLSIDS[k]) for k in ('SimpleTextParser',)]
+            stream.read_clsid('parser')
 
         if version > 3:
             self.cjk_orientation = stream.read_ushort('CJK orientation') != 0

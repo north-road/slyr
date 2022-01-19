@@ -100,6 +100,9 @@ class VectorRendererBase(Object):
 
     @staticmethod
     def normalize_method_to_string(method):
+        """
+        Converts a normalization method to a string
+        """
         if method == VectorRendererBase.NORMALIZE_BY_FIELD:
             return 'normalize_by_field'
         elif method == VectorRendererBase.NORMALIZE_BY_LOG:
@@ -130,6 +133,9 @@ class VectorRendererBase(Object):
         self.random_rotation_max_z = stream.read_double('random rotation z max')
 
     def read_graduated_size_properties(self, stream: Stream):
+        """
+        Reads the graduated size properties from the stream
+        """
         stream.read_ushort('unknown', expected=1)
         self.graduated_size_type = stream.read_int('graduated size')
         self.graduated_expression = stream.read_string('graduated expression')

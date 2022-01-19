@@ -44,7 +44,7 @@ class DotDensityRenderer(Object):
     def read(self, stream: Stream, version):
         count = stream.read_int('field count')
         for i in range(count):
-            self.fields.append(stream.read_string('field'))
+            self.fields.append(stream.read_string('field {}'.format(i + 1)))
             self.field_aliases.append(stream.read_string('alias'))
 
         stream.read_ushort('unknown', expected=1)
@@ -60,7 +60,8 @@ class DotDensityRenderer(Object):
         self.fill_symbol = stream.read_object('fill symbol')
         self.mask_layer = stream.read_object('mask layer')
 
-        self.scale = stream.read_double('density calculated at scale')  # , expected=(5063366.408505683, 26581915.20123457))
+        self.scale = stream.read_double(
+            'density calculated at scale')  # , expected=(5063366.408505683, 26581915.20123457))
 
         self.min_density = stream.read_double('min density')
         self.min_density_area = stream.read_double('min density area')

@@ -27,7 +27,7 @@ class Multipoint(Geometry):
     def read(self, stream: Stream, version):
         size = stream.read_int('size')
         start = stream.tell()
-        type = stream.read_int('wkb type?', expected=8)
+        stream.read_int('wkb type?', expected=8)
 
         self.x_min = stream.read_double('x min')
         self.y_min = stream.read_double('y min')

@@ -30,7 +30,7 @@ class Fields(Object):
         for i in range(count):
             self.fields.append(stream.read_object('field {}'.format(i + 1)))
 
-        for i, f in enumerate(self.fields):
+        for i, _ in enumerate(self.fields):
             stream.read_int('unknown', expected=(i, 0xffffffff))
 
     def to_dict(self):  # pylint: disable=method-hidden

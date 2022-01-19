@@ -74,6 +74,8 @@ class MaplexDictionaryEntry(Object):
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
         self.type = 0  # esriMaplexAbbrevTypeEnding
+        self.text = ''
+        self.abbreviation = ''
 
     @staticmethod
     def compatible_versions():
@@ -113,7 +115,7 @@ class MaplexOverposterProperties(Object):
     def read(self, stream, version):
         stream.read_int('unknown', expected=1)
         stream.read_ushort('unknown', expected=0)
-        stream.read_object('dictionaries')
+        self.dictionaries = stream.read_object('dictionaries')
         stream.read_ushort('unknown flag', expected=65535)
         stream.read_int('unknown', expected=1)
         stream.read_double('unknown', expected=2)
@@ -141,7 +143,6 @@ class MaplexPlacedLabel(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
-        pass
 
     @staticmethod
     def compatible_versions():
@@ -207,7 +208,6 @@ class MaplexAnnotateFeature(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
-        pass
 
     @staticmethod
     def compatible_versions():
@@ -225,7 +225,6 @@ class MaplexAnnotateMap(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
-        pass
 
     @staticmethod
     def compatible_versions():
@@ -243,7 +242,6 @@ class MaplexOverposter(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
-        pass
 
     @staticmethod
     def compatible_versions():

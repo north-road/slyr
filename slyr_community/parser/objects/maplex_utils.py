@@ -5,6 +5,10 @@ Maplex utilities and common enums
 
 
 class MaplexUtils:
+    """
+    Utilities for working with Maplex classes
+    """
+
     UNIT_MAP = 0
     UNIT_MM = 1
     UNIT_INCH = 2
@@ -13,6 +17,9 @@ class MaplexUtils:
 
     @staticmethod
     def unit_to_string(unit):
+        """
+        Converts maplex unit to string
+        """
         if unit == MaplexUtils.UNIT_MAP:
             return 'map_unit'
         elif unit == MaplexUtils.UNIT_MM:

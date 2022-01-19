@@ -59,7 +59,7 @@ class ClassBreaksRenderer(VectorRendererBase):
             maxes.append(stream.read_double('max {}'.format(i + 1)))
         for i in range(class_count):
             mins.append(stream.read_double('min {}'.format(i + 1)))
-        for i in range(len(maxes)):
+        for i in range(len(maxes)):  # pylint: disable=consider-using-enumerate
             self.ranges.append([mins[i], maxes[i]])
 
         stream.read_double('overall min')

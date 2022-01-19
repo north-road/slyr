@@ -10,6 +10,9 @@ from ..stream import Stream
 
 
 class TimeExtent(Object):
+    """
+    A time span/extent store
+    """
 
     @staticmethod
     def cls_id():

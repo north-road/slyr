@@ -48,6 +48,9 @@ class ProportionalSymbolRenderer(VectorRendererBase):
 
     @staticmethod
     def marker_style_to_string(style):
+        """
+        Converts marker style to string
+        """
         if style == ProportionalSymbolRenderer.MARKER_CIRCLE:
             return 'circle'
         elif style == ProportionalSymbolRenderer.MARKER_SQUARE:
@@ -56,6 +59,9 @@ class ProportionalSymbolRenderer(VectorRendererBase):
 
     @staticmethod
     def scaling_type_to_string(scaling_type):
+        """
+        Converts scaling type to string
+        """
         if scaling_type == ProportionalSymbolRenderer.BY_RANGE:
             return 'by_range'
         elif scaling_type == ProportionalSymbolRenderer.BY_AREA:

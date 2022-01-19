@@ -48,7 +48,7 @@ class CodedValueDomain(Object):
 
         count = stream.read_int('count')
         for i in range(count):
-            description = stream.read_stringv2('description')
+            description = stream.read_stringv2('description {}'.format(i + 1))
             variant_type = stream.read_int('variant type')
             stream.read_int('unknown', expected=0)
             stream.read_int('unknown', expected=0)

@@ -36,6 +36,9 @@ class MaplexLabelStackingProperties(Object):
 
     @staticmethod
     def stacking_justification_to_string(justification):
+        """
+        Convert stacking justification to string
+        """
         if justification == MaplexLabelStackingProperties.STACKING_JUSTIFICATION_BEST:
             return 'best'
         elif justification == MaplexLabelStackingProperties.STACKING_JUSTIFICATION_LEFT_OR_RIGHT:
@@ -52,7 +55,7 @@ class MaplexLabelStackingProperties(Object):
         self.stacking_justification = stream.read_int('stacking justification')
         stacking_separator_count = stream.read_int('stacking_separator_count')
         for i in range(stacking_separator_count):
-            separator = stream.read_stringv2('separator')
+            separator = stream.read_stringv2('separator {}'.format(i + 1))
             visible = stream.read_ushort('visible') != 0
             forced_split = stream.read_ushort('forced split') != 0
             split_after = stream.read_ushort('split after') != 0

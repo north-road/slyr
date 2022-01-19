@@ -38,6 +38,6 @@ class NetworkDatasetName(Object):
             'category': self.category,
             'name': self.name,
             'subset_names': self.subset_names,
-            'dataset_type': self.DATASET_TYPES[self.dataset_type],
+            'dataset_type': self.dataset_type,
             'workspace_name': self.workspace_name.to_dict()
         }

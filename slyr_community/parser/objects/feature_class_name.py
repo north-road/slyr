@@ -290,6 +290,9 @@ class GpkgFeatureClassQuery(Object):
 
 
 class TopologyName(Object):
+    """
+    TopologyName
+    """
 
     @staticmethod
     def cls_id():
@@ -401,7 +404,7 @@ class CoverageName(Object):
         return [1]
 
     def read(self, stream: Stream, version):
-        internal_version = stream.read_uint('internal version', expected=(2, 3, 4))
+        stream.read_uint('internal version', expected=(2, 3, 4))
         stream.read_ushort('unknown', expected=1)
         self.name = stream.read_string('layer name')
         stream.read_string('unknown')

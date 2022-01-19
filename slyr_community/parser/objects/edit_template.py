@@ -32,7 +32,7 @@ class EditTemplate(Object):
         stream.read_raw_clsid('associated tool')
 
         count = stream.read_int('count')
-        for i in range(count):
+        for _ in range(count):
             key, value = PropertySet.read_value(stream)
             self.attribute_values[key] = value
 

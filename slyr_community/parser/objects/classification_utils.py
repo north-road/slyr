@@ -27,7 +27,10 @@ class ClassificationUtils:
     }
 
     @staticmethod
-    def classifier_to_string(classifier):
+    def classifier_to_string(classifier):  # pylint: disable=too-many-return-statements
+        """
+        Converts a classifier to a string
+        """
         if classifier == ClassificationUtils.EQUAL_INTERVAL:
             return 'equal_interval'
         elif classifier == ClassificationUtils.NATURAL_BREAKS:

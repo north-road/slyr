@@ -36,6 +36,9 @@ class MaplexRotationProperties(Object):
 
     @staticmethod
     def rotate_type_to_string(rotate_type):
+        """
+        Converts rotation type to string
+        """
         if rotate_type == MaplexRotationProperties.ROTATE_LABEL_GEOGRAPHIC:
             return 'geographic'
         elif rotate_type == MaplexRotationProperties.ROTATE_LABEL_ARITHMETIC:

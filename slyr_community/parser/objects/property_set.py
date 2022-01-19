@@ -29,6 +29,9 @@ class PropertySet(Object):
 
     @staticmethod
     def read_value(stream: Stream):
+        """
+        Reads a property key and value from the stream
+        """
         key = stream.read_string('key')
         value = stream.read_variant()
         return key, value

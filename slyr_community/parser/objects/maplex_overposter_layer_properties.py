@@ -51,7 +51,7 @@ class MaplexOverposterLayerProperties(Object):
     def cls_id():
         return '20664808-41c9-11d1-880a-080009ec732a'
 
-    def __init__(self):  # pylint: disable=useless-super-delegation
+    def __init__(self):  # pylint: disable=useless-super-delegation,too-many-statements
         super().__init__()
         self.is_barrier = False
         self.place_labels = False
@@ -115,7 +115,10 @@ class MaplexOverposterLayerProperties(Object):
         return [22]
 
     @staticmethod
-    def point_placement_to_string(placement):
+    def point_placement_to_string(placement):  # pylint: disable=too-many-return-statements
+        """
+        Convert point placement to string
+        """
         if placement == MaplexOverposterLayerProperties.POINT_PLACEMENT_BEST:
             return 'best'
         elif placement == MaplexOverposterLayerProperties.POINT_PLACEMENT_CENTERED:
@@ -140,7 +143,10 @@ class MaplexOverposterLayerProperties(Object):
         return None
 
     @staticmethod
-    def line_placement_to_string(placement):
+    def line_placement_to_string(placement):  # pylint: disable=too-many-return-statements
+        """
+        Converts line placement to string
+        """
         if placement == MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_HORIZONTAL_ON_LINE:
             return 'centered_horizontal_on_line'
         elif placement == MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_STRAIGHT_ON_LINE:
@@ -160,7 +166,10 @@ class MaplexOverposterLayerProperties(Object):
         return None
 
     @staticmethod
-    def offset_constraint_to_string(constraint):
+    def offset_constraint_to_string(constraint):  # pylint: disable=too-many-return-statements
+        """
+        Converts offset constraint to string
+        """
         if constraint == MaplexOverposterLayerProperties.CONSTRAIN_OFFSET_NONE:
             return 'none'
         elif constraint == MaplexOverposterLayerProperties.CONSTRAIN_OFFSET_ABOVE_LINE:
@@ -174,7 +183,10 @@ class MaplexOverposterLayerProperties(Object):
         return None
 
     @staticmethod
-    def polygon_placement_method_to_string(method):
+    def polygon_placement_method_to_string(method):  # pylint: disable=too-many-return-statements
+        """
+        Converts polygon placement method to string
+        """
         if method == MaplexOverposterLayerProperties.POLYGON_PLACEMENT_HORIZONTAL_IN_POLYGON:
             return 'horizontal_in_polygon'
         elif method == MaplexOverposterLayerProperties.POLYGON_PLACEMENT_STRAIGHT_IN_POLYGON:
@@ -189,7 +201,7 @@ class MaplexOverposterLayerProperties(Object):
             return 'curved_around_polygon'
         return None
 
-    def read(self, stream: Stream, version):
+    def read(self, stream: Stream, version):  # pylint: disable=too-many-statements
         self.place_labels = stream.read_ushort('place labels') != 0
         self.place_symbols = stream.read_ushort('place symbols') != 0
         self.is_barrier = stream.read_ushort('is barrier') != 0
