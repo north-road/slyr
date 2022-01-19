@@ -43,3 +43,148 @@ from .proportional_symbol_renderer import ProportionalSymbolRenderer
 from .chart_renderer import ChartRenderer
 from .s52_renderer import S52Renderer
 from .simple_renderer import SimpleRenderer
+from .annotate_layer_properties_collection import AnnotateLayerPropertiesCollection
+from .annotate_map_properties import AnnotateMapProperties
+from .annotation_expression_parser import DisplayExpressionProperties
+from .annotation_jscript_engine import AnnotationJScriptEngine
+from .annotation_python_engine import AnnotationPythonEngine
+from .annotation_vbscript_engine import AnnotationVBScriptEngine
+from .array_of_filter_def import ArrayOfFilterDef
+from .balloon_callout import BalloonCallout
+from .bar_chart_symbol import BarChartSymbol
+from .basic_overposter import BasicOverposter
+from .basic_overposter_layer_properties import BasicOverposterLayerProperties
+from .basic_overposter_properties import BasicOverposterProperties
+from .bi_unique_value_renderer import BiUniqueValueRenderer
+from .cad_annotation_layer import CadAnnotationLayer
+from .cad_drawing_name import CadDrawingName
+from .cad_drawing_object import CadDrawingObject
+from .cad_feature_layer import CadFeatureLayer
+from .cad_layer import CadLayer
+from .coded_value_domain import CodedValueDomain
+from .coverage_annotation_layer import CoverageAnnotationLayer
+from .db_table_name import DBTableName
+from .dimension_layer import DimensionLayer
+from .dimension_shape import DimensionShape
+from .dimension_style import DimensionStyle
+from .dimension_styles import DimensionStyles
+from .dot_density_renderer import DotDensityRenderer
+from .edit_template import EditTemplate
+from .edit_template_manager import EditTemplateManager
+from .envelope import Envelope
+from .feature_class_name import FeatureClassName, FgdbFeatureClassName, GpkgFeatureClassName, \
+    GpkgFeatureClassQuery, TopologyName, CoverageFeatureClassName, CoverageName, WmsConnectionName, \
+    RepresentationClassName
+from .feature_dataset_name import FeatureDatasetName
+from .feature_id_set import FeatureIDSet
+from .fid_set import FidSet
+from .field import Field
+from .field_info import FieldInfo
+from .fields import Fields
+from .geographic_coordinate_system import GeographicCoordinateSystem
+from .geometry_bag import GeometryBag
+from .geometry_def import GeometryDef
+from .group_layer import GroupLayer
+from .hotlink_expression_properties import HotLinkExpressionProperties
+from .hotlink_python_engine import HotlinkPythonEngine
+from .hotlink_vbscript_engine import HotlinkVbscriptEngine
+from .hyperlink import Hyperlink
+from .index import Index
+from .indexes import Indexes
+from .label_engine_layer_properties import LabelEngineLayerProperties
+from .label_style import LabelStyle
+from .legend_class import LegendClass
+from .legend_class_format import LegendClassFormat
+from .legend_group import LegendGroup
+from .legend_groups import LegendGroups
+from .line_callout import LineCallout
+from .line_label_placement_priorities import LineLabelPlacementPriorities
+from .line_label_position import LineLabelPosition
+from .long_array import LongArray
+from .maplex_label_engine_layer_properties import MaplexLabelEngineLayerProperties
+from .maplex_label_stacking_properties import MaplexLabelStackingProperties
+from .maplex_label_style import MaplexLabelStyle
+from .maplex_offset_along_line_properties import MaplexOffsetAlongLineProperties
+from .maplex_overposter_layer_properties import MaplexOverposterLayerProperties
+from .maplex_rotation_properties import MaplexRotationProperties
+from .maplex_unknown import MaplexDictionaries, MaplexDictionary, MaplexDictionaryEntry, \
+    MaplexOverposterProperties, MaplexPlacedLabel, MaplexKeyNumberGroups, MaplexKeyNumberGroup, MaplexAnnotateFeature, \
+    MaplexAnnotateMap, MaplexOverposter
+from .marker_text_background import MarkerTextBackground
+from .memory_relationship_class_name import MemoryRelationshipClassName
+from .multipoint import Multipoint
+from .names import Names
+from .network_dataset_name import NetworkDatasetName
+from .network_layer import NetworkLayer
+from .numeric_format import NumericFormat, FractionFormat, DirectionFormat, AngleFormat, PercentageFormat, CustomNumberFormat, \
+    CurrencyFormat, LatLonFormat, RateFormat, ScientificFormat
+from .pie_chart_symbol import PieChartSymbol
+from .place import Place
+from .point import Point
+from .point_placement_priorities import PointPlacementPriorities
+from .polygon import Polygon
+from .polyline import Polyline
+from .projected_coordinate_system import ProjectedCoordinateSystem
+from .property_set import PropertySet
+from .query_filter import QueryFilter
+from .range_domain import RangeDomain
+from .rel_query_table_name import RelQueryTableName
+from .rendering_rule import RenderingRule
+from .representation_renderer import RepresentationRenderer
+from .representation_rule import RepresentationRule
+from .route_anomaly_properties import RouteAnomalyProperties
+from .route_event_source_name import RouteEventSourceName
+from .route_identify_properties import RouteIdentifyProperties
+from .route_layer_extension import RouteLayerExtension
+from .route_measure_line_properties import RouteMeasureLineProperties
+from .route_measure_locator_name import RouteMeasureLocatorName
+from .route_measure_point_properties import RouteMeasurePointProperties
+from .scale_dependent_renderer import ScaleDependentRenderer
+from .server_layer_extension import ServerLayerExtension
+from .simple_line_callout import SimpleLineCallout
+from .simple_network_renderer import SimpleNetworkRenderer
+from .spatial_filter import SpatialFilter
+from .stacked_chart_symbol import StackedChartSymbol
+from .standalone_table import StandaloneTable
+from .str_array import StrArray
+from .table_fields import TableFields
+from .table_name import TableName, FgdbTableName
+from .text_symbol import TextSymbol
+from .time import Time
+from .time_extent import TimeExtent
+from .time_instant import TimeInstant
+from .time_reference import TimeReference
+from .time_zone import TimeZone
+from .topology_layer import TopologyLayer
+from .transparency_display_filter import TransparencyDisplayFilter
+from .uid import UID
+from .unknown_coordinate_system import UnknownCoordinateSystem
+from .workspace_factory import (
+    WorkspaceFactory,
+    SdeWorkspaceFactory,
+    AccessWorkspaceFactory,
+    ArcInfoWorkspaceFactory,
+    CadWorkspaceFactory,
+    IMSWorkspaceFactory,
+    OLEDBWorkspaceFactory,
+    PCCoverageWorkspaceFactory,
+    RasterWorkspaceFactory,
+    ShapefileWorkspaceFactory,
+    FileGDBWorkspaceFactory,
+    TextFileWorkspaceFactory,
+    TinWorkspaceFactory,
+    VpfWorkspaceFactory,
+    FeatureServiceWorkspaceFactory,
+    SdcWorkspaceFactory,
+    ExcelOrMdbWorkspaceFactory,
+    GpkgWorkspaceFactory,
+    FMEWorkspaceFactory,
+    StreetMapWorkspaceFactory,
+    LasDatasetWorkspaceFactory,
+    NetCDFWorkspaceFactory,
+    ToolboxWorkspaceFactory,
+    S57WorkspaceFactory
+)
+from .workspace_name import WorkspaceName
+from .xy_event2_fields_properties import XYEvent2FieldsProperties
+from .xy_event_source_name import XYEventSourceName
