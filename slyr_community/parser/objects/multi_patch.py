@@ -3,8 +3,8 @@
 Serializable object subclass
 """
 
-from slyr_community.parser.object import Object
-from slyr_community.parser.stream import Stream
+from ..object import Object
+from ..stream import Stream
 
 
 class MultiPatch(Object):

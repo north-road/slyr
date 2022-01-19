@@ -3,9 +3,9 @@
 Serializable object subclass
 """
 
-from slyr_community.parser.object import Object
-from slyr_community.parser.stream import Stream
-from slyr_community.parser.objects.picture import BmpPicture
+from ..object import Object
+from ..stream import Stream
+from .picture import BmpPicture
 
 
 class GeometryMaterial(Object):

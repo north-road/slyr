@@ -6,9 +6,9 @@ COMPLETE INTERPRETATION
 """
 
 import binascii
-from slyr_community.parser.object import Object
-from slyr_community.parser.stream import Stream
-from slyr_community.parser.exceptions import UnsupportedVersionException
+from ..object import Object
+from ..stream import Stream
+from ..exceptions import UnsupportedVersionException
 
 
 class Font(Object):

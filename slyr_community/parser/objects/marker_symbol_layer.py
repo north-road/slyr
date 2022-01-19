@@ -5,10 +5,10 @@ Marker symbol layers
 COMPLETE INTERPRETATION of most common subclasses
 """
 
-from slyr_community.parser.objects.symbol_layer import SymbolLayer
-from slyr_community.parser.stream import Stream
-from slyr_community.parser.exceptions import UnreadableSymbolException
-from slyr_community.parser.objects.picture import Picture
+from .symbol_layer import SymbolLayer
+from ..stream import Stream
+from ..exceptions import UnreadableSymbolException
+from .picture import Picture
 
 
 class MarkerSymbolLayer(SymbolLayer):

@@ -6,9 +6,9 @@ NEAR COMPLETE INTERPRETATION - all useful components
 
 """
 
-from slyr_community.parser.objects.symbol_layer import SymbolLayer
-from slyr_community.parser.stream import Stream
-from slyr_community.parser.objects.units import Units
+from .symbol_layer import SymbolLayer
+from ..stream import Stream
+from .units import Units
 
 
 class CharacterMarker3DSymbol(SymbolLayer):

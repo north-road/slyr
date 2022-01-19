@@ -6,9 +6,9 @@ COMPLETE INTERPRETATION
 """
 
 import binascii
-from slyr_community.parser.object import Object
-from slyr_community.parser.exceptions import InvalidColorException
-from slyr_community.parser.color_parser import cielab_to_rgb
+from ..object import Object
+from ..exceptions import InvalidColorException
+from ..color_parser import cielab_to_rgb
 
 
 class Color(Object):
