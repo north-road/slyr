@@ -487,25 +487,25 @@ class LabelConverter:
 
         quadrant_property = QgsProperty.fromExpression("""case
     when  "VerticalAlignment" = 0 then -- top
-	case
-		when  "HorizontalAlignment" = 0 then 0
-		when  "HorizontalAlignment" = 1 then 1
-		when  "HorizontalAlignment" = 2 then 2
-	end
-		 
+    case
+        when  "HorizontalAlignment" = 0 then 0
+        when  "HorizontalAlignment" = 1 then 1
+        when  "HorizontalAlignment" = 2 then 2
+    end
+
     when  "VerticalAlignment" = 1 then -- center
-	case
-		when  "HorizontalAlignment" = 0 then 3
-		when  "HorizontalAlignment" = 1 then 4
-		when  "HorizontalAlignment" = 2 then 5
-	end
-		 
+    case
+        when  "HorizontalAlignment" = 0 then 3
+        when  "HorizontalAlignment" = 1 then 4
+        when  "HorizontalAlignment" = 2 then 5
+    end
+
     when  "VerticalAlignment" in (2,3) then -- baseline, bottom
-	case
-		when  "HorizontalAlignment" = 0 then 6
-		when  "HorizontalAlignment" = 1 then 7
-		when  "HorizontalAlignment" = 2 then 8
-	end
+    case
+        when  "HorizontalAlignment" = 0 then 6
+        when  "HorizontalAlignment" = 1 then 7
+        when  "HorizontalAlignment" = 2 then 8
+    end
 end""")
         label_settings.dataDefinedProperties().setProperty(QgsPalLayerSettings.OffsetQuad, quadrant_property)
         label_settings.dataDefinedProperties().setProperty(QgsPalLayerSettings.LabelRotation,

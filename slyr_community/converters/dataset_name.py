@@ -536,7 +536,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         return name
 
     @staticmethod
-    def convert_sde_sdc_workspace(name, # pylint: disable=too-many-branches,too-many-statements
+    def convert_sde_sdc_workspace(name,  # pylint: disable=too-many-branches,too-many-statements
                                   workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
                                   subset: str, context: Context, is_sdc: bool) -> DataSourceProperties:
         """
