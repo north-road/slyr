@@ -66,7 +66,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         :param debug: true if debugging output should be created during object read
         :param offset: offset to start reading at
         """
-        self._io_stream = io_stream
+        self.io_stream = io_stream
         self.debug = debug
         self.is_layer = force_layer
         self.debug_depth = 0
@@ -111,7 +111,7 @@ class Stream:  # pylint: disable=too-many-public-methods
             if self.read(4) == b'\xd0\xcf\x11\xe0':
                 self.is_layer = True
 
-            self._io_stream.seek(0)
+            self.io_stream.seek(0)
 
         if self.is_layer and (  # pylint:disable=too-many-nested-blocks
                 extract_doc_structure or parse_doc_structure_only):
@@ -137,17 +137,17 @@ class Stream:  # pylint: disable=too-many-public-methods
 
                 if offset == -1:
                     if dest_file == 'Mx Document':
-                        self._io_stream = self._extract_file_from_stream(dest_file)
+                        self.io_stream = self.extract_file_from_stream(dest_file)
                         self.read_int('unknown', expected=1)
                         self.read_int('unknown', expected=1)
                         self.read_int('unknown', expected=1)
                         self.data_frame_count = self.read_int('data frame count')
                     elif dest_file == 'Main Stream':
-                        self._io_stream = self._extract_file_from_stream(dest_file)
+                        self.io_stream = self.extract_file_from_stream(dest_file)
                         self.read_int('unknown', expected=(1, 2))
                         self.data_frame_count = self.read_int('data frame count')
                     elif 'Tool' in dest_file:
-                        self._io_stream = self._extract_file_from_stream(dest_file)
+                        self.io_stream = self.extract_file_from_stream(dest_file)
                         # version related?
                         self.read_int('unknown', expected=(1, 2))
                         self.read_ushort('unknown', expected=(1, 9))
@@ -165,16 +165,16 @@ class Stream:  # pylint: disable=too-many-public-methods
                     elif dest_file == 'Maps':
                         # first read prerequisites - in case references from these are
                         # used in map
-                        templates_stream = self._extract_file_from_stream('Templates')
-                        style_gallery_stream = self._extract_file_from_stream('StyleGallery')
+                        templates_stream = self.extract_file_from_stream('Templates')
+                        style_gallery_stream = self.extract_file_from_stream('StyleGallery')
                         if 'DrawingDefaults' in self.directories:
-                            drawing_defaults_stream = self._extract_file_from_stream('DrawingDefaults')
+                            drawing_defaults_stream = self.extract_file_from_stream('DrawingDefaults')
                         else:
                             drawing_defaults_stream = None
 
-                        maps_stream = self._extract_file_from_stream('Maps')
+                        maps_stream = self.extract_file_from_stream('Maps')
 
-                        self._io_stream = templates_stream
+                        self.io_stream = templates_stream
                         count = self.read_int('template count')
                         for i in range(count):
                             self.read_string('template path {}'.format(i + 1))
@@ -206,10 +206,10 @@ class Stream:  # pylint: disable=too-many-public-methods
                             except:  # nopep8, pylint: disable=bare-except
                                 pass
 
-                        self._io_stream = style_gallery_stream
+                        self.io_stream = style_gallery_stream
                         self.read_object('style gallery')
                         if drawing_defaults_stream:
-                            self._io_stream = drawing_defaults_stream
+                            self.io_stream = drawing_defaults_stream
                             self.read_object('default fill')
                             self.read_object('default line')
                             self.read_object('default marker')
@@ -218,59 +218,59 @@ class Stream:  # pylint: disable=too-many-public-methods
                             self.read_object('default area patch')
                             self.read_object('default line patch')
 
-                        self._io_stream = maps_stream
+                        self.io_stream = maps_stream
                         self.data_frame_count = self.read_int('data frame count')
                         if self.data_frame_count == 0:
                             raise EmptyDocumentException()
                     else:
-                        self._io_stream = self._extract_file_from_stream(dest_file)
+                        self.io_stream = self.extract_file_from_stream(dest_file)
                 else:
-                    self._io_stream = self._extract_file_from_stream(dest_file)
+                    self.io_stream = self.extract_file_from_stream(dest_file)
             else:
                 io_stream.seek(current)
 
-        if not self._io_stream:
+        if not self.io_stream:
             raise EmptyDocumentException()
 
-        current = self._io_stream.tell()
-        self._io_stream.seek(0, os.SEEK_END)
-        self.end = self._io_stream.tell()
-        self._io_stream.seek(current)
+        current = self.io_stream.tell()
+        self.io_stream.seek(0, os.SEEK_END)
+        self.end = self.io_stream.tell()
+        self.io_stream.seek(current)
 
         if offset > 0:
-            self._io_stream.seek(offset)
+            self.io_stream.seek(offset)
 
     def tell(self) -> int:
         """
         Returns the current position within the stream.
         """
-        return self._io_stream.tell()
+        return self.io_stream.tell()
 
     def read(self, length: int) -> bin:
         """
         Reads the from the stream for the given length and returns
         the binary result.
         """
-        return self._io_stream.read(length)
+        return self.io_stream.read(length)
 
     def seek(self, offset: int):
         """
         Seeks for the given offset.
         """
-        self._io_stream.seek(offset)
+        self.io_stream.seek(offset)
 
     def rewind(self, length):
         """
         Rewinds by the given length
         """
-        self._io_stream.seek(self._io_stream.tell() - length)
+        self.io_stream.seek(self.io_stream.tell() - length)
 
     def log(self, message: str, offset: int = 0):
         """
         Logs a debug message
         """
         if self.debug:
-            print('{}{} at {}'.format('   ' * self.debug_depth, message, hex(self._io_stream.tell() - offset)))
+            print('{}{} at {}'.format('   ' * self.debug_depth, message, hex(self.io_stream.tell() - offset)))
 
     def _read_compound_header(self):
         """
@@ -446,7 +446,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         stream.seek(0)
         return stream
 
-    def _extract_file_from_stream(self, name):
+    def extract_file_from_stream(self, name):
         """
         Extracts a complete file binary from the stream
         """
@@ -509,7 +509,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         """
         Reads a uchar from the stream.
         """
-        res = unpack("<B", self._io_stream.read(1))[0]
+        res = unpack("<B", self.io_stream.read(1))[0]
         if debug_string:
             self.log('read uchar {} of {}'.format(debug_string, res), 1)
 
@@ -525,7 +525,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         """
         Reads a double from the stream.
         """
-        res = unpack("<d", self._io_stream.read(8))[0]
+        res = unpack("<d", self.io_stream.read(8))[0]
         if debug_string:
             self.log('read double {} of {}'.format(debug_string, res), 8)
 
@@ -543,7 +543,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         :return:
         """
         try:
-            res = unpack("<L", self._io_stream.read(4))[0]
+            res = unpack("<L", self.io_stream.read(4))[0]
         except error as e:  # struct.error
             raise UnreadableSymbolException('Truncated integer') from e
 
@@ -563,7 +563,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         Reads an uint from the stream.
         :return:
         """
-        res = unpack("<I", self._io_stream.read(4))[0]
+        res = unpack("<I", self.io_stream.read(4))[0]
         if debug_string:
             self.log('read uint {} of {}'.format(debug_string, res), 4)
 
@@ -580,7 +580,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         Reads a signed int from the stream.
         :return:
         """
-        res = unpack("<i", self._io_stream.read(4))[0]
+        res = unpack("<i", self.io_stream.read(4))[0]
         if debug_string:
             self.log('read signed int {} of {}'.format(debug_string, res), 4)
 
@@ -597,7 +597,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         Reads an ulong from the stream.
         :return:
         """
-        res = unpack("<l", self._io_stream.read(4))[0]
+        res = unpack("<l", self.io_stream.read(4))[0]
         if debug_string:
             self.log('read ulong {} of {}'.format(debug_string, res), 4)
 
@@ -614,7 +614,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         Reads an unsigned short from the stream.
         :return:
         """
-        res = unpack("<H", self._io_stream.read(2))[0]
+        res = unpack("<H", self.io_stream.read(2))[0]
         if debug_string:
             self.log('read ushort {} of {}'.format(debug_string, res), 2)
 
@@ -630,7 +630,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         """
         Reads a CLSID from the stream
         """
-        clsid_bin = binascii.hexlify(self._io_stream.read(16))
+        clsid_bin = binascii.hexlify(self.io_stream.read(16))
 
         clsid = ObjectRegistry.hex_to_clsid2(clsid_bin)
         if debug_string and clsid != '00000000-0000-0000-0000-000000000000':
@@ -641,7 +641,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         """
         Reads a CLSID from the stream
         """
-        clsid_bin = binascii.hexlify(self._io_stream.read(16))
+        clsid_bin = binascii.hexlify(self.io_stream.read(16))
         clsid = ObjectRegistry.hex_to_clsid(clsid_bin)
         if debug_string and clsid != '00000000-0000-0000-0000-000000000000':
             self.log('Found {} clsid of {}'.format(debug_string, clsid), 16)
@@ -671,12 +671,12 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         self.log('string of length {}'.format(int(length / 2 - 1)), 4)
         if not no_terminator:
-            buffer = self._io_stream.read(length - 2)
+            buffer = self.io_stream.read(length - 2)
         else:
-            buffer = self._io_stream.read(length)
+            buffer = self.io_stream.read(length)
         string = buffer.decode('utf-16')
         if not no_terminator:
-            terminator = binascii.hexlify(self._io_stream.read(2))
+            terminator = binascii.hexlify(self.io_stream.read(2))
         else:
             terminator = None
         if terminator is not None and terminator != b'0000':
@@ -705,9 +705,9 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         self.log('string of length {}'.format(length), 4)
         if length != 0:
-            buffer = self._io_stream.read(length * 2)
+            buffer = self.io_stream.read(length * 2)
             string = buffer.decode('utf-16')
-            terminator = binascii.hexlify(self._io_stream.read(2))
+            terminator = binascii.hexlify(self.io_stream.read(2))
 
             self.log('found string "{}"'.format(string))
             if terminator != b'0000':
@@ -753,7 +753,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         if debug_string:
             self.log('start {}'.format(debug_string))
 
-        length = length if length is not None else unpack("<L", self._io_stream.read(4))[0]
+        length = length if length is not None else unpack("<L", self.io_stream.read(4))[0]
         self.log('string of length {}'.format(int(length)), 4)
         if length == 0:
             return ''

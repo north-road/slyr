@@ -23,7 +23,7 @@ Color converter
 """
 
 from qgis.PyQt.QtGui import QColor
-from slyr_community.parser.objects.colors import CmykColor
+from ..parser.objects.colors import CmykColor
 
 
 class ColorConverter:

@@ -26,15 +26,15 @@ from qgis.core import (QgsPresetSchemeColorRamp,
                        QgsLimitedRandomColorRamp,
                        QgsGradientColorRamp,
                        QgsGradientStop)
-from slyr_community.parser.exceptions import NotImplementedException
-from slyr_community.parser.objects.ramps import (
+from ..parser.exceptions import NotImplementedException
+from ..parser.objects.ramps import (
     ColorRamp,
     AlgorithmicColorRamp,
     PresetColorRamp,
     RandomColorRamp,
     MultiPartColorRamp
 )
-from slyr_community.converters.color import ColorConverter
+from .color import ColorConverter
 
 
 class ColorRampConverter:
