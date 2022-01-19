@@ -6,7 +6,6 @@ Contains field properties
 COMPLETE INTERPRETATION
 """
 
-import binascii
 from ..object import Object
 from ..stream import Stream
 
@@ -44,8 +43,8 @@ class FieldInfo(Object):
 
             if version >= 4:
                 stream.read_ushort('unknown', expected=(0, 65535))
-                stream.read_ushort('annotation related?', expected=(0,65535))
-            stream.read_ushort('annotation related?', expected=(0,65535))
+                stream.read_ushort('annotation related?', expected=(0, 65535))
+            stream.read_ushort('annotation related?', expected=(0, 65535))
 
             self.highlight = stream.read_ushort('highlight') != 0
             self.read_only = stream.read_ushort('read only') != 0

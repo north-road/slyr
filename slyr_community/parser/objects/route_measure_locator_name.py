@@ -3,10 +3,10 @@
 Serializable object subclass
 """
 
-from ..object import Object
 from .units import Units
-from ..stream import Stream
+from ..object import Object
 from ..object_registry import REGISTRY
+from ..stream import Stream
 
 
 class RouteMeasureLocatorName(Object):

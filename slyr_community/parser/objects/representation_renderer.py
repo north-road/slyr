@@ -39,7 +39,7 @@ class RepresentationRenderer(Object):
 
         stream.read_int('unknown', expected=0)
         stream.read_int('unknown', expected=0)
-        stream.read_ushort('unknown', expected=(0,65535))
+        stream.read_ushort('unknown', expected=(0, 65535))
 
         count = stream.read_int('count')
         for i in range(count):

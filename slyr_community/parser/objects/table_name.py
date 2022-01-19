@@ -6,8 +6,8 @@ PARTIAL INTERPRETATION -- mostly complete, should be robust
 """
 
 from ..object import Object
-from ..stream import Stream
 from ..object_registry import REGISTRY
+from ..stream import Stream
 
 
 class TableName(Object):

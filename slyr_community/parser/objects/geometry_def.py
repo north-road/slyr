@@ -3,10 +3,10 @@
 Serializable object subclass
 """
 
-from ..object import Object
-from ..stream import Stream
 from .geometry import Geometry
+from ..object import Object
 from ..object_registry import REGISTRY
+from ..stream import Stream
 
 
 class GeometryDef(Object):

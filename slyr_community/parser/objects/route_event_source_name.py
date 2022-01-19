@@ -4,8 +4,8 @@ Serializable object subclass
 """
 
 from ..object import Object
-from ..stream import Stream
 from ..object_registry import REGISTRY
+from ..stream import Stream
 
 
 class RouteEventSourceName(Object):
@@ -48,5 +48,6 @@ class RouteEventSourceName(Object):
         res.name_string = definition['name_string']
         res.dataset_name = REGISTRY.create_object_from_dict(definition['workspace_name'])
         res.event_table_name = REGISTRY.create_object_from_dict(definition['event_table_name'])
-        res.route_measure_line_properties = REGISTRY.create_object_from_dict(definition['route_measure_line_properties'])
+        res.route_measure_line_properties = REGISTRY.create_object_from_dict(
+            definition['route_measure_line_properties'])
         return res

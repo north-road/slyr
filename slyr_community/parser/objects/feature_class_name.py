@@ -6,10 +6,10 @@ NEAR COMPLETE INTERPRETATION:
 Some components are of unknown use, but don't seem important and reading is robust
 """
 
-from ..object import Object
 from .geometry import Geometry
-from ..stream import Stream
+from ..object import Object
 from ..object_registry import REGISTRY
+from ..stream import Stream
 
 
 class FeatureClassName(Object):
@@ -264,7 +264,7 @@ class GpkgFeatureClassQuery(Object):
 
         self.crs = stream.read_object('crs')
 
-        if version> 2:
+        if version > 2:
             stream.read_int('unknown', expected=11)
 
     def to_dict(self):  # pylint: disable=method-hidden
@@ -374,8 +374,10 @@ class CoverageFeatureClassName(FeatureClassName):
         res.shape_field_name = definition['shape_field_name']
         res.shape_type = Geometry.string_to_geometry_type(definition['shape_type'])
 
-        res.class_type = [k for k, v in CoverageFeatureClassName.FEATURE_CLASS_TYPES.items() if v == definition['class_type']][0]
-        res.topology = [k for k, v in CoverageFeatureClassName.FEATURE_CLASS_TOPOLOGY.items() if v == definition['topology']][0]
+        res.class_type = \
+        [k for k, v in CoverageFeatureClassName.FEATURE_CLASS_TYPES.items() if v == definition['class_type']][0]
+        res.topology = \
+        [k for k, v in CoverageFeatureClassName.FEATURE_CLASS_TOPOLOGY.items() if v == definition['topology']][0]
         res.dataset_name_string = definition['dataset_name_string']
         return res
 
@@ -447,4 +449,3 @@ class WmsConnectionName(Object):
         return {
             'properties': self.properties.to_dict() if self.properties else None
         }
-
