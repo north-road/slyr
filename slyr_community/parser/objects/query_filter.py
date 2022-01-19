@@ -3,7 +3,7 @@
 Serializable object subclass
 """
 
-from ..object import Object, not_implemented
+from ..object import Object
 from ..stream import Stream
 
 

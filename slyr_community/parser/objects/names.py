@@ -23,7 +23,7 @@ class Names(Object):
     def read(self, stream: Stream, version):
         count = stream.read_int('count')
         for i in range(count):
-            self.names.append(stream.read_string('name {}'.format(i+1)))
+            self.names.append(stream.read_string('name {}'.format(i + 1)))
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {

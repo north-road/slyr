@@ -6,8 +6,8 @@ COMPLETE INTERPRETATION - some properties of unknown use, but low value and pars
 """
 
 from ..object import Object
-from ..stream import Stream
 from ..object_registry import REGISTRY
+from ..stream import Stream
 
 
 class WorkspaceName(Object):
@@ -18,7 +18,6 @@ class WorkspaceName(Object):
     TYPES = {0: 'ESRI_FILESYSTEM_WORKSPACE',
              1: 'ESRI_LOCALDATABASE_WORKSPACE',
              2: 'ESRI_REMOTEDATABASE_WORKSPACE'}
-
 
     @staticmethod
     def cls_id():

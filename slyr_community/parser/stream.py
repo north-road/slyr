@@ -3,14 +3,13 @@
 Binary stream representing persistent objects
 """
 
-from struct import unpack, error
 import binascii
+import os
 from datetime import datetime, timedelta
 from io import BytesIO
-import os
+from struct import unpack, error
 from typing import Optional
-from .object_registry import ObjectRegistry, REGISTRY
-from .object import Object
+
 from .exceptions import (
     UnsupportedVersionException,
     UnreadableSymbolException,
@@ -22,6 +21,8 @@ from .exceptions import (
     PartiallyImplementedException,
     RequiresLicenseException
 )
+from .object import Object
+from .object_registry import ObjectRegistry, REGISTRY
 
 
 class Stream:
@@ -129,7 +130,7 @@ class Stream:
                 elif 'Main Stream' in self.directories:
                     dest_file = 'Main Stream'
                 elif 'Tool0' in self.directories:
-                    dest_file ='Tool0'
+                    dest_file = 'Tool0'
                 else:
                     dest_file = 'Layer'
 
@@ -156,7 +157,7 @@ class Stream:
                         self.read_stringv2('path?')
                         self.read_int('tool id?')
                         self.read_stringv2('stylesheet')
-                        self.read_ushort('store relative path names', expected=(0,65535))
+                        self.read_ushort('store relative path names', expected=(0, 65535))
                         self.read_int('unknown', expected=0)
                         self.read_int('unknown', expected=0)
 
@@ -181,14 +182,16 @@ class Stream:
 
                         if drawing_defaults_stream:
                             self.read_string('default font')
-                            self.read_double('font size??', expected=(0, 2061745644852025.5, 1.213859894000235e-304, 1.0699050853375465e+46))
+                            self.read_double('font size??', expected=(
+                            0, 2061745644852025.5, 1.213859894000235e-304, 1.0699050853375465e+46))
                             string_count = self.read_int('string count???')
                             for i in range(string_count):
                                 self.read_string('unknown string')
                                 self.read_ushort('unknown', expected=(0, 65535))
 
                             self.read_string('toc current view mode',
-                                             expected=('Display', 'Source', 'Selection', 'Visible', 'Layouts','Anzeige'))
+                                             expected=(
+                                             'Display', 'Source', 'Selection', 'Visible', 'Layouts', 'Anzeige'))
                             self.read_object('selection environment')
                         else:
                             try:
@@ -646,7 +649,7 @@ class Stream:
 
         return clsid
 
-    def read_string(self, debug_string: str = '', no_terminator = False, expected=None, size=None) -> str:
+    def read_string(self, debug_string: str = '', no_terminator=False, expected=None, size=None) -> str:
         """
         Decodes a string from the binary
 
@@ -781,7 +784,8 @@ class Stream:
         """
         del self.objects[-1]
 
-    def read_object(self, debug_string: str = '', allow_reference=True, expect_existing=False, expected_size=None) -> Optional[Object]:
+    def read_object(self, debug_string: str = '', allow_reference=True, expect_existing=False, expected_size=None) -> \
+    Optional[Object]:
         """
         Creates and reads a new object from the stream
         """
@@ -910,7 +914,8 @@ class Stream:
         except error:  # struct.error
             raise UnreadableSymbolException('Truncated file binary')
 
-    def read_variant(self, variant_type=None, debug_string: str = '', expected=None):  # pylint: disable=too-many-branches
+    def read_variant(self, variant_type=None, debug_string: str = '',
+                     expected=None):  # pylint: disable=too-many-branches
         """
         Reads a variant value from the stream
         """

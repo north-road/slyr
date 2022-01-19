@@ -5,7 +5,6 @@ Serializable object subclass
 """
 
 from ..object import Object
-from ..stream import Stream
 
 
 class MaplexDictionaries(Object):
@@ -24,12 +23,13 @@ class MaplexDictionaries(Object):
     def read(self, stream, version):
         count = stream.read_int('count')
         for i in range(count):
-            self.dictionaries.append(stream.read_object('Dictionary {}'.format(i+1)))
+            self.dictionaries.append(stream.read_object('Dictionary {}'.format(i + 1)))
 
     def to_dict(self):
         return {
             'dictionaries': [e.to_dict() for e in self.dictionaries]
         }
+
 
 class MaplexDictionary(Object):
     """
@@ -52,7 +52,7 @@ class MaplexDictionary(Object):
     def read(self, stream, version):
         count = stream.read_int('count')
         for i in range(count):
-            self.entries.append(stream.read_object('Entry {}'.format(i+1)))
+            self.entries.append(stream.read_object('Entry {}'.format(i + 1)))
         self.name = stream.read_string('name')
 
     def to_dict(self):
@@ -66,6 +66,7 @@ class MaplexDictionaryEntry(Object):
     """
     MaplexLayerSettings
     """
+
     @staticmethod
     def cls_id():
         return '20664808-fe45-9018-be1f-66eb0dec7321'
@@ -89,7 +90,6 @@ class MaplexDictionaryEntry(Object):
             'abbrevation': self.abbreviation,
             'type': self.type
         }
-
 
 
 class MaplexOverposterProperties(Object):

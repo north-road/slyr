@@ -27,7 +27,7 @@ class Hyperlink(Object):
     def read(self, stream: Stream, version):
         self.feature_id = stream.read_int('feature id')
         self.url = stream.read_string('url')
-        self.link_type = stream.read_int('link type') # esriHyperlinkType
+        self.link_type = stream.read_int('link type')  # esriHyperlinkType
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {

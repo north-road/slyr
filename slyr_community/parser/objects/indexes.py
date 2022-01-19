@@ -23,7 +23,7 @@ class Indexes(Object):
     def read(self, stream: Stream, version):
         count = stream.read_int('index count')
         for i in range(count):
-            self.indexes.append(stream.read_object('index {}'.format(i+1)))
+            self.indexes.append(stream.read_object('index {}'.format(i + 1)))
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
