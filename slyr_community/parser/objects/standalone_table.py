@@ -51,7 +51,7 @@ class StandaloneTable(Object):
     def compatible_versions():
         return [8, 9, 10, 12, 13, 14]
 
-    def read(self, stream: Stream, version):
+    def read(self, stream: Stream, version):  # pylint: disable=too-many-locals,too-many-branches,too-many-statements
         self.dataset_name = stream.read_object('dataset name')
         classes = stream.read_uint('field info count')
         for _ in range(classes):
@@ -79,7 +79,6 @@ class StandaloneTable(Object):
             stream.read_signed_int('unknown')
             stream.read_signed_int('unknown')
         else:
-            c = 0
             last_pos = 0
             last_neg = 0
             r = stream.read_signed_int('unknown 1')
@@ -98,7 +97,7 @@ class StandaloneTable(Object):
                         # went too far
                         stream.rewind(4)
                         break
-                    elif r > 0:
+                    if r > 0:
                         if r < 10 and r < last_pos:
                             stream.rewind(4)
                             break

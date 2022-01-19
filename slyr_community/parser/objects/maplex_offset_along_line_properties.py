@@ -43,6 +43,9 @@ class MaplexOffsetAlongLineProperties(Object):
 
     @staticmethod
     def placement_method_to_string(method):
+        """
+        Converts a placement method to string
+        """
         if method == MaplexOffsetAlongLineProperties.OFFSET_BEST_POSITION_ALONG_LINE:
             return 'best_position_along_line'
         elif method == MaplexOffsetAlongLineProperties.OFFSET_BEFORE_START_OF_LINE:
@@ -57,6 +60,9 @@ class MaplexOffsetAlongLineProperties(Object):
 
     @staticmethod
     def anchor_to_string(anchor):
+        """
+        Converts and anchor type to string
+        """
         if anchor == MaplexOffsetAlongLineProperties.ANCHOR_CENTER_OF_LABEL:
             return 'center_of_label'
         elif anchor == MaplexOffsetAlongLineProperties.ANCHOR_NEAREST_SIDE_OF_LABEL:

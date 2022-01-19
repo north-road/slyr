@@ -43,7 +43,7 @@ class GroupLayer(Object):
         else:
             return '<GroupLayer: {}>'.format(self.name)
 
-    def read(self, stream: Stream, version):
+    def read(self, stream: Stream, version):  # pylint: disable=too-many-statements
         self.name = stream.read_string('name')
         self.visible = stream.read_ushort('visible') == 0xffff
 
@@ -87,11 +87,8 @@ class GroupLayer(Object):
                 pos = stream.tell()
                 stream.read_int('unknown', expected=0)
                 try:
-                    obj = stream.read_object('remote object', allow_reference=False)
+                    _ = stream.read_object('remote object', allow_reference=False)
                     assert stream.tell() == pos + size, (size, stream.tell() - pos)
-                except NotImplementedException:
-                    # don't know this object
-                    stream.read(size - 20)
                 except (NotImplementedException, UnknownClsidException):
                     # don't know this object
                     stream.read(size - 20)

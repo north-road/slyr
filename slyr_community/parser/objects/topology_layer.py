@@ -18,6 +18,19 @@ class TopologyLayer(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
+        self.name = ''
+        self.visible = False
+        self.show_tips = False
+        self.zoom_min = None
+        self.zoom_max = None
+        self.dataset_name = None
+        self.area_error_renderer = None
+        self.line_error_renderer = None
+        self.point_error_renderr = None
+        self.area_exception_renderer = None
+        self.line_exception_renderer = None
+        self.point_exception_renderer = None
+        self.dirty_area_renderer = None
 
     @staticmethod
     def compatible_versions():

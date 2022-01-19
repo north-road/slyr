@@ -24,10 +24,10 @@ class Polyline(Geometry):
     def compatible_versions():
         return [2]
 
-    def read(self, stream: Stream, version):
+    def read(self, stream: Stream, version):  # pylint: disable=too-many-locals
         size = stream.read_int('size')
         start = stream.tell()
-        type = stream.read_int('wkb type?', expected=(3, 536870962))
+        wkb_type = stream.read_int('wkb type?', expected=(3, 536870962))
 
         self.x_min = stream.read_double('x min')
         self.y_min = stream.read_double('y min')
@@ -53,7 +53,7 @@ class Polyline(Geometry):
                     part.append((x, y))
                 self.parts.append(part)
 
-            if type == 536870962:
+            if wkb_type == 536870962:
                 self.read_curve_points(stream)
 
         if stream.tell() != size + start:

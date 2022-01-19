@@ -18,6 +18,8 @@ class RouteLayerExtension(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
+        self.route_identifier = ''
+        self.anomaly_properties = None
 
     def supports_references(self):
         return False

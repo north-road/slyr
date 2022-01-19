@@ -12,7 +12,6 @@ PARTIAL INTERPRETATION:
 - many unimplemented objects follow labeling - some are general layer properties, others more specialised (like map tips)
 """
 
-import math
 from ..object import Object
 from ..stream import Stream
 from .units import Units
@@ -21,6 +20,9 @@ from .geometry import Geometry
 
 
 class CustomRenderer(Object):
+    """
+    Represents a custom renderer which could not be parsed
+    """
 
     def __init__(self, clsid):
         super().__init__()
@@ -56,7 +58,7 @@ class FeatureLayer(Object):
     def cls_id():
         return 'e663a651-8aad-11d0-bec7-00805f7c4268'
 
-    def __init__(self):
+    def __init__(self):  # pylint: disable=too-many-statements
         super().__init__()
         self.name = ''
         self.description = ''
@@ -174,6 +176,9 @@ class FeatureLayer(Object):
 
     @staticmethod
     def join_type_to_string(join):
+        """
+        Converts a join type to string
+        """
         if join == FeatureLayer.JOIN_TYPE_LEFT_OUTER:
             return 'left_outer'
         elif join == FeatureLayer.JOIN_TYPE_LEFT_INNER:
@@ -182,6 +187,9 @@ class FeatureLayer(Object):
 
     @staticmethod
     def html_popup_style_to_string(style):
+        """
+        Converts a HTML popup style to string
+        """
         if style == FeatureLayer.HTML_POPUP_TWO_COLUMN_TABLE:
             return 'two_column_table'
         elif style == FeatureLayer.HTML_POPUP_REDIRECTED:
@@ -192,13 +200,16 @@ class FeatureLayer(Object):
 
     @staticmethod
     def search_order_to_string(order):
+        """
+        Converts a search order to string
+        """
         if order == FeatureLayer.SEARCH_ORDER_SPATIAL_FIRST:
             return 'spatial_first'
         elif order == FeatureLayer.SEARCH_ORDER_ATTRIBUTE_FIRST:
             return 'attribute_first'
         assert False
 
-    def read(self, stream: Stream, version):
+    def read(self, stream: Stream, version):  # pylint: disable=too-many-locals,too-many-return-statements,too-many-branches,too-many-statements
         self.name = stream.read_string('name')
         self.datasource_type = stream.read_string('datasource_type')
         self.visible = stream.read_ushort('visible') != 0
@@ -297,7 +308,6 @@ class FeatureLayer(Object):
             stream.read_signed_int('unknown')
             stream.read_signed_int('unknown')
         else:
-            c = 0
             last_pos = 0
             last_neg = 0
             r = stream.read_signed_int('unknown 1')
@@ -316,7 +326,7 @@ class FeatureLayer(Object):
                         # went too far
                         stream.rewind(4)
                         break
-                    elif r > 0:
+                    if r > 0:
                         if r < 10 and r < last_pos:
                             stream.rewind(4)
                             break

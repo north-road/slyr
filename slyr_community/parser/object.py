@@ -111,6 +111,9 @@ def not_implemented(cls):
 
 
 class CustomObject(Object):
+    """
+    Custom object store
+    """
 
     def __init__(self, clsid):
         super().__init__()

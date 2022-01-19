@@ -5,7 +5,6 @@ Serializable object subclass
 
 from ..object import Object
 from ..stream import Stream
-from ..exceptions import UnknownClsidException
 
 
 class CadFeatureLayer(Object):

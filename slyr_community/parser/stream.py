@@ -25,7 +25,7 @@ from .object import Object
 from .object_registry import ObjectRegistry, REGISTRY
 
 
-class Stream:
+class Stream:  # pylint: disable=too-many-public-methods
     """
     An input stream for object parsing
     """
@@ -51,7 +51,7 @@ class Stream:
     VBARRAY = 8192
     USER_PASSWORD = 8209  # byte array
 
-    def __init__(self,
+    def __init__(self,  # pylint: disable=too-many-locals,too-many-branches,too-many-statements
                  io_stream,
                  debug: bool = False,
                  offset: int = 0,
@@ -113,9 +113,10 @@ class Stream:
 
             self._io_stream.seek(0)
 
-        if self.is_layer and (extract_doc_structure or parse_doc_structure_only):
-            self.read_compound_header()
-            self.build_sat()
+        if self.is_layer and (  # pylint:disable=too-many-nested-blocks
+                extract_doc_structure or parse_doc_structure_only):
+            self._read_compound_header()
+            self._build_sat()
             if not parse_doc_structure_only:
                 if path:
                     dest_file = path
@@ -136,17 +137,17 @@ class Stream:
 
                 if offset == -1:
                     if dest_file == 'Mx Document':
-                        self._io_stream = self.extract_file_from_stream(dest_file)
+                        self._io_stream = self._extract_file_from_stream(dest_file)
                         self.read_int('unknown', expected=1)
                         self.read_int('unknown', expected=1)
                         self.read_int('unknown', expected=1)
                         self.data_frame_count = self.read_int('data frame count')
                     elif dest_file == 'Main Stream':
-                        self._io_stream = self.extract_file_from_stream(dest_file)
+                        self._io_stream = self._extract_file_from_stream(dest_file)
                         self.read_int('unknown', expected=(1, 2))
                         self.data_frame_count = self.read_int('data frame count')
                     elif 'Tool' in dest_file:
-                        self._io_stream = self.extract_file_from_stream(dest_file)
+                        self._io_stream = self._extract_file_from_stream(dest_file)
                         # version related?
                         self.read_int('unknown', expected=(1, 2))
                         self.read_ushort('unknown', expected=(1, 9))
@@ -164,14 +165,14 @@ class Stream:
                     elif dest_file == 'Maps':
                         # first read prerequisites - in case references from these are
                         # used in map
-                        templates_stream = self.extract_file_from_stream('Templates')
-                        style_gallery_stream = self.extract_file_from_stream('StyleGallery')
+                        templates_stream = self._extract_file_from_stream('Templates')
+                        style_gallery_stream = self._extract_file_from_stream('StyleGallery')
                         if 'DrawingDefaults' in self.directories:
-                            drawing_defaults_stream = self.extract_file_from_stream('DrawingDefaults')
+                            drawing_defaults_stream = self._extract_file_from_stream('DrawingDefaults')
                         else:
                             drawing_defaults_stream = None
 
-                        maps_stream = self.extract_file_from_stream('Maps')
+                        maps_stream = self._extract_file_from_stream('Maps')
 
                         self._io_stream = templates_stream
                         count = self.read_int('template count')
@@ -183,7 +184,7 @@ class Stream:
                         if drawing_defaults_stream:
                             self.read_string('default font')
                             self.read_double('font size??', expected=(
-                            0, 2061745644852025.5, 1.213859894000235e-304, 1.0699050853375465e+46))
+                                0, 2061745644852025.5, 1.213859894000235e-304, 1.0699050853375465e+46))
                             string_count = self.read_int('string count???')
                             for i in range(string_count):
                                 self.read_string('unknown string')
@@ -191,7 +192,7 @@ class Stream:
 
                             self.read_string('toc current view mode',
                                              expected=(
-                                             'Display', 'Source', 'Selection', 'Visible', 'Layouts', 'Anzeige'))
+                                                 'Display', 'Source', 'Selection', 'Visible', 'Layouts', 'Anzeige'))
                             self.read_object('selection environment')
                         else:
                             try:
@@ -202,7 +203,7 @@ class Stream:
                                 self.read_object('default text symbol 2')
                                 self.read_object('default area patch')
                                 self.read_object('default line patch')
-                            except:
+                            except:  # nopep8, pylint: disable=bare-except
                                 pass
 
                         self._io_stream = style_gallery_stream
@@ -222,9 +223,9 @@ class Stream:
                         if self.data_frame_count == 0:
                             raise EmptyDocumentException()
                     else:
-                        self._io_stream = self.extract_file_from_stream(dest_file)
+                        self._io_stream = self._extract_file_from_stream(dest_file)
                 else:
-                    self._io_stream = self.extract_file_from_stream(dest_file)
+                    self._io_stream = self._extract_file_from_stream(dest_file)
             else:
                 io_stream.seek(current)
 
@@ -271,7 +272,10 @@ class Stream:
         if self.debug:
             print('{}{} at {}'.format('   ' * self.debug_depth, message, hex(self._io_stream.tell() - offset)))
 
-    def read_compound_header(self):
+    def _read_compound_header(self):
+        """
+        Reads the document header
+        """
         # magic identifier
         if not self.read(8) == b'\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1':
             raise DocumentTypeException()
@@ -310,7 +314,7 @@ class Stream:
         for i in range(self.tell()):
             self.header_bytes.append(i)
 
-    def build_sat(self):
+    def _build_sat(self):  # pylint: disable=too-many-locals,too-many-branches,too-many-statements
         """
         Builds the various SAT tables
         """
@@ -354,7 +358,7 @@ class Stream:
 
         # mini fat
         self.mini_fat = []
-        small_sat_stream = self.read_fat_stream(self.mini_fat_first, self.mini_fat_sector_count * self.sector_size)
+        small_sat_stream = self._read_fat_stream(self.mini_fat_first, self.mini_fat_sector_count * self.sector_size)
         # TODO - use correct length!
         while True:
             try:
@@ -386,9 +390,9 @@ class Stream:
 
                 entry_type = self.read_uchar()  # 'entry type')  # type
                 self.read_uchar()  # entry flags
-                left_sibling = self.read_int()  # left sibling
-                right_sibling = self.read_int()  # right sibling
-                root_child = self.read_int()  # root child
+                _ = self.read_int()  # left sibling
+                _ = self.read_int()  # right sibling
+                _ = self.read_int()  # root child
                 self.read_raw_clsid()
                 self.read_int()  # flags
                 self.read(8)  # time
@@ -419,7 +423,10 @@ class Stream:
             for i in range(offset, self.tell()):
                 self.dir_bytes.append(i)
 
-    def read_fat_stream(self, sector, length):
+    def _read_fat_stream(self, sector, length):
+        """
+        Reads a stream from FAT
+        """
         current_sector = sector
         stream = BytesIO()
         read = 0
@@ -439,7 +446,7 @@ class Stream:
         stream.seek(0)
         return stream
 
-    def extract_file_from_stream(self, name):
+    def _extract_file_from_stream(self, name):
         """
         Extracts a complete file binary from the stream
         """
@@ -501,7 +508,6 @@ class Stream:
     def read_uchar(self, debug_string: str = '', expected=None) -> int:
         """
         Reads a uchar from the stream.
-        :return:
         """
         res = unpack("<B", self._io_stream.read(1))[0]
         if debug_string:
@@ -518,7 +524,6 @@ class Stream:
     def read_double(self, debug_string: str = '', expected=None) -> float:
         """
         Reads a double from the stream.
-        :return:
         """
         res = unpack("<d", self._io_stream.read(8))[0]
         if debug_string:
@@ -768,7 +773,10 @@ class Stream:
         return res
 
     @staticmethod
-    def missing_elements(L):
+    def _missing_elements(L):
+        """
+        Calculates missing elements from an incremental list
+        """
         start, end = L[0], L[-1]
         return sorted(set(range(start, end + 1)).difference(L))
 
@@ -784,8 +792,11 @@ class Stream:
         """
         del self.objects[-1]
 
-    def read_object(self, debug_string: str = '', allow_reference=True, expect_existing=False, expected_size=None) -> \
-    Optional[Object]:
+    def read_object(self,  # pylint: disable=too-many-locals,too-many-branches,too-many-statements
+                    debug_string: str = '',
+                    allow_reference=True,
+                    expect_existing=False,
+                    expected_size=None) -> Optional[Object]:
         """
         Creates and reads a new object from the stream
         """
@@ -839,7 +850,7 @@ class Stream:
                     self.debug_depth -= 1
                     return None  # res
                 elif not self.tolerant and self.objects[-1] and this_ref < max(self.objects[-1].keys()):
-                    missing = self.missing_elements(list(self.objects[-1].keys()))
+                    missing = self._missing_elements(list(self.objects[-1].keys()))
                     self.log(
                         'Encountered ref {}, but previously read ref {}. Likely a required object was skipped. Gaps at {}'.format(
                             this_ref, max(self.objects[-1].keys()), missing))
@@ -869,9 +880,9 @@ class Stream:
                 if expected_size is not None:
                     self.log('Reading {} is not fully implemented'.format(str(e)), 16)
                     self.not_implemented_objects[this_ref] = res.__class__
-                    raise NotImplementedException(e)
-                else:
-                    compatible_versions = None
+                    raise NotImplementedException(e) from e
+
+                compatible_versions = None
 
             if compatible_versions is not None:
                 version = self.read_ushort('version')
@@ -912,10 +923,12 @@ class Stream:
         try:
             return self.read(embedded_file_length)
         except error:  # struct.error
-            raise UnreadableSymbolException('Truncated file binary')
+            raise UnreadableSymbolException('Truncated file binary') from error
 
-    def read_variant(self, variant_type=None, debug_string: str = '',
-                     expected=None):  # pylint: disable=too-many-branches
+    def read_variant(self,  # pylint: disable=too-many-branches
+                     variant_type=None,
+                     debug_string: str = '',
+                     expected=None):
         """
         Reads a variant value from the stream
         """

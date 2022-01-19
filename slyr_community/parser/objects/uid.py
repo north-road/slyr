@@ -7,7 +7,6 @@ COMPLETE INTERPRETATION
 
 from ..object import Object
 from ..stream import Stream
-from ..object_registry import REGISTRY, CLSIDS
 
 
 class UID(Object):

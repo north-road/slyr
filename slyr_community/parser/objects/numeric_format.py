@@ -5,8 +5,7 @@ Numeric field formats
 PARTIAL INTERPRETATION - some common subclasses not implemented yet.
 Implemented subclasses are robust.
 """
-import binascii
-from ..object import Object, not_implemented
+from ..object import Object
 from ..stream import Stream
 
 

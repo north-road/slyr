@@ -3,8 +3,8 @@
 Serializable object subclass
 """
 
-from ..object import Object
 from ..exceptions import NotImplementedException, UnknownClsidException
+from ..object import Object
 from ..stream import Stream
 
 
@@ -20,6 +20,17 @@ class NetworkLayer(Object):
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
         self.extensions = []
+        self.name = ''
+        self.dataset_name = None
+        self.crs = None
+        self.show_tips = False
+        self.cached = False
+        self.zoom_max = None
+        self.zoom_min = None
+        self.visible = False
+        self.scale_symbols = False
+        self.weight = 0
+        self.description = ''
 
     @staticmethod
     def compatible_versions():
@@ -76,7 +87,7 @@ class NetworkLayer(Object):
         count = stream.read_int('count')
 
         for i in range(count):
-            stream.read_ushort('renderer visible {} '.format(i + 1)) != 0
+            _ = stream.read_ushort('renderer visible {} '.format(i + 1)) != 0
             stream.read_object('renderer {}'.format(i + 1))
 
             stream.read_int('unknown', expected=0)

@@ -10,6 +10,9 @@ from ..stream import Stream
 
 
 class TimeReference(Object):
+    """
+    A time reference point
+    """
 
     @staticmethod
     def cls_id():

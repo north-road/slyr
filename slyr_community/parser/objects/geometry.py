@@ -9,6 +9,10 @@ from ..stream import Stream
 
 
 class Segment:
+    """
+    Represents a line segment
+    """
+
     SEGMENT_ARC = 1
     SEGMENT_LINE = 2
     SEGMENT_SPIRAL = 3
@@ -16,16 +20,19 @@ class Segment:
     SEGMENT_ELLIPTICAL_ARC = 5
 
     @staticmethod
-    def segment_type_to_string(type):
-        if type == Segment.SEGMENT_ARC:
+    def segment_type_to_string(segment_type):
+        """
+        Converts a segment type to string
+        """
+        if segment_type == Segment.SEGMENT_ARC:
             return 'arc'
-        elif type == Segment.SEGMENT_LINE:
+        elif segment_type == Segment.SEGMENT_LINE:
             return 'line'
-        elif type == Segment.SEGMENT_SPIRAL:
+        elif segment_type == Segment.SEGMENT_SPIRAL:
             return 'spiral'
-        elif type == Segment.SEGMENT_BEZIER:
+        elif segment_type == Segment.SEGMENT_BEZIER:
             return 'bezier'
-        elif type == Segment.SEGMENT_ELLIPTICAL_ARC:
+        elif segment_type == Segment.SEGMENT_ELLIPTICAL_ARC:
             return 'elliptical_arc'
         else:
             assert False
@@ -45,7 +52,7 @@ class Segment:
         self.minor_major_ratio = kwargs.get('minor_major_ratio', None)
         self.rotation = kwargs.get('rotation', None)
 
-    def to_dict(self):  # pylint: disable=method-hidden
+    def to_dict(self):  # pylint: disable=method-hidden,missing-function-docstring
         res = {
             'type': Segment.segment_type_to_string(self.segment_type),
         }
@@ -137,11 +144,14 @@ class Geometry(Object):
         self.segments = []
 
     def read_curve_points(self, stream: Stream):
+        """
+        Reads geometry curve points
+        """
         count = stream.read_int('curve point count')
         curve_points = []
 
         for i in range(count):
-            stream.read_int('associated index?')  # , expected=i)
+            stream.read_int('associated index {}'.format(i + 1))  # , expected=i)
             segment_type = stream.read_int('segment type')
 
             if segment_type == Segment.SEGMENT_ELLIPTICAL_ARC:

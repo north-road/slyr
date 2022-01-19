@@ -10,6 +10,9 @@ from ..stream import Stream
 
 
 class TimeZone(Object):
+    """
+    Represents a time zone
+    """
 
     @staticmethod
     def cls_id():
@@ -42,7 +45,7 @@ class TimeZone(Object):
         stream.read_ushort('unknown', expected=65476)
         stream.read_ushort('unknown', expected=65535)
         rule_count = stream.read_ushort('rule count')
-        for i in range(rule_count):
+        for _ in range(rule_count):
             stream.read_uint('year')
             stream.read(172)
 
