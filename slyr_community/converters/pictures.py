@@ -1,16 +1,36 @@
 #!/usr/bin/env python
 
+# /***************************************************************************
+# crs.py
+# ----------
+# Date                 : March 2020
+# copyright            : (C) 2020 by Nyall Dawson
+# email                : nyall.dawson@gmail.com
+#
+#  ***************************************************************************/
+#
+# /***************************************************************************
+#  *                                                                         *
+#  *   This program is free software; you can redistribute it and/or modify  *
+#  *   it under the terms of the GNU General Public License as published by  *
+#  *   the Free Software Foundation; either version 2 of the License, or     *
+#  *   (at your option) any later version.                                   *
+#  *                                                                         *
+#  ***************************************************************************/
+
 """
 Picture handling utilities
 """
 
 import base64
 import struct
+
 from PyQt5.QtCore import QBuffer
 from PyQt5.QtGui import QImage, QColor, qRgba, QPainter, qRed, qGreen, qBlue
-from slyr_community.parser.exceptions import UnreadablePictureException
-from slyr_community.converters.color import ColorConverter
-from slyr_community.parser.objects.picture import StdPicture
+
+from .color import ColorConverter
+from ..parser.exceptions import UnreadablePictureException
+from ..parser.objects.picture import StdPicture
 
 
 class PictureUtils:
@@ -91,8 +111,20 @@ class PictureUtils:
         if issubclass(picture.__class__, StdPicture):
             picture = picture.picture
 
+        if color is None or color.is_null:
+            fg_color = QColor()
+        else:
+            fg_color = ColorConverter.color_to_qcolor(color)
+
+        return PictureUtils.colorize_picture_data(picture.content, fg_color)
+
+    @staticmethod
+    def colorize_picture_data(data, color: QColor, fix_alpha=True):
+        """
+        Colorizes picture data
+        """
         image = QImage()
-        image.loadFromData(picture.content)
+        image.loadFromData(data)
         if image.isNull():
             raise UnreadablePictureException('Could not read embedded picture data')
 
@@ -101,31 +133,28 @@ class PictureUtils:
         ucharptr.setsize(image.byteCount() * image.height())
 
         # assume top left pixel is transparent?
-        c = image.pixelColor(0, 0)
-        trans_rgba = qRgba(c.red(), c.green(), c.blue(), c.alpha())
-        actual_trans_rgba = qRgba(c.red(), c.green(), c.blue(), 0)
+        if fix_alpha:
+            c = image.pixelColor(0, 0)
+            trans_rgba = qRgba(c.red(), c.green(), c.blue(), c.alpha())
+            actual_trans_rgba = qRgba(c.red(), c.green(), c.blue(), 0)
 
-        for y in range(image.height()):
-            start = y * image.width() * 4
-            for x in range(image.width()):
-                x_start = x * 4 + start
-                rgba = struct.unpack('I', ucharptr[x_start:x_start + 4])[0]
+            for y in range(image.height()):
+                start = y * image.width() * 4
+                for x in range(image.width()):
+                    x_start = x * 4 + start
+                    rgba = struct.unpack('I', ucharptr[x_start:x_start + 4])[0]
 
-                if rgba == trans_rgba:
-                    ucharptr[x_start:x_start + 4] = struct.pack('I', actual_trans_rgba)
+                    if rgba == trans_rgba:
+                        ucharptr[x_start:x_start + 4] = struct.pack('I', actual_trans_rgba)
 
-        if color is None or color.is_null:
-            return image
-
-        fg_color = ColorConverter.color_to_qcolor(color)
-        if not fg_color.isValid():
+        if not color.isValid():
             return image
 
         alpha = QImage(image)
         image.detach()
         p = QPainter(image)
         p.setCompositionMode(QPainter.CompositionMode_SourceIn)
-        p.setBrush(fg_color)
+        p.setBrush(color)
         p.drawRect(image.rect())
         p.setCompositionMode(QPainter.CompositionMode_Multiply)
         p.drawImage(0, 0, alpha)
@@ -162,7 +191,7 @@ class PictureUtils:
                 rgba = struct.unpack('I', ucharptr[x_start:x_start + 4])[0]
                 if trans and abs(qRed(rgba) - trans.red()) < COLOR_TOLERANCE and abs(
                         qGreen(rgba) - trans.green()) < COLOR_TOLERANCE and abs(
-                            qBlue(rgba) - trans.blue()) < COLOR_TOLERANCE:
+                    qBlue(rgba) - trans.blue()) < COLOR_TOLERANCE:
                     ucharptr[x_start:x_start + 4] = struct.pack('I', qRgba(0, 0, 0, 0))
                 elif fg_rgba is not None and abs(qRed(rgba) - fg_comp) < COLOR_TOLERANCE and abs(
                         qGreen(rgba) - fg_comp) < COLOR_TOLERANCE and abs(qBlue(rgba) - fg_comp) < COLOR_TOLERANCE:
