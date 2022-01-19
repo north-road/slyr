@@ -5,8 +5,8 @@ Serializable object subclass
 COMPLETE INTERPRETATION
 """
 
-from slyr.parser.object import Object
-from slyr.parser.stream import Stream
+from ..object import Object
+from ..stream import Stream
 
 
 class AnnotateMapProperties(Object):
