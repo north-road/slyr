@@ -4,7 +4,7 @@
 # provider.py
 # ----------
 # Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, SMEC
+# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
 # email                : nyall.dawson@gmail.com
 #
 #  ***************************************************************************/
@@ -23,22 +23,33 @@
 SLYR QGIS Processing provider
 """
 
-from qgis.core import QgsProcessingProvider
-from slyr_community.qgis_plugin.algorithms import (
+from qgis.core import QgsProcessingProvider, Qgis
+
+from .algorithms import (
     StyleToQgisXml,
     StyleToGpl,
+    StylxToGpl,
+    GplToStylx,
+    StylxToQgisXml,
+    XmlToStylx,
     LyrToQlr,
     StyleFromLyr,
     LyrToQml,
     LyrToStyleXml,
     ConvertMxdToQgs,
+    ConvertMxdAndData,
     AddLayersFromMxd,
     ConvertPmfToQgs,
     ConvertSxdToQgs,
     ExportStructureToJson,
-    AvlToQml
+    AvlToQml,
+    ConvertAnnotations,
+    ConvertAnnotationClassToGeopackage,
+    ConvertProjectData,
+    ExtractHyperlinksToTables,
+    ExtractSDEConnectionDetails
 )
-from slyr_community.qgis_plugin.gui_utils import GuiUtils
+from .gui_utils import GuiUtils
 
 
 class SlyrProvider(QgsProcessingProvider):
@@ -50,9 +61,17 @@ class SlyrProvider(QgsProcessingProvider):
         QgsProcessingProvider.__init__(self)
 
     def loadAlgorithms(self):  # pylint: disable=missing-docstring
-        for alg in [StyleToQgisXml, StyleToGpl, LyrToQlr, StyleFromLyr, LyrToQml, LyrToStyleXml, ConvertMxdToQgs,
-                    AddLayersFromMxd, ConvertPmfToQgs, ConvertSxdToQgs, ExportStructureToJson, AvlToQml]:
+        for alg in [StyleToQgisXml, StyleToGpl, StylxToGpl, GplToStylx,
+                    StylxToQgisXml, XmlToStylx,
+                    LyrToQlr, StyleFromLyr, LyrToQml, LyrToStyleXml, ConvertMxdToQgs,
+                    AddLayersFromMxd, ConvertPmfToQgs, ConvertSxdToQgs, ExportStructureToJson, AvlToQml,
+                    ExtractHyperlinksToTables, ExtractSDEConnectionDetails]:
             self.addAlgorithm(alg())
+
+        self.addAlgorithm(ConvertMxdAndData())
+        self.addAlgorithm(ConvertProjectData())
+        self.addAlgorithm(ConvertAnnotations())
+        self.addAlgorithm(ConvertAnnotationClassToGeopackage())
 
     def id(self):  # pylint: disable=missing-docstring
         return 'slyr'
@@ -68,4 +87,4 @@ class SlyrProvider(QgsProcessingProvider):
 
     def versionInfo(self):
         # pylint: disable=missing-docstring
-        return '3.2.1'
+        return '4.0.0'
