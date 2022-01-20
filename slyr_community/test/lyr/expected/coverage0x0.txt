@@ -1,0 +1,1076 @@
+{
+  "root": {
+    "name": "rd_lin arc",
+    "description": "",
+    "datasource_type": "Arc Feature Class",
+    "dataset_name": {
+      "name": "arc",
+      "dataset_name": {
+        "name": "rd_lin",
+        "dataset_name": {
+          "name": "e:\\cbnrm  li gis data\\cambodia data\\national main road",
+          "browse_name": "ARC/INFO Data",
+          "connection_properties": {
+            "DATABASE": "E:\\CBNRM  LI GIS Data\\Cambodia Data\\National Main road",
+            "type": "PropertySet",
+            "version": 1,
+            "ref_id": 4
+          },
+          "path_name": "",
+          "workspace_type": "ESRI_FILESYSTEM_WORKSPACE",
+          "workspace_factory": {
+            "type": "ArcInfoWorkspaceFactory",
+            "version": 1
+          },
+          "name_string": "ARCINFO: Workspace = \\\\ADMIN-PC\\E$\\cbnrm  li gis data\\cambodia data\\national main road;",
+          "type": "WorkspaceName",
+          "version": 1,
+          "ref_id": 3
+        },
+        "type": "CoverageName",
+        "version": 1,
+        "ref_id": 2
+      },
+      "datasource_type": "Arc Feature Class",
+      "feature_type": "FT_SIMPLE",
+      "shape_field_name": "Shape",
+      "shape_type": "polyline",
+      "class_type": "CFCT_ARC",
+      "topology": "FCT_PRELIMINARY",
+      "dataset_name_string": "ARCINFO: Workspace = \\\\ADMIN-PC\\E$\\cbnrm  li gis data\\cambodia data\\national main road\\; Coverage = rd_lin; FeatureClass = arc;",
+      "type": "CoverageFeatureClassName",
+      "version": 1,
+      "ref_id": 1
+    },
+    "renderer": {
+      "rotation_attribute": "",
+      "rotation_type": "geographic",
+      "rotate_flag_3d": "none",
+      "rotation_expression_x": "",
+      "rotation_expression_y": "",
+      "rotation_expression_z": "",
+      "transparency_attribute": "",
+      "random_rotation_min_x": 0.0,
+      "random_rotation_max_x": 360,
+      "random_rotation_min_y": 0.0,
+      "random_rotation_max_y": 360,
+      "random_rotation_min_z": 0.0,
+      "random_rotation_max_z": 360,
+      "graduated_expression": "",
+      "graduated_size_type": "",
+      "random_size_min": 0.1,
+      "random_size_max": 100.0,
+      "fields": [
+        "CODE"
+      ],
+      "concatenator": ", ",
+      "symbol": {
+        "color": {
+          "R": 145,
+          "G": 51,
+          "B": 0,
+          "dither": false,
+          "is_null": false,
+          "type": "HsvColor",
+          "version": 1,
+          "ref_id": 7
+        },
+        "width": 1.0,
+        "line_type": "solid",
+        "type": "SimpleLineSymbol",
+        "version": 1,
+        "ref_id": 6,
+        "enabled": true,
+        "locked": false,
+        "symbol_level": 0
+      },
+      "groups": [
+        {
+          "heading": "CODE",
+          "visible": true,
+          "editable_or_expanded": true,
+          "classes": [
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 12
+                    },
+                    "width": 6.0,
+                    "offset": 0.0,
+                    "cap": "butt",
+                    "join": "round",
+                    "template": {
+                      "pattern_interval": 1.0,
+                      "pattern_parts": [],
+                      "type": "LineTemplate",
+                      "version": 1,
+                      "ref_id": 13
+                    },
+                    "decoration": null,
+                    "miter_limit": 10.0,
+                    "decoration_on_top": false,
+                    "flip": false,
+                    "line_start_offset": 0.0,
+                    "type": "CartographicLineSymbol",
+                    "version": 1,
+                    "ref_id": 11,
+                    "enabled": true,
+                    "locked": true,
+                    "symbol_level": 0
+                  },
+                  {
+                    "color": {
+                      "R": 255,
+                      "G": 55,
+                      "B": 55,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 15
+                    },
+                    "width": 3.8235294117647056,
+                    "offset": 0.0,
+                    "cap": "butt",
+                    "join": "round",
+                    "template": {
+                      "pattern_interval": 1.0,
+                      "pattern_parts": [],
+                      "type": "LineTemplate",
+                      "version": 1,
+                      "ref_id": 16
+                    },
+                    "decoration": null,
+                    "miter_limit": 10.0,
+                    "decoration_on_top": false,
+                    "flip": false,
+                    "line_start_offset": 0.0,
+                    "type": "CartographicLineSymbol",
+                    "version": 1,
+                    "ref_id": 14,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerLineSymbol",
+                "version": 1,
+                "ref_id": 10
+              },
+              "format": null,
+              "label": "Sealed Road",
+              "description": "<_ITA><FNT name = 'Limon S1' size = '42'>p\u00f8\u00dav cak;ekAsU\u2018</FNT></_ITA>",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 9
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color": {
+                      "R": 250,
+                      "G": 52,
+                      "B": 17,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 20
+                    },
+                    "width": 3.4,
+                    "offset": 0.0,
+                    "cap": "butt",
+                    "join": "round",
+                    "template": null,
+                    "decoration": null,
+                    "miter_limit": 10.0,
+                    "decoration_on_top": false,
+                    "flip": false,
+                    "line_start_offset": 0.0,
+                    "type": "CartographicLineSymbol",
+                    "version": 1,
+                    "ref_id": 19,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerLineSymbol",
+                "version": 1,
+                "ref_id": 18
+              },
+              "format": null,
+              "label": "Laterite Road",
+              "description": "<_ITA><FNT name = 'Limon S1' size = '42'>p\u00f8\u00dav RKYsRkhm b\u00a4 Rkalf\u00b5</FNT></_ITA>",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 17
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color": {
+                      "R": 250,
+                      "G": 52,
+                      "B": 17,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 24
+                    },
+                    "width": 2.0,
+                    "offset": 0.0,
+                    "cap": "butt",
+                    "join": "round",
+                    "template": null,
+                    "decoration": null,
+                    "miter_limit": 10.0,
+                    "decoration_on_top": false,
+                    "flip": false,
+                    "line_start_offset": 0.0,
+                    "type": "CartographicLineSymbol",
+                    "version": 1,
+                    "ref_id": 23,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerLineSymbol",
+                "version": 1,
+                "ref_id": 22
+              },
+              "format": null,
+              "label": "Unsealed Road",
+              "description": "<_ITA><FNT name = 'Limon S1' size = '42'>p\u00f8\u00davdIs b\u00a4 p\u00f8\u00davlM </FNT></_ITA>",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 21
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color": {
+                      "R": 255,
+                      "G": 0,
+                      "B": 0,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 28
+                    },
+                    "width": 2.0,
+                    "offset": 0.0,
+                    "cap": "butt",
+                    "join": "round",
+                    "template": {
+                      "pattern_interval": 1.0,
+                      "pattern_parts": [
+                        [
+                          4.0,
+                          4.0
+                        ]
+                      ],
+                      "type": "LineTemplate",
+                      "version": 1,
+                      "ref_id": 29
+                    },
+                    "decoration": null,
+                    "miter_limit": 10.0,
+                    "decoration_on_top": false,
+                    "flip": false,
+                    "line_start_offset": 0.0,
+                    "type": "CartographicLineSymbol",
+                    "version": 1,
+                    "ref_id": 27,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerLineSymbol",
+                "version": 1,
+                "ref_id": 26
+              },
+              "format": null,
+              "label": "Track",
+              "description": "<_ITA><FNT name = 'Limon S1' size = '42'>p\u00f8\u00davreTH b\u00a4 p\u00f8\u00davedIr</FNT></_ITA>",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 25
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 33
+                    },
+                    "width": 1.5,
+                    "offset": 0.0,
+                    "cap": "butt",
+                    "join": "round",
+                    "template": null,
+                    "decoration": null,
+                    "miter_limit": 10.0,
+                    "decoration_on_top": false,
+                    "flip": false,
+                    "line_start_offset": 0.0,
+                    "type": "CartographicLineSymbol",
+                    "version": 1,
+                    "ref_id": 32,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerLineSymbol",
+                "version": 1,
+                "ref_id": 31
+              },
+              "format": null,
+              "label": "Street",
+              "description": "<_ITA><FNT name = 'Limon S1' size = '42'>p\u00f8\u00davk\u00f1\u00fagext\u00fe</FNT></_ITA>",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 30
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color": {
+                      "R": 0,
+                      "G": 77,
+                      "B": 168,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 37
+                    },
+                    "width": 1.0,
+                    "offset": 0.0,
+                    "cap": "butt",
+                    "join": "round",
+                    "template": {
+                      "pattern_interval": 1.0,
+                      "pattern_parts": [
+                        [
+                          6.0,
+                          9.0
+                        ],
+                        [
+                          5.0,
+                          0.0
+                        ]
+                      ],
+                      "type": "LineTemplate",
+                      "version": 1,
+                      "ref_id": 38
+                    },
+                    "decoration": null,
+                    "miter_limit": 10.0,
+                    "decoration_on_top": false,
+                    "flip": false,
+                    "line_start_offset": 0.0,
+                    "type": "CartographicLineSymbol",
+                    "version": 1,
+                    "ref_id": 36,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  },
+                  {
+                    "color": null,
+                    "offset": 0.0,
+                    "join": "miter",
+                    "template": {
+                      "pattern_interval": 1.0,
+                      "pattern_parts": [
+                        [
+                          0.0,
+                          10.0
+                        ],
+                        [
+                          1.0,
+                          9.0
+                        ]
+                      ],
+                      "type": "LineTemplate",
+                      "version": 1,
+                      "ref_id": 49
+                    },
+                    "pattern_marker": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 0,
+                            "G": 77,
+                            "B": 168,
+                            "dither": false,
+                            "is_null": false,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 47
+                          },
+                          "unicode": 92,
+                          "font": "ESRI US MUTCD 3",
+                          "std_font": {
+                            "font_name": "ESRI US MUTCD 3",
+                            "charset": 0,
+                            "weight": 400,
+                            "size": 9.75,
+                            "italic": false,
+                            "strikethrough": false,
+                            "underline": false,
+                            "type": "Font",
+                            "version": 1,
+                            "ref_id": 48
+                          },
+                          "size": 10.0,
+                          "angle": 135.0,
+                          "x_offset": 0.0,
+                          "y_offset": 0.0,
+                          "x_scale": 1.0,
+                          "y_scale": 1.0,
+                          "rotate_with_transform": true,
+                          "type": "CharacterMarkerSymbol",
+                          "version": 2,
+                          "ref_id": 46,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "halo": false,
+                      "halo_size": 2.0,
+                      "halo_symbol": {
+                        "color": {
+                          "R": 255,
+                          "G": 255,
+                          "B": 255,
+                          "dither": true,
+                          "is_null": false,
+                          "type": "RgbColor",
+                          "version": 1,
+                          "ref_id": 45
+                        },
+                        "outline": {
+                          "color": {
+                            "R": 110,
+                            "G": 110,
+                            "B": 110,
+                            "dither": true,
+                            "is_null": false,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 44
+                          },
+                          "width": 0.0,
+                          "line_type": "solid",
+                          "type": "SimpleLineSymbol",
+                          "version": 1,
+                          "ref_id": 43,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        },
+                        "fill_style": "solid",
+                        "type": "SimpleFillSymbol",
+                        "version": 1,
+                        "ref_id": 42,
+                        "enabled": true,
+                        "locked": false,
+                        "symbol_level": 0
+                      },
+                      "type": "MultiLayerMarkerSymbol",
+                      "version": 2,
+                      "ref_id": 40
+                    },
+                    "decoration": null,
+                    "line_start_offset": 0.0,
+                    "decoration_on_top": false,
+                    "miter_limit": 10.0,
+                    "flip": false,
+                    "type": "MarkerLineSymbol",
+                    "version": 2,
+                    "ref_id": 39,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerLineSymbol",
+                "version": 1,
+                "ref_id": 35
+              },
+              "format": null,
+              "label": "Ferry",
+              "description": "<_ITA><FNT name = 'Limon S1' size = '42'>p\u00f8\u00davreTH b\u00a4 p\u00f8\u00davedIr</FNT></_ITA>",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 34
+            }
+          ],
+          "type": "LegendGroup",
+          "version": 2,
+          "ref_id": 8
+        }
+      ],
+      "values": [
+        [
+          "1",
+          "2"
+        ],
+        [
+          "3",
+          "4"
+        ],
+        "5",
+        [
+          "6",
+          "7"
+        ],
+        "8",
+        "60"
+      ],
+      "include_all_other": false,
+      "all_other_value": "<all other values>",
+      "reversed": false,
+      "ramp": null,
+      "ramp_name": "Pastels",
+      "style_path": "",
+      "flip_symbols": false,
+      "type": "UniqueValueRenderer",
+      "version": 2,
+      "ref_id": 5
+    },
+    "field_format": {
+      "FID": {
+        "alias": "FID",
+        "number_format": null,
+        "visible": true,
+        "highlight": true,
+        "read_only": true,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 3,
+        "ref_id": 50
+      },
+      "Shape": {
+        "alias": "Shape",
+        "number_format": null,
+        "visible": true,
+        "highlight": true,
+        "read_only": true,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 3,
+        "ref_id": 51
+      },
+      "FNODE#": {
+        "alias": "FNODE#",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 53
+        },
+        "visible": true,
+        "highlight": true,
+        "read_only": true,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 3,
+        "ref_id": 52
+      },
+      "TNODE#": {
+        "alias": "TNODE#",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 55
+        },
+        "visible": true,
+        "highlight": true,
+        "read_only": true,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 3,
+        "ref_id": 54
+      },
+      "LPOLY#": {
+        "alias": "LPOLY#",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 57
+        },
+        "visible": true,
+        "highlight": true,
+        "read_only": true,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 3,
+        "ref_id": 56
+      },
+      "RPOLY#": {
+        "alias": "RPOLY#",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 59
+        },
+        "visible": true,
+        "highlight": true,
+        "read_only": true,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 3,
+        "ref_id": 58
+      },
+      "LENGTH": {
+        "alias": "LENGTH",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 6,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 61
+        },
+        "visible": true,
+        "highlight": true,
+        "read_only": true,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 3,
+        "ref_id": 60
+      },
+      "RD_LIN#": {
+        "alias": "RD_LIN#",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 63
+        },
+        "visible": true,
+        "highlight": true,
+        "read_only": true,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 3,
+        "ref_id": 62
+      },
+      "RD_LIN-ID": {
+        "alias": "RD_LIN-ID",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 65
+        },
+        "visible": true,
+        "highlight": true,
+        "read_only": true,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 3,
+        "ref_id": 64
+      },
+      "CODE": {
+        "alias": "CODE",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 67
+        },
+        "visible": true,
+        "highlight": true,
+        "read_only": true,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 3,
+        "ref_id": 66
+      }
+    },
+    "visible": true,
+    "zoom_min": 0.0,
+    "zoom_max": 0.0,
+    "stored_zoom_min": 0.0,
+    "stored_zoom_max": 0.0,
+    "definition_query": "",
+    "definition_query_search_order": "spatial_first",
+    "labels_enabled": false,
+    "annotation_collection": {
+      "properties": [
+        {
+          "label_features": true,
+          "class_name": "Default",
+          "class_filter": "",
+          "expression": "[FNODE#]",
+          "advanced_expression": false,
+          "scale_range_min": 0.0,
+          "scale_range_max": 0.0,
+          "text_symbol": {
+            "color": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "dither": false,
+              "is_null": false,
+              "type": "RgbColor",
+              "version": 1,
+              "ref_id": 71
+            },
+            "raster_op": 13,
+            "symbol_level": 0,
+            "character_spacing": 0.0,
+            "character_width": 100.0,
+            "word_spacing": 100.0,
+            "flip_angle": 90.0,
+            "leading": 0.0,
+            "right_to_left": false,
+            "cjk_orientation": false,
+            "kerning": true,
+            "case": "normal",
+            "x_offset": 0.0,
+            "y_offset": 0.0,
+            "position": "normal",
+            "shadow_x_offset": 0.0,
+            "shadow_y_offset": 0.0,
+            "shadow_color": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "dither": false,
+              "is_null": false,
+              "type": "RgbColor",
+              "version": 1,
+              "ref_id": 72
+            },
+            "angle": 0.0,
+            "font_size": 8.0,
+            "font": {
+              "font_name": "Arial",
+              "charset": 0,
+              "weight": 400,
+              "size": 8.0,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "type": "Font",
+              "version": 1,
+              "ref_id": 73
+            },
+            "halo_enabled": false,
+            "halo_size": 2.0,
+            "halo_symbol": null,
+            "background_symbol": null,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "bottom",
+            "text_fill_symbol": null,
+            "text_direction": 0,
+            "type_setting": true,
+            "break_character": null,
+            "clip": false,
+            "rotate_with_transform": true,
+            "type": "TextSymbol",
+            "version": 4,
+            "ref_id": 70
+          },
+          "overposter": {
+            "line_label_position": {
+              "above": true,
+              "below": false,
+              "online": false,
+              "follow_line_orientation": false,
+              "curved": false,
+              "parallel": true,
+              "perpendicular": false,
+              "horizontal": false,
+              "at_start": false,
+              "at_end": false,
+              "before_after_distance": 0.0,
+              "best_position_along_line": true,
+              "right_of_line": false,
+              "type": "LineLabelPosition",
+              "version": 2,
+              "ref_id": 75
+            },
+            "line_label_priorities": {
+              "above_before": 3,
+              "above_at": 3,
+              "above_after": 3,
+              "on_line_before": 3,
+              "on_line_at": 3,
+              "on_line_after": 3,
+              "below_before": 3,
+              "below_at": 3,
+              "below_after": 3,
+              "type": "LineLabelPlacementPriorities",
+              "version": 1,
+              "ref_id": 76
+            },
+            "point_placement_method": "around",
+            "point_placement_priorities": {
+              "top_left": 2,
+              "top_center": 2,
+              "top_right": 1,
+              "center_right": 2,
+              "bottom_right": 2,
+              "bottom_center": 3,
+              "bottom_left": 3,
+              "center_left": 3,
+              "type": "PointPlacementPriorities",
+              "version": 1,
+              "ref_id": 77
+            },
+            "point_label_angle_field": "",
+            "point_label_angle_perpendicular": false,
+            "point_place_over_feature": false,
+            "specified_point_angles": [],
+            "polygon_placement_method": "always_horizontal",
+            "polygon_only_inside": false,
+            "margin_size": 0.0,
+            "offset": 0.0,
+            "number_restriction": "one_per_name",
+            "feature_weight": "none",
+            "label_weight": "high",
+            "place_overlapping": false,
+            "geometry_type": 1,
+            "generate_unplaced": true,
+            "max_distance_from_feature": 0.0,
+            "point_label_angle_type": 1,
+            "is_barrier": false,
+            "place_labels": false,
+            "place_symbols": false,
+            "type": "BasicOverposterLayerProperties",
+            "version": 6,
+            "ref_id": 74
+          },
+          "expression_parser": null,
+          "offset": 0.0,
+          "label_which_features": 1,
+          "symbol_id": 65535,
+          "layer_full_extent": null,
+          "scale_ratio": 0.0,
+          "reference_scale": 0.0,
+          "units_world_coordinates": "unknown",
+          "priority": 4294967295,
+          "create_unplaced_elements": true,
+          "feature_linked": false,
+          "use_output": 65535,
+          "annotation_class_id": 0,
+          "add_unplaced_to_graphics_container": true,
+          "type": "LabelEngineLayerProperties",
+          "version": 7,
+          "ref_id": 69
+        }
+      ],
+      "type": "AnnotateLayerPropertiesCollection",
+      "version": 2,
+      "ref_id": 68
+    },
+    "display_filter": null,
+    "transparency": 0,
+    "brightness": 0,
+    "hyperlink_type": "document",
+    "hyperlink_field": "",
+    "hyperlink_macro_name": "",
+    "scale_symbols": true,
+    "selection_color": null,
+    "show_selection_using_symbol": false,
+    "cached": false,
+    "show_map_tips": false,
+    "selected_feature_symbol": {
+      "color": {
+        "R": 0,
+        "G": 255,
+        "B": 255,
+        "dither": true,
+        "is_null": false,
+        "type": "RgbColor",
+        "version": 1,
+        "ref_id": 80
+      },
+      "width": 2.0,
+      "line_type": "solid",
+      "type": "SimpleLineSymbol",
+      "version": 1,
+      "ref_id": 79,
+      "enabled": true,
+      "locked": false,
+      "symbol_level": 0
+    },
+    "layer_extent": {
+      "x_min": 210850.859375,
+      "x_max": 782364.975375119,
+      "y_min": 1145317.507026695,
+      "y_max": 1595842.0,
+      "crs": {
+        "wkt": "PROJCS[\"Indian_1960_UTM_Zone_48N\",GEOGCS[\"GCS_Indian_1960\",DATUM[\"D_Indian_1960\",SPHEROID[\"Everest_Adjustment_1937\",6377276.345,300.8017]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",105.0],PARAMETER[\"Scale_Factor\",0.9996],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0],AUTHORITY[\"EPSG\",3148]]",
+        "x_origin": -5120100.0,
+        "y_origin": -9996900.0,
+        "m_origin": NaN,
+        "z_origin": NaN,
+        "xy_scale": 450499617.61851126,
+        "m_scale": NaN,
+        "z_scale": NaN,
+        "xy_tolerance": 0.005,
+        "z_tolerance": NaN,
+        "m_tolerance": NaN,
+        "is_high_precision": true,
+        "type": "ProjectedCoordinateSystem",
+        "version": 6,
+        "ref_id": 82
+      },
+      "type": "Envelope",
+      "version": 3,
+      "ref_id": 81
+    },
+    "features_excluded_from_rendering": {
+      "features": [],
+      "type": "FeatureIDSet",
+      "version": 1,
+      "ref_id": 78
+    },
+    "uid": {
+      "value": "01004145-0d1c-11d2-a26f-080009b6f22b",
+      "sub_type": 0,
+      "type": "UID",
+      "version": 1,
+      "ref_id": 83
+    },
+    "display_expression_properties": null,
+    "map_tip_hide_field_name": false,
+    "map_tip_show_coded": true,
+    "map_tip_field_name": "",
+    "map_tip_url_prefix": "",
+    "map_tip_url_suffix": "",
+    "map_tip_xsl": "",
+    "html_popup_enabled": false,
+    "html_popup_style": "two_column_table",
+    "html_popup_download_attachment": false,
+    "use_advanced_symbol_levels": false,
+    "time_enabled": false,
+    "time_zone": null,
+    "time_step": 0,
+    "time_step_units": "unknown",
+    "time_offset": 0,
+    "time_offset_units": "unknown",
+    "time_data_changes_regularly": false,
+    "time_format": "",
+    "time_display_cumulative": false,
+    "time_field": "",
+    "time_end_field": "",
+    "time_extent": null,
+    "time_dimension_name": "",
+    "time_dimension_format": "",
+    "track_id_field_name": "",
+    "extensions": [],
+    "join_type": "left_outer",
+    "join": null,
+    "relations": [],
+    "hyperlinks": [],
+    "selection_set": [],
+    "hyperlink_expression_properties": null,
+    "selectable": true,
+    "weight": 99.0,
+    "shape_type": "polyline",
+    "use_page_definition_query": false,
+    "page_name_field": "",
+    "page_name_match_operator": "",
+    "display_field": "FNODE#",
+    "area_of_interest": null,
+    "type": "FeatureLayer",
+    "version": 25,
+    "ref_id": 0
+  }
+}

@@ -1,0 +1,2513 @@
+{
+  "root": {
+    "name": "vtfor",
+    "description": "",
+    "datasource_type": "Shapefile Feature Class",
+    "dataset_name": {
+      "name": "vtfor",
+      "dataset_name": {
+        "name": "E:\\shapefile_data2000\\SHP2000",
+        "browse_name": "Shapefile Data",
+        "connection_properties": {
+          "DATABASE": "E:\\shapefile_data2000\\SHP2000",
+          "type": "PropertySet",
+          "version": 1,
+          "ref_id": 3
+        },
+        "path_name": "",
+        "workspace_type": "ESRI_FILESYSTEM_WORKSPACE",
+        "workspace_factory": {
+          "type": "ShapefileWorkspaceFactory",
+          "version": 1
+        },
+        "name_string": "ARCINFO: Workspace = \\\\WIN2006\\E$\\shapefile_data2000\\SHP2000;",
+        "type": "WorkspaceName",
+        "version": 1,
+        "ref_id": 2
+      },
+      "datasource_type": "Shapefile Feature Class",
+      "feature_type": "FT_SIMPLE",
+      "shape_field_name": "Shape",
+      "shape_type": "polygon",
+      "type": "FeatureClassName",
+      "version": 2,
+      "ref_id": 1
+    },
+    "renderer": {
+      "rotation_attribute": "",
+      "rotation_type": "geographic",
+      "rotate_flag_3d": "none",
+      "rotation_expression_x": "",
+      "rotation_expression_y": "",
+      "rotation_expression_z": "",
+      "transparency_attribute": "",
+      "random_rotation_min_x": 0.0,
+      "random_rotation_max_x": 360,
+      "random_rotation_min_y": 0.0,
+      "random_rotation_max_y": 360,
+      "random_rotation_min_z": 0.0,
+      "random_rotation_max_z": 360,
+      "graduated_expression": "",
+      "graduated_size_type": "",
+      "random_size_min": 0.1,
+      "random_size_max": 100.0,
+      "fields": [
+        "TYPE"
+      ],
+      "concatenator": ", ",
+      "symbol": {
+        "color": {
+          "R": 203,
+          "G": 239,
+          "B": 242,
+          "dither": false,
+          "is_null": false,
+          "type": "HsvColor",
+          "version": 1,
+          "ref_id": 8
+        },
+        "outline": {
+          "color": {
+            "R": 110,
+            "G": 110,
+            "B": 110,
+            "dither": true,
+            "is_null": false,
+            "type": "RgbColor",
+            "version": 1,
+            "ref_id": 7
+          },
+          "width": 0.4,
+          "line_type": "solid",
+          "type": "SimpleLineSymbol",
+          "version": 1,
+          "ref_id": 6,
+          "enabled": true,
+          "locked": false,
+          "symbol_level": 0
+        },
+        "fill_style": "solid",
+        "type": "SimpleFillSymbol",
+        "version": 1,
+        "ref_id": 5,
+        "enabled": true,
+        "locked": false,
+        "symbol_level": 0
+      },
+      "groups": [
+        {
+          "heading": "TYPE",
+          "visible": true,
+          "editable_or_expanded": true,
+          "classes": [
+            {
+              "symbol": {
+                "color": {
+                  "R": 56,
+                  "G": 168,
+                  "B": 0,
+                  "dither": false,
+                  "is_null": false,
+                  "type": "RgbColor",
+                  "version": 1,
+                  "ref_id": 14
+                },
+                "outline": {
+                  "color": {
+                    "R": 212,
+                    "G": 208,
+                    "B": 200,
+                    "dither": true,
+                    "is_null": true,
+                    "type": "RgbColor",
+                    "version": 1,
+                    "ref_id": 13
+                  },
+                  "width": 0.4,
+                  "line_type": "solid",
+                  "type": "SimpleLineSymbol",
+                  "version": 1,
+                  "ref_id": 12,
+                  "enabled": true,
+                  "locked": false,
+                  "symbol_level": 0
+                },
+                "fill_style": "solid",
+                "type": "SimpleFillSymbol",
+                "version": 1,
+                "ref_id": 11,
+                "enabled": true,
+                "locked": false,
+                "symbol_level": 0
+              },
+              "format": null,
+              "label": "11",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 10
+            },
+            {
+              "symbol": {
+                "color": {
+                  "R": 76,
+                  "G": 230,
+                  "B": 0,
+                  "dither": false,
+                  "is_null": false,
+                  "type": "RgbColor",
+                  "version": 1,
+                  "ref_id": 19
+                },
+                "outline": {
+                  "color": {
+                    "R": 212,
+                    "G": 208,
+                    "B": 200,
+                    "dither": true,
+                    "is_null": true,
+                    "type": "RgbColor",
+                    "version": 1,
+                    "ref_id": 18
+                  },
+                  "width": 0.4,
+                  "line_type": "solid",
+                  "type": "SimpleLineSymbol",
+                  "version": 1,
+                  "ref_id": 17,
+                  "enabled": true,
+                  "locked": false,
+                  "symbol_level": 0
+                },
+                "fill_style": "solid",
+                "type": "SimpleFillSymbol",
+                "version": 1,
+                "ref_id": 16,
+                "enabled": true,
+                "locked": false,
+                "symbol_level": 0
+              },
+              "format": null,
+              "label": "13",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 15
+            },
+            {
+              "symbol": {
+                "color": {
+                  "R": 76,
+                  "G": 230,
+                  "B": 0,
+                  "dither": false,
+                  "is_null": false,
+                  "type": "RgbColor",
+                  "version": 1,
+                  "ref_id": 24
+                },
+                "outline": {
+                  "color": {
+                    "R": 212,
+                    "G": 208,
+                    "B": 200,
+                    "dither": true,
+                    "is_null": true,
+                    "type": "RgbColor",
+                    "version": 1,
+                    "ref_id": 23
+                  },
+                  "width": 0.4,
+                  "line_type": "solid",
+                  "type": "SimpleLineSymbol",
+                  "version": 1,
+                  "ref_id": 22,
+                  "enabled": true,
+                  "locked": false,
+                  "symbol_level": 0
+                },
+                "fill_style": "solid",
+                "type": "SimpleFillSymbol",
+                "version": 1,
+                "ref_id": 21,
+                "enabled": true,
+                "locked": false,
+                "symbol_level": 0
+              },
+              "format": null,
+              "label": "14",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 20
+            },
+            {
+              "symbol": {
+                "color": {
+                  "R": 211,
+                  "G": 255,
+                  "B": 190,
+                  "dither": false,
+                  "is_null": false,
+                  "type": "RgbColor",
+                  "version": 1,
+                  "ref_id": 29
+                },
+                "outline": {
+                  "color": {
+                    "R": 212,
+                    "G": 208,
+                    "B": 200,
+                    "dither": true,
+                    "is_null": true,
+                    "type": "RgbColor",
+                    "version": 1,
+                    "ref_id": 28
+                  },
+                  "width": 0.4,
+                  "line_type": "solid",
+                  "type": "SimpleLineSymbol",
+                  "version": 1,
+                  "ref_id": 27,
+                  "enabled": true,
+                  "locked": false,
+                  "symbol_level": 0
+                },
+                "fill_style": "solid",
+                "type": "SimpleFillSymbol",
+                "version": 1,
+                "ref_id": 26,
+                "enabled": true,
+                "locked": false,
+                "symbol_level": 0
+              },
+              "format": null,
+              "label": "15",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 25
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color_foreground": {
+                      "R": 109,
+                      "G": 187,
+                      "B": 67,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 36
+                    },
+                    "color_foreground_model": "rgb",
+                    "color_background": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 35
+                    },
+                    "color_background_model": "rgb",
+                    "color_transparent": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 37
+                    },
+                    "color_transparent_model": "rgb",
+                    "swap_fg_bg": false,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 40
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "butt",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 39,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 38
+                    },
+                    "picture": {
+                      "picture_type": "BmpPicture",
+                      "content": "UWszK0F3QUFBQUFBQUQ0QUFBQW9BQUFBVUFBQUFGQUFBQUFCQUFFQUFBQUFBTUFEQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQLy8vd0QvM3ZQLzk3elAvM3ZNQUFEei9VZjgvMUgvei9VZkFBQUgvMThCLzlmd0gvMS9BQUFQLy8rRC8vL0lQLy84QUFDZi8vK24vLy82Zi8vL0FBRHdkZVA4SFhqL3dkZVBBQUQ0c2xmK0xKWC80c2xmQUFEKy9FLy92eFAvKy9FL0FBQWYvNzhILysvd2YvNy9BQUF2LytDTC8vZ1l2LytCQUFDKy9QWHZ2ejErKy9QWEFBRDhSZi8vRVgvLzhSZi9BQUQrdy8vL3NQLy8rdy8vQUFEL3AvLy82Zi8vL3AvL0FBRC8vMFAvLzlELy8vMFBBQUM5LzYvdmYrdis5LzYvQUFCQi8vL1FmLy85Qi8vL0FBQ0gvL0hoLy94K0gvL0hBQUQvOTlMLy9mU1AvOTlJQUFELzlEei8vUThQLzlEd0FBRHdPdi84RHIvdndPditBQUQ2Ly8vK3YvLy82Ly8vQUFBSC84L0IvL1BjSC84OUFBQ0wvOURpLy9RK0wvOURBQUR2Lyt2Ny8vci92Lyt2QUFELy8vLy8vLy8vLy8vL0FBRGo1Ly80K2YvL2o1Ly9BQUR3TC8vOEMvLy93TC8vQUFEOFgvNy9GLytQOFgvNEFBRC92ZWIvNzNtUC92ZVlBQURuK28vNS9xUC9uK28vQUFBUC9yOEQvNi93UC9yL0FBQWYvLzRILy8rQWYvLzRBQUEvLy85UC8vL2svLy8rQUFEZzY4ZjRPdkgvZzY4ZkFBRHhaSy84V1N2L3haSy9BQUQ5K0ovL2ZpZi85K0ovQUFBLy8zOFAvOS93Ly8zL0FBQmYvOEFYLy9BeGYvOERBQUI5K2V2ZmZucjk5K2V2QUFENGkvLytJdi92NGkvK0FBRDloLy8vWWYvLzloLytBQUQvVC8vLzAvLy8vVC8rQUFELy9vZi8vNkgvLy9vZkFBQjcvMS9lLzlmOTcvMS9BQUNELy8rZy8vLzZELy8vQUFBUC8rUEQvL2o4UC8rUEFBRC83NlQvKytrUC83NlFBQUQvNkhqLytoNFAvNkhnQUFEZ2RmLzRIWC9mZ2RmOUFBRDEvLy85Zi8vLzEvLy9BQUFQLzU2RC8rZTRQLzU3QUFBWC82SEYvK2g4WC82SEFBRGYvOWYzLy9YL2YvOWZBQUR4OC85OGZQLzN4OC8vQUFENEYvLytCZi8vNEYvL0FBRCtMLy8vaS8vUCtMLzhBQUQvM3ZQLzk3elAvM3ZNQUFEei9VZjgvMUgvei9VZkFBQUgvMThCLzlmd0gvMS9BQUFQLy8rRC8vL0lQLy84QUFDZi8vK24vLy82Zi8vL0FBRHdkZVA4SFhqL3dkZVBBQUQ0c2xmK0xKWC80c2xmQUFEKy9FLy92eFAvKy9FL0FBQWYvNzhILysvd2YvNy9BQUF2LytDTC8vZ1l2LytCQUFDKy9QWHZ2ejErKy9QWEFBRDhSZi8vRVgvLzhSZi9BQUQrdy8vL3NQLy8rdy8vQUFEL3AvLy82Zi8vL3AvL0FBRC8vMFAvLzlELy8vMFBBQUM5LzYvdmYrdis5LzYvQUFCQi8vL1FmLy85Qi8vL0FBQ0gvL0hoLy94K0gvL0hBQUQvOTlMLy9mU1AvOTlJQUFELzlEei8vUThQLzlEd0FBRHdPdi84RHIvdndPditBQUQ2Ly8vK3YvLy82Ly8vQUFDTC85RGkvL1ErTC85REFBQT0=",
+                      "type": "StdPicture",
+                      "version": 1,
+                      "ref_id": 34
+                    },
+                    "angle": 0.0,
+                    "scale_x": 1.0,
+                    "scale_y": 1.0,
+                    "offset_x": 0.0,
+                    "offset_y": 0.0,
+                    "separation_x": 0.0,
+                    "separation_y": 0.0,
+                    "type": "PictureFillSymbol",
+                    "version": 3,
+                    "ref_id": 33,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 31
+              },
+              "format": null,
+              "label": "17",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 30
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color_foreground": {
+                      "R": 227,
+                      "G": 158,
+                      "B": 0,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 47
+                    },
+                    "color_foreground_model": "rgb",
+                    "color_background": {
+                      "R": 189,
+                      "G": 247,
+                      "B": 135,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 46
+                    },
+                    "color_background_model": "rgb",
+                    "color_transparent": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 48
+                    },
+                    "color_transparent_model": "rgb",
+                    "swap_fg_bg": false,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 51
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "butt",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 50,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 49
+                    },
+                    "picture": {
+                      "picture_type": "BmpPicture",
+                      "content": "UWswYUF3QUFBQUFBQUQ0QUFBQW9BQUFBUWdBQUFEMEFBQUFCQUFFQUFBQUFBTndDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQLy8vd0QvLy8vLy8vNy8vNEFBQUFEN2JkNysvLy9mZmNBQUFBRGYvLy8zNjNmMy84QUFBQUQvLy92ZnYvNzkvOEFBQUFEKzIzLysvLy9mZjhBQUFBQjMvL2Q3L3QvLzdzQUFBQUQvLy8vdjkvMzMvOEFBQUFEZHR1My92LysrLzhBQUFBRC8vLy9mLy8vLy9jQUFBQUQzLy92OS90dnY3OEFBQUFDLy85Ly85Ly8vdjhBQUFBRC90djkzdi9kOS8wQUFBQUQ5Ly92Ly8vLy83OEFBQUFEMy85LysrNy8vL2NBQUFBQy8vLzl2My9kdmY4QUFBQUQvdHV2OS8vLzc5OEFBQUFELy8vOS8rNzkvLzBBQUFBRDcvOS8zdi9mOTM4QUFBQURmMi8vLy83OTMvY0FBQUFELy8zM2U5Ly8vLzhBQUFBRC9mLy8vL2YrL3U0QUFBQURiOSs5dnY5djcvOEFBQUFELy8vLzcvLy91LzhBQUFBRC92djMrKy8rLzdzQUFBQUMvLy8vLy8yMzd2OEFBQUFEMjk5dXZ2Ly9mKzhBQUFBRC8vLy83Ly8vOS8wQUFBQURmL3Y3KzkvNy9mOEFBQUFEKy8vZjNmYmYzN2NBQUFBRC85OSsvMy8rOS84QUFBQUIvLy83Lzk5Ly92OEFBQUFEdnZ2ZjNmLzNmLzBBQUFBRC85OSsvN3YvNy84QUFBQUQ5Ly83Ly8vZnZXOEFBQUFCL2Z2ZjIzNzcvLzhBQUFBRC85OS9mKy8vMy8wQUFBQUQzLy83Ly91OTlXOEFBQUFCLzN2LzJ0Ly8vLzhBQUFBRGUvL2ZmLzd2Zi84QUFBQUQvOTc5Ky9mLzdXMEFBQUFEN3ZmLzM3LzcvLzhBQUFBQi8vLy9mLzcvZi84QUFBQURlNyt2N2ZmZjdiY0FBQUFEMy8zOS83Ny8vLzhBQUFBRC90Ly8vLy83dHY0QUFBQUQ3Ly8vZi8vZi8vOEFBQUFCLzNmZjE3Yi8vN2NBQUFBRC9mOTcvLy85M2Y4QUFBQUR0OS8vLy83di8rMEFBQUFELy92L2R2ZS9kMzhBQUFBQi92KzcvLy8vLy84QUFBQURkOS8vdjdiYnZlMEFBQUFELy8vOS9mLy8vLzhBQUFBRC92dmYvLysyLzc4QUFBQUM3OTkzdjl2LzIvc0FBQUFELy8vLy9mLy8vLzhBQUFBRHZmL2Q5LzIyLzM4QUFBQUIvN2IvMysvLzMvY0FBQUFEOS8vM2Z2Ly8vZjhBQUFBRDMyLy83L3JkLzcwQUFBQUMvLzN0LzcvLzMvOEFBQUFBPQ==",
+                      "type": "StdPicture",
+                      "version": 1,
+                      "ref_id": 45
+                    },
+                    "angle": 0.0,
+                    "scale_x": 1.0,
+                    "scale_y": 1.0,
+                    "offset_x": 0.0,
+                    "offset_y": 0.0,
+                    "separation_x": 0.0,
+                    "separation_y": 0.0,
+                    "type": "PictureFillSymbol",
+                    "version": 3,
+                    "ref_id": 44,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 42
+              },
+              "format": null,
+              "label": "18",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 41
+            },
+            {
+              "symbol": {
+                "color": {
+                  "R": 223,
+                  "G": 115,
+                  "B": 255,
+                  "dither": false,
+                  "is_null": false,
+                  "type": "RgbColor",
+                  "version": 1,
+                  "ref_id": 56
+                },
+                "outline": {
+                  "color": {
+                    "R": 212,
+                    "G": 208,
+                    "B": 200,
+                    "dither": true,
+                    "is_null": true,
+                    "type": "RgbColor",
+                    "version": 1,
+                    "ref_id": 55
+                  },
+                  "width": 0.4,
+                  "line_type": "solid",
+                  "type": "SimpleLineSymbol",
+                  "version": 1,
+                  "ref_id": 54,
+                  "enabled": true,
+                  "locked": false,
+                  "symbol_level": 0
+                },
+                "fill_style": "solid",
+                "type": "SimpleFillSymbol",
+                "version": 1,
+                "ref_id": 53,
+                "enabled": true,
+                "locked": false,
+                "symbol_level": 0
+              },
+              "format": null,
+              "label": "21",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 52
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color_foreground": {
+                      "R": 255,
+                      "G": 127,
+                      "B": 127,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 63
+                    },
+                    "color_foreground_model": "rgb",
+                    "color_background": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 62
+                    },
+                    "color_background_model": "rgb",
+                    "color_transparent": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 64
+                    },
+                    "color_transparent_model": "rgb",
+                    "swap_fg_bg": false,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 67
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "butt",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 66,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 65
+                    },
+                    "picture": {
+                      "picture_type": "BmpPicture",
+                      "content": "UWswdUJBQUFBQUFBQUQ0QUFBQW9BQUFBVkFBQUFGUUFBQUFCQUFFQUFBQUFBUEFEQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQLy8vd0QvMVZWOVJSZi8vZDMvOEFBMytxdi8vLy8zMzkvKzRBRC85cTMvLy8vLy85Ly84QUQvN2JiLy8vK3YvLy8vOEFELzNiZC9xbS8vLy8vLzhBQXorN3YvLy8vLy85RXljQUQvLzcvLy8vLzkvLy8vOEFELy83Ly8vLy8vLy8vLzhBRC8vLy8vLy8vLzlGRS84QUQ4Vi9vaXIwVi8vLy8vOEFELy8vLy8vLy8vOSsvLzhBRC8vLy8vK3Fxdi92Ly9vQURVWC83di8xVi8vLy8vOEFELy8vLy9mdFcvLy8yOVVBRC8vLy8vL2JiZityLy84QUQvLy8vLys3YnYvLy8vb0FELzBUSi8vM2QvMUZmLzhBRC8vLy8vLy9mLy8vLy84QUQvLy8veXIvZi8rci9vb0FEMFVULy85Ly8vOXQvLzhBRC8vLy8vLy90Mzl0L3YwQUQzNy8vLy8vLy8vdjk5OEFEKy8vK2l2Ly8vL3YvLzhBRC8vLy8vLy8vLy8vLy84QUQvL2IxVlYvLy8vOUZmOEFENnYvK3F2OXRWLy8vLzBBRC8vLzlxMy8vLy9xcXI4QURVVi83YmIvLy8vOVZmOEFELy8vM2JkLy8vLzdWdjhBRDZ2Lys3di8vNi8yMjNzQUQyMy8vNy8vVi9ydTI3OEFEMjMvLzcvLy8vLzkzZjhBRCsvelAvLzZpdi8vMy84QUQrLy8vLy8vLy8vLzMvMEFELy8vLy8vL1YvL2YvLzhBRC8wVi8vLysyLy8vLy84QUQvLy8vVkUrMi8xRkYvOEFEK3Fxdi8vLzMvLy8vL1FBRC8xVi8vLy8zLy8vLy84QUQvdFcvLy8vLy8vLy82b0FEL2JiZTJxZi8vK3FiLzhBQ3U3YnYvLzFGLy8vLy9vQUQvM2QvLy8vLy8vLy8vOEFELy9mLy8vLy8vLy8vLzhBRC8vZi9WRi8vLy9xWm9vQUQ5Ly8vLy8vOUUvLy8vOEFELy8vLy8vLy8vLy8vdjBBRFVVWC8vLy8vLy84cjk4QUQvLy85RmY5RkUvLy8vOEFELy8vLy8vLy8vLy8vLzhBRC8vL3FxcjkrLy8vLy84QUQ2cHY5VmYvdi8vb3IvOEFELy8vN1Z2Ly8vLy8vLzhBRC8vLzIyMy8vMjlWVmY4QUQvLy91Mjcrci8vcXIvWUFEK3BuOTNmLy8vL2F0LzhBRC8vLy8zLzFGZisyMi84QUQvLy8vMy8vLy85MjNmOEFEOS9tZi8vK3IvL3U3LzRBRDkvLy8vLzl0Ly8rLy84QUQvLy8vLy85dC8vKy8vOEFEL29yLy8vL3Y4ei8vLzhBRC8vLytxSi92Ly8vLytRQUQ5VlZmLy8vLy8vLy8vOEFEL3FyLy8vLzlGZi8vLzhBRC9hdC8vLy8vLy8xUk44QUQrMjI5dFVmcXFyLy8vOEFCZDIzZi8vLzlWZi8vLzhBRC91Ny8vLy83VnYvLy84QUQvKy8vLy8vMjIzdHFpNEFELysvK3FMcnUyNy8vLzhBRDcvLy8vLy85M2YvLy84QUQvLy8vLy8vLzMvLy8vOEFDb292Ly8vLy8zLzFSZjhBRC8vLzZLLy9mLy8vLy84QUQvLy8vLy8vLy8vLy8vOEFELy8vVlZYMUZGLy8vOG9BRDFUZjZxLy8vLy9SWC84QUQvLy8ycmYvLy8vLy8vOEFELy8vdHR2Ly8vNnFxLzhBRC8vL2R0MytxYi9WWC84QUQ5VFA3dS8vLy8rMWIvOEFELy8vL3YvLy8vOXR0LzhBRC8vLy92Ly8vLzd0dS9RQUE9",
+                      "type": "StdPicture",
+                      "version": 1,
+                      "ref_id": 61
+                    },
+                    "angle": 0.0,
+                    "scale_x": 1.0,
+                    "scale_y": 1.0,
+                    "offset_x": 0.0,
+                    "offset_y": 0.0,
+                    "separation_x": 0.0,
+                    "separation_y": 0.0,
+                    "type": "PictureFillSymbol",
+                    "version": 3,
+                    "ref_id": 60,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 58
+              },
+              "format": null,
+              "label": "22",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 57
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 115,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 74
+                    },
+                    "outline": {
+                      "color": {
+                        "R": 212,
+                        "G": 208,
+                        "B": 200,
+                        "dither": true,
+                        "is_null": true,
+                        "type": "RgbColor",
+                        "version": 1,
+                        "ref_id": 73
+                      },
+                      "width": 0.0,
+                      "offset": 0.0,
+                      "cap": "butt",
+                      "join": "miter",
+                      "template": null,
+                      "decoration": null,
+                      "miter_limit": 10.0,
+                      "decoration_on_top": false,
+                      "flip": false,
+                      "line_start_offset": 0.0,
+                      "type": "CartographicLineSymbol",
+                      "version": 1,
+                      "ref_id": 72,
+                      "enabled": true,
+                      "locked": false,
+                      "symbol_level": 0
+                    },
+                    "fill_style": "solid",
+                    "type": "SimpleFillSymbol",
+                    "version": 1,
+                    "ref_id": 71,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 69
+              },
+              "format": null,
+              "label": "24",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 68
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color_foreground": {
+                      "R": 109,
+                      "G": 187,
+                      "B": 67,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 81
+                    },
+                    "color_foreground_model": "rgb",
+                    "color_background": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 80
+                    },
+                    "color_background_model": "rgb",
+                    "color_transparent": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 82
+                    },
+                    "color_transparent_model": "rgb",
+                    "swap_fg_bg": false,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 85
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "butt",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 84,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 83
+                    },
+                    "picture": {
+                      "picture_type": "BmpPicture",
+                      "content": "UWsyMkF3QUFBQUFBQUQ0QUFBQW9BQUFBU2dBQUFFb0FBQUFCQUFFQUFBQUFBSGdEQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQLy8vd0QvLy8vLy8vLy8vL25BQUFELy8vLy8vLy8vLy9qQUFBRC8vLy8vLy8vLy8vZEFBQUQvLy8vOS8vLy8vKytBQUFELy8vLzQvLy8vLy8rQUFBRC8vbi8zZi8zLy8vK0FBQUQvL2ovL2Yvai8vLzlBQUFEMy9kLzQvL2QvUC9qQUFBRGorKy8vLy85L0gvL0FBQURkLysvLy8vais3Ly9BQUFEOS8rLy8vLy85OS8vQUFBRGovOS8vLy8vLzkvL0FBQUQvL2ovLy8vLy85Ly9BQUFELy8vLy8vLy8vNy8vQUFBRC8vLy81Ly8vL0gvL0FBQUQvLy8vNC8vLy8vLy9BQUFELy8vLzNmLy9mLzcvQUFBRC8vLy92di8rUC94L0FBQUQvLy8vL3YvOTMvdS9BQUFELy8vLy9mLy8zLysvQUFBRC8vLy80Ly8rUC94L0FBQUQvL3YvLy83Ly8vLy9BQUFEUC9ILy8veC8vLy8vQUFBREgrNy8vL3UvLy8vL0FBQUM3LzcvLy8rLy8vLy9BQUFCOS9ILy8veC8vLy8vQUFBRDkvLy8vLy8vLy8vL0FBQUQ5Ly8vLy8vLy8vLzNBQUFENy8vLy8vLy8vLy9qQUFBREgvLy9QLy8vei8vZEFBQUQvLy8vSC8vL3gvLzlBQUFELy8vKzcvLy91Ly9qQUFBRC8vLzk5Ly8vZmYvL0FBQUQvMy8vOS8vLy9mLy9BQUFEL2ovLzkvLy8vZi8vQUFBRC9kLy83Ly8vKy8vL0FBQUQvOS8vSC8vdngvLy9BQUFEL2ovLy8vL0gvLy8vQUFBRC8vLy8vLys3Ly84L0FBQUQvLy8vLy8vNy8vOGZBQUFELy8vLysvL0gvLzd2QUFBRC8vLy84Zi8vLy8zM0FBQUQvLy8vN3YvLy8vLzNBQUFELy8vLy92Ly8vLy8zQUFBRC8vL2Y4Zi8vLy8vdkFBQUQvLytQLy96Ly8vOGZBQUFENS85My8veC8vLy8vQUFBRDQvLzMvL3UvLy8vL0FBQUQzZitQLy9mZi8vLy9BQUFEdnYvLy8vL2YvLy8vQUFBRC92Ly8vLy9mL2YvL0FBQUQvdi8vLy8rLytQLy9BQUFEL2YvLy8veC85My8vQUFBRDQvLy8vLy8vLzMvL0FBQUQvLy8vLy8vLytQLy9BQUFELy8vLy8vOS8vLy8vQUFBRC8vLy92LzQvLy8vekFBQUQvLy8vSC8zZi8vL3hBQUFELy8vKzcvL2YvLy91QUFBQi8vLy83LzQvLy8vZkFBQUIvLy8vSC8vLy8vLy9BQUFCLy9uLy8vLy8vLy8vQUFBRC8vai8vLy8vLy8vK0FBQUQvL2QvLy8vLy8vM3hBQUFELysrLy8vLy8vL2ovQUFBRC8vKy8vLy9mL1BkL0FBQUQvLysvei8rUC9IOS9BQUFEdi85L3gvOTMrN2ovQUFBREgvai91Ly8zOS8vL0FBQUM3Ly8vZmYrUC85Ly9BQUFENy8vLy9mLy8vOS8vQUFBREgvLy8vZi8vLzcvL0FBQUQvLy8vKy8vLy9ILy9BQUFELy8vL3gvLy8vLy8vQUFBQT0=",
+                      "type": "StdPicture",
+                      "version": 1,
+                      "ref_id": 79
+                    },
+                    "angle": 0.0,
+                    "scale_x": 1.0,
+                    "scale_y": 1.0,
+                    "offset_x": 0.0,
+                    "offset_y": 0.0,
+                    "separation_x": 0.0,
+                    "separation_y": 0.0,
+                    "type": "PictureFillSymbol",
+                    "version": 3,
+                    "ref_id": 78,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 76
+              },
+              "format": null,
+              "label": "31",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 75
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color_foreground": {
+                      "R": 109,
+                      "G": 187,
+                      "B": 67,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 92
+                    },
+                    "color_foreground_model": "rgb",
+                    "color_background": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 91
+                    },
+                    "color_background_model": "rgb",
+                    "color_transparent": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 93
+                    },
+                    "color_transparent_model": "rgb",
+                    "swap_fg_bg": false,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 96
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "butt",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 95,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 94
+                    },
+                    "picture": {
+                      "picture_type": "BmpPicture",
+                      "content": "UWsyK0FRQUFBQUFBQUQ0QUFBQW9BQUFBT1FBQUFEQUFBQUFCQUFFQUFBQUFBSUFCQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQLy8vd0QyKzMzL25mZi9nT0Q0ZmYvQmg4R0EzLytOai81NXZZQy8vL0czLy80OWdMRGdCQWYvL2NPQXh1enYvLzhkLzREVzQ4LytmdDMvZ0JDZk1IMmNIRDRBZjJCM3ZjSDd2b0QvYmZ1K0YvdTlnTWJNUEQvelBEd0FsaDNQeC8xZi80QzMvZGV4L04vL2dJZjRXWjRENCtlQXZ4dHQ0UGZ0MjRDKzIzUC84ZTNiZ0FiYmY0L0k4ZUlBMEJ4L3NCOC8rb0RkLy8rM3Y0LzlnRGgzZzQ0L3QvZ0FzNXQ3OFYrMzRvQzkyTHVHNzhmYWdENS94aTdoLzdNQThmeCt6TzcvajREdSszNHk3di84Z0E3N2Y0Ymd6L29BOGZ0L3J2dTMvSUQvK1ArZGY3ZlBnREFidy8yL2c3Y0F0OHZiL3AvNXRvQzJkOXYrZi93T2dERHc1NC8vNGY0QS8vc1ByLy9OL29EOCsrOXYvOTNPZ1BMejhCOFBZN2FBOXV1Ri91Ni90b0QyMjNYKzN0L09nQ0RiWmdBZVhpQUFuK2NkdnY4Tm40RGYvLzNlLy9IWWdJUC93OFlIeithQXZCKzdzM3V2K0lBKzc3dTdlM2VmZ043M3g0T0haRzRBM3cvOGYvOXQzb0MvLy91Ly81dytnRC80K0QvRDRmOEE4ZnQ5LzczMy80QT0=",
+                      "type": "StdPicture",
+                      "version": 1,
+                      "ref_id": 90
+                    },
+                    "angle": 0.0,
+                    "scale_x": 1.0,
+                    "scale_y": 1.0,
+                    "offset_x": 0.0,
+                    "offset_y": 0.0,
+                    "separation_x": 0.0,
+                    "separation_y": 0.0,
+                    "type": "PictureFillSymbol",
+                    "version": 3,
+                    "ref_id": 89,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 87
+              },
+              "format": null,
+              "label": "32",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 86
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 190,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 104
+                    },
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 103
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "square",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 102,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 101
+                    },
+                    "fill_style": "solid",
+                    "type": "SimpleFillSymbol",
+                    "version": 1,
+                    "ref_id": 100,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 98
+              },
+              "format": null,
+              "label": "41",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 97
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "line_symbol": {
+                      "color": {
+                        "R": 255,
+                        "G": 255,
+                        "B": 0,
+                        "dither": false,
+                        "is_null": false,
+                        "type": "RgbColor",
+                        "version": 1,
+                        "ref_id": 110
+                      },
+                      "width": 3.0,
+                      "offset": 0.0,
+                      "cap": "butt",
+                      "join": "miter",
+                      "template": null,
+                      "decoration": null,
+                      "miter_limit": 10.0,
+                      "decoration_on_top": false,
+                      "flip": false,
+                      "line_start_offset": 0.0,
+                      "type": "CartographicLineSymbol",
+                      "version": 1,
+                      "ref_id": 109,
+                      "enabled": true,
+                      "locked": false,
+                      "symbol_level": 0
+                    },
+                    "angle": 45.0,
+                    "offset": 1.5,
+                    "separation": 5.0,
+                    "outline": {
+                      "color": {
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "dither": false,
+                        "is_null": false,
+                        "type": "RgbColor",
+                        "version": 1,
+                        "ref_id": 112
+                      },
+                      "width": 0.0,
+                      "offset": 0.0,
+                      "cap": "butt",
+                      "join": "miter",
+                      "template": null,
+                      "decoration": null,
+                      "miter_limit": 10.0,
+                      "decoration_on_top": false,
+                      "flip": false,
+                      "line_start_offset": 0.0,
+                      "type": "CartographicLineSymbol",
+                      "version": 1,
+                      "ref_id": 111,
+                      "enabled": true,
+                      "locked": false,
+                      "symbol_level": 0
+                    },
+                    "type": "LineFillSymbol",
+                    "version": 1,
+                    "ref_id": 108,
+                    "enabled": true,
+                    "locked": true,
+                    "symbol_level": 0
+                  },
+                  {
+                    "line_symbol": {
+                      "color": {
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "dither": false,
+                        "is_null": false,
+                        "type": "RgbColor",
+                        "version": 1,
+                        "ref_id": 115
+                      },
+                      "width": 0.4,
+                      "offset": 0.0,
+                      "cap": "butt",
+                      "join": "miter",
+                      "template": {
+                        "pattern_interval": 1.0,
+                        "pattern_parts": [
+                          [
+                            6.0,
+                            1.0
+                          ],
+                          [
+                            2.0,
+                            1.0
+                          ]
+                        ],
+                        "type": "LineTemplate",
+                        "version": 1,
+                        "ref_id": 116
+                      },
+                      "decoration": null,
+                      "miter_limit": 10.0,
+                      "decoration_on_top": false,
+                      "flip": false,
+                      "line_start_offset": 0.0,
+                      "type": "CartographicLineSymbol",
+                      "version": 1,
+                      "ref_id": 114,
+                      "enabled": true,
+                      "locked": false,
+                      "symbol_level": 0
+                    },
+                    "angle": 45.0,
+                    "offset": 0.0,
+                    "separation": 5.0,
+                    "outline": {
+                      "color": {
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "dither": false,
+                        "is_null": false,
+                        "type": "RgbColor",
+                        "version": 1,
+                        "ref_id": 118
+                      },
+                      "width": 0.0,
+                      "offset": 0.0,
+                      "cap": "butt",
+                      "join": "miter",
+                      "template": null,
+                      "decoration": null,
+                      "miter_limit": 10.0,
+                      "decoration_on_top": false,
+                      "flip": false,
+                      "line_start_offset": 0.0,
+                      "type": "CartographicLineSymbol",
+                      "version": 1,
+                      "ref_id": 117,
+                      "enabled": true,
+                      "locked": false,
+                      "symbol_level": 0
+                    },
+                    "type": "LineFillSymbol",
+                    "version": 1,
+                    "ref_id": 113,
+                    "enabled": true,
+                    "locked": true,
+                    "symbol_level": 0
+                  },
+                  {
+                    "line_symbol": {
+                      "color": {
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "dither": false,
+                        "is_null": false,
+                        "type": "RgbColor",
+                        "version": 1,
+                        "ref_id": 121
+                      },
+                      "width": 0.4,
+                      "offset": 0.0,
+                      "cap": "butt",
+                      "join": "miter",
+                      "template": {
+                        "pattern_interval": 1.0,
+                        "pattern_parts": [
+                          [
+                            6.0,
+                            1.0
+                          ],
+                          [
+                            2.0,
+                            1.0
+                          ]
+                        ],
+                        "type": "LineTemplate",
+                        "version": 1,
+                        "ref_id": 122
+                      },
+                      "decoration": null,
+                      "miter_limit": 10.0,
+                      "decoration_on_top": false,
+                      "flip": false,
+                      "line_start_offset": 0.0,
+                      "type": "CartographicLineSymbol",
+                      "version": 1,
+                      "ref_id": 120,
+                      "enabled": true,
+                      "locked": false,
+                      "symbol_level": 0
+                    },
+                    "angle": 45.0,
+                    "offset": 2.8,
+                    "separation": 5.0,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 125
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "butt",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 124,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 123
+                    },
+                    "type": "LineFillSymbol",
+                    "version": 1,
+                    "ref_id": 119,
+                    "enabled": true,
+                    "locked": true,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 106
+              },
+              "format": null,
+              "label": "42",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 105
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color_foreground": {
+                      "R": 23,
+                      "G": 168,
+                      "B": 232,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 132
+                    },
+                    "color_foreground_model": "rgb",
+                    "color_background": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 131
+                    },
+                    "color_background_model": "rgb",
+                    "color_transparent": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 133
+                    },
+                    "color_transparent_model": "rgb",
+                    "swap_fg_bg": false,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 136
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "butt",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 135,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 134
+                    },
+                    "picture": {
+                      "picture_type": "BmpPicture",
+                      "content": "UWswT0F3QUFBQUFBQUQ0QUFBQW9BQUFBVEFBQUFEd0FBQUFCQUFFQUFBQUFBTkFDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQLy8vd0QvK0Qvdy93Zi8vNGZ3QUFELy9CL2cvd1AvL3dmd0FBRC8veC9CLzRQLy93L3dBQUQvLy8vQi84SC8vdy93QUFELy8vL1AvL0EvL2ovd0FBRC8vLy8vLy93ZitIL3dBQUQvLy8vL0Qvd0Q4UC93QUFBLy8vLy9CLytCZ2YvZ0FBQS9qLy8vZy8vZ0IvL0FBQUFlRC8vLzQvL3dELytBQUFBQUg4SC84Ly84SC8rQUFBQUEvOEEvOC8vK0gvNEFBQUFQLytBZjgvLytELzRBQUFERC8vNEQ4Ly8vQi80d0FBREQvLy9ENC8vL0FmL3dBQURqLy8vZ2cvLy9nZi93QUFEaC8vL3dBUC8vZ1Avd0FBRHgvLy8rQVAvLzhQL3dBQUQvLytQLzhILy8vLy93QUFELy8rSC84RC8vLy8vd0FBRC8vK0IvK0FQLy8vL3dBQUQvSC9nLy93SC8vL2h3QUFEL0Evdy8vOEIvLy9nd0FBRC9BUHdmLy9nLy8vd3dBQUQvQVA0UC8vd2YvL3dRQUFELzQvNEQvLzRQLy80QUFBQS8vLy9CLy80RC8vNEFBQUEvLy8vQWYvK0QvL3dBQUFBZi8vL3dHUC9oLy9CZ0FBQU9mLy84QVAvd2Y4SGdBQUFBZi8vK0FQLzhmOEh3QUFEQS8vLytCLy84ZjhQd0FBRGovOFAvRC8vK2YvL3dBQURqLzRIL0QvLy8vLy93QUFEaC80Qi9ELy8vLy8vd0FBRGgvOEIvaC8vUC8vL3dBQUR6LytCL2cvK0QvLy93QUFELy8vdy9nLytCLy8vd0FBRC8vL3dmNFAvQUFIL3dBQUQvOC80UDRIL3dBQS93QUFELzRQK1A4SC8rQUFQd0FBRC80UC8vK0gvLy93SHdBQUQvOEgvLy9ILy8vOEJ3QUFELytBZi8vLy8vLy9Bd0FBRC8vQUEvLy8vLy8vZ1FBQUEvL0FBUC8vLy8vL3dBQUFBZi8rQUQvLy8vLy80QUFBQWYvLytCLy80UC8vL0FBQUQvLy8vQWYvZ0IvLy93QUFELy8vL2dmL0FBLy8vd0FBRDhmLy84SC9Cdy8vL3dBQUQ4RC8vK0QvSDhmai93QUFEK0QvLy9EL0g4QUQvd0FBRC9CLy8vaC9IL0FEL3dBQUQvaC8vLzUvLy81Ly93QUFELzQvLy8vLy8vLy8vd0FBRC84Ly9QLy8vLy8vL3dBQUQvOFAvRC8vLy8vLy93QUFELzhQL2gvLy8vLzgvd0FBRC8rSC93LzQvLy80ZndBQUE9",
+                      "type": "StdPicture",
+                      "version": 1,
+                      "ref_id": 130
+                    },
+                    "angle": 0.0,
+                    "scale_x": 1.0,
+                    "scale_y": 1.0,
+                    "offset_x": 0.0,
+                    "offset_y": 0.0,
+                    "separation_x": 0.0,
+                    "separation_y": 0.0,
+                    "type": "PictureFillSymbol",
+                    "version": 3,
+                    "ref_id": 129,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 127
+              },
+              "format": null,
+              "label": "43",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 126
+            },
+            {
+              "symbol": {
+                "color": {
+                  "R": 130,
+                  "G": 130,
+                  "B": 130,
+                  "dither": false,
+                  "is_null": false,
+                  "type": "RgbColor",
+                  "version": 1,
+                  "ref_id": 141
+                },
+                "outline": {
+                  "color": {
+                    "R": 212,
+                    "G": 208,
+                    "B": 200,
+                    "dither": true,
+                    "is_null": true,
+                    "type": "RgbColor",
+                    "version": 1,
+                    "ref_id": 140
+                  },
+                  "width": 0.4,
+                  "line_type": "solid",
+                  "type": "SimpleLineSymbol",
+                  "version": 1,
+                  "ref_id": 139,
+                  "enabled": true,
+                  "locked": false,
+                  "symbol_level": 0
+                },
+                "fill_style": "solid",
+                "type": "SimpleFillSymbol",
+                "version": 1,
+                "ref_id": 138,
+                "enabled": true,
+                "locked": false,
+                "symbol_level": 0
+              },
+              "format": null,
+              "label": "51",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 137
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color_foreground": null,
+                    "color_foreground_model": null,
+                    "color_background": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 147
+                    },
+                    "color_background_model": "rgb",
+                    "color_transparent": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 148
+                    },
+                    "color_transparent_model": "rgb",
+                    "swap_fg_bg": false,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 151
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "butt",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 150,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 149
+                    },
+                    "picture": {
+                      "picture_type": "BmpPicture",
+                      "content": "UWswV0NBQUFBQUFBQURZQUFBQW9BQUFBSEFBQUFCZ0FBQUFCQUJnQUFBQUFBT0FIQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9BRUNBQUVDQS8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL0FFQ0FBRUNBLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vUTd0dFE3dHQvLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9RN3R0UTd0dC8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vUTd0dC8vLy8vLy8vUTd0dC8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9RN3R0Ly8vLy8vLy9RN3R0Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9RN3R0UTd0dC8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL1E3dHRRN3R0Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9RN3R0Ly8vLy8vLy9RN3R0Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL1E3dHQvLy8vLy8vL1E3dHQvLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9BRUNBQUVDQS8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL0FFQ0FBRUNBLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vUTd0dFE3dHQvLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9RN3R0UTd0dC8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vUTd0dC8vLy8vLy8vUTd0dC8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9RN3R0Ly8vLy8vLy9RN3R0Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9RN3R0UTd0dC8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL1E3dHRRN3R0Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9RN3R0Ly8vLy8vLy9RN3R0Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL1E3dHQvLy8vLy8vL1E3dHQvLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8v",
+                      "type": "StdPicture",
+                      "version": 1,
+                      "ref_id": 146
+                    },
+                    "angle": 0.0,
+                    "scale_x": 1.0,
+                    "scale_y": 1.0,
+                    "offset_x": 0.0,
+                    "offset_y": 0.0,
+                    "separation_x": 0.0,
+                    "separation_y": 0.0,
+                    "type": "PictureFillSymbol",
+                    "version": 3,
+                    "ref_id": 145,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 143
+              },
+              "format": null,
+              "label": "52",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 142
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color_foreground": {
+                      "R": 23,
+                      "G": 168,
+                      "B": 232,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 158
+                    },
+                    "color_foreground_model": "rgb",
+                    "color_background": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 157
+                    },
+                    "color_background_model": "rgb",
+                    "color_transparent": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 159
+                    },
+                    "color_transparent_model": "rgb",
+                    "swap_fg_bg": false,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 162
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "butt",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 161,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 160
+                    },
+                    "picture": {
+                      "picture_type": "BmpPicture",
+                      "content": "UWswYUF3QUFBQUFBQUQ0QUFBQW9BQUFBUWdBQUFEMEFBQUFCQUFFQUFBQUFBTndDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQLy8vd0QvLy8vLy8vNy8vNEFBQUFEN2JkNysvLy9mZmNBQUFBRGYvLy8zNjNmMy84QUFBQUQvLy92ZnYvNzkvOEFBQUFEKzIzLysvLy9mZjhBQUFBQjMvL2Q3L3QvLzdzQUFBQUQvLy8vdjkvMzMvOEFBQUFEZHR1My92LysrLzhBQUFBRC8vLy9mLy8vLy9jQUFBQUQzLy92OS90dnY3OEFBQUFDLy85Ly85Ly8vdjhBQUFBRC90djkzdi9kOS8wQUFBQUQ5Ly92Ly8vLy83OEFBQUFEMy85LysrNy8vL2NBQUFBQy8vLzl2My9kdmY4QUFBQUQvdHV2OS8vLzc5OEFBQUFELy8vOS8rNzkvLzBBQUFBRDcvOS8zdi9mOTM4QUFBQURmMi8vLy83OTMvY0FBQUFELy8zM2U5Ly8vLzhBQUFBRC9mLy8vL2YrL3U0QUFBQURiOSs5dnY5djcvOEFBQUFELy8vLzcvLy91LzhBQUFBRC92djMrKy8rLzdzQUFBQUMvLy8vLy8yMzd2OEFBQUFEMjk5dXZ2Ly9mKzhBQUFBRC8vLy83Ly8vOS8wQUFBQURmL3Y3KzkvNy9mOEFBQUFEKy8vZjNmYmYzN2NBQUFBRC85OSsvMy8rOS84QUFBQUIvLy83Lzk5Ly92OEFBQUFEdnZ2ZjNmLzNmLzBBQUFBRC85OSsvN3YvNy84QUFBQUQ5Ly83Ly8vZnZXOEFBQUFCL2Z2ZjIzNzcvLzhBQUFBRC85OS9mKy8vMy8wQUFBQUQzLy83Ly91OTlXOEFBQUFCLzN2LzJ0Ly8vLzhBQUFBRGUvL2ZmLzd2Zi84QUFBQUQvOTc5Ky9mLzdXMEFBQUFEN3ZmLzM3LzcvLzhBQUFBQi8vLy9mLzcvZi84QUFBQURlNyt2N2ZmZjdiY0FBQUFEMy8zOS83Ny8vLzhBQUFBRC90Ly8vLy83dHY0QUFBQUQ3Ly8vZi8vZi8vOEFBQUFCLzNmZjE3Yi8vN2NBQUFBRC9mOTcvLy85M2Y4QUFBQUR0OS8vLy83di8rMEFBQUFELy92L2R2ZS9kMzhBQUFBQi92KzcvLy8vLy84QUFBQURkOS8vdjdiYnZlMEFBQUFELy8vOS9mLy8vLzhBQUFBRC92dmYvLysyLzc4QUFBQUM3OTkzdjl2LzIvc0FBQUFELy8vLy9mLy8vLzhBQUFBRHZmL2Q5LzIyLzM4QUFBQUIvN2IvMysvLzMvY0FBQUFEOS8vM2Z2Ly8vZjhBQUFBRDMyLy83L3JkLzcwQUFBQUMvLzN0LzcvLzMvOEFBQUFBPQ==",
+                      "type": "StdPicture",
+                      "version": 1,
+                      "ref_id": 156
+                    },
+                    "angle": 0.0,
+                    "scale_x": 1.0,
+                    "scale_y": 1.0,
+                    "offset_x": 0.0,
+                    "offset_y": 0.0,
+                    "separation_x": 0.0,
+                    "separation_y": 0.0,
+                    "type": "PictureFillSymbol",
+                    "version": 3,
+                    "ref_id": 155,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 153
+              },
+              "format": null,
+              "label": "53",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 152
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "line_symbol": {
+                      "color": {
+                        "R": 255,
+                        "G": 127,
+                        "B": 0,
+                        "dither": false,
+                        "is_null": false,
+                        "type": "RgbColor",
+                        "version": 1,
+                        "ref_id": 168
+                      },
+                      "width": 4.0,
+                      "offset": 0.0,
+                      "cap": "butt",
+                      "join": "miter",
+                      "template": null,
+                      "decoration": null,
+                      "miter_limit": 10.0,
+                      "decoration_on_top": false,
+                      "flip": false,
+                      "line_start_offset": 0.0,
+                      "type": "CartographicLineSymbol",
+                      "version": 1,
+                      "ref_id": 167,
+                      "enabled": true,
+                      "locked": false,
+                      "symbol_level": 0
+                    },
+                    "angle": 45.0,
+                    "offset": 0.0,
+                    "separation": 5.0,
+                    "outline": {
+                      "color": {
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "dither": false,
+                        "is_null": false,
+                        "type": "RgbColor",
+                        "version": 1,
+                        "ref_id": 170
+                      },
+                      "width": 0.0,
+                      "offset": 0.0,
+                      "cap": "butt",
+                      "join": "miter",
+                      "template": null,
+                      "decoration": null,
+                      "miter_limit": 10.0,
+                      "decoration_on_top": false,
+                      "flip": false,
+                      "line_start_offset": 0.0,
+                      "type": "CartographicLineSymbol",
+                      "version": 1,
+                      "ref_id": 169,
+                      "enabled": true,
+                      "locked": false,
+                      "symbol_level": 0
+                    },
+                    "type": "LineFillSymbol",
+                    "version": 1,
+                    "ref_id": 166,
+                    "enabled": true,
+                    "locked": true,
+                    "symbol_level": 0
+                  },
+                  {
+                    "line_symbol": {
+                      "color": {
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "dither": false,
+                        "is_null": false,
+                        "type": "RgbColor",
+                        "version": 1,
+                        "ref_id": 173
+                      },
+                      "width": 0.4,
+                      "offset": 0.0,
+                      "cap": "butt",
+                      "join": "miter",
+                      "template": null,
+                      "decoration": null,
+                      "miter_limit": 10.0,
+                      "decoration_on_top": false,
+                      "flip": false,
+                      "line_start_offset": 0.0,
+                      "type": "CartographicLineSymbol",
+                      "version": 1,
+                      "ref_id": 172,
+                      "enabled": true,
+                      "locked": false,
+                      "symbol_level": 0
+                    },
+                    "angle": 45.0,
+                    "offset": 1.5,
+                    "separation": 5.0,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 176
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "butt",
+                          "join": "miter",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 175,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 174
+                    },
+                    "type": "LineFillSymbol",
+                    "version": 1,
+                    "ref_id": 171,
+                    "enabled": true,
+                    "locked": true,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 164
+              },
+              "format": null,
+              "label": "54",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 163
+            },
+            {
+              "symbol": {
+                "levels": [
+                  {
+                    "color_foreground": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 183
+                    },
+                    "color_foreground_model": "rgb",
+                    "color_background": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 182
+                    },
+                    "color_background_model": "rgb",
+                    "color_transparent": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "dither": false,
+                      "is_null": false,
+                      "type": "RgbColor",
+                      "version": 1,
+                      "ref_id": 184
+                    },
+                    "color_transparent_model": "rgb",
+                    "swap_fg_bg": false,
+                    "outline": {
+                      "levels": [
+                        {
+                          "color": {
+                            "R": 212,
+                            "G": 208,
+                            "B": 200,
+                            "dither": true,
+                            "is_null": true,
+                            "type": "RgbColor",
+                            "version": 1,
+                            "ref_id": 187
+                          },
+                          "width": 0.4,
+                          "offset": 0.0,
+                          "cap": "round",
+                          "join": "bevel",
+                          "template": null,
+                          "decoration": null,
+                          "miter_limit": 10.0,
+                          "decoration_on_top": false,
+                          "flip": false,
+                          "line_start_offset": 0.0,
+                          "type": "CartographicLineSymbol",
+                          "version": 1,
+                          "ref_id": 186,
+                          "enabled": true,
+                          "locked": false,
+                          "symbol_level": 0
+                        }
+                      ],
+                      "symbol_level": 0,
+                      "type": "MultiLayerLineSymbol",
+                      "version": 1,
+                      "ref_id": 185
+                    },
+                    "picture": {
+                      "picture_type": "BmpPicture",
+                      "content": "UWsxdUFBQUFBQUFBQUQ0QUFBQW9BQUFBREFBQUFBd0FBQUFCQUFFQUFBQUFBREFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQLy8vd0QvOEFBQTNkQUFBUC93QUFELzhBQUEvL0FBQU4zUUFBRC84QUFBLy9BQUFQL3dBQURkMEFBQS8vQUFBUC93QUFBPQ==",
+                      "type": "StdPicture",
+                      "version": 1,
+                      "ref_id": 181
+                    },
+                    "angle": 0.0,
+                    "scale_x": 1.0,
+                    "scale_y": 1.0,
+                    "offset_x": 0.0,
+                    "offset_y": 0.0,
+                    "separation_x": 0.0,
+                    "separation_y": 0.0,
+                    "type": "PictureFillSymbol",
+                    "version": 3,
+                    "ref_id": 180,
+                    "enabled": true,
+                    "locked": false,
+                    "symbol_level": 0
+                  }
+                ],
+                "symbol_level": 0,
+                "type": "MultiLayerFillSymbol",
+                "version": 1,
+                "ref_id": 178
+              },
+              "format": null,
+              "label": "55",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 177
+            },
+            {
+              "symbol": {
+                "color": {
+                  "R": 0,
+                  "G": 112,
+                  "B": 255,
+                  "dither": false,
+                  "is_null": false,
+                  "type": "RgbColor",
+                  "version": 1,
+                  "ref_id": 192
+                },
+                "outline": {
+                  "color": {
+                    "R": 212,
+                    "G": 208,
+                    "B": 200,
+                    "dither": true,
+                    "is_null": true,
+                    "type": "RgbColor",
+                    "version": 1,
+                    "ref_id": 191
+                  },
+                  "width": 0.4,
+                  "line_type": "solid",
+                  "type": "SimpleLineSymbol",
+                  "version": 1,
+                  "ref_id": 190,
+                  "enabled": true,
+                  "locked": false,
+                  "symbol_level": 0
+                },
+                "fill_style": "solid",
+                "type": "SimpleFillSymbol",
+                "version": 1,
+                "ref_id": 189,
+                "enabled": true,
+                "locked": false,
+                "symbol_level": 0
+              },
+              "format": null,
+              "label": "61",
+              "description": "",
+              "feature_count": null,
+              "type": "LegendClass",
+              "version": 1,
+              "ref_id": 188
+            }
+          ],
+          "type": "LegendGroup",
+          "version": 2,
+          "ref_id": 9
+        }
+      ],
+      "values": [
+        "11",
+        "13",
+        "14",
+        "15",
+        "17",
+        "18",
+        "21",
+        "22",
+        "24",
+        "31",
+        "32",
+        "41",
+        "42",
+        "43",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "61"
+      ],
+      "include_all_other": false,
+      "all_other_value": "<all other values>",
+      "reversed": false,
+      "ramp": null,
+      "ramp_name": "Pastels",
+      "style_path": "",
+      "flip_symbols": false,
+      "type": "UniqueValueRenderer",
+      "version": 2,
+      "ref_id": 4
+    },
+    "field_format": {
+      "FID": {
+        "alias": "FID",
+        "number_format": null,
+        "visible": true,
+        "highlight": false,
+        "read_only": false,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 2,
+        "ref_id": 193
+      },
+      "Shape": {
+        "alias": "Shape",
+        "number_format": null,
+        "visible": true,
+        "highlight": false,
+        "read_only": false,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 2,
+        "ref_id": 194
+      },
+      "AREA": {
+        "alias": "AREA",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 6,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 196
+        },
+        "visible": true,
+        "highlight": false,
+        "read_only": false,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 2,
+        "ref_id": 195
+      },
+      "PERIMETER": {
+        "alias": "PERIMETER",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 6,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 198
+        },
+        "visible": true,
+        "highlight": false,
+        "read_only": false,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 2,
+        "ref_id": 197
+      },
+      "UTMXIENG_": {
+        "alias": "UTMXIENG_",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 200
+        },
+        "visible": true,
+        "highlight": false,
+        "read_only": false,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 2,
+        "ref_id": 199
+      },
+      "UTMXIENG_I": {
+        "alias": "UTMXIENG_I",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 202
+        },
+        "visible": true,
+        "highlight": false,
+        "read_only": false,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 2,
+        "ref_id": 201
+      },
+      "TYPE": {
+        "alias": "TYPE",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 204
+        },
+        "visible": true,
+        "highlight": false,
+        "read_only": false,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 2,
+        "ref_id": 203
+      },
+      "D": {
+        "alias": "D",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 206
+        },
+        "visible": true,
+        "highlight": false,
+        "read_only": false,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 2,
+        "ref_id": 205
+      },
+      "S": {
+        "alias": "S",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 208
+        },
+        "visible": true,
+        "highlight": false,
+        "read_only": false,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 2,
+        "ref_id": 207
+      },
+      "MAIN": {
+        "alias": "MAIN",
+        "number_format": {
+          "alignment": "ALIGN_RIGHT",
+          "alignment_width": 12,
+          "rounding": "ROUND_NUMBER_OF_DECIMALS",
+          "rounding_value": 0,
+          "show_plus_sign": false,
+          "zero_pad": false,
+          "thousands": false,
+          "type": "NumericFormat",
+          "version": 1,
+          "ref_id": 210
+        },
+        "visible": true,
+        "highlight": false,
+        "read_only": false,
+        "value_as_ratio": false,
+        "type": "FieldInfo",
+        "version": 2,
+        "ref_id": 209
+      }
+    },
+    "visible": true,
+    "zoom_min": 0.0,
+    "zoom_max": 0.0,
+    "stored_zoom_min": 0.0,
+    "stored_zoom_max": 0.0,
+    "definition_query": "",
+    "definition_query_search_order": "spatial_first",
+    "labels_enabled": false,
+    "annotation_collection": {
+      "properties": [
+        {
+          "label_features": true,
+          "class_name": "Default",
+          "class_filter": "",
+          "expression": "[AREA]",
+          "advanced_expression": false,
+          "scale_range_min": 0.0,
+          "scale_range_max": 0.0,
+          "text_symbol": {
+            "color": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "dither": false,
+              "is_null": false,
+              "type": "RgbColor",
+              "version": 1,
+              "ref_id": 214
+            },
+            "raster_op": 13,
+            "symbol_level": 0,
+            "character_spacing": 0.0,
+            "character_width": 100.0,
+            "word_spacing": 100.0,
+            "flip_angle": 90.0,
+            "leading": 0.0,
+            "right_to_left": false,
+            "cjk_orientation": false,
+            "kerning": true,
+            "case": "normal",
+            "x_offset": 0.0,
+            "y_offset": 0.0,
+            "position": "normal",
+            "shadow_x_offset": 0.0,
+            "shadow_y_offset": 0.0,
+            "shadow_color": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "dither": false,
+              "is_null": false,
+              "type": "RgbColor",
+              "version": 1,
+              "ref_id": 215
+            },
+            "angle": 0.0,
+            "font_size": 8.0,
+            "font": {
+              "font_name": "Arial",
+              "charset": 0,
+              "weight": 400,
+              "size": 8.0,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "type": "Font",
+              "version": 1,
+              "ref_id": 216
+            },
+            "halo_enabled": false,
+            "halo_size": 2.0,
+            "halo_symbol": null,
+            "background_symbol": null,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "bottom",
+            "text_fill_symbol": null,
+            "text_direction": 0,
+            "type_setting": true,
+            "break_character": null,
+            "clip": false,
+            "rotate_with_transform": true,
+            "type": "TextSymbol",
+            "version": 4,
+            "ref_id": 213
+          },
+          "overposter": {
+            "line_label_position": {
+              "above": true,
+              "below": false,
+              "online": false,
+              "follow_line_orientation": false,
+              "curved": false,
+              "parallel": true,
+              "perpendicular": false,
+              "horizontal": false,
+              "at_start": false,
+              "at_end": false,
+              "before_after_distance": 0.0,
+              "best_position_along_line": true,
+              "right_of_line": false,
+              "type": "LineLabelPosition",
+              "version": 2,
+              "ref_id": 218
+            },
+            "line_label_priorities": {
+              "above_before": 3,
+              "above_at": 3,
+              "above_after": 3,
+              "on_line_before": 3,
+              "on_line_at": 3,
+              "on_line_after": 3,
+              "below_before": 3,
+              "below_at": 3,
+              "below_after": 3,
+              "type": "LineLabelPlacementPriorities",
+              "version": 1,
+              "ref_id": 219
+            },
+            "point_placement_method": "around",
+            "point_placement_priorities": {
+              "top_left": 2,
+              "top_center": 2,
+              "top_right": 1,
+              "center_right": 2,
+              "bottom_right": 2,
+              "bottom_center": 3,
+              "bottom_left": 3,
+              "center_left": 3,
+              "type": "PointPlacementPriorities",
+              "version": 1,
+              "ref_id": 220
+            },
+            "point_label_angle_field": "",
+            "point_label_angle_perpendicular": false,
+            "point_place_over_feature": false,
+            "specified_point_angles": [],
+            "polygon_placement_method": "always_horizontal",
+            "polygon_only_inside": false,
+            "margin_size": 0.0,
+            "offset": 0.0,
+            "number_restriction": "one_per_part",
+            "feature_weight": "none",
+            "label_weight": "high",
+            "place_overlapping": false,
+            "geometry_type": 2,
+            "generate_unplaced": true,
+            "max_distance_from_feature": 0.0,
+            "point_label_angle_type": 1,
+            "is_barrier": false,
+            "place_labels": false,
+            "place_symbols": false,
+            "type": "BasicOverposterLayerProperties",
+            "version": 6,
+            "ref_id": 217
+          },
+          "expression_parser": null,
+          "offset": 0.0,
+          "label_which_features": 1,
+          "symbol_id": 65535,
+          "layer_full_extent": null,
+          "scale_ratio": 0.0,
+          "reference_scale": 0.0,
+          "units_world_coordinates": "unknown",
+          "priority": 4294967295,
+          "create_unplaced_elements": true,
+          "feature_linked": false,
+          "use_output": 65535,
+          "annotation_class_id": 0,
+          "add_unplaced_to_graphics_container": true,
+          "type": "LabelEngineLayerProperties",
+          "version": 7,
+          "ref_id": 212
+        }
+      ],
+      "type": "AnnotateLayerPropertiesCollection",
+      "version": 2,
+      "ref_id": 211
+    },
+    "display_filter": null,
+    "transparency": 0,
+    "brightness": 0,
+    "hyperlink_type": "document",
+    "hyperlink_field": "",
+    "hyperlink_macro_name": "",
+    "scale_symbols": true,
+    "selection_color": null,
+    "show_selection_using_symbol": false,
+    "cached": false,
+    "show_map_tips": false,
+    "selected_feature_symbol": {
+      "color": {
+        "R": 0,
+        "G": 0,
+        "B": 0,
+        "dither": true,
+        "is_null": true,
+        "type": "RgbColor",
+        "version": 1,
+        "ref_id": 225
+      },
+      "outline": {
+        "color": {
+          "R": 0,
+          "G": 255,
+          "B": 255,
+          "dither": true,
+          "is_null": false,
+          "type": "RgbColor",
+          "version": 1,
+          "ref_id": 224
+        },
+        "width": 2.0,
+        "line_type": "solid",
+        "type": "SimpleLineSymbol",
+        "version": 1,
+        "ref_id": 223,
+        "enabled": true,
+        "locked": false,
+        "symbol_level": 0
+      },
+      "fill_style": "solid",
+      "type": "SimpleFillSymbol",
+      "version": 1,
+      "ref_id": 222,
+      "enabled": true,
+      "locked": false,
+      "symbol_level": 0
+    },
+    "layer_extent": {
+      "x_min": 117562.3515625,
+      "x_max": 343874.28125,
+      "y_min": 1973111.375,
+      "y_max": 2149175.5,
+      "crs": {
+        "name": "Unknown",
+        "x_origin": -319037.49773775,
+        "y_origin": 1511387.623356,
+        "m_origin": NaN,
+        "z_origin": NaN,
+        "xy_resolution": 1953.1249981810101,
+        "z_resolution": NaN,
+        "m_resolution": NaN,
+        "xy_tolerance": null,
+        "z_tolerance": null,
+        "m_tolerance": null,
+        "is_high_precision": false,
+        "type": "UnknownCoordinateSystem",
+        "version": 1,
+        "ref_id": 227
+      },
+      "type": "Envelope",
+      "version": 3,
+      "ref_id": 226
+    },
+    "features_excluded_from_rendering": {
+      "features": [],
+      "type": "FeatureIDSet",
+      "version": 1,
+      "ref_id": 221
+    },
+    "uid": {
+      "value": "01004145-0d1c-11d2-a26f-080009b6f22b",
+      "sub_type": 0,
+      "type": "UID",
+      "version": 1,
+      "ref_id": 228
+    },
+    "display_expression_properties": null,
+    "map_tip_hide_field_name": false,
+    "map_tip_show_coded": false,
+    "map_tip_field_name": "",
+    "map_tip_url_prefix": "",
+    "map_tip_url_suffix": "",
+    "map_tip_xsl": "",
+    "html_popup_enabled": false,
+    "html_popup_style": "two_column_table",
+    "html_popup_download_attachment": false,
+    "use_advanced_symbol_levels": false,
+    "time_enabled": false,
+    "time_zone": null,
+    "time_step": 0,
+    "time_step_units": "unknown",
+    "time_offset": 0,
+    "time_offset_units": "unknown",
+    "time_data_changes_regularly": false,
+    "time_format": "",
+    "time_display_cumulative": false,
+    "time_field": "",
+    "time_end_field": "",
+    "time_extent": null,
+    "time_dimension_name": "",
+    "time_dimension_format": "",
+    "track_id_field_name": "",
+    "extensions": [],
+    "join_type": "left_outer",
+    "join": null,
+    "relations": [],
+    "hyperlinks": [],
+    "selection_set": [],
+    "hyperlink_expression_properties": null,
+    "selectable": true,
+    "weight": 100.0,
+    "shape_type": "polygon",
+    "use_page_definition_query": false,
+    "page_name_field": "",
+    "page_name_match_operator": "",
+    "display_field": "AREA",
+    "area_of_interest": null,
+    "type": "FeatureLayer",
+    "version": 22,
+    "ref_id": 0
+  }
+}
