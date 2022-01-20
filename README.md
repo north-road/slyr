@@ -11,18 +11,13 @@ A QGIS plugin for extraction, parsing, and conversion of ESRI `.lyr`, `.mxd` and
 Status
 =====
 
-- This open-source version only supports ESRI .style database files. See https://north-road.com/slyr/ for the version which supports direct LYR file conversion. Otherwise, it is necessary to use ArcGIS to convert a .lyr file to a .style database prior to conversion with this version.
+- This open-source version only supports ESRI .style database files, and **vector** .lyr files. See https://north-road.com/slyr/ for the version which supports direct MXD file conversion, and support for raster, TIN and point cloud LYR files, and the ArcGIS Pro stylx/lyrx file types.
+- Full support for converting vector layers, including all symbology, labeling, all renderer types (unique, class breaks, bivariate, etc) and other general layer properties like scale ranges, hotlinks, and much much more.
+- Near 100% pixel perfect support for converting all fill types, line types and marker symbol types (depending on QGIS version -- for best results always use the lastest QGIS version)
 - RGB colors can be parsed, within a maximum of 1 unit difference in either the R/G/B components.
 - 100% color match for other color types, including HSV, CMYK, Grayscale, etc
-- Fill symbols
-    - complete support for all fill types!*
-- Line symbols
-    - complete support for all line types, except for picture lines*
-- Marker symbols
-    - complete support for all marker types!*
 - All color ramp types can be parsed
 
-* Depending on the symbol version. If you encounter different symbol versions, please open a bug report with the style files attached.
 
 Tools
 =====
@@ -32,7 +27,9 @@ Tools
  - `style_to_bin.py` Exports the contents of an ESRI `.style` database to individual `.bin` binary files, each containing an encoded version of a single symbol
  - `style_to_qgis_xml.py` Converts the contents of an ESRI `.style` database to a QGIS 3.x Style `.xml` file, ready for importing direct into your QGIS style library (requires QGIS 3.x)
  
- All tools require the command line `mdbtools` for handling the `.style` database files. Binaries of these can be downloaded from [https://github.com/lsgunth/mdbtools-win](https://github.com/lsgunth/mdbtools-win), and they should be extracted and available in the Windows path. Alternatively, you can extract them to any folder and then setup the correct path to that folder through the Settings -> Options -> SLYR panel.
+ Style parsing tools require the command line `mdbtools` for handling the `.style` database files. Binaries of these can be downloaded from [https://github.com/lsgunth/mdbtools-win](https://github.com/lsgunth/mdbtools-win), and they should be extracted and available in the Windows path. Alternatively, you can extract them to any folder and then setup the correct path to that folder through the Settings -> Options -> SLYR panel.
+ 
+ LYR parsing tools do not require any additional dependencies.
  
 QGIS Plugin
 ===========
