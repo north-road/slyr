@@ -40,7 +40,8 @@ from ...parser.exceptions import (UnreadableSymbolException,
                                   NotImplementedException,
                                   UnknownClsidException,
                                   EmptyDocumentException,
-                                  DocumentTypeException)
+                                  DocumentTypeException,
+                                  RequiresLicenseException)
 from ...parser.objects.base_map_layer import BaseMapLayer
 from ...parser.objects.group_layer import GroupLayer
 from ...parser.streams.layer import LayerFile
@@ -174,6 +175,8 @@ class LyrToQlr(SlyrAlgorithm):
                     self.CONVERTED: False,
                     self.OUTPUT: None
                 }
+            except RequiresLicenseException as e:
+                raise QgsProcessingException('{} - please see https://north-road.com/slyr/ for details'.format(e)) from e
             except EmptyDocumentException as e:
                 raise QgsProcessingException('Cannot read {} - document is empty'.format(input_file)) from e
             except DocumentTypeException as e:

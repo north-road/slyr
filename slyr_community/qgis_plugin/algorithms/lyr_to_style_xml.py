@@ -29,7 +29,8 @@ from qgis.core import (Qgis,
                        QgsStyle,
                        QgsColorRamp,
                        QgsSymbol,
-                       QgsTextFormat)
+                       QgsTextFormat,
+                       QgsProcessingException)
 
 from .algorithm import SlyrAlgorithm
 from ..gui_utils import GuiUtils
@@ -38,7 +39,8 @@ from ...converters.layers import LayerConverter
 from ...converters.vector_renderer import VectorRendererConverter
 from ...parser.exceptions import (UnreadableSymbolException,
                                   NotImplementedException,
-                                  UnknownClsidException)
+                                  UnknownClsidException,
+                                  RequiresLicenseException)
 from ...parser.objects.group_layer import GroupLayer
 from ...parser.stream import Stream
 
@@ -114,6 +116,8 @@ class LyrToStyleXml(SlyrAlgorithm):
             stream = Stream(f, False, force_layer=True, offset=0)
             try:
                 obj = stream.read_object()
+            except RequiresLicenseException as e:
+                raise QgsProcessingException('{} - please see https://north-road.com/slyr/ for details'.format(e)) from e
             except UnknownClsidException as e:
                 feedback.reportError(str(e), fatalError=True)
                 return {}
