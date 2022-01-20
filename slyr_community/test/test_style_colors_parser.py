@@ -6,8 +6,8 @@ Test color entity parsing from styles
 
 import unittest
 import os
-from slyr_community.parser.initalize_registry import initialize_registry
-from slyr_community.parser.stream import Stream
+from ..parser.initalize_registry import initialize_registry
+from ..parser.stream import Stream
 
 expected = {
     'colors_bin': {

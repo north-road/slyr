@@ -3,7 +3,7 @@ Test color parsing
 """
 
 import unittest
-from slyr_community.parser.color_parser import cielab_to_rgb
+from ..parser.color_parser import cielab_to_rgb
 
 
 class TestColorParser(unittest.TestCase):
