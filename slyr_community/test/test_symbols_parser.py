@@ -8,9 +8,9 @@ import unittest
 import os
 import ast
 import pprint
-from slyr_community.parser.object_registry import ObjectRegistry
-from slyr_community.parser.initalize_registry import initialize_registry
-from slyr_community.parser.stream import Stream
+from ..parser.object_registry import ObjectRegistry
+from ..parser.initalize_registry import initialize_registry
+from ..parser.stream import Stream
 
 expected = {
     'cmyk_bin': {
