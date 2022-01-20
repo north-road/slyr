@@ -34,6 +34,7 @@ from ...converters.layers import LayerConverter
 from ...converters.vector_renderer import VectorRendererConverter
 from ...parser.objects.group_layer import GroupLayer
 from ...parser.stream import Stream
+from ...parser.exceptions import RequiresLicenseException
 
 
 class StyleFromLyr(SlyrAlgorithm):
@@ -89,7 +90,11 @@ class StyleFromLyr(SlyrAlgorithm):
 
         with open(input_file, 'rb') as f:
             stream = Stream(f, False, force_layer=True, offset=-1)
-            feature_layer = stream.read_object()
+            try:
+                feature_layer = stream.read_object()
+            except RequiresLicenseException as e:
+                raise QgsProcessingException('{} - please see https://north-road.com/slyr/ for details'.format(e)) from e
+
             if isinstance(feature_layer, GroupLayer):
                 feedback.reportError('LYR files containing groups cannot be used with this algorithm', fatalError=True)
                 return {}

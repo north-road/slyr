@@ -26,7 +26,8 @@ Converts .lyr to QML
 from qgis.core import (Qgis,
                        QgsProcessingParameterFile,
                        QgsProcessingParameterFileDestination,
-                       QgsProcessingOutputString)
+                       QgsProcessingOutputString,
+                       QgsProcessingException)
 
 from .algorithm import SlyrAlgorithm
 from ..gui_utils import GuiUtils
@@ -34,7 +35,8 @@ from ...converters.context import Context
 from ...converters.layers import LayerConverter
 from ...parser.exceptions import (UnreadableSymbolException,
                                   NotImplementedException,
-                                  UnknownClsidException)
+                                  UnknownClsidException,
+                                  RequiresLicenseException)
 from ...parser.objects.group_layer import GroupLayer
 from ...parser.stream import Stream
 
@@ -107,6 +109,8 @@ class LyrToQml(SlyrAlgorithm):
                     self.CONVERTED: False,
                     self.OUTPUT: None
                 }
+            except RequiresLicenseException as e:
+                raise QgsProcessingException('{} - please see https://north-road.com/slyr/ for details'.format(e)) from e
             except UnreadableSymbolException as e:
                 err = 'Unreadable object: {}'.format(e)
                 feedback.reportError(err, fatalError=True)

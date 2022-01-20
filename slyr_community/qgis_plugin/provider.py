@@ -23,7 +23,7 @@
 SLYR QGIS Processing provider
 """
 
-from qgis.core import QgsProcessingProvider, Qgis
+from qgis.core import QgsProcessingProvider
 
 from .algorithms import (
     StyleToQgisXml,

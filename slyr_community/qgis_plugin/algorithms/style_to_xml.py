@@ -276,31 +276,32 @@ class StyleToQgisXml(SlyrAlgorithm):
                 context.unsupported_object_callback = unsupported_object_callback
 
                 if symbol_type in (Extractor.AREA_PATCHES, Extractor.LINE_PATCHES):
-                    feedback.reportError('{}: Legend patch conversion requires the licensed version of SLYR'.format(name),
-                                         False)
+                    feedback.reportError(
+                        '{}: Legend patch conversion requires the licensed version of SLYR'.format(name),
+                        False)
                     unreadable += 1
                     if sink:
                         f.setAttributes([name, 'Unreadable legend patch: {}'.format(name)])
                         sink.addFeature(f)
                     continue
-                else:
-                    try:
-                        qgis_symbol = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
 
-                    except NotImplementedException as e:
-                        feedback.reportError(str(e), False)
-                        unreadable += 1
-                        if sink:
-                            f.setAttributes([name, str(e)])
-                            sink.addFeature(f)
-                        continue
-                    except UnreadablePictureException as e:
-                        feedback.reportError(str(e), False)
-                        unreadable += 1
-                        if sink:
-                            f.setAttributes([name, 'Unreadable picture: {}'.format(e)])
-                            sink.addFeature(f)
-                        continue
+                try:
+                    qgis_symbol = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
+
+                except NotImplementedException as e:
+                    feedback.reportError(str(e), False)
+                    unreadable += 1
+                    if sink:
+                        f.setAttributes([name, str(e)])
+                        sink.addFeature(f)
+                    continue
+                except UnreadablePictureException as e:
+                    feedback.reportError(str(e), False)
+                    unreadable += 1
+                    if sink:
+                        f.setAttributes([name, 'Unreadable picture: {}'.format(e)])
+                        sink.addFeature(f)
+                    continue
 
                 if isinstance(qgis_symbol, QgsSymbol):
                     style.addSymbol(unique_name, qgis_symbol, True)
