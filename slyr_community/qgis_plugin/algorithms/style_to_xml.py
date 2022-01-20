@@ -46,7 +46,6 @@ from qgis.core import (Qgis,
 from .algorithm import SlyrAlgorithm
 from ...bintools.extractor import Extractor, MissingBinaryException
 from ...converters.context import Context
-from ...converters.geometry import GeometryConverter
 from ...converters.symbols import SymbolConverter
 from ...parser.exceptions import (UnreadableSymbolException,
                                   UnsupportedVersionException,
@@ -277,21 +276,13 @@ class StyleToQgisXml(SlyrAlgorithm):
                 context.unsupported_object_callback = unsupported_object_callback
 
                 if symbol_type in (Extractor.AREA_PATCHES, Extractor.LINE_PATCHES):
-                    if Qgis.QGIS_VERSION_INT < 31300:
-                        feedback.reportError('{}: Legend patch conversion requires QGIS 3.14 or later'.format(name),
-                                             False)
-                        unreadable += 1
-                        if sink:
-                            f.setAttributes([name, 'Unreadable legend patch: {}'.format(name)])
-                            sink.addFeature(f)
-                        continue
-
-                    if symbol_type == Extractor.LINE_PATCHES:
-                        geom = GeometryConverter.convert_geometry(symbol.polyline)
-                        qgis_symbol = QgsLegendPatchShape(QgsSymbol.Line, geom, symbol.preserve_aspect)
-                    elif symbol_type == Extractor.AREA_PATCHES:
-                        geom = GeometryConverter.convert_geometry(symbol.polygon)
-                        qgis_symbol = QgsLegendPatchShape(QgsSymbol.Fill, geom, symbol.preserve_aspect)
+                    feedback.reportError('{}: Legend patch conversion requires the licensed version of SLYR'.format(name),
+                                         False)
+                    unreadable += 1
+                    if sink:
+                        f.setAttributes([name, 'Unreadable legend patch: {}'.format(name)])
+                        sink.addFeature(f)
+                    continue
                 else:
                     try:
                         qgis_symbol = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
