@@ -37,19 +37,20 @@ from qgis.gui import (
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt import uic
 
-from slyr_community.bintools.extractor import Extractor
-from slyr_community.qgis_plugin.provider import SlyrProvider
-from slyr_community.parser.initalize_registry import initialize_registry
-from slyr_community.qgis_plugin.integrations.browser import (
+from .bintools.extractor import Extractor
+from .qgis_plugin.provider import SlyrProvider
+from .parser.initalize_registry import initialize_registry
+from .qgis_plugin.integrations import (
     StyleDropHandler,
     SlyrDataItemProvider,
     LyrDropHandler,
     MxdDropHandler,
     DatDropHandler,
     NameDropHandler,
-    LayoutDropHandler
+    LayoutDropHandler,
+    MxdProjectOpenHandler
 )
-from slyr_community.qgis_plugin.gui_utils import GuiUtils
+from .qgis_plugin.gui_utils import GuiUtils
 
 initialize_registry()
 
@@ -156,6 +157,10 @@ class SlyrPlugin:
         self.options_factory.setTitle('SLYR')
         self.iface.registerOptionsWidgetFactory(self.options_factory)
 
+        if MxdProjectOpenHandler is not None:
+            self.open_handler = MxdProjectOpenHandler()
+            self.iface.registerCustomProjectOpenHandler(self.open_handler)
+
     def initProcessing(self):
         """Create the Processing provider"""
         QgsApplication.processingRegistry().addProvider(self.provider)
@@ -171,3 +176,6 @@ class SlyrPlugin:
         self.iface.unregisterCustomDropHandler(self.name_drop_handler)
         self.iface.unregisterOptionsWidgetFactory(self.options_factory)
         self.iface.unregisterCustomLayoutDropHandler(self.layout_drop_handler)
+
+        if MxdProjectOpenHandler is not None:
+            self.iface.unregisterCustomProjectOpenHandler(self.open_handler)
