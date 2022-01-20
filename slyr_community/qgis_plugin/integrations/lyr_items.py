@@ -44,7 +44,8 @@ from qgis.core import (
     QgsCoordinateReferenceSystem,
     QgsDataCollectionItem,
     QgsLayerItem,
-    QgsTextFormat
+    QgsTextFormat,
+    QgsErrorItem
 )
 from qgis.gui import (
     QgsCustomDropHandler,
@@ -62,7 +63,8 @@ from ...parser.exceptions import (UnreadableSymbolException,
                                   UnsupportedVersionException,
                                   NotImplementedException,
                                   UnknownClsidException,
-                                  UnreadablePictureException)
+                                  UnreadablePictureException,
+                                  RequiresLicenseException)
 from ...parser.objects.base_map_layer import BaseMapLayer
 from ...parser.objects.feature_layer import FeatureLayer
 from ...parser.objects.group_layer import GroupLayer
@@ -204,8 +206,14 @@ class LyrDropHandler(QgsCustomDropHandler):
         """
 
         with open(input_file, 'rb') as f:
-            stream = Stream(f, False, force_layer=True)
-            return LyrDropHandler.open_lyr_stream(stream, input_file)
+            try:
+                stream = Stream(f, False, force_layer=True)
+                return LyrDropHandler.open_lyr_stream(stream, input_file)
+            except RequiresLicenseException as e:
+                message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(e)
+                BrowserUtils.show_warning('Licensed version required', 'Convert LYR', message,
+                                          level=Qgis.Critical)
+                return True
 
     @staticmethod
     def open_lyrx(input_file):  # pylint: disable=too-many-locals,too-many-statements,unused-argument
@@ -291,8 +299,15 @@ class EsriLyrItem(QgsDataItem):
         self.setState(QgsDataItem.Populating)
         if not self.object:
             with open(self.path(), 'rb') as f:
-                stream = Stream(f, False, force_layer=True, offset=0)
-                self.object = stream.read_object()
+
+                try:
+                    stream = Stream(f, False, force_layer=True, offset=0)
+                    self.object = stream.read_object()
+                except RequiresLicenseException as e:
+                    error_item = QgsErrorItem(self, str(e),
+                                              self.path() + '/error')
+                    self.child_items.append(error_item)
+                    return self.child_items
 
         def add_layer(layer):
             self.child_items.append(EsriLyrItem(self, layer.name, '', layer, self.path()))
@@ -366,7 +381,7 @@ class EsriLyrItem(QgsDataItem):
 
         return True
 
-    def extract_symbols(self):
+    def extract_symbols(self):  # pylint: disable=too-many-locals
         """
         Extract symbols from a lyr file
         """
@@ -378,8 +393,17 @@ class EsriLyrItem(QgsDataItem):
         # context.style_folder, _ = os.path.split(output_file)
 
         with open(self.path(), 'rb') as f:
-            stream = Stream(f, False, force_layer=True, offset=-1)
-            root_object = stream.read_object()
+            try:
+                stream = Stream(f, False, force_layer=True, offset=-1)
+                root_object = stream.read_object()
+
+            except RequiresLicenseException as e:
+                message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(e)
+                BrowserUtils.show_warning('Licensed version required', 'Convert LYR', message,
+                                      level=Qgis.Critical)
+
+                return True
+
             layers = LayerConverter.unique_layer_name_map(root_object)
 
             for name, layer in layers.items():
@@ -415,8 +439,15 @@ class EsriLyrItem(QgsDataItem):
 
         if not self.object:
             with open(self.path(), 'rb') as f:
-                stream = Stream(f, False, force_layer=True, offset=0)
-                self.object = stream.read_object()
+                try:
+                    stream = Stream(f, False, force_layer=True, offset=0)
+                    self.object = stream.read_object()
+                except RequiresLicenseException as e:
+                    message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(e)
+                    BrowserUtils.show_warning('Licensed version required', 'Convert LYR', message,
+                                              level=Qgis.Critical)
+
+                    return True
 
         input_path = self.path() or self.layer_path
         input_folder, base = os.path.split(input_path)
@@ -439,8 +470,15 @@ class EsriLyrItem(QgsDataItem):
 
         if not self.object:
             with open(self.path(), 'rb') as f:
-                stream = Stream(f, False, force_layer=True, offset=0)
-                self.object = stream.read_object()
+                try:
+                    stream = Stream(f, False, force_layer=True, offset=0)
+                    self.object = stream.read_object()
+
+                except RequiresLicenseException as e:
+                    message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(e)
+                    BrowserUtils.show_warning('Licensed version required', 'Convert LYR', message,
+                                          level=Qgis.Critical)
+                    return True
 
         input_path = self.path() or self.layer_path
         input_folder, base = os.path.split(input_path)
