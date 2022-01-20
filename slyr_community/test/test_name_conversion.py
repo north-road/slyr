@@ -2786,7 +2786,7 @@ class TestLayerSourceConversion(unittest.TestCase):
         """
         context = Context()
 
-        def unsupported(string, level):
+        def unsupported(string, level):  # pylint: disable=unused-argument
             pass
 
         context.unsupported_object_callback = unsupported

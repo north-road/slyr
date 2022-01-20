@@ -4,12 +4,11 @@
 Test LYR parsing
 """
 
-import unittest
-import os
 import base64
-import pprint
-import ast
 import json
+import os
+import unittest
+
 from ..parser.initalize_registry import initialize_registry
 from ..parser.streams.layer import LayerFile
 
@@ -934,7 +933,7 @@ class TestLyrParser(unittest.TestCase):
         else:
             return obj
 
-    def test_lyr_parsing(self):
+    def test_lyr_parsing(self):  # pylint:disable=too-many-locals
         """
         Checks all lyr parsing against expectations
         """
@@ -969,13 +968,15 @@ class TestLyrParser(unittest.TestCase):
                 d = TestLyrParser.make_json_safe_dict(doc.to_dict())
 
                 if self.UPDATE:
-                    with open(expected_file, 'w') as o:
+                    with open(expected_file, 'w', encoding='utf8') as o:
                         o.write(json.dumps(d, indent=2))
                 else:
                     actual = json.dumps(d, indent=2)
-                    with open(expected_file, 'r') as o:
+                    with open(expected_file, 'r', encoding='utf8') as o:
                         expected_res = o.read()
                     self.assertEqual(actual, expected_res)
+
+
 #                    self.assertEqual(expected_res, d)
 
 
