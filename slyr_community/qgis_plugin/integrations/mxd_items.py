@@ -59,11 +59,26 @@ class MxdDropHandler(QgsCustomDropHandler):
         return self.open_mxd(file)
 
     @staticmethod
-    def open_mxd(input_file,  # pylint:disable=too-many-locals,too-many-return-statements,too-many-branches,too-many-statements,unused-argument
+    def open_mxd(input_file,  # pylint:disable=too-many-locals,too-many-return-statements,too-many-branches,too-many-statements
                  use_warnings=True):  # pylint:disable=unused-argument
         """
         Opens an MXD file in the current project
         """
+        type_string = None
+        if input_file.lower().endswith('mxd'):
+            type_string = 'MXD'
+        elif input_file.lower().endswith('mxt'):
+            type_string = 'MXT'
+        elif input_file.lower().endswith('sxd'):
+            type_string = 'SXD'
+        elif input_file.lower().endswith('pmf'):
+            type_string = 'PMF'
+        elif input_file.lower().endswith('3dd'):
+            type_string = 'ArcGlobe Document'
+
+        if not type_string:
+            return False
+
         message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
         BrowserUtils.show_warning('Licensed version required', 'Convert MXD', message,
                                   level=Qgis.Critical, message_bar=iface.messageBar())
