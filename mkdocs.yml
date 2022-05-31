@@ -1,13 +1,13 @@
 # Project information
-site_name: QGIS Model Baker Documenation
+site_name: Slyr Documenation
 site_description: >-
-  This site contains documentation about QGIS Model Baker
-site_url: https://opengisch.github.io/QgisModelBaker/
+  This site contains documentation about Slyr
+site_url: https://github.com/north-road/slyr
 
 # Repository
 repo_name: opengisch/QgisModelBaker
-repo_url: https://github.com/opengisch/QgisModelBaker
-edit_uri: https://github.com/opengisch/QgisModelBaker/tree/master/docs/
+repo_url: https://github.com/north-road/slyr
+edit_uri: https://github.com/north-road/slyr
 
 # Theme configuration
 theme:
@@ -21,12 +21,12 @@ theme:
   logo: assets/modelbaker_icon.svg
   palette:
     - scheme: default
-      primary: blue grey
+      primary: orange
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
     - scheme: slate
-      primary: blue grey
+      primary: orange
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
