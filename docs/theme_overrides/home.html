@@ -14,12 +14,24 @@
             <p/>
             <img src="{{ base_url }}/assets/modelbaker_logo_long.svg" alt="QGIS Model Baker">
             <p>
-                Model Baker is a QGIS plugin that allows to quickly create a QGIS project from a physical data model. The Model Baker analyzes the existing structure and configures a QGIS project with all available information. This automation can massively reduce the configuration effort.</p>
+                A QGIS plugin for extraction, parsing, and conversion of ESRI `.lyr`, `.mxd` and `.style` files.</p>
             <p>
-                Models defined in INTERLIS provide additional meta information like domains, units of attributes or object oriented definitions of tables. This can be used to further optimize the project configuration. The Model Baker uses <a href="https://github.com/claeis/ili2db/blob/master/docs/ili2db.rst">ili2db</a> to import an INTERLIS model into a physical database and the meta information to configure layer tree, field widgets with conditions, form layouts, relations and much more.
+                - This open-source version only supports ESRI .style database files, and **vector** .lyr files. See https://north-road.com/slyr/ for the version which supports direct MXD file conversion, and support for raster, TIN and point cloud LYR files, and the ArcGIS Pro stylx/lyrx file types.
+                - Full support for converting vector layers, including all symbology, labeling, all renderer types (unique, class breaks, bivariate, etc) and other general layer properties like scale ranges, hotlinks, and much much more.
+                - Near 100% pixel perfect support for converting all fill types, line types and marker symbol types (depending on QGIS version -- for best results always use the lastest QGIS version)
+                - RGB colors can be parsed, within a maximum of 1 unit difference in either the R/G/B components.
+                - 100% color match for other color types, including HSV, CMYK, Grayscale, etc
+                - All color ramp types can be parsed
             </p>
             <p>
-                Furthermore, the Model Baker can be used as a framework for other projects. The plugin <a href="https://github.com/SwissTierrasColombia/Asistente-LADM-COL">Asistente LADM-COL</a>, created for the [Colombian implementation of the Land Administration Domain Model (LADM)](https://www.proadmintierra.info/), uses the Model Baker as a library to implement as much of the specific solution as possible as QGIS core functionality.
+                 - `bin_dump.py` Converts a binary `.style` database row blob into a symbol and dumps the symbol properties to the console
+ - `style_dump.py` Dumps the complete contents of an ESRI `.style` database, printing symbol properties to the console
+ - `style_to_bin.py` Exports the contents of an ESRI `.style` database to individual `.bin` binary files, each containing an encoded version of a single symbol
+ - `style_to_qgis_xml.py` Converts the contents of an ESRI `.style` database to a QGIS 3.x Style `.xml` file, ready for importing direct into your QGIS style library (requires QGIS 3.x)
+
+ Style parsing tools require the command line `mdbtools` for handling the `.style` database files. Binaries of these can be downloaded from [https://github.com/lsgunth/mdbtools-win](https://github.com/lsgunth/mdbtools-win), and they should be extracted and available in the Windows path. Alternatively, you can extract them to any folder and then setup the correct path to that folder through the Settings -> Options -> SLYR panel.
+
+ LYR parsing tools do not require any additional dependencies.
             </p>
         </div>
       </div>
