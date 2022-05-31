@@ -1,8 +1,8 @@
 # Project information
-site_name: Slyr Documenation
+site_name: "SLYR: the ESRI to QGIS Compatibility Suite - Documentation"
 site_description: >-
-  This site contains documentation about Slyr
-site_url: https://github.com/north-road/slyr
+  User documentation for the SLYR QGIS plugin, which offers a full suite of tools for converting ESRI ArcMap and ArcGIS Pro documents to (and from!) QGIS formats
+site_url: https://slyr.north-road.com
 
 # Repository
 repo_name: north-road/slyr
