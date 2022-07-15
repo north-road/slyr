@@ -23,8 +23,7 @@ Coordinate reference system conversion
 """
 
 from qgis.core import (
-    QgsCoordinateReferenceSystem,
-    QgsProjUtils
+    QgsCoordinateReferenceSystem
 )
 from ..parser.objects.unknown_coordinate_system import UnknownCoordinateSystem
 from .context import Context
@@ -47,8 +46,13 @@ class CrsConverter:
             return QgsCoordinateReferenceSystem()
 
         wkt = crs.wkt
-        if QgsProjUtils.projVersionMajor() < 7 or (QgsProjUtils.projVersionMajor() == 7 and QgsProjUtils.projVersionMinor() < 2):
-            # a bit of a hack, but in place until Proj 7.2 which can handle "Local" projection method...
+        try:
+            from qgis.core import QgsProjUtils
+            if QgsProjUtils.projVersionMajor() < 7 or (QgsProjUtils.projVersionMajor() == 7 and QgsProjUtils.projVersionMinor() < 2):
+                # a bit of a hack, but in place until Proj 7.2 which can handle "Local" projection method...
+                wkt = wkt.replace('PROJECTION["Local"]', 'PROJECTION["Orthographic"]')
+        except ImportError:
+            # we just assume older qgis releases are also on older proj releases...
             wkt = wkt.replace('PROJECTION["Local"]', 'PROJECTION["Orthographic"]')
 
         res = QgsCoordinateReferenceSystem(wkt)
