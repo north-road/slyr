@@ -21,7 +21,8 @@ class RouteLayerExtension(Object):
         self.route_identifier = ''
         self.anomaly_properties = None
 
-    def supports_references(self):
+    @staticmethod
+    def supports_references():
         return False
 
     def read(self, stream: Stream, version):
