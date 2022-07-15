@@ -47,7 +47,7 @@ class CrsConverter:
 
         wkt = crs.wkt
         try:
-            from qgis.core import QgsProjUtils
+            from qgis.core import QgsProjUtils  # pylint: disable=import-outside-toplevel
             if QgsProjUtils.projVersionMajor() < 7 or (QgsProjUtils.projVersionMajor() == 7 and QgsProjUtils.projVersionMinor() < 2):
                 # a bit of a hack, but in place until Proj 7.2 which can handle "Local" projection method...
                 wkt = wkt.replace('PROJECTION["Local"]', 'PROJECTION["Orthographic"]')
