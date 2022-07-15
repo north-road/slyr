@@ -267,8 +267,6 @@ class Extractor:
                         tags_idx = idx
                     elif header.lower().strip() == 'id':
                         symbol_id_idx = idx
-                    else:
-                        assert False, header
                 continue
 
             res = r.split(Extractor.__DELIMITER)
