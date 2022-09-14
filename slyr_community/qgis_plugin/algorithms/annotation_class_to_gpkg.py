@@ -63,9 +63,14 @@ class ConvertAnnotationClassToGeopackage(SlyrAlgorithm):
         return ''
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, 'Input Geodatabase', behavior=QgsProcessingParameterFile.Folder,
-            fileFilter='File Geodatabases (*.gdb)'))
+        if Qgis.QGIS_VERSION_INT >= 31000:
+            self.addParameter(QgsProcessingParameterFile(
+                self.INPUT, 'Input Geodatabase', behavior=QgsProcessingParameterFile.Folder,
+                fileFilter='File Geodatabases (*.gdb)'))
+        else:
+            self.addParameter(QgsProcessingParameterFile(
+                self.INPUT, 'Input Geodatabase', behavior=QgsProcessingParameterFile.Folder,
+                extension='gdb'))
 
         self.addParameter(QgsProcessingParameterFileDestination(
             self.OUTPUT, 'Output GeoPackage', fileFilter='GeoPackage files (*.gpkg)'))
