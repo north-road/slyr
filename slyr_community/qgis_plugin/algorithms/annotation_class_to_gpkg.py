@@ -23,7 +23,8 @@
 SLYR QGIS Processing algorithms
 """
 
-from qgis.core import (QgsProcessingParameterFile,
+from qgis.core import (Qgis,
+                       QgsProcessingParameterFile,
                        QgsProcessingParameterFileDestination,
                        QgsProcessingException)
 
