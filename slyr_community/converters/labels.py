@@ -21,8 +21,8 @@
 """
 Label conversion
 """
-
 from qgis.core import (
+    Qgis,
     QgsPalLayerSettings,
     QgsWkbTypes,
     QgsVectorLayer,
@@ -43,6 +43,7 @@ from ..parser.objects.label_engine_layer_properties import LabelEngineLayerPrope
 from ..parser.objects.label_style import LabelStyle
 from ..parser.objects.line_callout import LineCallout
 from ..parser.objects.maplex_overposter_layer_properties import MaplexOverposterLayerProperties
+from ..parser.objects.maplex_label_engine_layer_properties import MaplexLabelEngineLayerProperties
 from ..parser.objects.maplex_rotation_properties import MaplexRotationProperties
 from ..parser.objects.marker_text_background import MarkerTextBackground
 from ..parser.objects.simple_line_callout import SimpleLineCallout
@@ -61,11 +62,18 @@ class LabelConverter:
         TextSymbol.HALIGN_FULL: QgsPalLayerSettings.MultiLeft,  # doesn't directly map
     }
 
-    LABEL_WEIGHT_MAP = {
+    OBSTACLE_WEIGHT_MAP = {
         BasicOverposterLayerProperties.WEIGHT_NONE: 0,
         BasicOverposterLayerProperties.WEIGHT_LOW: 0.5,
         BasicOverposterLayerProperties.WEIGHT_MED: 1.0,
-        BasicOverposterLayerProperties.WEIGHT_HIGH: 2.0
+        BasicOverposterLayerProperties.WEIGHT_HIGH: 2.0,
+    }
+
+    LABEL_WEIGHT_MAP = {
+        BasicOverposterLayerProperties.WEIGHT_NONE: 0,
+        BasicOverposterLayerProperties.WEIGHT_LOW: 2,
+        BasicOverposterLayerProperties.WEIGHT_MED: 5,
+        BasicOverposterLayerProperties.WEIGHT_HIGH: 10,
     }
 
     @staticmethod
@@ -74,12 +82,17 @@ class LabelConverter:
         """
         Converts an annotation collection to QGIS labeling
         """
-        if collection is None:
+        if not collection:
             return
 
-        if len(collection.properties) == 1 and not collection.properties[0].class_filter:
+        if isinstance(collection, AnnotateLayerPropertiesCollection):
+            properties = collection.properties
+        else:
+            properties = collection
+
+        if len(properties) == 1 and not properties[0].class_filter:
             # one label class, use simple labeling
-            properties = collection.properties[0]
+            properties = properties[0]
             label_settings = LabelConverter.convert_label_engine_layer_properties(properties,
                                                                                   layer_geometry_type=dest_layer.geometryType(),
                                                                                   context=context)
@@ -90,18 +103,18 @@ class LabelConverter:
         else:
             # multiple classes, use rule-based labeling
             root_rule = QgsRuleBasedLabeling.Rule(None)
-            for p in collection.properties:
+            for p in properties:
                 label_settings = LabelConverter.convert_label_engine_layer_properties(p,
                                                                                       layer_geometry_type=dest_layer.geometryType(),
                                                                                       context=context)
 
-                zoom_max = p.scale_range_min
-                zoom_min = p.scale_range_max
+                zoom_max = p.scale_range_min or 0
+                zoom_min = p.scale_range_max or 0
                 if zoom_max and zoom_min and zoom_max > zoom_min:
                     zoom_min, zoom_max = zoom_max, zoom_min
 
                 rule = QgsRuleBasedLabeling.Rule(label_settings, zoom_max, zoom_min,
-                                                 ExpressionConverter.convert_esri_sql(p.class_filter),
+                                                 ExpressionConverter.convert_esri_sql(p.class_filter) if p.class_filter else '',
                                                  p.class_name)
                 rule.setActive(p.label_features)
                 root_rule.appendChild(rule)
@@ -131,6 +144,7 @@ class LabelConverter:
 
     @staticmethod
     def convert_overposter(overposter,  # pylint: disable=too-many-branches,too-many-statements
+                           maplex_overposter,
                            layer_geometry_type,
                            dest_label_settings,
                            context):
@@ -181,40 +195,43 @@ class LabelConverter:
                     placement_flags |= QgsPalLayerSettings.AboveLine
                 if overposter.line_label_position.online:
                     placement_flags |= QgsPalLayerSettings.OnLine
-                if not overposter.line_label_position.follow_line_orientation:
-                    placement_flags |= QgsPalLayerSettings.MapOrientation
+                if False:  # pylint: disable=using-constant-test
+                    pass
+                else:
+                    if not overposter.line_label_position.follow_line_orientation:
+                        placement_flags |= QgsPalLayerSettings.MapOrientation
             except AttributeError:
+                if maplex_overposter:
+                    if maplex_overposter.line_placement_method in (MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_HORIZONTAL_ON_LINE, ):
+                        dest_label_settings.placement = QgsPalLayerSettings.Horizontal
+                        placement_flags = QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
+                    elif maplex_overposter.line_placement_method in (MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_STRAIGHT_ON_LINE,):
+                        dest_label_settings.placement = QgsPalLayerSettings.Line
+                        placement_flags = QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
+                    elif maplex_overposter.line_placement_method in (MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_CURVED_ON_LINE, ):
+                        dest_label_settings.placement = QgsPalLayerSettings.Curved
+                        placement_flags = QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
+                    elif maplex_overposter.line_placement_method in (MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_PERPENDICULAR_ON_LINE, ):
+                        if context.unsupported_object_callback:
+                            context.unsupported_object_callback('Perpendicular line labels are not supported by QGIS')
 
-                if overposter.line_placement_method == MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_HORIZONTAL_ON_LINE:
-                    dest_label_settings.placement = QgsPalLayerSettings.Horizontal
-                    placement_flags = QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
-                elif overposter.line_placement_method == MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_STRAIGHT_ON_LINE:
-                    dest_label_settings.placement = QgsPalLayerSettings.Line
-                    placement_flags = QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
-                elif overposter.line_placement_method == MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_CURVED_ON_LINE:
-                    dest_label_settings.placement = QgsPalLayerSettings.Curved
-                    placement_flags = QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
-                elif overposter.line_placement_method == MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_PERPENDICULAR_ON_LINE:
-                    if context.unsupported_object_callback:
-                        context.unsupported_object_callback('Perpendicular line labels are not supported by QGIS')
+                        dest_label_settings.placement = QgsPalLayerSettings.Line
+                        placement_flags = QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
+                    elif maplex_overposter.line_placement_method in (MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_HORIZONTAL_FROM_LINE, ):
+                        dest_label_settings.placement = QgsPalLayerSettings.Horizontal
+                        placement_flags = QgsPalLayerSettings.AboveLine | QgsPalLayerSettings.MapOrientation
+                    elif maplex_overposter.line_placement_method in (MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_STRAIGHT_FROM_LINE, ):
+                        dest_label_settings.placement = QgsPalLayerSettings.Line
+                        placement_flags = QgsPalLayerSettings.AboveLine | QgsPalLayerSettings.MapOrientation
+                    elif maplex_overposter.line_placement_method in (MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_CURVED_FROM_LINE, ):
+                        dest_label_settings.placement = QgsPalLayerSettings.Curved
+                        placement_flags = QgsPalLayerSettings.AboveLine | QgsPalLayerSettings.MapOrientation
+                    elif maplex_overposter.line_placement_method in (MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_PERPENDICULAR_FROM_LINE, ):
+                        if context.unsupported_object_callback:
+                            context.unsupported_object_callback('Perpendicular line labels are not supported by QGIS')
 
-                    dest_label_settings.placement = QgsPalLayerSettings.Line
-                    placement_flags = QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
-                elif overposter.line_placement_method == MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_HORIZONTAL_FROM_LINE:
-                    dest_label_settings.placement = QgsPalLayerSettings.Horizontal
-                    placement_flags = QgsPalLayerSettings.AboveLine | QgsPalLayerSettings.MapOrientation
-                elif overposter.line_placement_method == MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_STRAIGHT_FROM_LINE:
-                    dest_label_settings.placement = QgsPalLayerSettings.Line
-                    placement_flags = QgsPalLayerSettings.AboveLine | QgsPalLayerSettings.MapOrientation
-                elif overposter.line_placement_method == MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_CURVED_FROM_LINE:
-                    dest_label_settings.placement = QgsPalLayerSettings.Curved
-                    placement_flags = QgsPalLayerSettings.AboveLine | QgsPalLayerSettings.MapOrientation
-                elif overposter.line_placement_method == MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_PERPENDICULAR_FROM_LINE:
-                    if context.unsupported_object_callback:
-                        context.unsupported_object_callback('Perpendicular line labels are not supported by QGIS')
-
-                    dest_label_settings.placement = QgsPalLayerSettings.Line
-                    placement_flags = QgsPalLayerSettings.AboveLine | QgsPalLayerSettings.MapOrientation
+                        dest_label_settings.placement = QgsPalLayerSettings.Line
+                        placement_flags = QgsPalLayerSettings.AboveLine | QgsPalLayerSettings.MapOrientation
 
             dest_label_settings.placementFlags = placement_flags
             # NOT supported:
@@ -231,7 +248,12 @@ class LabelConverter:
         # label_settings.centroidInside
         # label_settings.fitInPolygonOnly
 
-        dest_label_settings.dist = overposter.offset
+        if overposter:
+            if False:  # pylint: disable=using-constant-test
+                dest_label_settings.dist = overposter.line_offset or 0
+            else:
+                dest_label_settings.dist = overposter.offset
+
         dest_label_settings.distUnits = QgsUnitTypes.RenderPoints
         dest_label_settings.offsetType = QgsPalLayerSettings.FromSymbolBounds
 
@@ -252,34 +274,40 @@ class LabelConverter:
         # label_settings.displayAll
         # label_settings.upsidedownLabels
 
-        try:
-            dest_label_settings.labelPerPart = overposter.number_restriction == BasicOverposterLayerProperties.NUM_ONE_PER_PART
-        except AttributeError:
-            pass  # TODO - maplex
+        dest_label_settings.labelPerPart = False
+        if False:  # pylint: disable=using-constant-test
+            pass
+        else:
+            try:
+                dest_label_settings.labelPerPart = overposter.number_restriction == BasicOverposterLayerProperties.NUM_ONE_PER_PART
+            except AttributeError:
+                pass  # TODO - maplex
 
         # label_settings.mergeLines
 
-        try:
-            dest_label_settings.obstacleFactor = LabelConverter.LABEL_WEIGHT_MAP[overposter.feature_weight]
-        except KeyError:
-            # maplex
-            if overposter.feature_weight is not None:
-                dest_label_settings.obstacleFactor = overposter.feature_weight / 250.0
+        if overposter:
+            try:
+                dest_label_settings.obstacleFactor = LabelConverter.OBSTACLE_WEIGHT_MAP[overposter.feature_weight]
+            except KeyError:
+                # maplex
+                if overposter.feature_weight is not None:
+                    dest_label_settings.obstacleFactor = overposter.feature_weight / 250.0
 
-        if isinstance(overposter, MaplexOverposterLayerProperties):
-            if overposter.rotation_properties.rotate_by_attribute:
-                if overposter.rotation_properties.rotation_type == MaplexRotationProperties.ROTATE_LABEL_ARITHMETIC:
-                    rotation_expression = '-"{}"'.format(overposter.rotation_properties.rotation_attribute)
+        if isinstance(maplex_overposter, MaplexOverposterLayerProperties):
+            if maplex_overposter.rotation_properties.rotate_by_attribute:
+                if maplex_overposter.rotation_properties.rotation_type == MaplexRotationProperties.ROTATE_LABEL_ARITHMETIC:
+                    rotation_expression = '-"{}"'.format(maplex_overposter.rotation_properties.rotation_attribute)
                     dd = dest_label_settings.dataDefinedProperties()
                     dd.setProperty(QgsPalLayerSettings.LabelRotation, QgsProperty.fromExpression(rotation_expression))
                     dest_label_settings.setDataDefinedProperties(dd)
-                elif overposter.rotation_properties.rotation_type == MaplexRotationProperties.ROTATE_LABEL_GEOGRAPHIC:
+                elif maplex_overposter.rotation_properties.rotation_type == MaplexRotationProperties.ROTATE_LABEL_GEOGRAPHIC:
                     dd = dest_label_settings.dataDefinedProperties()
                     dd.setProperty(QgsPalLayerSettings.LabelRotation,
-                                   QgsProperty.fromField(overposter.rotation_properties.rotation_attribute))
+                                   QgsProperty.fromField(maplex_overposter.rotation_properties.rotation_attribute))
                     dest_label_settings.setDataDefinedProperties(dd)
 
-        dest_label_settings.obstacle = overposter.feature_weight != BasicOverposterLayerProperties.WEIGHT_NONE
+        if overposter:
+            dest_label_settings.obstacle = overposter.feature_weight not in (BasicOverposterLayerProperties.WEIGHT_NONE,)
         # label_settings.obstacleType
 
     @staticmethod
@@ -291,7 +319,7 @@ class LabelConverter:
         label_settings.drawLabels = True
 
         LabelConverter.convert_label_text_symbol(properties.text_symbol, label_settings, context)
-        LabelConverter.convert_overposter(properties.overposter, QgsWkbTypes.UnknownGeometry, label_settings, context)
+        LabelConverter.convert_overposter(properties.overposter, properties.overposter if isinstance(properties.overposter, MaplexOverposterLayerProperties) else None, QgsWkbTypes.UnknownGeometry, label_settings, context)
 
         label_settings.layerType = QgsWkbTypes.PointGeometry
         return label_settings
@@ -305,19 +333,27 @@ class LabelConverter:
         label_settings = QgsPalLayerSettings()
         label_settings.drawLabels = properties.label_features
 
-        LabelConverter.convert_label_text_symbol(properties.text_symbol, label_settings, context)
+        if isinstance(properties, (LabelEngineLayerProperties, MaplexLabelEngineLayerProperties)):
+            LabelConverter.convert_label_text_symbol(properties.text_symbol, label_settings, context)
+        else:
+            LabelConverter.convert_label_text_symbol(properties.text_symbol.symbol, label_settings, context)
 
         label_settings.fieldName = ExpressionConverter.convert(properties.expression, properties.expression_parser,
-                                                               properties.advanced_expression, context)
+                                                               False if False else properties.advanced_expression, context)  # pylint: disable=using-constant-test
         label_settings.isExpression = True
 
-        LabelConverter.convert_overposter(properties.overposter, layer_geometry_type, label_settings, context)
+        if False:  # pylint: disable=using-constant-test
+            pass
+        else:
+            LabelConverter.convert_overposter(properties.overposter,
+                                              properties.overposter if isinstance(properties.overposter, MaplexOverposterLayerProperties) else None,
+                                              layer_geometry_type, label_settings, context)
 
-        label_settings.scaleVisibility = properties.scale_range_max or properties.scale_range_min
+        label_settings.scaleVisibility = bool(properties.scale_range_max or properties.scale_range_min)
         # layer.zoom_max = "don't show when zoomed out beyond"
-        zoom_max = properties.scale_range_max
+        zoom_max = properties.scale_range_max or 0
         # layer.zoom_min = "don't show when zoomed in beyond"
-        zoom_min = properties.scale_range_min
+        zoom_min = properties.scale_range_min or 0
         if zoom_max and zoom_min and zoom_min > zoom_max:
             # inconsistent scale range -- zoom_max should be bigger number than zoom_min
             zoom_min, zoom_max = zoom_max, zoom_min
@@ -347,7 +383,8 @@ class LabelConverter:
             raise NotImplementedException('Converting {} not implemented yet'.format(callout.__class__.__name__))
 
     @staticmethod
-    def convert_simple_line_callout(callout: SimpleLineCallout, context, reference_scale=None):  # pylint: disable=unused-argument
+    def convert_simple_line_callout(callout: SimpleLineCallout, context,
+                                    reference_scale=None):  # pylint: disable=unused-argument
         """
         Converts a SimpleLineCallout
         """
@@ -357,7 +394,7 @@ class LabelConverter:
             # raise UnreadableSymbolException('Converting callouts requires QGIS 3.10 or later')
             return None
 
-        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel,cyclic-import
+        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel
 
         res = QgsSimpleLineCallout()
         symbol = SymbolConverter.Symbol_to_QgsSymbol(callout.line_symbol, context)
@@ -376,7 +413,8 @@ class LabelConverter:
         Converts a LineCallout
         """
         try:
-            from qgis.core import QgsSimpleLineCallout, QgsManhattanLineCallout  # pylint: disable=import-outside-toplevel
+            from qgis.core import QgsSimpleLineCallout, \
+                QgsManhattanLineCallout  # pylint: disable=import-outside-toplevel
         except ImportError:
             if context.unsupported_object_callback:
                 context.unsupported_object_callback('Converting callouts requires QGIS 3.10 or later')
@@ -387,7 +425,7 @@ class LabelConverter:
         if callout.border_symbol and context.unsupported_object_callback:
             context.unsupported_object_callback('Callout border symbols are not supported by QGIS')
 
-        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel,cyclic-import
+        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel
 
         if callout.style == LineCallout.STYLE_BASE:
             res = QgsManhattanLineCallout()
@@ -424,7 +462,8 @@ class LabelConverter:
         return res
 
     @staticmethod
-    def convert_balloon_callout(callout: BalloonCallout, context, reference_scale=None):  # pylint: disable=unused-argument
+    def convert_balloon_callout(callout: BalloonCallout, context,
+                                reference_scale=None):  # pylint: disable=unused-argument
         """
         Converts a BalloonCallout
         """
@@ -516,3 +555,7 @@ end""")
 
         labeling = QgsVectorLayerSimpleLabeling(label_settings)
         dest_layer.setLabeling(labeling)
+
+
+if Qgis.QGIS_VERSION_INT > 31600:
+    LabelConverter.TEXT_ALIGN_MAP[TextSymbol.HALIGN_FULL] = QgsPalLayerSettings.MultiJustify
