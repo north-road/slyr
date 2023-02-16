@@ -10,8 +10,8 @@ SLYR  | €1200 | Contact North Road
 
 To open the Plugin Manager, click on the top menu item `Plugins` :arrow_right: `Manage and Install Plugins`.
 
-In the dialog that opens, type *SLYR* in the search bar.
+In the dialog that opens, type *SLYR* in the search bar, click on the *SLYR (Community Edition)* in the middle panel and click on `Install Plugin`
 
-![comm_ed](..images/comm_ed.png)
+![SLYR Community Edition](../images/comm_ed.png)
 
 Click 
