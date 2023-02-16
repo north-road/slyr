@@ -12,5 +12,6 @@ To open the Plugin Manager, click on the top menu item `Plugins` :arrow_right: `
 
 In the dialog that opens, type *SLYR* in the search bar.
 
+![comm_ed](..images/comm_ed.png)
 
 Click 
