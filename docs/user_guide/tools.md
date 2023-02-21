@@ -2,9 +2,10 @@
 
 ## Tool ##
 Converts
-| File | From | To |
-| ---| ---| ---|
-| .mxd | ESRI | QGIS |
+
+ File | From | To 
+ ---| ---| ---
+ .mxd | ESRI | QGIS 
 
 Description
 
