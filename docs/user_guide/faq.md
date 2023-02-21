@@ -28,8 +28,6 @@ To create an invoice or quote, we require the following information:
 > 
 > Type of users (in office/remote)
 
-When we have received this information, we will send you an invoice.
-
 When we receive payment (credit card, bank transfer or PayPal), we will send you the licence and instructions for using **SLYR**.
 
 ## Student versions ##
