@@ -13,11 +13,17 @@ The **SLYR** licence agreement covers use by mulitple users in the same physical
 If you would like to to purchase SLYR send us an email. As we often deal with with clients in Europe and America, there is often a lag due to the time differences as we are in Queensland, Australia. To speed up the process, include the details below in your email so we can produce an invoice for you straight away. If you need a quote first, we still need the same details and let us know you require a quote. 
 
 To create this invoice, we require the following information:
+
 * Organisation name/Your name
+
 * Office address
+
 * VAT number (if in Europe)
+
 * Purchase order number if required
+
 * Expected number of users
+
 * Type of users (in office/remote)
 
 When we have received this information, we will send you an invoice.
