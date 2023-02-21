@@ -4,7 +4,7 @@ Have a question? Check the entries below for an answer.
 >If the answer to your question is not here, please email us at [North Road Support](mailto:info@north-road.com)
 
 ## Cost of SLYR Plugin ##
-At the time of writing, to purchase the SLYR Plugin costs €1200. For those sitting outside of Europe, the cost will be as per the conversion rate at the time of issuing the invoice. 
+At the time of writing, to purchase the SLYR Plugin costs €1200. For those located outside of Europe, the cost will be as per the conversion rate at the time of issuing the invoice. 
 
 ## How many users will a licence cover ##
 The **SLYR** licence agreement covers use by mulitple users in the same physical location. It will also cover remote users that are attached to the defined physical location. If you have multiple locations that require use of the licence, please let us know and we will assess each case on an individual basis. 
