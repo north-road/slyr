@@ -8,8 +8,8 @@ SLYR (Community Edition) | Free | Access via QGIS Plugin Manager.
 
 Once purchased, **SLYR's** support is perpetual! 
 >Users will get the latest tools via version updates at no extra cost:
->* No annual maintenance 
->* Update at your leisure using the **QGIS Plugin Manager**. 
+> * No annual maintenance 
+> * Update at your leisure using the **QGIS Plugin Manager**. 
 
 ## Install **SLYR** ##
 After purchasing **SLYR**, **North Road** will send you your licence details and instructions on how to install it.
