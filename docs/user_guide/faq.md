@@ -15,10 +15,15 @@ If you would like to to purchase SLYR send us an email. As we often deal with wi
 To create this invoice, we require the following information:
 
 > Organisation name/Your name
+> 
 > Office address
+> 
 > VAT number (if in Europe)
+> 
 > Purchase order number if required
+> 
 > Expected number of users
+> 
 > Type of users (in office/remote)
 
 When we have received this information, we will send you an invoice.
