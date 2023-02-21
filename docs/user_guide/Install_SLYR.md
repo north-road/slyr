@@ -17,6 +17,7 @@ Once installed, **SLYR** will appear in the browser panel. Expand the tools and 
 ## Install the **SLYR (Community Edition)** ##
 To install the **SLYR (Community Edition)**, open the **Plugin Manager**, click on the top menu item `Plugins` ▶️ `Manage and Install Plugins`.
 ![Open Plugin Manager](../images/plugin_mngr_open2.png)
+
 In the dialog that opens, type *SLYR* in the search bar. 
 
 In the middle panel, click on the *SLYR (Community Edition)*  and then click on `Install Plugin`.
