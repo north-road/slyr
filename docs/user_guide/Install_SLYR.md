@@ -12,10 +12,10 @@ Once purchased, SLYR is like the ever-lasting gobstopper! Users will get the lat
 After purchasing **SLYR**, **North Road** will send you your licence details and instructions on how to install it.
 
 Once installed, **SLYR** will appear in the browser panel. Expand the tools and start using them.
-![SLYR location](../images/SLYR_browser.png)
+![SLYR location](../images/browser.png)
 ## Install the **SLYR (Community Edition)** ##
 To install the **SLYR (Community Edition)**, open the **Plugin Manager**, click on the top menu item `Plugins` ▶️ `Manage and Install Plugins`.
-![Open Plugin Manager](../images/Plugin_mngr_open.png)
+![Open Plugin Manager](../images/plugin_mngr_open2.png)
 In the dialog that opens, type *SLYR* in the search bar. 
 
 In the middle panel, click on the *SLYR (Community Edition)*  and then click on `Install Plugin`
