@@ -1,10 +1,12 @@
+# SLYR Pricing #
 **SLYR** Plugin costs €1200. 
-This which includes
-> access to **SLYR's** full tools
-> multiple user access in the one physical location
-> perpetual verion updates
-> no annual maintenance
-> full support from North Road
+
+This includes:
+> Access to **SLYR's** full tools
+> Multiple user access in the one physical location
+> Perpetual verion updates
+> No annual maintenance
+> Full support from North Road
 
 ## Cost for non-European purchases ##
 For those located outside of Europe, the cost will be as per the conversion rate at the time of issuing the invoice. 
