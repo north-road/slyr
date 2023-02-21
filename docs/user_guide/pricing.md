@@ -3,9 +3,13 @@
 
 This includes:
 > Access to **SLYR's** full tools
+> 
 > Multiple user access in the one physical location
+> 
 > Perpetual verion updates
+> 
 > No annual maintenance
+> 
 > Full support from North Road
 
 ## Cost for non-European purchases ##
