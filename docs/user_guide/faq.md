@@ -7,12 +7,14 @@ Have a question? Check the entries below for an answer.
 At the time of writing, to purchase the SLYR Plugin costs €1200. For those located outside of Europe, the cost will be as per the conversion rate at the time of issuing the invoice. 
 
 ## How many users will a licence cover ##
-The **SLYR** licence agreement covers use by mulitple users in the same physical location. It will also cover remote users that are attached to the defined physical location. If you have multiple locations that require use of the licence, please let us know and we will assess each case on an individual basis. 
+The **SLYR** licence agreement covers use by mulitple users in the same physical location i.e. an office address. It will also cover remote users that are attached to the defined physical location. If you have multiple locations that require use of the licence, please let [us](mailto:info@north-road.com) know and we will assess each case on an individual basis. 
 
 ## Purchase process ##
-If you would like to to purchase SLYR send us an email. As we often deal with with clients in Europe and America, there is often a lag due to the time differences as we are in Queensland, Australia. To speed up the process, include the details below in your email so we can produce an invoice for you straight away. If you need a quote first, we still need the same details and let us know you require a quote. 
+If you would like to to purchase SLYR send us an email. As we often deal with clients in Europe and America, there is often a lag due to the time differences as we are located in Queensland, Australia (AEST, GMT+10). 
 
-To create this invoice, we require the following information:
+To speed up the process, include the details below in your email so we can produce an invoice for you straight away. If you need a quote first, let us know in the email and provide the same details listed below.
+
+To create an invoice or quote, we require the following information:
 
 > Organisation name/Your name
 > 
@@ -20,7 +22,7 @@ To create this invoice, we require the following information:
 > 
 > VAT number (if in Europe)
 > 
-> Purchase order number if required
+> Purchase order number (if required)
 > 
 > Expected number of users
 > 
@@ -36,11 +38,14 @@ Unfortunately we do not offer a student version of **SLYR**. We recommend you ap
 ## Support ##
 North Road offers a high level of support to all **SLYR** purchases. You can contact us at anytime via [email](mailto:info@north-road.com). 
 > If there is a bug we will fix it to the best of our abilities and release it as soon as we can. 
+
 > If you wish a tool to work in a certain way, and if there are no barriers to developing it (software constraints in QGIS/ESRI), we will attempt to do it. 
+
 > If it is something that will require a high level of development, you can consider whether to join the current **Hall of Fame** and sponsor its development.
 
 ## Trial versions ##
-Evaluation versions of the tool are not available. If you require a sample conversions prior to purchasing, email QGIS or ESRI files to [North Road Support](mailto:info@north-road.com) for conversion and we will email back the results to you for your evaluation. 
+Evaluation versions of the tool are not available. If you require a sample to evaluate prior to purchasing, email QGIS or ESRI files to [North Road Support](mailto:info@north-road.com) and we will convert it at no cost.
+
 For each conversion, send through these files
 
 | Source | File type to send |
@@ -54,7 +59,7 @@ SLYR is updated many times during the year, at least once per quarter. To find o
 ![SLYR Changelog](../images/slyr_changelog.png)
 
 ## What licences do I need? ##
-SLYR is designed so that you can push out ESRI products without the need of an ESRI licence as you operate **SLYR** from **QGIS**. You only need to have [QGIS](https://www.qgis.org/en/site/) installed. However, if you wish to view the output in an ESRI environment, you will need an appropriate type of licence for the file type. For more information on files types and the software needed, check out [Fileformat's GIS list](https://docs.fileformat.com/gis/).
+SLYR is designed so that you can push out ESRI products without the need of an ESRI licence as you undetake all **SLYR** operations in **QGIS**. You only need to have [QGIS](https://www.qgis.org/en/site/) installed. However, if you wish to view the output in an ESRI environment, you will need an appropriate type of licence for the file type. For more information on files types and the software needed, check out [Fileformat's GIS list](https://docs.fileformat.com/gis/).
 
 ## What QGIS version do I need? ##
-The latest QGIS version is always the best as we update SLYR to meet the latest versions. However, SLYR will work with older versions - we recommend using at least v3.16.
+The latest QGIS version is always the best as we update SLYR to meet the latest versions. However, SLYR will work with older versions - we recommend using versions from v3.16 onmwards.
