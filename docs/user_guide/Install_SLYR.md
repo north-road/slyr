@@ -3,8 +3,8 @@ SLYR is available in two versions:
   
 Version | Cost | Details
 :-------: | :-----: |:------ 
-SLYR  | €1200 | Contact [North Road](https://north-road.com/contact/)
-SLYR (Community Edition) | Free | Access via QGIS Plugin Manager 
+SLYR  | €1200 | Contact [North Road](https://north-road.com/contact/) to purchase.
+SLYR (Community Edition) | Free | Access via QGIS Plugin Manager. 
 
 <!--I want to remove the shading in the second row-->
 
