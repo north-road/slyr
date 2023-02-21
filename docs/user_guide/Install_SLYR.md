@@ -14,6 +14,7 @@ Once purchased, SLYR is like the ever-lasting gobstopper! Users will get the lat
 After purchasing **SLYR**, **North Road** will send you your licence details and instructions on how to install it.
 
 Once installed, **SLYR** will appear in the browser panel. Expand the tools and start using them.
+
 ![SLYR location](../images/SLYR_browser.png)
 
 ## Install the **SLYR (Community Edition)** ##
