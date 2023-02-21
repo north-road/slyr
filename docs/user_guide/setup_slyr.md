@@ -35,7 +35,7 @@ Store relative paths for files instead of absolute paths |  |
 | Setting | Description | Example |
 | ---| --- | --- |
 Default primary key | Default value is OBJECTID, but this can be changed as per requirements |
-Table name conversion | Options: Leave unchanged, Convert to Uppercase, Convert to Lowercase |
+Table name conversion | Options: Leave unchanged, Convert to Uppercase, OR Convert to Lowercase |
 
 ### MDB Tools ###
 
