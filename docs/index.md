@@ -5,4 +5,4 @@ title: Slyr Documentation
 
 [Check out the FAQs](/user_guide/faq)
 
-[Pricing] (/user_guide/pricing)
+[Pricing](/user_guide/pricing)
