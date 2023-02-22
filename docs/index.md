@@ -11,5 +11,5 @@ title: Slyr Documentation
 
 [Check out the FAQs](/user_guide/faq)
 
-[For full licence users](/user_guide/get_started/setup_slyr)
+[For full licence users](/user_guide/setup_slyr)
 
