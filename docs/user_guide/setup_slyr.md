@@ -2,24 +2,26 @@
 <!-- it would be nice to only give access to this page to purchasers -->
 
 ## Install the plugin ##
-Once purchased, users will receive an email from North Road with a link for the installer and their licence key. 
-1. Save the information in this email, along with your invoice and receipt in a safe place for future reference.
+Once purchased, users will receive an email from **North Road** with a link for the installer and their licence key. 
+1. Before installing the licensed version of **SLYR**, you must first uninstall the community version (if installed) and restart **QGIS**.
 
-2. Download the installer from the link. 
+2. Save the information in this email, along with your invoice and receipt in a safe place for future reference.
+
+3. Download the installer from the link. 
       * Place the zip file in a safe location for future reference - just in case you need to update your machine so you can reload it.
 
-3. Unzip the downloaded file, and then drag the extracted "install_slyr_qgis.py" over an open QGIS window. (If prompted, accept the warning regarding trusted scripts). The script will add a connection to the private plugins repository, and install the SLYR plugin for you.
+4. Unzip the downloaded file, and then drag the extracted `install_slyr_qgis.py` over an open **QGIS** window. (If prompted, accept the warning regarding trusted scripts). The script will add a connection to the private plugins repository, and install the **SLYR** plugin for you.
 
-4. After the plugin is installed, the SLYR options dialog will open. Enter your unique license key at this screen, exactly as it appears at the end of this email. Enter the optional requirements outlined in the *SLYR Options* section below.
+5. After the plugin is installed, the **SLYR** `Options` dialog will open (If it doesn't, open the **QGIS** `Plugin Manager`). Enter your unique license key at this screen, exactly as it appears at the end of this email. Enter the optional requirements outlined in the *SLYR Options* section below.
 
 ## SLYR Options ##
-The SLYR Options dialog provides users the ability to set-up the SLYR Plugin to meet their requirements. 
+The **SLYR** `Options` dialog provides users the ability to set-up the **SLYR** Plugin to meet their requirements. 
 
-To access the SLYR Options, in **QGIS** click on the top menu `Settings` ▶️ `Options`.
+To access the **SLYR** `Options`, in **QGIS** click on the top menu `Settings` ▶️ `Options`.
 
 ![Settings Options](../images/settings_options.png)
 
-The `Options` dialog opens, scroll down on the left and click on `SLYR` to access the **SLYR** options.
+The `Options` dialog opens, scroll down on the left and click on **SLYR** to access the **SLYR** options.
 
 ![SLYR Options](../images/settings_options_slyr_edit2.png)
 
