@@ -17,6 +17,10 @@ To access the SLYR Options, in **QGIS** click on the top menu `Settings` ▶️ 
 
 ![Settings Options](../images/settings_options.png)
 
+The `Options` dialog opens, scroll down on the left and click on `SLYR` to access the **SLYR** options.
+
+![SLYR Options](../images/settings_options_slyr_edit.png)
+
 ### Plugin Settings ###
 | Setting | Description | Example |
 | ---| --- | --- |
