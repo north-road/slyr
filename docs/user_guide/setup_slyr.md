@@ -3,13 +3,14 @@
 
 ## Install the plugin ##
 Once purchased, users will receive an email from North Road with a link for the installer and their licence key. 
+1. Save the information in this email, along with your invoice and receipt in a safe place for future reference.
 
-1. Download the installer from the link. 
-> Place the zip file in a safe location for future reference - just in case you need to update your machine so you can reload it. 
+2. Download the installer from the link. 
+      * Place the zip file in a safe location for future reference - just in case you need to update your machine so you can reload it.
 
-2. Unzip the downloaded file, and then drag the extracted "install_slyr_qgis.py" over an open QGIS window. (If prompted, accept the warning regarding trusted scripts). The script will add a connection to the private plugins repository, and install the SLYR plugin for you.
+3. Unzip the downloaded file, and then drag the extracted "install_slyr_qgis.py" over an open QGIS window. (If prompted, accept the warning regarding trusted scripts). The script will add a connection to the private plugins repository, and install the SLYR plugin for you.
 
-3. After the plugin is installed, the SLYR options dialog will open. Enter your unique license key at this screen, exactly as it appears at the end of this email. Enter the optional requirements outlined in the *SLYR Options* section below.
+4. After the plugin is installed, the SLYR options dialog will open. Enter your unique license key at this screen, exactly as it appears at the end of this email. Enter the optional requirements outlined in the *SLYR Options* section below.
 
 ## SLYR Options ##
 The SLYR Options dialog provides users the ability to set-up the SLYR Plugin to meet their requirements. 
