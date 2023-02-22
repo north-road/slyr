@@ -19,17 +19,17 @@ To access the SLYR Options, in **QGIS** click on the top menu `Settings` ▶️ 
 
 The `Options` dialog opens, scroll down on the left and click on `SLYR` to access the **SLYR** options.
 
-![SLYR Options](../images/settings_options_slyr_edit.png)
+![SLYR Options](../images/settings_options_slyr_edit2.png)
 
 ### Plugin Settings ###
-| Setting | Description | Example |
+| Setting | Description | Directions |
 | ---| --- | --- |
-License key |  | 
-Experimental annotation support |  | 
+License key | The license key is supplied to users once they have purhcased **SLYR**. | Enter your unique license key at this screen, exactly as it appears at the end of this email.
+Experimental annotation support | Annotation support is currently in Beta testing. If you would like to partake in the testing, tick this option. Any issues, please send us an [email](mailto:info@north-road.com?subject=SLYR Annotation) | 
 Verbose logging during conversion |  | 
 
 ### Conversion Settings ###
-| Setting | Description | Example |
+| Setting | Description | Directions |
 | ---| --- | --- |
 Convert font markers to simple marker symbols where possible |  | 
 Convert font markerts to SVG files |  | 
@@ -40,18 +40,18 @@ Store extracted picutres in |  |
 Store relative paths for files instead of absolute paths |  | 
 
 ### SDE Database Conversion ###
-| Setting | Description | Example |
+| Setting | Description | Directions |
 | ---| --- | --- |
 Default primary key | Default value is OBJECTID, but this can be changed as per requirements |
 Table name conversion | Options: Leave unchanged, Convert to Uppercase, OR Convert to Lowercase |
 
 ### MDB Tools ###
 
-| Setting | Description | Example |
+| Setting | Description | Directions |
 | ---| --- | --- |
-Path to MDB Tools | The MDB tools is required for conversion of ESRI .style databases. Click the link in the SLYR Options dialog and once downloaded, place the file in ?which? path |
+Path to MDB Tools | This is automatically set for the full license, *only the Community License needs to download this tool*. The MDB tools is required for conversion of ESRI .style databases. Click the link in the SLYR Options dialog and once downloaded, enter in the path|
 
 ### Inkscape ###
-| Setting | Description | Example |
+| Setting | Description | Directions |
 | ---| --- | --- |
 Path to Inkscape | Install Inkscape from [here.](https://inkscape.org) |
