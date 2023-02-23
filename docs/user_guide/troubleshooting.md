@@ -15,7 +15,9 @@ If you have changed machines, you may need to reinstall the **SLYR** Plugin.
 
 ![Open Plugin Manager](../images/plugin_mngr_open2.png)
 
-2. In the left panel, click on `Upgradeable` and `SLYR` should be in the middle panel. If it isn't, then you should be up-to-date. 
+2. In the left panel, click on `Upgradeable` 
+
+3. In the central panel, click on `SLYR`. If `SLYR` is not in the middle panel, then you should be up-to-date. 
 > Check-out what has been updated in the *Changelog*.
 
 3. On the lower right, click on `Upgrade Plugin`. Once upgraded, click on `Close`.
