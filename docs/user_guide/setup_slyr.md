@@ -37,11 +37,11 @@ The `Options` dialog opens, scroll down on the left and click on **SLYR** to acc
 | ---| --- | --- |
 Convert font markers to simple marker symbols where possible | All Symbol marker symbols will loose any complexity. <WILL THIS MIRROR THE CHOSEN SYMBOLS CLOSELY? WILL IT LOSE ALL COLOUR AS WELL?> |  Tick to activate. 
 Convert font markerts to SVG files | Use this option if you have access to the original SVG files and they are saved in.  |  Tick to activate. Ensure the location is addded into the **QGIS** `Options` dialog (check [Troubleshooting](/user_guide/troubleshooting) for more information).
-Embed pictures inside symbols when possible |  |  Tick to activate. 
-Tweak symbol conversion for better visual match |  |  Tick to activate. 
-Units for symbols: points, millimeters |  |  Tick to activate. 
-Store extracted picutres in |  |  Tick to activate. 
-Store relative paths for files instead of absolute paths |  |  Tick to activate. 
+Embed pictures inside symbols when possible | Symbols containing pictures are assumed to have placement inside symbols. If your pictures occur outside of symbols, don't activate this option. <IS THIS CORRECT????> |  Tick to activate. 
+Tweak symbol conversion for better visual match | A variety of scripts can be employed to get a better match, such as... <PROVIDE EXAMPLES OR FURTHER CLARIFICATION>.  |  Tick to activate. 
+Units for symbols: points, millimeters | Symbols use points or millimeters to measure them. **SLYR** uses points as a default. |  Choose either `Points` or `Millimeters`.
+Store extracted pictures in | Pictures are extracted and processed using Inkscape. The files will then need a storage location. <WHAT PICTURES ARE TALKING ABOUT - FROM SYMBOLS OR PHOTOS LINKED IN THE PROJECT> |  Enter in the folder's path
+Store relative paths for files instead of absolute paths | Using relative paths will assist with portability of the project. |  Tick to activate. 
 
 ### SDE Database Conversion ###
 | Setting | Description | Directions |
@@ -53,9 +53,9 @@ Table name conversion | An option to amend how the table's name is written <WHAT
 
 | Setting | Description | Directions |
 | ---| --- | --- |
-Path to MDB Tools | This is automatically set for the full license, *only the Community License needs to download this tool*. The MDB tools is required for conversion of ESRI .style databases. Click the link in the SLYR Options dialog and once downloaded, enter in the path|
+Path to MDB Tools | This is automatically set for the full license, *only the Community License needs to download this tool*. The MDB tools is required for conversion of ESRI .style databases. | Click the link in the SLYR Options dialog and once downloaded, enter in the path
 
 ### Inkscape ###
 | Setting | Description | Directions |
 | ---| --- | --- |
-Path to Inkscape | Install Inkscape from [here.](https://inkscape.org) |
+Path to Inkscape | Inkscape is required to assist in the conversion of .svg and other images.  |  Install Inkscape from [here.](https://inkscape.org) and enter the pathway to Inkscape .exe file.
