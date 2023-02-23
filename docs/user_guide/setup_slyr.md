@@ -36,7 +36,7 @@ The `Options` dialog opens, scroll down on the left and click on **SLYR** to acc
 | Setting | Description | Directions |
 | ---| --- | --- |
 Convert font markers to simple marker symbols where possible | All Symbol marker symbols will loose any complexity. <WILL THIS MIRROR THE CHOSEN SYMBOLS CLOSELY? WILL IT LOSE ALL COLOUR AS WELL?> |  Tick to activate. 
-Convert font markerts to SVG files | Use this option if you have access to the original SVG files and they are saved in.  |  Tick to activate. Ensure the location is addded into the **QGIS** `Options` dialog (check [Troubleshooting](userguide for more information).
+Convert font markerts to SVG files | Use this option if you have access to the original SVG files and they are saved in.  |  Tick to activate. Ensure the location is addded into the **QGIS** `Options` dialog (check [Troubleshooting](/user_guide/troubleshooting) for more information).
 Embed pictures inside symbols when possible |  |  Tick to activate. 
 Tweak symbol conversion for better visual match |  |  Tick to activate. 
 Units for symbols: points, millimeters |  |  Tick to activate. 
@@ -46,8 +46,8 @@ Store relative paths for files instead of absolute paths |  |  Tick to activate.
 ### SDE Database Conversion ###
 | Setting | Description | Directions |
 | ---| --- | --- |
-Default primary key | Default value is OBJECTID, but this can be changed as per requirements |
-Table name conversion | Options: Leave unchanged, Convert to Uppercase, OR Convert to Lowercase |
+Default primary key | Default value is OBJECTID, but this can be changed as per requirements | Leave as OBJECTID or amend as required. 
+Table name conversion | An option to amend how the table's name is written <WHAT WAS THE REASON FOR THIS - OCD TO CLEAN IT UP ;) WHICH IS A GOOD THING>  | Choose from the options: Leave unchanged, Convert to Uppercase, OR Convert to Lowercase
 
 ### MDB Tools ###
 
