@@ -2,9 +2,9 @@
 
 ## Group ##
 ### Tool ###
- From | To 
- ---| ---| ---
- ESRI .mxd | QGIS .? 
+  From | To 
+  ---| ---| ---
+  ESRI .mxd | QGIS .? 
 
 Description
 
