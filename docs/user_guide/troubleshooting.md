@@ -7,4 +7,5 @@ If you have changed machines, you may need to reinstall the **SLYR** Plugin.
 ## Update my SLYR licence ##
 
 ## Add in SVG files ##
+If you have access to the SVG files you need, and you find that SLYR is not bringing them in, check to see if the location is listed in the `Settings` ▶️ `Options` ▶️  `SVG Paths`. 
 ![SVG Paths](../images/svg_paths.png)
