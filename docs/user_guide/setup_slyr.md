@@ -36,7 +36,7 @@ The `Options` dialog opens, scroll down on the left and click on **SLYR** to acc
 | Setting | Description | Directions |
 | ---| --- | --- |
 Convert font markers to simple marker symbols where possible | All Symbol marker symbols will loose any complexity. <WILL THIS MIRROR THE CHOSEN SYMBOLS CLOSELY? WILL IT LOSE ALL COLOUR AS WELL?> |  Tick to activate. 
-Convert font markerts to SVG files | Use this option if you have access to the original SVG files and they are saved in.  |  Tick to activate. in **QGIS** `Options`, ensure the location of the SVG files are added. 
+Convert font markerts to SVG files | Use this option if you have access to the original SVG files and they are saved in.  |  Tick to activate. Ensure the location is addded into the **QGIS** `Options` dialog (check [Troubleshooting](userguide for more information).
 Embed pictures inside symbols when possible |  |  Tick to activate. 
 Tweak symbol conversion for better visual match |  |  Tick to activate. 
 Units for symbols: points, millimeters |  |  Tick to activate. 
