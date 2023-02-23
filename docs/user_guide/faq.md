@@ -52,9 +52,9 @@ For each conversion, send through these files
 | QGIS | .qgs .qgz |
 
 ## Version updates  ##
-SLYR is updated many times during the year, at least once per quarter. To find out what has been updated in the latest version, check out the changelog in the `QGIS Plugin Manager`
+SLYR is updated many times during the year, at least once per quarter. To find out what has been updated in the latest version, check out the changelog in the `QGIS Plugin Manager`. Checkout [Troubleshooting](/user_guide/troubleshooting) on how to update your **SLYR** version. 
 
-![SLYR Changelog](../images/slyr_changelog.png)
+![SLYR Changelog](../images/slyr_changelog.png.png)
 
 ## What licences do I need? ##
 SLYR is designed so that you can push out ESRI products without the need of an ESRI licence as you undetake all **SLYR** operations in **QGIS**. You only need to have [QGIS](https://www.qgis.org/en/site/) installed. However, if you wish to view the output in an ESRI environment, you will need an appropriate type of licence for the file type. For more information on files types and the software needed, check out [Fileformat's GIS list](https://docs.fileformat.com/gis/).
