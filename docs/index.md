@@ -13,3 +13,4 @@ title: Slyr Documentation
 
 [For full licence users](/user_guide/setup_slyr)
 
+[Troubleshooting](/user_guide/troubleshooting)
