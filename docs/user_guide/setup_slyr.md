@@ -29,18 +29,18 @@ The `Options` dialog opens, scroll down on the left and click on **SLYR** to acc
 | Setting | Description | Directions |
 | ---| --- | --- |
 |License key | The license key is supplied to users once they have purchased **SLYR**. | Enter your unique license key at this screen, exactly as it appears at the end of this email.|
-|Experimental annotation support | Annotation support is currently in Beta testing. If you would like to partake in the testing, tick this option. Any issues, please send us an [email](mailto:info@north-road.com). <_NYALL IS THIS ONLY FOR COMMUNITY EDITION? WHAT DOES THIS DO?> |  Tick to activate. |
+|Experimental annotation support | Annotation support is currently in Beta testing. If you would like to partake in the testing, tick this option. Any issues, please send us an [email](mailto:info@north-road.com). <NYALL IS THIS ONLY FOR COMMUNITY EDITION? WHAT DOES THIS DO?> |  Tick to activate. |
 |Verbose logging during conversion | Activate the developer version of the plugin. This will record more details and assist with future developement. However it can slow down performance. | Tick to activate. |
 
 ### Conversion Settings ###
 | Setting | Description | Directions |
 | ---| --- | --- |
-Convert font markers to simple marker symbols where possible | All Symbol marker symbols will loose any complexity. <WILL THIS MIRROR THE CHOSEN SYMBOLS CLOSELY? WILL IT LOSE ALL COLOUR AS WELL?> |  Tick to activate. 
+Convert font markers to simple marker symbols where possible | All Symbol marker symbols will loose any complexity. WILL THIS MIRROR THE CHOSEN SYMBOLS CLOSELY? WILL IT LOSE ALL COLOUR AS WELL? |  Tick to activate. 
 Convert font markerts to SVG files | Use this option if you have access to the original SVG files and they are saved in.  |  Tick to activate. Ensure the location is addded into the **QGIS** `Options` dialog (check [Troubleshooting](/user_guide/troubleshooting) for more information).
-Embed pictures inside symbols when possible | Symbols containing pictures are assumed to have placement inside symbols. If your pictures occur outside of symbols, don't activate this option. <IS THIS CORRECT????> |  Tick to activate. 
-Tweak symbol conversion for better visual match | A variety of scripts can be employed to get a better match, such as... <PROVIDE EXAMPLES OR FURTHER CLARIFICATION>.  |  Tick to activate. 
+Embed pictures inside symbols when possible | Symbols containing pictures are assumed to have placement inside symbols. If your pictures occur outside of symbols, don't activate this option. IS THIS CORRECT???? |  Tick to activate. 
+Tweak symbol conversion for better visual match | A variety of scripts can be employed to get a better match, such as PROVIDE EXAMPLES OR FURTHER CLARIFICATION> |  Tick to activate. 
 Units for symbols: points, millimeters | Symbols use points or millimeters to measure them. **SLYR** uses points as a default. |  Choose either `Points` or `Millimeters`.
-Store extracted pictures in | Pictures are extracted and processed using Inkscape. The files will then need a storage location. <WHAT PICTURES ARE TALKING ABOUT - FROM SYMBOLS OR PHOTOS LINKED IN THE PROJECT> |  Enter in the folder's path
+Store extracted pictures in | Pictures are extracted and processed using Inkscape. The files will then need a storage location. WHAT PICTURES ARE TALKING ABOUT - FROM SYMBOLS OR PHOTOS LINKED IN THE PROJECT |  Enter in the folder's path
 Store relative paths for files instead of absolute paths | Using relative paths will assist with portability of the project. |  Tick to activate. 
 
 ### SDE Database Conversion ###
