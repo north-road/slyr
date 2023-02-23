@@ -28,20 +28,20 @@ The `Options` dialog opens, scroll down on the left and click on **SLYR** to acc
 ### Plugin Settings ###
 | Setting | Description | Directions |
 | ---| --- | --- |
-License key | The license key is supplied to users once they have purhcased **SLYR**. | Enter your unique license key at this screen, exactly as it appears at the end of this email.
-Experimental annotation support | Annotation support is currently in Beta testing. If you would like to partake in the testing, tick this option. Any issues, please send us an [email](mailto:info@north-road.com?subject=SLYR Annotation) | 
-Verbose logging during conversion |  | 
+|License key | The license key is supplied to users once they have purchased **SLYR**. | Enter your unique license key at this screen, exactly as it appears at the end of this email.|
+|Experimental annotation support | Annotation support is currently in Beta testing. If you would like to partake in the testing, tick this option. Any issues, please send us an [email](mailto:info@north-road.com). <_NYALL IS THIS ONLY FOR COMMUNITY EDITION? WHAT DOES THIS DO?> |  Tick to activate. |
+|Verbose logging during conversion | Activate the developer version of the plugin. This will record more details and assist with future developement. However it can slow down performance. | Tick to activate. |
 
 ### Conversion Settings ###
 | Setting | Description | Directions |
 | ---| --- | --- |
-Convert font markers to simple marker symbols where possible |  | 
-Convert font markerts to SVG files |  | 
-Embed pictures inside symbols when possible |  | 
-Tweak symbol conversion for better visual match |  |  |  | 
-Units for symbols: points, millimeters |  | 
-Store extracted picutres in |  | 
-Store relative paths for files instead of absolute paths |  | 
+Convert font markers to simple marker symbols where possible | All Symbol marker symbols will loose any complexity. <WILL THIS MIRROR THE CHOSEN SYMBOLS CLOSELY? WILL IT LOSE ALL COLOUR AS WELL?> |  Tick to activate. 
+Convert font markerts to SVG files | Use this option if you have access to the original SVG files and they are saved in.  |  Tick to activate. in **QGIS** `Options`, ensure the location of the SVG files are added. 
+Embed pictures inside symbols when possible |  |  Tick to activate. 
+Tweak symbol conversion for better visual match |  |  Tick to activate. 
+Units for symbols: points, millimeters |  |  Tick to activate. 
+Store extracted picutres in |  |  Tick to activate. 
+Store relative paths for files instead of absolute paths |  |  Tick to activate. 
 
 ### SDE Database Conversion ###
 | Setting | Description | Directions |
