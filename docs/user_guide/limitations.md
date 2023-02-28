@@ -4,14 +4,14 @@ SLYR will always follow the development in **ESRI** and **QGIS** to provide conv
 To be transparent, we have listed the current limitations that we know of, what we are doing about it and if there is a workaround in the meantime. 
 >If you know a limitation that isn't listed, please [email us](mailto:info@north-road.com) and we will investigate it. 
 
-## Template ##
+<!--## Template ##
 Description
 > Workaround intro
 
 1. Instruction
 2. Instruction
 
-> Proposed solution: currently working on it 
+> Proposed solution: currently working on it -->
 
 ## Graduated renderer ##
 SLYR cannot translate a QGIS graduated renderer to any comparable result in ArcGIS Pro if there's any gaps within the class ranges as ArcGIS Pro does not support gaps. 
