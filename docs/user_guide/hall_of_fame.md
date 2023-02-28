@@ -7,4 +7,4 @@ SLYR wouldn't be possible without direct financial support for its development. 
 - [North Road](http://north-road.com)
 - [OpenGIS.ch](http://opengis.ch)
 
-And hey, if you want to see slyr improved, why not consider financially supporting its development? Drop me a line at info@north-road.com to discuss.
+And hey, if you want to see **SLYR** improved, why not consider financially supporting its development? Drop us a [line](info@north-road.com) to discuss.
