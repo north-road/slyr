@@ -18,7 +18,7 @@ One of our favourites features of **QGIS** Symbology is the ability to create ef
 
 > Proposed solution: still looking for one.
 
-# Urgent fixes #
+## Urgent fixes ##
 If you have a large project impacted by limitations that requires an urgent fix, contact us here at [North Road](mailto:info@north-road.com) and we could look at a number of options. 
 - Undertake the conversion for you. This may attract a small fee, dependent on the work, but please ask. 
 - You could fund the development of the solution to go into the tool for all and become a member of our [Hall of Fame](/user_guide/hall_of_fame)
