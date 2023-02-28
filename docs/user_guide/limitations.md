@@ -3,9 +3,27 @@ SLYR will always follow the development in **ESRI** and **QGIS** to provide conv
 
 To be transparent, we have listed the current limitations that we know of, what we are doing about it and if there is a workaround in the meantime. 
 >If you know a limitation that isn't listed, please [email us](mailto:info@north-road.com) and we will investigate it. 
-## Rule-Based Classification Symbology ##
+
+## Template ##
+Description
+> Workaround intro
+
+1. Instruction
+2. Instruction
+
+> Proposed solution: currently working on it 
+
+## Graduated renderer ##
+SLYR cannot translate a QGIS graduated renderer to any comparable result in ArcGIS Pro if there's any gaps within the class ranges as ArcGIS Pro does not support gaps. 
+> Workaround: this is pretty easy
+
+1. Correct the class breaks from the QGZ project to remove the gaps between the classes.
+
+> Proposed solution: currently working on it 
+
+## Rule-based classification symbology ##
 One of our favourites features of **QGIS** Symbology is the ability to create efficient cartography through the use of Rule-Based classifications. There is currently no direct equivalent in ArcGIS Pro. Therefore, if your **QGIS** project has many layers based on rule-based classifications, try this for a workaround. 
-> Painful - yes, Inefficient - yes - but let's manually capture the rule-based classification in the layer's  field. 
+> Workaround: Painful - yes, Inefficient - yes - but let's manually capture the rule-based classification in the layer's  field. 
 
 
 1. In **QGIS**, open up a layer's `attribute table`.
@@ -17,6 +35,15 @@ One of our favourites features of **QGIS** Symbology is the ability to create ef
 7. Apply the symbology to each layers as per the rule-based classification.
 
 > Proposed solution: still looking for one.
+
+## Vector tile packs - Index ##
+There are two types of Vector Tile Packs (VTPK) in **ESRI**: 
+  Flat : supported by **SLYR**
+  Index: not supported **SLYR**
+
+> There is no workaround for this limitation.
+
+> Proposed solution: waiting for funding and demand by the community to develop it.  
 
 ## Urgent fixes ##
 If you have a large project impacted by limitations that requires an urgent fix, [contact us](mailto:info@north-road.com) here at **North Road** and we could look at a number of options. 
