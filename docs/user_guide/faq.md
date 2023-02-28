@@ -9,6 +9,9 @@ At the time of writing, to purchase the SLYR Plugin costs €1200. For those loc
 ## How many users will a licence cover ##
 The **SLYR** licence agreement covers use by mulitple users in the same physical location i.e. an office address. It will also cover remote users that are attached to the defined physical location. If you have multiple locations that require use of the licence, please let [us](mailto:info@north-road.com) know and we will assess each case on an individual basis. 
 
+## How to run the tool outside of QGIS ##
+While it's possible to call the **Python** modules directly from standalone scripts, this is not recommend and is not officially supported by **North Road**. However, the official endorsed way of running the tools outside of **QGIS** is to use `qgis_process`.
+
 ## Purchase process ##
 If you would like to to purchase SLYR send us an email. As we often deal with clients in Europe and America, there is often a lag due to the time differences as we are located in Queensland, Australia (AEST, GMT+10). 
 
