@@ -3,7 +3,7 @@ SLYR is available in two versions:
   
 Version | Cost | Details
 :-------: | :-----: |:------ 
-SLYR  | €1200 | To purchase, contact [North Road](https://north-road.com/contact/).
+SLYR  | €1200 | To purchase, contact [North Road](mailto:info@north-road.com).
 SLYR (Community Edition) | Free | Access via QGIS Plugin Manager. 
 
 Once purchased, **SLYR's** support is perpetual! 
