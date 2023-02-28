@@ -17,7 +17,7 @@ Description
 SLYR cannot translate a QGIS graduated renderer to any comparable result in ArcGIS Pro if there's any gaps within the class ranges as ArcGIS Pro does not support gaps. 
 > Workaround: this is pretty easy
 
-1. Correct the class breaks from the QGZ project to remove the gaps between the classes.
+* Correct the class breaks from the QGZ project to remove the gaps between the classes.
 
 > Proposed solution: currently working on it 
 
