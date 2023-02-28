@@ -7,6 +7,7 @@ To be transparent, we have listed the current limitations that we know of, what 
 One of our favourites features of **QGIS** Symbology is the ability to create efficient cartography through the use of Rule-Based classifications. There is currently no direct equivalent in ArcGIS Pro. Therefore, if your **QGIS** project has many layers based on rule-based classifications, try this for a workaround. 
 > Painful - yes, Inefficient - yes - but let's manually capture the rule-based classification in the layer's  field. 
 
+
 1. In **QGIS**, open up a layer's `attribute table`.
 2. Create the number of fields required to record each rule-based classification against the features.
 3. Select the fields according to your filter used in the rule-based classification.
