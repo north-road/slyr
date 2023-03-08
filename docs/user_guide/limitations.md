@@ -16,27 +16,26 @@ Description
 ## Graduated renderer ##
 SLYR cannot translate a QGIS graduated renderer to any comparable result in ArcGIS Pro if there's any gaps within the class ranges as ArcGIS Pro does not support gaps. 
 > Workaround: this is pretty easy
-
-* Correct the class breaks from the QGZ project to remove the gaps between the classes.
+ * Correct the class breaks from the QGZ project to remove the gaps between the classes.
 
 > Proposed solution: currently working on it 
 
 ## Raster Catalog Layers ##
-A Raster catalog is a feature of ArcMap and it has been superseded by a mosaic dataset. Its ArcGIS Pro equivalent is mosaic datasets. 
+A Raster catalog is a feature of ArcMap. Its ArcGIS Pro equivalent is mosaic datasets. 
 In QGIS there is currently no equivalent to Raster Catalog Layers. Any of these layers will be skipped over in the process and omitted from the project.
 
-> The workaround for this limitation is provide those layers within the Raster Catalog in a format that SLYR will read. If the intention is to mosaic many rasters together, use the Raster/Miscellaneous/Build virtual raster or other tools in this menu. 
+> Workaround should only be used if you require the symbology for the raster. 
+* Extract the required layers within the Raster Catalog as raster layers. 
 
 > Proposed solution: there is no proposed solution as the data sits as a temporary layer within a project. Additionally, Raster Catalogs are a feature within ArcMap which is being phased out. 
 
 ## Rasters in GDB ##
-Description
-> Workaround intro
+Raster layers that are contained in GDB are currently not supported in QGIS.
 
-1. Instruction
-2. Instruction
+>Workaround: 
+* Extract the rasters from the GDB if the symbology is required in QGIS
 
-> Proposed solution: currently working on it -->
+> Proposed solution: waiting on GDAL to develop the ability to read rasters in GDB.
 
 
 ## Rule-based classification symbology ##
