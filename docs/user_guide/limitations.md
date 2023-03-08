@@ -45,6 +45,13 @@ There are two types of Vector Tile Packs (VTPK) in **ESRI**:
 
 > Proposed solution: waiting for funding and demand by the community to develop it.  
 
+## Raster Catalog Layers ##
+In QGIS there is currently no equivalent to Raster Catalog Layers. Any of these layers will be skipped over in the process and omitted from the project.
+
+> The workaround for this limitation is provide those layers within the Raster Catalog in a format that SLYR will read. 
+
+> Proposed solution: there is no proposed solution as the data sits as a temporary layer within a project. Additionally, Raster Catalogs are a feature within ArcMap which is being phased out. 
+
 ## Urgent fixes ##
 If you have a large project impacted by limitations that requires an urgent fix, [contact us](mailto:info@north-road.com) here at **North Road** and we could look at a number of options. 
 
