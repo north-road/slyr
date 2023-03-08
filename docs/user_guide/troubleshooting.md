@@ -3,7 +3,10 @@
 ## Error Messages ##
  Error Message | Rectification |
  ------------- | ------------- |
- fsdfdf | sdfsdf |
+ Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later) | Update your QGIS to QGIS 3.24 or later |
+ Raster layers in Geodatabase files are not supported in QGIS, the database X:\folder\geodatabase.gdb\raster.gdb will need to be converted to TIFF before it can be used outside of ArcGIS | Convert all rasters sitting within the GDB as TIFFs
+ Raster catalog layer “RasterLayer” has been removed from the project (raster catalog layers are not supported by QGIS)| These layers will need to be created seperately outside of the catalog layer before conversions.
+ 
 
 ## Add in SVG files ##
 If you have access to the SVG files you need, and you find that SLYR is not bringing them in, check to see if the location is listed in the `Settings` ▶️ `Options` ▶️  `SVG Paths`. 
@@ -33,4 +36,5 @@ If you have changed machines, you may need to reinstall the **SLYR** Plugin.
 3. On the lower right, click on `Upgrade Plugin`. Once upgraded, click on `Close`.
 
 ![Update SLYR](../images/upgrade.png)
+> If you receive an error after the Plugin update indicating it wasn't able to upgrade, restart QGIS. If it still hasn't been upgrade, send us an email. 
 
