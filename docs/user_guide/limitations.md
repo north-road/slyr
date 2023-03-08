@@ -21,9 +21,28 @@ SLYR cannot translate a QGIS graduated renderer to any comparable result in ArcG
 
 > Proposed solution: currently working on it 
 
+## Raster Catalog Layers ##
+A Raster catalog is a feature of ArcMap and it has been superseded by a mosaic dataset. Its ArcGIS Pro equivalent is mosaic datasets. 
+In QGIS there is currently no equivalent to Raster Catalog Layers. Any of these layers will be skipped over in the process and omitted from the project.
+
+> The workaround for this limitation is provide those layers within the Raster Catalog in a format that SLYR will read. If the intention is to mosaic many rasters together, use the Raster/Miscellaneous/Build virtual raster or other tools in this menu. 
+
+> Proposed solution: there is no proposed solution as the data sits as a temporary layer within a project. Additionally, Raster Catalogs are a feature within ArcMap which is being phased out. 
+
+## Rasters in GDB ##
+Description
+> Workaround intro
+
+1. Instruction
+2. Instruction
+
+> Proposed solution: currently working on it -->
+
+
 ## Rule-based classification symbology ##
 One of our favourites features of **QGIS** Symbology is the ability to create efficient cartography through the use of Rule-Based classifications. There is currently no direct equivalent in ArcGIS Pro. Therefore, if your **QGIS** project has many layers based on rule-based classifications, try this for a workaround. 
 > Workaround: Painful - yes, Inefficient - yes - but let's manually capture the rule-based classification in the layer's  field. 
+
 
 
 1. In **QGIS**, open up a layer's `attribute table`.
@@ -45,12 +64,7 @@ There are two types of Vector Tile Packs (VTPK) in **ESRI**:
 
 > Proposed solution: waiting for funding and demand by the community to develop it.  
 
-## Raster Catalog Layers ##
-In QGIS there is currently no equivalent to Raster Catalog Layers. Any of these layers will be skipped over in the process and omitted from the project.
 
-> The workaround for this limitation is provide those layers within the Raster Catalog in a format that SLYR will read. 
-
-> Proposed solution: there is no proposed solution as the data sits as a temporary layer within a project. Additionally, Raster Catalogs are a feature within ArcMap which is being phased out. 
 
 ## Urgent fixes ##
 If you have a large project impacted by limitations that requires an urgent fix, [contact us](mailto:info@north-road.com) here at **North Road** and we could look at a number of options. 
