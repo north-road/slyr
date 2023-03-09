@@ -1,5 +1,8 @@
 # SLYR Pricing #
-**SLYR** Plugin costs €1200. 
+**SLYR** Plugin costs:
+Europe: €1200
+Australia: $1600
+Rest of the World: Conversion rate of €1200 at the time of quote
 
 This includes:
 > Access to **SLYR's** full tools
