@@ -54,6 +54,17 @@ One of our favourites features of **QGIS** Symbology is the ability to create ef
 
 > Proposed solution: still looking for one.
 
+## SLD to LYR/LYRX ##
+These tools do rely entirely on QGIS' SLD export capabilities, so the quality of the conversion will depend on the symbology options used in the ArcMap
+documents and how compatible they are with QGIS' SLD support. The SLD format itself has considerably less symbology functionality compared with either QGIS or ArcMap, therefore a conversion to SLD will often be a lossy process, dropping complex options back to simpler SLD supported symbology.
+> Workaround: 
+
+* Reasses symbology choices in ArcMap
+
+> Proposed solution: will improve with QGIS' SLD capabilities. If this is a major issue, consider funding the capability development of it. 
+
+
+
 ## Vector tile packs - Index ##
 There are two types of Vector Tile Packs (VTPK) in **ESRI**: 
   Flat : supported by **SLYR**
