@@ -3,7 +3,10 @@
 ## Error Messages ##
  Error Message | Rectification |
  ------------- | ------------- |
+ Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path | Convert your geopackages into a GDB
+ Converting QgsSingleBandColorDataRenderer is not yet supported |
  Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later) | Update your QGIS to QGIS 3.24 or later |
+ QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet |
  Raster layers in Geodatabase files are not supported in QGIS, the database X:\folder\geodatabase.gdb\raster.gdb will need to be converted to TIFF before it can be used outside of ArcGIS | Convert all rasters sitting within the GDB as TIFFs
  Raster catalog layer “RasterLayer” has been removed from the project (raster catalog layers are not supported by QGIS)| These layers will need to be created seperately outside of the catalog layer before conversions.
  
@@ -11,6 +14,40 @@
 ## Add in SVG files ##
 If you have access to the SVG files you need, and you find that SLYR is not bringing them in, check to see if the location is listed in the `Settings` ▶️ `Options` ▶️  `SVG Paths`. 
 ![SVG Paths](../images/svg_paths.png)
+
+## Geopackage ##
+ArcGIS Pro and Geopackages has not yet reached full support. Therefore an error will be produced if you are exporting from a geopackage 
+e.g. *Warning: Feature: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path*
+> 
+>  If your files are in a geopackage, ArcGIS Pro will not recognise this and the following may happen:
+  
+  >  The file links will be broken
+  
+  >  If you repath them to the geopackage, this will impact on the symbology. 
+
+> Workaround: Export to geodatabase or shapefile
+
+### Export to Geodatabase ###
+You can export geopackage data to a new geodatabase or to an existing geodatabase (go from step 3 below).
+
+![Create GDB in QGIS](../images/gdb_create.png)
+
+1. In the QGIS Browser window, right-mouse click the folder you wish to create the geodatabase in and click on `New` ▶️ `ESRI FileGeodatabase`.
+2. Type in the name of the geodatabase
+3. In the geopackage, select the layers you wish to add to the geodatabase.
+4. Drag and drop the selected layers onto the new geodatabase.
+5. Repath your data to the shapefiles (right-mouse cick the layer and click on `Change Data Source`.
+
+### Export to shapefile ###
+If you have many shapefiles, install the **Bulk Vector Export** plugin.
+
+![Bulk Vector Export](../images/bulk_vector_export.png)
+
+1. Ensure all the files you wish to export are active (tick them on).
+2. Select the output format 'ESRI shapefile`.
+3. Select the CRS you wish to export them with.
+4. Click on OK.
+5. Repath your data to the shapefiles.
 
 ## Reinstall my SLYR Plugin ##
 If you have changed machines, you may need to reinstall the **SLYR** Plugin. 
