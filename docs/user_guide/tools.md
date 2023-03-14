@@ -2,13 +2,21 @@
 
 ## Before you start ##
 We like things tidy, don't we? So here is a checklist to help your conversions and working swithin **SLYR** just work a little bit smoother.
+### Populate settings requirements ###
+### Set up your folders ###
+### Access to files ###
+> Files: .svg, fonts, images
+### Geodatabase settings ###
 
+> If a tool returns an error:
+  > If you are using the Community Edition, it may not yet be available.
+  > Check the [Troubleshooting](https://slyr.north-road.com/user_guide/troubleshooting) page.
 
-## Group ##
+<!---## Group ##
 ### Tool ###
-  From | To 
-  ---| ---| ---
-  ESRI .mxd | QGIS .? 
+| From | To |
+| ---- | ---|
+| ESRI .mxd | QGIS .qgz | 
 
 Description
 
@@ -17,13 +25,14 @@ Description
 
 > This tool is available only with the SLYR full licence.
 
-*See also:*
+*See also:* --->
 
 ## ArcGIS Pro ##
 ### Convert QGIS to MAPX ###
- From | To 
- ---| ---| ---
- **QGIS** .qgz, qgs | **ESRI ArcGIS Pro** .mapx
+
+| From | To |
+| ---- | ---|
+| **QGIS** .qgz, qgs | **ESRI ArcGIS Pro** .mapx |
 
 Converts a **QGIS** project to a *.mapx*. A *.mapx* is an ESRI map file format used in their software **ArcGIS Pro**. It's function is to enable sharing of maps, recording all the elements drawn in the ArcGIS Pro .aprx. However, access to the original data in the same location is required, or will need to be repathed. 
 
