@@ -10,7 +10,7 @@ We like things tidy, don't we? So here is a checklist to help your conversions a
 ### Geopackages ###
 ArcGIS Pro and Geopackages has not yet reached full support. Therefore an error will be produced if you are exporting from a geopackage 
 e.g. *Warning: Railway: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path*
-> See the [Limitations](https://slyr.north-road.com/user_guide/limitations){:target="_blank"} for the workaround
+> See the [Limitations](https://slyr.north-road.com/user_guide/limitations){:target="_blank" rel="noopener"} for the workaround
   
 ## Error Messages ##
 > If a tool returns an error saying it is not available:
