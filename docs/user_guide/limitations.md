@@ -13,6 +13,19 @@ Description
 
 > Proposed solution: currently working on it -->
 
+to do
+This came off a WMS file: 
+Warning: Coastline: Converting QgsSingleBandColorDataRenderer is not yet supported
+
+
+## Geopackages ##
+Whilst we are love our neat geopackages in QGIS, ESRI is yet to deliver on this functionality. If you are going from QGIS to ESRI, you will need to save 
+> Workaround: 
+  > Export your data as shapefiles first 😣 (you can do this by using the Plugin **Bulk Vector Export**)
+
+> Proposed solution: waiting for ESRI to develop geopackage functionality
+
+
 ## Graduated renderer ##
 SLYR cannot translate a QGIS graduated renderer to any comparable result in ArcGIS Pro if there's any gaps within the class ranges as ArcGIS Pro does not support gaps. 
 > Workaround: this is pretty easy
@@ -38,8 +51,8 @@ Raster layers that are contained in GDB are currently not supported in QGIS.
 > Proposed solution: waiting on GDAL to develop the ability to read rasters in GDB.
 
 
-## Rule-based classification symbology ##
-One of our favourites features of **QGIS** Symbology is the ability to create efficient cartography through the use of Rule-Based classifications. There is currently no direct equivalent in ArcGIS Pro. Therefore, if your **QGIS** project has many layers based on rule-based classifications, try this for a workaround. 
+## Rule-based renderers ##
+One of our favourites features of **QGIS** Symbology is the ability to create efficient cartography through the use of Rule-Based renderers (Rule-Based classification symbology). There is currently no direct equivalent in ArcGIS Pro. Therefore, if your **QGIS** project has many layers based on rule-based classifications, try this for a workaround. 
 > Workaround: Painful - yes, Inefficient - yes - but let's manually capture the rule-based classification in the layer's  field. 
 
 
@@ -54,6 +67,8 @@ One of our favourites features of **QGIS** Symbology is the ability to create ef
 
 > Proposed solution: still looking for one.
 
+
+
 ## SLD to LYR/LYRX ##
 These tools do rely entirely on QGIS' SLD export capabilities, so the quality of the conversion will depend on the symbology options used in the ArcMap
 documents and how compatible they are with QGIS' SLD support. The SLD format itself has considerably less symbology functionality compared with either QGIS or ArcMap, therefore a conversion to SLD will often be a lossy process, dropping complex options back to simpler SLD supported symbology.
@@ -63,7 +78,11 @@ documents and how compatible they are with QGIS' SLD support. The SLD format its
 
 > Proposed solution: will improve with QGIS' SLD capabilities. If this is a major issue, consider funding the capability development of it. 
 
+## SVG Markers ##
+Warning: Water: QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet
+> Workaround: remove the SVG Marker or save it to import into ArcGIS Pro
 
+> Proposed solution: currently working on it
 
 ## Vector tile packs - Index ##
 There are two types of Vector Tile Packs (VTPK) in **ESRI**: 
