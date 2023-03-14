@@ -33,6 +33,13 @@ SLYR cannot translate a QGIS graduated renderer to any comparable result in ArcG
 
 > Proposed solution: currently working on it 
 
+## Label Class disabled in ArcGIS Pro ##
+When using the QGS to MAPX tool, the Label Class options are disabled in ArcGIS Pro.
+> Workaround: tbc
+
+
+> Proposed solution: currently working on it
+ 
 ## Raster Catalog Layers ##
 A Raster catalog is a feature of ArcMap. Its ArcGIS Pro equivalent is mosaic datasets. 
 In QGIS there is currently no equivalent to Raster Catalog Layers. Any of these layers will be skipped over in the process and omitted from the project.
