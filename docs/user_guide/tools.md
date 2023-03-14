@@ -41,7 +41,7 @@ Converts a **QGIS** project to a *.mapx*. A *.mapx* is an ESRI map file format u
 3. Under `Destination MAPX project file`, set the location of the *.mapx* file.
 4. Click `OK`. 
 > If errors are returned, read through the `Log`, rectify the issues and rerun the tool.
-6. Once processed, in **ArcGIS Pro**, open the *.mapx* folder.
+6. Once processed, in **ArcGIS Pro**, navigate to the folders browser and open the *.mapx* folder.
 
 > Available only with the SLYR full licence.
 
