@@ -11,7 +11,7 @@ We like things tidy, don't we? So here is a checklist to help your conversions a
 ### Geopackages ###
 ArcGIS Pro and Geopackages has not yet reached full support. Therefore an error will be produced if you are exporting from a geopackage 
 e.g. *Warning: Railway: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path*
-> See the [Limitations](https://slyr.north-road.com/user_guide/limitations){:target="_blank" rel="noopener"}_ for the workaround
+> See the [Troubleshooting](https://slyr.north-road.com/user_guide/troubleshooting){:target="_blank" rel="noopener"}_ for the workaround
 > 
 >  If your files are in a geopackage, ArcGIS Pro will not recognise this and the following may happen:
   
@@ -19,7 +19,6 @@ e.g. *Warning: Railway: Converting .gpkg layers is not yet fully supported, laye
   
   >  If you repath them to the geopackage, this will impact on the symbology. 
 
->  Workaround: export your data as shapefiles first 😣 (you can do this by using the Plugin **Bulk Vector Export**) or create a geodatabase.
 ### Symbology ###  
 If you are using rule-based renderers, these are not yet available in ArcGIS Pro. 
 > Workaround: > See the [Limitations](https://slyr.north-road.com/user_guide/limitations){:target="_blank" rel="noopener"}_ 
