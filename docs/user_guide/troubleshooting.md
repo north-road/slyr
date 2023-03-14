@@ -3,14 +3,14 @@
 ## Error Messages ##
  Error Message | Rectification |
  ------------- | ------------- |
- Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path | Convert your geopackages into a GDB
- Converting QgsSingleBandColorDataRenderer is not yet supported |
+ Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path | Convert your geopackages into a GDB or a SHP
+ Converting QgsSingleBandColorDataRenderer is not yet supported | This may occur with web-sourced data such as WMS or ArcGIS REST Servers. Remove these datasets from your project or ignore the warning. Once in ArcGIS Pro, add in the data from the source.
  Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later) | Update your QGIS to QGIS 3.24 or later |
- QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet |
+ QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet | Amend layers that contain a SVG Marker e.g. marsh 
  Raster layers in Geodatabase files are not supported in QGIS, the database X:\folder\geodatabase.gdb\raster.gdb will need to be converted to TIFF before it can be used outside of ArcGIS | Convert all rasters sitting within the GDB as TIFFs
  Raster catalog layer “RasterLayer” has been removed from the project (raster catalog layers are not supported by QGIS)| These layers will need to be created seperately outside of the catalog layer before conversions.
  
-
+ 
 ## Add in SVG files ##
 If you have access to the SVG files you need, and you find that SLYR is not bringing them in, check to see if the location is listed in the `Settings` ▶️ `Options` ▶️  `SVG Paths`. 
 ![SVG Paths](../images/svg_paths.png)
