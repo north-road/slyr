@@ -21,7 +21,7 @@ Warning: Coastline: Converting QgsSingleBandColorDataRenderer is not yet support
 ## Geopackages ##
 Whilst we are love our neat geopackages in QGIS, ESRI is yet to deliver on this functionality. If you are going from QGIS to ESRI, you will need to save 
 > Workaround: 
-  > Export your data as shapefiles first 😣 (you can do this by using the Plugin **Bulk Vector Export**)
+  > Export your data as shapefiles first 😣 (you can do this by using the Plugin **Bulk Vector Export**) or create a Geodatabase.
 
 > Proposed solution: waiting for ESRI to develop geopackage functionality
 
