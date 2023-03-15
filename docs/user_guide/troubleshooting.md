@@ -29,7 +29,7 @@ If polyline and point feature classes do not display despite them appearing in t
 > **Workaround:** 
  > 
  > - In **ArcGIS Pro**, open the GDB file in the `Catalog`.
- > - Under the Indexes tab, choose whether to rebuild the index, remove or re-create it.
+ > - Under the `Indexes` tab, choose whether to rebuild the index, remove or re-create it.
  > - Rerun the **SLYR** tool.
 
 ## Geopackage ##
