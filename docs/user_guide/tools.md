@@ -66,7 +66,17 @@ Converts an APRX document file to a QGS project file.
 
 > This tool is available only with the SLYR full licence.
 
+### Convert GPL color palette to STYLX ###
+| From | To |
+| ---- | ---|
+| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
 
+Description
+
+1. Instruction.
+2. Instruction.
+
+> This tool is available only with the SLYR full licence.
 ### Convert QGIS to MAPX ###
 
 | From | To |
