@@ -28,14 +28,16 @@ If you are using rule-based renderers, these are not yet available in ArcGIS Pro
 
 ## Error Messages ##
 > If a tool returns an error saying it is not available:
-  > If you are using the Community Edition, it may not yet be available.
-  > Check the [Troubleshooting](https://slyr.north-road.com/user_guide/troubleshooting){:target="_blank" rel="noopener"} page.
+> 
+  > - If you are using the Community Edition, it may not yet be available.
+  > 
+  > - Check the [Troubleshooting](https://slyr.north-road.com/user_guide/troubleshooting){:target="_blank" rel="noopener"} page.
 
 <!---## Group ##
 ### Tool ###
 | From | To |
 | ---- | ---|
-| ESRI .mxd | QGIS .qgz | 
+| ESRI .aprx | QGIS .qgs, .qgz | 
 
 Description
 
@@ -47,6 +49,24 @@ Description
 *See also:* --->
 
 ## ArcGIS Pro ##
+### Convert APRX to QGS ###
+| From | To |
+| ---- | ---|
+| ESRI .aprx | QGIS .qgs, .qgz | 
+
+Converts an APRX document file to a QGS project file.
+
+![APRX to QGS](../images/arpx_to_qgs.png)
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert APRX to QGS`.
+2. In the `Input APRX file`, browse to the location of the *.arpx* file.
+3. Under `Destination QGS project file`, set the location of the *.qgs* file.
+4. Click `OK`. 
+> If errors are returned, read through the `Log`, rectify the issues and rerun the tool.
+6. Once processed, in **QGIS**, navigate to the folder and open the *.qgs* file.
+
+> This tool is available only with the SLYR full licence.
+
+
 ### Convert QGIS to MAPX ###
 
 | From | To |
@@ -60,12 +80,9 @@ Converts a **QGIS** project to a *.mapx*. A *.mapx* is an ESRI map file format u
 3. Under `Destination MAPX project file`, set the location of the *.mapx* file.
 4. Click `OK`. 
 > If errors are returned, read through the `Log`, rectify the issues and rerun the tool.
-6. Once processed, in **ArcGIS Pro**, navigate to the `Catalog` and open the *.mapx* file.
-
-
+6. Once processed, in **ArcGIS Pro**, navigate via the `Catalog` and open the *.mapx* file.
 
 > Available only with the SLYR full licence.
 
 > Can be run as a batch tool 
 
-*See also:*
