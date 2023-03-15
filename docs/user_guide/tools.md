@@ -37,7 +37,7 @@ If you are using rule-based renderers, these are not yet available in ArcGIS Pro
 ### Tool ###
 | From | To |
 | ---- | ---|
-| ESRI .aprx | QGIS .qgs, .qgz | 
+| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
 
 Description
 
@@ -52,7 +52,7 @@ Description
 ### Convert APRX to QGS ###
 | From | To |
 | ---- | ---|
-| ESRI .aprx | QGIS .qgs, .qgz | 
+| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
 
 Converts an APRX document file to a QGS project file.
 
