@@ -1,6 +1,7 @@
 # Troubleshooting #
 
 ## Error Messages ##
+
  Error Message | Rectification |
  ------------- | ------------- |
  Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path | Convert your geopackages into a GDB or a SHP
@@ -15,10 +16,12 @@ ArcGIS Pro and Geopackages has not yet reached full support. Therefore an error 
 e.g. *Warning: Feature: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path*
 
 >  If your files are in a geopackage, ArcGIS Pro will not recognise this and the following may happen:
+  > 
   >  - The file links will be broken
+  >  
   >  - If you repath them to the geopackage, this will impact on the symbology. 
 >
-> Workaround: Export to geodatabase or shapefile
+> **Workaround:** Export to geodatabase or shapefile
 
 ### Export to Geodatabase ###
 You can export geopackage data to a new geodatabase or to an existing geodatabase (go from step 3 below).
