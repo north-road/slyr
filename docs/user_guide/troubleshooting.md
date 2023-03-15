@@ -6,25 +6,18 @@
  Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path | Convert your geopackages into a GDB or a SHP
  Converting QgsSingleBandColorDataRenderer is not yet supported | This may occur with web-sourced data such as WMS or ArcGIS REST Servers. Remove these datasets from your project or ignore the warning. Once in ArcGIS Pro, add in the data from the source.
  Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later) | Update your QGIS to QGIS 3.24 or later |
- QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet | Amend layers that contain a SVG Marker e.g. marsh 
+ QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet | Amend layers that contain a QGIS SVG Marker as they will not be converted.  
  Raster layers in Geodatabase files are not supported in QGIS, the database X:\folder\geodatabase.gdb\raster.gdb will need to be converted to TIFF before it can be used outside of ArcGIS | Convert all rasters sitting within the GDB as TIFFs
  Raster catalog layer “RasterLayer” has been removed from the project (raster catalog layers are not supported by QGIS)| These layers will need to be created seperately outside of the catalog layer before conversions.
  
- 
-## Add in SVG files ##
-If you have access to the SVG files you need, and you find that SLYR is not bringing them in, check to see if the location is listed in the `Settings` ▶️ `Options` ▶️  `SVG Paths`. 
-![SVG Paths](../images/svg_paths.png)
-
 ## Geopackage ##
 ArcGIS Pro and Geopackages has not yet reached full support. Therefore an error will be produced if you are exporting from a geopackage 
 e.g. *Warning: Feature: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path*
-> 
->  If your files are in a geopackage, ArcGIS Pro will not recognise this and the following may happen:
-  
-  >  The file links will be broken
-  
-  >  If you repath them to the geopackage, this will impact on the symbology. 
 
+>  If your files are in a geopackage, ArcGIS Pro will not recognise this and the following may happen:
+  >  - The file links will be broken
+  >  - If you repath them to the geopackage, this will impact on the symbology. 
+>
 > Workaround: Export to geodatabase or shapefile
 
 ### Export to Geodatabase ###
@@ -57,6 +50,19 @@ If you have changed machines, you may need to reinstall the **SLYR** Plugin.
 2. Grab the .py and drag and drop it over your QGIS. 
 
 3. Open the `QGIS Plugin Manager`
+
+## SVG ##
+### Add in SVG files for QGIS ###
+If you have access to the SVG files you need, and you find that SLYR is not bringing them in, check to see if the location is listed in the `Settings` ▶️ `Options` ▶️  `SVG Paths`. 
+![SVG Paths](../images/svg_paths.png)
+
+### Add in SVG files for ArcGIS Pro ###
+QGIS SVG Markers are not yet supported for conversion into ArcGIS Pro. They are however on the list to be supported. 
+> Workaround: 
+> 
+> - Remove any svg layers in your layer's symbology. In ArcGIS Pro choose the appropriate style. 
+> 
+> - If the SVG are unique and required, import them to a style using the [ImportSVGsToStyle](https://carto.maps.arcgis.com/home/item.html?id=c25ab2da6ae343af9acc632120c7cf01){:target="_blank" rel="noopener"}_ ArcGIS Pro Add-In by DStephen_carto.
 
 ## Update my SLYR licence ##
 **SLYR** is updated regularly and **QGIS** will let you know when a new version has been released. To update your version:
