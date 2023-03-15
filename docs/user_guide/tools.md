@@ -72,9 +72,10 @@ gpl_to_stylx
 
 Once you have set up your symbology on your layer, **SLYR** will extract the symbology out from the layer and convert it to a ArcGIS Pro LYRX file that can be applied to data in ArcGIS Pro.
 ![Layer to Lyrx](../images/layer_to_lyrx.png)
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `X`.
-2. In the `Input X`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
+1. In **QGIS**, ensure the layer containing the symbology for exporting is loaded.  
+2. In the `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert layer to LYRX`.
+3. Under `Layer`, select the layer.
+4. Under `Destination lyrx file`, set the location of the *.lyrx* file.
 
 > This tool is available only with the SLYR full licence.
 
