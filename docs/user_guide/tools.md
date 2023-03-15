@@ -24,13 +24,13 @@ We like things tidy, don't we? So here is a checklist to help your conversions a
 | **ESRI** .aprx | **QGIS** .qgs, .qgz | 
 
 Description
-
-1. Instruction.
-2. Instruction.
+![image name](../images/image.png)
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `X`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
 
 > This tool is available only with the SLYR full licence.
-
-*See also:* --->
+--->
 ---
 ## ArcGIS Pro ##
 ### Convert APRX to QGS ###
@@ -53,14 +53,31 @@ Converts an APRX document file to a QGS project file.
 ### Convert GPL color palette to STYLX ###
 | From | To |
 | ---- | ---|
-| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+| .gpl| **ESRI** .stylx | 
 
-Description
-
-1. Instruction.
-2. Instruction.
+Converts a GPL format color palette file to an ArcGIS Pro STYLX database. GPL color palettes can be created in graphics programs such as GIMP and Inkscape.
+gpl_to_stylx
+![GPL Color Palette to STYLX](../images/gpl_to_stylx.png)
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert GPL color palette to STYLX`.
+2. Under the `GPL palette`, browse to the location of the *.gpl* file.
+3. Under `Destination stylx database`, set the location of the *.X* file.
+4. In ArcGIS Pro, enter in action
 
 > This tool is available only with the SLYR full licence.
+
+### Convert layer to LYRX ###
+| From | To |
+| ---- | ---|
+| **QGIS** layer | **ESRI** .lyrx | 
+
+Once you have set up your symbology on your layer, **SLYR** will extract the symbology out from the layer and convert it to a ArcGIS Pro LYRX file that can be applied to data in ArcGIS Pro.
+![Layer to Lyrx](../images/layer_to_lyrx.png)
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `X`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+
+> This tool is available only with the SLYR full licence.
+
 ### Convert QGIS to MAPX ###
 
 | From | To |
