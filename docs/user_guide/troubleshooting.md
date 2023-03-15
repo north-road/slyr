@@ -12,6 +12,26 @@
  Raster layers in Geodatabase files are not supported in QGIS, the database X:\folder\geodatabase.gdb\raster.gdb will need to be converted to TIFF before it can be used outside of ArcGIS | Convert all rasters sitting within the GDB as TIFFs
  Raster catalog layer “RasterLayer” has been removed from the project (raster catalog layers are not supported by QGIS)| These layers will need to be created seperately outside of the catalog layer before conversions.
  
+<!---
+## heading ##
+Issue 
+> Impact
+ >  - impact
+ >  
+> **Workaround:** 
+ > 
+ > - Instruction
+--->
+
+## Geodatabases ##
+### Indexes
+If polyline and point feature classes do not display despite them appearing in the layer window of the resulting QGS project, there may be an error with the Geodatabase Layer's Index. 
+> **Workaround:** 
+ > 
+ > - In **ArcGIS Pro**, open the GDB file in the `Catalog`.
+ > - Under the Indexes tab, choose whether to rebuild the index, remove or re-create it.
+ > - Rerun the **SLYR** tool.
+
 ## Geopackage ##
 ArcGIS Pro and Geopackages has not yet reached full support. Therefore an error will be produced if you are exporting from a geopackage 
 e.g. *Warning: Feature: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path*
@@ -62,7 +82,7 @@ If you have access to the SVG files you need, and you find that SLYR is not brin
 
 ### Add in SVG files for ArcGIS Pro ###
 QGIS SVG Markers are not yet supported for conversion into ArcGIS Pro. They are however on the list to be supported. 
-> Workaround: 
+> **Workaround:** 
 > 
 > - Remove any svg layers in your layer's symbology. In ArcGIS Pro choose the appropriate style. 
 > 
