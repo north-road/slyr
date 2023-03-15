@@ -5,6 +5,8 @@ We like things tidy, don't we? So here is a checklist to help your conversions a
 | Item | Tip |
 | --- | ---|
 | ✔️ **Populate settings requirements** | Check out the **SLYR Options** on the [For Full Licence Users](https://slyr.north-road.com/user_guide/setup_slyr){:target="_blank" rel="noopener"}_ page. |
+
+
 | ✔️ **Set up your folders** | **SLYR** will record the pathways from the original data locations, so there is no need to have a special set-up. However, you may want set-up a structure so you can keep outputs tidy. |
 | ✔️ **Access to files** | Files: .svg, fonts, images
 | ✔️ **Geodatabase settings** | Indexes sometimes cause issues with conversions if they are broken or there is something non-standard in its structure. Check [Troubleshooting](https://slyr.north-road.com/user_guide/troubleshooting){:target="_blank" rel="noopener"}_ for the workaround. | 
