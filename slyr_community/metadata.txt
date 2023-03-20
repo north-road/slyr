@@ -4,7 +4,7 @@ description=ESRI Style, LYR, MXD, stylx, lyrx to QGIS symbology converter (Commu
 about=Converts ESRI .style databases and vector .lyr files to corresponding QGIS symbology and layers. For full LYR, MXD, stylx and other ArcGIS/ArcGIS Pro file conversion support see https://north-road.com/slyr/.
 category=Other
 icon=icon.png
-version=4.0.6
+version=4.0.7
 qgisMinimumVersion=3.4
 author=Nyall Dawson
 email=nyall.dawson@gmail.com
@@ -14,7 +14,8 @@ tracker=https://github.com/nyalldawson/slyr
 repository=https://github.com/nyalldawson/slyr
 experimental=False
 deprecated=False
-changelog=Version 4.0.6 (2022-09-16) - Pull labeling conversion improvements from licensed version, fix compatibility with newer Python versions
+changelog=Version 4.0.7 (2023-03-20) - Fix compatibility with QGIS 3.30
+    Version 4.0.6 (2022-09-16) - Pull labeling conversion improvements from licensed version, fix compatibility with newer Python versions
     Version 4.0.5 (2022-09-15) - Fix startup on QGIS < 3.10
     Version 4.0.3 (2022-07-26) - Enable use through qgis_process
     Version 4.0.2 (2022-07-15) - Misc fixes

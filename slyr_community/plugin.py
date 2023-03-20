@@ -66,8 +66,8 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        self.symbol_units.addItem('Points', QgsUnitTypes.RenderPoints)
-        self.symbol_units.addItem('Millimeters', QgsUnitTypes.RenderMillimeters)
+        self.symbol_units.addItem('Points', int(QgsUnitTypes.RenderPoints))
+        self.symbol_units.addItem('Millimeters', int(QgsUnitTypes.RenderMillimeters))
         self.setObjectName('slyrOptions')
         self.picture_store.setStorageMode(QgsFileWidget.GetDirectory)
         self.inkscape_path_widget.setStorageMode(QgsFileWidget.GetFile)
@@ -84,8 +84,20 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
         self.store_relative.setChecked(int(s.value('/plugins/slyr/store_relative', 0)))
         self.embed_pictures.setChecked(int(s.value('/plugins/slyr/embed_pictures', Qgis.QGIS_VERSION_INT >= 30600)))
         self.apply_tweaks.setChecked(int(s.value('/plugins/slyr/apply_tweaks', 1)))
-        prev_units = int(s.value('/plugins/slyr/symbol_units', int(QgsUnitTypes.RenderPoints)))
-        self.symbol_units.setCurrentIndex(self.symbol_units.findData(prev_units))
+
+        try:
+            symbol_units = s.value('/plugins/slyr/symbol_units')
+            if symbol_units is None:
+                symbol_units = QgsUnitTypes.RenderPoints
+            else:
+                symbol_units = QgsUnitTypes.RenderUnit(int(symbol_units))
+            prev_units = symbol_units
+        except TypeError:
+            prev_units = QgsUnitTypes.RenderPoints
+        except AttributeError:
+            prev_units = QgsUnitTypes.RenderPoints
+        self.symbol_units.setCurrentIndex(self.symbol_units.findData(int(prev_units)))
+
         self.picture_store.setFilePath(s.value('/plugins/slyr/picture_store_folder', ''))
         self.inkscape_path_widget.setFilePath(s.value('/plugins/slyr/inkscape_path', 'inkscape'))
         self.mdbtools_path_widget.setFilePath(s.value('/plugins/slyr/mdbtools_path', ''))

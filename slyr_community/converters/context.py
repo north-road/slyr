@@ -60,7 +60,18 @@ class Context:
         self.embed_pictures = int(s.value('/plugins/slyr/embed_pictures', Qgis.QGIS_VERSION_INT >= 30600))
         self.convert_fonts = int(s.value('/plugins/slyr/convert_font_to_svg', 0))
         self.relative_paths = int(s.value('/plugins/slyr/store_relative', 0))
-        self.units = int(s.value('/plugins/slyr/symbol_units', int(QgsUnitTypes.RenderPoints)))
+        try:
+            unit = s.value('/plugins/slyr/symbol_units', int(QgsUnitTypes.RenderPoints), int)
+            if unit is None:
+                unit = QgsUnitTypes.RenderPoints
+            else:
+                unit = QgsUnitTypes.RenderUnit(unit)
+        except TypeError:
+            unit = QgsUnitTypes.RenderPoints
+        except AttributeError:
+            unit = QgsUnitTypes.RenderPoints
+
+        self.units = unit
         self.apply_conversion_tweaks = int(s.value('/plugins/slyr/apply_tweaks', 1))
         self.inkscape_path = s.value('/plugins/slyr/inkscape_path', 'inkscape')
         self.convert_annotations = int(s.value('/plugins/slyr/enable_annotations', 0))
