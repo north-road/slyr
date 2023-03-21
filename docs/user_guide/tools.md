@@ -19,7 +19,7 @@ Here is a checklist to help your conversions and workings with **SLYR** run a li
 > ✔️ **Error Messages:**   If a tool returns an error:
   > - Saying it is not available, if you are using the Community Edition, it may not yet be available. 
   > - All other errors, read through the `Log`, check the [Troubleshooting](https://slyr.north-road.com/user_guide/troubleshooting) page on how to recitfy the issue and rerun the tool. If there is no recitifcation, please [email us](mailto:info@north-road.com).
- 
+*** 
 
 <!---## Group ##
 ### Tool ###
@@ -34,8 +34,8 @@ Description
 3. Under `Destination X`, set the location of the *.X* file.
 
 > This tool is available only with the SLYR full licence.
+***
 --->
----
 ## ArcGIS Pro ##
 ### Convert APRX to QGS ###
 | From | To |
@@ -52,7 +52,7 @@ Converts an APRX document file to a QGS project file.
 5. Once processed, in **QGIS**, navigate to the folder and open the *.qgs* file.
 
 > This tool is available only with the SLYR full licence.
-
+***
 ### Convert GPL color palette to STYLX ###
 | From | To |
 | ---- | ---|
@@ -73,7 +73,7 @@ GPL color palettes can be created in graphics programs such as GIMP and Inkscape
 ![Apply GPL style in ArcGIS Pro](../images/gpl_apply.png)
 
 > This tool is available only with the SLYR full licence.
-
+***
 ### Convert layer to LYRX ###
 | From | To |
 | ---- | ---|
@@ -89,7 +89,7 @@ Once you have set up your symbology on your layer, **SLYR** will extract the sym
 5. Click `Run`.
 
 > This tool is available only with the SLYR full licence.
-
+***
 ### Convert QGIS to MAPX ###
 | From | To |
 | ---- | ---|
@@ -108,4 +108,4 @@ Converts a **QGIS** project to a *.mapx*. A *.mapx* is an ESRI map file format u
 > Available only with the SLYR full licence.
 
 > Can be run as a batch tool 
-
+***
