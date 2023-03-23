@@ -36,6 +36,37 @@ Description
 > This tool is available only with the SLYR full licence.
 ***
 --->
+## INCOMPLETE Annotations ## ****this is currently not working***** THINKING IT MAY ONLY WORK FROM ARCMAP and NOT ArcGIS Pro********
+<!---### Convert annotation classes to GeoPackage ###
+| From | To |
+| ---- | ---|
+| **ESRI** .gdp | **QGIS** .gpkg | 
+???can it add to a geopackage or dos it create a gpkg each time????
+This tool will take an annotation class currently saved in a geodatabase and convert it into a geopackage layer. 
+![Annotation to Geopackage](../images/anno_to_gpkg.png)
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Annotations` ▶️ `Convert annotation classes to GeoPackage`.
+2. In the `Input Geodatabase`, browse to the location of the annotation file.
+3. Under `Output GeoPackage`, set the location of the *.gpkg* file.
+
+> This tool is available only with the SLYR full licence.
+***
+
+### Convert Annotations ###
+| From | To |
+| ---- | ---|
+| **ESRI** annotation layer | **QGIS** ? annotation layer | 
+
+Description
+![Convert annotations](../images/anno_convert.png)
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Annotations` ▶️ `Convert annotations`.
+2. In the `Input layer`, browse to the location of the *.X* file.
+3. Under `Element field`, select which field contains the label text from the dropdown.
+4. Click `Run`.
+???not sure what happens then???
+
+> This tool is available only with the SLYR full licence.
+***
+--->
 ## ArcGIS Pro ##
 ### Convert APRX to QGS ###
 | From | To |
@@ -91,6 +122,21 @@ Once you have set up your symbology on your layer, **SLYR** will extract the sym
 
 > This tool is available only with the SLYR full licence.
 ***
+### Convert LYRX to QLR ###
+| From | To |
+| ---- | ---|
+| **ESRI** .lyrx | **QGIS** .qlr | 
+
+Converts an ArcGIS Pro LYRX file to a QGIS QLR file. Both of these files act similarly and will reach back to the original data file. 
+
+![LYRX to QLR](../images/lyrx_qlr.png)
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert LYRX to QLR`.
+2. In the `Input LYRX file`, browse to the location of the *.lyrx* file.
+3. Under `Destination QLR file`, set the location of the *.qlr* file.
+
+> This tool is available only with the SLYR full licence.
+***
+
 ### Convert QGIS to MAPX ###
 | From | To |
 | ---- | ---|
