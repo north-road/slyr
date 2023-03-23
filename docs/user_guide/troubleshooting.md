@@ -101,6 +101,14 @@ QGIS SVG Markers are not yet supported for conversion into ArcGIS Pro. They are 
 > 
 > - If the SVG are unique and required, import them to a style using the [ImportSVGsToStyle](https://carto.maps.arcgis.com/home/item.html?id=c25ab2da6ae343af9acc632120c7cf01){:target="_blank" rel="noopener"}_ ArcGIS Pro Add-In by DStephen_carto.
 
+## Tool not working ##
+If a tool is not working, we apologise that this is impacting your workflow. If it is a bug, we tend to try and fix this, historically, quite quickly.
+> **Workaround:** 
+>
+> - Check if you are using the Community Edition or the Full Licence of **SLYR**. If you are using the Community Edition, then the tool is not yet available in the licence version. 
+> - If you are using the fully licenced **SLYR**, send us an [email](mailto:info@north-road.com) immediately with as much as detail as possible including the files. We will look into the bug and get back to you with a solution. Once solved, we will push up a new version to the QGIS Plugin Manager with all the fixes. 
+
+
 ## Update my SLYR licence ##
 **SLYR** is updated regularly and **QGIS** will let you know when a new version has been released. To update your version:
 
