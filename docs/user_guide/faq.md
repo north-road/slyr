@@ -38,11 +38,11 @@ Unfortunately we do not offer a student version of **SLYR**. We recommend you ap
 
 ## Support ##
 North Road offers a high level of support to all **SLYR** purchases. You can contact us at anytime via [email](mailto:info@north-road.com). 
-> If there is a bug we will fix it to the best of our abilities and release it as soon as we can. 
-
-> If you wish a tool to work in a certain way, and if there are no barriers to developing it (software constraints in QGIS/ESRI), we will attempt to do it. 
-
-> If it is something that will require a high level of development, you can consider whether to join the current **Hall of Fame** and sponsor its development.
+> - If there is a bug we will fix it to the best of our abilities and release it as soon as we can. 
+>
+> - If you wish a tool to work in a certain way i.e. develop a new feature, and if there are no barriers to developing it (software constraints in QGIS/ESRI), we will attempt to do it. 
+>
+> - If it is something that will require a high level of development, you can consider whether to join the current **Hall of Fame** and sponsor its development.
 
 ## Trial versions ##
 Evaluation versions of the tool are not available. If you require a sample to evaluate prior to purchasing, email QGIS or ESRI files to [North Road Support](mailto:info@north-road.com) and we will convert it at no cost.
