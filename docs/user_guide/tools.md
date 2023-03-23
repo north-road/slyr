@@ -98,6 +98,7 @@ GPL color palettes can be created in graphics programs such as GIMP and Inkscape
 4. In **ArcGIS Pro**, in the `Catalog` panel, right mouse click on the *.stylx* file and select `Add Style`.
 
 ![Add GPL style to ArcGIS Pro](../images/gpl_add_style.png)
+
 6. In `Geoprocessing`, 
 
 
