@@ -87,6 +87,7 @@ Once you have set up your symbology on your layer, **SLYR** will extract the sym
 3. Under `Layer`, select the layer.
 4. Under `Destination lyrx file`, set the location of the *.lyrx* file.
 5. Click `Run`.
+6. Once processed, in **ArcGIS Pro**, navigate via the `Catalog` and open the *.lyrx* file.
 
 > This tool is available only with the SLYR full licence.
 ***
