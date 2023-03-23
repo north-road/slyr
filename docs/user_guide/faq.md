@@ -33,6 +33,9 @@ To create an invoice or quote, we require the following information:
 
 When we receive payment (credit card, bank transfer or PayPal), we will send you the licence and instructions for using **SLYR**.
 
+## Remote Users ##
+We work remotely too, so we know how you need to have access to all of your tools. If you are attached to an office location, but work remotely, you are covered under our license agreement. 
+
 ## Student versions ##
 Unfortunately we do not offer a student version of **SLYR**. We recommend you approach your institution to purchase **SLYR**. 
 
