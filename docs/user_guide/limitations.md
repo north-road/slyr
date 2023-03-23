@@ -13,10 +13,6 @@ Description
 
 > Proposed solution: currently working on it -->
 
-to do
-This came off a WMS file: 
-Warning: Coastline: Converting QgsSingleBandColorDataRenderer is not yet supported
-
 
 ## Geopackages ##
 Whilst we are love our neat geopackages in QGIS, ESRI is yet to deliver on this functionality. If you are going from QGIS to ESRI, you will need to save 
@@ -97,8 +93,6 @@ There are two types of Vector Tile Packs (VTPK) in **ESRI**:
 > There is no workaround for this limitation.
 
 > Proposed solution: waiting for funding and demand by the community to develop it.  
-
-
 
 ## Urgent fixes ##
 If you have a large project impacted by limitations that requires an urgent fix, [contact us](mailto:info@north-road.com) here at **North Road** and we could look at a number of options. 
