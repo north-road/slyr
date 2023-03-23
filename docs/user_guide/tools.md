@@ -132,7 +132,12 @@ Converts an ArcGIS Pro LYRX file to a QGIS QLR file. Both of these files act sim
 ![LYRX to QLR](../images/lyrx_qlr.png)
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert LYRX to QLR`.
 2. In the `Input LYRX file`, browse to the location of the *.lyrx* file.
-3. Under `Destination QLR file`, set the location of the *.qlr* file.
+3. Choose to store relative paths - this will impact on the performance of the QLR if the data is removed from the specified location.
+4. Under `Destination QLR file`, set the location of the *.qlr* file.
+5. Click `Run`
+6. Once processed, you can drag and drop the *.qlr* file from the **QGIS** `Browser` into your map. 
+
+![QLR](../images/qlr_browser.png)
 
 > This tool is available only with the SLYR full licence.
 ***
