@@ -153,10 +153,29 @@ Converts an ArcGIS Pro LYRX file to a QGIS QML file. If multiple layers are pres
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert LYRX to QML`.
 2. In the `Input LYRX file`, browse to the location of the *.lyrx* file.
 3. Under `Destination QML file`, set the location of the *.qml* file.
-> - If more than one layer exists in the **lyrx** file, a qml will be produced for each
-> ![Multiple QML](../images/lyrx_qml_result.png)
+    > - If more than one layer exists in the **lyrx** file, a qml will be produced for each
+    > ![Multiple QML](../images/lyrx_qml_result.png)
 
 5. Once processed, load the **.qml** files via the `Layer Properties`.
+
+> This tool is available only with the SLYR full licence.
+***
+### Convert MAPX to QGS ###
+| From | To |
+| ---- | ---|
+| **ESRI** .mapx | **QGIS** .qgs | 
+
+Converts an MAPX document file to a QGS project file.
+![image name](../images/image.png)
+1. Save your **ArcGIS Pro** file then export your map out as a *.mapx* file. 
+2. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert MAPX to QGS`.
+4. In the `Input MAPX file`, browse to the location of the *.mapx* file.
+5. Under `Destination QGS project file`, set the location of the *.qgs* file to the same **ArcGIS Pro** project folder (hint: where the .aprx is stored).
+6. Click 'Run'.
+7. Open up the *.qgs* file and check through. 
+    >In some cases, labels do not automatically turn on. Note that labelling parameters are saved, it just needs to be manually turned on.
+    
+8. Save your project as *.qgz* if requried.
 
 > This tool is available only with the SLYR full licence.
 ***
@@ -172,10 +191,10 @@ Converts a **QGIS** project to a *.mapx*. A *.mapx* is an ESRI map file format u
 2. In the `Input QGIS file`, browse to the location of the *.qgs* or *.qgz* file.
 3. Under `Destination MAPX project file`, set the location of the *.mapx* file.
 4. Click `OK`. 
-> If errors are returned, read through the `Log`, rectify the issues and rerun the tool.
+    > If errors are returned, read through the `Log`, rectify the issues and rerun the tool.
+
 6. Once processed, in **ArcGIS Pro**, navigate via the `Catalog` and open the *.mapx* file.
 
 > Available only with the SLYR full licence.
-
 > Can be run as a batch tool 
 ***
