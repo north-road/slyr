@@ -168,6 +168,7 @@ Converts an ArcGIS Pro LYRX file to a QGIS QML file. If multiple layers are pres
 Converts an MAPX document file to a QGS project file.
 
 ![MAPX to QGS](../images/mapx_to_qgs.png)
+
 1. Save your **ArcGIS Pro** file then export your map out as a *.mapx* file. 
 2. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert MAPX to QGS`.
 4. In the `Input MAPX file`, browse to the location of the *.mapx* file.
