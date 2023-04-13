@@ -176,8 +176,9 @@ Converts an MAPX document file to a QGS project file.
 2. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert MAPX to QGS`.
 4. In the `Input MAPX file`, browse to the location of the *.mapx* file.
 5. Under `Destination QGS project file`, set the location of the *.qgs* file to the same **ArcGIS Pro** project folder (hint: where the .aprx is stored).
-6. Click 'Run'.
-7. Open up the *.qgs* file and check through. 
+    > Note due to 
+7. Click 'Run'.
+8. Open up the *.qgs* file and check through. 
     >In some cases, labels do not automatically turn on. Note that labelling parameters are saved, it just needs to be manually turned on.
     
 8. Save your project as *.qgz* if requried.
@@ -219,4 +220,17 @@ Converts a **QGIS** project to a *.mapx*. A *.mapx* is an ESRI map file format u
 
 > Available only with the SLYR full licence.
 > Can be run as a batch tool 
+***
+### Convert STYLX to GPL color palette ###
+| From | To |
+| ---- | ---|
+| **ESRI** .stylx | **QGIS** .gpl | 
+
+Converts an ArcGIS Pro STYLX database to a GPL format color palette file, extracting all color entities saved in the style. GPL color palettes are a file format for GIMP color palettes - GIMP is an OS Graphics 
+![image name](../images/image.png)
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert STYLX to GPL color palette`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+
+> This tool is available only with the SLYR full licence.
 ***
