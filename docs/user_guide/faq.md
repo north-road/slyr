@@ -66,4 +66,4 @@ SLYR is updated many times during the year, at least once per quarter. To find o
 SLYR is designed so that you can push out ESRI products without the need of an ESRI licence as you undetake all **SLYR** operations in **QGIS**. You only need to have [QGIS](https://www.qgis.org/en/site/) installed. However, if you wish to view the output in an ESRI environment, you will need an appropriate type of licence for the file type. For more information on files types and the software needed, check out [Fileformat's GIS list](https://docs.fileformat.com/gis/).
 
 ## What QGIS version do I need? ##
-The latest QGIS version is always the best as we update SLYR to meet the latest versions. However, SLYR will work with older versions - we recommend using versions from v3.16 onmwards.
+The latest QGIS version is always the best as we update SLYR to meet the latest versions. However, SLYR will work with older versions - we recommend using versions from v3.16 onwards.
