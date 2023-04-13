@@ -31,8 +31,8 @@ The `Options` dialog opens, scroll down on the left and click on **SLYR** to acc
 | Store relative paths for files instead of absolute paths | Using relative paths will assist with portability of the project. |  Tick to activate. |
 Convert font markers to simple marker symbols where possible | All Symbol marker symbols will loose any complexity. |  Tick to activate. |
 | Convert font markerts to SVG files | Use this option if you have access to the original SVG files and they are saved in.  |  Tick to activate. Ensure the location is addded into the **QGIS** `Options` dialog (check [Troubleshooting](/user_guide/troubleshooting) for more information). |
-<!---| *delete*Embed pictures inside symbols when possible | Symbols containing pictures are assumed to have placement inside symbols. If your pictures occur outside of symbols, don't activate this option. IS THIS CORRECT???? |  Tick to activate. |--->
 | Units for symbols: points, millimeters | Symbols use points or millimeters to measure them. **SLYR** uses points as a default. |  Choose either `Points` or `Millimeters`. |
+<!---| *delete*Embed pictures inside symbols when possible | Symbols containing pictures are assumed to have placement inside symbols. If your pictures occur outside of symbols, don't activate this option. IS THIS CORRECT???? |  Tick to activate. |--->
 <!---| *delete* Store extracted pictures in | Pictures are extracted and processed using Inkscape. The files will then need a storage location. WHAT PICTURES ARE TALKING ABOUT - FROM SYMBOLS OR PHOTOS LINKED IN THE PROJECT |  Enter in the folder's path |--->
 <!---| *delete*Store relative paths for files instead of absolute paths | Using relative paths will assist with portability of the project. |  Tick to activate. |--->
 
