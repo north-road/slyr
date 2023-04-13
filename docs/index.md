@@ -5,6 +5,8 @@ title: Slyr Documentation
 
 [Get started here](/user_guide/install_slyr)
 
+[Set up SLYR Options](/user_guide/setting_up_slyr_options)
+
 [SLYR Tool instructions](/user_guide/tools)
 
 [Features](/user_guide/features)
@@ -16,5 +18,3 @@ title: Slyr Documentation
 [Limitations](/user_guide/limitations)
 
 [Hall of Fame](/user_guide/hall_of_fame)
-
-[For full licence users](/user_guide/setup_slyr)
