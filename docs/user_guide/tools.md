@@ -189,7 +189,7 @@ Converts an MAPX document file to a QGS project file.
 | ---- | ---|
 | **QGIS** .xml| **ESRI** .stylx |
 
-Converts a QGIS XML style database to an ArcGIS Pro STYLX database. You will need to create a XML style file if this has not already been completed, refer to [14.1.1.3 Sharing style items](https://docs.qgis.org/3.28/en/docs/user_manual/style_library/style_manager.html) in **QGIS** documentation. Creating a XML of your styles allows for portability between software and is handy if you have curated a set of styles unique to a project.
+Converts a QGIS XML style database to an ArcGIS Pro STYLX database. You will need to create a XML style file. If this has not already been completed, refer to [14.1.1.3 Sharing style items](https://docs.qgis.org/3.28/en/docs/user_manual/style_library/style_manager.html) in **QGIS** documentation. Creating a XML of your styles allows for portability between software and is handy if you have curated a set of styles unique to a project.
 
 ![XML to STYLX](../images/xml_stylx.png)
 
