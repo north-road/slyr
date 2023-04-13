@@ -1,4 +1,4 @@
-## SLYR Options ##
+# SLYR Options #
 The **SLYR** `Options` dialog provides users the ability to set-up the **SLYR** Plugin to meet their requirements. 
 
 To access the **SLYR** `Options`, in **QGIS** click on the top menu `Settings` ▶️ `Options`.
