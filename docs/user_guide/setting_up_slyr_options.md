@@ -15,8 +15,8 @@ The `Options` dialog opens, scroll down on the left and click on **SLYR** to acc
 | License key | The license key is supplied to users once they have purchased **SLYR**. | Enter your unique license key at this screen, exactly as it appears in your license email.|
 | Verbose logging during conversion | Activates verbose debugging output during file conversions. This option can slow down performance, and should be enabled only when requested by North Road support staff. | Tick to activate. |
 | License key | The license key is supplied to users once they have purchased **SLYR**. | Enter your unique license key at this screen, exactly as it appears at the end of this email.|
-| *delete*Experimental annotation support | Annotation support is currently in Beta testing. If you would like to partake in the testing, tick this option. Any issues, please send us an [email](mailto:info@north-road.com). <NYALL IS THIS ONLY FOR COMMUNITY EDITION? WHAT DOES THIS DO?> |  Tick to activate. |
-| Verbose logging during conversion | Activate the developer version of the plugin. This will record more details and assist with future developement. However it can slow down performance. | Tick to activate. |
+<!---| *delete*Experimental annotation support | Annotation support is currently in Beta testing. If you would like to partake in the testing, tick this option. Any issues, please send us an [email](mailto:info@north-road.com). <NYALL IS THIS ONLY FOR COMMUNITY EDITION? WHAT DOES THIS DO?> |  Tick to activate. |--->
+<!---| Verbose logging during conversion | Activate the developer version of the plugin. This will record more details and assist with future developement. However it can slow down performance. | Tick to activate. |--->
 
 
 ### Conversion Settings ###
@@ -29,12 +29,12 @@ The `Options` dialog opens, scroll down on the left and click on **SLYR** to acc
 | Units for symbols: points, millimeters | Controls whether the converted QGIS symbols should use points or millimeters for sizes, widths and offsets. **SLYR** uses points as a default in order to match the units used by ESRI software, but users may wish to change this to millimeters if they are more comfortable working in these units. |  Choose either `Points` or `Millimeters`. |
 | Store extracted pictures in | Sets a path to store any extracted pictures from ESRI documents. This setting is only used when the "Embed pictures inside symbols when possible" option is disabled. |  Enter in the folder's path |
 | Store relative paths for files instead of absolute paths | Using relative paths will assist with portability of the project. |  Tick to activate. |
-Convert font markers to simple marker symbols where possible | All Symbol marker symbols will loose any complexity. WILL THIS MIRROR THE CHOSEN SYMBOLS CLOSELY? WILL IT LOSE ALL COLOUR AS WELL? |  Tick to activate. |
+Convert font markers to simple marker symbols where possible | All Symbol marker symbols will loose any complexity. |  Tick to activate. |
 | Convert font markerts to SVG files | Use this option if you have access to the original SVG files and they are saved in.  |  Tick to activate. Ensure the location is addded into the **QGIS** `Options` dialog (check [Troubleshooting](/user_guide/troubleshooting) for more information). |
-| *delete*Embed pictures inside symbols when possible | Symbols containing pictures are assumed to have placement inside symbols. If your pictures occur outside of symbols, don't activate this option. IS THIS CORRECT???? |  Tick to activate. |
+<!---| *delete*Embed pictures inside symbols when possible | Symbols containing pictures are assumed to have placement inside symbols. If your pictures occur outside of symbols, don't activate this option. IS THIS CORRECT???? |  Tick to activate. |--->
 | Units for symbols: points, millimeters | Symbols use points or millimeters to measure them. **SLYR** uses points as a default. |  Choose either `Points` or `Millimeters`. |
-| *delete* Store extracted pictures in | Pictures are extracted and processed using Inkscape. The files will then need a storage location. WHAT PICTURES ARE TALKING ABOUT - FROM SYMBOLS OR PHOTOS LINKED IN THE PROJECT |  Enter in the folder's path |
-| *delete*Store relative paths for files instead of absolute paths | Using relative paths will assist with portability of the project. |  Tick to activate. |
+<!---| *delete* Store extracted pictures in | Pictures are extracted and processed using Inkscape. The files will then need a storage location. WHAT PICTURES ARE TALKING ABOUT - FROM SYMBOLS OR PHOTOS LINKED IN THE PROJECT |  Enter in the folder's path |--->
+<!---| *delete*Store relative paths for files instead of absolute paths | Using relative paths will assist with portability of the project. |  Tick to activate. |--->
 
 ### SDE Database Conversion ###
 
