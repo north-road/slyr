@@ -11,13 +11,6 @@ Once purchased, **SLYR's** support is perpetual!
 > * No annual maintenance 
 > * Update at your leisure using the **QGIS Plugin Manager**. 
 
-## Install **SLYR** ##
-After purchasing **SLYR**, **North Road** will send you your licence details and instructions on how to install it.
-
-Once installed, **SLYR** will appear in the browser panel. Expand the tools and start using them.
-
-![SLYR location](../images/browser.png)
-
 ## Install the **SLYR (Community Edition)** ##
 To install the **SLYR (Community Edition)**, open the **Plugin Manager**, click on the top menu item `Plugins` ▶️ `Manage and Install Plugins`.
 
@@ -38,7 +31,6 @@ The **SLYR (Community Edition)** will appear in the browser panel. Expand the to
 >A tool will return an error if is is only available in the fullly licenced **SLYR**.
  
 ## Install the plugin (licensed version) ##
-
 Once purchased, licensed users will receive an email from **North Road** with a link for the installer and their licence key. 
 
 **Before installing the licensed version of SLYR, you must first uninstall the community version (if installed) and restart QGIS.**
@@ -50,4 +42,8 @@ Once purchased, licensed users will receive an email from **North Road** with a 
 
 3. Unzip the downloaded file, and then drag the extracted `install_slyr_qgis.py` over an open **QGIS** window. (If prompted, accept the warning regarding trusted scripts). The script will add a connection to the private plugins repository, and install the **SLYR** plugin for you.
 
-4. After the plugin is installed, the **SLYR** `Options` dialog will open (If it doesn't, click on the top menu `Settings` ▶️ `Options` and click on **SLYR** in the left panel). Enter your unique license key at this screen, exactly as it appears at the end of this email. Enter the optional requirements outlined in the *SLYR Options* section below.
+4. After the plugin is installed, the **SLYR** `Options` dialog will open (If it doesn't, click on the top menu `Settings` ▶️ `Options` and click on **SLYR** in the left panel). Enter your unique license key at this screen, exactly as it appears at the end of this email. Enter the optional requirements outlined in the [SLYR Options section](/user_guide/setting_up_slyr_options).
+
+6. Once installed, **SLYR** will appear in the browser panel. Expand the tools and start using them.
+
+![SLYR location](../images/browser.png)
