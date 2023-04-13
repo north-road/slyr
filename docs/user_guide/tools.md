@@ -150,13 +150,16 @@ Converts an ArcGIS Pro LYRX file to a QGIS QLR file. Both of these files act sim
 Converts an ArcGIS Pro LYRX file to a QGIS QML file. If multiple layers are present in the LYRX file, each will be converted to an individual QML file.
 
 ![LYRX ](../images/lyrx_qml.png)
+
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert LYRX to QML`.
 2. In the `Input LYRX file`, browse to the location of the *.lyrx* file.
 3. Under `Destination QML file`, set the location of the *.qml* file.
-    > - If more than one layer exists in the **lyrx** file, a qml will be produced for each
+    > If more than one layer exists in the **lyrx** file, a qml will be produced for each
     > ![Multiple QML](../images/lyrx_qml_result.png)
 
 5. Once processed, load the **.qml** files via the `Layer Properties`.
+
+![Load QML](../images/qml_load.png)
 
 > This tool is available only with the SLYR full licence.
 ***
