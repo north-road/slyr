@@ -184,6 +184,22 @@ Converts an MAPX document file to a QGS project file.
 
 > This tool is available only with the SLYR full licence.
 ***
+### Convert QGIS style XML to STYLX ###
+| From | To |
+| ---- | ---|
+| **QGIS** .xml| **ESRI** .stylx |
+
+Converts a QGIS XML style database to an ArcGIS Pro STYLX database. You will need to create a XML style file if this has not already been completed, refer to [14.1.1.3 Sharing style items](https://docs.qgis.org/3.28/en/docs/user_manual/style_library/style_manager.html) in **QGIS** documentation. Creating a XML of your styles allows for portability between software and is handy if you have curated a set of styles unique to a project.
+
+![XML to STYLX](../images/xml_stylx.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert QGIS style XML to STYLX`.
+2. In the `Style XML`, browse to the location of the *.xml* file.
+3. Under `Destination stylx database`, set the location of the *.stylx* file.
+4. In **ArcGIS Pro**, in the `Catalog`pane, navigate to the style and right mouse click the file to choose where you wish to save the style to. 
+
+> This tool is available only with the SLYR full licence.
+***
 ### Convert QGIS to MAPX ###
 | From | To |
 | ---- | ---|
