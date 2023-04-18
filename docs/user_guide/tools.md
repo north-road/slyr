@@ -235,7 +235,7 @@ Converts an ArcGIS Pro STYLX database to a GPL format color palette file, extrac
 3. Under `Destination GPL file`, set the location of the *.gpl* file.
 4. Once converted, import via `Settings` ▶️ `Options`▶️ `Color` and ensure you tick `Show in Color Buttons`to access it via the color drop-down function in `Layer Styling. In this example, I have added a Natural Environment GPL palette.
  
-![GIMP GPL Palette Import](../images/gpl_palette_access.png)
+![GIMP GPL Palette Import](../images/gpl_palette_access_sml.png)
 ![QGIS Color Button](../images/color_button.png)   
 
 > This tool is available only with the SLYR full licence.
