@@ -250,7 +250,7 @@ In this example, I have added a Landuse - Natural Environment GPL palette.
 | ---- | ---|
 | **ESRI** .stylx | **QGIS** .xml | 
 
-Converts an ArcGIS Pro STYLX database to a QGIS XML Style library
+Converts an ArcGIS Pro STYLX database to a QGIS XML Style library. This is particularly useful if your project has a selection of unique symbols that you wish to continue to use. 
 
 ![ArcGIS Pro Stylx to QGIS XML](../images/stylx_xml.png)
 
