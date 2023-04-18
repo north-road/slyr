@@ -257,7 +257,7 @@ Converts an ArcGIS Pro STYLX database to a QGIS XML Style library
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert STYLX to QGIS style XML`.
 2. Under `Stylx database`, browse to the location of the *.stylx* file.
 3. Under `Destination XML file`, set the location of the *.xml* file.
-4. In 'Uncovertable symbols report [optional]`, enter a location for those symbols that fail to convert. This allows you to create a new vector layer containing details of all unconvertable symbols. This report can be saved as any standard vector format, including Shapefile, XLSX or Geopackage 
+4. In 'Uncovertable symbols report [optional]`, enter a location for those symbols that fail to convert. This allows you to create a new vector layer containing details of all unconvertable symbols. This report can be saved as any standard vector format, including Shapefile, XLSX or Geopackage. 
 5. Click on `Run`.
 6. Once it has converted, you can import the *XML* file via the `Style Manager` ▶️ `Import/Export`.
 
