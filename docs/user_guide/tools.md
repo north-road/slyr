@@ -28,7 +28,9 @@ Here is a checklist to help your conversions and workings with **SLYR** run a li
 | **ESRI** .aprx | **QGIS** .qgs, .qgz | 
 
 Description
+
 ![image name](../images/image.png)
+
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `X`.
 2. In the `Input X`, browse to the location of the *.X* file.
 3. Under `Destination X`, set the location of the *.X* file.
@@ -233,12 +235,31 @@ Converts an ArcGIS Pro STYLX database to a GPL format color palette file, extrac
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert STYLX to GPL color palette`.
 2. For `Sytlx database`, browse to the location of the *.stylx* file.
 3. Under `Destination GPL file`, set the location of the *.gpl* file.
-4. Once converted, import via `Settings` ▶️ `Options`▶️ `Color` and ensure you tick `Show in Color Buttons`to access it via the color drop-down function in `Layer Styling`. 
+4. Click on `Run`.
+5. Once converted, import via `Settings` ▶️ `Options`▶️ `Color` and ensure you tick `Show in Color Buttons`to access it via the color drop-down function in `Layer Styling`. 
 
 In this example, I have added a Landuse - Natural Environment GPL palette.
  
 ![GIMP GPL Palette Import](../images/gpl_palette_access_sml.png)
 ![QGIS Color Button](../images/color_button.png)   
+
+> This tool is available only with the SLYR full licence.
+***
+### Convert STYLX to QGIS style XML ###
+| From | To |
+| ---- | ---|
+| **ESRI** .stylx | **QGIS** .xml | 
+
+Converts an ArcGIS Pro STYLX database to a QGIS XML Style library
+
+![ArcGIS Pro Stylx to QGIS XML](../images/stylx_xml.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert STYLX to QGIS style XML`.
+2. Under `Stylx database`, browse to the location of the *.stylx* file.
+3. Under `Destination XML file`, set the location of the *.xml* file.
+4. In 'Uncovertable symbols report [optional]`, enter a location for those symbols that fail to convert. This allows you to create a new vector layer containing details of all unconvertable symbols. This report can be saved as any standard vector format, including Shapefile, XLSX or Geopackage 
+5. Click on `Run`.
+6. Once it has converted, you can import the *XML* file via the `Style Manager` ▶️ `Import/Export`.
 
 > This tool is available only with the SLYR full licence.
 ***
