@@ -228,12 +228,14 @@ Converts a **QGIS** project to a *.mapx*. A *.mapx* is an ESRI map file format u
 
 Converts an ArcGIS Pro STYLX database to a GPL format color palette file, extracting all color entities saved in the style. GPL color palettes are a file format for GIMP color palettes - [GIMP](https://www.gimp.org/) is a cross-platform image editor available for GNU/Linux, macOS, Windows etc and can be added to your QGIS palette options.
 
-![STYLX to GPL](../images/stylx_gpl.png)
+![STYLX to GPL](../images/stylx_gpl2.png)
 
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert STYLX to GPL color palette`.
 2. For `Sytlx database`, browse to the location of the *.stylx* file.
 3. Under `Destination GPL file`, set the location of the *.gpl* file.
-4. Once converted, import via `Settings` ▶️ `Options`▶️ `Color` and ensure you tick `Show in Color Buttons`to access it via the color drop-down function in `Layer Styling. In this example, I have added a Natural Environment GPL palette.
+4. Once converted, import via `Settings` ▶️ `Options`▶️ `Color` and ensure you tick `Show in Color Buttons`to access it via the color drop-down function in `Layer Styling`. 
+
+In this example, I have added a Landuse - Natural Environment GPL palette.
  
 ![GIMP GPL Palette Import](../images/gpl_palette_access_sml.png)
 ![QGIS Color Button](../images/color_button.png)   
