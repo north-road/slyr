@@ -15,7 +15,7 @@ Description
 
 
 ## Geopackages ##
-Whilst we are love our neat geopackages in QGIS, ESRI is yet to deliver on this functionality. If you are going from QGIS to ESRI, you will need to save 
+Whilst we are love our neat geopackages in QGIS, ESRI is yet to deliver on this functionality. If you are going from QGIS to ESRI, you will need to save as a shapefile or a geodatabase. 
 > Workaround: See [Troubleshooting](https://slyr.north-road.com/user_guide/troubleshooting){:target="_blank" rel="noopener"}_
 > Proposed solution: waiting for ESRI to develop geopackage functionality
 
