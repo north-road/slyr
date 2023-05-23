@@ -184,7 +184,7 @@ class Stream:  # pylint: disable=too-many-public-methods
                         if drawing_defaults_stream:
                             self.read_string('default font')
                             self.read_double('font size??', expected=(
-                                0, 2061745644852025.5, 1.213859894000235e-304, 1.0699050853375465e+46))
+                                0, 4.450147717014403e-308, 2061745644852025.5, 1.213859894000235e-304, 1.0699050853375465e+46))
                             string_count = self.read_int('string count???')
                             for i in range(string_count):
                                 self.read_string('unknown string')
@@ -634,7 +634,7 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         clsid = ObjectRegistry.hex_to_clsid2(clsid_bin)
         if debug_string and clsid != '00000000-0000-0000-0000-000000000000':
-            self.log('Found {} clsid of {}'.format(debug_string, clsid), 16)
+            self.log('Found {} clsid of {}'.format(debug_string, ObjectRegistry.hex_to_clsid(clsid_bin)), 16)
         return clsid
 
     def read_raw_clsid(self, debug_string: str = '', expected=None) -> str:
@@ -964,6 +964,9 @@ class Stream:  # pylint: disable=too-many-public-methods
             self.read(length)
         elif variant_type == Stream.VBDATAOBJECT:
             value = self.read_object('value')
+        elif variant_type == 8197:  # esriAttributeTypeDash
+            count = self.read_int('number of dashes')
+            value = [self.read_double('value {}'.format(idx)) for idx in range(count)]
         else:
             raise UnreadableSymbolException('Unknown property type {}'.format(variant_type))
 
@@ -979,10 +982,26 @@ class Stream:  # pylint: disable=too-many-public-methods
         """
         Returns true if the next part of the stream is an indexed properties map
         """
-        raise RequiresLicenseException('Reading this document requires a licensed version of SLYR')
+        start = self.tell()
+        res = self.read_ushort() in (250, 255, 34125) and self.read_ushort() in (255, 34419) and self.read_int() == 0
+        self.seek(start)
+        return res
 
     def read_indexed_properties(self, handler):
         """
         Reads an index property list from the stream, using the specified handler to parse it
         """
-        raise RequiresLicenseException('Reading this document requires a licensed version of SLYR')
+        self.log('starting indexed property parsing')
+
+        # header
+        self.read_ushort(expected=(250, 255, 34125))
+        self.read_ushort(expected=(255, 4351, 34419))
+        self.read_int(expected=0)
+
+        while True:
+            next_ref = self.read_int('reference')
+            if next_ref == 0xffffffff:
+                return
+            else:
+                size = self.read_int('size')
+                handler(next_ref, size)
