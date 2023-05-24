@@ -106,6 +106,8 @@ class VectorLayerConverter:
             return VectorRendererConverter.guess_geometry_type_from_renderer(layer)
         elif hasattr(layer, 'dataset_name') and hasattr(layer.dataset_name, 'shape_type'):
             return VectorLayerConverter.geometry_type_to_wkb(layer.dataset_name.shape_type)
+        elif False:
+            pass
         return QgsWkbTypes.Unknown
 
     @staticmethod
@@ -122,16 +124,22 @@ class VectorLayerConverter:
         else:
             layer = source_layer
 
-        crs = CrsConverter.convert_crs(layer.layer_extent.crs,
-                                       context) if layer.layer_extent else QgsCoordinateReferenceSystem()
-        if not crs.isValid():
-            crs = fallback_crs
+        if False:
+            crs = QgsCoordinateReferenceSystem()
+        else:
+            crs = CrsConverter.convert_crs(layer.layer_extent.crs,
+                                           context) if layer.layer_extent else QgsCoordinateReferenceSystem()
+            if not crs.isValid():
+                crs = fallback_crs
 
         subset_string = ''
-        if layer.selection_set:
-            subset_string = 'fid in ({})'.format(','.join([str(s) for s in layer.selection_set]))
-        elif layer.definition_query:
-            subset_string = ExpressionConverter.convert_esri_sql(layer.definition_query)
+        if False:
+            pass
+        else:
+            if layer.selection_set:
+                subset_string = 'fid in ({})'.format(','.join([str(s) for s in layer.selection_set]))
+            elif layer.definition_query:
+                subset_string = ExpressionConverter.convert_esri_sql(layer.definition_query)
 
         base, _ = os.path.split(input_file)
 
@@ -143,7 +151,14 @@ class VectorLayerConverter:
                                                                                     context=context)
 
         if wkb_type is None or wkb_type == QgsWkbTypes.Unknown:
+            if False:
+                pass
+            else:
+                wkb_type = VectorLayerConverter.layer_to_wkb_type(layer)
+        elif wkb_type == QgsWkbTypes.NoGeometry and not False and \
+                source_layer.shape_type != 0:
             wkb_type = VectorLayerConverter.layer_to_wkb_type(layer)
+
         context.layer_type_hint = wkb_type
 
         if Qgis.QGIS_VERSION_INT >= 31600:
@@ -183,30 +198,42 @@ class VectorLayerConverter:
             vl = QgsMemoryProviderUtils.createMemoryLayer(layer.name, QgsFields(), wkb_type, crs)
 
         # context.style_folder, _ = os.path.split(output_file)
-        if layer.renderer:
-            renderer = VectorRendererConverter.convert_renderer(layer.renderer, context)
-            try:
-                if not renderer.usingSymbolLevels():
-                    renderer.setUsingSymbolLevels(layer.use_advanced_symbol_levels)
-            except AttributeError:
-                pass
+        if False:
+            pass
 
-            if layer.use_page_definition_query:
-                filter_expression = '"{}" {} @atlas_pagename'.format(layer.page_name_field,
-                                                                     layer.page_name_match_operator)
+        elif layer.renderer:
+            renderer = VectorRendererConverter.convert_renderer(layer.renderer, layer, context)
+            if False:
+                pass
+            else:
+                try:
+                    if not renderer.usingSymbolLevels():
+                        renderer.setUsingSymbolLevels(layer.use_advanced_symbol_levels)
+                except AttributeError:
+                    pass
+
+            page_filter_expression = None
+            if False:
+                pass
+            else:
+                if layer.use_page_definition_query:
+                    page_filter_expression = '"{}" {} @atlas_pagename'.format(layer.page_name_field,
+                                                                         layer.page_name_match_operator)
+
+            if page_filter_expression:
                 root_rule = QgsRuleBasedRenderer.Rule(None)
 
                 # special case -- convert a simple renderer
                 if isinstance(renderer, QgsSingleSymbolRenderer):
                     filter_rule = QgsRuleBasedRenderer.Rule(renderer.symbol().clone())
-                    filter_rule.setFilterExpression(filter_expression)
+                    filter_rule.setFilterExpression(page_filter_expression)
                     filter_rule.setLabel(layer.name)
                     filter_rule.setDescription(layer.name)
                     root_rule.appendChild(filter_rule)
                 else:
                     source_rule_renderer = QgsRuleBasedRenderer.convertFromRenderer(renderer)
                     filter_rule = QgsRuleBasedRenderer.Rule(None)
-                    filter_rule.setFilterExpression(filter_expression)
+                    filter_rule.setFilterExpression(page_filter_expression)
                     filter_rule.setLabel('Current Atlas Page')
                     filter_rule.setDescription('Current Atlas Page')
                     root_rule.appendChild(filter_rule)
@@ -222,34 +249,37 @@ class VectorLayerConverter:
             vl.setRenderer(QgsNullSymbolRenderer())
             vl.triggerRepaint()
 
-        metadata = vl.metadata()
-        metadata.setAbstract(layer.description)
-        vl.setMetadata(metadata)  #
+        if False:
+            pass
+        else:
+            # layer.zoom_max = "don't show when zoomed out beyond"
+            zoom_max = layer.zoom_max
+            # layer.zoom_min = "don't show when zoomed in beyond"
+            zoom_min = layer.zoom_min
 
-        # layer.zoom_max = "don't show when zoomed out beyond"
-        zoom_max = layer.zoom_max
-        # layer.zoom_min = "don't show when zoomed in beyond"
-        zoom_min = layer.zoom_min
-
-        enabled_scale_range = bool(zoom_max or zoom_min)
-        if zoom_max and zoom_min and zoom_min > zoom_max:
-            # inconsistent scale range -- zoom_max should be bigger number than zoom_min
-            zoom_min, zoom_max = zoom_max, zoom_min
-
-        # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max
-        vl.setMinimumScale(zoom_max if enabled_scale_range else layer.stored_zoom_max)
-        # qgis maximum scale = don't show when zoomed in beyond, i.e. ArcGIS zoom_min
-        vl.setMaximumScale(zoom_min if enabled_scale_range else layer.stored_zoom_min)
-        vl.setScaleBasedVisibility(enabled_scale_range)
+            enabled_scale_range = bool(zoom_max or zoom_min)
+            if zoom_max and zoom_min and zoom_min > zoom_max:
+                # inconsistent scale range -- zoom_max should be bigger number than zoom_min
+                zoom_min, zoom_max = zoom_max, zoom_min
+            # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max
+            vl.setMinimumScale(zoom_max if enabled_scale_range else layer.stored_zoom_max)
+            # qgis maximum scale = don't show when zoomed in beyond, i.e. ArcGIS zoom_min
+            vl.setMaximumScale(zoom_min if enabled_scale_range else layer.stored_zoom_min)
+            vl.setScaleBasedVisibility(enabled_scale_range)
 
         vl.setOpacity(1.0 - (layer.transparency or 0) / 100)
 
-        if layer.display_expression_properties and layer.display_expression_properties.expression and layer.display_expression_properties.expression_parser is not None:
-            vl.setDisplayExpression(
-                ExpressionConverter.convert(layer.display_expression_properties.expression,
-                                            layer.display_expression_properties.expression_parser,
-                                            layer.display_expression_properties.advanced,
-                                            context))
+        has_set_display_expression = False
+        if False:
+            pass
+        else:
+            if layer.display_expression_properties and layer.display_expression_properties.expression and layer.display_expression_properties.expression_parser is not None:
+                has_set_display_expression = True
+                vl.setDisplayExpression(
+                    ExpressionConverter.convert(layer.display_expression_properties.expression,
+                                                layer.display_expression_properties.expression_parser,
+                                                layer.display_expression_properties.advanced,
+                                                context))
 
         if Qgis.QGIS_VERSION_INT < 31000:
             vl.setDataSource(uri, layer.name, provider)
@@ -260,40 +290,63 @@ class VectorLayerConverter:
         if subset_string:
             vl.setSubsetString(subset_string)
 
-        vl.setCrs(crs)
+        if True:
+            vl.setCrs(crs)
 
-        for e in layer.extensions:
-            if e.__class__.__name__ == 'ServerLayerExtension':
-                if 'CopyrightText' in e.properties.properties:
-                    layer_credits = e.properties.properties['CopyrightText']
-                    metadata = vl.metadata()
-                    rights = metadata.rights()
-                    rights.append(layer_credits)
-                    metadata.setRights(rights)
-                    vl.setMetadata(metadata)
+        if True:
+            for e in layer.extensions:
+                if e.__class__.__name__ == 'ServerLayerExtension':
+                    if 'CopyrightText' in e.properties.properties:
+                        layer_credits = e.properties.properties['CopyrightText']
+                        metadata = vl.metadata()
+                        rights = metadata.rights()
+                        rights.append(layer_credits)
+                        metadata.setRights(rights)
+                        vl.setMetadata(metadata)
 
-        LabelConverter.convert_annotation_collection(layer.annotation_collection, dest_layer=vl,
-                                                     context=context)
-        vl.setLabelsEnabled(layer.labels_enabled)
+            metadata = vl.metadata()
+            metadata.setAbstract(layer.description)
+            vl.setMetadata(metadata)
+        else:
+            pass
+
+        if True:
+            if False:
+                pass
+            else:
+                LabelConverter.convert_annotation_collection(layer.annotation_collection, dest_layer=vl,
+                                                             context=context)
+                vl.setLabelsEnabled(layer.labels_enabled)
 
         DiagramConverter.convert_diagrams(layer.renderer, dest_layer=vl, context=context)
 
-        # setup joins
-        join_layer = VectorLayerConverter.add_joined_layer(source_layer=layer, input_file=input_file, base_layer=vl,
-                                                           context=context)
+        if True:
+            # setup joins
+            join_layer = VectorLayerConverter.add_joined_layer(source_layer=layer, input_file=input_file, base_layer=vl,
+                                                               context=context)
+        else:
+            # TODO
+            join_layer = None
 
         context.dataset_name = ''
 
         vl.setLegend(QgsMapLayerLegend.defaultVectorLegend(vl))
 
-        if layer.hyperlinks:
-            VectorLayerConverter.convert_hyperlinks(layer.hyperlinks, vl)
+        if True:
+            if layer.hyperlinks:
+                VectorLayerConverter.convert_hyperlinks(layer.hyperlinks, vl)
+        else:
+            pass
 
-        vl.setDisplayExpression(QgsExpression.quotedColumnRef(layer.display_field))
+        if True and not has_set_display_expression:
+            vl.setDisplayExpression(QgsExpression.quotedColumnRef(layer.display_field))
 
         res = [vl]
         if join_layer:
             res.append(join_layer)
+
+        if False:
+            pass
 
         context.main_layer_name = None
         return res
@@ -495,7 +548,9 @@ class VectorLayerConverter:
         """
         Gets the URI for a converted layer
         """
-        if source_layer.__class__.__name__ == 'CadFeatureLayer' and source_layer.drawing_object:
+        if False:
+            pass
+        elif source_layer.__class__.__name__ == 'CadFeatureLayer' and source_layer.drawing_object:
             source_props = DataSourceProperties(uri=source_layer.drawing_object.path,
                                                 file_name=source_layer.drawing_object.path,
                                                 encoding=None,
