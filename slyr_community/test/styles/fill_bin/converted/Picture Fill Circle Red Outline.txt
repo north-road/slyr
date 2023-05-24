@@ -1,0 +1,11 @@
+[{'class': 'QgsRasterFillSymbolLayer',
+  'imageFile': 'base64:iVBORw0KGgoAAAANSUhEUgAAAFAAAABRCAYAAABFTSEIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABTklEQVR4nO3WQUpDURQEUeP+9xwnDuQbjUJDzoPqiaFTo9jcV7e377l/+Xx78H3cD9z9AtX9o7sC19wvf+M+v39/ApQ/5NmvHPdLWuAo7I3RuRY4DKMEJ3WPhJAVVZ17+X/z5I490jrXIzIILao61wJHYW+MzrXAYRglOKlLpBNpo2OPtM71iAxCi6rOtcBR2Bujcy1wGEYJTuoS6UTa6NgjrXM9IoPQoqpzLXAU9sboXAschlGCk7pEOpE2OvZI61yPyCC0qOpcCxyFvTE61wKHYZTgpC6RTqSNjj3SOtcjMggtqjrXAkdhb4zOtcBhGCU4qUukE2mjY4+0zvWIDEKLqs61wFHYG6NzLXAYRglO6hLpRNro2COtcz0ig9CiqnMtcBT2xuhcCxyGUYKTukQ6kTY69kjrXI/IILSo6lwLHIW9MTrXAodhlOCk7gPTQOzFbphz3AAAAABJRU5ErkJggg==',
+  'width': '60',
+  'width_unit': 'Point'},
+ {'capstyle': 'flat',
+  'class': 'QgsSimpleLineSymbolLayer',
+  'joinstyle': 'round',
+  'line_color': '250,52,17,255',
+  'line_width': '1.7',
+  'line_width_unit': 'Point',
+  'offset_unit': 'Point'}]

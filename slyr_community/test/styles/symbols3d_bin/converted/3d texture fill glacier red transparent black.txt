@@ -1,0 +1,10 @@
+[{'class': 'QgsRasterFillSymbolLayer',
+  'imageFile': 'base64:iVBORw0KGgoAAAANSUhEUgAAAEwAAAA8CAYAAADMtVzqAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACyElEQVR4nNVaW3LEMAjDnb3/ldOPbna8qV+AJCf66yMGy5iASDnMDnOimJX6Z88akWfrZyL+In0qXgfUZKlw+jbz6aVx595kma37EyYsuuG7EeWFi7BrlHjwdKJOLBGmuk6reWTn+lPCMlG1Co8N7xuztXbrd5Aclll4FazoZR10l7C7RVYGvUOI2F/KYYpiMWKnlZM8ERvZV5cwFUkIW6pINTP7URlCbcpDLunQuQbeRmSRxd4DlDBPFD2hkO2UJH/INuGreAJRZv39vVQbeApRZuMUEmq+Z9H1JHKumOVbN2GqRMsWDUf2rqjtp9UKZb3GwCpRJyQCoidakGQx5CgXYYfZ4ZFIvA4jyMquAZeoV68g6vpm7KFtmAk1/eEkJkkuq5No4R9hGVVS6fgMLJtfzXe94R3554R3s/X/H2YH84AgVzJDFkpxVUUxVQ97csXfA0QPaxFzB7KKWUEXwZ9PBXYkbKbN7HRpMAeYQy0sImwjxnFLrdFooIAEa222zxKJ+mq097dWesgUsKhasvZLJqF4VYHs2iy5XdYatXDn8VotNNRwSdSIROp5PgL2TQl/jBLtOVEbYouZvfVpg1zmhpTzyOv6si8QmfkKTdbIlltxzRr0YkceHNlxf0U9AqrVYXYAWVDLiqeLkC3Qkj5yg3chy6xxJZUD1B1XL9s+fV1JxQBVOaRl2OxeSUZ0eeontjY/sj3CJ8LYJz+6CjMRE2k3C+pb0utsr+FFI1JPfip91NTmaqAF9dsO2UKda3UHuV4DdyOL5YNLrdilTESAuNqt3DqMJrUqgKgBGZHeJGy0ELuYRR3MalRl1pZV9TNHaqCa9Vm5ErEDVSsiUL9kslXBdsKiyERmhjQZYdEZQG+dK7I5b5lsNWE1XCdLemN7oy3dGinkoB1Djx7CAmIx36dErQ2uPK+Wg2b2QoRFTxwVFTvV3F9GilyUYuxiOAAAAABJRU5ErkJggg==',
+  'width': '22.8',
+  'width_unit': 'Point'},
+ {'capstyle': 'round',
+  'class': 'QgsSimpleLineSymbolLayer',
+  'joinstyle': 'round',
+  'line_color': '110,110,110,255',
+  'line_width': '1',
+  'line_width_unit': 'Point'}]

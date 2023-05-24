@@ -1,0 +1,6 @@
+[{'class': 'QgsGradientFillSymbolLayer',
+  'color1': '35,35,140,255',
+  'color2': '0,0,255,255',
+  'color_type': '1',
+  'reference_point1': '0.9829629131445341,0.37059047744873963',
+  'reference_point2': '0.84773329746406456,0.40682514376309253'}]

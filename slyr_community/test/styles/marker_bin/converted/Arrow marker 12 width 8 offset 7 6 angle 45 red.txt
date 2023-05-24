@@ -1,0 +1,13 @@
+[{'angle': '45',
+  'class': 'QgsEllipseSymbolLayer',
+  'color': '255,0,0,255',
+  'offset': '0.70710678118654791,-9.19238815542511745',
+  'offset_unit': 'Point',
+  'outline_color': '255,0,0,255',
+  'outline_style': 'no',
+  'size': '12',
+  'symbol_height': '12',
+  'symbol_height_unit': 'Point',
+  'symbol_name': 'triangle',
+  'symbol_width': '8',
+  'symbol_width_unit': 'Point'}]

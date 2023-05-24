@@ -1,0 +1,11 @@
+[{'angle': '-45',
+  'class': 'QgsRasterFillSymbolLayer',
+  'imageFile': 'base64:iVBORw0KGgoAAAANSUhEUgAAAFAAAABRCAYAAABFTSEIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABeElEQVR4nO2WwW7CQBDFZlH//5eXQxU0BJUgeQ6vwj6hrLmE165X1d7V2LUen1c9HZXeq/dzFvqhz66fraq9d63Lt79ql96rd/vzVD5i7ar97i0fXP0a3+q5QMjt+Ft/R/+foPfsuUDIOjowIQn+47PHCzwfnr90Ru8XQ3pigcmhmu55iUAMaei5QIghDT0XCDGkJzKmGmmhmu4Z0hMLTA7VdM9LBGJIQ88FQgxp6LlAiCE9kTHVSAvVdM+Qnlhgcqime14iEEMaei4QYkhDzwVCDOmJjKlGWqime4b0xAKTQzXd8xKBGNLQc4EQQxp6LhBiSE9kTDXSQjXdM6QnFpgcqumelwjEkIaeC4QY0tBzgRBDeiJjqpEWqumeIT2xwORQTfe8RCCGNPRcIMSQhp4LhBjSExlTjbRQTfcM6YkFJodquuclAjGkoecCIYY09FwgxJCeyJhqpIVqumdITywwOVTTPS8RiCENPRcIMaSh5wIhhjR8dgf6Lo6UIWHH8gAAAABJRU5ErkJggg==',
+  'width': '780',
+  'width_unit': 'Point'},
+ {'capstyle': 'round',
+  'class': 'QgsSimpleLineSymbolLayer',
+  'joinstyle': 'round',
+  'line_color': '110,110,110,255',
+  'line_width': '1',
+  'line_width_unit': 'Point'}]

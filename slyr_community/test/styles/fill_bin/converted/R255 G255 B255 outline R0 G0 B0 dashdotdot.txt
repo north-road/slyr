@@ -1,0 +1,10 @@
+[{'class': 'QgsSimpleFillSymbolLayer',
+  'color': '255,255,255,255',
+  'outline_style': 'no'},
+ {'capstyle': 'round',
+  'class': 'QgsSimpleLineSymbolLayer',
+  'joinstyle': 'round',
+  'line_color': '0,0,0,255',
+  'line_style': 'dash dot dot',
+  'line_width': '1',
+  'line_width_unit': 'Point'}]
