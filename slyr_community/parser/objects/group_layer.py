@@ -22,8 +22,8 @@ class GroupLayer(Object):
         self.name = ''
         self.visible = True
         self.expanded = False
-        self.max_scale = 0
-        self.min_scale = 0
+        self.zoom_max = 0
+        self.zoom_min = 0
         # used when a zoom range has been set previously, but is currently disabled
         self.stored_zoom_max = 0
         self.stored_zoom_min = 0
@@ -51,8 +51,8 @@ class GroupLayer(Object):
         stream.read_ushort('unknown flag')
         stream.read_ushort('unknown', expected=0)
 
-        self.max_scale = stream.read_double('max scale')
-        self.min_scale = stream.read_double('min scale')
+        self.zoom_max = stream.read_double('max scale')
+        self.zoom_min = stream.read_double('min scale')
 
         count = stream.read_int('count')
         for i in range(count):
@@ -114,8 +114,8 @@ class GroupLayer(Object):
             'name': self.name,
             'visible': self.visible,
             'expanded': self.expanded,
-            'max_scale': self.max_scale,
-            'min_scale': self.min_scale,
+            'max_scale': self.zoom_max,
+            'min_scale': self.zoom_min,
             'stored_zoom_min': self.stored_zoom_min,
             'stored_zoom_max': self.stored_zoom_max,
             'children': [c.to_dict() for c in self.children],

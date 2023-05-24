@@ -18,6 +18,7 @@ class QueryFilter(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
+        self.fields = '' # maybe '*' or eg 'FID, Shape, Name'
         self.filter = None
         self.filter_def = None
 
@@ -26,7 +27,7 @@ class QueryFilter(Object):
         return [1, 3, 4, 5]
 
     def read(self, stream: Stream, version):
-        stream.read_string('fields', expected='*')
+        self.fields = stream.read_string('fields')
         self.filter = stream.read_string('filter')
         stream.read_string('unknown', expected='')
 
@@ -56,6 +57,7 @@ class QueryFilter(Object):
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
+            'fields': self.fields,
             'filter': self.filter,
             'filter_def': self.filter_def.to_dict() if self.filter_def else None
         }

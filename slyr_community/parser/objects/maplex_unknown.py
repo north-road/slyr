@@ -105,30 +105,50 @@ class MaplexOverposterProperties(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
+        self.allow_border_overlap = False
         self.dictionaries = None
         self.key_number_groups = None
+        self.enable_connection = False
+        self.label_largest_polygon = False
+        self.connection_type = 0  # esriMaplexConnectionType
+        self.placement_quality = 0  # esriMaplexPlacementQuality
+        self.inverted_label_tolerance = 0
+        self.enable_draw_unplaced = False
+        self.rotate_label_with_data_frame = False
+        self.unplaced_label_color = None
 
     @staticmethod
     def compatible_versions():
         return [6, 7]
 
     def read(self, stream, version):
-        stream.read_int('unknown', expected=1)
-        stream.read_ushort('unknown', expected=0)
+        self.placement_quality = stream.read_int('placement quality')
+        self.allow_border_overlap = stream.read_ushort('allow border overlap') != 0
         self.dictionaries = stream.read_object('dictionaries')
-        stream.read_ushort('unknown flag', expected=65535)
-        stream.read_int('unknown', expected=1)
-        stream.read_double('unknown', expected=2)
-        stream.read_object('unknown color')
-        stream.read_ushort('unknown flag', expected=65535)
-        stream.read_int('unknown', expected=0)
+        self.enable_connection = stream.read_ushort('enable connection') != 0
+        self.connection_type = stream.read_int('connection type')
+        self.inverted_label_tolerance = stream.read_double('inverted label tolerance')
+        self.unplaced_label_color = stream.read_object('unplaced label color')
+        self.label_largest_polygon = stream.read_ushort('label largest polygon') != 0
+        self.enable_draw_unplaced = stream.read_ushort('enable draw unplaced') != 0
+        self.rotate_label_with_data_frame = stream.read_ushort('rotate label with data frame') != 0
+
         if version > 6:
             self.key_number_groups = stream.read_object('key number groups')
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
+            'allow_border_overlap': self.allow_border_overlap,
             'dictionaries': self.dictionaries.to_dict() if self.dictionaries else None,
-            'key_number_groups': self.key_number_groups.to_dict() if self.key_number_groups else None
+            'enable_connection': self.enable_connection,
+            'key_number_groups': self.key_number_groups.to_dict() if self.key_number_groups else None,
+            'unplaced_label_color': self.unplaced_label_color.to_dict() if self.unplaced_label_color else None,
+            'label_largest_polygon': self.label_largest_polygon,
+            'connection_type': self.connection_type,
+            'placement_quality': self.placement_quality,
+            'inverted_label_tolerance': self.inverted_label_tolerance,
+            'enable_draw_unplaced': self.enable_draw_unplaced,
+            'rotate_label_with_data_frame': self.rotate_label_with_data_frame
         }
 
 
@@ -184,17 +204,30 @@ class MaplexKeyNumberGroup(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
+        self.name = ''
+        self.horizontal_alignment = 0  # esriMaplexKeyNumberHorizontalAlignment
+        self.minimum_number_of_lines = 0
+        self.maximum_number_of_lines = 0
+        self.delimiter_character = ''
+        self.number_reset_type = 0  # esriMaplexKeyNumberResetType
 
     def read(self, stream, version):
-        stream.read_string('name?')
-        stream.read_int('unknown', expected=1)
-        stream.read_int('unknown', expected=2)
-        stream.read_int('unknown', expected=20)
-        stream.read_string('unknown', expected='.')
-        stream.read_int('unknown', expected=0)
+        self.name = stream.read_string('name')
+        self.horizontal_alignment = stream.read_int('horizontal alignment')
+        self.minimum_number_of_lines = stream.read_int('minimum number of lines')
+        self.maximum_number_of_lines = stream.read_int('maximum number of lines')
+        self.delimiter_character = stream.read_string('delimiter character')
+        self.number_reset_type = stream.read_int('number reset type')
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {}
+        return {
+            'name': self.name,
+            'horizontal_alignment': self.horizontal_alignment,
+            'minimum_number_of_lines': self.minimum_number_of_lines,
+            'maximum_number_of_lines': self.maximum_number_of_lines,
+            'delimiter_character': self.delimiter_character,
+            'number_reset_type': self.number_reset_type
+        }
 
 
 class MaplexAnnotateFeature(Object):

@@ -43,16 +43,12 @@ class RepresentationRenderer(Object):
 
         count = stream.read_int('count')
         for i in range(count):
-            stream.read_int('unknown {}'.format(i + 1), expected=i + 1)
-            res = stream.read_int('unknown {}'.format(i + 1), expected=(2, 3))
-            stream.read_ushort('unknown {}'.format(i + 1), expected=65535)
-            stream.read_ushort('unknown {}'.format(i + 1), expected=65535)
-            stream.read_int('unknown {}'.format(i + 1), expected=0)
-            stream.read_int('unknown {}'.format(i + 1), expected=0)
-            stream.read_int('unknown {}'.format(i + 1), expected=0)
-            if res == 3:
-                stream.read_int('unknown {}'.format(i + 1), expected=1)
-                stream.read_int('unknown {}'.format(i + 1), expected=0)
+            stream.read_int('rule id? {}'.format(i + 1))
+
+            some_count = stream.read_int('some count {}'.format(i + 1))
+            for j in range(some_count):
+                stream.read_int('unknown inner a {}'.format(j), expected=0xffffffff if j == 0 else j - 1)
+                stream.read_int('unknown inner b {}'.format(j), expected=(0xffffffff, 0, 1, 2, 3, 4, 5, 6, 7, 8))
 
         count = stream.read_int('count')
         for i in range(count):
