@@ -54,7 +54,7 @@ class Utils:
         return [Utils.symbol_layer_definition(layer) for layer in symbol]
 
     @staticmethod
-    def normalize_xml(xml_string) -> str:
+    def normalize_xml(xml_string) -> str:  # pylint: disable=too-many-locals, too-many-statements
         """
         Normalizes XML output for a test comparison
         """
@@ -94,7 +94,7 @@ class Utils:
             map_layers_container[:] = sorted(map_layers_container, key=get_map_layer_key)
 
         # force stable order for annotation items
-        def sort_item_container(container):
+        def sort_item_container(container):  # pylint: disable=unused-argument
             def get_item_key(elem):
                 if 'wkt' in elem.attrib:
                     return str(elem.get('wkt'))
@@ -124,7 +124,7 @@ class Utils:
         #layer_id_rx = re.compile(r'<id>[a-zA-Z0-9_]+?</id>', re.DOTALL)
         #res = re.sub(layer_id_rx, '<id>...</id>', res)
 
-        for (layer_id) in re.findall(r'<id>([a-zA-Z0-9_]+?)</id>', res):
+        for layer_id in re.findall(r'<id>([a-zA-Z0-9_]+?)</id>', res):
             res = res.replace(layer_id, '...')
 
         #layer_id2_rx = re.compile(r'\bid="[a-zA-Z0-9_{}]+?"', re.DOTALL)

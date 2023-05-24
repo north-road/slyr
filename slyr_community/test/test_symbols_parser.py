@@ -17,7 +17,6 @@ from ..parser.stream import Stream
 from ..converters.context import Context
 from ..converters.symbols import SymbolConverter
 from .utils import Utils
-from qgis.core import QgsSymbol
 
 expected = {
     'cmyk_bin': {
