@@ -592,7 +592,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
 
         return name
 
-    # pylint: disable=too-many-branches,too-many-statements
+    # pylint: disable=too-many-branches,too-many-statements,too-many-locals
     @staticmethod
     def convert_sde_sdc_workspace(name,
                                   workspace_name: WorkspaceName, base: str,
@@ -616,6 +616,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
             elif sde_path.exists() and not sde_path.is_dir():
                 connection = ConnectionConverter.convert_sde_connection(sde_path, context)
 
+        # pylint: disable=too-many-nested-blocks
         if connection is not None:
             sde_uri, provider = connection
             # what happens if there's more than one . ???
@@ -753,12 +754,13 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
             else:
                 file_name = ConversionUtils.get_absolute_path(name.name, file_name)
                 uri = file_name
+        # pylint: enable=too-many-nested-blocks
 
         return DataSourceProperties(uri=uri,
                                     wkb_type=wkb_type,
                                     provider=provider,
                                     file_name=file_name)
-    # pylint: enable=too-many-branches,too-many-statements
+    # pylint: enable=too-many-branches,too-many-statements,too-many-locals
 
     @staticmethod
     def convert_sde_workspace(name, workspace_name: WorkspaceName, base: str,
