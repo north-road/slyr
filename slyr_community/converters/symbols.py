@@ -556,14 +556,15 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                                                 MultiLayerLineSymbol):
                 # these properties are not supported in QGIS simple fill, so we need
                 # to add an additional outline layer to support them
-                uses_complex_outline = (hasattr(layer.outline,
-                                                'offset') and layer.outline.offset) \
-                                       or (hasattr(layer.outline, 'template')
-                                           and layer.outline.template
-                                           and len(
-                            layer.outline.template.pattern_parts) > 0) \
-                                       or (hasattr(layer.outline, 'decoration')
-                                           and layer.outline.decoration)
+                uses_complex_outline = \
+                    (hasattr(layer.outline,
+                             'offset') and layer.outline.offset) or \
+                    (hasattr(layer.outline, 'template') and
+                        layer.outline.template and
+                        len(
+                                layer.outline.template.pattern_parts) > 0) or \
+                    (hasattr(layer.outline, 'decoration') and
+                        layer.outline.decoration)
                 if not uses_complex_outline:
                     # great, we can avoid the extra symbol layer!
                     if isinstance(layer.outline,
@@ -701,12 +702,12 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                                                                      layer.outline,
                                                                      context)
 
+    # pylint: disable=too-many-statements,too-many-branches
     @staticmethod
-    def append_GradientFillSymbolLayer(symbol,
-                                       # pylint: disable=too-many-statements,too-many-branches
-                                       layer: Union[
-                                           GradientFillSymbol, ColorRampSymbol,],
-                                       context: Context):
+    def append_GradientFillSymbolLayer(
+            symbol,
+            layer: Union[GradientFillSymbol, ColorRampSymbol, ],
+            context: Context):
         """
         Appends a append_GradientFillSymbolLayer to a symbol
         """
@@ -730,8 +731,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                     ramp.setStops(stops)
 
         # pylint: disable=simplifiable-condition
-        if (isinstance(layer, GradientFillSymbol) \
-            and layer.type in (
+        if (isinstance(layer, GradientFillSymbol) and
+            layer.type in (
             GradientFillSymbol.RECTANGULAR, GradientFillSymbol.BUFFERED)) or \
                 False:
             if (
@@ -846,6 +847,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             symbol.appendSymbolLayer(out)
             context.symbol_layer_output_to_input_index_map[
                 out] = context.current_symbol_layer
+
+    # pylint: enable=too-many-statements,too-many-branches
 
     @staticmethod
     def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbol,
@@ -1529,8 +1532,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                                                              context)
 
         if (
-                len(template.pattern_parts) == 1  # pylint: disable=too-many-nested-blocks
-                and template.pattern_parts[0][1] == 0):
+                len(template.pattern_parts) == 1 and  # pylint: disable=too-many-nested-blocks
+                template.pattern_parts[0][1] == 0):
             # special case! (Not described anywhere in ArcMap docs!!)
             # actually means "center of line segment"
             start_symbol = sub_symbol.clone()
