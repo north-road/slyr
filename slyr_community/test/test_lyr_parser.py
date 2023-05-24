@@ -1320,6 +1320,7 @@ class TestLyrParser(unittest.TestCase):
 
     UPDATE = True
 
+    # pylint: disable=too-many-locals
     def test_lyr_parsing(self):
         """
         Checks all lyr parsing against expectations
@@ -1355,12 +1356,14 @@ class TestLyrParser(unittest.TestCase):
                 d = doc.to_dict()
 
                 if self.UPDATE:
-                    with open(expected_file, 'w') as o:
+                    with open(expected_file, 'w', encoding='UTF-8') as o:
                         pprint.pprint(d, o)
                 else:
-                    with open(expected_file, 'r') as o:
+                    with open(expected_file, 'r', encoding='UTF-8') as o:
                         expected_res = ast.literal_eval(o.read())
                     self.assertEqual(expected_res, d)
+
+    # pylint: enable=too-many-locals
 
 
 if __name__ == '__main__':
