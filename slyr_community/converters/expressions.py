@@ -65,9 +65,10 @@ class ExpressionConverter:
         'len': 'length'
     }
 
+    # pylint: disable=too-many-branches
     @staticmethod
     def convert(expression: str, engine, advanced,
-                context: Context) -> str:  # pylint: disable=too-many-branches
+                context: Context) -> str:
         """
         Converts an expression which uses the specified engine
         """
@@ -141,6 +142,8 @@ class ExpressionConverter:
                     level=Context.WARNING)
 
         return res
+
+    # pylint: enable=too-many-branches
 
     @staticmethod
     def convert_esri_expression(expression: str, context: Context) -> str:
