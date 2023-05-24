@@ -19,43 +19,63 @@ class TestExpressionConverter(unittest.TestCase):
         """
         Test getting field name from qgis expression
         """
-        self.assertIsNone(ExpressionConverter.field_name_from_qgis_expression(''))
-        self.assertIsNone(ExpressionConverter.field_name_from_qgis_expression('1+2'))
-        self.assertEqual(ExpressionConverter.field_name_from_qgis_expression('"my field"'),
-                         'my field')
-        self.assertEqual(ExpressionConverter.field_name_from_qgis_expression('my_field'),
-                         'my_field')
+        self.assertIsNone(
+            ExpressionConverter.field_name_from_qgis_expression(''))
+        self.assertIsNone(
+            ExpressionConverter.field_name_from_qgis_expression('1+2'))
+        self.assertEqual(
+            ExpressionConverter.field_name_from_qgis_expression('"my field"'),
+            'my field')
+        self.assertEqual(
+            ExpressionConverter.field_name_from_qgis_expression('my_field'),
+            'my_field')
 
     def test_python(self):
         """
         Test Python expression conversion
         """
         context = Context()
-        self.assertEqual(ExpressionConverter.convert_python_expression('', context), '')
-        self.assertEqual(ExpressionConverter.convert_python_expression('[a field]', context),
-                         '"a field"')
-        self.assertEqual(ExpressionConverter.convert_python_expression('[A_field123]', context),
-                         '"A_field123"')
         self.assertEqual(
-            ExpressionConverter.convert_python_expression('[a field].lower()', context),
+            ExpressionConverter.convert_python_expression('', context), '')
+        self.assertEqual(
+            ExpressionConverter.convert_python_expression('[a field]',
+                                                          context),
+            '"a field"')
+        self.assertEqual(
+            ExpressionConverter.convert_python_expression('[A_field123]',
+                                                          context),
+            '"A_field123"')
+        self.assertEqual(
+            ExpressionConverter.convert_python_expression('[a field].lower()',
+                                                          context),
             'lower("a field")')
         self.assertEqual(
-            ExpressionConverter.convert_python_expression('[a field].upper()', context),
+            ExpressionConverter.convert_python_expression('[a field].upper()',
+                                                          context),
             'upper("a field")')
-        self.assertEqual(ExpressionConverter.convert_python_expression('len([a field])', context),
-                         'length("a field")')
-        self.assertEqual(ExpressionConverter.convert_python_expression('len("a value")', context),
-                         'length(\'a value\')')
         self.assertEqual(
-            ExpressionConverter.convert_python_expression('[a field].title()', context),
+            ExpressionConverter.convert_python_expression('len([a field])',
+                                                          context),
+            'length("a field")')
+        self.assertEqual(
+            ExpressionConverter.convert_python_expression('len("a value")',
+                                                          context),
+            'length(\'a value\')')
+        self.assertEqual(
+            ExpressionConverter.convert_python_expression('[a field].title()',
+                                                          context),
             'title("a field")')
         self.assertEqual(
-            ExpressionConverter.convert_python_expression('[a field] .title()', context),
+            ExpressionConverter.convert_python_expression('[a field] .title()',
+                                                          context),
             'title("a field")')
-        self.assertEqual(ExpressionConverter.convert_python_expression('"abc"', context),
-                         '\'abc\'')
-        self.assertEqual(ExpressionConverter.convert_python_expression('"abc".title()', context),
-                         'title(\'abc\')')
+        self.assertEqual(
+            ExpressionConverter.convert_python_expression('"abc"', context),
+            '\'abc\'')
+        self.assertEqual(
+            ExpressionConverter.convert_python_expression('"abc".title()',
+                                                          context),
+            'title(\'abc\')')
         self.assertEqual(ExpressionConverter.convert_python_expression(
             'if [a field] == "NR":\n\treturn [nature].title()\nelse:\n\treturn [other].title()',
             context, is_advanced=True),
@@ -90,10 +110,12 @@ class TestExpressionConverter(unittest.TestCase):
             'CASE WHEN "toponyme"=\'NR\' THEN title("nature") ELSE title("toponyme") END')
         self.assertEqual(ExpressionConverter.convert_python_expression(
             "def FindLabel ([toponyme],[nature] ):  \r\n  if [cpx_numero]>5:  \r\n   return [cpx_numero]\r\n  ",
-            context, is_advanced=True), 'CASE WHEN "cpx_numero">5 THEN "cpx_numero" ELSE NULL END')
+            context, is_advanced=True),
+            'CASE WHEN "cpx_numero">5 THEN "cpx_numero" ELSE NULL END')
         self.assertEqual(ExpressionConverter.convert_python_expression(
             "def FindLabel ([toponyme],[nature] ):  \r\n  if [cpx_numero]<5:  \r\n   return [cpx_numero]\r\n  ",
-            context, is_advanced=True), 'CASE WHEN "cpx_numero"<5 THEN "cpx_numero" ELSE NULL END')
+            context, is_advanced=True),
+            'CASE WHEN "cpx_numero"<5 THEN "cpx_numero" ELSE NULL END')
         self.assertEqual(ExpressionConverter.convert_python_expression(
             "def FindLabel ([toponyme],[nature] ):  \r\n  if [cpx_numero]<=5:  \r\n   return [cpx_numero]\r\n  ",
             context, is_advanced=True),
@@ -159,7 +181,8 @@ class TestExpressionConverter(unittest.TestCase):
         self.assertEqual(ExpressionConverter.convert_esri_expression(
             "[ESTA€ÇO]", context), '"ESTA€ÇO"')
         self.assertEqual(ExpressionConverter.convert_esri_expression(
-            "[a field] & Chr(13) & [b field]", context), '''"a field"  ||  '\n'  ||  "b field"''')
+            "[a field] & Chr(13) & [b field]", context),
+            '''"a field"  ||  '\n'  ||  "b field"''')
         context.dataset_name = 'Streams'
         self.assertEqual(ExpressionConverter.convert_esri_expression(
             "[Streams.WC_LLID_NR]", context), '"WC_LLID_NR"')
@@ -204,24 +227,31 @@ class TestExpressionConverter(unittest.TestCase):
             "Left( [ADMINAREAN] , 5)", context), 'left( "ADMINAREAN" , 5)')
 
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
-            "mid([MASSNAHME.MAS_NR], 5)", context), 'substr("MASSNAHME.MAS_NR", 5)')
+            "mid([MASSNAHME.MAS_NR], 5)", context),
+            'substr("MASSNAHME.MAS_NR", 5)')
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
-            "mid([MASSNAHME.MAS_NR], 5, 2)", context), 'substr("MASSNAHME.MAS_NR", 5, 2)')
+            "mid([MASSNAHME.MAS_NR], 5, 2)", context),
+            'substr("MASSNAHME.MAS_NR", 5, 2)')
 
-       # self.assertEqual(ExpressionConverter.convert_vbscript_expression(
+        # self.assertEqual(ExpressionConverter.convert_vbscript_expression(
         #    '''"''" & [BLOCK_NUM] & "''"''', context),
         #                 """''\\''  ||  "BLOCK_NUM"  ||  '\\'\\''""")
 
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
-            "instr( [ADMINAREAN] , 'a')", context), 'strpos( "ADMINAREAN" , \'a\')')
+            "instr( [ADMINAREAN] , 'a')", context),
+            'strpos( "ADMINAREAN" , \'a\')')
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
-            "instr( [ADMINAREAN] , 'ab' )", context), 'strpos( "ADMINAREAN" , \'ab\' )')
+            "instr( [ADMINAREAN] , 'ab' )", context),
+            'strpos( "ADMINAREAN" , \'ab\' )')
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
-            "instr( [ADMINAREAN] , \"a\")", context), 'strpos( "ADMINAREAN" , \'a\')')
+            "instr( [ADMINAREAN] , \"a\")", context),
+            'strpos( "ADMINAREAN" , \'a\')')
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
-            "instr( [ADMINAREAN] , \"ab\" )", context), 'strpos( "ADMINAREAN" , \'ab\' )')
+            "instr( [ADMINAREAN] , \"ab\" )", context),
+            'strpos( "ADMINAREAN" , \'ab\' )')
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
-            "[Name] & vbNewLine & \"Pop: \" & FormatNumber ([POP_2000],0 )", context),
+            "[Name] & vbNewLine & \"Pop: \" & FormatNumber ([POP_2000],0 )",
+            context),
             '"Name"  ||  \'\n\'  ||  \'Pop: \'  ||  format_number("POP_2000",0 )')
         # not supported!
         # self.assertEqual(ExpressionConverter.convert_vbscript_expression(
@@ -245,8 +275,9 @@ class TestExpressionConverter(unittest.TestCase):
             '''[MINE_NAME] & vbnewline & int([Hectares] ) & " Ha"''', context),
             '''"MINE_NAME"  ||  \'\n\'  ||  to_int("Hectares" )  ||  \' Ha\'''')
 
-        self.assertEqual(ExpressionConverter.convert_vbscript_expression('"\' "', context),
-                         "'\\' '")
+        self.assertEqual(
+            ExpressionConverter.convert_vbscript_expression('"\' "', context),
+            "'\\' '")
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
             '''[WIDTH] &"' " & [Easement_Type] &chr(13)& [LIBER] &"/"& [PAGE] &chr(13)& [Comment_Label]''',
             context),
@@ -254,7 +285,8 @@ class TestExpressionConverter(unittest.TestCase):
         )
 
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
-            """left([NOME] ,instr([NOME] ," ")) & vbnewline & right( [NOME] ,len( [NOME] )-(instr([NOME] ," ")))""", context),
+            """left([NOME] ,instr([NOME] ," ")) & vbnewline & right( [NOME] ,len( [NOME] )-(instr([NOME] ," ")))""",
+            context),
             '''left("NOME" ,strpos("NOME" ,' '))  ||  \'\n\'  ||  right( "NOME" ,length( "NOME" )-(strpos("NOME" ,' ')))''')
 
         context.dataset_name = 'Streams'

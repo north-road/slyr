@@ -24,9 +24,8 @@ Conversion context
 
 import os
 import tempfile
-from pathlib import WindowsPath, Path
 from math import cos, sin, asin, sqrt, radians
-
+from pathlib import WindowsPath, Path
 from typing import Optional, Dict, List, Union
 
 from qgis.PyQt.QtCore import (
@@ -63,11 +62,14 @@ class Context:
         self.picture_folder = s.value('/plugins/slyr/picture_store_folder', '')
         self.temporary_picture_folder = ''
         self.style_folder = ''
-        self.embed_pictures = int(s.value('/plugins/slyr/embed_pictures', Qgis.QGIS_VERSION_INT >= 30600))
-        self.convert_fonts = int(s.value('/plugins/slyr/convert_font_to_svg', 0))
+        self.embed_pictures = int(s.value('/plugins/slyr/embed_pictures',
+                                          Qgis.QGIS_VERSION_INT >= 30600))
+        self.convert_fonts = int(
+            s.value('/plugins/slyr/convert_font_to_svg', 0))
         self.relative_paths = int(s.value('/plugins/slyr/store_relative', 0))
         try:
-            unit = s.value('/plugins/slyr/symbol_units', int(QgsUnitTypes.RenderPoints), int)
+            unit = s.value('/plugins/slyr/symbol_units',
+                           int(QgsUnitTypes.RenderPoints), int)
             if unit is None:
                 unit = QgsUnitTypes.RenderPoints
             else:
@@ -78,12 +80,16 @@ class Context:
             unit = QgsUnitTypes.RenderPoints
 
         self.units = unit
-        self.apply_conversion_tweaks = int(s.value('/plugins/slyr/apply_tweaks', 1))
+        self.apply_conversion_tweaks = int(
+            s.value('/plugins/slyr/apply_tweaks', 1))
         self.inkscape_path = s.value('/plugins/slyr/inkscape_path', 'inkscape')
-        self.convert_esri_fonts_to_simple_markers = int(s.value('/plugins/slyr/convert_fonts_to_simple_markers', 1))
+        self.convert_esri_fonts_to_simple_markers = int(
+            s.value('/plugins/slyr/convert_fonts_to_simple_markers', 1))
 
-        self.sde_primary_key: str = s.value('/plugins/slyr/sde_primary_key', 'OBJECTID')
-        self.sde_table_name_conversion: str = s.value('/plugins/slyr/sde_name_conversion', 'unchanged')
+        self.sde_primary_key: str = s.value('/plugins/slyr/sde_primary_key',
+                                            'OBJECTID')
+        self.sde_table_name_conversion: str = s.value(
+            '/plugins/slyr/sde_name_conversion', 'unchanged')
 
         self.unsupported_object_callback = None
         self.invalid_layer_resolver = None
@@ -115,7 +121,7 @@ class Context:
 
         self.approx_map_area: Optional[QgsReferencedRectangle] = None
 
-    def push_warning(self, warning: str, level: Optional[str]=None):
+    def push_warning(self, warning: str, level: Optional[str] = None):
         """
         Pushes a warning to the context
         """
@@ -157,7 +163,8 @@ class Context:
                 os.makedirs(self.temporary_picture_folder)
         return self.temporary_picture_folder
 
-    def convert_size(self, size: float) -> float:  # pylint: disable=inconsistent-return-statements
+    def convert_size(self,
+                     size: float) -> float:  # pylint: disable=inconsistent-return-statements
         """
         Returns a size converted to the desired symbol units
         """
@@ -197,14 +204,15 @@ class Context:
                     level=Context.WARNING)
             return None
 
-        raise NotImplementedException('Converting units of type {} is not supported'.format(units))
+        raise NotImplementedException(
+            'Converting units of type {} is not supported'.format(units))
 
     def convert_map_units_to_meters(self, size_map_units: float):
         """
         Converts map units to approximate meters
         """
         if self.approx_map_area:
-            if self.approx_map_area.crs().mapUnits() == QgsUnitTypes.DistanceDegrees\
+            if self.approx_map_area.crs().mapUnits() == QgsUnitTypes.DistanceDegrees \
                     or not self.approx_map_area.crs().isValid():
                 center = self.approx_map_area.center()
 
@@ -248,7 +256,8 @@ class Context:
         return size
 
     @staticmethod
-    def find_relative_path(path: str, diverge_path: Union[str, Path]) -> Union[bool, str]:
+    def find_relative_path(path: str, diverge_path: Union[str, Path]) -> Union[
+        bool, str]:
         """
         Returns a relative path that redirects to the first parameter
         If the paths are not relative, False is returned
@@ -292,7 +301,8 @@ class Context:
         if converted_path == '':
             converted_path = '.'
 
-        if is_rel_path and not converted_path.startswith(".") and not converted_path.startswith(".."):
+        if is_rel_path and not converted_path.startswith(
+                ".") and not converted_path.startswith(".."):
             converted_path = ".\\" + converted_path
 
         try:
