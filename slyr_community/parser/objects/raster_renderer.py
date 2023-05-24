@@ -3,11 +3,17 @@
 Serializable object subclass
 """
 
+from typing import Optional
+
 from ..object import Object
 from ..stream import Stream
 
 
 class RasterRenderer(Object):
+    """
+    Base class for raster renderers
+    """
+
     STRETCH_TYPE_NONE = 0
     STRETCH_TYPE_DEFAULT = 1
     STRETCH_TYPE_CUSTOM = 2
@@ -30,7 +36,10 @@ class RasterRenderer(Object):
     RESAMPLING_BILINEAR_PLUS = 4
 
     @staticmethod
-    def stretch_type_to_string(stretch):
+    def stretch_type_to_string(stretch) -> Optional[str]:
+        """
+        Converts a stretch type to a string
+        """
         if stretch == RasterRenderer.STRETCH_TYPE_NONE:
             return 'none'
         elif stretch == RasterRenderer.STRETCH_TYPE_DEFAULT:
@@ -55,7 +64,10 @@ class RasterRenderer(Object):
         return None
 
     @staticmethod
-    def stats_type_to_string(stats):
+    def stats_type_to_string(stats) -> Optional[str]:
+        """
+        Converts a stats type to a string
+        """
         if stats == RasterRenderer.STATS_AREA_OF_VIEW:
             return 'area_of_view'
         elif stats == RasterRenderer.STATS_DATASET:
@@ -66,7 +78,10 @@ class RasterRenderer(Object):
         return None
 
     @staticmethod
-    def resampling_type_to_string(resampling):
+    def resampling_type_to_string(resampling) -> Optional[str]:
+        """
+        Converts a resampling type to a string
+        """
         if resampling == RasterRenderer.RESAMPLING_NEAREST_NEIGHBOR:
             return 'nearest_neighbor'
         elif resampling == RasterRenderer.RESAMPLING_BILINEAR:
@@ -94,10 +109,11 @@ class RasterRenderer(Object):
         self.should_read_display_props = False
 
     def read(self, stream: Stream, version):
-        internal_version = stream.read_int('internal version', expected=(2, 3, 6, 7, 8, 9))
+        internal_version = stream.read_int('internal version',
+                                           expected=(2, 3, 6, 7, 8, 9))
 
-#        if internal_version < 3 and self.__class__.__name__ in ('RasterRGBRenderer', 'RasterStretchColorRampRenderer'):
-#            self.should_read_display_props = False
+        #        if internal_version < 3 and self.__class__.__name__ in ('RasterRGBRenderer', 'RasterStretchColorRampRenderer'):
+        #            self.should_read_display_props = False
 
         def handler(ref, size):
             if ref == 1:
@@ -117,7 +133,8 @@ class RasterRenderer(Object):
                 stream.read_int('unknown', expected=(0, 1))
             elif ref == 6:
                 assert size == 0xffffffff
-                self.nodata_color = stream.read_object('nodata color', allow_reference=False)
+                self.nodata_color = stream.read_object('nodata color',
+                                                       allow_reference=False)
             elif ref == 7:
                 assert size == 24
                 # some per band value?
@@ -125,7 +142,8 @@ class RasterRenderer(Object):
                     res = stream.read_int('unknown')
                     if res == 0:
                         stream.read_ushort('unknown a', expected=(0, 65504))
-                        stream.read_ushort('unknown b', expected=(0, 16, 16623, 49248, 49376))
+                        stream.read_ushort('unknown b', expected=(
+                        0, 16, 16623, 49248, 49376))
                     elif res == 0xffffffff:
                         stream.read_ushort('unknown', expected=65535)
                         stream.read_ushort('unknown', expected=65519)
@@ -162,7 +180,8 @@ class RasterRenderer(Object):
 
             stream.read_ushort('unknown', expected=(0, 65535))
 
-            self.primary_display_field = stream.read_ushort('primary display field') != 65535
+            self.primary_display_field = stream.read_ushort(
+                'primary display field') != 65535
             stream.read_ushort('unknown flag relating to display field')
             res = stream.read_int('alpha band')
             self.alpha_band = None if res == 0xffffffff else res + 1
@@ -188,7 +207,8 @@ class RasterRenderer(Object):
         return {
             'brightness': self.brightness,
             'contrast': self.contrast,
-            'resampling_type': RasterRenderer.resampling_type_to_string(self.resampling_type),
+            'resampling_type': RasterRenderer.resampling_type_to_string(
+                self.resampling_type),
             'nodata_color': self.nodata_color.to_dict() if self.nodata_color else None,
             'primary_display_field': self.primary_display_field,
             'alpha_band': self.alpha_band,

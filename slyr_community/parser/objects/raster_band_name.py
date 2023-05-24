@@ -4,9 +4,10 @@ Serializable object subclass
 """
 
 import re
+
+from ..exceptions import UnreadableSymbolException
 from ..object import Object
 from ..stream import Stream
-from ..exceptions import UnreadableSymbolException
 
 
 class RasterBandName(Object):
@@ -31,8 +32,10 @@ class RasterBandName(Object):
 
         try:
             self.band = int(re.search(r'(\d+)$', band).group(1))
-        except AttributeError:
-            raise UnreadableSymbolException('Could not read raster band number from string {}'.format(band))
+        except AttributeError as e:
+            raise UnreadableSymbolException(
+                'Could not read raster band number from string {}'.format(
+                    band)) from e
 
         stream.read_string('uri?')
         stream.read_string('band name?')

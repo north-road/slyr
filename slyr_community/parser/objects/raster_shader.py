@@ -11,7 +11,7 @@ class RasterShader(Object):
     """
     RasterShader
     """
-    
+
     @staticmethod
     def cls_id():
         return '9a895dac-e565-488e-a5f4-8b395327e2be'

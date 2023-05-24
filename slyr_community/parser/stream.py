@@ -3,6 +3,8 @@
 Binary stream representing persistent objects
 """
 
+# pylint: disable=too-many-lines
+
 import binascii
 import os
 from datetime import datetime, timedelta
