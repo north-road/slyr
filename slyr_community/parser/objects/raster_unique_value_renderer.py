@@ -3,8 +3,8 @@
 Serializable object subclass
 """
 
-from ..stream import Stream
 from .raster_renderer import RasterRenderer
+from ..stream import Stream
 
 
 class RasterUniqueValueRenderer(RasterRenderer):
@@ -44,18 +44,20 @@ class RasterUniqueValueRenderer(RasterRenderer):
         if version > 2:
             stream.read_string('unknown')  # "value", "descriptio"?
         self.ramp_name = stream.read_string('ramp name')
-        self.all_other_values_checked = stream.read_ushort('all other values checked') != 0
+        self.all_other_values_checked = stream.read_ushort(
+            'all other values checked') != 0
 
         self.all_other_symbol = stream.read_object('all other symbol')
-        self.all_other_legend_label = stream.read_string('all other legend label')
+        self.all_other_legend_label = stream.read_string(
+            'all other legend label')
 
-        old_value_count = 0
         if version <= 2:
-            old_value_count = stream.read_int('value count')
+            stream.read_int('older value count?')
 
         count = stream.read_int('group count')
         for i in range(count):
-            self.legend_groups.append(stream.read_object('legend group {}'.format(i + 1)))
+            self.legend_groups.append(
+                stream.read_object('legend group {}'.format(i + 1)))
 
         if version <= 2:
             stream.read_double('unknown', expected=0)
@@ -77,14 +79,17 @@ class RasterUniqueValueRenderer(RasterRenderer):
             for j in range(value_count):
                 num_values += 1
                 # variant type
-                value_type = stream.read_ushort('value type', expected=(5, 8))
+                value_type = stream.read_ushort('value type {}'.format(j + 1),
+                                                expected=(5, 8))
 
-                stream.read_ushort('unknown')  # , expected=0)
-                stream.read_int('unknown')  # , expected=0)
+                stream.read_ushort('unknown {}'.format(j + 1))  # , expected=0)
+                stream.read_int('unknown {}'.format(j + 1))  # , expected=0)
 
-                stream.read_double('unknown')  # , expected=0) value??
+                stream.read_double(
+                    'unknown {}'.format(j + 1))  # , expected=0) value??
 
-                values.append(stream.read_variant(value_type, 'value'))
+                values.append(
+                    stream.read_variant(value_type, 'value {}'.format(j + 1)))
 
             if values:
                 self.values.append(values)
@@ -111,11 +116,13 @@ class RasterUniqueValueRenderer(RasterRenderer):
         res['ramp_name'] = self.ramp_name
         res['value_name'] = self.value_name
         res['all_other_values_checked'] = self.all_other_values_checked
-        res['all_other_symbol'] = self.all_other_symbol.to_dict() if self.all_other_symbol else None
+        res[
+            'all_other_symbol'] = self.all_other_symbol.to_dict() if self.all_other_symbol else None
         res['all_other_legend_label'] = self.all_other_legend_label
         res['legend_groups'] = [g.to_dict() for g in self.legend_groups]
         res['ramp'] = self.ramp.to_dict() if self.ramp else None
-        res['unique_values'] = self.unique_values.to_dict() if self.unique_values else None
+        res[
+            'unique_values'] = self.unique_values.to_dict() if self.unique_values else None
         res['values'] = self.values
         res['backup_value_count'] = self.backup_value_count
         return res

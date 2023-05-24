@@ -50,9 +50,11 @@ class RasterRGBRenderer(RasterRenderer):
     def compatible_versions():
         return [4, 5, 9, 10]
 
+    # pylint: disable=too-many-statements
     def read(self, stream: Stream, version):
         stream.read_ushort('unknown', expected=0)
 
+        # pylint: disable=too-many-branches, too-many-statements
         def handler(ref, size):
             if ref == 1:
                 assert size == 4
@@ -133,6 +135,8 @@ class RasterRGBRenderer(RasterRenderer):
             else:
                 assert False, 'Unknown property ref {}'.format(ref)
 
+        # pylint: enable=too-many-branches, too-many-statements
+
         stream.read_indexed_properties(handler)
 
         if version > 5:
@@ -154,6 +158,8 @@ class RasterRGBRenderer(RasterRenderer):
         stream.read_ushort('unknown flag', expected=65535)
 
         super().read(stream, None)
+
+    # pylint: enable=too-many-statements
 
     def to_dict(self):  # pylint: disable=method-hidden
         res = super().to_dict()
@@ -228,6 +234,9 @@ class RasterRgbPanSharpeningProperties(Object):
 
     @staticmethod
     def pansharpen_type_to_string(pansharpen):
+        """
+        Converts a pansharpen type to a string
+        """
         if pansharpen == RasterRgbPanSharpeningProperties.TYPE_IHS:
             return 'ihs'
         elif pansharpen == RasterRgbPanSharpeningProperties.TYPE_BROVEY:
