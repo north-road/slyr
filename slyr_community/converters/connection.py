@@ -105,7 +105,22 @@ class ConnectionConverter:
         """
         Tries to convert extract connection properties to a QgsDataSourceUri equivalent
         """
-        if 'DBCLIENT' not in connection.properties:
+        db_client = connection.properties.get('DBCLIENT')
+
+        if not db_client and 'INSTANCE' in connection.properties:
+            # try to guess client from instance
+            instance = connection.properties['INSTANCE']
+
+            oracle_instance = re.search(r'^sde:oracle(?:11g)$', instance, re.IGNORECASE)
+            if oracle_instance:
+                db_client = 'oracle'
+
+            if not db_client:
+                sql_server_instance = re.search(r'^sde:sqlserver:.*$', instance, re.IGNORECASE)
+                if sql_server_instance:
+                    db_client = 'sqlserver'
+
+        if not db_client:
             if context.unsupported_object_callback:
                 if context.file_name:
                     context.unsupported_object_callback(
@@ -118,7 +133,7 @@ class ConnectionConverter:
 
             return None
 
-        if connection.properties['DBCLIENT'] == 'oracle':
+        if db_client == 'oracle':
             if 'INSTANCE' not in connection.properties:
                 if context.unsupported_object_callback:
                     if context.file_name:
@@ -133,24 +148,33 @@ class ConnectionConverter:
 
             instance = connection.properties['INSTANCE']
 
-            db_search = re.search(r'^sde:oracle(?:11g)?[$:](.*?)[/:](.*?)$', instance, re.IGNORECASE)
+            db_search = re.search(r'^sde:oracle(?:11g)?[$:](.*?)(?:[/:](.*?))?$', instance, re.IGNORECASE)
             if db_search:
                 _ = db_search.group(1)  # server
-                db_name = db_search.group(2)
+                db_name = db_search.group(2) or ''
 
                 uri = QgsDataSourceUri()
                 uri.setConnection('', '1521', db_name, '', '')
                 uri.setUseEstimatedMetadata(True)
 
                 return uri, 'oracle'
+            elif connection.properties.get('SERVER'):
+                server = connection.properties['SERVER']
+                db_name = connection.properties.get('DATABASE')
 
+                uri = QgsDataSourceUri()
+                uri.setConnection(server, '1521', db_name, '', '')
+
+                uri.setUseEstimatedMetadata(True)
+
+                return uri, 'oracle'
             else:
                 if context.unsupported_object_callback:
                     context.unsupported_object_callback(
                         f'Could not convert SDE connection file: "{context.file_name}" to an Oracle connection. Please email this file to info@north-road.com so that we can add support in a future SLYR release.',
                         level=Context.WARNING)
             return None
-        elif connection.properties['DBCLIENT'] == 'postgresql':
+        elif db_client == 'postgresql':
             if 'INSTANCE' not in connection.properties:
                 if context.unsupported_object_callback:
                     if context.file_name:
@@ -183,7 +207,7 @@ class ConnectionConverter:
                         f'Could not convert SDE connection file: "{context.file_name}" to an PostgreSQL connection. Please email this file to info@north-road.com so that we can add support in a future SLYR release.',
                         level=Context.WARNING)
             return None
-        elif connection.properties['DBCLIENT'] == 'sqlserver':
+        elif db_client == 'sqlserver':
             if 'SERVER' not in connection.properties:
                 if context.unsupported_object_callback:
                     if context.file_name:
@@ -198,10 +222,13 @@ class ConnectionConverter:
 
             server = connection.properties['SERVER']
 
+            if 'INSTANCE' in connection.properties:
+                db_search = re.search(r'^sde:sqlserver[$:].*?,(\d+)$', connection.properties['INSTANCE'], re.IGNORECASE)
+                if db_search:
+                    server += ',' + db_search.group(1)  # add port number as a ",PORT" suffix. Apparently this is the only way to get a non-standard SQL server port for QGIS!
+
             uri = QgsDataSourceUri()
             uri.setConnection(server, '', connection.properties['DATABASE'], '', '')
-            uri.setParam('disableInvalidGeometryHandling', '0')
-
             return uri, 'mssql'
 
         if context.unsupported_object_callback:
