@@ -224,3 +224,4 @@ from .raster_catalog_name import RasterCatalogName
 from .raster_def import RasterDef
 from .raster_shader import RasterShader
 from .raster_storage_def import RasterStorageDef
+from .simple_raster_renderer import SimpleRasterRenderer

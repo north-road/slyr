@@ -104,7 +104,7 @@ class RasterUniqueValueRenderer(RasterRenderer):
                 c = stream.read_int('count')
                 self.backup_value_count.append([v, c])
 
-        super().read(stream)
+        super().read(stream, None)
 
     def to_dict(self):  # pylint: disable=method-hidden
         res = super().to_dict()

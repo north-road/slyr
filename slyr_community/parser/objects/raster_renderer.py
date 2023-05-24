@@ -93,7 +93,7 @@ class RasterRenderer(Object):
 
         self.should_read_display_props = False
 
-    def read(self, stream: Stream, version=None):
+    def read(self, stream: Stream, version):
         internal_version = stream.read_int('internal version', expected=(2, 3, 6, 7, 8, 9))
 
 #        if internal_version < 3 and self.__class__.__name__ in ('RasterRGBRenderer', 'RasterStretchColorRampRenderer'):
