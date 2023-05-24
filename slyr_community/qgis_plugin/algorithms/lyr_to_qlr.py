@@ -128,11 +128,12 @@ class LyrToQlr(SlyrAlgorithm):
             elif level == Context.CRITICAL:
                 feedback.reportError(msg, False)
 
-        context = Context()
-        context.unsupported_object_callback = unsupported_object_callback
-        context.ignore_online_sources = ignore_online_sources
+        conversion_context = Context()
+        conversion_context.project = context.project()
+        conversion_context.unsupported_object_callback = unsupported_object_callback
+        conversion_context.ignore_online_sources = ignore_online_sources
         if Qgis.QGIS_VERSION_INT < 30600:
-            context.invalid_layer_resolver = GuiUtils.get_valid_mime_uri
+            conversion_context.invalid_layer_resolver = GuiUtils.get_valid_mime_uri
         # context.style_folder, _ = os.path.split(output_file)
 
         with open(input_file, 'rb') as f:
@@ -196,7 +197,7 @@ class LyrToQlr(SlyrAlgorithm):
             }
 
         try:
-            res, error = LayerConverter.object_to_qlr(obj, input_file, output_file, context,
+            res, error = LayerConverter.object_to_qlr(obj, input_file, output_file, conversion_context,
                                                       use_relative_paths=use_relative_paths)
         except NotImplementedException as e:
             feedback.reportError(str(e), fatalError=True)

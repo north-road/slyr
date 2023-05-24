@@ -106,10 +106,11 @@ class LyrToStyleXml(SlyrAlgorithm):
             elif level == Context.CRITICAL:
                 feedback.reportError(msg, False)
 
-        context = Context()
-        context.unsupported_object_callback = unsupported_object_callback
+        conversion_context = Context()
+        conversion_context.project = context.project()
+        conversion_context.unsupported_object_callback = unsupported_object_callback
         if Qgis.QGIS_VERSION_INT < 30600:
-            context.invalid_layer_resolver = GuiUtils.get_valid_mime_uri
+            conversion_context.invalid_layer_resolver = GuiUtils.get_valid_mime_uri
         # context.style_folder, _ = os.path.split(output_file)
 
         with open(input_file, 'rb') as f:
@@ -157,7 +158,7 @@ class LyrToStyleXml(SlyrAlgorithm):
         layers = LayerConverter.unique_layer_name_map(obj)
         for name, layer in layers.items():
             feedback.pushInfo('Extracting symbols from {}'.format(name))
-            symbols = VectorRendererConverter.extract_symbols_from_renderer(layer, context, default_name=name,
+            symbols = VectorRendererConverter.extract_symbols_from_renderer(layer, conversion_context, default_name=name,
                                                                             base_name=name if len(layers) > 1 else '')
 
             for k, v in symbols.items():

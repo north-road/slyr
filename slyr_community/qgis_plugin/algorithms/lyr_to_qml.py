@@ -158,12 +158,14 @@ class LyrToQml(SlyrAlgorithm):
             elif level == Context.CRITICAL:
                 feedback.reportError(msg, False)
 
-        context = Context()
-        context.unsupported_object_callback = unsupported_object_callback
+        conversion_context = Context()
+        conversion_context.unsupported_object_callback = unsupported_object_callback
+        conversion_context.project = context.project()
+
         if Qgis.QGIS_VERSION_INT < 30600:
-            context.invalid_layer_resolver = GuiUtils.get_valid_mime_uri
+            conversion_context.invalid_layer_resolver = GuiUtils.get_valid_mime_uri
         try:
-            LayerConverter.layers_to_qml(obj, input_file, output_file, on_error=on_error, context=context)
+            LayerConverter.layers_to_qml(obj, input_file, output_file, on_error=on_error, context=conversion_context)
         except NotImplementedException as e:
             feedback.reportError(str(e), fatalError=True)
             return {
