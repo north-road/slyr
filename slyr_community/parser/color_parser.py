@@ -3,7 +3,7 @@
 Extracts colors from a persistent stream binary
 """
 
-from slyr_community.parser.color_lut import COLOR_LUT
+from .color_lut import COLOR_LUT
 
 
 def xyz_to_rgb(x, y, z):
