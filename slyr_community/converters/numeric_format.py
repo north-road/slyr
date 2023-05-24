@@ -55,7 +55,7 @@ class NumericFormatConverter:
         if not numeric_format:
             return None
 
-        if numeric_format.__class__.__name__ != 'NumericFormat':
+        if numeric_format.__class__.__name__ not in ('NumericFormat', ):
             if context.unsupported_object_callback:
                 context.unsupported_object_callback(
                     '{} format conversion is not yet supported'.format(numeric_format.__class__.__name__),
@@ -65,10 +65,13 @@ class NumericFormatConverter:
         res = QgsBasicNumericFormat()
 
         res.setNumberDecimalPlaces(numeric_format.rounding_value)
-        if numeric_format.rounding == 0:
-            res.setRoundingType(QgsBasicNumericFormat.DecimalPlaces)
-        elif numeric_format.rounding == 1:
-            res.setRoundingType(QgsBasicNumericFormat.SignificantFigures)
+        if False:  # pylint: disable=using-constant-test
+            pass
+        else:
+            if numeric_format.rounding == 0:
+                res.setRoundingType(QgsBasicNumericFormat.DecimalPlaces)
+            elif numeric_format.rounding == 1:
+                res.setRoundingType(QgsBasicNumericFormat.SignificantFigures)
 
         res.setShowThousandsSeparator(numeric_format.thousands)
         res.setShowPlusSign(numeric_format.show_plus_sign)
