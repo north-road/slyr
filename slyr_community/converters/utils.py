@@ -25,6 +25,7 @@ Conversion utilities
 import math
 import os
 import re
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Optional
 
@@ -154,9 +155,9 @@ class ConversionUtils:
         """
 
         if path == '' or os.path.exists(path):
-            return Path(path).resolve().as_posix() if path else path
+            return Path(path).absolute().as_posix() if path else path
 
-        path = Path(path).resolve().as_posix()
+        path = Path(path).absolute().as_posix()
 
         base = os.path.basename(path)  # may be a directory or a file
         dirname = os.path.dirname(path)
@@ -213,12 +214,39 @@ class ConversionUtils:
         """
         Converts a path to an absolute path, in a case insensitive way
         """
+        base_folder = base
+        if Path(base_folder).is_file():
+            base_folder = Path(base_folder).parent.as_posix()
 
         path = path.replace('\\', '/')
 
         if ConversionUtils.is_absolute_path(path):
             return ConversionUtils.path_insensitive(path)
 
-        res = ConversionUtils.path_insensitive('{}/{}'.format(base, path))
+        res = ConversionUtils.path_insensitive('{}/{}'.format(base_folder, path))
         res = res.replace('/./', '/')
         return res
+
+    @staticmethod
+    def format_xml(input: str) -> str:
+        try:
+            from lxml import etree as LET
+            xml = ET.tostring(input, encoding='unicode')
+
+            root = LET.fromstring(xml)
+            tree = LET.ElementTree(root)
+            LET.indent(tree, '   ')
+            return LET.tostring(tree, encoding="utf-8")
+        except ImportError:
+            return input
+
+    @staticmethod
+    def is_gdal_version_available(major: int, minor: int, rev: int) -> bool:
+        """
+        Returns True if GDAL is greater than or equal to the specified version
+        """
+        from osgeo import gdal
+
+        required_version_int = major * 1000000 + minor * 10000 + rev * 100
+
+        return int(gdal.VersionInfo('VERSION_NUM')) >= required_version_int
