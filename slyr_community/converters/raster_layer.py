@@ -52,28 +52,41 @@ from .color_ramp import ColorRampConverter
 from .context import Context
 from .converter import NotImplementedException
 from .crs import CrsConverter
-from ..parser.objects.function_raster_dataset_name import FunctionRasterDatasetName
+from .utils import ConversionUtils
+from ..parser.objects.function_raster_dataset_name import \
+    FunctionRasterDatasetName
 from ..parser.objects.multi_layer_symbols import MultiLayerFillSymbol
 from ..parser.objects.raster_band_name import RasterBandName
 from ..parser.objects.raster_basemap_layer import RasterBasemapLayer
-from ..parser.objects.raster_classify_color_ramp_renderer import RasterClassifyColorRampRenderer
+from ..parser.objects.raster_classify_color_ramp_renderer import \
+    RasterClassifyColorRampRenderer
 from ..parser.objects.raster_color_map_renderer import RasterColorMapRenderer
-from ..parser.objects.raster_dataset_name import SdeRasterDatasetName, FgdbRasterDatasetName
+from ..parser.objects.raster_dataset_name import SdeRasterDatasetName, \
+    FgdbRasterDatasetName
 from ..parser.objects.raster_layer import RasterLayer
 from ..parser.objects.raster_renderer import RasterRenderer
 from ..parser.objects.raster_rgb_renderer import RasterRGBRenderer
-from ..parser.objects.raster_stretch_color_ramp_renderer import RasterStretchColorRampRenderer
-from ..parser.objects.raster_unique_value_renderer import RasterUniqueValueRenderer
+from ..parser.objects.raster_stretch_color_ramp_renderer import \
+    RasterStretchColorRampRenderer
+from ..parser.objects.raster_unique_value_renderer import \
+    RasterUniqueValueRenderer
 from ..parser.objects.simple_raster_renderer import SimpleRasterRenderer
-from .utils import ConversionUtils
 
 
 class RasterLayerConverter:
+    """
+    Raster layer conversion methods
+    """
 
+    # pylint: disable=too-many-locals
     @staticmethod
-    def raster_layer_to_QgsRasterLayer(layer: RasterLayer, input_file,
-                                       context: Context,
-                                       fallback_crs=QgsCoordinateReferenceSystem()):
+    def raster_layer_to_QgsRasterLayer(
+            layer: RasterLayer, input_file,
+            context: Context,
+            fallback_crs=QgsCoordinateReferenceSystem()):
+        """
+        Converts a raster layer to a QGIS raster layer
+        """
         provider = 'gdal'
         base, _ = os.path.split(input_file)
         uri = ''
@@ -86,9 +99,9 @@ class RasterLayerConverter:
                     return os.path.join(_base, _name)
             return _file_name
 
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
-        elif False:
+        elif False:  # pylint: disable=using-constant-test
             pass
         else:
             if isinstance(layer.dataset_name, RasterBandName):
@@ -98,7 +111,8 @@ class RasterLayerConverter:
                 dataset_name = layer.dataset_name
                 band = -1
 
-            if isinstance(dataset_name, (SdeRasterDatasetName, FgdbRasterDatasetName)):
+            if isinstance(dataset_name,
+                          (SdeRasterDatasetName, FgdbRasterDatasetName)):
                 if ConversionUtils.is_gdal_version_available(3, 7, 0):
                     file_name = ConversionUtils.get_absolute_path(
                         dataset_name.workspace_name.name,
@@ -109,17 +123,20 @@ class RasterLayerConverter:
                         layer_name
                     )
                 else:
-                    if isinstance(dataset_name, FgdbRasterDatasetName) and context.unsupported_object_callback:
+                    if isinstance(dataset_name,
+                                  FgdbRasterDatasetName) and context.unsupported_object_callback:
                         context.unsupported_object_callback(
                             '{}: Raster layers in Geodatabase files require a newer QGIS version, the database {} will need to be converted to TIFF before it can be used outside of ArcGIS'.format(
                                 layer.name, dataset_name.workspace_name.name),
                             level=Context.WARNING)
-                    file_name = ConversionUtils.get_absolute_path(dataset_name.workspace_name.name,
-                                                                  base)
+                    file_name = ConversionUtils.get_absolute_path(
+                        dataset_name.workspace_name.name,
+                        base)
                     uri = file_name + '|' + dataset_name.file_name
             elif isinstance(dataset_name, FunctionRasterDatasetName):
-                file_name = ConversionUtils.get_absolute_path(dataset_name.workspace_name.name,
-                                                              base)
+                file_name = ConversionUtils.get_absolute_path(
+                    dataset_name.workspace_name.name,
+                    base)
                 if file_name[-1] == '/':
                     file_name = file_name[:-1]
                 file_name = file_name + '/' + dataset_name.full_name
@@ -127,23 +144,28 @@ class RasterLayerConverter:
                 if context.unsupported_object_callback:
                     context.unsupported_object_callback(
                         'Raster layer “{}” was originally set to use a raster function ({}), these are not supported by QGIS'.format(
-                            layer.name, dataset_name.function.__class__.__name__),
+                            layer.name,
+                            dataset_name.function.__class__.__name__),
                         level=Context.WARNING)
                 else:
                     raise NotImplementedException(
                         'Function rasters are not supported by QGIS')
             elif dataset_name.workspace_name.connection_properties:
                 if 'DATABASE' in dataset_name.workspace_name.connection_properties.properties:
-                    file_name = dataset_name.workspace_name.connection_properties.properties[
-                                    'DATABASE'].replace('\\', '/') + dataset_name.file_name
+                    file_name = \
+                        dataset_name.workspace_name.connection_properties.properties[
+                            'DATABASE'].replace('\\',
+                                                '/') + dataset_name.file_name
                 else:
-                    file_name = dataset_name.workspace_name.connection_properties.properties[
-                                    'SERVER'] + dataset_name.file_name
+                    file_name = \
+                        dataset_name.workspace_name.connection_properties.properties[
+                            'SERVER'] + dataset_name.file_name
                 uri = find_neighbour_file(base, file_name)
             else:
                 file_name = ConversionUtils.path_insensitive(
                     '{}/{}'.format(
-                        ConversionUtils.get_absolute_path(dataset_name.workspace_name.name, base),
+                        ConversionUtils.get_absolute_path(
+                            dataset_name.workspace_name.name, base),
                         dataset_name.file_name))
                 uri = find_neighbour_file(base, file_name)
 
@@ -164,7 +186,7 @@ class RasterLayerConverter:
             else:
                 rl = QgsRasterLayer(uri, layer.name, provider)
 
-        if False:
+        if False:  # pylint: disable=using-constant-test
             crs = QgsCoordinateReferenceSystem()
         else:
             if not False:
@@ -178,7 +200,7 @@ class RasterLayerConverter:
         metadata.setAbstract(layer.description)
         rl.setMetadata(metadata)
 
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
         else:
             # layer.zoom_max = "don't show when zoomed out beyond"
@@ -194,18 +216,21 @@ class RasterLayerConverter:
                 zoom_max = tmp
 
             # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max
-            rl.setMinimumScale(zoom_max if enabled_scale_range else layer.stored_zoom_max)
+            rl.setMinimumScale(
+                zoom_max if enabled_scale_range else layer.stored_zoom_max)
             # qgis maximum scale = don't show when zoomed in beyond, i.e. ArcGIS zoom_min
-            rl.setMaximumScale(zoom_min if enabled_scale_range else layer.stored_zoom_min)
+            rl.setMaximumScale(
+                zoom_min if enabled_scale_range else layer.stored_zoom_min)
             rl.setScaleBasedVisibility(enabled_scale_range)
 
         brightness_contrast = QgsBrightnessContrastFilter()
         gamma = 1
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
         else:
-            renderer = RasterLayerConverter.convert_raster_renderer(layer.renderer, band, rl,
-                                                                    context)
+            renderer = RasterLayerConverter.convert_raster_renderer(
+                layer.renderer, band, rl,
+                context)
             if isinstance(layer.renderer, RasterStretchColorRampRenderer):
                 gamma = layer.renderer.gamma if layer.renderer.apply_gamma else 1
 
@@ -230,53 +255,64 @@ class RasterLayerConverter:
         rl.pipe().set(brightness_contrast)
         rl.pipe().set(QgsHueSaturationFilter())
         rl.pipe().set(QgsRasterResampleFilter())
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
         else:
             if layer.renderer.resampling_type in (
-                    RasterRenderer.RESAMPLING_BILINEAR, RasterRenderer.RESAMPLING_BILINEAR_PLUS):
-                rl.resampleFilter().setZoomedInResampler(QgsBilinearRasterResampler())
-                rl.resampleFilter().setZoomedOutResampler(QgsBilinearRasterResampler())
+                    RasterRenderer.RESAMPLING_BILINEAR,
+                    RasterRenderer.RESAMPLING_BILINEAR_PLUS):
+                rl.resampleFilter().setZoomedInResampler(
+                    QgsBilinearRasterResampler())
+                rl.resampleFilter().setZoomedOutResampler(
+                    QgsBilinearRasterResampler())
             elif layer.renderer.resampling_type == RasterRenderer.RESAMPLING_CUBIC:
-                rl.resampleFilter().setZoomedInResampler(QgsCubicRasterResampler())
+                rl.resampleFilter().setZoomedInResampler(
+                    QgsCubicRasterResampler())
                 rl.resampleFilter().setZoomedOutResampler(
                     QgsBilinearRasterResampler())  # can't use cubic for zoomed out
         rl.pipe().set(QgsRasterProjector())
 
         if Qgis.QGIS_VERSION_INT >= 306000 and Qgis.QGIS_VERSION_INT < 30900:
-            rl.setDataSource(uri, layer.name, 'gdal', QgsDataProvider.ProviderOptions())
+            rl.setDataSource(uri, layer.name, 'gdal',
+                             QgsDataProvider.ProviderOptions())
 
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
 
         return rl
 
+    # pylint: enable=too-many-locals
+
     @staticmethod
-    def raster_basemap_layer_to_QgsRasterLayer(source_layer: RasterBasemapLayer, input_file,
-                                               context: Context,
-                                               fallback_crs=QgsCoordinateReferenceSystem()):
+    def raster_basemap_layer_to_QgsRasterLayer(
+            source_layer: RasterBasemapLayer, input_file,
+            context: Context,
+            fallback_crs=QgsCoordinateReferenceSystem()):
         if source_layer.raster_layer:
-            return [RasterLayerConverter.raster_layer_to_QgsRasterLayer(source_layer.raster_layer,
-                                                                        input_file, context,
-                                                                        fallback_crs)]
+            return [RasterLayerConverter.raster_layer_to_QgsRasterLayer(
+                source_layer.raster_layer,
+                input_file, context,
+                fallback_crs)]
         return []
 
     @staticmethod
     def convert_raster_renderer(renderer, band, layer, context):
         res = None
-        if isinstance(renderer, (RasterStretchColorRampRenderer, )):
+        if isinstance(renderer, (RasterStretchColorRampRenderer,)):
             if band >= 0:
                 renderer_band = band
-            elif False:
+            elif False:  # pylint: disable=using-constant-test
                 pass
             else:
                 renderer_band = renderer.band
-            res = QgsSingleBandPseudoColorRenderer(layer.dataProvider(), renderer_band)
-            color_ramp = ColorRampConverter.ColorRamp_to_QgsColorRamp(renderer.color_ramp)
+            res = QgsSingleBandPseudoColorRenderer(layer.dataProvider(),
+                                                   renderer_band)
+            color_ramp = ColorRampConverter.ColorRamp_to_QgsColorRamp(
+                renderer.color_ramp)
             if renderer.invert_stretch:
                 color_ramp.invert()
 
-            if False:
+            if False:  # pylint: disable=using-constant-test
                 pass
             else:
                 min_value = renderer.min_value
@@ -285,7 +321,8 @@ class RasterLayerConverter:
             res.setClassificationMax(max_value or 0)
 
             if min_value == max_value:
-                ramp_shader = QgsColorRampShader(min_value, max_value, color_ramp,
+                ramp_shader = QgsColorRampShader(min_value, max_value,
+                                                 color_ramp,
                                                  QgsColorRampShader.Interpolated,
                                                  QgsColorRampShader.Continuous)
                 shader = QgsRasterShader()
@@ -298,14 +335,16 @@ class RasterLayerConverter:
                                             renderer.red_band if renderer.red_checked else -1,
                                             renderer.green_band if renderer.green_checked else -1,
                                             renderer.blue_band if renderer.blue_checked else -1)
-        elif False:
+        elif False:  # pylint: disable=using-constant-test
             pass
-        elif isinstance(renderer, (RasterUniqueValueRenderer, )):
-            uri = QgsProviderRegistry.instance().decodeUri(layer.providerType(), layer.source())
+        elif isinstance(renderer, (RasterUniqueValueRenderer,)):
+            uri = QgsProviderRegistry.instance().decodeUri(
+                layer.providerType(), layer.source())
             rat_lookup_table = defaultdict(list)
             if 'path' in uri:
                 if os.path.exists(uri['path'] + '.vat.dbf'):
-                    rat = QgsVectorLayer(uri['path'] + '.vat.dbf', 'rat', 'ogr')
+                    rat = QgsVectorLayer(uri['path'] + '.vat.dbf', 'rat',
+                                         'ogr')
                     if rat.isValid() and renderer.legend_groups:
                         legend_group = renderer.legend_groups[0].heading
                         field_idx = rat.fields().lookupField(legend_group)
@@ -323,40 +362,50 @@ class RasterLayerConverter:
 
             if isinstance(renderer, RasterUniqueValueRenderer):
                 for i, c in enumerate(renderer.values):
-                    if legend_class >= len(renderer.legend_groups[legend_group].classes):
+                    if legend_class >= len(
+                            renderer.legend_groups[legend_group].classes):
                         legend_class = 0
                         legend_group += 1
 
-                    legend = renderer.legend_groups[legend_group].classes[legend_class]
+                    legend = renderer.legend_groups[legend_group].classes[
+                        legend_class]
                     legend_class += 1
 
                     for v in c:
                         if isinstance(legend.symbol, MultiLayerFillSymbol):
-                            color = ColorConverter.color_to_qcolor(legend.symbol.layers[0].color)
+                            color = ColorConverter.color_to_qcolor(
+                                legend.symbol.layers[0].color)
                         else:
-                            color = ColorConverter.color_to_qcolor(legend.symbol.color)
+                            color = ColorConverter.color_to_qcolor(
+                                legend.symbol.color)
                         if isinstance(v, str):
                             # raster attribute table!
                             val_match = re.match(r'(\d+)_.*?', v)
                             if val_match:
                                 v = int(val_match.group(1))
-                                cl = QgsPalettedRasterRenderer.Class(v, color, legend.label)
+                                cl = QgsPalettedRasterRenderer.Class(v, color,
+                                                                     legend.label)
                                 classes.append(cl)
                             elif v in rat_lookup_table:
                                 for pixel_value in rat_lookup_table[v]:
-                                    cl = QgsPalettedRasterRenderer.Class(pixel_value, color,
-                                                                         legend.label)
+                                    cl = QgsPalettedRasterRenderer.Class(
+                                        pixel_value, color,
+                                        legend.label)
                                     classes.append(cl)
-                            elif renderer.unique_values and len(renderer.unique_values.values) > i:
+                            elif renderer.unique_values and len(
+                                    renderer.unique_values.values) > i:
                                 v = renderer.unique_values.values[i][0]
-                                cl = QgsPalettedRasterRenderer.Class(v, color, legend.label)
+                                cl = QgsPalettedRasterRenderer.Class(v, color,
+                                                                     legend.label)
                                 classes.append(cl)
                             elif len(renderer.backup_value_count) > i:
                                 v = renderer.backup_value_count[i][0]
-                                cl = QgsPalettedRasterRenderer.Class(v, color, legend.label)
+                                cl = QgsPalettedRasterRenderer.Class(v, color,
+                                                                     legend.label)
                                 classes.append(cl)
                         else:
-                            cl = QgsPalettedRasterRenderer.Class(v, color, legend.label)
+                            cl = QgsPalettedRasterRenderer.Class(v, color,
+                                                                 legend.label)
                             classes.append(cl)
             else:
                 pass
@@ -366,14 +415,15 @@ class RasterLayerConverter:
                                             renderer_band,
                                             classes)
             if renderer.ramp:
-                color_ramp = ColorRampConverter.ColorRamp_to_QgsColorRamp(renderer.ramp)
+                color_ramp = ColorRampConverter.ColorRamp_to_QgsColorRamp(
+                    renderer.ramp)
                 # if layer.renderer.invert_stretch:
                 #    color_ramp.invert()
                 res.setSourceColorRamp(color_ramp)
-        elif isinstance(renderer, (RasterColorMapRenderer, )):
+        elif isinstance(renderer, (RasterColorMapRenderer,)):
             classes = []
             for i, v in enumerate(renderer.values):
-                if False:
+                if False:  # pylint: disable=using-constant-test
                     pass
                 else:
                     if len(renderer.groups[0].classes) <= i:
@@ -390,13 +440,14 @@ class RasterLayerConverter:
             res = QgsPalettedRasterRenderer(layer.dataProvider(),
                                             renderer_band,
                                             classes)
-        elif isinstance(renderer, (RasterClassifyColorRampRenderer, )):
+        elif isinstance(renderer, (RasterClassifyColorRampRenderer,)):
             if band >= 0:
                 renderer_band = band
             else:
                 renderer_band = 1
 
-            res = QgsSingleBandPseudoColorRenderer(layer.dataProvider(), renderer_band)
+            res = QgsSingleBandPseudoColorRenderer(layer.dataProvider(),
+                                                   renderer_band)
             if isinstance(renderer, RasterClassifyColorRampRenderer):
                 min = renderer.breaks[0]
                 max = renderer.breaks[-1]
@@ -408,7 +459,8 @@ class RasterLayerConverter:
             res.setClassificationMax(max)
 
             if renderer.color_ramp:
-                color_ramp = ColorRampConverter.ColorRamp_to_QgsColorRamp(renderer.color_ramp)
+                color_ramp = ColorRampConverter.ColorRamp_to_QgsColorRamp(
+                    renderer.color_ramp)
             else:
                 color_ramp = None
 
@@ -422,7 +474,8 @@ class RasterLayerConverter:
 
                     legend_group = i
                     if not renderer.sort_classes_ascending:
-                        legend_group = len(renderer.legend_group.classes) - i - 1
+                        legend_group = len(
+                            renderer.legend_group.classes) - i - 1
 
                     item = QgsColorRampShader.ColorRampItem(b,
                                                             ColorConverter.color_to_qcolor(
@@ -441,11 +494,12 @@ class RasterLayerConverter:
             pass
         else:
             raise NotImplementedException(
-                'Raster {} not yet implemented'.format(renderer.__class__.__name__))
+                'Raster {} not yet implemented'.format(
+                    renderer.__class__.__name__))
 
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
-        elif True:
+        elif True:  # pylint: disable=using-constant-test
             if renderer and renderer.alpha_band is not None and renderer.alpha_checked:
                 res.setAlphaBand(renderer.alpha_band)
 
@@ -465,6 +519,7 @@ class RasterLayerConverter:
                     raise NotImplementedException(
                         'Setting the color for nodata pixels requires QGIS 3.12 or later')
             else:
-                res.setNodataColor(ColorConverter.color_to_qcolor(renderer.nodata_color))
+                res.setNodataColor(
+                    ColorConverter.color_to_qcolor(renderer.nodata_color))
 
         return res

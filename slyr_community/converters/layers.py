@@ -78,8 +78,9 @@ class LayerConverter:
     Layer converter
     """
 
+    # pylint: disable=too-many-branches, too-many-statements
     @staticmethod
-    def layer_to_QgsLayer(source_layer,  # pylint: disable=too-many-branches
+    def layer_to_QgsLayer(source_layer,
                           input_file,
                           context: Context,
                           fallback_crs=QgsCoordinateReferenceSystem(),
@@ -101,18 +102,15 @@ class LayerConverter:
                     fallback_crs=fallback_crs,
                     defer_layer_uri_set=defer_layer_uri_set)
             except NotImplementedException as e:
-                if context.unsupported_object_callback:
-                    context.unsupported_object_callback(
-                        'Layer “{}” has been removed: {}'.format(
-                            source_layer.name, e), level=Context.CRITICAL)
-                else:
-                    raise e
+                context.push_warning(
+                    'Layer “{}” has been removed: {}'.format(
+                        source_layer.name, e), level=Context.CRITICAL)
 
-        elif isinstance(source_layer, (RasterLayer, )):
+        elif isinstance(source_layer, (RasterLayer,)):
             res = [RasterLayerConverter.raster_layer_to_QgsRasterLayer(
                 source_layer, input_file, context=context,
                 fallback_crs=fallback_crs)]
-        elif isinstance(source_layer, (WmsMapLayer, )):
+        elif isinstance(source_layer, (WmsMapLayer,)):
             pass
         elif isinstance(source_layer, WmtsLayer):
             pass
@@ -120,120 +118,75 @@ class LayerConverter:
             res = RasterLayerConverter.raster_basemap_layer_to_QgsRasterLayer(
                 source_layer, input_file, context=context,
                 fallback_crs=fallback_crs)
-        elif isinstance(source_layer, (MapServerLayer, )):
+        elif isinstance(source_layer, (MapServerLayer,)):
             pass
         elif isinstance(source_layer, InternetTiledLayer):
             pass
-        elif False:
+        elif False:  # pylint: disable=using-constant-test
             pass
         elif isinstance(source_layer, MapServerRESTLayer):
             pass
         elif isinstance(source_layer, StandaloneTable):
             res = VectorLayerConverter.standalone_table_to_QgsVectorLayer(
                 source_layer, input_file, context=context)
-        elif isinstance(source_layer, (TinLayer, )):
+        elif isinstance(source_layer, (TinLayer,)):
             pass
-        elif False:
+        elif False:  # pylint: disable=using-constant-test
             pass
-        elif False:
+        elif False:  # pylint: disable=using-constant-test
             pass
-        elif False:
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    'Mosaic layer “{}” has been removed from the project (Mosaic layers are not supported by QGIS)'.format(
-                        source_layer.name), level=Context.CRITICAL)
-            else:
-                raise NotImplementedException(
-                    'Converting {} is not yet implemented'.format(
-                        source_layer.__class__.__name__))
-        elif isinstance(source_layer, (LasDatasetLayer, )):
+        elif False:  # pylint: disable=using-constant-test
+            context.push_warning(
+                'Mosaic layer “{}” has been removed from the project (Mosaic layers are not supported by QGIS)'.format(
+                    source_layer.name), level=Context.CRITICAL)
+        elif isinstance(source_layer, (LasDatasetLayer,)):
             pass
         elif isinstance(source_layer, TopologyLayer):
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    'Topology layer “{}” has been removed from the project (topology layers are not supported by QGIS)'.format(
-                        source_layer.name), level=Context.CRITICAL)
-            else:
-                raise NotImplementedException(
-                    'Converting {} is not yet implemented'.format(
-                        source_layer.__class__.__name__))
+            context.push_warning(
+                'Topology layer “{}” has been removed from the project (topology layers are not supported by QGIS)'.format(
+                    source_layer.name), level=Context.CRITICAL)
         elif isinstance(source_layer, CadLayer):
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    'CAD layer “{}” has been removed from the project (CAD layers are not supported by QGIS)'.format(
-                        source_layer.name), level=Context.CRITICAL)
-            else:
-                raise NotImplementedException(
-                    'Converting {} is not yet implemented'.format(
-                        source_layer.__class__.__name__))
+            context.push_warning(
+                'CAD layer “{}” has been removed from the project (CAD layers are not supported by QGIS)'.format(
+                    source_layer.name), level=Context.CRITICAL)
         elif isinstance(source_layer, NetworkLayer):
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    'Network layer “{}” has been removed from the project (network layers are not supported by QGIS)'.format(
-                        source_layer.name), level=Context.CRITICAL)
-            else:
-                raise NotImplementedException(
-                    'Converting {} is not yet implemented'.format(
-                        source_layer.__class__.__name__))
-        elif False:
+            context.push_warning(
+                'Network layer “{}” has been removed from the project (network layers are not supported by QGIS)'.format(
+                    source_layer.name), level=Context.CRITICAL)
+        elif False:  # pylint: disable=using-constant-test
             pass
-        elif False:
+        elif False:  # pylint: disable=using-constant-test
             pass
-        elif False:
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    'Terrain layer “{}” has been removed from the project (Terrain layers are not supported by QGIS)'.format(
-                        source_layer.name), level=Context.CRITICAL)
-            else:
-                raise NotImplementedException(
-                    'Converting {} is not yet implemented'.format(
-                        source_layer.__class__.__name__))
+        elif False:  # pylint: disable=using-constant-test
+            context.push_warning(
+                'Terrain layer “{}” has been removed from the project (Terrain layers are not supported by QGIS)'.format(
+                    source_layer.name), level=Context.CRITICAL)
         elif isinstance(source_layer,
-                        (RasterCatalogLayer, )):
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    'Raster catalog layer “{}” has been removed from the project (raster catalog layers are not supported by QGIS)'.format(
-                        source_layer.name), level=Context.CRITICAL)
-            else:
-                raise NotImplementedException(
-                    'Converting {} is not yet implemented'.format(
-                        source_layer.__class__.__name__))
-        elif False:
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    'Globe server layer “{}” has been removed from the project (GlobeServer layers are not supported by QGIS)'.format(
-                        source_layer.name), level=Context.CRITICAL)
-            else:
-                raise NotImplementedException(
-                    'Converting {} is not yet implemented'.format(
-                        source_layer.__class__.__name__))
-        elif False:
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    '3D Graphics Layer “{}” has been removed from the project (GraphicsLayer3D layers are not supported by QGIS)'.format(
-                        source_layer.name), level=Context.CRITICAL)
-            else:
-                raise NotImplementedException(
-                    'Converting {} is not yet implemented'.format(
-                        source_layer.__class__.__name__))
+                        (RasterCatalogLayer,)):
+            context.push_warning(
+                'Raster catalog layer “{}” has been removed from the project (raster catalog layers are not supported by QGIS)'.format(
+                    source_layer.name), level=Context.CRITICAL)
+        elif False:  # pylint: disable=using-constant-test
+            context.push_warning(
+                'Globe server layer “{}” has been removed from the project (GlobeServer layers are not supported by QGIS)'.format(
+                    source_layer.name), level=Context.CRITICAL)
+        elif False:  # pylint: disable=using-constant-test
+            context.push_warning(
+                '3D Graphics Layer “{}” has been removed from the project (GraphicsLayer3D layers are not supported by QGIS)'.format(
+                    source_layer.name), level=Context.CRITICAL)
         elif isinstance(source_layer,
-                        (ImageServerLayer, )):
+                        (ImageServerLayer,)):
             pass
         elif isinstance(source_layer, WmsLayer):
             pass
         elif isinstance(source_layer, (
-        MapServerRESTSubLayer, MapServerSubLayer, )):
+                MapServerRESTSubLayer, MapServerSubLayer,)):
             pass
-        elif False:
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    'Converting annotation layers is not yet supported'.format(
-                        source_layer.name), level=Context.WARNING)
-            else:
-                raise NotImplementedException(
-                    'Converting {} is not yet implemented'.format(
-                        source_layer.__class__.__name__))
-        elif False:
+        elif False:  # pylint: disable=using-constant-test
+            context.push_warning(
+                'Converting annotation layers is not yet supported',
+                level=Context.WARNING)
+        elif False:  # pylint: disable=using-constant-test
             pass
         else:
             raise NotImplementedException(
@@ -241,6 +194,8 @@ class LayerConverter:
                     source_layer.__class__.__name__))
         context.layer_name = ''
         return [layer for layer in res if layer is not None]
+
+    # pylint: enable=too-many-branches,too-many-statements
 
     @staticmethod
     def layer_to_QgsDataSourceUri(source, input_file=''):
@@ -268,8 +223,10 @@ class LayerConverter:
         return uri
 
     @staticmethod
-    def object_to_layers_and_tree(obj, input_file, context: Context,
-                                  definitions=None):
+    def object_to_layers_and_tree(obj,
+                                  input_file,
+                                  context: Context,
+                                  definitions=None):  # pylint: disable=unused-argument
         """
         Converts an ESRI object to layers and equivalent layer tree
         """
@@ -293,7 +250,7 @@ class LayerConverter:
         def add_group(group, parent):
             group_node = parent.addGroup(group.name)
 
-            if False:
+            if False:  # pylint: disable=using-constant-test
                 pass
             else:
                 for c in group.children:
@@ -304,7 +261,7 @@ class LayerConverter:
 
         root_node = QgsLayerTreeGroup()
 
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
         else:
             if LayerConverter.is_layer(obj):
@@ -358,17 +315,17 @@ class LayerConverter:
         Returns True if object is a map layer
         """
         return isinstance(obj, (
-        CadFeatureLayer, CadLayer, CadAnnotationLayer, FeatureLayer,
-        WmsMapLayer,
-        RasterLayer, MapServerLayer, InternetTiledLayer, TinLayer,
-        MapServerRESTLayer,
-        ImageServerLayer, LasDatasetLayer,
-        WmtsLayer,
-        TopologyLayer,
-        NetworkLayer, RasterCatalogLayer,
-        RasterBasemapLayer,
-        WmsLayer, MapServerRESTSubLayer, MapServerBasicSublayer,
-        MapServerSubLayer
+            CadFeatureLayer, CadLayer, CadAnnotationLayer, FeatureLayer,
+            WmsMapLayer,
+            RasterLayer, MapServerLayer, InternetTiledLayer, TinLayer,
+            MapServerRESTLayer,
+            ImageServerLayer, LasDatasetLayer,
+            WmtsLayer,
+            TopologyLayer,
+            NetworkLayer, RasterCatalogLayer,
+            RasterBasemapLayer,
+            WmsLayer, MapServerRESTSubLayer, MapServerBasicSublayer,
+            MapServerSubLayer
         ))
 
     @staticmethod
@@ -384,7 +341,7 @@ class LayerConverter:
         Returns True if object is a map layer
         """
         return isinstance(obj, (
-        CadFeatureLayer, FeatureLayer, CadAnnotationLayer))
+            CadFeatureLayer, FeatureLayer, CadAnnotationLayer))
 
     @staticmethod
     def is_vector_layer_name(obj):
@@ -394,7 +351,7 @@ class LayerConverter:
         return isinstance(obj, FeatureClassName)
 
     @staticmethod
-    def unique_layer_name_map(obj, definitions=None):
+    def unique_layer_name_map(obj, definitions=None):  # pylint: disable=unused-argument
         """
         Returns a dict of unique name for layers to layers
         """
@@ -412,7 +369,7 @@ class LayerConverter:
             layers[name] = layer
 
         def add_group(group, parent):  # pylint: disable=unused-argument
-            if False:
+            if False:  # pylint: disable=using-constant-test
                 pass
             else:
                 for c in group.children:
@@ -421,7 +378,7 @@ class LayerConverter:
                     else:
                         add_layer(c, group)
 
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
         else:
             if LayerConverter.is_layer(obj):
