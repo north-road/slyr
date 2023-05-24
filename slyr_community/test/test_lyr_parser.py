@@ -4,10 +4,10 @@
 Test LYR parsing
 """
 
-import base64
-import json
-import os
 import unittest
+import os
+import pprint
+import ast
 
 from ..parser.initalize_registry import initialize_registry
 from ..parser.streams.layer import LayerFile
@@ -814,12 +814,10 @@ expected = [
         'filename': 'lines_symbol_levels_arterial_join_highway_no_join.lyr'
     },
     {
-        'filename': 'group_symbol_levels.lyr',
-        'skip': True
+        'filename': 'group_symbol_levels.lyr'
     },
     {
-        'filename': 'lines_symbol_levels_arterial_join_and_merge.lyr',
-        'skip': True
+        'filename': 'lines_symbol_levels_arterial_join_and_merge.lyr'
     },
     {
         'filename': 'lines_draw_using_symbol_levels_join.lyr'
@@ -828,8 +826,7 @@ expected = [
         'filename': 'lines_draw_using_symbol_levels_no_join.lyr'
     },
     {
-        'filename': 'layer_move_field_class_to_end.lyr',
-        'skip': True
+        'filename': 'layer_move_field_class_to_end.lyr'
     },
     {
         'filename': 'layer_cached_true.lyr'
@@ -906,6 +903,411 @@ expected = [
     {
         'filename': 'representation_symbology_point_legend_none.lyr'
     },
+    {
+        'filename': 'raster_rgb_stats_from_each_dataset.lyr'
+    },
+    {
+        'filename': 'raster_classified_nodata_color_red.lyr'
+    },
+    {
+        'filename': 'raster_unique_grouped.lyr'
+    },
+    {
+        'filename': 'dot_density_maintain_density_by_dot_value.lyr'
+    },
+    {
+        'filename': 'basemap_two_layers.lyr'
+    },
+    {
+        'filename': 'raster_unique_values_all_other_checked.lyr'
+    },
+    {
+        'filename': 'raster_classified_use_hillshade_z13.lyr'
+    },
+    {
+        'filename': 'raster_bilinear.lyr'
+    },
+    {
+        'filename': 'raster_rgb_pansharpen_type_bovey.lyr'
+    },
+    {
+        'filename': 'basemap_scalerange.lyr'
+    },
+    {
+        'filename': 'raster_show_resolution_in_toc.lyr'
+    },
+    {
+        'filename': 'raster_stretch_histogram_equalize.lyr'
+    },
+    {
+        'filename': 'raster_rgb_pansharpen_weights_123_ir4lyr.lyr'
+    },
+    {
+        'filename': 'raster_discrete_color_255.lyr'
+    },
+    {
+        'filename': 'raster_time_step_99hours.lyr'
+    },
+    {
+        'filename': 'raster_extent_current_setting.lyr'
+    },
+    {
+        'filename': 'raster_display_background_value_77.lyr'
+    },
+    {
+        'filename': 'raster_classified_show_class_breaks_using_cell_values.lyr'
+    },
+    {
+        'filename': '10 x 10 Degree Graticule.lyr'
+    },
+    {
+        'filename': 'raster_stretched_stats_from_each_dataset.lyr'
+    },
+    {
+        'filename': 'raster_rgb_pansharpen_type_ihs.lyr'
+    },
+    {
+        'filename': 'raster_stretched_band_5.lyr'
+    },
+    {
+        'filename': 'raster_stretched.lyr'
+    },
+    {
+        'filename': 'raster_time_offset_39minutes.lyr'
+    },
+    {
+        'filename': 'dot_density_exclusion_filter.lyr'
+    },
+    {
+        'filename': 'raster_stretched_type_none.lyr'
+    },
+    {
+        'filename': 'dot_density_maintain_density_by_dot_size.lyr'
+    },
+    {
+        'filename': 'raster_rgb_bands123.lyr'
+    },
+    {
+        'filename': 'raster_stretch_from_custom_settings.lyr'
+    },
+    {
+        'filename': 'raster_rgb_stretch_minmax.lyr'
+    },
+    {
+        'filename': 'raster_rgb_stretch_params_rgb_200_contrast_50.lyr'
+    },
+    {
+        'filename': 'raster_rgb_stretch_invert.lyr'
+    },
+    {
+        'filename': 'raster_layer_zoom_range.lyr'
+    },
+    {
+        'filename': 'raster_classified_labels.lyr'
+    },
+    {
+        'filename': 'raster_rgb_nodata_color_blue.lyr'
+    },
+    {
+        'filename': 'raster_rgb_stretch_stdev_4_5.lyr'
+    },
+    {
+        'filename': 'raster_rgb_alpha_checked.lyr'
+    },
+    {
+        'filename': 'raster_stretched_labels.lyr',
+    },
+    {
+        'filename': 'raster_rgb_stretch_esri.lyr'
+    },
+    {
+        'filename': 'raster_rgb_bg_119_139_159.lyr'
+    },
+    {
+        'filename': 'layer_v23.lyr'
+    },
+    {
+        'filename': 'raster_rgb_background_color_red.lyr'
+    },
+    {
+        'filename': 'dot_density_2.lyr'
+    },
+    {
+        'filename': 'basemap_invisible.lyr'
+    },
+    {
+        'filename': 'basemap_attributes.lyr'
+    },
+    {
+        'filename': 'basemap_deactivated_scalerange].lyr'
+    },
+    {
+        'filename': 'raster_classified.lyr'
+    },
+    {
+        'filename': 'raster_stretch_standard_deviations_2_5.lyr'
+    },
+    {
+        'filename': 'raster_rgb_gamma_stretch_2_3_4.lyr'
+    },
+    {
+        'filename': 'dot_density_use_masking_place_only_in.lyr'
+    },
+    {
+        'filename': 'raster_rgb_display_background_value.lyr'
+    },
+    {
+        'filename': 'dot_density_red_blue.lyr'
+    },
+    {
+        'filename': 'raster_stretch_min_max.lyr'
+    },
+    {
+        'filename': 'dot_density_dot_size_5_density_7000.lyr'
+    },
+    {
+        'filename': 'raster_classified_3_breaks.lyr'
+    },
+    {
+        'filename': 'raster_stretched_ramp.lyr'
+    },
+    {
+        'filename': 'raster_stretched_stats_custom.lyr'
+    },
+    {
+        'filename': 'raster_layer.lyr'
+    },
+    {
+        'filename': 'raster_stretch_apply_gamma_1_9.lyr'
+    },
+    {
+        'filename': 'raster_custom_extent_4321.lyr'
+    },
+    {
+        'filename': 'raster_stretched_labels_interval_37.lyr'
+    },
+    {
+        'filename': 'raster_rgb_red_checked.lyr'
+    },
+    {
+        'filename': 'raster_unique_labels.lyr'
+    },
+    {
+        'filename': 'raster_enable_time.lyr'
+    },
+    {
+        'filename': 'raster_rgb_alpha_b4.lyr'
+    },
+    {
+        'filename': 'dot_density_fixed_placement_seed4815lyr.lyr'
+    },
+    {
+        'filename': 'dot_density_mask_exclude_in.lyr'
+    },
+    {
+        'filename': 'raster_layer_attributes.lyr'
+    },
+    {
+        'filename': 'raster_rgb_alpha_band7.lyr'
+    },
+    {
+        'filename': 'raster_rgb_pansharpen_type_mean.lyr'
+    },
+    {
+        'filename': 'raster_time_step_99_decades.lyr'
+    },
+    {
+        'filename': 'raster_rgb_no_bands_checked.lyr'
+    },
+    {
+        'filename': 'raster_stretched_display_background_color_red.lyr'
+    },
+    {
+        'filename': 'raster_rgb_blue_checked.lyr'
+    },
+    {
+        'filename': 'layer_v25.lyr'
+    },
+    {
+        'filename': 'raster_layer_unchecked.lyr'
+    },
+    {
+        'filename': 'raster_display_medium.lyr'
+    },
+    {
+        'filename': 'raster_discrete_color_35.lyr'
+    },
+    {
+        'filename': 'raster_rgb_green_checked.lyr'
+    },
+    {
+        'filename': 'raster_display_coarse.lyr'
+    },
+    {
+        'filename': 'raster_unique_values_all_other_unchecked.lyr'
+    },
+    {
+        'filename': 'colormap255_nodata_red.lyr'
+    },
+    {
+        'filename': 'raster_stretched_none_invert.lyr'
+    },
+    {
+        'filename': 'raster_primary_display_count.lyr'
+    },
+    {
+        'filename': 'raster_layer_no_zoom_range.lyr'
+    },
+    {
+        'filename': 'raster_cubic.lyr'
+    },
+    {
+        'filename': 'raster_stretch_sigmoid_strength_6.lyr'
+    },
+    {
+        'filename': 'raster_rgb_pansharpen_using_dem.lyr'
+    },
+    {
+        'filename': 'dot_density_legend_for_excluded.lyr'
+    },
+    {
+        'filename': 'raster_rgb_red_blue_unchecked.lyr'
+    },
+    {
+        'filename': 'raster_stretched_use_hillshade_z_19.lyr'
+    },
+    {
+        'filename': 'raster_stretched_band8.lyr'
+    },
+    {
+        'filename': 'raster_resample_majority.lyr'
+    },
+    {
+        'filename': 'raster_extent_current_display.lyr'
+    },
+    {
+        'filename': 'unique_lookup.lyr'
+    },
+    {
+        'filename': 'raster_stretched_stats_from_display_extent.lyr'
+    },
+    {
+        'filename': 'raster_extent_full.lyr'
+    },
+    {
+        'filename': 'colormap_labels.lyr'
+    },
+    {
+        'filename': 'dot_density_ramp.lyr'
+    },
+    {
+        'filename': 'raster_discrete_color_nodata_red.lyr'
+    },
+    {
+        'filename': 'raster_stretched_type_histogram_spec.lyr'
+    },
+    {
+        'filename': 'raster_two_relates.lyr'
+    },
+    {
+        'filename': 'raster_join_keep_matching.lyr'
+    },
+    {
+        'filename': 'raster_primary_display_value.lyr'
+    },
+    {
+        'filename': 'raster_two_joins.lyr'
+    },
+    {
+        'filename': 'raster_rgb_pansharpen_no_4th_band_as_infrared.lyr'
+    },
+    {
+        'filename': 'raster_unique_complex_legend.lyr'
+    },
+    {
+        'filename': 'raster_show_maptips.lyr'
+    },
+    {
+        'filename': 'raster_classified_5_break.lyr'
+    },
+    {
+        'filename': 'dot_density_no_maintain_density.lyr'
+    },
+    {
+        'filename': 'raster_unique_band_8.lyr'
+    },
+    {
+        'filename': 'raster_stretched_9_interval_labels.lyr'
+    },
+    {
+        'filename': 'raster_stretched_type_custom.lyr'
+    },
+    {
+        'filename': 'raster_constrast_33_brightness_34_transparency_35.lyr'
+    },
+    {
+        'filename': 'raster_discrete_band_8.lyr'
+    },
+    {
+        'filename': 'raster_rgb_stats_from_current_display.lyr'
+    },
+    {
+        'filename': 'raster_rgb_bands876.lyr'
+    },
+    {
+        'filename': 'colormap_nodata_red.lyr'
+    },
+    {
+        'filename': 'dot_density.lyr'
+    },
+    {
+        'filename': 'dot_density_green_background_red_outline.lyr'
+    },
+    {
+        'filename': 'raster_relate.lyr'
+    },
+    {
+        'filename': 'raster_join_keep_all.lyr'
+    },
+    {
+        'filename': 'raster_allow_interactive_display.lyr'
+    },
+    {
+        'filename': 'raster_rgb_pansharpening_enabled.lyr'
+    },
+    {
+        'filename': 'raster_rgb_stats_from_custom.lyr'
+    },
+    {
+        'filename': 'raster_stretched_percent_clip_34_96.lyr'
+    },
+    {
+        'filename': 'raster_stretched_display_nodata_color_green.lyr'
+    },
+    {
+        'filename': 'colormap_255.lyr'
+    },
+    {
+        'filename': 'colormap_20.lyr'
+    },
+    {
+        'filename': 'raster_pansharpen_type_esri.lyr'
+    },
+    {
+        'filename': 'raster_time_offset_39years.lyr'
+    },
+    {
+        'filename': 'raster_resample_nearest_neighbour.lyr'
+    },
+    {
+        'filename': 'raster_rgb_sigmoid_strength_6.lyr'
+    },
+    {
+        'filename': 'raster_rgb_percent_clip_17_83.lyr'
+    },
+    {
+        'filename': 'raster_rgb_stretch_none.lyr'
+    },
 ]
 
 initialize_registry()
@@ -916,24 +1318,9 @@ class TestLyrParser(unittest.TestCase):
     Test LYR parsing
     """
 
-    maxDiff = None
-    UPDATE = False
+    UPDATE = True
 
-    @staticmethod
-    def make_json_safe_dict(obj):
-        """
-        Makes a dictionary object safe for JSON storage
-        """
-        if isinstance(obj, dict):
-            return {key: TestLyrParser.make_json_safe_dict(value) for key, value in obj.items()}
-        elif isinstance(obj, list):
-            return [TestLyrParser.make_json_safe_dict(value) for value in obj]
-        elif isinstance(obj, bytes):
-            return base64.b64encode(obj).decode()
-        else:
-            return obj
-
-    def test_lyr_parsing(self):  # pylint:disable=too-many-locals
+    def test_lyr_parsing(self):
         """
         Checks all lyr parsing against expectations
         """
@@ -965,19 +1352,15 @@ class TestLyrParser(unittest.TestCase):
                 print('{}:{}'.format(e['filename'], hex(offset)))
 
                 doc = LayerFile(f, debug=False, offset=-1, tolerant=False, check_length=True)
-                d = TestLyrParser.make_json_safe_dict(doc.to_dict())
+                d = doc.to_dict()
 
                 if self.UPDATE:
-                    with open(expected_file, 'w', encoding='utf8') as o:
-                        o.write(json.dumps(d, indent=2))
+                    with open(expected_file, 'w') as o:
+                        pprint.pprint(d, o)
                 else:
-                    actual = json.dumps(d, indent=2)
-                    with open(expected_file, 'r', encoding='utf8') as o:
-                        expected_res = o.read()
-                    self.assertEqual(actual, expected_res)
-
-
-#                    self.assertEqual(expected_res, d)
+                    with open(expected_file, 'r') as o:
+                        expected_res = ast.literal_eval(o.read())
+                    self.assertEqual(expected_res, d)
 
 
 if __name__ == '__main__':
