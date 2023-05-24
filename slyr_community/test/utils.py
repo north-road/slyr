@@ -54,9 +54,10 @@ class Utils:
         """
         return [Utils.symbol_layer_definition(layer) for layer in symbol]
 
+    # pylint: disable=too-many-locals, too-many-statements
     @staticmethod
     def normalize_xml(
-            xml_string) -> str:  # pylint: disable=too-many-locals, too-many-statements
+            xml_string) -> str:
         """
         Normalizes XML output for a test comparison
         """
@@ -180,6 +181,8 @@ class Utils:
         res = re.sub(layer_id_rx, 'id="{...}" name="Bookmark', res)
 
         return res
+
+    # pylint: enable=too-many-locals, too-many-statements
 
     @staticmethod
     def normalize_layer_for_test(layer: QgsMapLayer):
