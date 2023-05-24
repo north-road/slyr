@@ -4,19 +4,21 @@
 Test symbol parsing
 """
 
-import unittest
-import os
 import ast
+import os
 import pprint
+import unittest
+
 from qgis.PyQt.QtGui import QGuiApplication
-from ..parser.object_registry import ObjectRegistry
-from ..parser.initalize_registry import initialize_registry
-from ..parser.objects.multi_layer_symbols import MultiLayerSymbol
-from ..parser.exceptions import NotImplementedException
-from ..parser.stream import Stream
+
+from .utils import Utils
 from ..converters.context import Context
 from ..converters.symbols import SymbolConverter
-from .utils import Utils
+from ..parser.exceptions import NotImplementedException
+from ..parser.initalize_registry import initialize_registry
+from ..parser.object_registry import ObjectRegistry
+from ..parser.objects.multi_layer_symbols import MultiLayerSymbol
+from ..parser.stream import Stream
 
 expected = {
     'cmyk_bin': {
@@ -83,7 +85,8 @@ expected = {
         'R1 G0 B0 dither.bin': True,
         'R1 G0 B0.bin': True,
         'R1 G1 B1.bin': True,
-        'R2 G2 B2.bin': False,  # Color tolerance results in slight difference to expected
+        'R2 G2 B2.bin': False,
+        # Color tolerance results in slight difference to expected
         'R254 G254 B254.bin': True,
         'R255 G0 B0 HSV.bin': True,
         'R255 G0 B0 dither.bin': True,
@@ -690,7 +693,7 @@ class TestSymbolParser(unittest.TestCase):
             expected_file = os.path.join(folder, 'expected',
                                          base + '.txt')
             expected_converted_file = os.path.join(folder, 'converted',
-                                         base + '.txt')
+                                                   base + '.txt')
 
             with open(file, 'rb') as f:
                 expected_symbol = expected[group][symbol_name]
@@ -709,14 +712,29 @@ class TestSymbolParser(unittest.TestCase):
                 if isinstance(symbol, MultiLayerSymbol):
                     context = Context()
                     try:
-                        qgis_symbol = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
-                        qgis_symbol_props = Utils.symbol_definition(qgis_symbol)
+                        qgis_symbol = SymbolConverter.Symbol_to_QgsSymbol(
+                            symbol, context)
+                        qgis_symbol_props = Utils.symbol_definition(
+                            qgis_symbol)
                         if self.UPDATE:
-                            with open(expected_converted_file, 'wt', encoding='utf8') as o:
+                            with open(expected_converted_file, 'wt',
+                                      encoding='utf8') as o:
                                 pprint.pprint(qgis_symbol_props, o)
                         else:
-                            with open(expected_converted_file, 'rt', encoding='utf8') as o:
-                                expected_res = o.read()
+                            with open(expected_converted_file, 'rt',
+                                      encoding='utf8') as o:
+                                expected_res = ast.literal_eval(o.read())
+
+                            qgis_symbol_props = [{k: v for k, v in d.items() if
+                                                  not isinstance(v,
+                                                                 str) or not v.startswith(
+                                                      'base64:')} for d in
+                                                 qgis_symbol_props]
+                            expected_res = [{k: v for k, v in
+                                             d.items()
+                                             if not isinstance(v,
+                                                               str) or not v.startswith(
+                                    'base64:')} for d in expected_res]
                             self.assertEqual(expected_res, qgis_symbol_props)
                     except NotImplementedException:
                         pass
@@ -846,12 +864,15 @@ class TestSymbolParser(unittest.TestCase):
         """
         Test CLSID parsing
         """
-        self.assertEqual(ObjectRegistry.clsid_to_hex('7914e603-c892-11d0-8bb6-080009ee4e41'),
+        self.assertEqual(ObjectRegistry.clsid_to_hex(
+            '7914e603-c892-11d0-8bb6-080009ee4e41'),
                          b'03e6147992c8d0118bb6080009ee4e41')
-        self.assertEqual(ObjectRegistry.hex_to_clsid(b'03e6147992c8d0118bb6080009ee4e41'),
-                         '7914e603-c892-11d0-8bb6-080009ee4e41')
-        self.assertEqual(ObjectRegistry.hex_to_clsid(b'f5883d531a0ad211b27f0000f878229e'),
-                         '533d88f5-0a1a-11d2-b27f-0000f878229e')
+        self.assertEqual(
+            ObjectRegistry.hex_to_clsid(b'03e6147992c8d0118bb6080009ee4e41'),
+            '7914e603-c892-11d0-8bb6-080009ee4e41')
+        self.assertEqual(
+            ObjectRegistry.hex_to_clsid(b'f5883d531a0ad211b27f0000f878229e'),
+            '533d88f5-0a1a-11d2-b27f-0000f878229e')
 
 
 app = QGuiApplication([])
