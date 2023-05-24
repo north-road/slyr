@@ -22,19 +22,29 @@
 Dataset name converter
 """
 
+import json
 import os
 import re
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Union
 
-from qgis.core import (Qgis,
-                       QgsCoordinateReferenceSystem,
-                       QgsWkbTypes)
+from qgis.PyQt.QtCore import QUrl
+from qgis.PyQt.QtNetwork import QNetworkRequest
+from qgis.core import (
+    Qgis,
+    QgsCoordinateReferenceSystem,
+    QgsWkbTypes,
+    QgsProviderRegistry
+)
 
 from .connection import ConnectionConverter
 from .context import Context
-from .converter import NotImplementedException
+from .converter import (
+    NotImplementedException
+)
+from .crs import CrsConverter
 from .utils import ConversionUtils
+from ..parser.objects.db_table_name import DBTableName
 from ..parser.objects.table_name import TableName
 from ..parser.objects.workspace_factory import WorkspaceFactory
 from ..parser.objects.workspace_name import WorkspaceName
@@ -50,13 +60,15 @@ class DataSourceProperties:
                  provider: Optional[str] = None,
                  encoding: Optional[str] = None,
                  file_name: Optional[str] = None,
-                 factory: Optional[WorkspaceFactory] = None):
+                 factory: Optional[WorkspaceFactory] = None,
+                 band: Optional[int] = -1):
         self.uri: Optional[str] = uri
         self.wkb_type: Optional[QgsWkbTypes.Type] = wkb_type
         self.provider: Optional[str] = provider
         self.encoding: Optional[str] = encoding
         self.file_name: Optional[str] = file_name
         self.factory = factory
+        self.band = band
 
     def to_dict(self) -> dict:
         """
@@ -127,7 +139,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
 
     @staticmethod
     def convert_shapefile_workspace(name,  # pylint: disable=too-many-locals,too-many-branches
-                                    workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+                                    workspace_name: WorkspaceName, base: str,
+                                    crs: QgsCoordinateReferenceSystem,
                                     subset: str, context: Context) -> DataSourceProperties:
         """
         Convert ShapefileWorkspaceFactory
@@ -144,7 +157,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         else:
             assert False
 
-        file_name = folder + '/' + name.name + extension
+        file_name = ConversionUtils.path_insensitive(folder + '/' + name.name + extension)
         uri = file_name
 
         encoding = None
@@ -170,7 +183,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                             encoding = 'ISO-8859-{}'.format(cpg[5:])
                         else:
                             encoding = 'ISO-8859-{}'.format(cpg[4:])
-                    elif not encoding and (cpg.lower().startswith('utf-8') or cpg.lower().startswith('utf8')):
+                    elif not encoding and (
+                            cpg.lower().startswith('utf-8') or cpg.lower().startswith('utf8')):
                         encoding = 'UTF-8'
                     elif not encoding and cpg.lower().startswith('ANSI 1251'):
                         encoding = 'cp1251'
@@ -182,7 +196,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     encoding=encoding)
 
     @staticmethod
-    def convert_access_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_access_workspace(name, workspace_name: WorkspaceName, base: str,
+                                 crs: QgsCoordinateReferenceSystem,
                                  subset: str, context: Context) -> DataSourceProperties:
         """
         Convert AccessWorkspaceFactory
@@ -205,7 +220,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     file_name=file_name)
 
     @staticmethod
-    def convert_cad_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_cad_workspace(name, workspace_name: WorkspaceName, base: str,
+                              crs: QgsCoordinateReferenceSystem,
                               subset: str, context: Context) -> DataSourceProperties:
         """
         Convert CadWorkspaceFactory
@@ -223,7 +239,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     file_name=file_name)
 
     @staticmethod
-    def convert_netcdf_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_netcdf_workspace(name, workspace_name: WorkspaceName, base: str,
+                                 crs: QgsCoordinateReferenceSystem,
                                  subset: str, context: Context) -> DataSourceProperties:
         """
         Convert NetCDFWorkspaceFactory
@@ -246,7 +263,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     file_name=file_name)
 
     @staticmethod
-    def convert_gpkg_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_gpkg_workspace(name, workspace_name: WorkspaceName, base: str,
+                               crs: QgsCoordinateReferenceSystem,
                                subset: str, context: Context) -> DataSourceProperties:
         """
         Convert GpkgWorkspaceFactory
@@ -260,16 +278,19 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
             if name.shape_field_name:
                 wkb_type = DatasetNameConverter.GEOMETRY_TYPE_TO_WKB_TYPE[name.geometry_type]
                 if wkb_type is None:
-                    raise NotImplementedException('Cannot convert gpkg of geometry type: {}'.format(name.geometry_type))
+                    raise NotImplementedException(
+                        'Cannot convert gpkg of geometry type: {}'.format(name.geometry_type))
             else:
                 wkb_type = QgsWkbTypes.NoGeometry
         else:
             if name.query.geometry_field:
-                geometry_type = [f for f in name.query.fields.fields if f.name == name.query.geometry_field][
+                geometry_type = \
+                [f for f in name.query.fields.fields if f.name == name.query.geometry_field][
                     0].geometry_def.geometry_type
                 wkb_type = DatasetNameConverter.GEOMETRY_TYPE_TO_WKB_TYPE[geometry_type]
                 if wkb_type is None:
-                    raise NotImplementedException('Cannot convert gpkg of geometry type: {}'.format(geometry_type))
+                    raise NotImplementedException(
+                        'Cannot convert gpkg of geometry type: {}'.format(geometry_type))
             else:
                 wkb_type = QgsWkbTypes.NoGeometry
 
@@ -279,7 +300,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     file_name=file_name)
 
     @staticmethod
-    def convert_arcinfo_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_arcinfo_workspace(name, workspace_name: WorkspaceName, base: str,
+                                  crs: QgsCoordinateReferenceSystem,
                                   subset: str, context: Context) -> DataSourceProperties:
         """
         Convert ArcInfoWorkspaceFactory
@@ -295,7 +317,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
             assert name.dataset_name.__class__.__name__ == 'CoverageName'
 
             workspace_folder_name = ConversionUtils.get_absolute_path(workspace_name.name, base)
-            file_name = ConversionUtils.get_absolute_path(name.dataset_name.name, workspace_folder_name)
+            file_name = ConversionUtils.get_absolute_path(name.dataset_name.name,
+                                                          workspace_folder_name)
             wkb_type = DatasetNameConverter.geometry_type_to_wkb(name.shape_type)
             if name.name == 'point':
                 layer_name = 'LAB'
@@ -351,7 +374,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     file_name=file_name)
 
     @staticmethod
-    def convert_oledb_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_oledb_workspace(name, workspace_name: WorkspaceName, base: str,
+                                crs: QgsCoordinateReferenceSystem,
                                 subset: str, context: Context) -> DataSourceProperties:
         """
         Convert OLEDBWorkspaceFactory
@@ -381,20 +405,53 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     file_name=file_name)
 
     @staticmethod
-    def convert_text_file_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_text_file_workspace(name, workspace_name: WorkspaceName, base: str,
+                                    crs: QgsCoordinateReferenceSystem,
                                     subset: str, context: Context) -> DataSourceProperties:
         """
         Convert TextFileWorkspaceFactory
         """
-        provider = 'ogr'
         folder_name = ConversionUtils.get_absolute_path(workspace_name.name, base)
-        file_name = ConversionUtils.get_absolute_path(name.name, folder_name)
-        uri = file_name
 
-        if name.__class__.__name__ == 'TableName':
-            wkb_type = QgsWkbTypes.NoGeometry
+        if name.__class__.__name__ == 'XYEventSourceName':
+            file_name = ConversionUtils.get_absolute_path(name.feature_dataset_name.name,
+                                                          folder_name)
+
+            # use delimited text provider
+            provider = 'delimitedtext'
+
+            open_options = [
+                'type=csv',
+                'maxFields=10000',
+                'detectTypes=yes',
+                'spatialIndex=yes',
+                'subsetIndex=no',
+                'watchFile=no']
+            wkb_type = QgsWkbTypes.Point
+            open_options.append('xField={}'.format(name.event_properties.x_field))
+            open_options.append('yField={}'.format(name.event_properties.y_field))
+            if name.event_properties.z_field:
+                wkb_type = QgsWkbTypes.PointZ
+                open_options.append('zField={}'.format(name.event_properties.z_field))
+
+            crs = CrsConverter.convert_crs(name.crs, context)
+            if crs.isValid():
+                open_options.append('crs={}'.format(crs.authid()))
+
+            uri_parts = {
+                'openOptions': open_options,
+                'path': file_name
+            }
+            uri = QgsProviderRegistry.instance().encodeUri(provider, uri_parts)
         else:
-            assert False
+            file_name = ConversionUtils.get_absolute_path(name.name, folder_name)
+            provider = 'ogr'
+            uri = file_name
+
+            if name.__class__.__name__ == 'TableName':
+                wkb_type = QgsWkbTypes.NoGeometry
+            else:
+                assert False
 
         return DataSourceProperties(uri=uri,
                                     wkb_type=wkb_type,
@@ -444,7 +501,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     wkb_type=wkb_type)
 
     @staticmethod
-    def convert_tin_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_tin_workspace(name, workspace_name: WorkspaceName, base: str,
+                              crs: QgsCoordinateReferenceSystem,
                               subset: str, context: Context) -> DataSourceProperties:
         """
         Convert TinWorkspaceFactory
@@ -458,7 +516,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     file_name=file_name)
 
     @staticmethod
-    def convert_las_dataset_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_las_dataset_workspace(name, workspace_name: WorkspaceName, base: str,
+                                      crs: QgsCoordinateReferenceSystem,
                                       subset: str, context: Context) -> DataSourceProperties:
         """
         Convert LasDatasetWorkspaceFactory
@@ -473,7 +532,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     file_name=file_name)
 
     @staticmethod
-    def convert_s57_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_s57_workspace(name, workspace_name: WorkspaceName, base: str,
+                              crs: QgsCoordinateReferenceSystem,
                               subset: str, context: Context) -> DataSourceProperties:
         """
         Convert S57WorkspaceFactory
@@ -537,8 +597,10 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
 
     @staticmethod
     def convert_sde_sdc_workspace(name,  # pylint: disable=too-many-branches,too-many-statements
-                                  workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
-                                  subset: str, context: Context, is_sdc: bool) -> DataSourceProperties:
+                                  workspace_name: WorkspaceName, base: str,
+                                  crs: QgsCoordinateReferenceSystem,
+                                  subset: str, context: Context,
+                                  is_sdc: bool) -> DataSourceProperties:
         """
         Convert SdeWorkspaceFactory/SdcWorkspaceFactory
         """
@@ -551,7 +613,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
             sde_path = Path(file_name)
 
             if workspace_name.connection_properties:
-                connection = ConnectionConverter.convert_connection(workspace_name.connection_properties, context)
+                connection = ConnectionConverter.convert_connection(
+                    workspace_name.connection_properties, context)
             elif sde_path.exists() and not sde_path.is_dir():
                 connection = ConnectionConverter.convert_sde_connection(sde_path, context)
 
@@ -562,7 +625,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                 parts = DatasetNameConverter.split_to_tokens(name.name)
                 if len(parts) == 2:
                     sde_uri.setSchema(parts[0])
-                    sde_uri.setTable(DatasetNameConverter.convert_sde_table_name(parts[1], context))
+                    sde_uri.setTable(
+                        DatasetNameConverter.convert_sde_table_name(parts[1], context))
                     if not isinstance(name, TableName):
                         sde_uri.setSrid(str(crs.postgisSrid()))
                         wkb_type = DatasetNameConverter.GEOMETRY_TYPE_TO_WKB_TYPE[name.shape_type]
@@ -585,9 +649,57 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                 parts = DatasetNameConverter.split_to_tokens(name.name)
                 if len(parts) == 3:
                     sde_uri.setSchema(parts[1])
-                    sde_uri.setTable(DatasetNameConverter.convert_sde_table_name(parts[2], context))
+                    sde_uri.setTable(
+                        DatasetNameConverter.convert_sde_table_name(parts[2], context))
 
-                    if not isinstance(name, TableName):
+                    if hasattr(name, 'query'):
+                        query = name.query
+
+                        # try to get table name from query
+                        sql_query = query.query
+                        if sql_query:
+                            table_name_search = re.search(
+                                r'from ((?:[a-zA-Z][a-zA-Z0-9_]*\.?)+)\b', sql_query,
+                                re.IGNORECASE)
+                            if table_name_search:
+                                schema_search = re.search(r'^(.+)\.(.*?)$',
+                                                          table_name_search.group(1))
+                                if schema_search:
+                                    schema = schema_search.group(1)
+                                    if schema.startswith(sde_uri.database() + '.'):
+                                        schema = schema[len(sde_uri.database() + '.'):]
+                                    sde_uri.setTable(schema_search.group(2))
+                                    sde_uri.setSchema(schema)
+                                else:
+                                    sde_uri.setTable(table_name_search.group(1))
+                                    sde_uri.setSchema('')
+
+                        geometry_field = query.geometry_field
+                        if geometry_field:
+                            geometry_field_info = \
+                            [f for f in query.fields.fields if f.name == geometry_field][0]
+                            geometry_definition = geometry_field_info.geometry_def
+
+                            geometry_crs = CrsConverter.convert_crs(query.crs, context)
+                            if geometry_crs.isValid():
+                                crs = geometry_crs
+                            sde_uri.setSrid(str(crs.postgisSrid()))
+                            wkb_type = DatasetNameConverter.GEOMETRY_TYPE_TO_WKB_TYPE[
+                                geometry_definition.geometry_type]
+                            sde_uri.setGeometryColumn(geometry_field)
+                        else:
+                            wkb_type = QgsWkbTypes.NoGeometry
+                        sde_uri.setWkbType(wkb_type)
+                    elif isinstance(name, DBTableName):
+                        if name.shape_field_name:
+                            sde_uri.setSrid(str(crs.postgisSrid()))
+                            wkb_type = DatasetNameConverter.GEOMETRY_TYPE_TO_WKB_TYPE[
+                                name.geometry_type]
+                            sde_uri.setWkbType(wkb_type)
+                            sde_uri.setGeometryColumn(name.shape_field_name)
+                        else:
+                            wkb_type = QgsWkbTypes.NoGeometry
+                    elif not isinstance(name, TableName):
                         sde_uri.setSrid(str(crs.postgisSrid()))
                         wkb_type = DatasetNameConverter.GEOMETRY_TYPE_TO_WKB_TYPE[name.shape_type]
                         sde_uri.setWkbType(wkb_type)
@@ -595,8 +707,12 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                     else:
                         sde_uri.setWkbType(QgsWkbTypes.NoGeometry)
 
-                    sde_uri.setSql(subset)
+                    if subset:
+                        sde_uri.setSql(subset)
                     sde_uri.setKeyColumn(context.sde_primary_key)
+
+                    if wkb_type != QgsWkbTypes.NoGeometry:
+                        sde_uri.setParam('disableInvalidGeometryHandling', '0')
 
                     uri = sde_uri.uri()
                     file_name = None
@@ -608,7 +724,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                 parts = DatasetNameConverter.split_to_tokens(name.name)
                 if len(parts) == 3:
                     sde_uri.setSchema(parts[1])
-                    sde_uri.setTable(DatasetNameConverter.convert_sde_table_name(parts[2], context))
+                    sde_uri.setTable(
+                        DatasetNameConverter.convert_sde_table_name(parts[2], context))
 
                     if not isinstance(name, TableName):
                         sde_uri.setSrid(str(crs.postgisSrid()))
@@ -645,7 +762,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     file_name=file_name)
 
     @staticmethod
-    def convert_sde_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_sde_workspace(name, workspace_name: WorkspaceName, base: str,
+                              crs: QgsCoordinateReferenceSystem,
                               subset: str, context: Context) -> DataSourceProperties:
         """
         Convert SdeWorkspaceFactory
@@ -654,7 +772,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                                               subset, context, False)
 
     @staticmethod
-    def convert_sdc_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_sdc_workspace(name, workspace_name: WorkspaceName, base: str,
+                              crs: QgsCoordinateReferenceSystem,
                               subset: str, context: Context) -> DataSourceProperties:
         """
         Convert SdcWorkspaceFactory
@@ -663,7 +782,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                                               subset, context, True)
 
     @staticmethod
-    def convert_fme_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_fme_workspace(name, workspace_name: WorkspaceName, base: str,
+                              crs: QgsCoordinateReferenceSystem,
                               subset: str, context: Context) -> DataSourceProperties:
         """
         Convert FMEWorkspaceFactory
@@ -678,7 +798,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     file_name=file_name)
 
     @staticmethod
-    def convert_street_map_workspace(name, workspace_name: WorkspaceName, base: str, crs: QgsCoordinateReferenceSystem,
+    def convert_street_map_workspace(name, workspace_name: WorkspaceName, base: str,
+                                     crs: QgsCoordinateReferenceSystem,
                                      subset: str, context: Context) -> DataSourceProperties:
         """
         Convert StreetMapWorkspaceFactory
@@ -721,19 +842,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                 raise NotImplementedException('Route event sources are not supported in QGIS')
 
             # get the line feature name from RouteMeasureLocatorName
-            return DatasetNameConverter.convert(name.dataset_name.dataset_name, base, crs, context, subset)
-        elif name.__class__.__name__ == 'XYEventSourceName':
-            # We can't directly map these -- best we can do is try to get the original file
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    '{}: XY event sources are not supported in QGIS, layer has been converted to a simple layer'.format(
-                        context.layer_name), level=Context.CRITICAL)
-            else:
-                raise NotImplementedException('XY event sources are not supported in QGIS')
-
-            # get the line feature name from XYEventSourceName
-            name = name.feature_dataset_name
-            return DatasetNameConverter.convert(name, base, crs, context, subset)
+            return DatasetNameConverter.convert(name.dataset_name.dataset_name, base, crs, context,
+                                                subset)
 
         # the logic here looks like this:
         # - we first need to find the workspace name object
@@ -757,7 +867,32 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
             return None
 
         workspace_name = find_workspace_name(name)
-        factory = workspace_name.workspace_factory
+        factory = workspace_name.workspace_factory if workspace_name else None
+
+        if name.__class__.__name__ == 'XYEventSourceName':
+            # if the file is a txt file then we can use the delimited text provider to read it
+            if not factory or factory.__class__.__name__ != 'TextFileWorkspaceFactory':
+                # We can't directly map these -- best we can do is try to get the original file
+                if context.unsupported_object_callback:
+                    if hasattr(name.feature_dataset_name, 'datasource_type'):
+                        datasource_type = name.feature_dataset_name.datasource_type
+                        context.unsupported_object_callback(
+                            '{}: XY event sources from {} are not supported in QGIS, layer has been converted to a non-spatial table'.format(
+                                context.layer_name, datasource_type), level=Context.CRITICAL)
+                    elif workspace_name:
+                        context.unsupported_object_callback(
+                            '{}: XY event sources from {} are not supported in QGIS, layer has been converted to a non-spatial table'.format(
+                                context.layer_name, workspace_name.name), level=Context.CRITICAL)
+                    else:
+                        context.unsupported_object_callback(
+                            '{}: XY event sources from this layer type are not supported in QGIS, layer has been converted to a non-spatial table'.format(
+                                context.layer_name), level=Context.CRITICAL)
+                else:
+                    raise NotImplementedException('XY event sources are not supported in QGIS')
+
+                # get the line feature name from XYEventSourceName
+                name = name.feature_dataset_name
+                return DatasetNameConverter.convert(name, base, crs, context, subset)
 
         FACTORY_MAP = {
             'FileGDBWorkspaceFactory': DatasetNameConverter.convert_file_gdb_workspace,
