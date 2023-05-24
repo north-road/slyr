@@ -3,9 +3,9 @@
 Serializable object subclass
 """
 
-from ..stream import Stream
-from .raster_renderer import RasterRenderer
 from .classification_utils import ClassificationUtils
+from .raster_renderer import RasterRenderer
+from ..stream import Stream
 
 
 class RasterClassifyColorRampRenderer(RasterRenderer):
@@ -42,6 +42,7 @@ class RasterClassifyColorRampRenderer(RasterRenderer):
     def compatible_versions():
         return [3, 4, 5]
 
+    # pylint: disable=too-many-statements
     def read(self, stream: Stream, version):
         stream.read_ushort('unknown', expected=0)
         self.source_field_name = stream.read_string('class field')
@@ -56,7 +57,7 @@ class RasterClassifyColorRampRenderer(RasterRenderer):
         self.ramp_name = stream.read_string('ramp name')
 
         # this is PROBABLY count of legend groups, but always seems to be 1
-        count  = stream.read_int('legend group count', expected=(0, 1))
+        count = stream.read_int('legend group count', expected=(0, 1))
         if count:
             self.legend_group = stream.read_object('legend group')
 
@@ -71,9 +72,11 @@ class RasterClassifyColorRampRenderer(RasterRenderer):
             breaks.append(stream.read_double('max {}'.format(i + 1)))
         self.breaks = breaks
 
-        self.sort_classes_ascending = stream.read_ushort('sort classes ascending') != 0
+        self.sort_classes_ascending = stream.read_ushort(
+            'sort classes ascending') != 0
         self.number_format = stream.read_object('number format')
-        self.show_class_breaks_using_cell_values = stream.read_ushort('show class breaks using cell values') != 0
+        self.show_class_breaks_using_cell_values = stream.read_ushort(
+            'show class breaks using cell values') != 0
         self.deviation_interval = stream.read_double('deviation interval')
         has_excluded_values = stream.read_ushort('has excluded values') != 0
         stream.read_ushort('unknown', expected=0)
@@ -83,7 +86,8 @@ class RasterClassifyColorRampRenderer(RasterRenderer):
         if has_excluded_values:
             count = stream.read_int('excluded range count')
             for i in range(count):
-                self.excluded_ranges.append(stream.read_double('range {}'.format(i + 1)))
+                self.excluded_ranges.append(
+                    stream.read_double('range {}'.format(i + 1)))
 
         has_excluded_ranges = stream.read_ushort('has excluded ranges') != 0
         stream.read_ushort('unknown', expected=0)
@@ -94,9 +98,11 @@ class RasterClassifyColorRampRenderer(RasterRenderer):
         if has_excluded_ranges:
             count = stream.read_int('excluded range count')
             for i in range(count):
-                self.excluded_values.append(stream.read_double('range {}'.format(i + 1)))
+                self.excluded_values.append(
+                    stream.read_double('range {}'.format(i + 1)))
 
-        self.excluded_show_class = stream.read_ushort('excluded show class') != 0
+        self.excluded_show_class = stream.read_ushort(
+            'excluded show class') != 0
         self.legend = stream.read_object('excluded legend class')
 
         if version <= 3:
@@ -110,7 +116,7 @@ class RasterClassifyColorRampRenderer(RasterRenderer):
         # v13 does
         # v7 does
         # v16 does
-        if version >= 4 and stream.sniff_index_properties_header(): # and stream.custom_props.get('raster_layer_version') != 11:
+        if version >= 4 and stream.sniff_index_properties_header():  # and stream.custom_props.get('raster_layer_version') != 11:
             def handler(ref, size):
                 if ref == 1:
                     assert size == 4
@@ -120,7 +126,8 @@ class RasterClassifyColorRampRenderer(RasterRenderer):
                     self.hillshade_z = stream.read_double('hillshade z')
                 elif ref == 37:
                     assert size == 2
-                    self.allow_interactive_display = stream.read_ushort('allow interactive display') != 0
+                    self.allow_interactive_display = stream.read_ushort(
+                        'allow interactive display') != 0
                 else:
                     assert False, 'Unknown property ref {}'.format(ref)
 
@@ -132,17 +139,24 @@ class RasterClassifyColorRampRenderer(RasterRenderer):
             stream.read_ushort('unknown', expected=0)
         super().read(stream, 2)
 
+    # pylint: enable=too-many-statements
+
     def to_dict(self):  # pylint: disable=method-hidden
         res = super().to_dict()
-        res['classifier'] = ClassificationUtils.classifier_to_string(self.classifier)
+        res['classifier'] = ClassificationUtils.classifier_to_string(
+            self.classifier)
         res['ramp_name'] = self.ramp_name
         res['source_field_name'] = self.source_field_name
-        res['legend_group'] = self.legend_group.to_dict() if self.legend_group else None
-        res['number_format'] = self.number_format.to_dict() if self.number_format else None
+        res[
+            'legend_group'] = self.legend_group.to_dict() if self.legend_group else None
+        res[
+            'number_format'] = self.number_format.to_dict() if self.number_format else None
         res['legend'] = self.legend.to_dict() if self.legend else None
-        res['unique_values'] = self.unique_values.to_dict() if self.unique_values else None
+        res[
+            'unique_values'] = self.unique_values.to_dict() if self.unique_values else None
         res['breaks'] = self.breaks
-        res['show_class_breaks_using_cell_values'] = self.show_class_breaks_using_cell_values
+        res[
+            'show_class_breaks_using_cell_values'] = self.show_class_breaks_using_cell_values
         res['use_hillshade'] = self.use_hillshade
         res['hillshade_z'] = self.hillshade_z
         res['normalization_field'] = self.normalization_field

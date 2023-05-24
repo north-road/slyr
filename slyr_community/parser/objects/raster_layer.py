@@ -4,10 +4,11 @@ Serializable object subclass
 """
 
 import struct
+
+from .units import Units
+from ..exceptions import UnknownClsidException, NotImplementedException
 from ..object import Object
 from ..stream import Stream
-from ..exceptions import UnknownClsidException, NotImplementedException
-from .units import Units
 
 
 class RasterLayer(Object):
@@ -45,6 +46,8 @@ class RasterLayer(Object):
         self.histogram = None
         self.render_quality_percent = 100
         self.transparency = 0
+        self.cached = False
+        self.weight = 0.0
 
         self.time_enabled = False
         self.time_zone = None
@@ -66,6 +69,7 @@ class RasterLayer(Object):
     def compatible_versions():
         return [2, 7, 11, 12, 13, 16, 17, 18]
 
+    # pylint: disable=too-many-branches, too-many-statements
     def read(self, stream: Stream, version):
         stream.custom_props['raster_layer_version'] = version
 
@@ -88,7 +92,7 @@ class RasterLayer(Object):
         self.dataset_name = stream.read_object('dataset name')
 
         stream.read_string('unknown, maybe layer folder')
-        if version > 2 and version <= 7:
+        if 2 < version <= 7:
             count = stream.read_int('unknown count')
             for i in range(count):
                 stream.read_int('unknown')
@@ -99,9 +103,11 @@ class RasterLayer(Object):
         self.zoom_min = stream.read_double('zoom min')
 
         self.transparency = stream.read_int('transparency')
-        self.show_resolution_in_toc = stream.read_ushort('show resolution in toc') != 0
+        self.show_resolution_in_toc = stream.read_ushort(
+            'show resolution in toc') != 0
 
-        self.render_quality_percent = stream.read_int('quality percent')  # (100=normal, 65=medium, 40=coarse)
+        self.render_quality_percent = stream.read_int(
+            'quality percent')  # (100=normal, 65=medium, 40=coarse)
 
         if version <= 2:
             return
@@ -142,9 +148,11 @@ class RasterLayer(Object):
 
         number_of_relations = stream.read_int('number of relations')
         for i in range(number_of_relations):
-            self.relations.append(stream.read_object('relation {}'.format(i + 1)))
+            self.relations.append(
+                stream.read_object('relation {}'.format(i + 1)))
 
-        self.custom_extent = stream.read_object('custom extent/"current setting of the layer"')
+        self.custom_extent = stream.read_object(
+            'custom extent/"current setting of the layer"')
 
         # not quite right -- sometimes this is here in version 7 rasters.. (e.g. GlobCover_Legend.lyr), but in other
         # cases it's not (Lakes_Grd.lyr)
@@ -173,7 +181,8 @@ class RasterLayer(Object):
                     stream.read_ushort('brightness')
                 elif ref == 37:
                     assert size == 2
-                    self.allow_interactive_display = stream.read_ushort('allow interactive display') != 0
+                    self.allow_interactive_display = stream.read_ushort(
+                        'allow interactive display') != 0
                 else:
                     assert False, 'Unknown property ref {}'.format(ref)
 
@@ -195,7 +204,8 @@ class RasterLayer(Object):
             stream.read_double('unknown', expected=0)
 
             stream.read_int('unknown', expected=0)
-            time_version = stream.read_ushort('time version??', expected=(1, 2))
+            time_version = stream.read_ushort('time version??',
+                                              expected=(1, 2))
 
             # hmmm?
             if time_version >= 2:
@@ -205,7 +215,8 @@ class RasterLayer(Object):
 
             stream.read_object('time zone')
             # data changes regularly recalculate
-            stream.read_ushort('has live data') != 0
+            self.time_data_changes_regularly = stream.read_ushort(
+                'has live data') != 0
 
             stream.read_int('unknown', expected=1)
 
@@ -226,6 +237,8 @@ class RasterLayer(Object):
             for i in range(count):
                 stream.read_object('histogram {}'.format(i + 1))
 
+    # pylint: enable=too-many-branches, too-many-statements
+
     def to_dict(self):  # pylint: disable=method-hidden
         return {
             'visible': self.visible,
@@ -236,6 +249,8 @@ class RasterLayer(Object):
             'stored_zoom_max': self.stored_zoom_max,
             'file': self.name,
             'path': self.path,
+            'cached': self.cached,
+            'weight': self.weight,
             'dataset_name': self.dataset_name.to_dict() if self.dataset_name else None,
             'show_map_tips': self.show_map_tips,
             'renderer': self.renderer.to_dict() if self.renderer else None,
@@ -253,17 +268,18 @@ class RasterLayer(Object):
             'histogram': self.histogram.to_dict() if self.histogram else None,
             'render_quality_percent': self.render_quality_percent,
             'time_enabled': self.time_enabled,
-            #            'time_zone': self.time_zone.to_dict() if self.time_zone else None,
+            # 'time_zone': self.time_zone.to_dict() if self.time_zone else None,
             'time_step': self.time_step,
             'time_step_units': Units.time_unit_to_string(self.time_step_units),
             'time_offset': self.time_offset,
-            'time_offset_units': Units.time_unit_to_string(self.time_offset_units),
-            #            'time_data_changes_regularly': self.time_data_changes_regularly,
-            #            'time_format': self.time_format,
-            #            'time_display_cumulative': self.time_display_cumulative,
-            #            'time_field': self.time_field,
-            #            'time_end_field': self.end_time_field,
-            #            'time_extent': self.time_extent.to_dict() if self.time_extent else None,
+            'time_offset_units': Units.time_unit_to_string(
+                self.time_offset_units),
+            'time_data_changes_regularly': self.time_data_changes_regularly,
+            # 'time_format': self.time_format,
+            # 'time_display_cumulative': self.time_display_cumulative,
+            # 'time_field': self.time_field,
+            # 'time_end_field': self.end_time_field,
+            # 'time_extent': self.time_extent.to_dict() if self.time_extent else None,
             'joins': [j.to_dict() for j in self.joins],
             'relations': [r.to_dict() for r in self.relations]
         }
