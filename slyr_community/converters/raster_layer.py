@@ -224,7 +224,7 @@ class RasterLayerConverter:
         brightness_contrast = QgsBrightnessContrastFilter()
         gamma = 1
         if False:  # pylint: disable=using-constant-test
-            pass
+            renderer = None
         else:
             renderer = RasterLayerConverter.convert_raster_renderer(
                 layer.renderer, band, rl,
@@ -318,7 +318,8 @@ class RasterLayerConverter:
                 color_ramp.invert()
 
             if False:  # pylint: disable=using-constant-test
-                pass
+                min_value = 0
+                max_value = 0
             else:
                 min_value = renderer.min_value
                 max_value = renderer.max_value
