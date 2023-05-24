@@ -21,6 +21,7 @@
 """
 Coordinate reference system conversion
 """
+import re
 
 from qgis.core import (
     QgsCoordinateReferenceSystem
@@ -56,6 +57,13 @@ class CrsConverter:
             wkt = wkt.replace('PROJECTION["Local"]', 'PROJECTION["Orthographic"]')
 
         res = QgsCoordinateReferenceSystem(wkt)
+
+        if not res.isValid():
+            # try replacing "EPSG" code with "ESRI"
+            wkt = re.sub(r'AUTHORITY\s*\[\s*"?\s*EPSG\s*"?\s*,\s*"?(\d+)\s*"?\s*(]+)$',
+                         'AUTHORITY["ESRI","\\1"\\2', wkt)
+            res = QgsCoordinateReferenceSystem(wkt)
+
         if not res.isValid() and context.unsupported_object_callback and crs.wkt not in context.warned_crs_definitions:
             context.unsupported_object_callback('Could not convert CRS with WKT: {}'.format(crs.wkt),
                                                 level=Context.WARNING)
