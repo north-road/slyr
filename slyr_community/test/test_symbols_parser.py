@@ -725,16 +725,26 @@ class TestSymbolParser(unittest.TestCase):
                                       encoding='utf8') as o:
                                 expected_res = ast.literal_eval(o.read())
 
-                            qgis_symbol_props = [{k: v for k, v in d.items() if
-                                                  not isinstance(v,
-                                                                 str) or not v.startswith(
-                                                      'base64:')} for d in
-                                                 qgis_symbol_props]
-                            expected_res = [{k: v for k, v in
-                                             d.items()
-                                             if not isinstance(v,
-                                                               str) or not v.startswith(
-                                    'base64:')} for d in expected_res]
+                            def skip_dict_value(input_value):
+                                """
+                                Returns True if the value should be omitted
+                                from testing
+                                """
+                                return isinstance(input_value, str) and \
+                                    (input_value.startswith('base64:') or
+                                     input_value.startswith('/tmp/'))
+
+                            def clean_dict(input_dict):
+                                """
+                                Cleans a dictionary for easy comparison
+                                """
+                                return [{k: v for k, v in d.items() if
+                                         not skip_dict_value(v)} for d in
+                                        input_dict]
+
+
+                            qgis_symbol_props = clean_dict(qgis_symbol_props)
+                            expected_res = clean_dict(expected_res)
                             self.assertEqual(expected_res, qgis_symbol_props)
                     except NotImplementedException:
                         pass
