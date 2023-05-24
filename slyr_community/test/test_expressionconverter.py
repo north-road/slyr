@@ -27,6 +27,9 @@ class TestExpressionConverter(unittest.TestCase):
                          'my_field')
 
     def test_python(self):
+        """
+        Test Python expression conversion
+        """
         context = Context()
         self.assertEqual(ExpressionConverter.convert_python_expression('', context), '')
         self.assertEqual(ExpressionConverter.convert_python_expression('[a field]', context),
@@ -133,10 +136,18 @@ class TestExpressionConverter(unittest.TestCase):
             'substr("GlobalId", 2, 8)')
 
     def test_sql(self):
+        """
+        Test SQL expression conversion
+        """
+
         self.assertEqual(ExpressionConverter.convert_esri_sql(
             "[a field]"), '"a field"')
 
     def test_esri(self):
+        """
+        Test ESRI expression conversion
+        """
+
         context = Context()
         self.assertEqual(ExpressionConverter.convert_esri_expression(
             "[]", context), '')
@@ -166,6 +177,10 @@ class TestExpressionConverter(unittest.TestCase):
             "[NAME\r]", context), '"NAME"')
 
     def test_vbscript(self):
+        """
+        Test Vbscript expression conversion
+        """
+
         context = Context()
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
             "[]", context), '')
@@ -235,12 +250,12 @@ class TestExpressionConverter(unittest.TestCase):
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
             '''[WIDTH] &"' " & [Easement_Type] &chr(13)& [LIBER] &"/"& [PAGE] &chr(13)& [Comment_Label]''',
             context),
-            '"WIDTH"  || \'\\\' \'  ||  "Easement_Type"  || \'\\n\' ||  "LIBER"  || \'/\' ' '||  "PAGE"  || \'\\n\' ||  "Comment_Label"'
+            '''"WIDTH"  || \'\\\' \'  ||  "Easement_Type"  || \'\\n\' ||  "LIBER"  || \'/\' ||  "PAGE"  || \'\\n\' ||  "Comment_Label"'''
         )
 
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(
-            "left([NOME] ,instr([NOME] ," ")) & vbnewline & right( [NOME] ,len( [NOME] )-(instr([NOME] ," ")))", context),
-            'left("NOME" ,strpos("NOME" ,' '))  ||  \'\n\'  ||  right( "NOME" ,length( "NOME" )-(strpos("NOME" ,' ')))')
+            """left([NOME] ,instr([NOME] ," ")) & vbnewline & right( [NOME] ,len( [NOME] )-(instr([NOME] ," ")))""", context),
+            '''left("NOME" ,strpos("NOME" ,' '))  ||  \'\n\'  ||  right( "NOME" ,length( "NOME" )-(strpos("NOME" ,' ')))''')
 
         context.dataset_name = 'Streams'
         self.assertEqual(ExpressionConverter.convert_vbscript_expression(

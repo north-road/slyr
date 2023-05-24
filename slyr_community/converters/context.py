@@ -23,9 +23,7 @@ Conversion context
 """
 
 import os
-import re
 import tempfile
-import base64
 from pathlib import WindowsPath, Path
 from math import cos, sin, asin, sqrt, radians
 

@@ -296,7 +296,7 @@ class TextSymbolConverter:
 
         # QGIS has no option for halo symbols. Instead, we just get the color from the symbol
         if text_symbol.halo_symbol:
-            from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel
+            from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel, cyclic-import
             halo_symbol = SymbolConverter.Symbol_to_QgsSymbol(text_symbol.halo_symbol, context)
             if halo_symbol:
                 buffer_color = halo_symbol.color()
@@ -332,6 +332,7 @@ class TextSymbolConverter:
 
     # pylint: enable=too-many-locals, too-many-branches, too-many-statements
 
+    # pylint: disable=too-many-return-statements
     @staticmethod
     def convert_background_symbol(background_symbol, context, reference_scale=None):
         """
@@ -360,6 +361,10 @@ class TextSymbolConverter:
             raise NotImplementedException(
                 'Converting {} not implemented yet'.format(background_symbol.__class__.__name__))
 
+        return None
+
+    # pylint: enable=too-many-return-statements
+
     @staticmethod
     def convert_marker_text_background(marker_text_background: MarkerTextBackground,
                                        context) -> QgsTextBackgroundSettings:
@@ -370,7 +375,7 @@ class TextSymbolConverter:
             # raise NotImplementedException('Marker Text Background conversion requires QGIS 3.10 or later')
             return None
 
-        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel
+        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel, cyclic-import
         symbol = SymbolConverter.Symbol_to_QgsSymbol(marker_text_background.marker_symbol, context)
 
         settings = QgsTextBackgroundSettings()
@@ -389,6 +394,7 @@ class TextSymbolConverter:
 
         return settings
 
+    # pylint: disable=too-many-branches, too-many-statements
     @staticmethod
     def convert_fill_symbol_background(background_symbol, context, reference_scale=None):
         """
@@ -413,7 +419,7 @@ class TextSymbolConverter:
         else:
             fill_symbol = background_symbol.border_symbol
 
-        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel
+        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel, cyclic-import
 
         # can't use the fill itself - we can only use the fill color and outline
         if False:  # pylint: disable=using-constant-test
@@ -478,3 +484,5 @@ class TextSymbolConverter:
             settings.setOffsetUnit(QgsUnitTypes.RenderMetersInMapUnits)
 
         return settings
+
+    # pylint: enable=too-many-branches, too-many-statements
