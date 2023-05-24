@@ -1,0 +1,8 @@
+[{'chr': '"',
+  'class': 'QgsFontMarkerSymbolLayer',
+  'color': '128,128,128,255',
+  'font': 'ESRI Default Marker',
+  'offset': '0.3046875,-0.5',
+  'offset_unit': 'Point',
+  'size': '9.0609',
+  'size_unit': 'Point'}]

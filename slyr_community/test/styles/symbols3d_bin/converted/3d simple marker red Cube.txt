@@ -1,0 +1,6 @@
+[{'class': 'QgsSimpleMarkerSymbolLayer',
+  'name': 'square',
+  'offset_unit': 'Point',
+  'outline_style': 'no',
+  'size': '9.97665',
+  'size_unit': 'Point'}]

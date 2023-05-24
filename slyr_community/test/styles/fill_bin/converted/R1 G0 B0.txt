@@ -1,0 +1,6 @@
+[{'class': 'QgsSimpleFillSymbolLayer',
+  'color': '1,0,0,255',
+  'outline_color': '240,240,240,0',
+  'outline_style': 'no',
+  'outline_width': '1',
+  'outline_width_unit': 'Point'}]

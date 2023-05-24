@@ -1,0 +1,6 @@
+[{'class': 'QgsSimpleMarkerSymbolLayer',
+  'name': 'diamond',
+  'offset_unit': 'Point',
+  'outline_style': 'no',
+  'size': '8',
+  'size_unit': 'Point'}]

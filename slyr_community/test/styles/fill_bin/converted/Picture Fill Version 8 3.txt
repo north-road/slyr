@@ -1,0 +1,10 @@
+[{'class': 'QgsRasterFillSymbolLayer',
+  'imageFile': 'base64:iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAJ0lEQVQokWN88/IGAymAiSTVyBpExDX+I0vg4jPSz0kkaxj1Ax4AADlwFqvxsKcjAAAAAElFTkSuQmCC',
+  'width': '9',
+  'width_unit': 'Point'},
+ {'capstyle': 'round',
+  'class': 'QgsSimpleLineSymbolLayer',
+  'joinstyle': 'round',
+  'line_color': '0,0,0,255',
+  'line_width': '0',
+  'line_width_unit': 'Point'}]

@@ -1,0 +1,12 @@
+[{'class': 'QgsSimpleMarkerSymbolLayer',
+  'offset_unit': 'Point',
+  'outline_style': 'no',
+  'size': '8',
+  'size_unit': 'Point'},
+ {'class': 'QgsSimpleMarkerSymbolLayer',
+  'color': '0,112,255,255',
+  'offset': '3,5',
+  'offset_unit': 'Point',
+  'outline_style': 'no',
+  'size': '6',
+  'size_unit': 'Point'}]

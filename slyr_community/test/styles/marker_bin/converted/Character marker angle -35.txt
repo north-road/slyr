@@ -1,0 +1,9 @@
+[{'angle': '35',
+  'class': 'QgsSimpleMarkerSymbolLayer',
+  'color': '0,0,0,255',
+  'joinstyle': 'miter',
+  'name': 'square',
+  'offset_unit': 'Point',
+  'outline_style': 'no',
+  'size': '5.89088',
+  'size_unit': 'Point'}]

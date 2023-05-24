@@ -1,0 +1,3 @@
+[{'class': 'QgsSimpleFillSymbolLayer',
+  'color': '255,255,255,255',
+  'outline_style': 'no'}]
