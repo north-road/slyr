@@ -106,7 +106,7 @@ class VectorLayerConverter:
             return VectorRendererConverter.guess_geometry_type_from_renderer(layer)
         elif hasattr(layer, 'dataset_name') and hasattr(layer.dataset_name, 'shape_type'):
             return VectorLayerConverter.geometry_type_to_wkb(layer.dataset_name.shape_type)
-        elif False:
+        elif False:  # pylint: disable=using-constant-test
             pass
         return QgsWkbTypes.Unknown
 
@@ -124,7 +124,7 @@ class VectorLayerConverter:
         else:
             layer = source_layer
 
-        if False:
+        if False:  # pylint: disable=using-constant-test
             crs = QgsCoordinateReferenceSystem()
         else:
             crs = CrsConverter.convert_crs(layer.layer_extent.crs,
@@ -133,7 +133,7 @@ class VectorLayerConverter:
                 crs = fallback_crs
 
         subset_string = ''
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
         else:
             if layer.selection_set:
@@ -150,14 +150,16 @@ class VectorLayerConverter:
                                                                                     subset=subset_string,
                                                                                     context=context)
 
+        # pylint: disable=simplifiable-condition
         if wkb_type is None or wkb_type == QgsWkbTypes.Unknown:
-            if False:
+            if False:  # pylint: disable=using-constant-test
                 pass
             else:
                 wkb_type = VectorLayerConverter.layer_to_wkb_type(layer)
         elif wkb_type == QgsWkbTypes.NoGeometry and not False and \
                 source_layer.shape_type != 0:
             wkb_type = VectorLayerConverter.layer_to_wkb_type(layer)
+        # pylint: enable=simplifiable-condition
 
         context.layer_type_hint = wkb_type
 
@@ -198,12 +200,12 @@ class VectorLayerConverter:
             vl = QgsMemoryProviderUtils.createMemoryLayer(layer.name, QgsFields(), wkb_type, crs)
 
         # context.style_folder, _ = os.path.split(output_file)
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
 
         elif layer.renderer:
             renderer = VectorRendererConverter.convert_renderer(layer.renderer, layer, context)
-            if False:
+            if False:  # pylint: disable=using-constant-test
                 pass
             else:
                 try:
@@ -213,7 +215,7 @@ class VectorLayerConverter:
                     pass
 
             page_filter_expression = None
-            if False:
+            if False:  # pylint: disable=using-constant-test
                 pass
             else:
                 if layer.use_page_definition_query:
@@ -249,7 +251,7 @@ class VectorLayerConverter:
             vl.setRenderer(QgsNullSymbolRenderer())
             vl.triggerRepaint()
 
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
         else:
             # layer.zoom_max = "don't show when zoomed out beyond"
@@ -270,7 +272,7 @@ class VectorLayerConverter:
         vl.setOpacity(1.0 - (layer.transparency or 0) / 100)
 
         has_set_display_expression = False
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
         else:
             if layer.display_expression_properties and layer.display_expression_properties.expression and layer.display_expression_properties.expression_parser is not None:
@@ -290,10 +292,10 @@ class VectorLayerConverter:
         if subset_string:
             vl.setSubsetString(subset_string)
 
-        if True:
+        if True:  # pylint: disable=using-constant-test
             vl.setCrs(crs)
 
-        if True:
+        if True:  # pylint: disable=using-constant-test
             for e in layer.extensions:
                 if e.__class__.__name__ == 'ServerLayerExtension':
                     if 'CopyrightText' in e.properties.properties:
@@ -310,8 +312,8 @@ class VectorLayerConverter:
         else:
             pass
 
-        if True:
-            if False:
+        if True:  # pylint: disable=using-constant-test
+            if False:  # pylint: disable=using-constant-test
                 pass
             else:
                 LabelConverter.convert_annotation_collection(layer.annotation_collection, dest_layer=vl,
@@ -320,7 +322,7 @@ class VectorLayerConverter:
 
         DiagramConverter.convert_diagrams(layer.renderer, dest_layer=vl, context=context)
 
-        if True:
+        if True:  # pylint: disable=using-constant-test
             # setup joins
             join_layer = VectorLayerConverter.add_joined_layer(source_layer=layer, input_file=input_file, base_layer=vl,
                                                                context=context)
@@ -332,20 +334,22 @@ class VectorLayerConverter:
 
         vl.setLegend(QgsMapLayerLegend.defaultVectorLegend(vl))
 
-        if True:
+        if True:  # pylint: disable=using-constant-test
             if layer.hyperlinks:
                 VectorLayerConverter.convert_hyperlinks(layer.hyperlinks, vl)
         else:
             pass
 
-        if True and not has_set_display_expression:
+        # pylint: disable=simplifiable-condition
+        if True and not has_set_display_expression:  # pylint: disable=using-constant-test
             vl.setDisplayExpression(QgsExpression.quotedColumnRef(layer.display_field))
+        # pylint: enable=simplifiable-condition
 
         res = [vl]
         if join_layer:
             res.append(join_layer)
 
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
 
         context.main_layer_name = None
@@ -548,7 +552,7 @@ class VectorLayerConverter:
         """
         Gets the URI for a converted layer
         """
-        if False:
+        if False:  # pylint: disable=using-constant-test
             pass
         elif source_layer.__class__.__name__ == 'CadFeatureLayer' and source_layer.drawing_object:
             source_props = DataSourceProperties(uri=source_layer.drawing_object.path,
