@@ -69,7 +69,7 @@ class RasterCatalogLayer(Object):
                 # don't know this object
                 stream.read(size - 16)
 
-        # pylint: disable=too-many-branches, too-many-statements
+        # pylint: disable=too-many-branches
         def handler(ref, size):
             if ref == 1:
                 assert size == 0xffffffff
@@ -139,7 +139,7 @@ class RasterCatalogLayer(Object):
             else:
                 assert False, 'Unknown property ref {}'.format(ref)
 
-        # pylint: enable=too-many-branches, too-many-statements
+        # pylint: enable=too-many-branches
 
         internal_version = stream.read_int('internal version', expected=(2, 3))
         stream.read_indexed_properties(handler)

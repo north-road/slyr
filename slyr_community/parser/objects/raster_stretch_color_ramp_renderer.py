@@ -45,10 +45,6 @@ class RasterStretchColorRampRenderer(RasterRenderer):
         self.has_legend_text = False
 
     @staticmethod
-    def clsid():
-        return 'a301a3b2-74d7-11d2-9f29-00c04f8ed1d7'
-
-    @staticmethod
     def compatible_versions():
         return [3, 4, 6, 9, 10]
 
@@ -57,7 +53,7 @@ class RasterStretchColorRampRenderer(RasterRenderer):
         stream.read_ushort('unknown', expected=0)
         stream.read_string('name?')
 
-        # pylint: disable=too-many-branches, too-many-statements
+        # pylint: disable=too-many-branches
         def handler(ref, size):
             if ref == 1:
                 assert size == 4
@@ -142,7 +138,7 @@ class RasterStretchColorRampRenderer(RasterRenderer):
                 self.stretch_high = stream.read_double('stretch high')
             else:
                 assert False, 'Unknown property ref {}'.format(ref)
-        # pylint: enable=too-many-branches, too-many-statements
+        # pylint: enable=too-many-branches
 
         stream.read_indexed_properties(handler)
         stream.read_ushort('unknown', expected=65535)
