@@ -2606,7 +2606,7 @@ expected = {
             'file_name': 'C:/Projects/Ghhhh_Aaaaaa_ZBbbb/2021 Aaa Bbbbbbbb/Pictures/BBBASAA.csv',
             'provider': 'ogr',
             'uri': 'C:/Projects/Ghhhh_Aaaaaa_ZBbbb/2021 Aaa Bbbbbbbb/Pictures/BBBASAA.csv',
-            'wkb_type': 100
+            'wkb_type': 1001
         }},
     'SQL server with escaped table name': {
         'object': {
