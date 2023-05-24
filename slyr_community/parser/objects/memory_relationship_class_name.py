@@ -30,7 +30,7 @@ class MemoryRelationshipClassName(Object):
     def read(self, stream: Stream, version):
         self.name = stream.read_string('name')
         stream.read_string('unknown', expected='')
-        stream.read_string('description?') #, expected='Memory relationship class')
+        stream.read_string('description?')  # expected='Memory relationship class')
         stream.read_int('unknown', expected=2)  # cardinality??
         stream.read_int('unknown', expected=1)  # notification?
         stream.read_int('unknown', expected=0)  # is attributed/composite?

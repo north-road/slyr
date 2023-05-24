@@ -131,13 +131,14 @@ class RasterStretchColorRampRenderer(RasterRenderer):
 
                 # my gosh, way to stick to your standards...
                 for i in range(self.legend_classes):
-                    stream.read_double('value {}'.format(i+1))
+                    stream.read_double('value {}'.format(i + 1))
                     if self.has_legend_text:
-                        stream.read_string('label {}'.format(i+1))
+                        stream.read_string('label {}'.format(i + 1))
                 self.stretch_low = stream.read_double('stretch low')
                 self.stretch_high = stream.read_double('stretch high')
             else:
                 assert False, 'Unknown property ref {}'.format(ref)
+
         # pylint: enable=too-many-branches
 
         stream.read_indexed_properties(handler)

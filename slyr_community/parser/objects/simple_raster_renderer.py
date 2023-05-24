@@ -14,7 +14,7 @@ class SimpleRasterRenderer(RasterRenderer):
 
     @staticmethod
     def cls_id():
-        return 'f3435801-5779-11d0-98bf-00805f7ced21'
+        return '3232d0ef-3460-4879-a1e6-366590cf3eec'
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()

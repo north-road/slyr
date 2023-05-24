@@ -24,13 +24,14 @@ class UniqueValues(Object):
         stream.read_ushort('unknown', expected=0)
         count = stream.read_int('count')
         for i in range(count):
-            variant_type = stream.read_ushort('type {}'.format(i+1))
+            variant_type = stream.read_ushort('type {}'.format(i + 1))
             stream.read_ushort('unknown')  # , expected=(0, 19, 329))
             stream.read_int('unknown')  # , expected=(0, 50878752))
             stream.read_int('unknown')  # sometimes 0, sometimes same as value?
             stream.read_ushort('unknown')  # , expected=(0, 57824, 62320))
             stream.read_ushort('unknown')  # , expected=(0, 18, 19))
-            value = stream.read_variant(variant_type=variant_type, debug_string='value')
+            value = stream.read_variant(variant_type=variant_type,
+                                        debug_string='value')
             count = stream.read_int('count')
             self.values.append([value, count])
 

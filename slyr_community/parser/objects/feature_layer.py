@@ -315,7 +315,7 @@ class FeatureLayer(Object):
 
             test = stream.read(8)
             if test == b'\x00\x00\x00\x00\xea\xff\xff\xff':
-                handled=True
+                handled = True
             else:
                 stream.rewind(8)
 

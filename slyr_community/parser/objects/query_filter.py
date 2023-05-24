@@ -18,7 +18,7 @@ class QueryFilter(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
-        self.fields = '' # maybe '*' or eg 'FID, Shape, Name'
+        self.fields = ''  # maybe '*' or eg 'FID, Shape, Name'
         self.filter = None
         self.filter_def = None
 
