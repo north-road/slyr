@@ -185,6 +185,7 @@ class TextSymbolConverter:
 
         return res
 
+    # pylint: disable=too-many-locals, too-many-branches, too-many-statements
     @staticmethod
     def text_symbol_to_qgstextformat(text_symbol: TextSymbol, context, reference_scale=None):
         """
@@ -193,7 +194,7 @@ class TextSymbolConverter:
         text_format = QgsTextFormat()
 
         if isinstance(text_symbol, TextSymbol):
-            font, font_family, style_name = TextSymbolConverter.std_font_to_qfont(text_symbol.font)
+            font, font_family, _ = TextSymbolConverter.std_font_to_qfont(text_symbol.font)
 
         if context.unsupported_object_callback and font.family() not in QFontDatabase().families():
             context.unsupported_object_callback(
@@ -329,6 +330,8 @@ class TextSymbolConverter:
 
         return text_format
 
+    # pylint: enable=too-many-locals, too-many-branches, too-many-statements
+
     @staticmethod
     def convert_background_symbol(background_symbol, context, reference_scale=None):
         """
@@ -367,7 +370,7 @@ class TextSymbolConverter:
             # raise NotImplementedException('Marker Text Background conversion requires QGIS 3.10 or later')
             return None
 
-        from .symbols import SymbolConverter
+        from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel
         symbol = SymbolConverter.Symbol_to_QgsSymbol(marker_text_background.marker_symbol, context)
 
         settings = QgsTextBackgroundSettings()
@@ -448,7 +451,10 @@ class TextSymbolConverter:
         settings.setSizeType(QgsTextBackgroundSettings.SizeBuffer)
         # TODO: margin
         if False:   # pylint: disable=using-constant-test
-            pass
+            x_margin = 0
+            y_margin = 0
+            x_delta = 0
+            y_delta = 0
         else:
             x_margin = (background_symbol.margin_left + background_symbol.margin_right) / 2
             y_margin = (background_symbol.margin_top + background_symbol.margin_bottom) / 2
