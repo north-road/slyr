@@ -153,7 +153,7 @@ class RasterRGBRenderer(RasterRenderer):
         stream.read_ushort('unknown flag', expected=65535)
         stream.read_ushort('unknown flag', expected=65535)
 
-        super().read(stream)
+        super().read(stream, None)
 
     def to_dict(self):  # pylint: disable=method-hidden
         res = super().to_dict()

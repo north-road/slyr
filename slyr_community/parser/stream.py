@@ -18,8 +18,7 @@ from .exceptions import (
     CustomExtensionClsidException,
     NotImplementedException,
     UnknownClsidException,
-    PartiallyImplementedException,
-    RequiresLicenseException
+    PartiallyImplementedException
 )
 from .object import Object
 from .object_registry import ObjectRegistry, REGISTRY

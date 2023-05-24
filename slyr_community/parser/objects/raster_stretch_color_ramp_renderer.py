@@ -68,8 +68,7 @@ class RasterStretchColorRampRenderer(RasterRenderer):
                 self.stretch_type = stream.read_int('stretch type')
             elif ref == 4:
                 assert size == 8
-                self.stretch_standard_deviations = stream.read_double(
-                    'stretch standard deviations')
+                self.stretch_standard_deviations = stream.read_double('stretch standard deviations')
             elif ref == 5:
                 assert size == 4
                 self.invert_stretch = stream.read_int('invert stretch') != 0
@@ -78,20 +77,16 @@ class RasterStretchColorRampRenderer(RasterRenderer):
                 self.background_value = stream.read_double('background value')
             elif ref == 7:
                 assert size == 0xffffffff
-                self.color_ramp = stream.read_object('color ramp',
-                                                     allow_reference=False)
+                self.color_ramp = stream.read_object('color ramp', allow_reference=False)
             elif ref == 8:
                 assert size == 0xffffffff
-                self.background_color = stream.read_object('background color',
-                                                           allow_reference=False)
+                self.background_color = stream.read_object('background color', allow_reference=False)
             elif ref == 9:
                 assert size == 0xffffffff
-                self.legend = stream.read_object('legend group?',
-                                                 allow_reference=False)
+                self.legend = stream.read_object('legend group?', allow_reference=False)
             elif ref == 10:
                 assert size == 4
-                self.display_background_value = stream.read_int(
-                    'display background value') != 0
+                self.display_background_value = stream.read_int('display background value') != 0
             elif ref == 11:
                 assert size == 4
                 stream.read_int('unknown', expected=1)
@@ -113,8 +108,7 @@ class RasterStretchColorRampRenderer(RasterRenderer):
                 self.hillshade_z = stream.read_double('hillshade z')
             elif ref == 17:
                 assert size == 0xffffffff
-                self.histogram = stream.read_object('histogram',
-                                                    allow_reference=False)
+                self.histogram = stream.read_object('histogram', allow_reference=False)
             elif ref == 18:
                 assert size == 4
                 self.apply_gamma = stream.read_int('apply gamma') != 0
@@ -165,19 +159,15 @@ class RasterStretchColorRampRenderer(RasterRenderer):
         res = super().to_dict()
         res['band'] = self.band
         res['histogram'] = self.histogram.to_dict() if self.histogram else None
-        res[
-            'color_ramp'] = self.color_ramp.to_dict() if self.color_ramp else None
+        res['color_ramp'] = self.color_ramp.to_dict() if self.color_ramp else None
         res['legend'] = self.legend.to_dict() if self.legend else None
         res['background_value'] = self.background_value
-        res[
-            'background_color'] = self.background_color.to_dict() if self.background_color else None
+        res['background_color'] = self.background_color.to_dict() if self.background_color else None
         res['display_background_value'] = self.display_background_value
-        res['stretch_type'] = RasterRenderer.stretch_type_to_string(
-            self.stretch_type)
+        res['stretch_type'] = RasterRenderer.stretch_type_to_string(self.stretch_type)
         res['stretch_low'] = self.stretch_low
         res['stretch_high'] = self.stretch_high
-        res['stats_type'] = RasterRenderer.stats_type_to_string(
-            self.stats_type)
+        res['stats_type'] = RasterRenderer.stats_type_to_string(self.stats_type)
         res['stretch_standard_deviations'] = self.stretch_standard_deviations
         res['invert_stretch'] = self.invert_stretch
         res['apply_gamma'] = self.apply_gamma
