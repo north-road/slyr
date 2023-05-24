@@ -22,8 +22,7 @@
 Color ramp conversion utilities
 """
 
-from qgis.core import (Qgis,
-                       QgsPresetSchemeColorRamp,
+from qgis.core import (QgsPresetSchemeColorRamp,
                        QgsLimitedRandomColorRamp,
                        QgsGradientColorRamp,
                        QgsGradientStop)
@@ -99,9 +98,10 @@ class ColorRampConverter:
                                    ColorConverter.color_to_qcolor(ramp.color2))
         return out
 
+    # pylint: disable=too-many-branches, too-many-locals
     @staticmethod
     def MultiPartColorRamp_to_QgsColorRamp(
-            ramp: MultiPartColorRamp):  # pylint: disable=too-many-branches
+            ramp: MultiPartColorRamp):
         """
         Converts a MultiPartColorRamp to a QgsColorRamp
         """
@@ -167,3 +167,4 @@ class ColorRampConverter:
         out.setStops(stops)
 
         return out
+    # pylint: enable=too-many-branches, too-many-locals
