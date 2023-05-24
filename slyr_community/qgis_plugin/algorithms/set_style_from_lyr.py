@@ -86,6 +86,7 @@ class StyleFromLyr(SlyrAlgorithm):
         input_file = self.parameterAsString(parameters, self.LYR_FILE, context)
 
         conversion_context = Context()
+        conversion_context.project = context.project()
         # context.style_folder, _ = os.path.split(output_file)
 
         with open(input_file, 'rb') as f:
@@ -102,7 +103,7 @@ class StyleFromLyr(SlyrAlgorithm):
             if not LayerConverter.is_layer(feature_layer):
                 raise QgsProcessingException('Could not read LYR')
 
-            renderer = VectorRendererConverter.convert_renderer(feature_layer.renderer, conversion_context)
+            renderer = VectorRendererConverter.convert_renderer(feature_layer.renderer, feature_layer, conversion_context)
             if renderer:
                 layer.setRenderer(renderer)
                 layer.triggerRepaint()
