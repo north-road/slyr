@@ -40,60 +40,43 @@ class RasterRenderer(Object):
         """
         Converts a stretch type to a string
         """
-        if stretch == RasterRenderer.STRETCH_TYPE_NONE:
-            return 'none'
-        elif stretch == RasterRenderer.STRETCH_TYPE_DEFAULT:
-            return 'default'
-        elif stretch == RasterRenderer.STRETCH_TYPE_CUSTOM:
-            return 'custom'
-        elif stretch == RasterRenderer.STRETCH_TYPE_STDEV:
-            return 'stdev'
-        elif stretch == RasterRenderer.STRETCH_TYPE_HISTOGRAM_EQUALIZE:
-            return 'histogram_equalize'
-        elif stretch == RasterRenderer.STRETCH_TYPE_MINMAX:
-            return 'minmax'
-        elif stretch == RasterRenderer.STRETCH_TYPE_HISTOGRAM_SPEC:
-            return 'histogram_spec'
-        elif stretch == RasterRenderer.STRETCH_TYPE_PERCENT_MINMAX:
-            return 'percent_minmax'
-        elif stretch == RasterRenderer.STRETCH_TYPE_ESRI:
-            return 'esri'
-        elif stretch == RasterRenderer.STRETCH_TYPE_COUNT:
-            return 'count'
-
-        return None
+        return {
+            RasterRenderer.STRETCH_TYPE_NONE: 'none',
+            RasterRenderer.STRETCH_TYPE_DEFAULT: 'default',
+            RasterRenderer.STRETCH_TYPE_CUSTOM: 'custom',
+            RasterRenderer.STRETCH_TYPE_STDEV: 'stdev',
+            RasterRenderer.STRETCH_TYPE_HISTOGRAM_EQUALIZE:
+                'histogram_equalize',
+            RasterRenderer.STRETCH_TYPE_MINMAX: 'minmax',
+            RasterRenderer.STRETCH_TYPE_HISTOGRAM_SPEC: 'histogram_spec',
+            RasterRenderer.STRETCH_TYPE_PERCENT_MINMAX: 'percent_minmax',
+            RasterRenderer.STRETCH_TYPE_ESRI: 'esri',
+            RasterRenderer.STRETCH_TYPE_COUNT: 'count'
+        }.get(stretch)
 
     @staticmethod
     def stats_type_to_string(stats) -> Optional[str]:
         """
         Converts a stats type to a string
         """
-        if stats == RasterRenderer.STATS_AREA_OF_VIEW:
-            return 'area_of_view'
-        elif stats == RasterRenderer.STATS_DATASET:
-            return 'dataset'
-        elif stats == RasterRenderer.STATS_GLOBAL:
-            return 'global'
-
-        return None
+        return {
+            RasterRenderer.STATS_AREA_OF_VIEW: 'area_of_view',
+            RasterRenderer.STATS_DATASET: 'dataset',
+            RasterRenderer.STATS_GLOBAL: 'global'
+        }.get(stats)
 
     @staticmethod
     def resampling_type_to_string(resampling) -> Optional[str]:
         """
         Converts a resampling type to a string
         """
-        if resampling == RasterRenderer.RESAMPLING_NEAREST_NEIGHBOR:
-            return 'nearest_neighbor'
-        elif resampling == RasterRenderer.RESAMPLING_BILINEAR:
-            return 'bilinear'
-        elif resampling == RasterRenderer.RESAMPLING_CUBIC:
-            return 'cubic'
-        elif resampling == RasterRenderer.RESAMPLING_MAJORITY:
-            return 'majority'
-        elif resampling == RasterRenderer.RESAMPLING_BILINEAR_PLUS:
-            return 'bilinear_plus'
-
-        return None
+        return {
+            RasterRenderer.RESAMPLING_NEAREST_NEIGHBOR: 'nearest_neighbor',
+            RasterRenderer.RESAMPLING_BILINEAR: 'bilinear',
+            RasterRenderer.RESAMPLING_CUBIC: 'cubic',
+            RasterRenderer.RESAMPLING_MAJORITY: 'majority',
+            RasterRenderer.RESAMPLING_BILINEAR_PLUS: 'bilinear_plus'
+        }.get(resampling)
 
     def __init__(self):
         super().__init__()
@@ -139,11 +122,11 @@ class RasterRenderer(Object):
                 assert size == 24
                 # some per band value?
                 for i in range(3):
-                    res = stream.read_int('unknown')
+                    res = stream.read_int('unknown {}'.format(i + 1))
                     if res == 0:
                         stream.read_ushort('unknown a', expected=(0, 65504))
                         stream.read_ushort('unknown b', expected=(
-                        0, 16, 16623, 49248, 49376))
+                            0, 16, 16623, 49248, 49376))
                     elif res == 0xffffffff:
                         stream.read_ushort('unknown', expected=65535)
                         stream.read_ushort('unknown', expected=65519)

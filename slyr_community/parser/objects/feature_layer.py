@@ -319,7 +319,7 @@ class FeatureLayer(Object):
             else:
                 stream.rewind(8)
 
-        if not handled:
+        if not handled:  # pylint: disable=too-many-nested-blocks
             last_pos = 0
             last_neg = 0
 

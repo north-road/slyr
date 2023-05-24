@@ -3,9 +3,9 @@
 Serializable object subclass
 """
 
+from ..exceptions import UnknownClsidException, NotImplementedException
 from ..object import Object
 from ..stream import Stream
-from ..exceptions import UnknownClsidException, NotImplementedException
 
 
 class RasterCatalogLayer(Object):
@@ -48,6 +48,7 @@ class RasterCatalogLayer(Object):
     def compatible_versions():
         return None
 
+    # pylint: disable=too-many-statements
     def read(self, stream: Stream, version):
         remote_count = stream.read_int('remote object count')
         for i in range(remote_count):
@@ -68,6 +69,7 @@ class RasterCatalogLayer(Object):
                 # don't know this object
                 stream.read(size - 16)
 
+        # pylint: disable=too-many-branches, too-many-statements
         def handler(ref, size):
             if ref == 1:
                 assert size == 0xffffffff
@@ -137,6 +139,8 @@ class RasterCatalogLayer(Object):
             else:
                 assert False, 'Unknown property ref {}'.format(ref)
 
+        # pylint: enable=too-many-branches, too-many-statements
+
         internal_version = stream.read_int('internal version', expected=(2, 3))
         stream.read_indexed_properties(handler)
 
@@ -172,6 +176,8 @@ class RasterCatalogLayer(Object):
         stream.read_ushort('unknown', expected=65535)
         if internal_version > 2:
             self.renderer = stream.read_object('renderer')
+
+    # pylint: enable=too-many-statements
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {

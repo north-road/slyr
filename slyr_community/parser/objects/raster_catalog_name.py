@@ -12,7 +12,7 @@ class RasterCatalogName(Object):
     """
     RasterCatalogName
     """
-    
+
     @staticmethod
     def cls_id():
         return '33ff62fc-d7d6-48e8-82d9-77c0aadbf5d1'

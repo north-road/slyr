@@ -15,7 +15,7 @@ class RasterDatasetName2(Object):
     @staticmethod
     def cls_id():
         return '76360e01-ec46-11d1-8d21-0000f8780535'
-    
+
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
         self.file_name = ''
@@ -52,7 +52,7 @@ class RasterDatasetName(Object):
     @staticmethod
     def cls_id():
         return '75bce6e2-8af5-478e-8892-fa45ca50af4d'
-    
+
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
         self.file_name = ''
@@ -114,7 +114,8 @@ class FgdbRasterDatasetName(Object):
         self.file_name = stream.read_string('file name')
         self.path = stream.read_string('path?')
         if version > 3:
-            self.type = stream.read_string('type', expected='Fgdb Raster Dataset')
+            self.type = stream.read_string('type',
+                                           expected='Fgdb Raster Dataset')
         else:
             stream.read_string('unknown')
         stream.read_string('unknown', expected='')
@@ -245,8 +246,11 @@ class AccessRasterDatasetName(Object):
 
     def __init__(self):
         super().__init__()
-        self.name = ''
         self.dataset_name = ''
+        self.file_name = ''
+        self.path = ''
+        self.type = ''
+        self.workspace_name = ''
 
     @staticmethod
     def compatible_versions():
@@ -282,7 +286,8 @@ class AccessRasterDatasetName(Object):
                 stream.read_string('unknown', size=size)
             elif ref == 6:
                 assert size == 0xffffffff
-                stream.read_object('raster catalog name', allow_reference=False)
+                stream.read_object('raster catalog name',
+                                   allow_reference=False)
             elif ref == 7:
                 assert size == 4
                 stream.read_int('unknown', expected=1)

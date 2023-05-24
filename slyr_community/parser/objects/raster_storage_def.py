@@ -11,7 +11,7 @@ class RasterStorageDef(Object):
     """
     RasterStorageDef
     """
-    
+
     @staticmethod
     def cls_id():
         return '82abc602-67f9-4042-bee1-645b0139fd70'

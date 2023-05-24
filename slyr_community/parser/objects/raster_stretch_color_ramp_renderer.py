@@ -52,6 +52,7 @@ class RasterStretchColorRampRenderer(RasterRenderer):
     def compatible_versions():
         return [3, 4, 6, 9, 10]
 
+    # pylint: disable=too-many-statements
     def read(self, stream: Stream, version):
         stream.read_ushort('unknown', expected=0)
         stream.read_string('name?')
@@ -134,9 +135,9 @@ class RasterStretchColorRampRenderer(RasterRenderer):
 
                 # my gosh, way to stick to your standards...
                 for i in range(self.legend_classes):
-                    stream.read_double('value')
+                    stream.read_double('value {}'.format(i+1))
                     if self.has_legend_text:
-                        stream.read_string('label')
+                        stream.read_string('label {}'.format(i+1))
                 self.stretch_low = stream.read_double('stretch low')
                 self.stretch_high = stream.read_double('stretch high')
             else:
@@ -162,6 +163,8 @@ class RasterStretchColorRampRenderer(RasterRenderer):
             stream.read_ushort('unknown', expected=65535)
 
         super().read(stream, 1 if version < 4 else 2)
+
+    # pylint: enable=too-many-statements
 
     def to_dict(self):  # pylint: disable=method-hidden
         res = super().to_dict()
