@@ -2,20 +2,20 @@
 Test utilities
 """
 
+import re
 from typing import (
     List,
     Dict
 )
-import re
-import lxml.etree as ET
 
+import lxml.etree as ET
+from qgis.PyQt.QtGui import QColor
 from qgis.core import (
     QgsSymbolLayer,
     QgsSymbol,
     QgsMapLayer
 )
 
-from qgis.PyQt.QtGui import QColor
 
 class Utils:
     """
@@ -42,7 +42,8 @@ class Utils:
         layer_properties['class'] = default_layer.__class__.__name__
 
         if layer.subSymbol():
-            layer_properties['subsymbol'] = Utils.symbol_definition(layer.subSymbol())
+            layer_properties['subsymbol'] = Utils.symbol_definition(
+                layer.subSymbol())
 
         return layer_properties
 
@@ -54,14 +55,16 @@ class Utils:
         return [Utils.symbol_layer_definition(layer) for layer in symbol]
 
     @staticmethod
-    def normalize_xml(xml_string) -> str:  # pylint: disable=too-many-locals, too-many-statements
+    def normalize_xml(
+            xml_string) -> str:  # pylint: disable=too-many-locals, too-many-statements
         """
         Normalizes XML output for a test comparison
         """
         et = ET.fromstring(xml_string)
 
         for option in et.iter('Option'):
-            if option.get('name') == "lineSymbol" and option.get('type') == "QString":
+            if option.get('name') == "lineSymbol" and option.get(
+                    'type') == "QString":
                 symbol_xml = ET.fromstring(option.get('value'))
                 normalized = ET.tostring(symbol_xml, method='c14n').decode()
                 option.set('value', normalized)
@@ -91,7 +94,8 @@ class Utils:
             return key
 
         if map_layers_container is not None:
-            map_layers_container[:] = sorted(map_layers_container, key=get_map_layer_key)
+            map_layers_container[:] = sorted(map_layers_container,
+                                             key=get_map_layer_key)
 
         # force stable order for annotation items
         def sort_item_container(container):  # pylint: disable=unused-argument
@@ -121,14 +125,14 @@ class Utils:
         res = ET.tostring(et, method='c14n').decode()
 
         # remove layer ids
-        #layer_id_rx = re.compile(r'<id>[a-zA-Z0-9_]+?</id>', re.DOTALL)
-        #res = re.sub(layer_id_rx, '<id>...</id>', res)
+        # layer_id_rx = re.compile(r'<id>[a-zA-Z0-9_]+?</id>', re.DOTALL)
+        # res = re.sub(layer_id_rx, '<id>...</id>', res)
 
         for layer_id in re.findall(r'<id>([a-zA-Z0-9_]+?)</id>', res):
             res = res.replace(layer_id, '...')
 
-        #layer_id2_rx = re.compile(r'\bid="[a-zA-Z0-9_{}]+?"', re.DOTALL)
-        #res = re.sub(layer_id2_rx, 'id="..."', res)
+        # layer_id2_rx = re.compile(r'\bid="[a-zA-Z0-9_{}]+?"', re.DOTALL)
+        # res = re.sub(layer_id2_rx, 'id="..."', res)
 
         # remove rule based ids
         layer_id_rx = re.compile(r'key="{.*?}"', re.DOTALL)
@@ -146,14 +150,18 @@ class Utils:
         save_dt_rx = re.compile(r'saveDateTime="[0-9\-:T]+?"', re.DOTALL)
         res = re.sub(save_dt_rx, 'saveDateTime="..."', res)
 
-        project_style_id_rx = re.compile(r'projectStyleId="[a-zA-Z0-9_:/.]+?"', re.DOTALL)
+        project_style_id_rx = re.compile(r'projectStyleId="[a-zA-Z0-9_:/.]+?"',
+                                         re.DOTALL)
         res = re.sub(project_style_id_rx, 'projectStyleId="..."', res)
 
-        creation_id_rx = re.compile(r'<creation>[0-9\-:T]+?</creation>', re.DOTALL)
+        creation_id_rx = re.compile(r'<creation>[0-9\-:T]+?</creation>',
+                                    re.DOTALL)
         res = re.sub(creation_id_rx, '<creation>...</creation>', res)
 
-        layer_id_rx = re.compile(r'<date type="Created" value=".*?"></date>', re.DOTALL)
-        res = re.sub(layer_id_rx, '<date type="Created" value="..."></date>', res)
+        layer_id_rx = re.compile(r'<date type="Created" value=".*?"></date>',
+                                 re.DOTALL)
+        res = re.sub(layer_id_rx, '<date type="Created" value="..."></date>',
+                     res)
 
         # remove layout item uuids
         layer_id_rx = re.compile(r'templateUuid="{.*?}"', re.DOTALL)
@@ -179,21 +187,24 @@ class Utils:
         Normalizes a QGIS layer for test comparisons
         """
         try:
-            layer.elevationProperties().profileLineSymbol().setColor(QColor(255, 0, 0))
+            layer.elevationProperties().profileLineSymbol().setColor(
+                QColor(255, 0, 0))
         except AttributeError:
             pass
         try:
-            layer.elevationProperties().profileMarkerSymbol().setColor(QColor(255, 0, 0))
-            for l in layer.elevationProperties().profileMarkerSymbol():
-                l.setColor(QColor(255, 0, 0))
-                l.setStrokeColor(QColor(255, 255, 0))
+            layer.elevationProperties().profileMarkerSymbol().setColor(
+                QColor(255, 0, 0))
+            for symbol_layer in layer.elevationProperties().profileMarkerSymbol():
+                symbol_layer.setColor(QColor(255, 0, 0))
+                symbol_layer.setStrokeColor(QColor(255, 255, 0))
         except AttributeError:
             pass
         try:
-            layer.elevationProperties().profileFillSymbol().setColor(QColor(255, 0, 0))
-            for l in layer.elevationProperties().profileFillSymbol():
-                l.setColor(QColor(255, 0, 0))
-                l.setStrokeColor(QColor(255, 255, 0))
+            layer.elevationProperties().profileFillSymbol().setColor(
+                QColor(255, 0, 0))
+            for symbol_layer in layer.elevationProperties().profileFillSymbol():
+                symbol_layer.setColor(QColor(255, 0, 0))
+                symbol_layer.setStrokeColor(QColor(255, 255, 0))
         except AttributeError:
             pass
         try:

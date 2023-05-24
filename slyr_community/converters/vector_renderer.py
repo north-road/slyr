@@ -551,7 +551,7 @@ class VectorRendererConverter:
                 cat = QgsRendererRange(lower, upper, symbol, c.label)
                 cats.append(cat)
 
-            if isinstance(renderer,ClassBreaksRenderer):
+            if isinstance(renderer, ClassBreaksRenderer):
                 if renderer.normalization_method == VectorRendererBase.NORMALIZE_BY_PERCENT_OF_TOTAL:
                     attr = '{}/sum({})*100'.format(renderer.attribute, renderer.attribute)
                 elif renderer.normalization_method != VectorRendererBase.NORMALIZE_BY_NOTHING and context.unsupported_object_callback:

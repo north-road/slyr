@@ -721,7 +721,6 @@ class TestSymbolParser(unittest.TestCase):
                     except NotImplementedException:
                         pass
 
-
     def test_lines(self):
         """
         Test line symbol parsing
@@ -853,6 +852,7 @@ class TestSymbolParser(unittest.TestCase):
                          '7914e603-c892-11d0-8bb6-080009ee4e41')
         self.assertEqual(ObjectRegistry.hex_to_clsid(b'f5883d531a0ad211b27f0000f878229e'),
                          '533d88f5-0a1a-11d2-b27f-0000f878229e')
+
 
 app = QGuiApplication([])
 
