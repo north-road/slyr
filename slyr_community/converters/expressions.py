@@ -200,8 +200,11 @@ class ExpressionConverter:
 
         return expression
 
+    # pylint: disable=too-many-branches, too-many-statements, unused-argument
     @staticmethod
-    def convert_python_expression(expression: str, context: Context, is_advanced: bool = False) -> str:
+    def convert_python_expression(expression: str,
+                                  context: Context,
+                                  is_advanced: bool = False) -> str:
         """
         Rudimentary Python to QGIS expression conversion
         """
@@ -302,6 +305,8 @@ class ExpressionConverter:
             expression = convert_partial_statement(expression)
 
         return expression
+
+    # pylint: enable=too-many-branches, too-many-statements, unused-argument
 
     @staticmethod
     def convert_js_expression(expression: str) -> str:

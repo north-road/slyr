@@ -592,8 +592,9 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
 
         return name
 
+    # pylint: disable=too-many-branches,too-many-statements
     @staticmethod
-    def convert_sde_sdc_workspace(name,  # pylint: disable=too-many-branches,too-many-statements
+    def convert_sde_sdc_workspace(name,
                                   workspace_name: WorkspaceName, base: str,
                                   crs: QgsCoordinateReferenceSystem,
                                   subset: str, context: Context,
@@ -757,6 +758,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
                                     wkb_type=wkb_type,
                                     provider=provider,
                                     file_name=file_name)
+    # pylint: enable=too-many-branches,too-many-statements
 
     @staticmethod
     def convert_sde_workspace(name, workspace_name: WorkspaceName, base: str,
