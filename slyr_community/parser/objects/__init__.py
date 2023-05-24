@@ -226,3 +226,4 @@ from .raster_shader import RasterShader
 from .raster_storage_def import RasterStorageDef
 from .simple_raster_renderer import SimpleRasterRenderer
 from .netcdf_table_name import NetCDFTableName
+from .function_raster_dataset_name import FunctionRasterDatasetName

@@ -43,7 +43,6 @@ from qgis.core import (
 
 from .context import Context
 from .converter import NotImplementedException
-from ..parser.exceptions import RequiresLicenseException
 from .raster_layer import RasterLayerConverter
 from .vector_layer import VectorLayerConverter
 from ..parser.objects.base_map_layer import BaseMapLayer
