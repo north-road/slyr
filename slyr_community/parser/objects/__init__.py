@@ -201,3 +201,26 @@ from .internet_tiled_layer import InternetTiledLayer, MSVirtualEarthLayerProvide
 from .las_dataset_layer import LasDatasetLayer
 from .map_server_layer import MapServerLayer, MapServerSubLayer, MapServerBasicSublayer
 from .base_map_layer import BaseMapLayer
+from .raster_stretch_color_ramp_renderer import RasterStretchColorRampRenderer, \
+    RedrawLegendClass
+from .raster_dataset_name import RasterDatasetName2, RasterDatasetName, FgdbRasterDatasetName, \
+    SdeRasterDatasetName, AccessRasterDatasetName
+from .raster_rgb_renderer import RasterRGBRenderer, RasterRgbRendererColorComponents, \
+    RasterRgbPanSharpeningProperties
+from .stats_histogram import StatsHistogram
+from .composite_xform import CompositeXForm
+from .identify_xform import IdentityXForm
+from .coordinate_xform import CoordinateXForm
+from .raster_color_map_renderer import RasterColorMapRenderer
+from .raster_unique_value_renderer import RasterUniqueValueRenderer
+from .unique_values import UniqueValues
+from .raster_band_name import RasterBandName
+from .raster_discrete_color_renderer import RasterDiscreteColorRenderer
+from .raster_classify_color_ramp_renderer import RasterClassifyColorRampRenderer
+from .array_of_ishader import ArrayOfIShader
+from .raster_band_collection_name import RasterBandCollectionName
+from .raster_catalog_layer import RasterCatalogLayer
+from .raster_catalog_name import RasterCatalogName
+from .raster_def import RasterDef
+from .raster_shader import RasterShader
+from .raster_storage_def import RasterStorageDef
