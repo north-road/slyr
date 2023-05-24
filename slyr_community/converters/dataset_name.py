@@ -22,14 +22,11 @@
 Dataset name converter
 """
 
-import json
 import os
 import re
 from pathlib import Path
-from typing import Optional, List, Union
+from typing import Optional, List
 
-from qgis.PyQt.QtCore import QUrl
-from qgis.PyQt.QtNetwork import QNetworkRequest
 from qgis.core import (
     Qgis,
     QgsCoordinateReferenceSystem,

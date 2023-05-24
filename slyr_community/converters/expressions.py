@@ -32,6 +32,8 @@ from ..parser.objects.annotation_jscript_engine import AnnotationJScriptEngine
 from ..parser.objects.annotation_python_engine import AnnotationPythonEngine
 from ..parser.objects.annotation_vbscript_engine import AnnotationVBScriptEngine
 
+# pylint: disable=simplifiable-condition
+
 
 class ExpressionConverter:
     """
@@ -144,7 +146,7 @@ class ExpressionConverter:
         expression = expression.replace('\r', '\n')
 
         expression = expression.replace('"', "'")
-        expression = re.sub("chr\(13\)", "'\\n'", expression, flags=re.IGNORECASE)
+        expression = re.sub(r"chr\(13\)", "'\\n'", expression, flags=re.IGNORECASE)
 
         # super dangerous, also should probably be concat to handle nulls
         expression = expression.replace('&', ' || ')
@@ -227,10 +229,10 @@ class ExpressionConverter:
                     if match.group(2) and match.group(3):
                         part_expression, _ = re.subn(r'\(?\s*{}\s*\)?\s*\[\s*\d*\s*:\s*\d*\s*]'.format(match.group(1)), 'substr({}, {}, {})'.format(match.group(1).strip(), int(match.group(2)) +1, int(match.group(3)) - int(match.group(2))), part_expression)
                         continue
-                    elif match.group(2) and not match.group(3):
+                    if match.group(2) and not match.group(3):
                         part_expression, _ = re.subn(r'\(?\s*{}\s*\)?\s*\[\s*\d*\s*:\s*]'.format(match.group(1)), 'substr({}, {})'.format(match.group(1).strip(), match.group(2)), part_expression)
                         continue
-                    elif match.group(3):
+                    if match.group(3):
                         part_expression, _ = re.subn(r'\(?\s*{}\s*\)?\s*\[\s*:\s*\d*\s*]'.format(match.group(1)), 'left({}, {})'.format(match.group(1).strip(), match.group(3)), part_expression)
                         continue
 
@@ -291,7 +293,7 @@ class ExpressionConverter:
         if is_case and case_lines:
             case_lines[0] = 'CASE ' + case_lines[0]
 
-            if not 'ELSE' in case_lines:
+            if 'ELSE' not in case_lines:
                 case_lines.append('ELSE NULL')
 
             case_lines.append('END')
