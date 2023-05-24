@@ -72,7 +72,7 @@ class DiagramConverter:
         settings = QgsDiagramSettings()
         settings.categoryLabels = renderer.labels
         settings.categoryAttributes = renderer.attributes
-        if True:
+        if True:  # pylint: disable=using-constant-test
             chart_symbol_layer = renderer.symbol
             settings.categoryColors = [SymbolConverter.symbol_to_color(c.symbol, context) for c in
                                        renderer.class_legend.classes]
@@ -92,7 +92,7 @@ class DiagramConverter:
                     context.unsupported_object_callback(
                         '3D bar chart was converted to 2d (QGIS does not support 3D bar charts)', level=Context.WARNING)
 
-            if True:
+            if True:  # pylint: disable=using-constant-test
                 if renderer.class_legend.classes:
                     first_symbol = renderer.class_legend.classes[0].symbol
                     color = SymbolConverter.symbol_to_line_color(first_symbol, context)
@@ -154,7 +154,7 @@ class DiagramConverter:
 
             if isinstance(chart_symbol_layer, (StackedChartSymbol, )):
                 if Qgis.QGIS_VERSION_INT >= 31200:
-                    from qgis.core import QgsStackedBarDiagram
+                    from qgis.core import QgsStackedBarDiagram  # pylint: disable=import-outside-toplevel
 
                     if chart_symbol_layer.fixed_length:
                         diagram_renderer = QgsSingleCategoryDiagramRenderer()
@@ -209,7 +209,7 @@ class DiagramConverter:
             else:
                 diagram_renderer.setDiagram(QgsHistogramDiagram())
 
-                if True:
+                if True:  # pylint: disable=using-constant-test
                     diagram_renderer.setUpperValue(renderer.symbol.max_value)
 
                     diagram_renderer.setUpperSize(
@@ -247,7 +247,7 @@ class DiagramConverter:
             layer_settings.dataDefinedProperties().setProperty(QgsDiagramLayerSettings.Show,
                                                                QgsProperty.fromExpression(exp))
 
-            if True:
+            if True:  # pylint: disable=using-constant-test
                 if not renderer.vary_size_by_attribute:
                     diagram_renderer = QgsSingleCategoryDiagramRenderer()
                 else:
@@ -285,7 +285,7 @@ class DiagramConverter:
 
             # looks redundant, but actually used by ArcGIS when a diagram has no "global" outline set
             try:
-                if True:
+                if True:  # pylint: disable=using-constant-test
                     outline_symbol = SymbolConverter.Symbol_to_QgsSymbol(renderer.class_legend.classes[0].symbol.outline,
                                                                          context).color()
                     if outline_symbol:
@@ -295,7 +295,7 @@ class DiagramConverter:
             except AttributeError:
                 pass
 
-            if True:
+            if True:  # pylint: disable=using-constant-test
                 if not chart_symbol_layer.clockwise:
                     settings.rotationOffset = chart_symbol_layer.starting_angle
                 else:

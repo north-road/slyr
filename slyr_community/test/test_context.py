@@ -15,6 +15,9 @@ class TestConversionContext(unittest.TestCase):
     """
 
     def test_find_relative_path(self):
+        """
+        Test finding relative paths between two paths
+        """
         # Test to get relative path when both paths are equal lengths
         self.assertEqual(Context.find_relative_path('foo/bar', "foo/sans"), '../bar')
         # Test to get relative path when both paths are the same
@@ -32,6 +35,10 @@ class TestConversionContext(unittest.TestCase):
                          '../../../sans/eggs/let')
 
     def test_convert_dataset_path(self):
+        """
+        Test converting dataset paths
+        """
+
         context = Context()
         # Test to get relative path when destination path is undefined
         self.assertEqual(context.convert_dataset_path('foo/bar'), 'foo\\bar')

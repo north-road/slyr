@@ -228,24 +228,27 @@ class ConversionUtils:
         return res
 
     @staticmethod
-    def format_xml(input: str) -> str:
+    def format_xml(input_xml: str) -> str:
+        """
+        Pretty formats an XML string
+        """
         try:
-            from lxml import etree as LET
-            xml = ET.tostring(input, encoding='unicode')
+            from lxml import etree as LET  # pylint: disable=import-outside-toplevel
+            xml = ET.tostring(input_xml, encoding='unicode')
 
             root = LET.fromstring(xml)
             tree = LET.ElementTree(root)
             LET.indent(tree, '   ')
             return LET.tostring(tree, encoding="utf-8")
         except ImportError:
-            return input
+            return input_xml
 
     @staticmethod
     def is_gdal_version_available(major: int, minor: int, rev: int) -> bool:
         """
         Returns True if GDAL is greater than or equal to the specified version
         """
-        from osgeo import gdal
+        from osgeo import gdal  # pylint: disable=import-outside-toplevel
 
         required_version_int = major * 1000000 + minor * 10000 + rev * 100
 
