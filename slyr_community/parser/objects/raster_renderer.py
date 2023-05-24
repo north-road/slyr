@@ -91,6 +91,7 @@ class RasterRenderer(Object):
 
         self.should_read_display_props = False
 
+    # pylint: disable=too-many-statements
     def read(self, stream: Stream, version):
         internal_version = stream.read_int('internal version',
                                            expected=(2, 3, 6, 7, 8, 9))
@@ -98,6 +99,7 @@ class RasterRenderer(Object):
         #        if internal_version < 3 and self.__class__.__name__ in ('RasterRGBRenderer', 'RasterStretchColorRampRenderer'):
         #            self.should_read_display_props = False
 
+        # pylint: disable=too-many-branches, too-many-statements
         def handler(ref, size):
             if ref == 1:
                 assert size == 4
@@ -145,6 +147,8 @@ class RasterRenderer(Object):
             else:
                 assert False, 'Unknown property ref {}'.format(ref)
 
+        # pylint: enable=too-many-branches, too-many-statements
+
         stream.read_indexed_properties(handler)
         stream.read_ushort('unknown', expected=65535)
         stream.read_ushort('unknown', expected=65535)
@@ -185,6 +189,8 @@ class RasterRenderer(Object):
 
         if internal_version > 8:
             self.color_ramp = stream.read_object('ramp')
+
+    # pylint: enable=too-many-statements
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {

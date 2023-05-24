@@ -11,7 +11,7 @@ class RasterDef(Object):
     """
     RasterDef
     """
-    
+
     @staticmethod
     def cls_id():
         return 'a8386192-3659-4525-984f-5d643a40ee8c'

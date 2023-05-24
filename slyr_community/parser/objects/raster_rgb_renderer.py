@@ -54,7 +54,7 @@ class RasterRGBRenderer(RasterRenderer):
     def read(self, stream: Stream, version):
         stream.read_ushort('unknown', expected=0)
 
-        # pylint: disable=too-many-branches, too-many-statements
+        # pylint: disable=too-many-branches
         def handler(ref, size):
             if ref == 1:
                 assert size == 4
@@ -135,7 +135,7 @@ class RasterRGBRenderer(RasterRenderer):
             else:
                 assert False, 'Unknown property ref {}'.format(ref)
 
-        # pylint: enable=too-many-branches, too-many-statements
+        # pylint: enable=too-many-branches
 
         stream.read_indexed_properties(handler)
 
