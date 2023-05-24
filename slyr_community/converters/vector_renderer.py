@@ -282,6 +282,10 @@ class VectorRendererConverter:
             elif False:  # pylint: disable=using-constant-test
                 pass
 
+            renderer_default_symbol = None
+            all_other_label = ''
+            include_default = False
+
             if False:  # pylint: disable=using-constant-test
                 pass
             else:
