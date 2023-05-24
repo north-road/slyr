@@ -78,7 +78,7 @@ class RasterLayerConverter:
     Raster layer conversion methods
     """
 
-    # pylint: disable=too-many-locals
+    # pylint: disable=too-many-locals,too-many-branches,too-many-statements
     @staticmethod
     def raster_layer_to_QgsRasterLayer(
             layer: RasterLayer, input_file,
@@ -211,9 +211,7 @@ class RasterLayerConverter:
             enabled_scale_range = bool(zoom_max or zoom_min)
             if zoom_max and zoom_min and zoom_min > zoom_max:
                 # inconsistent scale range -- zoom_max should be bigger number than zoom_min
-                tmp = zoom_min
-                zoom_min = zoom_max
-                zoom_max = tmp
+                zoom_min, zoom_max = zoom_max, zoom_min
 
             # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max
             rl.setMinimumScale(
@@ -281,13 +279,16 @@ class RasterLayerConverter:
 
         return rl
 
-    # pylint: enable=too-many-locals
+    # pylint: enable=too-many-locals,too-many-branches,too-many-statements
 
     @staticmethod
     def raster_basemap_layer_to_QgsRasterLayer(
             source_layer: RasterBasemapLayer, input_file,
             context: Context,
             fallback_crs=QgsCoordinateReferenceSystem()):
+        """
+        Converts a raster basemap layer to a raster layer
+        """
         if source_layer.raster_layer:
             return [RasterLayerConverter.raster_layer_to_QgsRasterLayer(
                 source_layer.raster_layer,
@@ -295,8 +296,12 @@ class RasterLayerConverter:
                 fallback_crs)]
         return []
 
+    # pylint: disable=too-many-locals, too-many-branches, too-many-statements, too-many-nested-blocks
     @staticmethod
     def convert_raster_renderer(renderer, band, layer, context):
+        """
+        Converts a raster layer renderer to QGIS renderer
+        """
         res = None
         if isinstance(renderer, (RasterStretchColorRampRenderer,)):
             if band >= 0:
@@ -449,14 +454,14 @@ class RasterLayerConverter:
             res = QgsSingleBandPseudoColorRenderer(layer.dataProvider(),
                                                    renderer_band)
             if isinstance(renderer, RasterClassifyColorRampRenderer):
-                min = renderer.breaks[0]
-                max = renderer.breaks[-1]
+                raster_min = renderer.breaks[0]
+                raster_max = renderer.breaks[-1]
             else:
-                min = renderer.minimum_break or 0
-                max = renderer.class_breaks[-1].upper_bound
+                raster_min = renderer.minimum_break or 0
+                raster_max = renderer.class_breaks[-1].upper_bound
 
-            res.setClassificationMin(min)
-            res.setClassificationMax(max)
+            res.setClassificationMin(raster_min)
+            res.setClassificationMax(raster_max)
 
             if renderer.color_ramp:
                 color_ramp = ColorRampConverter.ColorRamp_to_QgsColorRamp(
@@ -464,8 +469,8 @@ class RasterLayerConverter:
             else:
                 color_ramp = None
 
-            shader = QgsRasterShader(min, max)
-            shader_function = QgsColorRampShader(min, max, color_ramp,
+            shader = QgsRasterShader(raster_min, raster_max)
+            shader_function = QgsColorRampShader(raster_min, raster_max, color_ramp,
                                                  type=QgsColorRampShader.Discrete)
 
             items = []
@@ -503,7 +508,7 @@ class RasterLayerConverter:
             if renderer and renderer.alpha_band is not None and renderer.alpha_checked:
                 res.setAlphaBand(renderer.alpha_band)
 
-        if renderer and (False and renderer.nodata_color) or (
+        if renderer and (False and renderer.nodata_color) or (  # pylint: disable=simplifiable-condition
                 True and not renderer.nodata_color.is_null):
             # This isn't correct - I don't see anyway to add manual no data pixels to rasters in arc
             # transparency = QgsRasterTransparency()
@@ -523,3 +528,5 @@ class RasterLayerConverter:
                     ColorConverter.color_to_qcolor(renderer.nodata_color))
 
         return res
+
+    # pylint: enable=too-many-locals, too-many-branches, too-many-statements, too-many-nested-blocks
