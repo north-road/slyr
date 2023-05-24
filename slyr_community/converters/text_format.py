@@ -173,13 +173,13 @@ class TextSymbolConverter:
         Converts the vertical alignment from a text symbol
         """
         if text_symbol.vertical_alignment == TextSymbol.VALIGN_TOP:
-            return Qt.AlignTop, False
+            res = Qt.AlignTop, False
         elif text_symbol.vertical_alignment == TextSymbol.VALIGN_CENTER:
-            return Qt.AlignVCenter, False
+            res = Qt.AlignVCenter, False
         elif text_symbol.vertical_alignment == TextSymbol.VALIGN_BOTTOM:
-            return Qt.AlignBottom, False
+            res = Qt.AlignBottom, False
         elif text_symbol.vertical_alignment == TextSymbol.VALIGN_BASELINE:
-            return Qt.AlignBottom, True
+            res = Qt.AlignBottom, True
         else:
             assert False
 
@@ -187,6 +187,9 @@ class TextSymbolConverter:
 
     @staticmethod
     def text_symbol_to_qgstextformat(text_symbol: TextSymbol, context, reference_scale=None):
+        """
+        Converts ESRI text symbol to QGIS text format
+        """
         text_format = QgsTextFormat()
 
         if isinstance(text_symbol, TextSymbol):
