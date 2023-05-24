@@ -2604,8 +2604,8 @@ expected = {
         'expected': {
             'factory': 'TextFileWorkspaceFactory',
             'file_name': 'C:/Projects/Ghhhh_Aaaaaa_ZBbbb/2021 Aaa Bbbbbbbb/Pictures/BBBASAA.csv',
-            'provider': 'ogr',
-            'uri': 'C:/Projects/Ghhhh_Aaaaaa_ZBbbb/2021 Aaa Bbbbbbbb/Pictures/BBBASAA.csv',
+            'provider': 'delimitedtext',
+            'uri': 'file:///C:/Projects/Ghhhh_Aaaaaa_ZBbbb/2021%20Aaa%20Bbbbbbbb/Pictures/BBBASAA.csv?type=csv&maxFields=10000&detectTypes=yes&spatialIndex=yes&subsetIndex=no&watchFile=no&xField=X_Coord&yField=Y_Coord&zField=SOMA&crs=EPSG:32723',
             'wkb_type': 1001
         }},
     'SQL server with escaped table name': {
