@@ -90,6 +90,7 @@ class DecorationConverter:
             # TODO - maybe need to offset this by marker width / 4? seems a better match to ESRI
             line.setPlacement(QgsMarkerLineSymbolLayer.FirstVertex)
             symbol.appendSymbolLayer(line)
+            context.symbol_layer_output_to_input_index_map[line] = context.current_symbol_layer
 
         if 1 in positions:
             # end marker
@@ -112,6 +113,7 @@ class DecorationConverter:
 
             # TODO - maybe need to offset this by marker width / 4? seems a better match to ESRI
             symbol.appendSymbolLayer(line)
+            context.symbol_layer_output_to_input_index_map[line] = context.current_symbol_layer
 
         if 0.5 in positions:
             # mid marker
@@ -133,6 +135,7 @@ class DecorationConverter:
             line.setLocked(locked)
 
             symbol.appendSymbolLayer(line)
+            context.symbol_layer_output_to_input_index_map[line] = context.current_symbol_layer
 
         # TODO other positions
         other_positions = [p for p in positions if p not in (0, 0.5, 1)]
