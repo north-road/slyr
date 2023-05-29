@@ -67,6 +67,9 @@ If you have many shapefiles, install the **Bulk Vector Export** plugin.
 4. Click on OK.
 5. Repath your data to the shapefiles.
 
+### Rasters ###
+Please ensure that you have the QGIS v3.30 to enable this function. 
+
 ## LYR files ##
 ### Repair Data Source ###
 When you load in your LYR files using **SLYR** and the `Repair data source`![Repair data source](../images/repair_data_source.png) appears next to the data, this means the pathway is broken. 
@@ -79,6 +82,7 @@ When you load in your LYR files using **SLYR** and the `Repair data source`![Rep
  >   >  
 > **Workaround:** 
  > Find the location of the files and point the layers to this source. 
+
 
 ## Reinstall my SLYR Plugin ##
 If you have changed machines, you may need to reinstall the **SLYR** Plugin. 
