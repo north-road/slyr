@@ -34,7 +34,7 @@ If polyline and point feature classes do not display despite them appearing in t
  > - Rerun the **SLYR** tool.
 
 ### Raster connversion ###
-Please ensure that you have the QGIS v3.30 to enable this function. 
+Please ensure that you have the QGIS v3.30.3 or v3.28.7 to enable this function. 
 
 ## Geopackage ##
 ArcGIS Pro and Geopackages has not yet reached full support. Therefore an error will be produced if you are exporting from a geopackage 
