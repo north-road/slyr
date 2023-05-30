@@ -33,6 +33,9 @@ If polyline and point feature classes do not display despite them appearing in t
  > - Under the `Indexes` tab, choose whether to rebuild the index, remove or re-create it.
  > - Rerun the **SLYR** tool.
 
+### Raster connversion ###
+Please ensure that you have the QGIS v3.30 to enable this function. 
+
 ## Geopackage ##
 ArcGIS Pro and Geopackages has not yet reached full support. Therefore an error will be produced if you are exporting from a geopackage 
 e.g. *Warning: Feature: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path*
@@ -67,8 +70,7 @@ If you have many shapefiles, install the **Bulk Vector Export** plugin.
 4. Click on OK.
 5. Repath your data to the shapefiles.
 
-### Rasters ###
-Please ensure that you have the QGIS v3.30 to enable this function. 
+
 
 ## LYR files ##
 ### Repair Data Source ###
