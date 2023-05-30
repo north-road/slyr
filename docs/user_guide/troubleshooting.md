@@ -33,7 +33,7 @@ If polyline and point feature classes do not display despite them appearing in t
  > - Under the `Indexes` tab, choose whether to rebuild the index, remove or re-create it.
  > - Rerun the **SLYR** tool.
 
-### Raster connversion ###
+### Raster conversion ###
 Please ensure that you have the QGIS v3.30.3 or v3.28.7 to enable this function. 
 
 ## Geopackage ##
