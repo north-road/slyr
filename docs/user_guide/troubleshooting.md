@@ -25,6 +25,17 @@ Issue
  > - Instruction
 --->
 
+
+## Fonts ##
+The font is not coming into the conversion or you get an error message at the top that the font is not recognised. 
+> Impact
+ >  - impact
+ >  
+> **Workaround:** 
+ > 
+ > - Find a legal copy of the font and place it in your systems fonts library i.e. C:\Windows\Fonts 
+
+
 ## Geodatabases ##
 ### Indexes
 If polyline and point feature classes do not display despite them appearing in the layer window of the resulting QGS project, there may be an error with the Geodatabase Layer's Index. 
