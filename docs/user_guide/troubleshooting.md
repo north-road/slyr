@@ -28,9 +28,6 @@ Issue
 
 ## Fonts ##
 The font is not coming into the conversion or you get an error message at the top that the font is not recognised. 
-> Impact
- >  - impact
- >  
 > **Workaround:** 
  > 
  > - Find a legal copy of the font and place it in your systems fonts library i.e. C:\Windows\Fonts 
