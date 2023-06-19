@@ -14,5 +14,8 @@ Description
 
 
 ## Files ##
+SLYR reads to the original data file pathway. There is also the option of converting the data to a geopackage.
+Export to: 
+- geopackage
 
 ## Styles ##
