@@ -45,6 +45,13 @@ If polyline and point feature classes do not display despite them appearing in t
 
 ### Raster conversion ###
 Please ensure that you have the QGIS v3.30.3 or v3.28.7 to enable this function. 
+> **Workaround:** 
+ > 
+ > - In **ArcGIS Pro**, convert to geotiff.
+>  - Run SLYR again.
+
+### Raster Catalog ###
+This is not supported in QGIS and will be omitted from the project.
 
 ## Geopackage ##
 ArcGIS Pro and Geopackages has not yet reached full support. Therefore an error will be produced if you are exporting from a geopackage 
@@ -80,7 +87,8 @@ If you have many shapefiles, install the **Bulk Vector Export** plugin.
 4. Click on OK.
 5. Repath your data to the shapefiles.
 
-
+## Group Transparency ##
+Need QGIS 3.24 or later.
 
 ## LYR files ##
 ### Repair Data Source ###
