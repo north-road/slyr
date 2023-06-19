@@ -13,6 +13,7 @@
  Raster catalog layer “RasterLayer” has been removed from the project (raster catalog layers are not supported by QGIS)| These layers will need to be created seperately outside of the catalog layer before conversions.
  Warning: Detailed Surface geology: Could not automatically convert Arcade expression: $feature. Please check and repair this expression | This will happen if the Arcade expression in the labelling class has not been completed. Fix by assigning a field to the $feature
  Unique Value legend group title “Lead (206/204 min)” is not supported by QGIS | TBC
+ "Warning: Large asphalt seepage: Font SSL2012 Line Fill Symbols 1 not available on system" | LYR requires all the fonts referenced by an ESRI document to be installed on the system performing the conversion for best results. Load a legal copy of the font and place it in your systems fonts library i.e. C:\Windows\Fonts 
  
 <!---
 ## heading ##
