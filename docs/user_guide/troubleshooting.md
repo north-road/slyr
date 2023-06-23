@@ -26,6 +26,11 @@ Issue
  > - Instruction
 --->
 
+## Annotations ##
+Annotations are on our roadmap! 
+The good news: if your annotation was created in ArcMap, SLYR can convert it. 
+The not-so- good news: annotations created in ArcGIS Pro have changed and we are still working on creating this tool. 
+
 
 ## Fonts ##
 The font is not coming into the conversion or you get an error message at the top that the font is not recognised. 
