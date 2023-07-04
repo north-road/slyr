@@ -11,9 +11,13 @@
  QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet | Amend layers that contain a QGIS SVG Marker as they will not be converted.  
  Raster layers in Geodatabase files are not supported in QGIS, the database X:\folder\geodatabase.gdb\raster.gdb will need to be converted to TIFF before it can be used outside of ArcGIS | Convert all rasters sitting within the GDB as TIFFs
  Raster catalog layer “RasterLayer” has been removed from the project (raster catalog layers are not supported by QGIS)| These layers will need to be created seperately outside of the catalog layer before conversions.
- Warning: Detailed Surface geology: Could not automatically convert Arcade expression: $feature. Please check and repair this expression | This will happen if the Arcade expression in the labelling class has not been completed. Fix by assigning a field to the $feature
+ Detailed Surface geology: Could not automatically convert Arcade expression: $feature. Please check and repair this expression | This will happen if the Arcade expression in the labelling class has not been completed. Fix by assigning a field to the $feature
  Unique Value legend group title “Lead (206/204 min)” is not supported by QGIS | TBC
-Warning: IOGP3004 Sand Ripples: Font Vrinda not available on system | LYR requires all the fonts referenced by an ESRI document to be installed on the system performing the conversion for best results. Load a legal copy of the font and place it in your systems fonts library i.e. C:\Windows\Fonts 
+IOGP3004 Sand Ripples: Font Vrinda not available on system | LYR requires all the fonts referenced by an ESRI document to be installed on the system performing the conversion for best results. Load a legal copy of the font and place it in your systems fonts library i.e. C:\Windows\Fonts 
+ Class Break legend group title “X” is not supported by QGIS |  The option used in the MXD isn't possible to match in current QGIS versions. In this case a warning is raised and the rest of the layer's properties are converted.
+ X: Marker halos are not supported by QGIS | The option used in the MXD isn't possible to match in current QGIS versions. In this case a warning is raised and the rest of the layer's properties are converted.
+ Ortho-photoX, 50 cm, 2019.g.: Mosaic layer “Ortho-photoX, 50 cm, 2019.g.” has been removed from the project (Mosaic layers are not supported by QGIS) | This relates to a Mosaic layer in the MXD document -- current QGIS versions don't have any way of opening these so we skip over them during the conversion.
+ 
  
 <!---
 ## heading ##
