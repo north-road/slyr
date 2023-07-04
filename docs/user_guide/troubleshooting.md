@@ -41,7 +41,8 @@ The font is not coming into the conversion or you get an error message at the to
 > **Workaround:** 
  > 
  > - Find a legal copy of the font and place it in your systems fonts library i.e. C:\Windows\Fonts 
-
+### Curved text
+Curved text is supported from QGIS 3.32 version onwards.
 
 ## Geodatabases ##
 ### Indexes
@@ -121,6 +122,11 @@ If you have changed machines, you may need to reinstall the **SLYR** Plugin.
 2. Grab the .py and drag and drop it over your QGIS. 
 
 3. Open the `QGIS Plugin Manager`
+
+## Symbology
+The following are some issues you may encounter during conversions of symbols.
+### Marker Symbols
+Marker halos are not supported in QGIS as there's no way in current QGIS versions to achieve the same effect, so the marker halo is dropped in the QGS project.
 
 ## SVG ##
 ### Add in SVG files for QGIS ###
