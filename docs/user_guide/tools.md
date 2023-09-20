@@ -284,3 +284,20 @@ Converts an ArcGIS Pro STYLX database to a QGIS XML Style library. This is parti
 
 > This tool is available only with the SLYR full licence.
 ***
+### Import PAGX print layout ###
+| From | To |
+| ---- | ---|
+| **ESRI** .pagx | **QGIS** .qgs, .qgz | 
+
+Imports a PAGX print layout into the current QGIS project.
+
+![image name](../images/image.png)
+
+1. In ArcGIS Pro, make sure you save your layout first, then *share* as a 'Layout file'
+2. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Imports a PAGX Print Layout`.
+3. In the `Input PAGX file`, browse to the location of the *.pagx* file.
+4. Click 'Run'
+5. Open up the imported print layout from `Project` ▶️`Layouts`
+
+> This tool is available only with the SLYR full licence.
+***
