@@ -254,7 +254,7 @@ Converts an ArcGIS Pro STYLX database to a GPL format color palette file, extrac
 ![STYLX to GPL](../images/stylx_gpl2.png)
 
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert STYLX to GPL color palette`.
-2. For `Sytlx database`, browse to the location of the *.stylx* file.
+2. For `Stylx database`, browse to the location of the *.stylx* file.
 3. Under `Destination GPL file`, set the location of the *.gpl* file.
 4. Click on `Run`.
 5. Once converted, import via `Settings` ▶️ `Options`▶️ `Color` and ensure you tick `Show in Color Buttons`to access it via the color drop-down function in `Layer Styling`. 
