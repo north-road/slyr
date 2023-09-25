@@ -279,8 +279,9 @@ Converts an ArcGIS Pro STYLX database to a QGIS XML Style library. This is parti
 2. Under `Stylx database`, browse to the location of the *.stylx* file.
 3. Under `Destination XML file`, set the location of the *.xml* file.
 4. In 'Uncovertable symbols report [optional]`, enter a location for those symbols that fail to convert. This allows you to create a new vector layer containing details of all unconvertable symbols. This report can be saved as any standard vector format, including Shapefile, XLSX or Geopackage. 
-5. Click on `Run`.
-6. Once it has converted, you can import the *XML* file via the `Style Manager` ▶️ `Import/Export`.
+5. Under the `Advanced` group you can find options for filtering the symbols from the Stylx database to convert. You can filter by object type or by entering a wildcard text string to match against the symbol names. The wildcard filter can include the `*` character or `?` character to match against multiple characters or a single character, eg `*wall*` will match any symbol with wall in the symbol name.  
+6. Click on `Run`.
+7. Once it has converted, you can import the *XML* file via the `Style Manager` ▶️ `Import/Export`.
 
 > This tool is available only with the SLYR full licence.
 ***
