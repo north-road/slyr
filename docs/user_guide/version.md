@@ -3,7 +3,7 @@
 - **Software development:** as QGIS and ESRI continully develop their programs, we endeavour to  include any new updates or changes in SLYR. If you think we have missed something, please contact us.
 
 ### Current Software Versions ###
-**ArcMap** 10.8.1 </br>
+**ArcMap** 10.8.2 </br>
 **ArcGIS** Pro 3.1.3 (3.2.0 is close to release) </br>
 **QGIS** 3.34.0 </br>
 
