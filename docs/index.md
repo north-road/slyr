@@ -13,6 +13,8 @@ title: Slyr Documentation
 
 [Check out the FAQs](/user_guide/faq)
 
+[SLYR Versions log](/user_guide/version)
+
 [Troubleshooting](/user_guide/troubleshooting)
 
 [Limitations](/user_guide/limitations)
