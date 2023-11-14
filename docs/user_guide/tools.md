@@ -86,6 +86,21 @@ Converts an APRX document file to a QGS project file.
 
 > This tool is available only with the SLYR full licence.
 ***
+### Convert QGS to APRX ###
+| From | To |
+| ---- | ---|
+| **QGIS** .qgs, .qgz | **ESRI** .aprx |
+
+Converts a QGIS project file to an APRX file.
+
+![APRX to QGIS](../images/qgs-aprx.png.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert APRX to QGS`.
+2. In the `Input QGS file`, browse to the location of the *.qgz* file.
+3. Under `Destination APRX project file`, set the location of the *.aprx* file.
+
+> This tool is available only with the SLYR full licence.
+***
 ### Convert GPL color palette to STYLX ###
 | From | To |
 | ---- | ---|
