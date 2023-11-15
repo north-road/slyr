@@ -93,11 +93,13 @@ Converts an APRX document file to a QGS project file.
 
 Converts a QGIS project file to an APRX file.
 
-![APRX to QGIS](../images/qgs-aprx.png.png)
+![APRX to QGIS](../images/qgs-aprx2.png)
 
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert APRX to QGS`.
 2. In the `Input QGS file`, browse to the location of the *.qgz* file.
 3. Under `Destination APRX project file`, set the location of the *.aprx* file.
+
+warnings: Warning: Rail Stations: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path
 
 > This tool is available only with the SLYR full licence.
 ***
