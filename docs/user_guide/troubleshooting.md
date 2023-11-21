@@ -6,7 +6,7 @@
  ------------- | ------------- |
  Converting CIMBackgroundCallout not implemented yet | In ArcGIS Pro, remove all background items from the label as the layer will not be converted
  Converting CIMCompositeCallout not implemented yet | In ArcGIS Pro, remove all background items from the label as the layer will not be converted
- Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path | Convert your geopackages into a GDB or a SHP
+ Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path | See Geopackages section below
  Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later) | Update your QGIS to QGIS 3.24 or later |
  QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet | Amend layers that contain a QGIS SVG Marker as they will not be converted.  
  Raster layers in Geodatabase files are not supported in QGIS, the database X:\folder\geodatabase.gdb\raster.gdb will need to be converted to TIFF before it can be used outside of ArcGIS | Convert all rasters sitting within the GDB as TIFFs
