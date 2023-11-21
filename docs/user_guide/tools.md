@@ -99,7 +99,11 @@ Converts a QGIS project file to an APRX file.
 2. In the `Input QGS file`, browse to the location of the *.qgz* file.
 3. Under `Destination APRX project file`, set the location of the *.aprx* file.
 
-warnings: Warning: Rail Stations: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path
+> Current limitations with geopackages
+>   `warnings: Warning: Rail Stations: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path`
+> In ArcGIS Pro, this will require each layer to be repathed. However, if you undertake this in the `Map view`, the style will be lost.
+> To keep a layer's style, use the `Update Data Sources' tool in the `Catalog` view
+
 
 > This tool is available only with the SLYR full licence.
 ***
@@ -308,7 +312,7 @@ Converts an ArcGIS Pro STYLX database to a QGIS XML Style library. This is parti
 
 Imports a PAGX print layout into the current QGIS project.
 
-![image name](../images/image.png)
+![Import a PAGX](../images/image.png)
 
 1. In ArcGIS Pro, make sure you save your layout first, then *share* as a 'Layout file'
 2. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Imports a PAGX Print Layout`.
