@@ -74,8 +74,10 @@ e.g. *Warning: Feature: Converting .gpkg layers is not yet fully supported, laye
   >  - If you repath them to the geopackage, this will impact on the symbology. 
 >
 > **Workaround:**
+> 
 > Option 1: Export to geodatabase or shapefile
-> Option 2: Update the layer sources using the `Update Data Sources' tool in the `Catalog` view
+> 
+> Option 2: In ***ArcGIS Pro***, update the layer sources using the `Update Data Sources` tool in the `Catalog` view
 
 ### Export to Geodatabase ###
 You can export geopackage data to a new geodatabase or to an existing geodatabase (go from step 3 below).
