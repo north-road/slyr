@@ -34,6 +34,11 @@ When using the QGS to MAPX tool, the Label Class options are disabled in ArcGIS 
 
 
 > Proposed solution: currently working on it
+
+## QGIS to MXD ##
+SLYR does not have any support for converting QGIS projects to MXD. We only support converting QGIS  projects to the newer ArcGIS Pro formats, such as LYRX, MAPX and APRX. 
+
+> Proposed solution: this functionality will not be developed
  
 ## Raster Catalog Layers ##
 A Raster catalog is a feature of ArcMap. Its ArcGIS Pro equivalent is mosaic datasets. 
