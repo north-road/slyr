@@ -36,9 +36,9 @@ When using the QGS to MAPX tool, the Label Class options are disabled in ArcGIS 
 > Proposed solution: currently working on it
 
 ## QGIS to MXD ##
-SLYR does not have any support for converting QGIS projects to MXD. We only support converting QGIS  projects to the newer ArcGIS Pro formats, such as LYRX, MAPX and APRX. 
+SLYR does not offer assistance in transforming QGIS projects into MXD. However, it does support the conversion of QGIS projects to newer ArcGIS Pro formats like LYRX, MAPX, and APRX. Since ArcMap is undergoing phased-out development, slated to end in March 2026, SLYR has concentrated its conversion efforts on ESRI formats with assured future support and maintenance. Consequently, the development of a QGIS to MXD conversion tool is not being pursued. Given the available alternatives of using either QGIS or ArcGIS Pro for similar tasks, dedicating resources to this particular undertaking is currently deemed impractical.
 
-> Proposed solution: this functionality will not be developed
+> Proposed solution: unless you transition to supported formats like QGIS, regrettably, your only alternative is to reconstruct the project within ArcMap.
  
 ## Raster Catalog Layers ##
 A Raster catalog is a feature of ArcMap. Its ArcGIS Pro equivalent is mosaic datasets. 
@@ -84,6 +84,7 @@ documents and how compatible they are with QGIS' SLD support. The SLD format its
 * Reasses symbology choices in ArcMap
 
 > Proposed solution: will improve with QGIS' SLD capabilities. If this is a major issue, consider funding the capability development of it. 
+
 
 ## SVG Markers ##
 Warning: Water: QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet
