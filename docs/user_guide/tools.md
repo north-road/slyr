@@ -328,7 +328,7 @@ Imports a PAGX print layout into the current QGIS project.
 | ---- | ---|
 | **ESRI** .avl | **QGIS** .qml| 
 
-Converts an ESRI ArcInfo AVL file to a QGIS QML file. AVL files were the legend files for Arcview 3 but have been replaced by layer files. It is no longer possible to create AVL legend files in the last version of ArcMap.
+Converts an ESRI ArcInfo AVL file to a QGIS QML file. AVL files were the legend files for Arcview 3.x but have been replaced by layer files. It is no longer possible to create AVL legend files in the last version of ArcMap.
 
 ![AVL to QML](../images/avl-qml2.png)
 
@@ -337,7 +337,7 @@ Converts an ESRI ArcInfo AVL file to a QGIS QML file. AVL files were the legend 
 3. Under `Destination QML file`, set the location of the *.qml* file.
 4. Click `Run`.
 
- ![Result of AVL to QML](../images/avl-qml-sierra-leone.png)
+ ![Result of AVL to QML](../images/avl-qml-sierra-leone2.png)
  Conversion of Land cover of Sierra Leone - Globcover Regional (46 classes) (source: [FAO](https://data.apps.fao.org/catalog/iso/973fdcbe-c347-47a7-9af7-e2e57729a35b))
   
 
