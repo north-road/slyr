@@ -344,3 +344,42 @@ Converts an ESRI ArcInfo AVL file to a QGIS QML file. AVL files were the legend 
 > This tool is available only with the SLYR full licence.
 ***
 
+## Data Conversion ##
+
+### Convert File Geodatabase to GeoPackage ###
+| From | To |
+| ---- | ---|
+| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+
+Converts all data from an ESRI File Geodatabase to a GeoPackage database.
+
+This tool will convert:
+- All vector layers
+- Field domains
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `X`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+
+> This tool is available only with the SLYR full licence.
+
+### Convert project data to GPKG ###
+| From | To |
+| ---- | ---|
+| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+
+Converts all referenced data from the current project to standard formats.
+
+Referenced layer data stored in non-standard formats (such as MDB or GDB files) will be converted to the standard GeoPackage format
+in order to create projects and data files which are optimized for use in QGIS and other open-source tools.
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `X`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+
+> This tool is available only with the SLYR full licence.
+***
