@@ -346,8 +346,8 @@ Converts an ESRI ArcInfo AVL file to a QGIS QML file. AVL files were the legend 
 ***
 
 ## Data Conversion ##
-**QGIS** [has the capability of creating, reading and managing Geodatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/) , therefore conversion is not necessary to keep on working with your data. Understanding why you want to convert from a geodatabase to a geopackage is important. 
-> If you are still going to work alongside ESRI software, then the recommendation here is **not** to convert it. < /br>
+**QGIS** [has the capability of creating, reading and managing Geodatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/) , therefore conversion is not necessary to keep on working with your data in **QGIS**. Understanding why you want to convert from a geodatabase to a geopackage is important. 
+> If you are still going to work alongside ESRI software, then the recommendation here is **not** to convert it.  
 > If you are moving completely to QGIS, and just love the extra functionality that geopackages give you, then continue on with the data conversion. 
 
 ### Convert File Geodatabase to GeoPackage ###
