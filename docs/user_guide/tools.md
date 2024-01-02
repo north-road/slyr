@@ -366,7 +366,7 @@ This tool will convert:
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Data Conversion` ▶️ `Convert File Geodatabase to GeoPackage`.
 2. In the `Input Geodatabase`, browse to the location of the *.gdb* file.
 3. Under `Output Geopackage`, set the location of the *.gpkgk* file.
-4. Click `Run`.
+4. Click `Run`.  
    
 > This tool is available only with the SLYR full licence.
 
@@ -384,7 +384,7 @@ in order to create projects and data files which are optimized for use in QGIS a
 
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Data Conversion` ▶️ `Convert project data to GPKG`.
 2. In `Folder to store converted data in`, browse to the location of the folder you wish to store the geopackage in.
-3. 4. Click `Run`.
+3. Click `Run`.  
 
 > This tool is available only with the SLYR full licence.
 ***
