@@ -31,9 +31,10 @@ Description
 
 ![image name](../images/image.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `X`.
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Group` ▶️ `X`.
 2. In the `Input X`, browse to the location of the *.X* file.
 3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
 
 > This tool is available only with the SLYR full licence.
 ***
@@ -345,11 +346,14 @@ Converts an ESRI ArcInfo AVL file to a QGIS QML file. AVL files were the legend 
 ***
 
 ## Data Conversion ##
+**QGIS** [has the capability of creating, reading and managing Geodatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/) including , therefore conversion is not necessary to keep on working with your data. Understanding why you want to convert from a geodatabase to a geopackage is important. 
+> If you are still going to work alongside ESRI software, then the recommendation here is **not** to convert it.
+> If you are moving completely to QGIS, and just love the extra functionality that geopackages give you, then continue on with the data conversion. 
 
 ### Convert File Geodatabase to GeoPackage ###
 | From | To |
 | ---- | ---|
-| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+| **ESRI** .gdb | **OGC** .gpkg | 
 
 Converts all data from an ESRI File Geodatabase to a GeoPackage database.
 
@@ -357,29 +361,30 @@ This tool will convert:
 - All vector layers
 - Field domains
 
-![image name](../images/image.png)
+![Geodatabase to Geopackage](../images/gdb-gpkg.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `X`.
-2. In the `Input X`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
-
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Data Conversion` ▶️ `Convert File Geodatabase to GeoPackage`.
+2. In the `Input Geodatabase`, browse to the location of the *.gdb* file.
+3. Under `Output Geopackage`, set the location of the *.gpkgk* file.
+4. Click `Run`.
+   
 > This tool is available only with the SLYR full licence.
 
 ### Convert project data to GPKG ###
 | From | To |
 | ---- | ---|
-| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+| **QGIS** loaded layers | **OGC** .gpkg | 
 
 Converts all referenced data from the current project to standard formats.
 
 Referenced layer data stored in non-standard formats (such as MDB or GDB files) will be converted to the standard GeoPackage format
 in order to create projects and data files which are optimized for use in QGIS and other open-source tools.
 
-![image name](../images/image.png)
+![Convert loaded layers in QGIS to GPKG](../images/project-gpkg.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `X`.
-2. In the `Input X`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Data Conversion` ▶️ `Convert project data to GPKG`.
+2. In `Folder to store converted data in`, browse to the location of the folder you wish to store the geopackage in.
+3. 4. Click `Run`.
 
 > This tool is available only with the SLYR full licence.
 ***
