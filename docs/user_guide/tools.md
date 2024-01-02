@@ -388,7 +388,8 @@ in order to create projects and data files which are optimized for use in QGIS a
 
 > This tool is available only with the SLYR full licence.
 ***
-$${\color{red}Broken \space \color{red}Needs \space \color{lightgreen}{red}}$$
+
+--- tool currently not working
 ## Hyperlinks ##
 ### Extract hyperlinks to tables ###
 | From | To |
