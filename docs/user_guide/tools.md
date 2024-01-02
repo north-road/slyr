@@ -361,7 +361,7 @@ This tool will convert:
 - All vector layers
 - Field domains
 
-![Geodatabase to Geopackage](../images/gdb-gpkg.png)
+![Geodatabase to Geopackage](../images/gdb-gpkg2.png)
 
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Data Conversion` ▶️ `Convert File Geodatabase to GeoPackage`.
 2. In the `Input Geodatabase`, browse to the location of the *.gdb* file.
