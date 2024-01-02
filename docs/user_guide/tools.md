@@ -425,52 +425,54 @@ Converts an ESRI LYR file to a QGIS style XML file that can be additionally be u
 
 > This tool is available in the Community Edition and with the SLYR full licence.
 
-### Tool ###
+### Convert LYR to QLR ###
 | From | To |
 | ---- | ---|
-| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+| **ESRI** .lyr | **QGIS** .qlr | 
 
-Description
+Converts an ESRI LYR file to a QGIS QLR file. 
 
-![image name](../images/image.png)
+![ESRI LYR to QGIS QLR](../images/lyr-qlr.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `LYR Datasets` ▶️ `X`.
-2. In the `Input X`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `LYR Datasets` ▶️ `Convert LYR to QLR`.
+2. In the `Input LYR file`, browse to the location of the *.lyr* file.
+3. Under `Destination QLR file`, set the location of the *.qlr* file.
 4. Click `Run`.
 
-> This tool is available only with the SLYR full licence.
+> This tool is available in the Community Edition and with the SLYR full licence.
 
-### Tool ###
+### Convert LYR to QML ###
 | From | To |
 | ---- | ---|
-| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+| **ESRI** .lyr | **QGIS** .qml | 
 
-Description
+Converts an ESRI LYR file to a QGIS QML file. If multiple layers are present in the LYR file, each will be converted to an individual QML file.
 
-![image name](../images/image.png)
+![image name](../images/lyr-qml.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `LYR Datasets` ▶️ `X`.
-2. In the `Input X`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `LYR Datasets` ▶️ `Convert LYR to QML`.
+2. In the `Input LYR file`, browse to the location of the *.lyr* file.
+3. Under `Destination QML file`, set the location of the *.qml* file.
 4. Click `Run`.
 
-> This tool is available only with the SLYR full licence.
+> This tool is available in the Community Edition and with the SLYR full licence.
 
-### Tool ###
+### Set style from LYR file ###
 | From | To |
 | ---- | ---|
-| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+| **ESRI** .lyr | **QGIS** layer symbology | 
 
-Description
+Sets a layer's settings and symbology from an ESRI LYR file.
 
-![image name](../images/image.png)
+![Set style from LYR file ](../images/style-from-lyr.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `LYR Datasets` ▶️ `X`.
-2. In the `Input X`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `LYR Datasets` ▶️ `Set style from LYR file`.
+2. In the `Destination layer`, select the layer from the dropdown list. 
+3. Under `LYR file`, set the location of the *.lyr* file.
 4. Click `Run`.
 
-> This tool is available only with the SLYR full licence.
+![Detailed Geology in QGIS and ArcMap using set style from layer tool](../images/style-from-lyr2.png)
+
+> This tool is available in the Community Edition and with the SLYR full licence.
 
 ***
