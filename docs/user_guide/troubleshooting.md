@@ -17,6 +17,7 @@ IOGP3004 Sand Ripples: Font Vrinda not available on system | LYR requires all th
  Class Break legend group title “X” is not supported by QGIS |  The option used in the MXD isn't possible to match in current QGIS versions. In this case a warning is raised and the rest of the layer's properties are converted.
  X: Marker halos are not supported by QGIS | The option used in the MXD isn't possible to match in current QGIS versions. In this case a warning is raised and the rest of the layer's properties are converted.
  Ortho-photoX, 50 cm, 2019.g.: Mosaic layer “Ortho-photoX, 50 cm, 2019.g.” has been removed from the project (Mosaic layers are not supported by QGIS) | This relates to a Mosaic layer in the MXD document -- current QGIS versions don't have any way of opening these so we skip over them during the conversion.
+ Symbol type 0x0 conversion is not yet supported | $${\color{red}To \space \color{red}be \space \color{red} written}$$
  
  
 <!---
