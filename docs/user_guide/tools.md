@@ -472,6 +472,7 @@ Sets a layer's settings and symbology from an ESRI LYR file.
 4. Click `Run`.
 
 ![Detailed Geology in QGIS and ArcMap using set style from layer tool](../images/style-from-lyr2.png)
+Note that the **ArcMap** symbology has a transparency setting to 50% and that this is not carried over in the LYR settings.  
 
 > This tool is available in the Community Edition and with the SLYR full licence.
 
