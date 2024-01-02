@@ -388,3 +388,21 @@ in order to create projects and data files which are optimized for use in QGIS a
 
 > This tool is available only with the SLYR full licence.
 ***
+$${\color{red}Broken \space \color{red}Needs \space \color{lightgreen}{red}}$$
+## Hyperlinks ##
+### Extract hyperlinks to tables ###
+| From | To |
+| ---- | ---|
+| **ESRI** .mxd/.mxt/.pmf/.lyr | **OGC** .gpkg | 
+
+Extract hyperlinks from layers to standalone tables
+
+![Extract hyperlinks to tables](../images/hyperlinks2.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Hyperlinks` ▶️ `Extract hyperlinks to tables`.
+2. In the `Input .MXD/.MXT/.PMF/.LYR`, browse to the location of the file.
+3. Under `Destination Geopackage`, set the location of the *.gpkg* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+***
