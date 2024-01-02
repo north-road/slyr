@@ -407,3 +407,70 @@ Extract hyperlinks from layers to standalone tables
 
 > This tool is available only with the SLYR full licence.
 ***
+
+## LYR Datasets ##
+### Convert LYR to QGIS style XML ###
+| From | To |
+| ---- | ---|
+| **ESRI** .lyr | **QGIS** .xml | 
+
+Converts an ESRI LYR file to a QGIS style XML file that can be additionally be used in other applications. For QGIS, you can use the XML to load into the style manager, which is handy to port over standardised symbology used in worklows.
+
+![ESRI LYR to QGIS XML](../images/lyr-xml.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `LYR Datasets` ▶️ `Convert LYR to QGIS style XML`.
+2. In the `Input LYR file`, browse to the location of the *.lyr* file.
+3. Under `Destination style XML file`, set the location of the *.xml* file.
+4. Click `Run`.
+
+> This tool is available in the Community Edition and with the SLYR full licence.
+
+### Tool ###
+| From | To |
+| ---- | ---|
+| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+
+Description
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `LYR Datasets` ▶️ `X`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+
+### Tool ###
+| From | To |
+| ---- | ---|
+| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+
+Description
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `LYR Datasets` ▶️ `X`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+
+### Tool ###
+| From | To |
+| ---- | ---|
+| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+
+Description
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `LYR Datasets` ▶️ `X`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+
+***
