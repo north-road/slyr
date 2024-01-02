@@ -322,3 +322,25 @@ Imports a PAGX print layout into the current QGIS project.
 
 > This tool is available only with the SLYR full licence.
 ***
+## AVL styles ##
+### Convert AVL to QML ###
+| From | To |
+| ---- | ---|
+| **ESRI** .avl | **QGIS** .qml| 
+
+Converts an ESRI ArcInfo AVL file to a QGIS QML file.
+
+![AVL to QML](../images/avl-qml2.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `AVL styles` ▶️ `Convert AVL to QM`.
+2. In the `Input AVL file`, browse to the location of the *.avl* file.
+3. Under `Destination QML file`, set the location of the *.qml* file.
+4. Click `Run`.
+
+ ![Result of AVL to QML](../images/avl-qml-sierra-leone.png)
+ Conversion of Land cover of Sierra Leone - Globcover Regional (46 classes) (source: [FAO](https://data.apps.fao.org/catalog/iso/973fdcbe-c347-47a7-9af7-e2e57729a35b)
+  
+
+> This tool is available only with the SLYR full licence.
+***
+
