@@ -338,7 +338,7 @@ Converts an ESRI ArcInfo AVL file to a QGIS QML file.
 4. Click `Run`.
 
  ![Result of AVL to QML](../images/avl-qml-sierra-leone.png)
- Conversion of Land cover of Sierra Leone - Globcover Regional (46 classes) (source: [FAO](https://data.apps.fao.org/catalog/iso/973fdcbe-c347-47a7-9af7-e2e57729a35b)
+ Conversion of Land cover of Sierra Leone - Globcover Regional (46 classes) (source: [FAO](https://data.apps.fao.org/catalog/iso/973fdcbe-c347-47a7-9af7-e2e57729a35b))
   
 
 > This tool is available only with the SLYR full licence.
