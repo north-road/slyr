@@ -328,7 +328,7 @@ Imports a PAGX print layout into the current QGIS project.
 | ---- | ---|
 | **ESRI** .avl | **QGIS** .qml| 
 
-Converts an ESRI ArcInfo AVL file to a QGIS QML file.
+Converts an ESRI ArcInfo AVL file to a QGIS QML file. AVL files were the legend files for Arcview 3 but have been replaced by layer files. It is no longer possible to create AVL legend files in the last version of ArcMap.
 
 ![AVL to QML](../images/avl-qml2.png)
 
