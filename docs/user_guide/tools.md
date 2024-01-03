@@ -570,15 +570,48 @@ Description
 ### Extract SDE connection details  ###
 | From | To |
 | ---- | ---|
-| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+| **ESRI** .sde |.json | 
 
 This algorithm extracts the connection details from a .sde connection file. Optionally, a JSON representation containing these details can be exported.
 
-![image name](../images/image.png)
+![Extract SDE connection details](../images/sde.png)
 
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `SDE documents` ▶️ `Extract SDE connection details`.
+2. In the `Input SDE file`, browse to the location of the *.sde* file.
+3. Under `Destination JSON file [optional]`, set the location of the *.json* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+***
+## SLD ##
+### Convert LYR to SLD ###
+| From | To |
+| ---- | ---|
+| **ESRI** .aprx | **OGC** .sld | 
+
+Converts an ESRI LYR file to a OGC SLD file. If multiple layers are present in the LYR file, each will be converted to an individual OGC SLD file.
+
+![Layer to SLD](../images/lyr-sld.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `SLD` ▶️ `Convert LYR to SLD`.
+2. In the `Input LYR file`, browse to the location of the *.lyr* file.
+3. Under `Destination SLD file`, set the location of the *.sld* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+
+### Tool ###
+| From | To |
+| ---- | ---|
+| **ESRI** .aprx | **OGC** .sld | 
+
+Description
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `SLD` ▶️ `X`.
 2. In the `Input X`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
+3. Under `Destination SLD file`, set the location of the *.X* file.
 4. Click `Run`.
 
 > This tool is available only with the SLYR full licence.
