@@ -483,7 +483,7 @@ Note that the **ArcMap** symbology has a transparency setting to 50% and that th
 | ---- | ---|
 | **ESRI** .mxd | **QGIS** .qgs, .qgz | 
 
-Adds layers from an MXD document to the current project, respecting their original symbology.
+This tool will add layers from an MXD document to the current project, with each layers original symbology, including labels and placement. It won't be automatically saved, so remember to save it once it comes in. The layers will source the data from the original location. This tool could be used to bring in multiple mxds into a single project using the Batch Process tool. 
 
 ![Add layers from MXD](../images/mxd-layers.png)
 
