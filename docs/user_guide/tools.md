@@ -496,51 +496,56 @@ This tool will add layers from an MXD document to the current project, with each
 
 > This tool is available only with the SLYR full licence.
 
-### Tool ###
+### Convert MXD/MXT to QGS ###
 | From | To |
 | ---- | ---|
 | **ESRI** .mxd | **QGIS** .qgs, .qgz | 
 
-Description
+This tool converts an MXD or MXT document file to a QGIS project file. If you wish to save the project to qgz, open the project and click `save as` 
 
-![image name](../images/image.png)
+![Covert ArcMap to QGIS ](../images/mxd-qgs.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `X`.
-2. In the `Input MXD`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `Convert MXD/MXT to QGS`.
+2. In the `Input MXD/MXT file`, browse to the location of the *.mxd* file.
+3. Under `Destination QGS project file`, set the location of the *.qgs* file.
 4. Click `Run`.
+5. Navigate to the location of the newly created MXD and open it.
 
 > This tool is available only with the SLYR full licence.
 
-### Tool ###
+### Convert MXD/MXT to QGS and data to GPKG ###
 | From | To |
 | ---- | ---|
-| **ESRI** .mxd | **QGIS** .qgs, .qgz | 
+| **ESRI** .mxd | **QGIS** .qgs, .gpkg | 
 
-Description
+This tool converts an MXD or MXT document file to a QGIS project file, and converts all referenced data to standard formats.
+Referenced layer data stored in non-standard formats (such as MDB or GDB files) will be converted to the standard GeoPackage format in order to create projects which are optimized for use in QGIS and other open-source tools.
 
-![image name](../images/image.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `X`.
-2. In the `Input MXD`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
-4. Click `Run`.
+![image name](../images/mxd-qgs-data.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `Convert MXD/MXT to QGS and data to GPKG`.
+2. In the `Input MXD/MXT file`, browse to the location of the file.
+3. Under `Destination QGS project file`, set the location of the *.qgs* file.
+4. Under `Folder to store converted data in` enter in the location for the data.  
+5. Click `Run`.
 
 > This tool is available only with the SLYR full licence.
 
-### Tool ###
+### Export document structure ###
 | From | To |
 | ---- | ---|
-| **ESRI** .mxd | **QGIS** .qgs, .qgz | 
+| **ESRI** .mxd | .json | 
 
-Description
+This algorithm exports a JSON representation of the internal structure of an ESRI MXD or LYR document file. It is designed for debugging purposes, allowing users to view in-depth detail about the document structure and layer configuration.
 
-![image name](../images/image.png)
+![image name](../images/mxd-doc-export.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `X`.
-2. In the `Input MXD`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `Export document structure`.
+2. In the `Input MXD file`, browse to the location of the *.mxd* file.
+3. Under `Destination JSON file`, set the location of the *.json* file.
 4. Click `Run`.
+5. Open up the JSON file to inspect the structure.
 
 > This tool is available only with the SLYR full licence.
 ***
