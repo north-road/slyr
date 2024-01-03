@@ -539,13 +539,30 @@ Referenced layer data stored in non-standard formats (such as MDB or GDB files) 
 
 This algorithm exports a JSON representation of the internal structure of an ESRI MXD or LYR document file. It is designed for debugging purposes, allowing users to view in-depth detail about the document structure and layer configuration.
 
-![image name](../images/mxd-doc-export.png)
+![Export document structure](../images/mxd-doc-export.png)
 
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `Export document structure`.
 2. In the `Input MXD file`, browse to the location of the *.mxd* file.
 3. Under `Destination JSON file`, set the location of the *.json* file.
 4. Click `Run`.
 5. Open up the JSON file to inspect the structure.
+
+> This tool is available only with the SLYR full licence.
+***
+## PMF published maps ##
+### Convert PMF to QGS ###
+| From | To |
+| ---- | ---|
+| **ESRI** .pmf | **QGIS** .qgs | 
+
+Description
+
+![ArcReader PMF to QGS](../images/pmf-qgs.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `PMF published maps` ▶️ `Convert PMF to QGS`.
+2. In the `Input PMF file`, browse to the location of the *.pmf* file.
+3. Under `Destination QGS project file`, set the location of the *.qgs* file.
+4. Click `Run`.
 
 > This tool is available only with the SLYR full licence.
 ***
