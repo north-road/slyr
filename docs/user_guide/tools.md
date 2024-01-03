@@ -566,3 +566,20 @@ Description
 
 > This tool is available only with the SLYR full licence.
 ***
+## SDE documents ##
+### Extract SDE connection details  ###
+| From | To |
+| ---- | ---|
+| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+
+This algorithm extracts the connection details from a .sde connection file. Optionally, a JSON representation containing these details can be exported.
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `SDE documents` ▶️ `Extract SDE connection details`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+***
