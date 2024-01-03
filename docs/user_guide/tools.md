@@ -477,3 +477,70 @@ Note that the **ArcMap** symbology has a transparency setting to 50% and that th
 > This tool is available in the Community Edition and with the SLYR full licence.
 
 ***
+## MXD documents ##
+### Add layers from MXD to project ###
+| From | To |
+| ---- | ---|
+| **ESRI** .mxd | **QGIS** .qgs, .qgz | 
+
+Adds layers from an MXD document to the current project, respecting their original symbology.
+
+![Add layers from MXD](../images/mxd-layers.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `Add layers from MXD to projec`.
+2. In the `Input MXD file`, browse to the location of the *.mxd* file.
+3. Click `Run`.
+4. Save the project to a desired location.
+
+![Example of added layers from MXD to QGIS](../images/mxd-layers-example.png)
+
+> This tool is available only with the SLYR full licence.
+
+### Tool ###
+| From | To |
+| ---- | ---|
+| **ESRI** .mxd | **QGIS** .qgs, .qgz | 
+
+Description
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `X`.
+2. In the `Input MXD`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+
+### Tool ###
+| From | To |
+| ---- | ---|
+| **ESRI** .mxd | **QGIS** .qgs, .qgz | 
+
+Description
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `X`.
+2. In the `Input MXD`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+
+### Tool ###
+| From | To |
+| ---- | ---|
+| **ESRI** .mxd | **QGIS** .qgs, .qgz | 
+
+Description
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `MXD documents` ▶️ `X`.
+2. In the `Input MXD`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+***
