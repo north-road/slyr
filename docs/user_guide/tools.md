@@ -605,7 +605,7 @@ Converts an ESRI LYR file to a OGC SLD file. If multiple layers are present in t
 | ---- | ---|
 | **ESRI** .aprx | **OGC** .sld | 
 
-Converts an ArcGIS Pro LYRX file to a OGC SLD file.  
+Converts an **ArcGIS Pro** LYRX file to a **OGC** SLD file.  
 *N.B. If you have merged values in ArcGIS Pro, these will return as `ELSE`in QGIS. So reassess those categories that are merged or once you are in QGIS, create the rules based on these values*
 
 ![ArcGIS Pro LYRX to OGC SLD](../images/lyrx-sld.png)
@@ -618,6 +618,21 @@ Converts an ArcGIS Pro LYRX file to a OGC SLD file.
 > This tool is available only with the SLYR full licence.
 ***
 ## Style databases ##
+### Convert ESRI style to GPL color palette ###
+| From | To |
+| ---- | ---|
+| **ESRI** style database | **QGIS** .qgs, .qgz | 
+
+Converts **ESRI Arcmap** style database to a GPL format color palette file, extracting all color entities saved in the style. GPL files can be used in **Inkscape** and **GIMP** but for **QGIS**, you can load them via `Settings` ▶️ `Options` ▶️ `Colors`.
+
+![image name](../images/style-gpl.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Style databases` ▶️ `X`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
 ### Tool ###
 | From | To |
 | ---- | ---|
@@ -627,7 +642,7 @@ Description
 
 ![image name](../images/image.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Group` ▶️ `X`.
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Style databases` ▶️ `X`.
 2. In the `Input X`, browse to the location of the *.X* file.
 3. Under `Destination X`, set the location of the *.X* file.
 4. Click `Run`.
