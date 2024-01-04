@@ -655,3 +655,20 @@ For importing a large amount of symbology from your styles, this tool converts *
 
 > This tool is available only with the SLYR full licence.
 ***
+## SXD documents ##
+### Tool ###
+| From | To |
+| ---- | ---|
+| **ESRI** .sxd | **QGIS** .qgs | 
+
+Converts an ArcScene SXD document file to a 2D QGIS project file.
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `SXD documents` ▶️ `Convert SXD to QGS (2D)`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+***
