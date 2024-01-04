@@ -623,7 +623,7 @@ Converts an **ArcGIS Pro** LYRX file to a **OGC** SLD file.
 | ---- | ---|
 | **ESRI** style database | **QGIS** .qgs, .qgz | 
 
-Converts **ESRI Arcmap** style database to a GPL format color palette file, extracting all color entities saved in the style. GPL files can be used in **Inkscape** and **GIMP** but for **QGIS**, you can load them via `Settings` ▶️ `Options` ▶️ `Colors`.
+This is a great tool if you use a standard palette for your cartography. It converts **ESRI Arcmap** style database to a GPL format color palette file, extracting all color entities saved in the style. GPL files can be used in **Inkscape** and **GIMP** but for **QGIS**, you can load them via `Settings` ▶️ `Options` ▶️ `Colors`.
 
 ![image name](../images/style-gpl.png)
 
