@@ -591,7 +591,7 @@ This algorithm extracts the connection details from a .sde connection file. Opti
 
 Converts an ESRI LYR file to a OGC SLD file. If multiple layers are present in the LYR file, each will be converted to an individual OGC SLD file.
 
-![Layer to SLD](../images/lyr-sld.png)
+![ArcMap Layer to SLD](../images/lyr-sld.png)
 
 1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `SLD` ▶️ `Convert LYR to SLD`.
 2. In the `Input LYR file`, browse to the location of the *.lyr* file.
@@ -600,18 +600,19 @@ Converts an ESRI LYR file to a OGC SLD file. If multiple layers are present in t
 
 > This tool is available only with the SLYR full licence.
 
-### Tool ###
+### Convert LYRX to SLD ###
 | From | To |
 | ---- | ---|
 | **ESRI** .aprx | **OGC** .sld | 
 
-Description
+Converts an ArcGIS Pro LYRX file to a OGC SLD file. 
+  *N.B. If you have merged values in ArcGIS Pro, these will return as `ELSE`in QGIS.*
 
-![image name](../images/image.png)
+![ArcGIS Pro LYRX to OGC SLD](../images/lyrx-sld.png)
 
-1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `SLD` ▶️ `X`.
-2. In the `Input X`, browse to the location of the *.X* file.
-3. Under `Destination SLD file`, set the location of the *.X* file.
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `SLD` ▶️ `Convert LYRX to SLD`.
+2. In the `Input LYRX file`, browse to the location of the *.lyrx* file.
+3. Under `Destination SLD file`, set the location of the *.sld* file.
 4. Click `Run`.
 
 > This tool is available only with the SLYR full licence.
