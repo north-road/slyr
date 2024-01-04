@@ -605,8 +605,8 @@ Converts an ESRI LYR file to a OGC SLD file. If multiple layers are present in t
 | ---- | ---|
 | **ESRI** .aprx | **OGC** .sld | 
 
-Converts an ArcGIS Pro LYRX file to a OGC SLD file. 
-⋅⋅⋅*N.B. If you have merged values in ArcGIS Pro, these will return as `ELSE`in QGIS.*
+Converts an ArcGIS Pro LYRX file to a OGC SLD file.  
+*N.B. If you have merged values in ArcGIS Pro, these will return as `ELSE`in QGIS. So reassess those categories that are merged or once you are in QGIS, create the rules based on these values*
 
 ![ArcGIS Pro LYRX to OGC SLD](../images/lyrx-sld.png)
 
