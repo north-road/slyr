@@ -617,3 +617,20 @@ Converts an ArcGIS Pro LYRX file to a OGC SLD file.
 
 > This tool is available only with the SLYR full licence.
 ***
+## Style databases ##
+### Tool ###
+| From | To |
+| ---- | ---|
+| **ESRI** style database | **QGIS** .qgs, .qgz | 
+
+Description
+
+![image name](../images/image.png)
+
+1. In the **QGIS** `Processing Toolbox` Click on `SLYR` ▶️ `Group` ▶️ `X`.
+2. In the `Input X`, browse to the location of the *.X* file.
+3. Under `Destination X`, set the location of the *.X* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full licence.
+***
