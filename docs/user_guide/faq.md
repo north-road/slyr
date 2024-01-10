@@ -6,8 +6,44 @@ Have a question? Check the entries below for an answer.
 ## Cost of SLYR Plugin ##
 At the time of writing, to purchase the SLYR Plugin costs €1200. For those located outside of Europe, the cost will be as per the conversion rate at the time of issuing the invoice. 
 
+## File Formats 
+SLYR uses many file formats, you will know what you are doing, but just in case you have drawn a blank, here is  alist of those you may encounter.
+|      **Format**    |           **Source**                                                                                        |   **Software Project**     |
+| ------------------ | ----------------------------------------------------------------------------------------------------------- | ---------------- |
+| Layer              | QGIS speak for a data layer                                                                                 | QGIS             |
+| QGIS style XML     | QGIS style file                                                                                             | QGIS             |
+| QGS                | QGIS map file                                                                                               | QGIS             |
+| QLR                | QGIS Layer Definition File - export many file styles in a group                                             | QGIS             |
+| QMD                | QGIS metadata fle                                                                                           | QGIS             |
+| QML                | QGIS style file                                                                                             | QGIS             |
+| GPKG               | Various                                                                                                     | OGC              |
+| SLD                | Styled layer descriptor: XML descriptor, OGC standard                                                       | OGC              |
+| WMS                | Web Mapping Service                                                                                         | OGC              |
+| CSS                | Cascading style sheet                                                                                       | HTML             |
+| GPL color palette  | GIMP                                                                                                        | GIMP/QGIS        |
+| Annotation classes | ESRI file that contains properties that determine how a subset of annotation in the feature class displays. | ESRI             |
+| APTX               | ArcGIS Pro Project template                                                                                 | ESRI             |
+| AVL                | Arcview style                                                                                               | ESRI             |
+| ESRI APTX          | ESRI labelling file that may be text or a graphic. It enables placement control by the user                 | ESRI             |
+| LXRX               | ArcGIS Pro                                                                                                  | ESRI             |
+| LYR                | ArcMap style                                                                                                | ESRI             |
+| MAPX               | ArcGIS Pro map file                                                                                         | ESRI             |
+| MDB                | Personal geodatabase                                                                                        | ESRI             |
+| MXD                | Arcgis Map file                                                                                             | ESRI             |
+| MXT                | ArcGIS Map template                                                                                         | ESRI             |
+| PAGX               | ArcGIS Pro Layout file                                                                                      | ESRI             |
+| PMF                | ArcMap ESRI Published map for ArcReader                                                                     | ESRI             |
+| PPRX               | ArcGIS Pro aprx zipped file                                                                                 | ESRI             |
+| Representations    | ArcMap symbol information stored inside feature classes                                                     | ESRI             |
+| SDE                | ArcSDE connection file                                                                                      | ESRI             |
+| STYLE              | An ArcGIS style is really a Microsoft Access database.                                                      | ESRI             |
+| STYLX              | ArcGIS Pro                                                                                                  | ESRI             |
+| SXD                | ArcScene                                                                                                    | ESRI             |
+| VTPK               | Vector tile package                                                                                         | ESRI             |
+
+
 ## How many users will a licence cover ##
-The **SLYR** licence agreement covers use by mulitple users in the same physical location i.e. an office address. It will also cover remote users that are attached to the defined physical location. If you have multiple locations that require use of the licence, please let [us](mailto:info@north-road.com) know and we will assess each case on an individual basis. 
+A single **SLYR** licence agreement covers use by 20 users in the same physical location i.e. an office address. It will also cover remote users that are attached to the defined physical location. If you have multiple locations, or over 20 users that require use of the licence, please let [us](mailto:info@north-road.com) know and we will assess each case on an individual basis. 
 
 ## How to run the tool outside of QGIS ##
 While it's possible to call the **Python** modules directly from standalone scripts, this is not recommend and is not officially supported by **North Road**. However, the official endorsed way of running the tools outside of **QGIS** is to use `qgis_process`.
