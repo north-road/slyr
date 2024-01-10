@@ -118,11 +118,11 @@ Need QGIS 3.24 or later.
 When you load in your LYR files using **SLYR** and the `Repair data source`![Repair data source](../images/repair_data_source.png) appears next to the data, this means the pathway is broken. 
 
 ![Repair LYR files](../images/LYR_repair2.png)
-> There's  a number of possible causes for this, but ultimately it means that QGIS  can't find the data files referenced by the LYR file. (LYR files don't  contain any actual data themselves, just links to where data is stored  elsewhere)
- >  * The data has been moved.
- >  * The data no longer exists.
- >  * The LYR file has relative paths to the data files (eg  .\transport\roads.shp), and the converted QGIS file wasn't saved to the  same location as the original LYR file. When relative paths are used, then the QGIS files must be saved alongside their original counterparts for these relative paths to point to the correct locations.
- >   >  
+> There's  a number of possible causes for this, but ultimately it means that QGIS  can't find the data files referenced by the LYR file. (LYR files don't  contain any actual data themselves, just links to where data is stored  elsewhere)  
+ >  * The data has been moved.  
+ >  * The data no longer exists.  
+ >  * The LYR file has relative paths to the data files (eg  .\transport\roads.shp), and the converted QGIS file wasn't saved to the  same location as the original LYR file. When relative paths are used, then the QGIS files must be saved alongside their original counterparts for these relative paths to point to the correct locations.  
+ >   
 > **Workaround:** 
  > Find the location of the files and point the layers to this source. 
 
