@@ -6,8 +6,8 @@
 **ArcMap** 10.8.2  
 **ArcGIS** Pro 3.2.0  
 **QGIS** 3.34.0  
-| Version | Date | Details |
-| --- | --- | --- |
+| Version | Date | Details 
+| --- | --- | --- 
 | 7.1.5   | 2023-12-31  | Fix APRX exports when layers have non-english characters, handle conversion of marker rotation via symbol overrides |
 | 7.1.4   | 2023-12-08  | Much improved ArcGIS Pro exports |
 | 7.1.0   | 2023-11-16  | Support for ArcGIS Pro 3.2. Add tool to convert APRX/MAPX to QGS and data to GPKG. Much improved layout label item placement. Support conversion of some Data Interoperability layers (TAB, GeoJSON, WFS). Improved WMS layer conversion. Better conversion of joined layers. Improved scale bar conversions. Don't skip layers with Picture Line symbols. |
