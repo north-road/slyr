@@ -13,6 +13,9 @@ access the **SLYR** options.
 
 ![SLYR Options](../images/options_lic.png)
 
+The **SLYR Community Edition** options are a little different.
+![SLYR Community Edition Options](../images/options_CE2.png)
+
 ### Plugin Settings ###
 
 | Setting                           | Description                                                                                                                                                               | Directions                                                                       |
