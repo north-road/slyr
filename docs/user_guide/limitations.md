@@ -30,10 +30,13 @@ SLYR cannot translate a QGIS graduated renderer to any comparable result in ArcG
 
 ## Label Class disabled in ArcGIS Pro ##
 When using the QGS to MAPX tool, the Label Class options are disabled in ArcGIS Pro.
-> Workaround: tbc
-
-
+> Workaround: tbc  
+>
 > Proposed solution: currently working on it
+
+## Legend Text ##
+- Wrapped legend text is currently not supported.
+
 
 ## QGIS to MXD ##
 SLYR does not offer assistance in transforming QGIS projects into MXD. However, it does support the conversion of QGIS projects to newer ArcGIS Pro formats like LYRX, MAPX, and APRX. Since ArcMap is undergoing phased-out development, slated to end in March 2026, SLYR has concentrated its conversion efforts on ESRI formats with assured future support and maintenance. Consequently, the development of a QGIS to MXD conversion tool is not being pursued. Given the available alternatives of using either QGIS or ArcGIS Pro for similar tasks, dedicating resources to this particular undertaking is currently deemed impractical.
