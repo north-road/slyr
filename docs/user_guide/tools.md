@@ -46,6 +46,7 @@ If you are converting graphical or text annotations which are stored in an Arc
 | From | To |
 | ---- | ---|
 | **ESRI** .gdp | **QGIS** .gpkg | 
+
 Use this tool if you are converting text annotations stored in a File Geodatabase annotation class and want the result to be reusable across different projects.  
 This tool will take an annotation class currently saved in a geodatabase and convert it into a geopackage layer. 
 ![Annotation to Geopackage](../images/anno_to_gpkg.png)
@@ -60,6 +61,7 @@ This tool will take an annotation class currently saved in a geodatabase and con
 | From | To |
 | ---- | ---|
 | **ESRI** annotation layer | **QGIS** ? annotation layer | 
+
 Use this tool if you are converting text annotations stored in a File Geodatabase annotation class and just want the results added to the current project.  
 
 ![Convert annotations](../images/anno_convert.png)
