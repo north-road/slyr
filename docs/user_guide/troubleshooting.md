@@ -55,13 +55,13 @@ If polyline and point feature classes do not display despite them appearing in t
  > - Under the `Indexes` tab, choose whether to rebuild the index, remove or re-create it.
  > - Rerun the **SLYR** tool.
 
-### Personal Geodatabases (PGDB)
-If you are running **Windows**, you may come across some issues with the conversion of Personal Geodatabases (PGDB). Don't worry, there is a fix for this. You may neeed Admin rights on your computer. 
+### Personal Geodatabases (MDB/PGDB)
+If you are running **Windows**, you may come across some issues with the conversion of Personal Geodatabases (PGDB). Don't worry, there is a fix for this. You may need Admin rights on your computer. 
 > **Fix:**
 > 
  > - Download the 64-bit version of the ODBC driver from [Microsoft](https://www.microsoft.com/en-gb/download/details.aspx?id=13255)
 >    
- > N.B. If you don't have a 32-bit version of office installed you can just run the executable. If however you do have a 32-bit office installation you will need to run the executable from a command prompt using the /passive option
+ > N.B. If you don't have a 32-bit version of office installed you can just run the executable. If, however, you do have a 32-bit office installation you will need to run the executable from a command prompt using the /passive option
 
 ### Raster conversion ###
 Please ensure that you have the QGIS v3.30.3 or v3.28.7 to enable this function. 
