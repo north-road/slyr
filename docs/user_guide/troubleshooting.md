@@ -126,6 +126,11 @@ When you load in your LYR files using **SLYR** and the `Repair data source`![Rep
 > **Workaround:** 
  > Find the location of the files and point the layers to this source. 
 
+## Nested Joins ##
+A nested joins is when table A is joined to table B which is itself joined to table C, and this could go on. These are currently being developed for SLYR. 
+
+> **Workaround:** 
+ > Open each of the file in QGIS and join one of the files to each other, keep the fields you need and export that out. Then join the additional files onto
 
 ## Reinstall my SLYR Plugin ##
 If you have changed machines, you may need to reinstall the **SLYR** Plugin. 
