@@ -30,12 +30,13 @@ Issue
  > 
  > - Instruction
 --->
-<!---
+
 ## Annotations ##
-Annotations are on our roadmap! 
-The good news: if your annotation was created in ArcMap, SLYR can convert it. 
-The not-so- good news: annotations created in ArcGIS Pro have changed and we are still working on creating this tool. 
---->
+If you are converting:
+- Text annotations stored in a File Geodatabase annotation class and want the result to be reusable across different projects, you should use the "Convert Annotation Classes to Geopackage" tool
+- Text annotations stored in a File Geodatabase annotation class and just want the results added to the current project, you should use the "Convert Annotations" tool
+- Graphical or text annotations which are stored in an ArcGIS Project file (eg a MXD, LYR, APRX, LYRX file) and the underlying data source is NOT a File Geodatabase annotation class then use the corresponding tool for converting this document type 
+
 
 ## Fonts ##
 The font is not coming into the conversion or you get an error message at the top that the font is not recognised. 
