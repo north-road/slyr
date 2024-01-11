@@ -39,12 +39,14 @@ Description
 > This tool is available only with the SLYR full licence.
 ***
 --->
-## INCOMPLETE Annotations ## ****this is currently not working***** THINKING IT MAY ONLY WORK FROM ARCMAP and NOT ArcGIS Pro********
-<!---### Convert annotation classes to GeoPackage ###
+## Annotations ##
+If you are converting graphical or text annotations which are stored in an ArcGIS Project file (eg a MXD, LYR, APRX, LYRX file) and the underlying data source is NOT a File Geodatabase annotation class then use the corresponding tool for converting this document type.
+
+### Convert annotation classes to GeoPackage ###
 | From | To |
 | ---- | ---|
 | **ESRI** .gdp | **QGIS** .gpkg | 
-???can it add to a geopackage or dos it create a gpkg each time????
+Use this tool if you are converting text annotations stored in a File Geodatabase annotation class and want the result to be reusable across different projects.  
 This tool will take an annotation class currently saved in a geodatabase and convert it into a geopackage layer. 
 ![Annotation to Geopackage](../images/anno_to_gpkg.png)
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `Annotations` ▶️ `Convert annotation classes to GeoPackage`.
@@ -58,8 +60,8 @@ This tool will take an annotation class currently saved in a geodatabase and con
 | From | To |
 | ---- | ---|
 | **ESRI** annotation layer | **QGIS** ? annotation layer | 
+Use this tool if you are converting text annotations stored in a File Geodatabase annotation class and just want the results added to the current project.  
 
-Description
 ![Convert annotations](../images/anno_convert.png)
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `Annotations` ▶️ `Convert annotations`.
 2. In the `Input layer`, browse to the location of the *.X* file.
