@@ -6,3 +6,5 @@
 *.ldb
 **/.idea/**
 **/.pytest_cache/**
+docs/.vitepress/dist
+docs/.vitepress/cache
