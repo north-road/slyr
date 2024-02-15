@@ -19,6 +19,6 @@ jobs:
         TARGET_REPO: username/repo
         TARGET_BRANCH: master
         BUILD_SCRIPT: cd docs && yarn && yarn build
-        BUILD_DIR: docs/.vuepress/dist
+        BUILD_DIR: src/.vuepress/dist
         CNAME: https://slyr.north-road.com
 
