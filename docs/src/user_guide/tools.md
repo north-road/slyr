@@ -366,10 +366,9 @@ maps, containing all the layers from the QGIS project.
 | **ESRI** .stylx | **QGIS** .gpl | 
 
 Converts an ArcGIS Pro STYLX database to a GPL format color palette file,
-extracting all color entities saved in the style. GPL color palettes are a file
-format for GIMP color palettes - [GIMP](https://www.gimp.org/) is a
-cross-platform image editor available for GNU/Linux, macOS, Windows etc and can
-be added to your QGIS palette options.
+extracting all color entities saved in the style. GPL color palettes are a standard
+file format for sharing color schemes, and these palettes can be added to your
+QGIS color libraries for easy access.
 
 ![STYLX to GPL](../images/stylx_gpl2.png)
 
