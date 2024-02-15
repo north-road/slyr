@@ -31,7 +31,7 @@ jobs:
         files: docs/src/.
         config_file: .markdownlint.yaml
         dot: true
-        ignore_files: examples/ignore/*
-        ignore_path: examples/.markdownlintignore
-        rules: examples/rules/custom.js
+        # ignore_files: examples/ignore/*
+        # ignore_path: examples/.markdownlintignore
+        # rules: examples/rules/custom.js
 
