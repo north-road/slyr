@@ -1,6 +1,4 @@
-<!-- use pronouns-->
-
-# Frequently Asked Questions
+# FAQ
 
 Have a question? Check the entries below for an answer.
 > If the answer to your question is not here, please email us
