@@ -1,5 +1,8 @@
-name: Documentation
-on: [pull_request]
+name: Check documentation
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
 
 jobs:
 
