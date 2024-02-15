@@ -1,8 +1,10 @@
-name: Documentation
+name: Build documentation
 on:
   push:
     branches:
       - master
+    paths:
+      - 'docs/**'
 
 jobs:
   build-and-deploy:
