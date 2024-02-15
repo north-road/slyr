@@ -133,13 +133,6 @@ dropping complex options back to simpler SLD supported symbology.
 > Proposed solution: will improve with QGIS' SLD capabilities. If this is a
 > major issue, consider funding the capability development of it.
 
-## SVG Markers
-
-Warning: Water: QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet
-> Workaround: remove the SVG Marker or save it to import into ArcGIS Pro
-
-> Proposed solution: currently working on it
-
 ## Vector tile packs - Index
 
 There are two types of Vector Tile Packs (VTPK) in **ESRI**:
