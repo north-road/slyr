@@ -17,7 +17,7 @@ jobs:
       - name: Lint
         uses: reviewdog/action-markdownlint@v0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           fail_on_error: true
           markdownlint_flags: "./docs/src --disable MD013"
@@ -31,7 +31,7 @@ jobs:
       - name: spellcheck
         uses: reviewdog/action-misspell@v1
         with:
-          github_token: ${{ github.token }}
+          github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           fail_on_error: true
           locale: "US"
