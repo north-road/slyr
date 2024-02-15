@@ -1,6 +1,6 @@
-# SLYR Tools #
+# SLYR Tools
 
-## Before you start ##
+## Before you start
 Here is a checklist to help your conversions and workings with **SLYR** run a little bit smoother.
 
 > ✔️ **Populate settings requirements:**  set-up the **SLYR Options** following these [guidelines](https://slyr.north-road.com/user_guide/setup_slyr).
@@ -39,10 +39,10 @@ Description
 > This tool is available only with the SLYR full licence.
 ***
 --->
-## Annotations ##
+## Annotations
 If you are converting graphical or text annotations which are stored in an ArcGIS Project file (eg a MXD, LYR, APRX, LYRX file) and the underlying data source is NOT a File Geodatabase annotation class then use the corresponding tool for converting this document type.
 
-### Convert annotation classes to GeoPackage ###
+### Convert annotation classes to GeoPackage
 | From | To |
 | ---- | ---|
 | **ESRI** .gdp | **QGIS** .gpkg | 
@@ -57,7 +57,7 @@ This tool will take an annotation class currently saved in a geodatabase and con
 > This tool is available only with the SLYR full licence.
 ***
 
-### Convert Annotations ###
+### Convert Annotations
 | From | To |
 | ---- | ---|
 | **ESRI** annotation layer | **QGIS** ? annotation layer | 
@@ -74,8 +74,8 @@ Use this tool if you are converting text annotations stored in a File Geodatab
 > This tool is available only with the SLYR full licence.
 ***
 --->
-## ArcGIS Pro ##
-### Convert APRX to QGS ###
+## ArcGIS Pro
+### Convert APRX to QGS
 | From | To |
 | ---- | ---|
 | **ESRI** .aprx | **QGIS** .qgs, .qgz | 
@@ -91,7 +91,7 @@ Converts an APRX document file to a QGS project file.
 
 > This tool is available only with the SLYR full licence.
 ***
-### Convert QGS to APRX ###
+### Convert QGS to APRX
 | From | To |
 | ---- | ---|
 | **QGIS** .qgs, .qgz | **ESRI** .aprx |
@@ -112,7 +112,7 @@ Converts a QGIS project file to an APRX file.
 
 > This tool is available only with the SLYR full licence.
 ***
-### Convert GPL color palette to STYLX ###
+### Convert GPL color palette to STYLX
 | From | To |
 | ---- | ---|
 | .gpl| **ESRI** .stylx | 
@@ -134,7 +134,7 @@ GPL color palettes can be created in graphics programs such as GIMP and Inkscape
 
 > This tool is available only with the SLYR full licence.
 ***
-### Convert layer to LYRX ###
+### Convert layer to LYRX
 | From | To |
 | ---- | ---|
 | **QGIS** layer | **ESRI** .lyrx | 
@@ -151,7 +151,7 @@ Once you have set up your symbology on your layer, **SLYR** will extract the sym
 
 > This tool is available only with the SLYR full licence.
 ***
-### Convert LYRX to QLR ###
+### Convert LYRX to QLR
 | From | To |
 | ---- | ---|
 | **ESRI** .lyrx | **QGIS** .qlr | 
@@ -170,7 +170,7 @@ Converts an ArcGIS Pro LYRX file to a QGIS QLR file. Both of these files act sim
 
 > This tool is available only with the SLYR full licence.
 ***
-### Convert LYRX to QML ###
+### Convert LYRX to QML
 | From | To |
 | ---- | ---|
 | **ESRI** .lyrx | **QGIS** .qml | 
@@ -191,7 +191,7 @@ Converts an ArcGIS Pro LYRX file to a QGIS QML file. If multiple layers are pres
 
 > This tool is available only with the SLYR full licence.
 ***
-### Convert LYRX to SLD ###
+### Convert LYRX to SLD
 | From | To |
 | ---- | ---|
 | **ESRI** .lyr/.lyrx | **QGIS** .sld | 
@@ -212,7 +212,7 @@ Converts ESRI LYR or LYRX files to the "SLD" format (Styled Layer Descriptor). T
 
 > This tool is available only with the SLYR full licence.
 ***
-### Convert MAPX to QGS ###
+### Convert MAPX to QGS
 | From | To |
 | ---- | ---|
 | **ESRI** .mapx | **QGIS** .qgs | 
@@ -234,7 +234,7 @@ Converts an MAPX document file to a QGS project file.
 
 > This tool is available only with the SLYR full licence.
 ***
-### Convert QGIS style XML to STYLX ###
+### Convert QGIS style XML to STYLX
 | From | To |
 | ---- | ---|
 | **QGIS** .xml| **ESRI** .stylx |
@@ -250,7 +250,7 @@ Converts a QGIS XML style database to an ArcGIS Pro STYLX database. You will nee
 
 > This tool is available only with the SLYR full licence.
 ***
-### Convert QGIS to MAPX ###
+### Convert QGIS to MAPX
 | From | To |
 | ---- | ---|
 | **QGIS** .qgz, qgs | **ESRI ArcGIS Pro** .mapx |
@@ -270,7 +270,7 @@ Converts a **QGIS** project to a *.mapx*. A *.mapx* is an ESRI map file format u
 > Available only with the SLYR full licence.
 > Can be run as a batch tool 
 ***
-### Convert STYLX to GPL color palette ###
+### Convert STYLX to GPL color palette
 | From | To |
 | ---- | ---|
 | **ESRI** .stylx | **QGIS** .gpl | 
@@ -292,7 +292,7 @@ In this example, I have added a Landuse - Natural Environment GPL palette.
 
 > This tool is available only with the SLYR full licence.
 ***
-### Convert STYLX to QGIS style XML ###
+### Convert STYLX to QGIS style XML
 | From | To |
 | ---- | ---|
 | **ESRI** .stylx | **QGIS** .xml | 
@@ -310,7 +310,7 @@ Converts an ArcGIS Pro STYLX database to a QGIS XML Style library. This is parti
 
 > This tool is available only with the SLYR full licence.
 ***
-### Import PAGX print layout ###
+### Import PAGX print layout
 | From | To |
 | ---- | ---|
 | **ESRI** .pagx | **QGIS** .qgs, .qgz | 
@@ -327,8 +327,8 @@ Imports a PAGX print layout into the current QGIS project.
 
 > This tool is available only with the SLYR full licence.
 ***
-## AVL styles ##
-### Convert AVL to QML ###
+## AVL styles
+### Convert AVL to QML
 | From | To |
 | ---- | ---|
 | **ESRI** .avl | **QGIS** .qml| 
@@ -349,12 +349,12 @@ Converts an ESRI ArcInfo AVL file to a QGIS QML file. AVL files were the legend 
 > This tool is available only with the SLYR full licence.
 ***
 
-## Data Conversion ##
+## Data Conversion
 **QGIS** [has the capability of creating, reading and managing Geodatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/), therefore conversion is not necessary to keep on working with your data in **QGIS**. Understanding why you want to convert from a geodatabase to a geopackage is important. 
 - If you are still going to work alongside **ESRI** software, then the recommendation here is ***not*** to convert it.  
 - If you are moving completely to **QGIS**, and just love the extra functionality that geopackages give you, then continue on with the data conversion. 
 
-### Convert File Geodatabase to GeoPackage ###
+### Convert File Geodatabase to GeoPackage
 | From | To |
 | ---- | ---|
 | **ESRI** .gdb | **OGC** .gpkg | 
@@ -374,7 +374,7 @@ This tool will convert:
    
 > This tool is available only with the SLYR full licence.
 
-### Convert project data to GPKG ###
+### Convert project data to GPKG
 | From | To |
 | ---- | ---|
 | **QGIS** loaded layers | **OGC** .gpkg | 
@@ -394,8 +394,8 @@ in order to create projects and data files which are optimized for use in QGIS a
 ***
 
 --- tool currently not working
-## Hyperlinks ##
-### Extract hyperlinks to tables ###
+## Hyperlinks
+### Extract hyperlinks to tables
 | From | To |
 | ---- | ---|
 | **ESRI** .mxd/.mxt/.pmf/.lyr | **OGC** .gpkg | 
@@ -412,8 +412,8 @@ Extract hyperlinks from layers to standalone tables
 > This tool is available only with the SLYR full licence.
 ***
 
-## LYR Datasets ##
-### Convert LYR to QGIS style XML ###
+## LYR Datasets
+### Convert LYR to QGIS style XML
 | From | To |
 | ---- | ---|
 | **ESRI** .lyr | **QGIS** .xml | 
@@ -429,7 +429,7 @@ Converts an ESRI LYR file to a QGIS style XML file that can be additionally be u
 
 > This tool is available in the Community Edition and with the SLYR full licence.
 
-### Convert LYR to QLR ###
+### Convert LYR to QLR
 | From | To |
 | ---- | ---|
 | **ESRI** .lyr | **QGIS** .qlr | 
@@ -445,7 +445,7 @@ Converts an ESRI LYR file to a QGIS QLR file.
 
 > This tool is available in the Community Edition and with the SLYR full licence.
 
-### Convert LYR to QML ###
+### Convert LYR to QML
 | From | To |
 | ---- | ---|
 | **ESRI** .lyr | **QGIS** .qml | 
@@ -461,7 +461,7 @@ Converts an ESRI LYR file to a QGIS QML file. If multiple layers are present in 
 
 > This tool is available in the Community Edition and with the SLYR full licence.
 
-### Set style from LYR file ###
+### Set style from LYR file
 | From | To |
 | ---- | ---|
 | **ESRI** .lyr | **QGIS** layer symbology | 
@@ -481,8 +481,8 @@ Note that the **ArcMap** symbology has a transparency setting to 50% and that th
 > This tool is available in the Community Edition and with the SLYR full licence.
 
 ***
-## MXD documents ##
-### Add layers from MXD to project ###
+## MXD documents
+### Add layers from MXD to project
 | From | To |
 | ---- | ---|
 | **ESRI** .mxd | **QGIS** .qgs, .qgz | 
@@ -500,7 +500,7 @@ This tool will add layers from an MXD document to the current project, with each
 
 > This tool is available only with the SLYR full licence.
 
-### Convert MXD/MXT to QGS ###
+### Convert MXD/MXT to QGS
 | From | To |
 | ---- | ---|
 | **ESRI** .mxd | **QGIS** .qgs, .qgz | 
@@ -517,7 +517,7 @@ This tool converts an MXD or MXT document file to a QGIS project file. If you wi
 
 > This tool is available only with the SLYR full licence.
 
-### Convert MXD/MXT to QGS and data to GPKG ###
+### Convert MXD/MXT to QGS and data to GPKG
 | From | To |
 | ---- | ---|
 | **ESRI** .mxd | **QGIS** .qgs, .gpkg | 
@@ -536,7 +536,7 @@ Referenced layer data stored in non-standard formats (such as MDB or GDB files) 
 
 > This tool is available only with the SLYR full licence.
 
-### Export document structure ###
+### Export document structure
 | From | To |
 | ---- | ---|
 | **ESRI** .mxd | .json | 
@@ -553,8 +553,8 @@ This algorithm exports a JSON representation of the internal structure of an ESR
 
 > This tool is available only with the SLYR full licence.
 ***
-## PMF published maps ##
-### Convert PMF to QGS ###
+## PMF published maps
+### Convert PMF to QGS
 | From | To |
 | ---- | ---|
 | **ESRI** .pmf | **QGIS** .qgs | 
@@ -570,8 +570,8 @@ Description
 
 > This tool is available only with the SLYR full licence.
 ***
-## SDE documents ##
-### Extract SDE connection details  ###
+## SDE documents
+### Extract SDE connection details
 | From | To |
 | ---- | ---|
 | **ESRI** .sde |.json | 
@@ -587,8 +587,8 @@ This algorithm extracts the connection details from a .sde connection file. Opti
 
 > This tool is available only with the SLYR full licence.
 ***
-## SLD ##
-### Convert LYR to SLD ###
+## SLD
+### Convert LYR to SLD
 | From | To |
 | ---- | ---|
 | **ESRI** .aprx | **OGC** .sld | 
@@ -604,7 +604,7 @@ Converts an ESRI LYR file to a OGC SLD file. If multiple layers are present in t
 
 > This tool is available only with the SLYR full licence.
 
-### Convert LYRX to SLD ###
+### Convert LYRX to SLD
 | From | To |
 | ---- | ---|
 | **ESRI** .aprx | **OGC** .sld | 
@@ -621,8 +621,8 @@ Converts an **ArcGIS Pro** LYRX file to a **OGC** SLD file.
 
 > This tool is available only with the SLYR full licence.
 ***
-## Style databases ##
-### Convert ESRI style to GPL color palette ###
+## Style databases
+### Convert ESRI style to GPL color palette
 | From | To |
 | ---- | ---|
 | **ESRI** style database | **QGIS** .qgs, .qgz | 
@@ -638,7 +638,7 @@ This is a great tool if you use a standard palette for your cartography. It conv
 
 > This tool is available only with the SLYR full licence.
 
-### Convert ESRI style to QGIS style XML ###
+### Convert ESRI style to QGIS style XML
 | From | To |
 | ---- | ---|
 | **ESRI** style database | **QGIS** .xml | 
@@ -659,8 +659,8 @@ For importing a large amount of symbology from your styles, this tool converts *
 
 > This tool is available only with the SLYR full licence.
 ***
-## SXD documents ##
-### Tool ###
+## SXD documents
+### Tool
 | From | To |
 | ---- | ---|
 | **ESRI ArcScene** .sxd | **QGIS** .qgs | 
@@ -676,3 +676,4 @@ Converts an ArcScene SXD document file to a 2D QGIS project file.
 
 > This tool is available only with the SLYR full licence.
 ***
+

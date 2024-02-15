@@ -11,7 +11,7 @@ Once purchased, **SLYR's** support is perpetual!
 > * No annual maintenance 
 > * Update at your leisure using the **QGIS Plugin Manager**. 
 
-## Install the **SLYR (Community Edition)** ##
+## Install the **SLYR (Community Edition)**
 To install the **SLYR (Community Edition)**, open the **Plugin Manager**, click on the top menu item `Plugins` ▶️ `Manage and Install Plugins`.
 
 ![Open Plugin Manager](../images/plugin_mngr_open2.png)
@@ -30,7 +30,7 @@ The **SLYR (Community Edition)** will appear in the browser panel. Expand the to
 >The **SLYR (Community Edition)** has limited tools - check the [SLYR Blog](https://north-road.com/slyr/) for availability as we update tool accessibility once we have reached our funding goals.
 >A tool will return an error if is is only available in the fullly licenced **SLYR**.
  
-## Install the plugin (licensed version) ##
+## Install the plugin (licensed version)
 Once purchased, licensed users will receive an email from **North Road** with a link for the installer and their licence key. 
 
 **Before installing the licensed version of SLYR, you must first uninstall the community version (if installed) and restart QGIS.**
@@ -47,3 +47,4 @@ Once purchased, licensed users will receive an email from **North Road** with a 
 6. Once installed, **SLYR** will appear in the browser panel. Expand the tools and start using them.
 
 ![SLYR location](../images/browser.png)
+
