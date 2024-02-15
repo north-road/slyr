@@ -248,32 +248,6 @@ present in the LYRX file, each will be converted to an individual QML file.
 > This tool is available only with the SLYR full licence.
 ***
 
-### Convert LYRX to SLD
-
-| From                | To            |
-|---------------------|---------------|
-| **ESRI** .lyr/.lyrx | **QGIS** .sld | 
-
-Converts ESRI LYR or LYRX files to the "SLD" format (Styled Layer Descriptor).
-This feature simplifies the process of sharing and utilizing symbology between
-different GIS software, allowing for direct conversion of ESRI symbology for
-use in Geoserver or MapServer.
-
-![LYRX ](../images/lyrx_qml.png)
-
-1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
-   ▶️ `Convert LYRX to QML`.
-2. In the `Input LYRX file`, browse to the location of the *.lyrx* file.
-3. Under `Destination QML file`, set the location of the *.qml* file.
-   > If more than one layer exists in the **lyrx** file, a qml will be produced
-   for each
-4. Once processed, load the **.qml** files via the `Layer Properties`.
-
-![Load QML](../images/qml_load.png)
-
-> This tool is available only with the SLYR full licence.
-***
-
 ### Convert MAPX to QGS
 
 | From           | To            |
@@ -460,8 +434,8 @@ source: [FAO](https://data.apps.fao.org/catalog/iso/973fdcbe-c347-47a7-9af7-e2e5
 **QGIS
 *
 * [has the capability of creating, reading and managing GeoDatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/),
-therefore conversion is not necessary to keep on working with your data in *
-*QGIS**. Understanding why you want to convert from a geodatabase to a
+therefore conversion is not necessary to keep on working with your data in
+**QGIS**. Understanding why you want to convert from a geodatabase to a
 geopackage is important.
 
 - If you are still going to work alongside **ESRI** software, then the
@@ -767,9 +741,9 @@ Optionally, a JSON representation containing these details can be exported.
 
 ### Convert LYR to SLD
 
-| From           | To           |
-|----------------|--------------|
-| **ESRI** .aprx | **OGC** .sld | 
+| From          | To           |
+|---------------|--------------|
+| **ESRI** .lyr | **OGC** .sld | 
 
 Converts an ESRI LYR file to a OGC SLD file. If multiple layers are present in
 the LYR file, each will be converted to an individual OGC SLD file.
@@ -788,7 +762,7 @@ the LYR file, each will be converted to an individual OGC SLD file.
 
 | From           | To           |
 |----------------|--------------|
-| **ESRI** .aprx | **OGC** .sld | 
+| **ESRI** .lyrx | **OGC** .sld | 
 
 Converts an **ArcGIS Pro** LYRX file to a **OGC** SLD file.  
 *N.B. If you have merged values in ArcGIS Pro, these will return as `ELSE`in
