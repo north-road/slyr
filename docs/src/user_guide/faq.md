@@ -123,36 +123,36 @@ is to use the `qgis_process` CLI application which comes bundled with QGIS.
 SLYR uses many file formats. If you're unfamiliar with these formats, check
 the handy format glossary table below:
 
-| **Format**         | **Description**                                                                                            | **Software Project** |
-|--------------------|------------------------------------------------------------------------------------------------------------|----------------------|
-| Layer              | A map layer, eg a vector, raster, point cloud, etc layer                                                   | QGIS                 |
-| QGIS style XML     | QGIS style file                                                                                            | QGIS                 |
-| QGS                | QGIS project file, containing maps, layouts and other objects                                              | QGIS                 |
-| QGZ                | A "zipped" QGIS project file                                                                               | QGIS                 |
-| QLR                | QGIS layer definition File. Contains a link to a dataset and preset styling information                    | QGIS                 |
-| QMD                | QGIS metadata file. Contains metadat for a map layer, such as author and credits.                          | QGIS                 |
-| QML                | QGIS style file. Contains non-source specific styling information for a map layer.                         | QGIS                 |
-| GPKG               | GeoPackage data format. An OGC standard format. Can contain multiple vector and raster layers.             | OGC                  |
-| SLD                | Styled Layer Descriptor: XML descriptor, OGC standard method for storing map layer styling information.    | OGC                  |
-| WMS                | Web Mapping Service                                                                                        | OGC                  |
-| CSS                | Cascading style sheet                                                                                      | HTML                 |
-| GPL                | Colour palette file, containing multiple colours.                                                          | GIMP/QGIS            |
+| **Format**         | **Description**                                                                                          | **Software Project** |
+|--------------------|----------------------------------------------------------------------------------------------------------|----------------------|
+| Layer              | A map layer, eg a vector, raster, point cloud, etc layer                                                 | QGIS                 |
+| QGIS style XML     | QGIS style file                                                                                          | QGIS                 |
+| QGS                | QGIS project file, containing maps, layouts and other objects                                            | QGIS                 |
+| QGZ                | A "zipped" QGIS project file                                                                             | QGIS                 |
+| QLR                | QGIS layer definition File. Contains a link to a dataset and preset styling information                  | QGIS                 |
+| QMD                | QGIS metadata file. Contains metadat for a map layer, such as author and credits.                        | QGIS                 |
+| QML                | QGIS style file. Contains non-source specific styling information for a map layer.                       | QGIS                 |
+| GPKG               | GeoPackage data format. An OGC standard format. Can contain multiple vector and raster layers.           | OGC                  |
+| SLD                | Styled Layer Descriptor: XML descriptor, OGC standard method for storing map layer styling information.  | OGC                  |
+| WMS                | Web Mapping Service                                                                                      | OGC                  |
+| CSS                | Cascading style sheet                                                                                    | HTML                 |
+| GPL                | Color palette file, containing multiple colors.                                                          | GIMP/QGIS            |
 | Annotation classes | ESRI file that contains properties that determine how a subset of annotation in the feature class displays. | ESRI                 |
-| APRX               | ArcGIS Pro Project template                                                                                | ESRI                 |
-| AVL                | ArcView style                                                                                              | ESRI                 |
-| ESRI APTX          | ESRI labeling file that may be text or a graphic. It enables placement control by the user                 | ESRI                 |
-| LYRX               | ArcGIS Pro layer file, containing links to a datasource and corresponding styling information              | ESRI                 |
-| LYR                | ArcMap layer file, containing links to a datasource and corresponding styling information                  | ESRI                 |
-| MAPX               | ArcGIS Pro map file. Contains links to multiple map layers and their styling information.                  | ESRI                 |
-| MDB                | Personal GeoDatabase. An outdated ESRI format for vector data storage.                                     | ESRI                 |
-| MXD                | ArcGIS project file. Contains multiple maps, layers and page layouts.                                      | ESRI                 |
-| MXT                | ArcGIS map template. Similar to a MXD file.                                                                | ESRI                 |
-| PAGX               | ArcGIS Pro layout template file. Contains a page layout for use in ArcGIS Pro.                             | ESRI                 |
-| PMF                | ArcMap ESRI published map for ArcReader. A "read-only" project format for use in ArcMap.                   | ESRI                 |
-| PPRX               | ArcGIS Pro aprx zipped file                                                                                | ESRI                 |
-| Representations    | ArcMap symbol information stored inside feature classes within a GeoDatabase                               | ESRI                 |
-| SDE                | ArcSDE connection file. Contains properties used for connecting to a SDE database.                         | ESRI                 |
-| STYLE              | ArcGIS style library. Contains symbols and text formats for reuse across different projects.               | ESRI                 |
-| STYLX              | ArcGIS Pro style library. Contains symbols and text formats for reuse across different projects.           | ESRI                 |
-| SXD                | An ArcScene project. Contains the definition of map layers for display in a 3D viewer.                     | ESRI                 |
-| VTPK               | Vector tile package. A self contained database containing vector tiles.                                    | ESRI                 |
+| APRX               | ArcGIS Pro Project template                                                                              | ESRI                 |
+| AVL                | ArcView style                                                                                            | ESRI                 |
+| ESRI APTX          | ESRI labeling file that may be text or a graphic. It enables placement control by the user               | ESRI                 |
+| LYRX               | ArcGIS Pro layer file, containing links to a datasource and corresponding styling information            | ESRI                 |
+| LYR                | ArcMap layer file, containing links to a datasource and corresponding styling information                | ESRI                 |
+| MAPX               | ArcGIS Pro map file. Contains links to multiple map layers and their styling information.                | ESRI                 |
+| MDB                | Personal GeoDatabase. An outdated ESRI format for vector data storage.                                   | ESRI                 |
+| MXD                | ArcGIS project file. Contains multiple maps, layers and page layouts.                                    | ESRI                 |
+| MXT                | ArcGIS map template. Similar to a MXD file.                                                              | ESRI                 |
+| PAGX               | ArcGIS Pro layout template file. Contains a page layout for use in ArcGIS Pro.                           | ESRI                 |
+| PMF                | ArcMap ESRI published map for ArcReader. A "read-only" project format for use in ArcMap.                 | ESRI                 |
+| PPRX               | ArcGIS Pro aprx zipped file                                                                              | ESRI                 |
+| Representations    | ArcMap symbol information stored inside feature classes within a GeoDatabase                             | ESRI                 |
+| SDE                | ArcSDE connection file. Contains properties used for connecting to a SDE database.                       | ESRI                 |
+| STYLE              | ArcGIS style library. Contains symbols and text formats for reuse across different projects.             | ESRI                 |
+| STYLX              | ArcGIS Pro style library. Contains symbols and text formats for reuse across different projects.         | ESRI                 |
+| SXD                | An ArcScene project. Contains the definition of map layers for display in a 3D viewer.                   | ESRI                 |
+| VTPK               | Vector tile package. A self contained database containing vector tiles.                                  | ESRI                 |
