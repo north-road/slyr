@@ -17,3 +17,5 @@ footer: Made by North Road Consulting with ❤️
 # SLYR: the ESRI to QGIS Compatibility Suite
 
 Welcome to the documentation for SLYR.
+
+heres a speling mistake
