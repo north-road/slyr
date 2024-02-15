@@ -38,10 +38,6 @@ module.exports = {
     sidebarDepth: 1,
     nav: [
       {
-        text: 'User Guide',
-        link: '/user_guide/',
-      },
-      {
         text: 'North Road',
         link: 'https://north-road.com/slyr'
       }
