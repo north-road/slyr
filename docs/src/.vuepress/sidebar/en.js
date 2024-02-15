@@ -10,6 +10,14 @@ module.exports = {
                 '/user_guide/configuring',
             ]
         },
-        '/user_guide/tools'
+        '/user_guide/tools',
+        {
+            title: 'Support',
+            collapsable: false,
+            sidebarDepth: 0,
+            children: [
+                 '/user_guide/faq'
+            ]
+        }
       ]
 }
