@@ -13,13 +13,14 @@ module.exports = {
         '/user_guide/tools',
         {
             title: 'Support',
-            collapsable: false,
-            sidebarDepth: 0,
+            collapsable: true,
+            sidebarDepth: 1,
             children: [
                  '/user_guide/faq',
                  '/user_guide/troubleshooting',
                  '/user_guide/limitations',
-                 '/user_guide/changelog'
+                 '/user_guide/changelog',
+                 '/user_guide/about',
             ]
         }
       ]
