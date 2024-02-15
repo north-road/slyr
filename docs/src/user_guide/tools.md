@@ -256,7 +256,6 @@ present in the LYRX file, each will be converted to an individual QML file.
 3. Under `Destination QML file`, set the location of the *.qml* file.
    > If more than one layer exists in the **lyrx** file, a qml will be produced
    for each
-   > ![Multiple QML](../images/lyrx_qml_result.png)
 
 5. Once processed, load the **.qml** files via the `Layer Properties`.
 
@@ -284,7 +283,6 @@ use in Geoserver or Mapserver.
 3. Under `Destination QML file`, set the location of the *.qml* file.
    > If more than one layer exists in the **lyrx** file, a qml will be produced
    for each
-   > ![Multiple QML](../images/lyrx_qml_result.png)
 
 5. Once processed, load the **.qml** files via the `Layer Properties`.
 
@@ -438,8 +436,6 @@ wish to continue to use.
 | **ESRI** .pagx | **QGIS** .qgs, .qgz | 
 
 Imports a PAGX print layout into the current QGIS project.
-
-![Import a PAGX](../images/image.png)
 
 1. In ArcGIS Pro, make sure you save your layout first, then *share* as a '
    Layout file'
@@ -595,8 +591,6 @@ worklows.
 | **ESRI** .lyr | **QGIS** .qlr | 
 
 Converts an ESRI LYR file to a QGIS QLR file.
-
-![ESRI LYR to QGIS QLR](../images/lyr-qlr.png)
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `LYR Datasets`
    ▶️ `Convert LYR to QLR`.
