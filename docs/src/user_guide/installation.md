@@ -64,3 +64,29 @@ community version (if installed) and restart QGIS.**
 
 ![SLYR location](../images/browser.png)
 
+
+## Updating SLYR
+
+**SLYR** is updated regularly. All updates are available through the QGIS
+Plugin Manager (for both the Community and Licensed versions), and **QGIS**
+itself will let you know when a new version of SLYR is available.
+
+To update your version:
+
+1. From within QGIS, open the **Plugin Manager**, by clicking on the top menu item `Plugins`
+   ▶️ `Manage and Install Plugins`.
+
+   ![Open Plugin Manager](../images/plugin_mngr_open2.png)
+
+2. In the left panel, click on `Upgradeable`
+
+3. In the central panel, click on `SLYR`. If `SLYR` is not listed,
+   then you're already running the latest release.
+
+4. On the lower right, click on `Upgrade Plugin`. Once upgraded, click
+   on `Close`.
+
+![Update SLYR](../images/upgrade.png)
+> If you receive an error after the plugin updates, try restarting your QGIS.
+> If you still encounter an error, please [email us](mailto:info@north-road.com)
+> for support.
