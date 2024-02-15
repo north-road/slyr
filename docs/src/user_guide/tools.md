@@ -6,7 +6,7 @@ Here is a checklist to help your conversions and workings with **SLYR** run a
 little bit smoother.
 
 > ✔️ **Populate settings requirements:**  set-up the **SLYR Options** following
-> these [guidelines](https://slyr.north-road.com/user_guide/setup_slyr).
+> these [guidelines](configuring).
 >
 > ✔️ **Set up your folders:**  **SLYR** will record the pathways from the
 > original data locations, so there is no need to have a special set-up. However,
@@ -14,7 +14,7 @@ little bit smoother.
 >
 > ✔️ **Access to files:**  ensure you have access to bespoke files such .svg,
 > fonts, and images. Note that there is
-> some [limitations](https://slyr.north-road.com/user_guide/limitations) with
+> some [limitations](limitations) with
 > QGIS Svg files.
 >
 > ✔️ **Geopackages:** ArcGIS Pro and Geopackages has not yet reached full
@@ -22,19 +22,19 @@ little bit smoother.
 > geopackage.
 >
 >      Warning: Railway: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path.
->   -
-See [Troubleshooting](https://slyr.north-road.com/user_guide/troubleshooting)
+
+See [Troubleshooting](troubleshooting)
 for the workaround.
 >
 > ✔️ **Symbology:**  If you are using rule-based renderers, these are not yet
 > available in ArcGIS Pro. See
-> the [Limitations](https://slyr.north-road.com/user_guide/limitations).
+> the [Limitations](limitations).
 >
 > ✔️ **Error Messages:**   If a tool returns an error:
 > - Saying it is not available, if you are using the Community Edition, it may
     not yet be available.
 > - All other errors, read through the `Log`, check
-    the [Troubleshooting](https://slyr.north-road.com/user_guide/troubleshooting)
+    the [Troubleshooting](troubleshooting)
     page on how to recitfy the issue and rerun the tool. If there is no
     recitifcation, please [email us](mailto:info@north-road.com).
 *** 
