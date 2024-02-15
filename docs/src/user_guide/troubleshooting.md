@@ -31,20 +31,24 @@ Issue
  > - Instruction
 --->
 
-## Annotations
+## Annotations and Annotation Classes
+
+Annotations serve many different use cases in ESRI software. Depending on what
+type of annotation or annotation class you are converting and what your requirements
+are, SLYR offers a number of tools to meet your needs.
 
 If you are converting:
 
-- Text annotations stored in a File Geodatabase annotation class and want the
+- Text annotations stored in a File GeoDatabase annotation class, and want the
   result to be reusable across different projects, you should use the "Convert
   Annotation Classes to Geopackage" tool
-- Text annotations stored in a File Geodatabase annotation class and just want
+- Text annotations stored in a File GeoDatabase annotation class, and just want
   the results added to the current project, you should use the "Convert
   Annotations" tool
 - Graphical or text annotations which are stored in an ArcGIS Project file (eg
   a MXD, LYR, APRX, LYRX file) and the underlying data source is NOT a File
-  Geodatabase annotation class then use the corresponding tool for converting
-  this document type
+  GeoDatabase annotation class, then use the corresponding tool for converting
+  this document type should be used. (E.g. Convert MXD to QGS).
 
 ## Fonts
 
@@ -55,17 +59,13 @@ not available, SLYR will display warnings listing all missing fonts.
 For best conversion results you should source these missing fonts and install
 them on the system.
 
-### Curved text
-
-Curved text is supported from QGIS 3.32 version onwards.
-
 ## GeoDatabases
 
-### Indexes
+### Missing or invisible features
 
-If polyline and point feature classes do not display despite them appearing in
-the layer window of the resulting QGS project, there may be an error with the
+If some features do not display from GeoDatabase layers, there may be an error with the
 Geodatabase Layer's Index.
+
 > **Workaround:**
 >
 > - In **ArcGIS Pro**, open the GDB file in the `Catalog`.
@@ -76,106 +76,77 @@ Geodatabase Layer's Index.
 ### Personal GeoDatabases (MDB/PGDB)
 
 If you are running **Windows**, you may come across some issues with the
-conversion of Personal GeoDatabases (PGDB). Don't worry, there is a fix for
-this. You may need Admin rights on your computer.
+conversion of Personal GeoDatabases (PGDB). Some manual configuration is
+needed before these can be opened within QGIS. You may need administrative
+rights on your computer in order to complete these steps.
+
 > **Fix:**
 >
-> - Download the 64-bit version of the ODBC driver
+> - Download and install the 64-bit version of the ODBC driver
     from [Microsoft](https://www.microsoft.com/en-gb/download/details.aspx?id=13255)
 >
-> N.B. If you don't have a 32-bit version of office installed you can just run
+> If you don't have a 32-bit version of office installed you can just run
 > the executable. If, however, you do have a 32-bit office installation you
 > will
-> need to run the executable from a command prompt using the /passive option
+> need to run the executable from a command prompt using the "/passive" argument.
 
-### Raster conversion
+### Raster GeoDatabase Layers
 
-Please ensure that you have the QGIS v3.30.3 or v3.28.7 to enable this
-function.
-> **Workaround:**
->
-> - In **ArcGIS Pro**, convert to geotiff.
-    >
+Support for raster layers from GeoDatabases was recently introduced in QGIS.
+Please ensure that you have  QGIS v3.30.3 or v3.28.7 (or later) to enable this
+support.
 
-- Run SLYR again.
+### Raster Catalog Layers
 
-### Raster Catalog
+These are not supported in any QGIS version, and will be omitted from any converted documents.
 
-This is not supported in QGIS and will be omitted from the project.
+### Export Data to Geodatabase
 
-### Export to Geodatabase
-
-You can export geopackage data to a new geodatabase or to an existing
-geodatabase (go from step 3 below).
+QGIS has inbuilt support for many more files than are supported in ArcGIS Pro.
+When exporting a QGIS project for use in ArcGIS Pro, you may first need to
+convert some layer data sources to an ESRI readable format. We suggest exporting
+the data to File GeoDatabases for best compatibility with ESRI software.
+You can either export data to a new GeoDatabase, or to an existing
+GeoDatabase (go from step 3 below).
 
 ![Create GDB in QGIS](../images/gdb_create.png)
 
 1. In the QGIS Browser window, right-mouse click the folder you wish to create
    the geodatabase in and click on `New` ▶️ `ESRI FileGeodatabase`.
 2. Type in the name of the geodatabase
-3. In the geopackage, select the layers you wish to add to the geodatabase.
-4. Drag and drop the selected layers onto the new geodatabase.
-5. Repath your data to the shapefiles (right-mouse click the layer and click
-   on `Change Data Source`).
-
-### Export to shapefile
-
-If you have many shapefiles, install the **Bulk Vector Export** plugin.
-
-![Bulk Vector Export](../images/bulk_vector_export.png)
-
-1. Ensure all the files you wish to export are active (tick them on).
-2. Select the output format 'ESRI ShapeFile'.
-3. Select the CRS you wish to export them with.
-4. Click on OK.
-5. Repath your data to the shapefiles.
-
-## Group Transparency
-
-Need QGIS 3.24 or later.
+3. Find and select the layers you wish to export to the GeoDatabase.
+4. Drag and drop the selected layers onto the new GeoDatabase.
+5. Repath the layers in your QGIS project to point to the exported GeoDatabase
+layers (right-mouse click the layer and click on `Change Data Source`).
 
 ## LYR files
 
-### Repair Data Source
+### Repairing Data Sources
 
-When you load in your LYR files using **SLYR** and
+When you convert ESRI documents using **SLYR** and
 the `Repair data source`![Repair data source](../images/repair_data_source.png)
-appears next to the data, this means the pathway is broken.
+icon appears next to the data, this means the path to the data is broken and
+will need to be manually repaired.
 
 ![Repair LYR files](../images/LYR_repair2.png)
 > There's a number of possible causes for this, but ultimately it means that
-> QGIS can't find the data files referenced by the LYR file. (LYR files don't
-> contain any actual data themselves, just links to where data is stored
-> elsewhere)
+> QGIS can't find the data files referenced by the ESRI file. For instance:
 >  * The data has been moved.
 >  * The data no longer exists.
->  * The LYR file has relative paths to the data files (eg
-     .\transport\roads.shp), and the converted QGIS file wasn't saved to the
-     same location as the original LYR file. When relative paths are used, then
-     the QGIS files must be saved alongside their original counterparts for
-     these relative paths to point to the correct locations.
->
+>  * The ESRI file has relative paths to the data files (eg
+     .\transport\roads.shp), yet the converted QGIS file wasn't saved to the
+     same location as the original ESRI file. We recommend always placing the
+     converted QGIS files into the same folder alongside their original ESRI
+     counterparts for best results.
+
 > **Workaround:**
-> Find the location of the files and point the layers to this source.
+> Click the `Repair data source`![Repair data source](../images/repair_data_source.png) icon 
+> next to each layer and point the layer to the correct location of the dataset.
 
 ## Nested Joins
 
 A nested joins is when table A is joined to table B which is itself joined to
-table C, and this could go on. These are currently being developed for SLYR.
-
-> **Workaround:**
-> Open each of the file in QGIS and join one of the files to each other, keep
-> the fields you need and export that out. Then join the additional files onto
-
-## Reinstall my SLYR Plugin
-
-If you have changed machines, you may need to reinstall the **SLYR** Plugin.
-
-1. Navigate to the SLYR Plugin folder you were sent.
-
-2. Grab the .py and drag and drop it over your QGIS.
-
-3. Open the `QGIS Plugin Manager`
+table C. These are currently not supported by SLYR.
 
 ## Symbology
 
@@ -185,23 +156,25 @@ The following are some issues you may encounter during conversions of symbols.
 
 Marker halos are not supported in QGIS, as there's no way in current QGIS
 versions to achieve the same effect. During conversion SLYR will ignore
-the marker halo setting and you may need to adjust your symbology accordingly.
+the marker halo setting, and you may need to adjust your symbology accordingly.
 
 ## Tool not working
 
-If a tool is not working, we apologise that this is impacting your workflow. If
-it is a bug, we tend to try and fix this, historically, quite quickly.
+If a tool is not working, we apologise that this is impacting your workflow! If
+it is a bug, we will rectify as soon as possible.
+
 > **Workaround:**
 >
-> - Check if you are using the Community Edition or the Full Licence of **SLYR
-    **. If you are using the Community Edition, then the tool is not yet
-    available in the licence version.
-> - If you are using the fully licenced **SLYR
-    **, [email us](mailto:info@north-road.com) immediately with as much as
+> - If you are using the fully licenced **SLYR**, [email us](mailto:info@north-road.com) immediately with as much as
     detail
     as possible including the files. We will look into the bug and get back to
     you with a solution. Once solved, we will push up a new version to the QGIS
     Plugin Manager with all the fixes.
+
+> - Check if you are using the Community Edition or the Full Licence of **SLYR**.
+    If you are using the Community Edition, then the tool is not yet
+    available in the licence version. Please note that we don't offer any direct
+    support for the Community Edition.
 
 ## Update my SLYR licence
 
