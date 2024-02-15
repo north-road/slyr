@@ -35,5 +35,32 @@ jobs:
         # config_file: .markdownlint.yaml
         # ignore_files: examples/ignore/*
         # ignore_path: examples/.markdownlintignore
-        # rules: examples/rules/custom.js
+        # rules: examples/rules/custom
 
+  spellcheck:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+      
+    - name: spellcheck
+      uses: reviewdog/action-misspell@v1
+      with:
+          github_token: ${{ github.token }}
+          reporter: github-pr-review
+          locale: "US"
+          exclude: |
+            ./vendor/*
+
+  inclusivity-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: inclusivity 
+      uses: reviewdog/action-alex@v1
+      with:
+          workdir: ./docs/src/
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          level: warning
