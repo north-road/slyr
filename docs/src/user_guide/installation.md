@@ -1,18 +1,10 @@
-# Get Started
+# Installing SLYR
 
-SLYR is available in two versions:
+SLYR is available in two versions. Depending on whether you are using the 
+community edition or the full-feature licensed edition, the installation
+process varies.
 
-| Version                  | Cost  | Details                                                        
---------------------------|-------|---------------------------------------------------------------- 
- SLYR                     | €1200 | To purchase, contact [North Road](mailto:info@north-road.com). 
- SLYR (Community Edition) | Free  | Access via QGIS Plugin Manager.                                
-
-Once purchased, **SLYR's** support is perpetual!
-> Users will get the latest tools via version updates at no extra cost:
-> * No annual maintenance
-> * Update at your leisure using the **QGIS Plugin Manager**.
-
-## Install the **SLYR (Community Edition)**
+## Installing **SLYR (Community Edition)**
 
 To install the **SLYR (Community Edition)**, open the **Plugin Manager**, click
 on the top menu item `Plugins` ▶️ `Manage and Install Plugins`.
@@ -37,10 +29,9 @@ tools and start using them.
 > The **SLYR (Community Edition)** has limited tools - check
 > the [SLYR Blog](https://north-road.com/slyr/) for availability as we update
 > tool accessibility once we have reached our funding goals.
-> A tool will return an error if is is only available in the fullly licenced *
-*SLYR**.
+> A tool will return an error if it is only available in the fully licenced **SLYR**.
 
-## Install the plugin (licensed version)
+## Installing SLYR (licensed version)
 
 Once purchased, licensed users will receive an email from **North Road** with a
 link for the installer and their licence key.
