@@ -25,7 +25,7 @@ to speed up the process, include the details below in your email so we can
 produce an invoice for you straight away. If you need a quote first, let us
 know in the email and provide the same details listed below.
 
-> Organisation name/Your name
+> Organization name/Your name
 >
 > Office address
 >
@@ -38,5 +38,5 @@ know in the email and provide the same details listed below.
 > Type of users (in office/remote)
 
 When we receive payment (via credit card or bank transfer), we will send
-you the licence and instructions for using **SLYR**.
+you the license and instructions for using **SLYR**.
 

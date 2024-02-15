@@ -161,17 +161,17 @@ the marker halo setting, and you may need to adjust your symbology accordingly.
 
 ## Reporting Bugs
 
-If a tool is not working, we apologise that this is impacting your workflow! If
+If a tool is not working, we apologize that this is impacting your workflow! If
 it is a bug, we will rectify as soon as possible.
 
 > **Workaround:**
 >
-> - If you are using the fully licenced **SLYR**, [email us](mailto:info@north-road.com) immediately with as much as
+> - If you are using the fully licensed **SLYR**, [email us](mailto:info@north-road.com) immediately with as much as
     detail
     as possible including the files. We will look into the bug and get back to
     you with a solution. Once solved, we will push up a new version to the QGIS
     Plugin Manager with all the fixes.
-> - Check if you are using the Community Edition or the Full Licence of **SLYR**.
+> - Check if you are using the Community Edition or the Licensed Edition of **SLYR**.
     If you are using the Community Edition, then the tool is not yet
-    available in the licence version. Please note that we don't offer any direct
+    available in the license version. Please note that we don't offer any direct
     support for the Community Edition.
