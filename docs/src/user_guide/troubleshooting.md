@@ -141,10 +141,8 @@ will need to be manually repaired.
 >
 > **Workaround:**
 >
-> Click the `Repair data source`![Repair data source](../images/repair_data_source.png) icon 
+> Click the `Repair data source`![Repair data source](../images/repair_data_source.png) icon
 > next to each layer and point the layer to the correct location of the dataset.
-
-> should fail
 
 ## Nested Joins
 
