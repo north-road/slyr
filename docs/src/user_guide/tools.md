@@ -30,8 +30,8 @@ for the workaround.
     not yet be available.
 > - All other errors, read through the `Log`, check
     the [Troubleshooting](troubleshooting)
-    page on how to recitfy the issue and rerun the tool. If there is no
-    recitifcation, please [email us](mailto:info@north-road.com).
+    page on how to rectify the issue and rerun the tool. If there is no
+    rectification, please [email us](mailto:info@north-road.com).
 *** 
 
 <!---## Group ##
@@ -119,7 +119,7 @@ Converts an APRX document file to a QGS project file.
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
    ▶️ `Convert APRX to QGS`.
-2. In the `Input APRX file`, browse to the location of the *.arpx* file.
+2. In the `Input APRX file`, browse to the location of the *.aprx* file.
 3. Under `Destination QGS project file`, set the location of the *.qgs* file.
 4. Click `Run`.
 5. Once processed, in **QGIS**, navigate to the folder and open the *.qgs*
@@ -257,7 +257,7 @@ present in the LYRX file, each will be converted to an individual QML file.
 Converts ESRI LYR or LYRX files to the "SLD" format (Styled Layer Descriptor).
 This feature simplifies the process of sharing and utilizing symbology between
 different GIS software, allowing for direct conversion of ESRI symbology for
-use in Geoserver or Mapserver.
+use in Geoserver or MapServer.
 
 ![LYRX ](../images/lyrx_qml.png)
 
@@ -294,7 +294,7 @@ Converts an MAPX document file to a QGS project file.
 6. Open up the *.qgs* file and check through.
    > In some cases, labels do not automatically turn on. Note that labelling
    parameters are saved, it just needs to be manually turned on.
-7. Save your project as *.qgz* if requried.
+7. Save your project as *.qgz* if required.
 
 > This tool is available only with the SLYR full licence.
 ***
@@ -397,7 +397,7 @@ wish to continue to use.
    ▶️ `Convert STYLX to QGIS style XML`.
 2. Under `Stylx database`, browse to the location of the *.stylx* file.
 3. Under `Destination XML file`, set the location of the *.xml* file.
-4. Optionally, in 'Uncovertable symbols report' enter a location for those
+4. Optionally, in 'Unconvertable symbols report' enter a location for those
    symbols that fail to convert. This allows you to create a new vector layer
    containing details of all unconvertable symbols. This report can be saved as
    any standard vector format, including CSV, XLSX or Geopackage.
@@ -436,7 +436,7 @@ Imports a PAGX print layout into the current QGIS project.
 | **ESRI** .avl | **QGIS** .qml | 
 
 Converts an ESRI ArcInfo AVL file to a QGIS QML file. AVL files were the legend
-files for Arcview 3.x but have been replaced by layer files. It is no longer
+files for ArcView 3.x but have been replaced by layer files. It is no longer
 possible to create AVL legend files in the last version of ArcMap.
 
 ![AVL to QML](../images/avl-qml2.png)
@@ -459,7 +459,7 @@ source: [FAO](https://data.apps.fao.org/catalog/iso/973fdcbe-c347-47a7-9af7-e2e5
 
 **QGIS
 *
-* [has the capability of creating, reading and managing Geodatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/),
+* [has the capability of creating, reading and managing GeoDatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/),
 therefore conversion is not necessary to keep on working with your data in *
 *QGIS**. Understanding why you want to convert from a geodatabase to a
 geopackage is important.
@@ -467,7 +467,7 @@ geopackage is important.
 - If you are still going to work alongside **ESRI** software, then the
   recommendation here is ***not*** to convert it.
 - If you are moving completely to **QGIS**, and just love the extra
-  functionality that geopackages give you, then continue on with the data
+  functionality that GeoPackages give you, then continue on with the data
   conversion.
 
 ### Convert File Geodatabase to GeoPackage
@@ -487,8 +487,8 @@ This tool will convert:
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `Data Conversion`
    ▶️ `Convert File Geodatabase to GeoPackage`.
-2. In the `Input Geodatabase`, browse to the location of the *.gdb* file.
-3. Under `Output Geopackage`, set the location of the *.gpkgk* file.
+2. In the `Input GeoDatabase`, browse to the location of the *.gdb* file.
+3. Under `Output GeoPackage`, set the location of the *.gpkg* file.
 4. Click `Run`.
 
 > This tool is available only with the SLYR full licence.
@@ -551,7 +551,7 @@ Extract hyperlinks from layers to standalone tables
 Converts an ESRI LYR file to a QGIS style XML file that can be additionally be
 used in other applications. For QGIS, you can use the XML to load into the
 style manager, which is handy to port over standardised symbology used in
-worklows.
+workflows.
 
 ![ESRI LYR to QGIS XML](../images/lyr-xml.png)
 
@@ -690,7 +690,7 @@ which are optimized for use in QGIS and other open-source tools.
    ▶️ `Convert MXD/MXT to QGS and data to GPKG`.
 2. In the `Input MXD/MXT file`, browse to the location of the file.
 3. Under `Destination QGS project file`, set the location of the *.qgs* file.
-4. Under `Folder to store converted data in` enter in the location for the
+4. Under `Folder to store converted data in` enter the location for the
    data.
 5. Click `Run`.
 
@@ -820,7 +820,7 @@ extracting all color entities saved in the style. GPL files can be used in *
 *Inkscape** and **GIMP** but for **QGIS**, you can load them via `Settings`
 ▶️ `Options` ▶️ `Colors`.
 
-![Import in a color palete](../images/style-gpl.png)
+![Import in a color palette](../images/style-gpl.png)
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `Style databases`
    ▶️ `X`.
@@ -851,7 +851,7 @@ imported into your **QGIS** Style Manager
     - Enter a name to filter the items, this is handy if you wish to extract on
       a certain group from the style.
 4. Under `Destination XML file`, set the location of the *.xml* file.
-5. If you wish to capture those symbols that don't convert, enter in a
+5. If you wish to capture those symbols that don't convert, enter a
    location. Choose whether to open that output automatically after it has run.
 6. Click `Run`.
 
