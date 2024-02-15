@@ -31,16 +31,16 @@ jobs:
           reporter: github-pr-review
           locale: "US"
           path: ./docs/src/
-          pattern: *.md
+          pattern: "*.md"
 
   inclusivity-check:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@master
-    - name: inclusivity 
-      uses: reviewdog/action-alex@v1
-      with:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: inclusivity 
+        uses: reviewdog/action-alex@v1
+        with:
           workdir: ./docs/src/
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
