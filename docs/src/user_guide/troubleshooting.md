@@ -53,12 +53,12 @@ If you are converting:
 
 ## Fonts
 
-The font is not coming into the conversion or you get an error message at the
-top that the font is not recognised.
-> **Workaround:**
->
-> - Find a legal copy of the font and place it in your systems fonts library
-    i.e. C:\Windows\Fonts
+When converting ArcMap or ArcGIS Pro documents, you will need to have all
+fonts referenced by the documents installed on your system. If any fonts are
+not available, SLYR will display warnings listing all missing fonts.
+
+For best conversion results you should source these missing fonts and install
+them on the system.
 
 ### Curved text
 
