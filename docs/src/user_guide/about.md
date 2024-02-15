@@ -1,5 +1,6 @@
-Hall of Fame
-============
+# About SLYR
+
+## Hall of Fame
 
 SLYR wouldn't be possible without direct financial support for its development.
 The following organisations have directly contributed to SLYR development, and
