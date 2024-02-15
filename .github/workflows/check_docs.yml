@@ -36,8 +36,8 @@ jobs:
           fail_on_error: true
           locale: "US"
           path: ./docs/src/
-          pattern: |
-            *.md
+          pattern: "*.md"
+          filter-mode: nofilter
 
   inclusivity-check:
     runs-on: ubuntu-latest
