@@ -6,31 +6,31 @@ on:
       - master
       
 jobs:
-  - build-and-deploy:
-      runs-on: ubuntu-latest
-      steps:
-      - name: Checkout
-        uses: actions/checkout@master
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
 
-      - name: vuepress-deploy
-        uses: jenkey2011/vuepress-deploy@master
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          TARGET_REPO: north-road/slyr
-          TARGET_BRANCH: gh-pages
-          BUILD_SCRIPT: cd docs && yarn && yarn build
-          BUILD_DIR: src/.vuepress/dist
-          CNAME: https://slyr.north-road.com
+    - name: vuepress-deploy
+      uses: jenkey2011/vuepress-deploy@master
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        TARGET_REPO: north-road/slyr
+        TARGET_BRANCH: gh-pages
+        BUILD_SCRIPT: cd docs && yarn && yarn build
+        BUILD_DIR: src/.vuepress/dist
+        CNAME: https://slyr.north-road.com
 
-  - check-markdown:
-      steps:
-      - name: markdownlint-cli
-        uses: nosborn/github-action-markdown-cli@v3.3.0
-        with:
-          files: docs/src/.
-          config_file: .markdownlint.yaml
-          dot: true
-          ignore_files: examples/ignore/*
-          ignore_path: examples/.markdownlintignore
-          rules: examples/rules/custom.js
+  check-markdown:
+    steps:
+    - name: markdownlint-cli
+      uses: nosborn/github-action-markdown-cli@v3.3.0
+      with:
+        files: docs/src/.
+        config_file: .markdownlint.yaml
+        dot: true
+        ignore_files: examples/ignore/*
+        ignore_path: examples/.markdownlintignore
+        rules: examples/rules/custom.js
 
