@@ -10,8 +10,6 @@ these warnings, and how they can be handled:
 
  Warning                                                                                                                                                                                   | Rectification                                                                                                                                                                                                                      |
  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
- Converting CIMBackgroundCallout not implemented yet                                                                                                                                       | In ArcGIS Pro, remove all background items from the label as the layer will not be converted                                                                                                                                       
- Converting CIMCompositeCallout not implemented yet                                                                                                                                        | In ArcGIS Pro, remove all background items from the label as the layer will not be converted                                                                                                                                       
  Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path                                                                              | See GeoPackages section below                                                                                                                                                                                                      
  Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later)                                                                        | Update your QGIS to QGIS 3.24 or later                                                                                                                                                                                             |
  QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet                                                                                                                             | Amend layers that contain a QGIS SVG Marker as they will not be converted.                                                                                                                                                         
@@ -211,7 +209,8 @@ however on the list to be supported.
     appropriate style.
 >
 > - If the SVG are unique and required, import them to a style using
-    the [ImportSVGsToStyle](https://carto.maps.arcgis.com/home/item.html?id=c25ab2da6ae343af9acc632120c7cf01) ArcGIS Pro Add-In by DStephen_carto.
+    the [ImportSVGsToStyle](https://carto.maps.arcgis.com/home/item.html?id=c25ab2da6ae343af9acc632120c7cf01)
+    ArcGIS Pro Add-In by DStephen_carto.
 
 ## Tool not working
 
@@ -222,7 +221,9 @@ it is a bug, we tend to try and fix this, historically, quite quickly.
 > - Check if you are using the Community Edition or the Full Licence of **SLYR
     **. If you are using the Community Edition, then the tool is not yet
     available in the licence version.
-> - If you are using the fully licenced **SLYR**, [email us](mailto:info@north-road.com) immediately with as much as detail
+> - If you are using the fully licenced **SLYR
+    **, [email us](mailto:info@north-road.com) immediately with as much as
+    detail
     as possible including the files. We will look into the bug and get back to
     you with a solution. Once solved, we will push up a new version to the QGIS
     Plugin Manager with all the fixes.
@@ -234,7 +235,7 @@ has been released. To update your version:
 
 1. Open the **Plugin Manager**, click on the top menu item `Plugins`
    ▶️ `Manage and Install Plugins`.
- 
+
    ![Open Plugin Manager](../images/plugin_mngr_open2.png)
 
 2. In the left panel, click on `Upgradeable`
@@ -249,7 +250,8 @@ has been released. To update your version:
 
 ![Update SLYR](../images/upgrade.png)
 > If you receive an error after the Plugin update indicating it wasn't able to
-> upgrade, restart QGIS. If it still hasn't been upgrade, [email us](mailto:info@north-road.com).
+> upgrade, restart QGIS. If it still hasn't been
+> upgrade, [email us](mailto:info@north-road.com).
 
 ## Online Data Sources: WFS
 
