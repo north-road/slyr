@@ -1,0 +1,19 @@
+{
+  "name": "slyr",
+  "version": "0.0.1",
+  "description": "ESRI to QGIS conversion suite",
+  "main": "index.js",
+  "authors": {
+    "name": "North Road Consulting",
+    "email": "info@north-road.com"
+  },
+  "repository": "https://github.com/north-road/slyr/slyr",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
