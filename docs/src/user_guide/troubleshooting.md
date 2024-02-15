@@ -227,32 +227,3 @@ has been released. To update your version:
 > If you receive an error after the Plugin update indicating it wasn't able to
 > upgrade, restart QGIS. If it still hasn't been
 > upgrade, [email us](mailto:info@north-road.com).
-
-## Online Data Sources: WFS
-
-Currently, WFS layers are not supported, but SLYR will create an empty layer
-for them.
-
-> **Workaround:**
->
-> - Open up the **QGIS** project.
-    >
-
-- When asked to `Handle Unavailable Layers`, select `Keep Unavailable Layers`.
-
->
->![Handle Unavailable Layer](../images/unavailable-layers.png)
->
->  - In the `Browser panel`, click on the `WFS` group and add in the layer's
-     name and url as a `New Connection`.
->
->  ![WFS New Connection](../images/unavailable-layers-4.png)
->
->  - In the `Layer Panel`, right-mouse-click on the layer and
-     select `Repair Data Source`
->
-> ![Repair Data Source](../images/unavailable-layers-2.png)
->
-> - Navigate to the required data source, select it and click `OK`.
->
-> ![amend Layer 3](../images/unavailable-layers-3.png) 
