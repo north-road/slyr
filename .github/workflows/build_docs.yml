@@ -4,9 +4,7 @@ on:
     branches:
       - docs
       - master
-    paths:
-      - 'docs/**'
-
+      
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
