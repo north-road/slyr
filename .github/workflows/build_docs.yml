@@ -1,50 +1,22 @@
 name: Documentation
-on: [pull_request]
-      
+on:
+  push:
+    branches:
+      - master
+
 jobs:
-
-  check-markdown:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-      
-    - name: markdownlint-cli
-      uses: nosborn/github-action-markdown-cli@v3.3.0
-      with:
-        files: ./docs/src/
-        # config_file: .markdownlint.yaml
-        # ignore_files: examples/ignore/*
-        # ignore_path: examples/.markdownlintignore
-        # rules: examples/rules/custom
-
-  spellcheck:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@master
-      
-    - name: spellcheck
-      uses: reviewdog/action-misspell@v1
-      with:
-          github_token: ${{ github.token }}
-          reporter: github-pr-review
-          fail_on_error: true
-          locale: "US"
-          path: ./docs/src/
-          pattern: |
-            *.md
-
-  inclusivity-check:
-      runs-on: ubuntu-latest
-      steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: inclusivity 
-        uses: reviewdog/action-alex@v1
-        with:
-          workdir: ./docs/src/
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          fail_on_error: true
-          level: warning
+
+      - name: vuepress-deploy
+        uses: jenkey2011/vuepress-deploy@master
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          TARGET_REPO: north-road/slyr
+          TARGET_BRANCH: gh-pages
+          BUILD_SCRIPT: cd docs && yarn && yarn build
+          BUILD_DIR: src/.vuepress/dist
+          CNAME: https://slyr.north-road.com
