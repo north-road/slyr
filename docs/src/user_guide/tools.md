@@ -375,9 +375,14 @@ wish to continue to use.
    symbols that fail to convert. This allows you to create a new vector layer
    containing details of all unconvertable symbols. This report can be saved as
    any standard vector format, including CSV, XLSX or Geopackage.
-5. Click on `Run`.
-6. Once it has converted, you can import the *XML* file via the `Style Manager`
-   ▶️ `Import/Export`.
+5. Under the `Advanced` group you can find options for filtering the symbols
+   from the STYLX database to convert. You can filter by object type or by
+   entering a wildcard text string to match against the symbol names. The
+   wildcard filter can include the `*` character or `?` character to match
+   against multiple characters or a single character, eg `*wall*` will match
+   any symbol with wall in the symbol name.
+6. Click on `Run`.
+7. Once it has converted, you can import the *XML* file via the `Style Manager` ▶️ `Import/Export`.
 
 > This tool is available only with the SLYR full license.
 ***
