@@ -1,26 +1,7 @@
 name: Documentation
-on:
-  push:
-    branches:
-      - docs
-      - master
+on: [pull_request]
       
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@master
-
-    - name: vuepress-deploy
-      uses: jenkey2011/vuepress-deploy@master
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        TARGET_REPO: north-road/slyr
-        TARGET_BRANCH: gh-pages
-        BUILD_SCRIPT: cd docs && yarn && yarn build
-        BUILD_DIR: src/.vuepress/dist
-        CNAME: https://slyr.north-road.com
 
   check-markdown:
     runs-on: ubuntu-latest
