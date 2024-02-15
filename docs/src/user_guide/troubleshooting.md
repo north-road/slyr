@@ -12,11 +12,11 @@ these warnings, and how they can be handled:
  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
  Converting CIMBackgroundCallout not implemented yet                                                                                                                                       | In ArcGIS Pro, remove all background items from the label as the layer will not be converted                                                                                                                                       
  Converting CIMCompositeCallout not implemented yet                                                                                                                                        | In ArcGIS Pro, remove all background items from the label as the layer will not be converted                                                                                                                                       
- Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path                                                                              | See Geopackages section below                                                                                                                                                                                                      
+ Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path                                                                              | See GeoPackages section below                                                                                                                                                                                                      
  Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later)                                                                        | Update your QGIS to QGIS 3.24 or later                                                                                                                                                                                             |
  QgsSvgMarkerSymbolLayer symbol layers cannot be converted yet                                                                                                                             | Amend layers that contain a QGIS SVG Marker as they will not be converted.                                                                                                                                                         
  Raster layers in Geodatabase files are not supported in QGIS, the database X:\folder\geodatabase.gdb\raster.gdb will need to be converted to TIFF before it can be used outside of ArcGIS | Convert all rasters sitting within the GDB as TIFFs                                                                                                                                                                                
- Raster catalog layer “RasterLayer” has been removed from the project (raster catalog layers are not supported by QGIS)                                                                    | These layers will need to be created seperately outside of the catalog layer before conversions.                                                                                                                                   
+ Raster catalog layer “RasterLayer” has been removed from the project (raster catalog layers are not supported by QGIS)                                                                    | These layers will need to be created separately outside of the catalog layer before conversions.                                                                                                                                   
  Detailed Surface geology: Could not automatically convert Arcade expression: $feature. Please check and repair this expression                                                            | This will happen if the Arcade expression in the labelling class has not been completed. Fix by assigning a field to the $feature                                                                                                  
  Unique Value legend group title “Lead (206/204 min)” is not supported by QGIS                                                                                                             | TBC                                                                                                                                                                                                                                
  IOGP3004 Sand Ripples: Font Vrinda not available on system                                                                                                                                | LYR requires all the fonts referenced by an ESRI document to be installed on the system performing the conversion for best results. Load a legal copy of the font and place it in your systems fonts library i.e. C:\Windows\Fonts 
@@ -64,7 +64,7 @@ them on the system.
 
 Curved text is supported from QGIS 3.32 version onwards.
 
-## Geodatabases
+## GeoDatabases
 
 ### Indexes
 
@@ -78,10 +78,10 @@ Geodatabase Layer's Index.
     re-create it.
 > - Rerun the **SLYR** tool.
 
-### Personal Geodatabases (MDB/PGDB)
+### Personal GeoDatabases (MDB/PGDB)
 
 If you are running **Windows**, you may come across some issues with the
-conversion of Personal Geodatabases (PGDB). Don't worry, there is a fix for
+conversion of Personal GeoDatabases (PGDB). Don't worry, there is a fix for
 this. You may need Admin rights on your computer.
 > **Fix:**
 >
@@ -120,8 +120,8 @@ geodatabase (go from step 3 below).
 2. Type in the name of the geodatabase
 3. In the geopackage, select the layers you wish to add to the geodatabase.
 4. Drag and drop the selected layers onto the new geodatabase.
-5. Repath your data to the shapefiles (right-mouse cick the layer and click
-   on `Change Data Source`.
+5. Repath your data to the shapefiles (right-mouse click the layer and click
+   on `Change Data Source`).
 
 ### Export to shapefile
 
@@ -130,7 +130,7 @@ If you have many shapefiles, install the **Bulk Vector Export** plugin.
 ![Bulk Vector Export](../images/bulk_vector_export.png)
 
 1. Ensure all the files you wish to export are active (tick them on).
-2. Select the output format 'ESRI shapefile`.
+2. Select the output format 'ESRI ShapeFile'.
 3. Select the CRS you wish to export them with.
 4. Click on OK.
 5. Repath your data to the shapefiles.
@@ -211,8 +211,7 @@ however on the list to be supported.
     appropriate style.
 >
 > - If the SVG are unique and required, import them to a style using
-    the [ImportSVGsToStyle](https://carto.maps.arcgis.com/home/item.html?id=c25ab2da6ae343af9acc632120c7cf01){:
-    target="_blank" rel="noopener"}_ ArcGIS Pro Add-In by DStephen_carto.
+    the [ImportSVGsToStyle](https://carto.maps.arcgis.com/home/item.html?id=c25ab2da6ae343af9acc632120c7cf01) ArcGIS Pro Add-In by DStephen_carto.
 
 ## Tool not working
 
@@ -223,8 +222,7 @@ it is a bug, we tend to try and fix this, historically, quite quickly.
 > - Check if you are using the Community Edition or the Full Licence of **SLYR
     **. If you are using the Community Edition, then the tool is not yet
     available in the licence version.
-> - If you are using the fully licenced **SLYR**, send us
-    an [email](mailto:info@north-road.com) immediately with as much as detail
+> - If you are using the fully licenced **SLYR**, [email us](mailto:info@north-road.com) immediately with as much as detail
     as possible including the files. We will look into the bug and get back to
     you with a solution. Once solved, we will push up a new version to the QGIS
     Plugin Manager with all the fixes.
@@ -251,7 +249,7 @@ has been released. To update your version:
 
 ![Update SLYR](../images/upgrade.png)
 > If you receive an error after the Plugin update indicating it wasn't able to
-> upgrade, restart QGIS. If it still hasn't been upgrade, send us an email.
+> upgrade, restart QGIS. If it still hasn't been upgrade, [email us](mailto:info@north-road.com).
 
 ## Online Data Sources: WFS
 
