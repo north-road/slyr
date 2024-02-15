@@ -9,7 +9,8 @@ little bit smoother.
 > these [guidelines](configuring).
 >
 > ✔️ **Set up your folders:**  **SLYR** will record the pathways from the
-> original data locations, so there is no need to have a special set-up. However,
+> original data locations, so there is no need to have a special set-up.
+> However,
 > you may want to set-up a structure so you can keep outputs tidy.
 >
 > ✔️ **Access to files:**  ensure you have access to bespoke files such .svg,
@@ -177,7 +178,7 @@ into a **ArcGIS Pro** .stylx format that can then be imported into your *
 2. Under the `GPL palette`, browse to the location of the *.gpl* file.
 3. Under `Destination stylx database`, set the location of the *.X* file.
 4. In **ArcGIS Pro**, in the `Catalog` panel, right mouse click on the *.stylx*
-   file and select `Add Style`. 
+   file and select `Add Style`.
    ![Add GPL style to ArcGIS Pro](../images/gpl_add_style.png)
 5. In `Geoprocessing`,
 
@@ -472,7 +473,8 @@ source: [FAO](https://data.apps.fao.org/catalog/iso/973fdcbe-c347-47a7-9af7-e2e5
 ## Data Conversion
 
 **QGIS
-** [has the capability of creating, reading and managing Geodatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/),
+*
+* [has the capability of creating, reading and managing Geodatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/),
 therefore conversion is not necessary to keep on working with your data in *
 *QGIS**. Understanding why you want to convert from a geodatabase to a
 geopackage is important.
@@ -859,10 +861,10 @@ imported into your **QGIS** Style Manager
    ▶️ `Convert ESRI style to QGIS style XML`.
 2. In the `Style database`, browse to the location of the *style* file.
 3. Under `Advanced Parameters`:
-   - Choose what objects to extract (this is optional).
-   ![Objects to be imported](../images/style-xml.png)
-   - Enter a name to filter the items, this is handy if you wish to extract on
-   a certain group from the style.
+    - Choose what objects to extract (this is optional).
+      ![Objects to be imported](../images/style-xml.png)
+    - Enter a name to filter the items, this is handy if you wish to extract on
+      a certain group from the style.
 4. Under `Destination XML file`, set the location of the *.xml* file.
 5. If you wish to capture those symbols that don't convert, enter in a
    location. Choose whether to open that output automatically after it has run.
