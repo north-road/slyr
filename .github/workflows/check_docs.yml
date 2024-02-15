@@ -20,7 +20,7 @@ jobs:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           fail_on_error: true
-          markdownlint_flags: "./docs/src --disable MD013"
+          markdownlint_flags: "--config ./docs/.markdownlint.yml ./docs/src"
 
   spellcheck:
     runs-on: ubuntu-latest
