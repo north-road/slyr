@@ -133,7 +133,7 @@ dropping complex options back to simpler SLD supported symbology.
 > Proposed solution: will improve with QGIS' SLD capabilities. If this is a
 > major issue, consider funding the capability development of it.
 
-## Urgent fixes
+## Urgent fixes ##
 
 If you have a large project impacted by limitations that requires an urgent
 fix, [contact us](mailto:info@north-road.com) here at **North Road** and we
