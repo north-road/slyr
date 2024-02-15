@@ -3,7 +3,7 @@
 ## Hall of Fame
 
 SLYR wouldn't be possible without direct financial support for its development.
-The following organisations have directly contributed to SLYR development, and
+The following organizations have directly contributed to SLYR development, and
 are deserving of gratitude!
 
 - [SMEC/SJ](https://www.smec.com/au/)

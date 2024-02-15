@@ -97,7 +97,7 @@ Raster layers that are contained in GDB are currently not supported in QGIS.
 
 ## Rule-based renderers
 
-One of our favourites features of **QGIS** Symbology is the ability to create
+One of our favorite features of **QGIS** Symbology is the ability to create
 efficient cartography through the use of Rule-Based renderers (Rule-Based
 classification symbology). There is currently no direct equivalent in ArcGIS
 Pro. Therefore, if your **QGIS** project has many layers based on rule-based
