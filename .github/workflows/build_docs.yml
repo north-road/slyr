@@ -23,6 +23,7 @@ jobs:
         CNAME: https://slyr.north-road.com
 
   check-markdown:
+    runs-on: ubuntu-latest
     steps:
     - name: markdownlint-cli
       uses: nosborn/github-action-markdown-cli@v3.3.0
