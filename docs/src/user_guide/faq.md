@@ -6,7 +6,8 @@ Have a question? Check the entries below for an answer.
 
 ## How much does SLYR cost?
 
-See the [pricing](pricing) page for full details on purchasing the full-featured
+See the [pricing](pricing) page for full details on purchasing the
+full-featured
 licensed version of SLYR.
 
 ## How many users will a licence cover?
@@ -20,7 +21,8 @@ individual basis.
 
 ## How can I purchase SLYR?
 
-If you would like to purchase SLYR [email us](mailto:info@north-road.com). As we often deal with
+If you would like to purchase SLYR [email us](mailto:info@north-road.com). As
+we often deal with
 clients in Europe and America, there is often a lag due to the time differences
 as we are located in Queensland, Australia (AEST, GMT+10).
 
@@ -74,7 +76,8 @@ contact us at anytime via [email](mailto:info@north-road.com).
 
 Evaluation versions of the tool are not available. If you require a sample to
 evaluate prior to purchasing, email QGIS or ESRI files
-to [North Road Support](mailto:info@north-road.com), and we will convert them at
+to [North Road Support](mailto:info@north-road.com), and we will convert them
+at
 no cost for your evaluation.
 
 ## How do I get the latest version of SLYR?
@@ -82,19 +85,23 @@ no cost for your evaluation.
 SLYR is updated many times during the year, at least once per quarter. To find
 out what has been updated in the latest version, check out the changelog in
 the `QGIS Plugin Manager`.
-Checkout [Troubleshooting](troubleshooting) on how to update your **SLYR** version.
+Checkout [Troubleshooting](troubleshooting) on how to update your **SLYR**
+version.
 
 ![SLYR Changelog](../images/slyr_changelog.png)
 
 ## What licences do I need?
 
-SLYR is designed so that you can push out ESRI products **without** the need of an
-ESRI licence! You do **NOT** need to have any ESRI software installed in order to
-use SLYR. You only need to have [QGIS](https://www.qgis.org/en/site/) installed.
+SLYR is designed so that you can push out ESRI products **without** the need of
+an
+ESRI licence! You do **NOT** need to have any ESRI software installed in order
+to
+use SLYR. You only need to have [QGIS](https://www.qgis.org/en/site/)
+installed.
 
 ## What QGIS version do I need?
 
-We always recommend running either the latest QGIS release or the current 
+We always recommend running either the latest QGIS release or the current
 QGIS "LTR" release. However, SLYR is compatible with older versions of QGIS,
 anything from version 3.16 onwards can be used.
 
