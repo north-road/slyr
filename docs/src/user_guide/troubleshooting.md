@@ -138,10 +138,13 @@ will need to be manually repaired.
      same location as the original ESRI file. We recommend always placing the
      converted QGIS files into the same folder alongside their original ESRI
      counterparts for best results.
-
+>
 > **Workaround:**
+>
 > Click the `Repair data source`![Repair data source](../images/repair_data_source.png) icon 
 > next to each layer and point the layer to the correct location of the dataset.
+
+> should fail
 
 ## Nested Joins
 
