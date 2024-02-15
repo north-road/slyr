@@ -1,4 +1,4 @@
-# SLYR Options #
+# SLYR Options
 
 The **SLYR** `Options` dialog provides users the ability to set-up the **SLYR**
 Plugin to meet their requirements.
@@ -16,14 +16,14 @@ access the **SLYR** options.
 The **SLYR Community Edition** options are a little different.
 ![SLYR Community Edition Options](../images/options_CE2.png)
 
-### Plugin Settings ###
+### Plugin Settings
 
 | Setting                           | Description                                                                                                                                                               | Directions                                                                       |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
 | License key                       | A license key is supplied to users once they have purchased **SLYR**.                                                                                                     | Enter your unique license key here, exactly as it appears in your license email. |
 | Verbose logging during conversion | Activates verbose debugging output during file conversions. This option can slow down performance, and should be enabled only when requested by North Road support staff. | Tick to activate.                                                                |
 
-### Conversion Settings ###
+### Conversion Settings
 
 | Setting                                                      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Directions                               |
 |--------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------|
@@ -32,7 +32,7 @@ The **SLYR Community Edition** options are a little different.
 | Tweak symbol conversion for better visual match              | When activated, SLYR will alter the original sizes and line thickness of symbols from ArcMap for a better visual match to how these symbols are shown in ESRI software. If deactivated, then all sizes will remain exactly as they were in the original documents.                                                                                                                                                                                                                                                                                       | Tick to activate.                        |
 | Units for symbols: points, millimeters                       | Controls whether the converted QGIS symbols should use points or millimeters for sizes, widths and offsets. **SLYR** uses points as a default in order to match the units used by ESRI software, but users may wish to change this to millimeters if they are more comfortable working in these units.                                                                                                                                                                                                                                                   | Choose either `Points` or `Millimeters`. |
 
-### SDE Database Conversion ###
+### SDE Database Conversion
 
 These settings control how SLYR converts SDE connections to QGIS database
 connections.
@@ -42,7 +42,7 @@ connections.
 | Default primary key   | QGIS requires that the primary key for a database table is specified in advance. Since ArcMap documents do **not** include this information, SLYR defaults to using "objectid" as the primary key name. If your database setup uses a different primary key you can change this setting to ensure that SDE connections are correctly converted to QGIS database connections.                                                                                                                                                                                                                                  | Leave as OBJECTID or amend as required.                                                 
 | Table name conversion | While ArcMap is tolerant to case differences in the name of SDE tables and schemas, QGIS is instead case sensitive. If the case stored in an ArcMap document differs from the actual database table name case then QGIS will not be able to read the resultant layer. This setting permits users to specify a case conversion in order to automatically adjust the stored ArcMap table and schema name case to match the actual casing used on a database. If you are having issues with QGIS being unable to read converted SDE connections then correcting the case conversion using this setting may help. | Choose from the options: Leave unchanged, Convert to Uppercase, OR Convert to Lowercase 
 
-### MDB Tools ###
+### MDB Tools
 
 SLYR requires use of "MDB Tools" in order to read ArcMap .style files. While
 the licensed version of SLYR is packaged with an inbuilt version of MDB Tools,
@@ -53,7 +53,7 @@ Tools and then setup the MDB tools path in this section.
 |-------------------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | Path to MDB Tools | This is automatically set for the full license, *only the Community License needs to download this tool*. | Click the link in the SLYR Options dialog and once installed, enter in the installed MDB Tools path 
 
-### Inkscape ###
+### Inkscape
 
 SLYR requires the free, open-source Inkscape illustration application in order
 to convert any EMF graphics found in ArcMap documents. Inkscape must be

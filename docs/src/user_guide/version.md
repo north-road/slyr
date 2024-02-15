@@ -2,12 +2,12 @@
 - **User requests:** we listen and act so make sure you contact us if you come across any bugs or you have an idea.
 - **Software development:** as QGIS and ESRI continully develop their programs, we endeavour to  include any new updates or changes in SLYR. If you think we have missed something, please contact us.
 
-### Current Software Versions ###
+### Current Software Versions
 **ArcMap** 10.8.2  
 **ArcGIS** Pro 3.2.0  
 **QGIS** 3.34.0  
 
-### SLYR Plugin Version ###
+### SLYR Plugin Version
 | Version | Date        | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | ------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 7.1.5   | 2023-12-31  | Fix APRX exports when layers have non-english characters, handle conversion of marker rotation via symbol overrides                                                                                                                                                                                                                                                                                                                                                                                                 |
