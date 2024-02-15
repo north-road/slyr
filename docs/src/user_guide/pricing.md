@@ -39,4 +39,3 @@ know in the email and provide the same details listed below.
 
 When we receive payment (via credit card or bank transfer), we will send
 you the license and instructions for using **SLYR**.
-

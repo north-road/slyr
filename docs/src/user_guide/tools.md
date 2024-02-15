@@ -425,7 +425,6 @@ possible to create AVL legend files in the last version of ArcMap.
 Conversion of Land cover of Sierra Leone - Globcover Regional (46 classes) (
 source: [FAO](https://data.apps.fao.org/catalog/iso/973fdcbe-c347-47a7-9af7-e2e57729a35b))
 
-
 > This tool is available only with the SLYR full license.
 ***
 
@@ -741,7 +740,7 @@ Optionally, a JSON representation containing these details can be exported.
 
 | From          | To           |
 |---------------|--------------|
-| **ESRI** .lyr | **OGC** .sld | 
+| **ESRI** .lyr | **OGC** .sld |
 
 Converts an ESRI LYR file to a OGC SLD file. If multiple layers are present in
 the LYR file, each will be converted to an individual OGC SLD file.
@@ -760,7 +759,7 @@ the LYR file, each will be converted to an individual OGC SLD file.
 
 | From           | To           |
 |----------------|--------------|
-| **ESRI** .lyrx | **OGC** .sld | 
+| **ESRI** .lyrx | **OGC** .sld |
 
 Converts an **ArcGIS Pro** LYRX file to a **OGC** SLD file.  
 *N.B. If you have merged values in ArcGIS Pro, these will return as `ELSE`in
@@ -850,4 +849,3 @@ Converts an ArcScene SXD document file to a 2D QGIS project file.
 
 > This tool is available only with the SLYR full license.
 ***
-
