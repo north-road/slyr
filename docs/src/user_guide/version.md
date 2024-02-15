@@ -1,15 +1,21 @@
 **SLYR is continually updated as a response to:**
-- **User requests:** we listen and act so make sure you contact us if you come across any bugs or you have an idea.
-- **Software development:** as QGIS and ESRI continully develop their programs, we endeavour to  include any new updates or changes in SLYR. If you think we have missed something, please contact us.
+
+- **User requests:** we listen and act so make sure you contact us if you come
+  across any bugs or you have an idea.
+- **Software development:** as QGIS and ESRI continully develop their programs,
+  we endeavour to include any new updates or changes in SLYR. If you think we
+  have missed something, please contact us.
 
 ### Current Software Versions
+
 **ArcMap** 10.8.2  
 **ArcGIS** Pro 3.2.0  
-**QGIS** 3.34.0  
+**QGIS** 3.34.0
 
 ### SLYR Plugin Version
+
 | Version | Date        | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| ------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|---------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 7.1.5   | 2023-12-31  | Fix APRX exports when layers have non-english characters, handle conversion of marker rotation via symbol overrides                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 7.1.4   | 2023-12-08  | Much improved ArcGIS Pro exports                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | 7.1.0   | 2023-11-16  | Support for ArcGIS Pro 3.2. Add tool to convert APRX/MAPX to QGS and data to GPKG. Much improved layout label item placement. Support conversion of some Data Interoperability layers (TAB, GeoJSON, WFS). Improved WMS layer conversion. Better conversion of joined layers. Improved scale bar conversions. Don't skip layers with Picture Line symbols.                                                                                                                                                          |
