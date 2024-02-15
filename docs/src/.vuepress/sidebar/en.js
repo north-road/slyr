@@ -16,7 +16,8 @@ module.exports = {
             collapsable: false,
             sidebarDepth: 0,
             children: [
-                 '/user_guide/faq'
+                 '/user_guide/faq',
+                 '/user_guide/changelog'
             ]
         }
       ]
