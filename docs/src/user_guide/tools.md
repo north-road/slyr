@@ -405,10 +405,10 @@ wish to continue to use.
    ▶️ `Convert STYLX to QGIS style XML`.
 2. Under `Stylx database`, browse to the location of the *.stylx* file.
 3. Under `Destination XML file`, set the location of the *.xml* file.
-4. In 'Uncovertable symbols report [optional]`, enter a location for those
+4. Optionally, in 'Uncovertable symbols report' enter a location for those
    symbols that fail to convert. This allows you to create a new vector layer
    containing details of all unconvertable symbols. This report can be saved as
-   any standard vector format, including Shapefile, XLSX or Geopackage.
+   any standard vector format, including CSV, XLSX or Geopackage.
 5. Click on `Run`.
 6. Once it has converted, you can import the *XML* file via the `Style Manager`
    ▶️ `Import/Export`.
@@ -643,7 +643,7 @@ this is not carried over in the LYR settings.
 | **ESRI** .mxd | **QGIS** .qgs, .qgz | 
 
 This tool will add layers from an MXD document to the current project, with
-each layers original symbology, including labels and placement. It won't be
+each layer's original symbology, including labels and placement. It won't be
 automatically saved, so remember to save it once it comes in. The layers will
 source the data from the original location. This tool could be used to bring in
 multiple mxds into a single project using the Batch Process tool.
