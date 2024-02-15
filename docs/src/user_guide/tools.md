@@ -177,11 +177,9 @@ into a **ArcGIS Pro** .stylx format that can then be imported into your *
 2. Under the `GPL palette`, browse to the location of the *.gpl* file.
 3. Under `Destination stylx database`, set the location of the *.X* file.
 4. In **ArcGIS Pro**, in the `Catalog` panel, right mouse click on the *.stylx*
-   file and select `Add Style`.
-
-![Add GPL style to ArcGIS Pro](../images/gpl_add_style.png)
-
-6. In `Geoprocessing`,
+   file and select `Add Style`. 
+   ![Add GPL style to ArcGIS Pro](../images/gpl_add_style.png)
+5. In `Geoprocessing`,
 
 ![Apply GPL style in ArcGIS Pro](../images/gpl_apply.png)
 
@@ -256,8 +254,7 @@ present in the LYRX file, each will be converted to an individual QML file.
 3. Under `Destination QML file`, set the location of the *.qml* file.
    > If more than one layer exists in the **lyrx** file, a qml will be produced
    for each
-
-5. Once processed, load the **.qml** files via the `Layer Properties`.
+4. Once processed, load the **.qml** files via the `Layer Properties`.
 
 ![Load QML](../images/qml_load.png)
 
@@ -283,8 +280,7 @@ use in Geoserver or Mapserver.
 3. Under `Destination QML file`, set the location of the *.qml* file.
    > If more than one layer exists in the **lyrx** file, a qml will be produced
    for each
-
-5. Once processed, load the **.qml** files via the `Layer Properties`.
+4. Once processed, load the **.qml** files via the `Layer Properties`.
 
 ![Load QML](../images/qml_load.png)
 
@@ -304,16 +300,14 @@ Converts an MAPX document file to a QGS project file.
 1. Save your **ArcGIS Pro** file then export your map out as a *.mapx* file.
 2. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
    ▶️ `Convert MAPX to QGS`.
-4. In the `Input MAPX file`, browse to the location of the *.mapx* file.
-5. Under `Destination QGS project file`, set the location of the *.qgs* file to
+3. In the `Input MAPX file`, browse to the location of the *.mapx* file.
+4. Under `Destination QGS project file`, set the location of the *.qgs* file to
    the same **ArcGIS Pro** project folder (hint: where the .aprx is stored).
-   > Note due to
-7. Click 'Run'.
-8. Open up the *.qgs* file and check through.
+5. Click 'Run'.
+6. Open up the *.qgs* file and check through.
    > In some cases, labels do not automatically turn on. Note that labelling
    parameters are saved, it just needs to be manually turned on.
-
-8. Save your project as *.qgz* if requried.
+7. Save your project as *.qgz* if requried.
 
 > This tool is available only with the SLYR full licence.
 ***
@@ -363,8 +357,7 @@ maps, recording all the elements drawn in the ArcGIS Pro .aprx.
 4. Click `OK`.
    > If errors are returned, read through the `Log`, rectify the issues and
    rerun the tool.
-
-6. Once processed, in **ArcGIS Pro**, navigate via the `Catalog` and open the
+5. Once processed, in **ArcGIS Pro**, navigate via the `Catalog` and open the
    *.mapx* file.
 
 > Available only with the SLYR full licence.
@@ -866,14 +859,14 @@ imported into your **QGIS** Style Manager
    ▶️ `Convert ESRI style to QGIS style XML`.
 2. In the `Style database`, browse to the location of the *style* file.
 3. Under `Advanced Parameters`:
-   a) Choose what objects to extract (this is optional).
+   - Choose what objects to extract (this is optional).
    ![Objects to be imported](../images/style-xml.png)
-   b) Enter a name to filter the items, this is handy if you wish to extract on
+   - Enter a name to filter the items, this is handy if you wish to extract on
    a certain group from the style.
-5. Under `Destination XML file`, set the location of the *.xml* file.
-6. If you wish to capture those symbols that don't convert, enter in a
+4. Under `Destination XML file`, set the location of the *.xml* file.
+5. If you wish to capture those symbols that don't convert, enter in a
    location. Choose whether to open that output automatically after it has run.
-7. Click `Run`.
+6. Click `Run`.
 
 > This tool is available only with the SLYR full licence.
 ***
