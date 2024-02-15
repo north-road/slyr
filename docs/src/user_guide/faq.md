@@ -105,6 +105,12 @@ We always recommend running either the latest QGIS release or the current
 QGIS "LTR" release. However, SLYR is compatible with older versions of QGIS,
 anything from version 3.16 onwards can be used.
 
+## What versions of ArcMap/ArcGIS are supported?
+
+SLYR is compatible with files created using ArcMap 9.0 through to ArcMap 10.8.2,
+and ArcGIS Pro versions 2 or 3. There is also support for converting AVL files
+created using ArcView 3.x.
+
 ## How can I run SLYR tools outside QGIS?
 
 While it's possible to call the **Python** modules directly from standalone
