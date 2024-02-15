@@ -29,12 +29,12 @@ tools and start using them.
 > The **SLYR (Community Edition)** has limited tools - check
 > the [SLYR Blog](https://north-road.com/slyr/) for availability as we update
 > tool accessibility once we have reached our funding goals.
-> A tool will return an error if it is only available in the fully licenced **SLYR**.
+> A tool will return an error if it is only available in the fully licensed **SLYR**.
 
 ## Installing SLYR (licensed version)
 
 Once purchased, licensed users will receive an email from **North Road** with a
-link for the installer and their licence key.
+link for the installer and their license key.
 
 **Before installing the licensed version of SLYR, you must first uninstall the
 community version (if installed) and restart QGIS.**
