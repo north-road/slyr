@@ -1,4 +1,4 @@
-# SLYR Options
+# Configuring SLYR
 
 The **SLYR** `Options` dialog provides users the ability to set-up the **SLYR**
 Plugin to meet their requirements.
