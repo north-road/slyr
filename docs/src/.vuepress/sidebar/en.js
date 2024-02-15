@@ -18,6 +18,7 @@ module.exports = {
             children: [
                  '/user_guide/faq',
                  '/user_guide/troubleshooting',
+                 '/user_guide/limitations',
                  '/user_guide/changelog'
             ]
         }
