@@ -1,4 +1,4 @@
-# Limitations
+# Known Limitations
 
 SLYR will always follow the development in **ESRI** and **QGIS** to provide
 conversion opportunities as they arise, but if non-compatibility exists, then
@@ -160,7 +160,7 @@ could look at a number of options.
 - Undertake the conversion for you. This may attract a small fee, dependent on
   the work, but please ask.
 - You could fund the development of the solution to go into the tool for all
-  and become a member of our [Hall of Fame](/user_guide/hall_of_fame)
+  and become a member of our [Hall of Fame](hall_of_fame)
 
 > By asking us, you are letting us know of the limitation and by delivering a
 > solution for you, it may help develop a solution for all in the tool. 
