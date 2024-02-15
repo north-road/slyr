@@ -37,7 +37,7 @@ jobs:
           locale: "US"
           path: ./docs/src/
           pattern: "*.md"
-          filter-mode: nofilter
+          filter_mode: nofilter
 
   inclusivity-check:
     runs-on: ubuntu-latest
