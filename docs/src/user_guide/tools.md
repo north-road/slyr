@@ -741,7 +741,7 @@ Optionally, a JSON representation containing these details can be exported.
 
 | From          | To           |
 |---------------|--------------|
-| **ESRI** .lyr | **OGC** .sld | 
+| **ESRI** .lyr | **OGC** .sld |
 
 Converts an ESRI LYR file to a OGC SLD file. If multiple layers are present in
 the LYR file, each will be converted to an individual OGC SLD file.
@@ -760,7 +760,7 @@ the LYR file, each will be converted to an individual OGC SLD file.
 
 | From           | To           |
 |----------------|--------------|
-| **ESRI** .lyrx | **OGC** .sld | 
+| **ESRI** .lyrx | **OGC** .sld |
 
 Converts an **ArcGIS Pro** LYRX file to a **OGC** SLD file.  
 *N.B. If you have merged values in ArcGIS Pro, these will return as `ELSE`in

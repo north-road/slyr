@@ -14,4 +14,6 @@ features:
 footer: Made by North Road Consulting with ❤️
 ---
 
-blahb blah blah
+# SLYR: the ESRI to QGIS Compatibility Suite
+
+Welcome to the documentation for SLYR.
