@@ -431,9 +431,7 @@ source: [FAO](https://data.apps.fao.org/catalog/iso/973fdcbe-c347-47a7-9af7-e2e5
 
 ## Data Conversion
 
-**QGIS
-*
-* [has the capability of creating, reading and managing GeoDatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/),
+**QGIS** [has the capability of creating, reading and managing GeoDatabases](https://north-road.com/2022/11/24/qgis-3-28-improvements-for-working-with-esri-formats-and-services/),
 therefore conversion is not necessary to keep on working with your data in
 **QGIS**. Understanding why you want to convert from a geodatabase to a
 geopackage is important.
