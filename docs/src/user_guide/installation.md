@@ -57,7 +57,7 @@ community version (if installed) and restart QGIS.**
    *SLYR** in the left panel). Enter your unique license key at this screen,
    exactly as it appears at the end of this email. Enter the optional
    requirements outlined in
-   the [SLYR Options section](/user_guide/setting_up_slyr_options).
+   the [SLYR Options section](configuring).
 
 5. Once installed, **SLYR** will appear in the browser panel. Expand the tools
    and start using them.
