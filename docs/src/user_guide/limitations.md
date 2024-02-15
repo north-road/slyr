@@ -28,10 +28,10 @@ ArcGIS Pro when there are gaps between class ranges. ArcGIS Pro does not
 support gaps within class breaks.
 
 > **Workaround**
-> 
+>
 > Adjust the graduated class breaks from the QGIS project to remove any gaps between the
-  class ranges. If values should remain hidden, try creating classes for these hidden ranges
-  and using a fully transparent symbol for them.
+> class ranges. If values should remain hidden, try creating classes for these hidden ranges
+> and using a fully transparent symbol for them.
 
 ## Legend Text
 
@@ -40,7 +40,7 @@ ESRI documents which use this option, SLYR will raise warnings but the resulting
 in the QGIS project will often be messy and need manual adjustment.
 
 > **Workaround**
-> 
+>
 > Avoid using automatically wrapped text in ArcMap or ArcGIS Pro legends
 
 ## Converting QGIS projects to MXD/LYR
@@ -55,7 +55,7 @@ Consequently, SLYR does not support exports of QGIS to MXD (or LYR), and we will
 be adding this functionality in any future SLYR release.
 
 > **Workaround**
-> 
+>
 > Export to the newer ArcGIS Pro formats instead
 
 ## Raster Catalog Layers
@@ -66,7 +66,7 @@ Accordingly, SLYR cannot convert these layers and these layer types will be skip
 when opening ArcMap or ArcGIS Pro documents.
 
 > **Workaround**
-> 
+>
 > This functionality will become available only when QGIS itself supports raster catalog
 > layers or mosaic datasets. If you're interested in funding this development within
 > QGIS, please [contact us](mailto:info@north-road.com).
@@ -85,7 +85,7 @@ a warning will be raised during the export and the QGIS layer styling will need
 to be adjusted accordingly.
 
 > **Workaround**
-> 
+>
 > One potential workaround is to manually add a new field to the
 > layer's attribute table which contains the name of each of rule which should
 > be used to render that feature, and then convert the rule-based renderer
@@ -113,7 +113,7 @@ will often be a lossy process, dropping complex options back to simpler
 SLD supported symbology.
 
 > **Workaround**
-> 
+>
 > Carefully check the resulting SLD symbology and compare against the original
 > ArcMap or ArcGIS Pro symbology. Where differences are present, try
 > simplifying the original ArcMap/ArcGIS Pro symbology to use simpler styling
@@ -126,7 +126,7 @@ fix, [contact us](mailto:info@north-road.com) and we can assist! In some cases w
 
 - Undertake the conversion for you. This may attract a small fee, dependent on
   the work, but please ask.
-- Missing functionality in QGIS can be sponsored so that we can directly 
+- Missing functionality in QGIS can be sponsored so that we can directly
   add support for it.
 
 > By asking us, you are letting us know of the limitation and by delivering a
