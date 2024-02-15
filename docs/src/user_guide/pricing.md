@@ -7,15 +7,12 @@
 - Rest of the World: Conversion rate of €1200 at the time of quote
 
 This includes:
-> Access to **SLYR's** full tools
->
-> Multiple user access in the one physical location
->
-> Perpetual verion updates
->
-> No annual maintenance
->
-> Full support from North Road
+
+> - Access to **SLYR's** full set of tools
+> - Multiple user access in the one physical location
+> - Perpetual version updates
+> - No annual maintenance
+> - Full support from North Road
 
 ## Cost for non-European purchases
 
