@@ -17,12 +17,6 @@ little bit smoother.
 > fonts, and images. Note that there is
 > some [limitations](limitations) with
 > QGIS Svg files.
->
-> ✔️ **Geopackages:** ArcGIS Pro and Geopackages has not yet reached full
-> support. Therefore an error will be produced if you are exporting from a
-> geopackage.
->
->      Warning: Railway: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path.
 
 See [Troubleshooting](troubleshooting)
 for the workaround.
