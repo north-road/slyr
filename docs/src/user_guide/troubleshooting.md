@@ -171,7 +171,6 @@ it is a bug, we will rectify as soon as possible.
     as possible including the files. We will look into the bug and get back to
     you with a solution. Once solved, we will push up a new version to the QGIS
     Plugin Manager with all the fixes.
-
 > - Check if you are using the Community Edition or the Full Licence of **SLYR**.
     If you are using the Community Edition, then the tool is not yet
     available in the licence version. Please note that we don't offer any direct
