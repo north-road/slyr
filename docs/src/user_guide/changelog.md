@@ -1,16 +1,12 @@
-**SLYR is continually updated as a response to:**
+# Changelog
+
+SLYR is continually updated as a response to:
 
 - **User requests:** we listen and act so make sure you contact us if you come
-  across any bugs or you have an idea.
-- **Software development:** as QGIS and ESRI continully develop their programs,
-  we endeavour to include any new updates or changes in SLYR. If you think we
-  have missed something, please contact us.
-
-### Current Software Versions
-
-**ArcMap** 10.8.2  
-**ArcGIS** Pro 3.2.0  
-**QGIS** 3.34.0
+  across any bugs, or you have an idea on how SLYR can be improved.
+- **Software development:** as QGIS and ESRI continually improve their applications,
+  we endeavour to include any new functionality or changes in SLYR rapidly. If you think we
+  have missed something, please [contact us](mailto:info@north-road.com)!
 
 ### SLYR Plugin Version
 
