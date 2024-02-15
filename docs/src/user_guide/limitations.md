@@ -1,14 +1,15 @@
 # Known Limitations
 
-SLYR will always follow the development in **ESRI** and **QGIS** to provide
-conversion opportunities as they arise, but if non-compatibility exists, then
-conversions are limited. But don't be disheartened, if the ability is in ESRI,
-we can always develop it within QGIS. The other way around though - well that
-is out of our hands, and workarounds may be attempted.
+SLYR will always follow the developments in **ESRI** and **QGIS** to provide
+conversion opportunities as new functionality is added to these applications.
+However, there are limitations in both QGIS and ESRI software which can prevent
+perfect results when converting documents between these applications.
 
-To be transparent, we have listed the current limitations that we know of, what
-we are doing about it and if there is a workaround in the meantime.
-> If you know a limitation that isn't listed,
+This page lists limitations which we know can affect the quality of conversions
+made by SLYR, along with any workarounds you can use to help avoid conversion
+issues.
+
+> If you encounter a limitation that isn't listed,
 > please [email us](mailto:info@north-road.com) and we will investigate it.
 
 <!--## Template ##
@@ -20,90 +21,75 @@ Description
 
 > Proposed solution: currently working on it -->
 
-## Geopackages
-
-Whilst we are love our neat geopackages in QGIS, ESRI is yet to deliver on this
-functionality. If you are going from QGIS to ESRI, you will need to save as a
-shapefile or a geodatabase.
-> Workaround:
-> See [Geopackages Troubleshooting](https://slyr.north-road.com/user_guide/troubleshooting/#geopackage)
->
-> Proposed solution: ESRI geopackage development
-
 ## Graduated renderer
 
-SLYR cannot translate a QGIS graduated renderer to any comparable result in
-ArcGIS Pro if there's any gaps within the class ranges as ArcGIS Pro does not
-support gaps.
-> Workaround: this is pretty easy
+SLYR cannot translate a QGIS "graduated renderer" to any comparable result in
+ArcGIS Pro when there are gaps between class ranges. ArcGIS Pro does not
+support gaps within class breaks.
 
-* Correct the class breaks from the QGZ project to remove the gaps between the
-  classes.
-
-> Proposed solution: currently working on it
-
-## Label Class disabled in ArcGIS Pro
-
-When using the QGS to MAPX tool, the Label Class options are disabled in ArcGIS
-Pro.
-> Workaround: tbc
->
-> Proposed solution: currently working on it
+> **Workaround**
+> 
+> Adjust the graduated class breaks from the QGIS project to remove any gaps between the
+  class ranges. If values should remain hidden, try creating classes for these hidden ranges
+  and using a fully transparent symbol for them.
 
 ## Legend Text
 
-- Wrapped legend text is currently not supported.
+It is not possible to automatically wrap legend text in current QGIS versions. When converting
+ESRI documents which use this option, SLYR will raise warnings but the resulting legend arrangement
+in the QGIS project will often be messy and need manual adjustment.
 
-## QGIS to MXD
+> **Workaround**
+> 
+> Avoid using automatically wrapped text in ArcMap or ArcGIS Pro legends
 
-SLYR does not offer assistance in transforming QGIS projects into MXD. However,
-it does support the conversion of QGIS projects to newer ArcGIS Pro formats
-like LYRX, MAPX, and APRX. Since ArcMap is undergoing phased-out development,
-slated to end in March 2026, SLYR has concentrated its conversion efforts on
-ESRI formats with assured future support and maintenance. Consequently, the
-development of a QGIS to MXD conversion tool is not being pursued. Given the
-available alternatives of using either QGIS or ArcGIS Pro for similar tasks,
-dedicating resources to this particular undertaking is currently deemed
-impractical.
+## Converting QGIS projects to MXD/LYR
 
-> Proposed solution: unless you transition to supported formats like QGIS,
-> regrettably, your only alternative is to reconstruct the project within ArcMap.
+SLYR does not support converting QGIS projects into the older ArcMap MXD or LYR formats.
+However, it does support the conversion of QGIS projects to ArcGIS Pro formats
+like LYRX, MAPX, and APRX. Since ArcMap is now officially ceased development by ESRI,
+SLYR has concentrated its QGIS to ESRI conversion efforts on the newer, supported
+ArcGIS Pro formats.
+
+Consequently, SLYR does not support exports of QGIS to MXD (or LYR), and we will not
+be adding this functionality in any future SLYR release.
+
+> **Workaround**
+> 
+> Export to the newer ArcGIS Pro formats instead
 
 ## Raster Catalog Layers
 
-A Raster catalog is a feature of ArcMap. Its ArcGIS Pro equivalent is mosaic
-datasets.
-In QGIS there is currently no equivalent to Raster Catalog Layers. Any of these
-layers will be skipped over in the process and omitted from the project.
+Raster Catalog layers are a special feature in ArcMap. (The ArcGIS Pro equivalent is mosaic
+datasets.) In QGIS there is currently no equivalent to Raster Catalog or Mosaic Dataset layers.
+Accordingly, SLYR cannot convert these layers and these layer types will be skipped over
+when opening ArcMap or ArcGIS Pro documents.
 
-> Workaround should only be used if you require the symbology for the raster.
-
-* Extract the required layers within the Raster Catalog as raster layers.
-
-> Proposed solution: there is no proposed solution as the data sits as a
-> temporary layer within a project. Additionally, Raster Catalogs are a feature
-> within ArcMap which is being phased out.
-
-## Rasters in GDB
-
-Raster layers that are contained in GDB are currently not supported in QGIS.
-
-> Workaround:
-
-* Extract the rasters from the GDB if the symbology is required in QGIS
-
-> Proposed solution: waiting on GDAL to develop the ability to read rasters in
-> GDB.
+> **Workaround**
+> 
+> This functionality will become available only when QGIS itself supports raster catalog
+> layers or mosaic datasets. If you're interested in funding this development within
+> QGIS, please [contact us](mailto:info@north-road.com).
 
 ## Rule-based renderers
 
 One of our favorite features of **QGIS** Symbology is the ability to create
-efficient cartography through the use of Rule-Based renderers (Rule-Based
-classification symbology). There is currently no direct equivalent in ArcGIS
-Pro. Therefore, if your **QGIS** project has many layers based on rule-based
-classifications, try this for a workaround.
-> Workaround: Painful - yes, Inefficient - yes - but let's manually capture the
-> rule-based classification in the layer's field.
+efficient cartography through the use of "Rule-Based" renderers. This is an
+extremely powerful functionality, with no direct equivalent in current ArcGIS
+Pro versions. Therefore, if your **QGIS** project has many layers based on rule-based
+renderers, you may have issues when exporting to ArcGIS Pro formats.
+
+SLYR will always attempt to convert rule based layers whenever it **is** possible
+to replicate the same results in ArcGIS Pro, but if this is not possible then
+a warning will be raised during the export and the QGIS layer styling will need
+to be adjusted accordingly.
+
+> **Workaround**
+> 
+> One potential workaround is to manually add a new field to the
+> layer's attribute table which contains the name of each of rule which should
+> be used to render that feature, and then convert the rule-based renderer
+> to an equivalent categorized renderer using this new field.
 
 1. In **QGIS**, open up a layer's `attribute table`.
 2. Create the number of fields required to record each rule-based
@@ -112,38 +98,37 @@ classifications, try this for a workaround.
    classification.
 4. Populate the fields with the name of your rule-based classification.
 5. Save your edits.
-6. In the `layer panel`, duplicate the layer and name it according to the
-   rule-based classification.
-7. Apply the symbology to each layers as per the rule-based classification.
+6. Change the layer to use a Categorized Renderer with symbology matching
+   each of the original rule-based renderer rules.
 
-> Proposed solution: still looking for one.
+## Converting LYR/LYRX to SLD
 
-## SLD to LYR/LYRX
-
-These tools do rely entirely on QGIS' SLD export capabilities, so the quality
+These tools rely on QGIS' SLD export capabilities, and the quality
 of the conversion will depend on the symbology options used in the ArcMap
-documents and how compatible they are with QGIS' SLD support. The SLD format
-itself has considerably less symbology functionality compared with either QGIS
-or ArcMap, therefore a conversion to SLD will often be a lossy process,
-dropping complex options back to simpler SLD supported symbology.
-> Workaround:
+documents and how compatible they are with QGIS' SLD support.
 
-* Reasses symbology choices in ArcMap
+The SLD format itself has considerably less symbology functionality
+compared with either QGIS or ArcMap, therefore a conversion to SLD
+will often be a lossy process, dropping complex options back to simpler
+SLD supported symbology.
 
-> Proposed solution: will improve with QGIS' SLD capabilities. If this is a
-> major issue, consider funding the capability development of it.
+> **Workaround**
+> 
+> Carefully check the resulting SLD symbology and compare against the original
+> ArcMap or ArcGIS Pro symbology. Where differences are present, try
+> simplifying the original ArcMap/ArcGIS Pro symbology to use simpler styling
+> choices.
 
 ## Urgent fixes
 
 If you have a large project impacted by limitations that requires an urgent
-fix, [contact us](mailto:info@north-road.com) here at **North Road** and we
-could look at a number of options.
+fix, [contact us](mailto:info@north-road.com) and we can assist! In some cases we can:
 
 - Undertake the conversion for you. This may attract a small fee, dependent on
   the work, but please ask.
-- You could fund the development of the solution to go into the tool for all
-  and become a member of our [Hall of Fame](hall_of_fame)
+- Missing functionality in QGIS can be sponsored so that we can directly 
+  add support for it.
 
 > By asking us, you are letting us know of the limitation and by delivering a
-> solution for you, it may help develop a solution for all in the tool. 
-
+> solution for you, it may help develop a solution for all users of these tools
+> and all QGIS users!
