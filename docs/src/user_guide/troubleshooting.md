@@ -1,8 +1,14 @@
 # Troubleshooting
 
-## Error Messages
+## Warnings during conversions
 
- Error Message                                                                                                                                                                             | Rectification                                                                                                                                                                                                                      |
+During document conversion SLYR will raise warnings describing any properties
+from the
+document which cannot be automatically converted. The table below describes
+some of
+these warnings, and how they can be handled:
+
+ Warning                                                                                                                                                                                   | Rectification                                                                                                                                                                                                                      |
  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
  Converting CIMBackgroundCallout not implemented yet                                                                                                                                       | In ArcGIS Pro, remove all background items from the label as the layer will not be converted                                                                                                                                       
  Converting CIMCompositeCallout not implemented yet                                                                                                                                        | In ArcGIS Pro, remove all background items from the label as the layer will not be converted                                                                                                                                       
@@ -83,7 +89,8 @@ this. You may need Admin rights on your computer.
     from [Microsoft](https://www.microsoft.com/en-gb/download/details.aspx?id=13255)
 >
 > N.B. If you don't have a 32-bit version of office installed you can just run
-> the executable. If, however, you do have a 32-bit office installation you will
+> the executable. If, however, you do have a 32-bit office installation you
+> will
 > need to run the executable from a command prompt using the /passive option
 
 ### Raster conversion
@@ -94,6 +101,7 @@ function.
 >
 > - In **ArcGIS Pro**, convert to geotiff.
     >
+
 - Run SLYR again.
 
 ### Raster Catalog
@@ -249,17 +257,17 @@ has been released. To update your version:
 
 1. Open the **Plugin Manager**, click on the top menu item `Plugins`
    ▶️ `Manage and Install Plugins`.
-
-![Open Plugin Manager](../images/plugin_mngr_open2.png)
+ 
+   ![Open Plugin Manager](../images/plugin_mngr_open2.png)
 
 2. In the left panel, click on `Upgradeable`
 
 3. In the central panel, click on `SLYR`. If `SLYR` is not in the middle panel,
    then you should be up-to-date.
 
-> Check-out what has been updated in the *Changelog*.
+   > Check-out what has been updated in the *Changelog*.
 
-3. On the lower right, click on `Upgrade Plugin`. Once upgraded, click
+4. On the lower right, click on `Upgrade Plugin`. Once upgraded, click
    on `Close`.
 
 ![Update SLYR](../images/upgrade.png)
@@ -275,7 +283,9 @@ for them.
 >
 > - Open up the **QGIS** project.
     >
+
 - When asked to `Handle Unavailable Layers`, select `Keep Unavailable Layers`.
+
 >
 >![Handle Unavailable Layer](../images/unavailable-layers.png)
 >
