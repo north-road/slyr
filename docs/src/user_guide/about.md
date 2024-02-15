@@ -9,7 +9,3 @@ are deserving of gratitude!
 - [SMEC/SJ](https://www.smec.com/au/)
 - [North Road](http://north-road.com)
 - [OpenGIS.ch](http://opengis.ch)
-
-And hey, if you want to see **SLYR** improved, why not consider financially
-supporting its development? Drop us a [line](mailto:info@north-road.com) to
-discuss.
