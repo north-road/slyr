@@ -158,7 +158,7 @@ Marker halos are not supported in QGIS, as there's no way in current QGIS
 versions to achieve the same effect. During conversion SLYR will ignore
 the marker halo setting, and you may need to adjust your symbology accordingly.
 
-## Tool not working
+## Reporting Bugs
 
 If a tool is not working, we apologise that this is impacting your workflow! If
 it is a bug, we will rectify as soon as possible.
@@ -175,28 +175,3 @@ it is a bug, we will rectify as soon as possible.
     If you are using the Community Edition, then the tool is not yet
     available in the licence version. Please note that we don't offer any direct
     support for the Community Edition.
-
-## Update my SLYR licence
-
-**SLYR** is updated regularly and **QGIS** will let you know when a new version
-has been released. To update your version:
-
-1. Open the **Plugin Manager**, click on the top menu item `Plugins`
-   ▶️ `Manage and Install Plugins`.
-
-   ![Open Plugin Manager](../images/plugin_mngr_open2.png)
-
-2. In the left panel, click on `Upgradeable`
-
-3. In the central panel, click on `SLYR`. If `SLYR` is not in the middle panel,
-   then you should be up-to-date.
-
-   > Check-out what has been updated in the *Changelog*.
-
-4. On the lower right, click on `Upgrade Plugin`. Once upgraded, click
-   on `Close`.
-
-![Update SLYR](../images/upgrade.png)
-> If you receive an error after the Plugin update indicating it wasn't able to
-> upgrade, restart QGIS. If it still hasn't been
-> upgrade, [email us](mailto:info@north-road.com).
