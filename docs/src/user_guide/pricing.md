@@ -37,6 +37,6 @@ know in the email and provide the same details listed below.
 >
 > Type of users (in office/remote)
 
-When we receive payment (credit card, bank transfer or PayPal), we will send
+When we receive payment (via credit card or bank transfer), we will send
 you the licence and instructions for using **SLYR**.
 
