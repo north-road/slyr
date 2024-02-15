@@ -17,6 +17,7 @@ module.exports = {
             sidebarDepth: 0,
             children: [
                  '/user_guide/faq',
+                 '/user_guide/troubleshooting',
                  '/user_guide/changelog'
             ]
         }
