@@ -10,13 +10,6 @@ module.exports = {
                 '/user_guide/configuring',
             ]
         },
-        {
-            title: 'Available tools',
-            collapsable: true,
-            sidebarDepth: 1,
-            children: [
-                '/user_guide/tools',
-            ]
-        }
+        '/user_guide/tools'
       ]
 }
