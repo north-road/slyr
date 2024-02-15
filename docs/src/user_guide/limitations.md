@@ -133,17 +133,6 @@ dropping complex options back to simpler SLD supported symbology.
 > Proposed solution: will improve with QGIS' SLD capabilities. If this is a
 > major issue, consider funding the capability development of it.
 
-## Vector tile packs - Index
-
-There are two types of Vector Tile Packs (VTPK) in **ESRI**:
-Flat : supported by **SLYR**
-Index: not supported **SLYR**
-
-> There is no workaround for this limitation.
-
-> Proposed solution: waiting for funding and demand by the community to develop
-> it.
-
 ## Urgent fixes
 
 If you have a large project impacted by limitations that requires an urgent
