@@ -183,31 +183,9 @@ The following are some issues you may encounter during conversions of symbols.
 
 ### Marker Symbols
 
-Marker halos are not supported in QGIS as there's no way in current QGIS
-versions to achieve the same effect, so the marker halo is dropped in the QGS
-project.
-
-## SVG
-
-### Add in SVG files for QGIS
-
-If you have access to the SVG files you need, and you find that SLYR is not
-bringing them in, check to see if the location is listed in the `Settings`
-▶️ `Options` ▶️  `SVG Paths`.
-![SVG Paths](../images/svg_paths.png)
-
-### Add in SVG files for ArcGIS Pro
-
-QGIS SVG Markers are not yet supported for conversion into ArcGIS Pro. They are
-however on the list to be supported.
-> **Workaround:**
->
-> - Remove any svg layers in your layer's symbology. In ArcGIS Pro choose the
-    appropriate style.
->
-> - If the SVG are unique and required, import them to a style using
-    the [ImportSVGsToStyle](https://carto.maps.arcgis.com/home/item.html?id=c25ab2da6ae343af9acc632120c7cf01)
-    ArcGIS Pro Add-In by DStephen_carto.
+Marker halos are not supported in QGIS, as there's no way in current QGIS
+versions to achieve the same effect. During conversion SLYR will ignore
+the marker halo setting and you may need to adjust your symbology accordingly.
 
 ## Tool not working
 
