@@ -143,14 +143,6 @@ Converts a QGIS project file to an APRX file.
 2. In the `Input QGS file`, browse to the location of the *.qgz* file.
 3. Under `Destination APRX project file`, set the location of the *.aprx* file.
 
-> Current limitations with geopackages
-> `warnings: Warning: Rail Stations: Converting .gpkg layers is not yet fully supported, layer path has been replaced with a dummy shapefile path`
-> In ArcGIS Pro, this will require each layer to be repathed. However, if you
-> undertake this in the `Map view`, the style will be lost.
-> To keep a layer's style, use the `Update Data Sources' tool in the `Catalog`
-> view
-
-
 > This tool is available only with the SLYR full licence.
 ***
 
