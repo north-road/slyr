@@ -6,9 +6,8 @@ Have a question? Check the entries below for an answer.
 
 ## Cost of SLYR Plugin
 
-At the time of writing, to purchase the SLYR Plugin costs €1200. For those
-located outside of Europe, the cost will be as per the conversion rate at the
-time of issuing the invoice.
+See the [pricing](pricing) page for full details on purchasing the full featured
+licensed version of SLYR.
 
 ## File Formats
 
