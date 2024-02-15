@@ -69,7 +69,7 @@ tool for converting this document type.
 
 | From          | To             |
 |---------------|----------------|
-| **ESRI** .gdp | **QGIS** .gpkg | 
+| **ESRI** .gdb | **QGIS** .gpkg | 
 
 Use this tool if you are converting text annotations stored in a File
 Geodatabase annotation class and want the result to be reusable across
