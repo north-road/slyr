@@ -340,7 +340,7 @@ QGIS color libraries for easy access.
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
    ▶️ `Convert STYLX to GPL color palette`.
-2. For `Sytlx database`, browse to the location of the *.stylx* file.
+2. For `Stylx database`, browse to the location of the *.stylx* file.
 3. Under `Destination GPL file`, set the location of the *.gpl* file.
 4. Click on `Run`.
 5. Once converted, import via `Settings` ▶️ `Options`▶️ `Color` and ensure you
