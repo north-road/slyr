@@ -2,9 +2,9 @@
 
 **SLYR** Plugin costs:
 
-- Europe: €1200
-- Australia: $1600
-- Rest of the World: Conversion rate of €1200 at the time of quote
+- Europe: €1500
+- USA: USD$1650
+- Australia/NZ: AU$1950 (+10% GST for Australian customers)
 
 This includes:
 
@@ -13,11 +13,6 @@ This includes:
 > - Perpetual version updates
 > - No annual maintenance
 > - Full support from North Road
-
-## Cost for non-European purchases
-
-For those located outside of Europe, the cost will be as per the conversion
-rate at the time of issuing the invoice.
 
 ## Purchase process
 
