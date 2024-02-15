@@ -108,27 +108,6 @@ function.
 
 This is not supported in QGIS and will be omitted from the project.
 
-## Geopackage
-
-ArcGIS Pro and Geopackages has not yet reached full support. Therefore an error
-will be produced if you are exporting from a geopackage
-e.g. *Warning: Feature: Converting .gpkg layers is not yet fully supported,
-layer path has been replaced with a dummy shapefile path*
-
-> If your files are in a geopackage, ArcGIS Pro will not recognise this and the
-> following may happen:
->
->  - The file links will be broken
->
->  - If you repath them to the geopackage, this will impact on the symbology.
->
-> **Workaround:**
->
-> Option 1: Export to geodatabase or shapefile
->
-> Option 2: In ***ArcGIS Pro***, update the layer sources using
-> the `Update Data Sources` tool in the `Catalog` view
-
 ### Export to Geodatabase
 
 You can export geopackage data to a new geodatabase or to an existing
