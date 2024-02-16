@@ -13,9 +13,8 @@ module.exports = {
         '/user_guide/tools',
         {
             title: 'Support',
-            collapsable: true,
-            sidebarDepth: 1,
-            initialOpenGroupIndex: -1,
+            collapsable: false,
+            sidebarDepth: 0,
             children: [
                  '/user_guide/faq',
                  '/user_guide/troubleshooting',
