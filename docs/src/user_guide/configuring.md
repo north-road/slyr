@@ -16,6 +16,9 @@ access the **SLYR** options.
 The **SLYR Community Edition** options are a little different.
 ![SLYR Community Edition Options](../images/options_CE2.png)
 
+[Access MDB tools](https://github.com/lsgunth/mdbtools-win/archive/master.zip)
+For MAC OS: tbc
+
 ## Plugin Settings
 
 | Setting                           | Description                                                                                                                                                               | Directions                                                                       |
