@@ -1,5 +1,13 @@
 # Troubleshooting
 
+## Cannot download SLYR from link
+
+If you cannot download SLYR from the link provided, first try a different browser, including Chrome and Firefox. If this does not work, please contact us.
+
+If you find you get the `401 Unauthorized` page this may indicate that your organisation has blocked access. Therefore, you will need to contact us for further installation requirements. 
+
+**Please contact us at <info@north-road.com> and we will respond as soon as we can (with the caveat that we are in AEST time zone).**
+
 ## Warnings during conversions
 
 During document conversion SLYR will raise warnings describing any properties
