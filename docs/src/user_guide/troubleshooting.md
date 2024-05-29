@@ -8,6 +8,10 @@ If you find you get the `401 Unauthorized` page this may indicate that your orga
 
 **Please contact us at <info@north-road.com> and we will respond as soon as we can (with the caveat that we are in AEST time zone).**
 
+## You are asked for user credentials
+
+If you are asked for your Username and Password when updating your plugin, re-run the installation routine from the welcome email. If this does not fix the problem, please contact us at <info@north-road.com> and we will help you to reinstall. 
+
 ## Warnings during conversions
 
 During document conversion SLYR will raise warnings describing any properties
