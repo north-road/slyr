@@ -10,7 +10,7 @@ If you find you get the `401 Unauthorized` page this may indicate that your orga
 
 ## You are asked for user credentials
 
-If you are asked for your Username and Password when updating your plugin, re-run the installation routine from the welcome email. If this does not fix the problem, please contact us at <info@north-road.com> and we will help you to reinstall. 
+If you are asked for your Username and Password when updating your plugin, re-run the installation routine from the welcome email. If this does not fix the problem, please contact us at <info@north-road.com> and we will help you to reinstall.  
 
 ## Warnings during conversions
 
