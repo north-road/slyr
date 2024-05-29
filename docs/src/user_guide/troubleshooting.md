@@ -12,8 +12,8 @@ If you find you get the `401 Unauthorized` page this may indicate that your orga
 
 If you are asked for your Username and Password when updating your plugin:
 
-- Open it using another [User Profile](https://docs.qgis.org/latest/en/docs/user_manual/introduction/qgis_configuration.html#working-with-user-profiles)
-- Re-run the installation routine from the welcome email
+- Try re-running the installation routine from the welcome email (it's safe to re-run this over an existing SLYR install)
+- Try installing SLYR using a new QGIS [User Profile](https://docs.qgis.org/latest/en/docs/user_manual/introduction/qgis_configuration.html#working-with-user-profiles)
 
 If this does not fix the problem, please contact us at <info@north-road.com> and we will help you to reinstall.
 
