@@ -7,17 +7,17 @@ This Licensing Agreement ('Agreement') is made by and between:
 **North Road Consulting Pty Limited ABN 80 769 844 078 of 21 Kiel Mountain Rd, Woombye QLD 4559** ('North Road')
 and license holders of the SLYR QGIS Plugin Tool ('the licensee').
 
-*The parties have agreed that North Road will licence the Software to the Licensee and will provide upgrades and
-updates (if any) to the Software in consideration for the Licence Fee. In consideration of the mutual covenants, terms,
+*The parties have agreed that North Road will license the Software to the Licensee and will provide upgrades and
+updates (if any) to the Software in consideration for the License Fee. In consideration of the mutual covenants, terms,
 and conditions set out in this Agreement, the parties agree as follows:*
 
-### 1. Licence
+### 1. License
 
 1.1. Subject to the Licensee’s continued compliance with all the terms of this Agreement (including, without limitation,
 payment of all fees payable under this Agreement), North Road grants the Licensee a non-exclusive, non-transferable
-licence (and accordingly does not allow sublicensing of the Software to any other party) to:
+license (and accordingly does not allow sublicensing of the Software to any other party) to:
 
-a. use the Software within the scope of the Licence Type; and
+a. use the Software within the scope of the License Type; and
 
 b. install or imbed copies of the Software in accordance with the License Type.
 
@@ -48,9 +48,9 @@ c. reverse engineer, disassemble or decompile or otherwise attempt to derive any
 d. remove, alter or obscure any proprietary notices, labels or marks in the Software or North Road’s terms of use or
 privacy policy contained in the Software.
 
-2.3. The parties acknowledge and agree that, notwithstanding anything to the contrary in this Agreement, no licence is
+2.3. The parties acknowledge and agree that, notwithstanding anything to the contrary in this Agreement, no license is
 granted (whether expressly, by implication or otherwise) under this Agreement for use of the Software beyond the
-applicable Term or outside the scope of the applicable Licence Type.
+applicable Term or outside the scope of the applicable License Type.
 
 2.4. The Licensee warrants that it will reproduce all copyright notices and other legends of ownership on each copy, or
 partial copy, of the Software.
@@ -91,8 +91,8 @@ charge out rates for the North Road representatives undertaking those Additional
 the Specifications.
 
 5.2. North Road warrants that it is the owner of the Software and each and every component of the Software, or, it is
-the recipient of a valid licence of the Software, and it has and will maintain the full power and authority to grant the
-licence and Intellectual Property Rights granted in this Agreement without the further consent of any third party.
+the recipient of a valid license of the Software, and it has and will maintain the full power and authority to grant the
+license and Intellectual Property Rights granted in this Agreement without the further consent of any third party.
 
 5.3. Each party warrants that it has the full right and authority to enter into, execute, and perform its obligations
 under this Agreement and that no pending or threatened claim or litigation known to it would have a material adverse
@@ -108,7 +108,7 @@ Road provides no warranty regarding, and will have no responsibility for, any cl
 a. a modification of the Software made by anyone other than North Road, unless North Road approves such modification in
 writing; or
 
-b. use of the Software in combination with any operating system not authorised in the Specifications or with hardware or
+b. use of the Software in combination with any operating system not authorized in the Specifications or with hardware or
 software specifically forbidden by the Specifications.
 
 5.5. Notwithstanding anything in this Agreement, if the *Competition and Consumer Act 2010* (Cth) provides that there is
@@ -212,12 +212,12 @@ unregistered, including:
 a. all patents, trade-marks, copyright, designs, trade secrets, know-how and other rights in any design, materials,
 processes, documents and methods of working; and
 
-b. all licences and other rights to use or to grant the use of those items in a);
+b. all licenses and other rights to use or to grant the use of those items in a);
 
 and includes any modifications, enhancements, developments made or arising out of the same, but excluding Moral Rights.
 
-**“Licence Fee”** means the fee set out in Schedule 2 which is payable by the Licensee to North Road to purchase a
-licence to use the Software.
+**“License Fee”** means the fee set out in Schedule 2 which is payable by the Licensee to North Road to purchase a
+license to use the Software.
 
 **“Licensee”** means the party to whom the Software is delivered and identified in the invoice submitted by North Road.
 
@@ -231,9 +231,9 @@ updated by North Road by written notice.
 ### Schedule 1 – Specifications
 
 A SLYR license entitles the licensee to installations accessible for up to 20 staff, within one single physical
-workplace location. For the purposes of remote or “work from home” users, these users are entitled to utilise the
+workplace location. For the purposes of remote or “work from home” users, these users are entitled to utilize the
 license attached to their usual workplace office location.
 
-### Schedule 2 - Licence Fee
+### Schedule 2 - License Fee
 
 An unlimited install, single workplace license is available for a one-time cost of 1500EU.
