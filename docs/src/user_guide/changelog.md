@@ -14,6 +14,8 @@ SLYR is continually updated as a response to:
 
 | Version | Date        | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 |---------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 7.4.3   | 2024-06-25  | Improve exports of raster layers to ArcPro formats. Fix visibility of layers in ArcPro exports.|
+| 7.4.2   | 2024-06-11  | Fix compatibility with QGIS 3.38. Fix conversion of style libraries with unnamed symbols. Fix converting corner grid labels.|
 | 7.4.1   | 2024-05-24  | Preliminary support for converting QGIS font markers to ArcGIS Pro symbols.|
 | 7.4.0   | 2024-05-09  | ArcGIS Pro 3.3 support. Misc fixes.|
 | 7.3.0   | 2024-05-05  | Add support for converting ESRI "Mobile style" files. Initial support for convering ArcGIS Pro text symbol markers. Add a direct "QLR to LYRX" tool. Convert ArcGIS Pro heatmap layers to QGIS.|
