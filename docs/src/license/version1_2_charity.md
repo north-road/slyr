@@ -236,4 +236,4 @@ license attached to their usual workplace office location.
 
 ### Schedule 2 - License Fee
 
-A SLYR license single workplace license has been provided free of charge as a recognition of the work you are undertaking for the planet. This can be revoked at the behest of North Road at any time. 
+A SLYR license single workplace license has been provided free of charge as a recognition of the work you are undertaking for the planet. This can be revoked at the behest of North Road at any time.
