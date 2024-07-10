@@ -28,7 +28,7 @@ SLYR will process and utilize any available content. If no content is present, S
 > - In this example, content exists only in the yellow folders. No content is illustrated as a white folder.  
 ![Arcmap Style Manager](../images/style_arcmap.png)
 
-> Proposed solution: check within the source software that your source file has the required content. 
+> Proposed solution: check within the source software that your source file has the required content.  
 
 ## Graduated renderer
 
