@@ -13,13 +13,17 @@ issues.
 > please [email us](mailto:info@north-road.com) and we will investigate it.
 
 <!--## Template ##
-Description
-> Workaround intro
 
-1. Instruction
-2. Instruction
+Description  
 
-> Proposed solution: currently working on it -->
+> **Workaround**
+>
+> Workaround intro  
+
+1. Instruction  
+2. Instruction  
+
+> Proposed solution: currently working on it -->  
 
 ## Graduated renderer
 
