@@ -26,7 +26,7 @@ Description
 > Proposed solution: currently working on it -->  
 
 
-## Content in Source files 
+## Content in Source files
 
 SLYR will process and utilize any available content. If no content is present, SLYR will have nothing to convert.  
 
@@ -34,7 +34,7 @@ SLYR will process and utilize any available content. If no content is present, S
 > 
 > To check if the content exists, open up the source file in its native software and check to see if the content is there.  
 > - In this example, content exists only in the yellow folders. No content is illustrated as a white folder.  
-![Arcmap Style Manager](../images/style_arcmap.png)
+![Arcmap Style Manager](../images/style_arcmap.png)  
 
 > Proposed solution: check within the source software that your source file has the required content.  
 
