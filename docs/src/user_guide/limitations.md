@@ -12,18 +12,17 @@ issues.
 > If you encounter a limitation that isn't listed,
 > please [email us](mailto:info@north-road.com) and we will investigate it.
 
-<!--## Template ##
+<!--## Title
 
 Description  
 
 > **Workaround**
 >
-> Workaround intro  
+> instruction intro  
 
 1. Instruction  
-2. Instruction  
 
-> Proposed solution: currently working on it -->  
+-->
 
 ## Graduated renderer
 
