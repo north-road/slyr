@@ -341,7 +341,6 @@ all the symbols from the QML style.
    *.stylx* file.
 
 > This tool is available only with the SLYR full license.
-***
 
 ### Convert STYLX to GPL color palette
 
