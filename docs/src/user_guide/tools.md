@@ -95,15 +95,12 @@ project.
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `Annotations`
    ▶️ `Convert annotations`.
-2. In the `Input layer`, browse to the location of the *.X* file.
-3. Under `Element field`, select which field contains the label text from the
-   dropdown.
-4. Click `Run`.
-   ???not sure what happens then???
+2. In the `Input layer`, select the annotation layer from within the Geodatabase.
+3. Under `Element field`, select which field contains the annotation content. This is usually the `ELEMENT` field.
+4. Click `Run`. The tool will convert the annotations from the annotation class and add to the current QGIS project as map annotations.
 
 > This tool is available only with the SLYR full license.
 ***
---->
 
 ## ArcGIS Pro
 
@@ -292,8 +289,9 @@ project.
    ▶️ `Convert QGIS style XML to STYLX`.
 2. In the `Style XML`, browse to the location of the *.xml* file.
 3. Under `Destination stylx database`, set the location of the *.stylx* file.
-4. In **ArcGIS Pro**, in the `Catalog`pane, navigate to the style and right
-   mouse click the file to choose where you wish to save the style to.
+4. Click `OK`.
+5. Once processed, in **ArcGIS Pro**, navigate via the `Catalog` and open the
+   *.stylx* file.
 
 > This tool is available only with the SLYR full license.
 ***
@@ -324,6 +322,25 @@ maps, containing all the layers from the QGIS project.
 > Available only with the SLYR full license.
 > Can be run as a batch tool
 ***
+
+### Convert QML to STYLX
+
+| From          | To              |
+|---------------|-----------------|
+| **QGIS** .qml | **ESRI** .stylx |
+
+Converts a QGIS QML style definition to an ArcGIS Pro STYLX database, containing
+all the symbols from the QML style.
+
+1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
+   ▶️ `Convert QML to STYLX`.
+2. For the `Input QML file`, browse to the location of the *.qml* file.
+3. Under `Destination stylx database`, set the location of the *.stylx* file.
+4. Click `OK`.
+5. Once processed, in **ArcGIS Pro**, navigate via the `Catalog` and open the
+   *.stylx* file.
+
+> This tool is available only with the SLYR full license.
 
 ### Convert STYLX to GPL color palette
 
