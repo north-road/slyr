@@ -330,7 +330,9 @@ maps, containing all the layers from the QGIS project.
 | **QGIS** .qml | **ESRI** .stylx |
 
 Converts a QGIS QML style definition to an ArcGIS Pro STYLX database, containing
-all the symbols from the QML style.
+all the symbols from the QML style.  
+
+![QML to STYLX](../images/qml-stylx.png)
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
    ▶️ `Convert QML to STYLX`.
