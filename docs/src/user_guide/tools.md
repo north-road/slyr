@@ -512,8 +512,6 @@ and other open-source tools.
 > This tool is available only with the SLYR full license.
 ***
 
---- tool currently not working
-
 ## Hyperlinks
 
 ### Extract hyperlinks to tables
