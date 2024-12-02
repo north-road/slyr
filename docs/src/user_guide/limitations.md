@@ -115,7 +115,7 @@ to be adjusted accordingly.
 6. Change the layer to use a Categorized Renderer with symbology matching
    each of the original rule-based renderer rules.
 
-## Converting LYR/LYRX to SLD
+## SLD - converting LYR/LYRX to SLD
 
 These tools rely on QGIS' SLD export capabilities, and the quality
 of the conversion will depend on the symbology options used in the ArcMap
@@ -132,6 +132,14 @@ SLD supported symbology.
 > ArcMap or ArcGIS Pro symbology. Where differences are present, try
 > simplifying the original ArcMap/ArcGIS Pro symbology to use simpler styling
 > choices.
+
+## Symbology - Units
+
+Current ArcGIS Pro versions do not support map unit based symbol sizes. If your QGIS symbology is using sizes with the "map units" or "meters at scale" types, you'll need to change the type to something compatible with ArcGIS Pro's capabilities.
+
+> **Workaround**
+>
+> Modify your QGIS symbols to use a fixed-unit size instead (eg Millimeters)
 
 ## Urgent fixes
 
