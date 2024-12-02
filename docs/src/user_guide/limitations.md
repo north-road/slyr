@@ -135,7 +135,7 @@ SLD supported symbology.
 
 ## Symbology - Units
 
-ArcPro is unable to support map units based symbol sizes. If your qgis symbol is using sizes with the "map units" or "meters at scale" type, you'll need change the type to a fixed-unit size. 
+ArcPro is unable to support map units based symbol sizes. If your qgis symbol is using sizes with the "map units" or "meters at scale" type, you'll need change the type to a fixed-unit size.
 
 > **Workaround**
 >
