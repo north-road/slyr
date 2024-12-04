@@ -14,6 +14,8 @@ SLYR is continually updated as a response to:
 
 | Version | Date        | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 |---------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 7.6.2   | 2024-11-30  | Fix crash when converting some documents.|
+| 7.6.1   | 2024-11-23  | Greatly improved QGIS to ArcGIS Pro label conversion results. Fix errors when reading some ArcGIS Pro 3.4 documents.|
 | 7.6.0   | 2024-11-13  | Support for ArcGIS Pro 3.4. Some improvements to representation renderer conversion. Added new "MXD to SLD" conversion tool. Other minor fixes.|
 | 7.5.3   | 2024-10-03  | Fix exception when converting map grid with no symbol, support more embedded pictures formats in ArcPro conversions. Other minor fixes.|
 | 7.5.2   | 2024-08-27  | Fix exception when reading some APRX documents. Handle very old QML file conversion.|
