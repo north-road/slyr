@@ -3187,7 +3187,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 simple_size *= conversion_properties.get('shape_size_factor', 1)
             except NameError as e:
                 if "simple_size" in str(e):
-                    raise RuntimeError(f"Unknown size multipyer for {marker_type}.") from e
+                    raise NotImplementedException(f"Unknown size multipyer for {marker_type}.") from e
                 raise e
 
             stroke_only_symbol = not QgsSimpleMarkerSymbolLayerBase.shapeIsFilled(
