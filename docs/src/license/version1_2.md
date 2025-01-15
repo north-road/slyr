@@ -236,4 +236,4 @@ license attached to their usual workplace office location.
 
 ### Schedule 2 - License Fee
 
-An unlimited install, single workplace license is available for a one-time cost of 1500EU.
+A limited install, single workplace license is available for a one-time cost of 1500EU.
