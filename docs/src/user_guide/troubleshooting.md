@@ -65,6 +65,10 @@ If you are converting:
   GeoDatabase annotation class, then use the corresponding tool for converting
   this document type should be used. (E.g. Convert MXD to QGS).
 
+## Data Frames
+
+If you have more than one data frame in your ESRI product, QGIS will bring it is as a new group layer. Slyr also creates a map themes for each data frame and configures the print layouts to read to these map themes.
+
 ## Fonts
 
 When converting ArcMap or ArcGIS Pro documents, you will need to have all
