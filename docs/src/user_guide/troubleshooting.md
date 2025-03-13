@@ -67,7 +67,9 @@ If you are converting:
 
 ## Data Frames
 
-If you have more than one data frame in your ESRI product, QGIS will bring it is as a new group layer. Slyr also creates a map themes for each data frame and configures the print layouts to read to these map themes.
+If you have more than one data frame in your ESRI product, SLYR will create a separate
+layer group for each data frame. SLYR also creates a map theme for each corresponding
+data frame and configures the print layouts to use these map themes.
 
 ## Fonts
 
