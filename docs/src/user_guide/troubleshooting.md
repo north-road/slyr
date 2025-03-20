@@ -204,10 +204,6 @@ My SLYR Plugin needs to be updated.
 By not updating the SLYR Plugin, you are missing out on all the new development we implement, not only to stay up to date with QGIS and ESRI software development, but all the new features we add in from client requests. You can view these changes in the  Changelog. Acces it via the QGIS Plugin Manager or on this site.
 
 **To update the SLYR plugin:**
->   - Open the QGIS Plugin Manager
->    - Launch QGIS.
->    - Navigate to Plugins > Manage and Install Plugins....
->    - In the Plugin Manager window, go to the Installed tab.
 >
 >    
 > **Check for Updates**
