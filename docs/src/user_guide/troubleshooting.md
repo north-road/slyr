@@ -212,7 +212,6 @@ By not updating the SLYR Plugin, you are missing out on all the new development 
 >
 >    
 > **Check for Updates**
->    - If an update is available for a plugin, it will be marked with an update icon (⬆️).
->    - Click the Upgrade All button (if multiple updates are available) or select an individual plugin and click Upgrade.
-
- 
+>
+> - If an update is available for a plugin, it will be marked with an update icon (⬆️).
+> - Click the Upgrade All button (if multiple updates are available) or select an individual plugin and click Upgrade.
