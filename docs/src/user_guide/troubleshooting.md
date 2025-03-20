@@ -196,3 +196,23 @@ it is a bug, we will rectify as soon as possible.
     If you are using the Community Edition, then the tool is not yet
     available in the license version. Please note that we don't offer any direct
     support for the Community Edition.
+
+## Update Plugin
+
+My SLYR Plugin needs to be updated.  
+
+By not updating the SLYR Plugin, you are missing out on all the new development we implement, not only to stay up to date with QGIS and ESRI software development, but all the new features we add in from client requests. You can view these changes in the  Changelog. Acces it via the QGIS Plugin Manager or on this site.
+
+
+**To update the SLYR plugin:**
+>   - Open the QGIS Plugin Manager
+>    - Launch QGIS.
+>    - Navigate to Plugins > Manage and Install Plugins....
+>    - In the Plugin Manager window, go to the Installed tab.
+>
+>    
+> **Check for Updates**
+>    - If an update is available for a plugin, it will be marked with an update icon (⬆️).
+>    - Click the Upgrade All button (if multiple updates are available) or select an individual plugin and click Upgrade.
+
+ 
