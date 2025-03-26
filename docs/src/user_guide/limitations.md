@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD033 -->
 # Known Limitations
 
 SLYR will always follow the developments in **ESRI** and **QGIS** to provide
@@ -77,9 +78,9 @@ be adding this functionality in any future SLYR release.
 If you are publishing to an OS web services, these are the current styling limitations you may experience:  
 | Software | Impact | Process |
 | --- | --- | --- |
-| QGIS Server | Close to a 1:1 match for the original ESRI rendering of layers | Convert the ESRI projects to equivalent QGIS projects: <br> - Convert MXD/MXT to QGS <br> - Convert APRX to QGS |
-| MapServer | Basic symbology converts well. For more complex symbology, further adjustments may be required. | Convert the ESRI projects to SLD (Styled Layer Descriptor) files: <br> - Convert LYR to SLD <br> - Convert LYRX to SLD <br> - Convert MXD to SLD  |
-| GeoServer | Basic symbology converts well. For more complex symbology, further adjustments may be required. | Convert the ESRI projects to SLD (Styled Layer Descriptor) files: <br> - Convert LYR to SLD <br> - Convert LYRX to SLD <br> - Convert MXD to SLD |
+| QGIS Server | Close to a 1:1 match for the original ESRI rendering of layers | <div>Convert the ESRI projects to equivalent QGIS projects: </div> <div>- Convert MXD/MXT to QGS </div> <div>- Convert APRX to QGS</div>  |
+| MapServer | Basic symbology converts well. For more complex symbology, further adjustments may be required. | <div>Convert the ESRI projects to SLD (Styled Layer Descriptor) files:</div>  <div> - Convert LYR to SLD </div> <div> - Convert LYRX to SLD <div> - Convert MXD to SLD</div>   |
+| GeoServer | Basic symbology converts well. For more complex symbology, further adjustments may be required. | <div>Convert the ESRI projects to SLD (Styled Layer Descriptor) files:</div>  <div> - Convert LYR to SLD </div> <div> - Convert LYRX to SLD <div> - Convert MXD to SLD</div>  |
 
 ## Raster Catalog Layers
 
