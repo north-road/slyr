@@ -72,6 +72,15 @@ be adding this functionality in any future SLYR release.
 >
 > Export to the newer ArcGIS Pro formats instead
 
+## Publishing to OS web services
+
+If you are publishing to an OS web services, these are the current styling limitations you may experience:  
+| Software | Impact | SLYR Tools |
+| --- | --- | --- |
+| QGIS Server | Close to a 1:1 match for the original ESRI rendering of layers | Convert the ESRI mxd/lyr/lyrx files to equivalent QGIS project |
+| MapServer | Basic symbology converts well. For more complex symbology, further adjustments may be required. | Convert LYR/LYRX/MXD files to SLD files |
+| GeoServer | Basic symbology converts well. For more complex symbology, further adjustments may be required. | Convert LYR/LYRX/MXD files to SLD files |
+
 ## Raster Catalog Layers
 
 Raster Catalog layers are a special feature in ArcMap. (The ArcGIS Pro equivalent is mosaic
