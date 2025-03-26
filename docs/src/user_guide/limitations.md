@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD033 -->
 # Known Limitations
 
 SLYR will always follow the developments in **ESRI** and **QGIS** to provide
