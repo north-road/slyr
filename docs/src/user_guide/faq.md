@@ -114,9 +114,14 @@ created using ArcView 3.x.
 ## How can I run SLYR tools outside QGIS?
 
 While it's possible to call the **Python** modules directly from standalone
-scripts, this is not recommend and is not officially supported by **North Road
-**. However, the official endorsed way of running the tools outside **QGIS**
-is to use the `qgis_process` CLI application which comes bundled with QGIS.
+scripts, this is not recommend and is not officially supported by **North Road**. However, the official endorsed way of running the tools outside **QGIS** is to use the `qgis_process` CLI application which comes bundled with QGIS.
+
+## Can I use SLYR as a library or part of a script?
+
+There's a number of ways that SLYR can be used as part of a larger workflow:
+
+> - All  the SLYR tools are exposed in QGIS as "Processing" algorithms, which  means that you can easily re-use these tools within your own custom QGIS  [Processing models](https://docs.qgis.org/latest/en/docs/user_manual/processing/modeler.html). You can also use QGIS' native [Batch Processing](https://docs.qgis.org/latest/en/docs/user_manual/processing/batch.html) tools to use SLYR to do bulk data conversion (such as converting all the MXDs from a folder to QGS projects in one go). 
+> - The [qgis_process tool](https://docs.qgis.org/latest/en/docs/user_manual/processing/standalone.html) can be used to run SLYR tools from a command line prompt outside of the  QGIS application, allowing you to script conversions in a batch or  shell script. Alternatively, you can also access all the SLYR tools via  the [PyQGIS commands](https://docs.qgis.org/latest/en/docs/user_manual/processing/console.html#) for running Processing tools. This allows you to do conversions as part of a custom Python script.
 
 ## File Formats
 
