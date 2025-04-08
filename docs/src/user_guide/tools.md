@@ -541,10 +541,13 @@ Extract hyperlinks from layers to standalone tables
 |---------------|---------------|
 | **ESRI** .lyr | **QGIS** .xml | 
 
-Converts an ESRI LYR file to a QGIS style XML file that can be additionally be
-used in other applications. For QGIS, you can use the XML to load into the
-style manager, which is handy to port over standardized symbology used in
-workflows.
+Converts an ESRI LYR file to a QGIS style XML database containing all the symbols and
+text formats found within the LYR file.
+
+The resultant QGIS Style XML database can be opened within the QGIS
+[Style Manager](https://docs.qgis.org/latest/en/docs/user_manual/style_library/style_manager.html) and
+the symbols saved to the local style database, offering a handy method to port
+over standardized symbology used in ESRI workflows.
 
 ![ESRI LYR to QGIS XML](../images/lyr-xml.png)
 
@@ -563,7 +566,7 @@ workflows.
 |---------------|---------------|
 | **ESRI** .lyr | **QGIS** .qlr | 
 
-Converts an ESRI LYR file to a QGIS QLR file.
+This algorithm directly converts an ESRI LYR file to the corresponding QGIS QLR file. QLR files are a direct QGIS equivalent of ESRI LYR files, storing both a layer’s source and symbology.
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `LYR Datasets`
    ▶️ `Convert LYR to QLR`.
@@ -600,7 +603,7 @@ the LYR file, each will be converted to an individual QML file.
 |---------------|--------------------------|
 | **ESRI** .lyr | **QGIS** layer symbology | 
 
-Sets a layer's settings and symbology from an ESRI LYR file.
+This algorithm sets an existing QGIS vector layer's style to match the style from an ESRI LYR file, replacing the layer's current renderer and labeling in-place.
 
 ![Set style from LYR file ](../images/style-from-lyr.png)
 
@@ -627,11 +630,11 @@ this is not carried over in the LYR settings.
 |---------------|---------------------|
 | **ESRI** .mxd | **QGIS** .qgs, .qgz | 
 
-This tool will add layers from an MXD document to the current project, with
-each layer's original symbology, including labels and placement. It won't be
-automatically saved, so remember to save it once it comes in. The layers will
-source the data from the original location. This tool could be used to bring in
-multiple mxds into a single project using the Batch Process tool.
+This tool allows users to add layers from an MXD document to the current project,
+keeping their original symbology from the MXD intact (including labels). The layers will
+source the data from the original location, as stored in the MXD document.
+
+This tool can be used to import multiple MXDs into a single project using the Batch Process tool.
 
 ![Add layers from MXD](../images/mxd-layers.png)
 
@@ -651,8 +654,8 @@ multiple mxds into a single project using the Batch Process tool.
 |---------------|---------------------|
 | **ESRI** .mxd | **QGIS** .qgs, .qgz | 
 
-This tool converts an MXD or MXT document file to a QGIS project file. If you
-wish to save the project to qgz, open the project and click `save as`
+This tool directly converts an MXD or MXT document file to their equivalent QGIS project file,
+retaining as much of the original MXD settings as are translatable to QGIS project settings.
 
 ![Covert ArcMap to QGIS ](../images/mxd-qgs.png)
 
