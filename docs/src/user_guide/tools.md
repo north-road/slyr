@@ -539,7 +539,7 @@ Extract hyperlinks from layers to standalone tables
 
 | From          | To            |
 |---------------|---------------|
-| **ESRI** .lyr | **QGIS** .xml | 
+| **ESRI** .lyr | **QGIS** .xml |
 
 Converts an ESRI LYR file to a QGIS style XML database containing all the symbols and
 text formats found within the LYR file.
@@ -564,7 +564,7 @@ over standardized symbology used in ESRI workflows.
 
 | From          | To            |
 |---------------|---------------|
-| **ESRI** .lyr | **QGIS** .qlr | 
+| **ESRI** .lyr | **QGIS** .qlr |
 
 This algorithm directly converts an ESRI LYR file to the corresponding QGIS QLR file. QLR files are a direct QGIS equivalent of ESRI LYR files, storing both a layer’s source and symbology.
 
@@ -601,7 +601,7 @@ the LYR file, each will be converted to an individual QML file.
 
 | From          | To                       |
 |---------------|--------------------------|
-| **ESRI** .lyr | **QGIS** layer symbology | 
+| **ESRI** .lyr | **QGIS** layer symbology |
 
 This algorithm sets an existing QGIS vector layer's style to match the style from an ESRI LYR file, replacing the layer's current renderer and labeling in-place.
 
@@ -628,7 +628,7 @@ this is not carried over in the LYR settings.
 
 | From          | To                  |
 |---------------|---------------------|
-| **ESRI** .mxd | **QGIS** .qgs, .qgz | 
+| **ESRI** .mxd | **QGIS** .qgs, .qgz |
 
 This tool allows users to add layers from an MXD document to the current project,
 keeping their original symbology from the MXD intact (including labels). The layers will
@@ -652,7 +652,7 @@ This tool can be used to import multiple MXDs into a single project using the Ba
 
 | From          | To                  |
 |---------------|---------------------|
-| **ESRI** .mxd | **QGIS** .qgs, .qgz | 
+| **ESRI** .mxd | **QGIS** .qgs, .qgz |
 
 This tool directly converts an MXD or MXT document file to their equivalent QGIS project file,
 retaining as much of the original MXD settings as are translatable to QGIS project settings.
