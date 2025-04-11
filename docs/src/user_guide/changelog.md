@@ -14,7 +14,6 @@ SLYR is continually updated as a response to:
 
 If your SLYR plugin requires an update, you will receive a message when you start QGIS or you can always head to the Plugin manager to check the status in your Installed or Upgradeable plugins.  
 > If it is ready to be updated, in the *QGIS Plugin Manager*, click on the `Updrade Plugin` button - it is that easy!  
- 
 ## SLYR Version History
 
 | Version | Date        | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
