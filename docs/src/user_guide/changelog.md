@@ -11,8 +11,8 @@ SLYR is continually updated as a response to:
   have missed something, please [contact us](mailto:info@north-road.com)!
 
 How do I know if I need to upgrade?  
-> If your SLYR plugin requires an update, you will receive a message when you start QGIS or you can always head to the Plugin manager to check the status in your Installed or Upgradeable plugins.  
-> [Upgrade SLYR Plugin instructions](https://slyr.north-road.com/user_guide/troubleshooting.html#updating-slyr)
+> If your SLYR plugin requires an update you will automatically receive a notification when you start QGIS. Alternatively you can always head to the QGIS [Plugin Manager](https://docs.qgis.org/latest/en/docs/user_manual/plugins/plugins.html) to check the status in your Installed or Upgradeable plugins.  
+> See [Upgrade SLYR Plugin instructions](troubleshooting.html#updating-slyr) for full details.
 
 ## SLYR Version History
 
