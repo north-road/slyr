@@ -204,6 +204,7 @@ We recommend that you regularly update the SLYR plugin in order to use the lates
 you will miss out on all the new features and fixes we implement!
 
 ### How to update the SLYR plugin
+
 1. From QGIS, open the QGIS [Plugin Manager](https://docs.qgis.org/latest/en/docs/user_manual/plugins/plugins.html)
 2. Navigate to the "Plugins" menu > "Manage and Install Plugins".
 3. In the Plugin Manager window, go to the "Installed" tab.
