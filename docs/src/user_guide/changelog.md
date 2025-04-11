@@ -10,10 +10,15 @@ SLYR is continually updated as a response to:
   you think we
   have missed something, please [contact us](mailto:info@north-road.com)!
 
+## Upgrading the SLYR Plugin
+If your SLYR plugin requires an update, you will receive a message when you start QGIS or you can always head to the Plugin manager to check the status in your Installed or Upgradeable plugins.  
+> If it is ready to be updated, in the *QGIS Plugin Manager*, click on the `Updrade Plugin` button - it is that easy!  
+ 
 ## SLYR Version History
 
 | Version | Date        | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 |---------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 7.8.2   | 2025-04-10  | Much improved print layout label conversion |
 | 7.8.1   | 2025-04-07  | Copy database credentials from stored connections during ESRI document conversion. Improved Oracle connection conversion. |
 | 7.8.0   | 2025-03-28  | When converting ESRI documents, if a WMS/WFS/XYZ or ArcGIS REST layer source matches a connection stored in the user's QGIS profile, the connection parameters (including authentication details) will now be automatically copied from the stored connection in QGIS. Improvements for Oracle DB connection conversions. |
 | 7.7.1   | 2025-02-05  | Support for converting ArcGIS Pro WFS layers. Fix group layer visibility in convert to QLR algorithms. |
