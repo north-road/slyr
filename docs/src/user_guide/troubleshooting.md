@@ -80,6 +80,11 @@ not available, SLYR will display warnings listing all missing fonts.
 For best conversion results you should source these missing fonts and install
 them on the system.
 
+Unfortunately, due to licensing restrictions, we are unable to distribute any
+of the ESRI fonts along with SLYR. Users will need to source these fonts from
+a workstation with ArcMap or ArcGIS Pro installed and install them manually
+onto their workstations.
+
 ## GeoDatabases
 
 ### Missing or invisible features
