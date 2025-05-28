@@ -2,9 +2,9 @@
 
 **SLYR** Plugin costs:
 
-- Europe: €1500
-- USA: USD$1650
 - Australia/NZ: AU$1950 (+10% GST for Australian customers)
+- USA: USD$1850
+- Rest of the World: €1500
 
 This includes:
 
