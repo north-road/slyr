@@ -157,13 +157,14 @@ will need to be manually repaired.
 ![Repair LYR files](../images/LYR_repair2.png)
 > There's a number of possible causes for this, but ultimately it means that
 > QGIS can't find the data files referenced by the ESRI file. For instance:
->  * The data has been moved.
->  * The data no longer exists.
->  * The ESRI file has relative paths to the data files (eg
-     .\transport\roads.shp), yet the converted QGIS file wasn't saved to the
-     same location as the original ESRI file. We recommend always placing the
-     converted QGIS files into the same folder alongside their original ESRI
-     counterparts for best results.
+> 
+> - The data has been moved.
+> - The data no longer exists.
+> - The ESRI file has relative paths to the data files (eg
+    .\transport\roads.shp), yet the converted QGIS file wasn't saved to the
+    same location as the original ESRI file. We recommend always placing the
+    converted QGIS files into the same folder alongside their original ESRI
+    counterparts for best results.
 >
 > **Workaround:**
 >
