@@ -16,9 +16,6 @@ access the **SLYR** options.
 The **SLYR Community Edition** options are a little different.
 ![SLYR Community Edition Options](../images/options_CE2.png)
 
-[Access MDB tools](https://github.com/lsgunth/mdbtools-win/archive/master.zip)
-For MAC OS: tbc
-
 ## Plugin Settings
 
 | Setting                           | Description                                                                                                                                                               | Directions                                                                       |
@@ -49,8 +46,14 @@ connections.
 
 SLYR requires use of "MDB Tools" in order to read ArcMap .style files. While
 the licensed version of SLYR is packaged with an inbuilt version of MDB Tools,
-users of the community version will need to manually download and install MDB
+users of the community version will need to manually install MDB
 Tools and then setup the MDB tools path in this section.
+
+To install MDB tools:
+
+- Windows users: [manually download](https://github.com/lsgunth/mdbtools-win/archive/master.zip) MDB tools and extract the zip
+- MacOS users: install MDB tools using [homebrew](https://formulae.brew.sh/formula/mdbtools) or [macports](https://ports.macports.org/port/mdbtools/)
+- Linux users: install MDB tools using your distribution's package manager
 
 | Setting           | Description                                                                                               | Directions                                                                                          |
 |-------------------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
