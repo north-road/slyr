@@ -8,8 +8,7 @@ A QGIS plugin for extraction, parsing, and conversion of ESRI `.lyr`, `.mxd` and
 
 [![Build Status](https://travis-ci.org/nyalldawson/slyr.svg?branch=master)](https://travis-ci.org/nyalldawson/slyr)
 
-Status
-=====
+## Status
 
 - This open-source version only supports ESRI .style database files, and **vector** .lyr files. See https://north-road.com/slyr/ for the version which supports direct MXD file conversion, and support for raster, TIN and point cloud LYR files, and the ArcGIS Pro stylx/lyrx file types.
 - Full support for converting vector layers, including all symbology, labeling, all renderer types (unique, class breaks, bivariate, etc) and other general layer properties like scale ranges, hotlinks, and much much more.
@@ -19,8 +18,7 @@ Status
 - All color ramp types can be parsed
 
 
-Tools
-=====
+## Tools
 
  - `bin_dump.py` Converts a binary `.style` database row blob into a symbol and dumps the symbol properties to the console
  - `style_dump.py` Dumps the complete contents of an ESRI `.style` database, printing symbol properties to the console
@@ -31,8 +29,7 @@ Tools
  
  LYR parsing tools do not require any additional dependencies.
  
-QGIS Plugin
-===========
+## QGIS Plugin
 
 SLYR also functions as a QGIS plugin (for QGIS >= 3.4). The community (unlicensed) version of the plugin is available via the standard QGIS plugins repository, so you can install it directly from within QGIS itself.
 
@@ -40,13 +37,11 @@ The plugin adds a new group to the Processing Toolbox for "SLYR", containing too
 
 The plugin throws warnings (and optionally creates a report) containing properties which cannot be translated to QGIS symbology. If you get these warnings, PLEASE consider sponsoring the feature development within QGIS itself! Everyone benefits, and you'll usually be pleasantly suprised at how inexpensive this can be! Just shoot us an email to info@north-road.com to discuss.
  
-Specifications
-==============
+## Specifications
 
-Some description of the `.style` binary format can be found in [specs.md](specs.md), although the most up-to-date reference is the Python parsing code itself.
+The most up-to-date reference is the Python parsing code itself. Read the source!
 
-Hall of Fame
-============
+## Hall of Fame
 
 SLYR wouldn't be possible without direct financial support for its development. The following organisations have directly contributed to SLYR development, and are deserving of gratitude!
 
