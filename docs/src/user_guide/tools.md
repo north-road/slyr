@@ -89,7 +89,7 @@ project.
 
 | From           | To                  |
 |----------------|---------------------|
-| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
+| **ESRI** .aprx | **QGIS** .qgs, .qgz |
 
 Converts an APRX document file to a QGS project file.
 
@@ -128,7 +128,7 @@ Converts a QGIS project file to an APRX file.
 
 | From | To              |
 |------|-----------------|
-| .gpl | **ESRI** .stylx | 
+| .gpl | **ESRI** .stylx |
 
 GPL color palettes can be created in graphics programs such as GIMP and
 Inkscape and are useful for carefully curated palettes. **SLYR** converts it
@@ -155,7 +155,7 @@ into a **ArcGIS Pro** .stylx format that can then be imported into your *
 
 | From           | To             |
 |----------------|----------------|
-| **QGIS** layer | **ESRI** .lyrx | 
+| **QGIS** layer | **ESRI** .lyrx |
 
 Once you have set up your symbology on your layer, **SLYR** will extract the
 symbology out from the layer and convert it to a ArcGIS Pro LYRX file that can
@@ -180,7 +180,7 @@ be applied to data in ArcGIS Pro.
 
 | From           | To            |
 |----------------|---------------|
-| **ESRI** .lyrx | **QGIS** .qlr | 
+| **ESRI** .lyrx | **QGIS** .qlr |
 
 Converts an ArcGIS Pro LYRX file to a QGIS QLR file. Both of these files act
 similarly and will reach back to the original data file.
@@ -206,7 +206,7 @@ similarly and will reach back to the original data file.
 
 | From           | To            |
 |----------------|---------------|
-| **ESRI** .lyrx | **QGIS** .qml | 
+| **ESRI** .lyrx | **QGIS** .qml |
 
 Converts an ArcGIS Pro LYRX file to a QGIS QML file. If multiple layers are
 present in the LYRX file, each will be converted to an individual QML file.
@@ -230,7 +230,7 @@ present in the LYRX file, each will be converted to an individual QML file.
 
 | From           | To            |
 |----------------|---------------|
-| **ESRI** .mapx | **QGIS** .qgs | 
+| **ESRI** .mapx | **QGIS** .qgs |
 
 Converts an MAPX document file to a QGS project file.
 
@@ -329,7 +329,7 @@ all the symbols from the QML style.
 
 | From            | To            |
 |-----------------|---------------|
-| **ESRI** .stylx | **QGIS** .gpl | 
+| **ESRI** .stylx | **QGIS** .gpl |
 
 Converts an ArcGIS Pro STYLX database to a GPL format color palette file,
 extracting all color entities saved in the style. GPL color palettes are a standard
@@ -359,7 +359,7 @@ In this example, I have added a Landuse - Natural Environment GPL palette.
 
 | From            | To            |
 |-----------------|---------------|
-| **ESRI** .stylx | **QGIS** .xml | 
+| **ESRI** .stylx | **QGIS** .xml |
 
 Converts an ArcGIS Pro STYLX database to a QGIS XML Style library. This is
 particularly useful if your project has a selection of unique symbols that you
@@ -391,7 +391,7 @@ wish to continue to use.
 
 | From           | To                  |
 |----------------|---------------------|
-| **ESRI** .pagx | **QGIS** .qgs, .qgz | 
+| **ESRI** .pagx | **QGIS** .qgs, .qgz |
 
 Imports a PAGX print layout into the current QGIS project.
 
@@ -412,7 +412,7 @@ Imports a PAGX print layout into the current QGIS project.
 
 | From          | To            |
 |---------------|---------------|
-| **ESRI** .avl | **QGIS** .qml | 
+| **ESRI** .avl | **QGIS** .qml |
 
 Converts an ESRI ArcInfo AVL file to a QGIS QML file. AVL files were the legend
 files for ArcView 3.x but have been replaced by layer files. It is no longer
@@ -450,7 +450,7 @@ geopackage is important.
 
 | From          | To            |
 |---------------|---------------|
-| **ESRI** .gdb | **OGC** .gpkg | 
+| **ESRI** .gdb | **OGC** .gpkg |
 
 Converts all data from an ESRI File Geodatabase to a GeoPackage database.
 
@@ -473,7 +473,7 @@ This tool will convert:
 
 | From                   | To            |
 |------------------------|---------------|
-| **QGIS** loaded layers | **OGC** .gpkg | 
+| **QGIS** loaded layers | **OGC** .gpkg |
 
 Converts all referenced data from the current project to standard formats.
 
@@ -499,7 +499,7 @@ and other open-source tools.
 
 | From                         | To            |
 |------------------------------|---------------|
-| **ESRI** .mxd/.mxt/.pmf/.lyr | **OGC** .gpkg | 
+| **ESRI** .mxd/.mxt/.pmf/.lyr | **OGC** .gpkg |
 
 Extract hyperlinks from layers to standalone tables
 
@@ -562,7 +562,7 @@ This algorithm directly converts an ESRI LYR file to the corresponding QGIS QLR 
 
 | From          | To            |
 |---------------|---------------|
-| **ESRI** .lyr | **QGIS** .qml | 
+| **ESRI** .lyr | **QGIS** .qml |
 
 Converts an ESRI LYR file to a QGIS QML file. If multiple layers are present in
 the LYR file, each will be converted to an individual QML file.
@@ -653,7 +653,7 @@ retaining as much of the original MXD settings as are translatable to QGIS proje
 
 | From          | To                   |
 |---------------|----------------------|
-| **ESRI** .mxd | **QGIS** .qgs, .gpkg | 
+| **ESRI** .mxd | **QGIS** .qgs, .gpkg |
 
 This tool converts an MXD or MXT document file to a QGIS project file, and
 converts all referenced data to standard formats.
@@ -677,7 +677,7 @@ which are optimized for use in QGIS and other open-source tools.
 
 | From          | To    |
 |---------------|-------|
-| **ESRI** .mxd | .json | 
+| **ESRI** .mxd | .json |
 
 This algorithm exports a JSON representation of the internal structure of an
 ESRI MXD or LYR document file. It is designed for debugging purposes, allowing
@@ -702,7 +702,7 @@ configuration.
 
 | From          | To            |
 |---------------|---------------|
-| **ESRI** .pmf | **QGIS** .qgs | 
+| **ESRI** .pmf | **QGIS** .qgs |
 
 Description
 
@@ -723,7 +723,7 @@ Description
 
 | From          | To    |
 |---------------|-------|
-| **ESRI** .sde | .json | 
+| **ESRI** .sde | .json |
 
 This algorithm extracts the connection details from a .sde connection file.
 Optionally, a JSON representation containing these details can be exported.
@@ -789,7 +789,7 @@ create the rules based on these values*
 
 | From                    | To                  |
 |-------------------------|---------------------|
-| **ESRI** style database | **QGIS** .qgs, .qgz | 
+| **ESRI** style database | **QGIS** .qgs, .qgz |
 
 This is a great tool if you use a standard palette for your cartography. It
 converts **ESRI Arcmap** style database to a GPL format color palette file,
@@ -811,7 +811,7 @@ extracting all color entities saved in the style. GPL files can be used in *
 
 | From                    | To            |
 |-------------------------|---------------|
-| **ESRI** style database | **QGIS** .xml | 
+| **ESRI** style database | **QGIS** .xml |
 
 For importing a large amount of symbology from your styles, this tool converts
 **ESRI** style database to a **QGIS** XML Style library, that can then be
@@ -841,7 +841,7 @@ imported into your **QGIS** Style Manager
 
 | From                   | To            |
 |------------------------|---------------|
-| **ESRI ArcScene** .sxd | **QGIS** .qgs | 
+| **ESRI ArcScene** .sxd | **QGIS** .qgs |
 
 Converts an ArcScene SXD document file to a 2D QGIS project file.
 
