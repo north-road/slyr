@@ -5,7 +5,7 @@
 Here is a checklist to help your conversions and workings with **SLYR** run a
 little bit smoother.
 
-> ✔️ **Populate settings requirements:**  set-up the **SLYR Options** following
+> ✔️ **Configure settings:**  set-up the **SLYR Options** following
 > these [guidelines](configuring).
 >
 > ✔️ **Set up your folders:**  **SLYR** will record the pathways from the
@@ -14,44 +14,22 @@ little bit smoother.
 > you may want to set-up a structure so you can keep outputs tidy.
 >
 > ✔️ **Access to files:**  ensure you have access to bespoke files such .svg,
-> fonts, and images. Note that there is
-> some [limitations](limitations) with
-> QGIS Svg files.
+> fonts, and images.
 
-See [Troubleshooting](troubleshooting)
-for the workaround.
->
-> ✔️ **Symbology:**  If you are using rule-based renderers, these are not yet
-> available in ArcGIS Pro. See
-> the [Limitations](limitations).
+See [Troubleshooting](troubleshooting) for the workaround.
+
+> ✔️ **Symbology:**  See the [Limitations](limitations) for limitations in QGIS or ArcGIS Pro
+> which prevent accurate conversions.
 >
 > ✔️ **Error Messages:**   If a tool returns an error:
-> - Saying it is not available, if you are using the Community Edition, it may
-    not yet be available.
-> - All other errors, read through the `Log`, check
+> 
+> - If you are using the Community Edition of SLYR, the tool might not be available
+>   or may have limited functionality.
+> - For all other errors, read through the `Log`, check
     the [Troubleshooting](troubleshooting)
     page on how to rectify the issue and rerun the tool. If there is no
     rectification, please [email us](mailto:info@north-road.com).
 *** 
-
-<!---## Group ##
-### Tool ###
-| From | To |
-| ---- | ---|
-| **ESRI** .aprx | **QGIS** .qgs, .qgz | 
-
-Description
-
-![image name](../images/image.png)
-
-1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `Group` ▶️ `X`.
-2. In the `Input X`, browse to the location of the *.X* file.
-3. Under `Destination X`, set the location of the *.X* file.
-4. Click `Run`.
-
-> This tool is available only with the SLYR full license.
-***
---->
 
 ## Annotations
 

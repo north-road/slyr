@@ -63,7 +63,7 @@ be adding this functionality in any future SLYR release.
 ## Publishing to web services
 
 SLYR offers several options for converting ESRI documents for use as web
-services. Depending on the target server, the process and limitations 
+services. Depending on the target server, the process and limitations
 vary:
 
 ### QGIS Server
@@ -103,7 +103,7 @@ As GeoServer does not support embedded (inline) SVG content, you will need to ma
 copy any SVG files generated during the conversion to a path accessible by your
 server. Make sure you specify a "Destination folder for SVG files" when running
 to SLD conversion tools, and populate the "Server path for SVG files" with the
-full server-accessible path where you will be copying these SVG files to. 
+full server-accessible path where you will be copying these SVG files to.
 
 ## Raster Catalog Layers
 
