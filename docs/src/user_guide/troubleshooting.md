@@ -35,17 +35,6 @@ these warnings, and how they can be handled:
  X: Marker halos are not supported by QGIS                                                                          | The option used in the MXD isn't possible to match in current QGIS versions. In this case a warning is raised and the rest of the layer's properties are converted.                                                       |
  Mosaic layer has been removed from the project (Mosaic layers are not supported by QGIS)                           | This relates to a Mosaic layer in the MXD document -- current QGIS versions don't have any way of opening these so we skip over them during the conversion.                                                               |
 
-<!---
-## heading ##
-Issue 
-> Impact
- >  - impact
- >  
-> **Workaround:** 
- > 
- > - Instruction
---->
-
 ## Annotations and Annotation Classes
 
 Annotations serve many different use cases in ESRI software. Depending on what
