@@ -12,18 +12,6 @@ issues.
 > If you encounter a limitation that isn't listed,
 > please [email us](mailto:info@north-road.com) and we will investigate it.
 
-<!--## Title
-
-Description  
-
-> **Workaround**
->
-> instruction intro  
-
-1. Instruction  
-
--->
-
 ## Content in Source files
 
 SLYR will process and utilize any available content. If no content is present, SLYR will have nothing to convert.
@@ -72,14 +60,50 @@ be adding this functionality in any future SLYR release.
 >
 > Export to the newer ArcGIS Pro formats instead
 
-## Publishing to OS web services
+## Publishing to web services
 
-If you are publishing to an OS web services, these are the current styling limitations you may experience:  
-| Software | Impact | Process |
-| --- | --- | --- |
-| QGIS Server | Close to a 1:1 match for the original ESRI rendering of layers | <div>Convert the ESRI projects to equivalent QGIS projects: </div> <div>- Convert MXD/MXT to QGS </div> <div>- Convert APRX to QGS</div>  |
-| MapServer | Basic symbology converts well. <div>For more complex symbology, further adjustments may be required.</div> | <div>Convert the ESRI projects to SLD (Styled Layer Descriptor) files:</div>  <div> - Convert LYR to SLD </div> <div> - Convert LYRX to SLD <div> - Convert MXD to SLD</div>   |
-| GeoServer | Basic symbology converts well. <div>For more complex symbology, further adjustments may be required.</div> | <div>Convert the ESRI projects to SLD (Styled Layer Descriptor) files:</div>  <div> - Convert LYR to SLD </div> <div> - Convert LYRX to SLD <div> - Convert MXD to SLD</div>  |
+SLYR offers several options for converting ESRI documents for use as web
+services. Depending on the target server, the process and limitations 
+vary:
+
+### QGIS Server
+
+Using SLYR with QGIS Server offers close to a 1:1 match for the original ESRI rendering of layers. Just
+convert the ESRI projects to equivalent QGIS projects using one of the following tools, then
+publish the result to your QGIS server:
+
+- Convert MXD/MXT to QGS
+- Convert APRX to QGS
+
+### MapServer
+
+Basic ESRI symbology converts well. For more complex symbology, manual adjustments may be
+required.
+
+Convert the ESRI projects to SLD (Styled Layer Descriptor) files, using one of the following
+SLYR tools:
+
+- Convert LYR to SLD
+- Convert LYRX to SLD
+- Convert MXD to SLD
+
+### GeoServer
+
+Basic ESRI symbology converts well. For more complex symbology, manual adjustments may be
+required.
+
+Convert the ESRI projects to SLD (Styled Layer Descriptor) files, using one of the following
+SLYR tools:
+
+- Convert LYR to SLD
+- Convert LYRX to SLD
+- Convert MXD to SLD
+
+As GeoServer does not support embedded (inline) SVG content, you will need to manually
+copy any SVG files generated during the conversion to a path accessible by your
+server. Make sure you specify a "Destination folder for SVG files" when running
+to SLD conversion tools, and populate the "Server path for SVG files" with the
+full server-accessible path where you will be copying these SVG files to. 
 
 ## Raster Catalog Layers
 
