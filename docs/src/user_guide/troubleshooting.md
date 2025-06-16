@@ -137,13 +137,13 @@ GeoDatabase (go from step 3 below).
 
 ![Create GDB in QGIS](../images/gdb_create.png)
 
-1. In the QGIS Browser window, right-mouse click the folder you wish to create
-   the geodatabase in and click on `New` ▶️ `ESRI FileGeodatabase`.
-2. Type in the name of the geodatabase
-3. Find and select the layers you wish to export to the GeoDatabase.
-4. Drag and drop the selected layers onto the new GeoDatabase.
-5. Repath the layers in your QGIS project to point to the exported GeoDatabase
-layers (right-mouse click the layer and click on `Change Data Source`).
+- In the QGIS Browser window, right-mouse click the folder you wish to create
+  the geodatabase in and click on `New` ▶️ `ESRI FileGeodatabase`.
+- Type in the name of the geodatabase
+- Find and select the layers you wish to export to the GeoDatabase.
+- Drag and drop the selected layers onto the new GeoDatabase.
+- Repath the layers in your QGIS project to point to the exported GeoDatabase
+  layers (right-mouse click the layer and click on `Change Data Source`).
 
 ## LYR files
 
@@ -155,6 +155,7 @@ icon appears next to the data, this means the path to the data is broken and
 will need to be manually repaired.
 
 ![Repair LYR files](../images/LYR_repair2.png)
+
 > There's a number of possible causes for this, but ultimately it means that
 > QGIS can't find the data files referenced by the ESRI file. For instance:
 >
@@ -211,11 +212,11 @@ you will miss out on all the new features and fixes we implement!
 
 ### How to update the SLYR plugin
 
-1. From QGIS, open the QGIS [Plugin Manager](https://docs.qgis.org/latest/en/docs/user_manual/plugins/plugins.html)
-2. Navigate to the "Plugins" menu > "Manage and Install Plugins".
-3. In the Plugin Manager window, go to the "Installed" tab.
-4. If an update to SLYR is available, it will be marked with an update icon (⬆️).
-5. Click the "Upgrade All" button (if multiple plugin updates are available) or select SLYR and click "Upgrade".
+- From QGIS, open the QGIS [Plugin Manager](https://docs.qgis.org/latest/en/docs/user_manual/plugins/plugins.html)
+- Navigate to the "Plugins" menu > "Manage and Install Plugins".
+- In the Plugin Manager window, go to the "Installed" tab.
+- If an update to SLYR is available, it will be marked with an update icon (⬆️).
+- Click the "Upgrade All" button (if multiple plugin updates are available) or select SLYR and click "Upgrade".
 
 After installing a SLYR update, you can read everything which has changed by looking at the "Changelog"
 section in the QGIS Plugin Manager window. Alternatively, changelogs are available to [read online](changelog.md).
