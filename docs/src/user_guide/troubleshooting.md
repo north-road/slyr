@@ -76,7 +76,9 @@ data frame and configures the print layouts to use these map themes.
 When converting a project from ESRI to QGIS where most of your data points to ESRI online services, the links to the data may be broken. A fix has been built into SLYR to assist, but you will need to set up the connection first.
 
 > Impact
+
 > - Time consuming repair of data pathways if you have many layers
+
  >
 > **Workaround:**
  >
