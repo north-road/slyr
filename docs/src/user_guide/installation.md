@@ -1,6 +1,6 @@
 # Installing SLYR
 
-SLYR is available in two versions. Depending on whether you are using the 
+SLYR is available in two versions. Depending on whether you are using the
 community edition or the full-feature licensed edition, the installation
 process varies.
 
@@ -43,8 +43,8 @@ community version (if installed) and restart QGIS.**
    safe place for future reference.
 
 2. Download the installer from the link.
-    * Place the zip file in a safe location for future reference - just in case
-      you need to update your machine so you can reload it.
+   - Place the zip file in a safe location for future reference - just in case
+     you need to update your machine so you can reload it.
 
 3. Unzip the downloaded file, and then drag the
    extracted `install_slyr_qgis.py` over an open **QGIS** window. (If prompted,
@@ -63,7 +63,6 @@ community version (if installed) and restart QGIS.**
    and start using them.
 
 ![SLYR location](../images/browser.png)
-
 
 ## Updating SLYR
 

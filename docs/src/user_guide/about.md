@@ -1,5 +1,5 @@
 # About SLYR
-       
+
 ## Hall of Fame
 
 SLYR wouldn't be possible without direct financial support for its development.

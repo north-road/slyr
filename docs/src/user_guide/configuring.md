@@ -57,9 +57,9 @@ Tools and then setup the MDB tools path in this section.
 
 SLYR requires the free, open-source Inkscape illustration application in order
 to convert any EMF graphics found in ArcMap documents. Inkscape must be
-manually installed from [here](https://inkscape.org) or EMF graphics will not
+manually installed from [inkscape.org](https://inkscape.org) or EMF graphics will not
 be converted and will be unusable in QGIS.
 
-| Setting          | Description                              | Directions                                                                                       |
-|------------------|------------------------------------------|--------------------------------------------------------------------------------------------------|
-| Path to Inkscape | Path to the Inkscape binary (.exe) file. | Install Inkscape from [here.](https://inkscape.org) and enter the pathway to Inkscape .exe file. |
+| Setting          | Description                              | Directions                                                                                                 |
+|------------------|------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| Path to Inkscape | Path to the Inkscape binary (.exe) file. | Install Inkscape from [inkscape.org](https://inkscape.org) and enter the pathway to the inkscape.exe file. |
