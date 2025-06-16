@@ -73,21 +73,20 @@ data frame and configures the print layouts to use these map themes.
 
 ## ESRI Online feature services connections
 
-
 When converting a project from ESRI to QGIS where most of your data points to ESRI online services, the links to the data may be broken. A fix has been built into SLYR to assist, but you will need to set up the connection first.
 
 > Impact
->  - Time consuming repair of data pathways if you have many layers
+>  -Time consuming repair of data pathways if you have many layers
  >  
 > **Workaround:**
- > 
+ >
 > - Create a stored connection to the service from the QGIS Data Source Manager (using the instructions from our [blog post](https://north-road.com/2022/09/16/securely-accessing-arcgis-online-agol-and-enterprise-arcgis-portal-sites-through-qgis-2022-update/#agol_register) to handle the authentication setup)
- > - Make sure that your connection is pointing at the "top most" level of the REST server, by removing any specific endpoints from the end of the URL. I.e. instead of "https://services8.arcgis.com/uKaqrCZlgFv9ckIj/arcgis/rest/services/Class_breaks/FeatureServer/0", use "https://services8.arcgis.com/uKaqrCZlgFv9ckIj/arcgis/rest/services/".
- > - Try converting the ArcMap/ArcGIS Pro documents. The conversion should be successful, and you'll get an advisory message informing that the stored credentials have been used.
+ > -Make sure that your connection is pointing at the "top most" level of the REST server, by removing any specific endpoints from the end of the URL. I.e. instead of "https://services8.arcgis.com/uKaqrCZlgFv9ckIj/arcgis/rest/services/Class_breaks/FeatureServer/0", use "https://services8.arcgis.com/uKaqrCZlgFv9ckIj/arcgis/rest/services/".
+ > -Try converting the ArcMap/ArcGIS Pro documents. The conversion should be successful, and you'll get an advisory message informing that the stored credentials have been used.
 
 ## Fonts
 
-When converting ArcMap or ArcGIS Pro documents, you will need to have all
+When converting ArcMap or ArcGIS Pro documents, you will need to have all  
 fonts referenced by the documents installed on your system. If any fonts are
 not available, SLYR will display warnings listing all missing fonts.
 
