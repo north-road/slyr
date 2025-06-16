@@ -15,12 +15,10 @@ jobs:
         uses: actions/checkout@master
 
       - name: Lint
-        uses: reviewdog/action-markdownlint@v0
+        uses: DavidAnson/markdownlint-cli2-action@v20
         with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          fail_on_error: true
-          markdownlint_flags: "--config ./docs/.markdownlint.yml ./docs/src"
+          globs: '**/*.md'
+          config: ./docs/.markdownlint.yml
 
   spellcheck:
     runs-on: ubuntu-latest
