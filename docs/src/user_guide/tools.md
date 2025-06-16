@@ -22,14 +22,15 @@ See [Troubleshooting](troubleshooting) for the workaround.
 > which prevent accurate conversions.
 >
 > ✔️ **Error Messages:**   If a tool returns an error:
-> 
+>
 > - If you are using the Community Edition of SLYR, the tool might not be available
 >   or may have limited functionality.
 > - For all other errors, read through the `Log`, check
     the [Troubleshooting](troubleshooting)
     page on how to rectify the issue and rerun the tool. If there is no
     rectification, please [email us](mailto:info@north-road.com).
-*** 
+
+***
 
 ## Annotations
 
@@ -42,7 +43,7 @@ tool for converting this document type.
 
 | From          | To             |
 |---------------|----------------|
-| **ESRI** .gdb | **QGIS** .gpkg | 
+| **ESRI** .gdb | **QGIS** .gpkg |
 
 Use this tool if you are converting text annotations stored in a File
 Geodatabase annotation class and want the result to be reusable across
@@ -57,13 +58,14 @@ convert it into a geopackage layer.
 3. Under `Output GeoPackage`, set the location of the *.gpkg* file.
 
 > This tool is available only with the SLYR full license.
+
 ***
 
 ### Convert Annotations
 
 | From                      | To                          |
 |---------------------------|-----------------------------|
-| **ESRI** annotation layer | **QGIS** ? annotation layer | 
+| **ESRI** annotation layer | **QGIS** ? annotation layer |
 
 Use this tool if you are converting text annotations stored in a File
 Geodatabase annotation class and just want the results added to the current
@@ -78,6 +80,7 @@ project.
 4. Click `Run`. The tool will convert the annotations from the annotation class and add to the current QGIS project as map annotations.
 
 > This tool is available only with the SLYR full license.
+
 ***
 
 ## ArcGIS Pro
