@@ -71,6 +71,18 @@ If you have more than one data frame in your ESRI product, SLYR will create a se
 layer group for each data frame. SLYR also creates a map theme for each corresponding
 data frame and configures the print layouts to use these map themes.
 
+## ESRI Online feature services connections
+
+When converting a project from ESRI to QGIS where most of your data points to private ESRI online services, the links to the data may be broken if you have not set up the connection first in QGIS.
+
+> **Workaround:**
+>  
+> - Create a stored connection to the service from the QGIS Data Source Manager (using the instructions from our [blog post](https://north-road.com/2022/09/16/securely-accessing-arcgis-online-agol-and-enterprise-arcgis-portal-sites-through-qgis-2022-update/#agol_register) to handle the authentication setup)
+> - Make sure that your connection is pointing at the "top most" level of the REST server, by removing any specific endpoints from the end of the URL. I.e. instead of `https://services8.arcgis.com/uKaqrCZlgFv9ckIj/arcgis/rest/services/Class_breaks/FeatureServer/0>`, use `https://services8.arcgis.com/uKaqrCZlgFv9ckIj/arcgis/rest/services/`.
+> - Then convert the ArcMap/ArcGIS Pro documents.
+
+The conversion should be successful, with an advisory message informing that the stored credentials have been used.
+
 ## Fonts
 
 When converting ArcMap or ArcGIS Pro documents, you will need to have all  
