@@ -60,12 +60,14 @@ If you have more than one data frame in your ESRI product, SLYR will create a se
 layer group for each data frame. SLYR also creates a map theme for each corresponding
 data frame and configures the print layouts to use these map themes.
 
-## ESRI Online feature services connections
+## Authenticated connections
 
-When converting a project from ESRI to QGIS where most of the data references private ESRI online services, we recommend setting up the necessary connections in QGIS beforehand to avoid broken links during the conversion process.  
+When converting an ESRI project which contains private ESRI online services, WMS/WFS services, or database connections SLYR cannot automatically convert the credentials required for accessing these services, and the resulting QGIS project will contain broken layers.
 
- > **Workaround:**
- >
+However, if you create authenticated connections in QGIS to these services **before** converting the ESRI projects, SLYR will automatically match the connections and copy the credentials stored within QGIS. This avoids the need for any manual layer repair.
+
+ > - Create a stored connection to the service or database from the QGIS Data Source Manager. (For ESRI online services you can follow the instructions from our [blog post](https://north-road.com/2022/09/16/securely-accessing-arcgis-online-agol-and-enterprise-arcgis-portal-sites-through-qgis-2022-update/) to handle the authentication setup).
+ > - For ESRI services make sure that your QGIS stored connection is pointing at the "top most" level of the REST server, by removing any specific endpoints from the end of the URL i.e. instead of `https://services.arcgis.com/abcxyz/arcgis/rest/services/Class_breaks/FeatureServer/0>`, use `https://services.arcgis.com/abcxyz/arcgis/rest/services/`.
  > - Create a stored connection to the service from the QGIS Data Source Manager (using the instructions from our blog post to handle the authentication setup)  
  > - Make sure that your connection is pointing at the "top most" level of the REST server, by removing any specific endpoints from the end of the URL i.e. instead of `https://services8.arcgis.com/uKaqrCZlgFv9ckIj/arcgis/rest/services/Class_breaks/FeatureServer/0>`, use `https://services8.arcgis.com/uKaqrCZlgFv9ckIj/arcgis/rest/services/`.
  > - Then convert the ArcMap/ArcGIS Pro documents.
