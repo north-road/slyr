@@ -69,8 +69,6 @@ However, if you create authenticated connections in QGIS to these services **bef
  > - Create a stored connection to the service or database from the QGIS Data Source Manager. (For ESRI online services you can follow the instructions from our [blog post](https://north-road.com/2022/09/16/securely-accessing-arcgis-online-agol-and-enterprise-arcgis-portal-sites-through-qgis-2022-update/) to handle the authentication setup).
  > - For ESRI services make sure that your QGIS stored connection is pointing at the "top most" level of the REST server, by removing any specific endpoints from the end of the URL i.e. instead of `https://services.arcgis.com/abcxyz/arcgis/rest/services/Class_breaks/FeatureServer/0>`, use `https://services.arcgis.com/abcxyz/arcgis/rest/services/`.
  > - Create a stored connection to the service from the QGIS Data Source Manager (using the instructions from our blog post to handle the authentication setup)  
- > - Make sure that your connection is pointing at the "top most" level of the REST server, by removing any specific endpoints from the end of the URL i.e. instead of `https://services8.arcgis.com/uKaqrCZlgFv9ckIj/arcgis/rest/services/Class_breaks/FeatureServer/0>`, use `https://services8.arcgis.com/uKaqrCZlgFv9ckIj/arcgis/rest/services/`.
- > - Then convert the ArcMap/ArcGIS Pro documents.
 
 The conversion should be successful, with an advisory message informing that the stored credentials have been used.
 
