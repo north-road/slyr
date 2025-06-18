@@ -23,7 +23,7 @@ During document conversion SLYR will raise warnings describing any properties fr
 document which cannot be automatically converted. The table below describes some of
 these warnings, and how they can be handled:
 
-|  Warning   |         Rectification/Explanation     |
+|  Warning   |         Rectification or Explanation     |
 |------------|---------------------------|
 | Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later) | Update your QGIS to QGIS 3.24 or later |
 |Raster layers in Geodatabase files are not supported in QGIS | Update to a newer QGIS version for raster GeoDatabase support. |
