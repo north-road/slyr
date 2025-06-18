@@ -36,7 +36,6 @@ these warnings, and how they can be handled:
 |Mosaic layer has been removed from the project (Mosaic layers are not supported by QGIS) | This relates to a Mosaic layer in the MXD document -- current QGIS versions don't have any way of opening these so we skip over them during the conversion. |
 |Vector marker symbol TextString | This feature is not yet available in SLYR, but we hope to include it in further updates. |
 
-
 ## Annotations and Annotation Classes
 
 Annotations serve many different use cases in ESRI software. Depending on what
