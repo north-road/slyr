@@ -25,7 +25,7 @@ these warnings, and how they can be handled:
 
 |  Warning   |         Rectification or Explanation     |
 |------------|---------------------------|
-| Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later) | Update your QGIS to QGIS 3.24 or later |
+|Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later) | Update your QGIS to QGIS 3.24 or later |
 |Raster layers in Geodatabase files are not supported in QGIS | Update to a newer QGIS version for raster GeoDatabase support. |
 |Raster catalog layer has been removed from the project (raster catalog layers are not supported by QGIS) | These layers will need to be created separately outside of the catalog layer before conversions. |
 |Could not automatically convert expression. Please check and repair this expression. | A label or filter expression from the ESRI document could not be automatically converted to a QGIS expression. The layer will need to be modified and the expression manually converted to a QGIS equivalent by the user. |
