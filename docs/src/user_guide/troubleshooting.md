@@ -23,17 +23,18 @@ During document conversion SLYR will raise warnings describing any properties fr
 document which cannot be automatically converted. The table below describes some of
 these warnings, and how they can be handled:
 
- Warning                                                                                                            | Rectification                                                                                                                                                                                                             |
- --------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
- Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later) | Update your QGIS to QGIS 3.24 or later                                                                                                                                                                                    |
- Raster layers in Geodatabase files are not supported in QGIS                                                       | Update to a newer QGIS version for raster GeoDatabase support.                                                                                                                                                            |
- Raster catalog layer has been removed from the project (raster catalog layers are not supported by QGIS)           | These layers will need to be created separately outside of the catalog layer before conversions.                                                                                                                          |
- Could not automatically convert expression. Please check and repair this expression.                               | A label or filter expression from the ESRI document could not be automatically converted to a QGIS expression. The layer will need to be modified and the expression manually converted to a QGIS equivalent by the user. |
- Unique Value legend group title is not supported by QGIS                                                           | This is a warning that the group title has been dropped in the QGIS layer. Legend text may need to be manually updated accordingly.                                                                                       |
- Font XXX not available on system                                                                                   | See [fonts](#fonts)                                                                                                                                                                                                       |
- Class Break legend group title is not supported by QGIS                                                            | This is a warning that the group title has been dropped in the QGIS layer. Legend text may need to be manually updated accordingly.                                                                                       |
- X: Marker halos are not supported by QGIS                                                                          | The option used in the MXD isn't possible to match in current QGIS versions. In this case a warning is raised and the rest of the layer's properties are converted.                                                       |
- Mosaic layer has been removed from the project (Mosaic layers are not supported by QGIS)                           | This relates to a Mosaic layer in the MXD document -- current QGIS versions don't have any way of opening these so we skip over them during the conversion.                                                               |
+|  Warning   |         Rectification or Explanation     |
+|------------|---------------------------|
+|Group transparency was converted to individual layer transparency (group transparency requires QGIS 3.24 or later) | Update your QGIS to QGIS 3.24 or later |
+|Raster layers in Geodatabase files are not supported in QGIS | Update to a newer QGIS version for raster GeoDatabase support. |
+|Raster catalog layer has been removed from the project (raster catalog layers are not supported by QGIS) | These layers will need to be created separately outside of the catalog layer before conversions. |
+|Could not automatically convert expression. Please check and repair this expression. | A label or filter expression from the ESRI document could not be automatically converted to a QGIS expression. The layer will need to be modified and the expression manually converted to a QGIS equivalent by the user. |
+|Unique Value legend group title is not supported by QGIS | This is a warning that the group title has been dropped in the QGIS layer. Legend text may need to be manually updated accordingly. |
+|Font XXX not available on system | See [fonts](#fonts) |
+|Class Break legend group title is not supported by QGIS | This is a warning that the group title has been dropped in the QGIS layer. Legend text may need to be manually updated accordingly. |
+|X: Marker halos are not supported by QGIS | The option used in the MXD isn't possible to match in current QGIS versions. In this case a warning is raised and the rest of the layer's properties are converted. |
+|Mosaic layer has been removed from the project (Mosaic layers are not supported by QGIS) | This relates to a Mosaic layer in the MXD document -- current QGIS versions don't have any way of opening these so we skip over them during the conversion. |
+|Vector marker symbol TextString | This feature is not yet available in SLYR, but we hope to include it in further updates. |
 
 ## Annotations and Annotation Classes
 
