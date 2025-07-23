@@ -23,5 +23,3 @@ converting the data to a geopackage.
 Export to:
 
 - GeoPackage
-
-## Styles
