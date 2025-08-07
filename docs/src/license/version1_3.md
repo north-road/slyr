@@ -65,7 +65,6 @@ clients or other external parties without the prior written consent of the Licen
 license must be purchased for each such client. This ensures that the client is appropriately licensed and that use of
 the Software aligns with the Licensor’s terms of distribution and support.
 
-
 ### 3. Updates and Upgrades
 
 3.1. Subject to clause 1 and subject to the Licensee ensuring its equipment, hardware and software complies with the
@@ -246,6 +245,7 @@ workplace location. For the purposes of remote or “work from home” users, th
 license attached to their usual workplace office location.
 
 ### Schedule 2 - License Fee
+
 A license is available for either:
 a. the price previously agreed upon via a quote/proforma invoice supplied by North Road or a approved reseller of the product; or
 b. if no previously agreed price was supplied, at the advertised price at time of purchase.
