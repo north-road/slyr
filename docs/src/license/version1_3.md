@@ -1,6 +1,6 @@
 # SLYR End User License Agreement
 
-## Version 1.2
+## Version 1.3
 
 This Licensing Agreement ('Agreement') is made by and between:
 
