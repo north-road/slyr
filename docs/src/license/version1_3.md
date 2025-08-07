@@ -55,14 +55,14 @@ applicable Term or outside the scope of the applicable License Type.
 2.4. The Licensee warrants that it will reproduce all copyright notices and other legends of ownership on each copy, or
 partial copy, of the Software.
 
-2.5. The Licensed Software is provided solely for the Licensee’s internal use. The Licensee may use the Software only 
+2.5. The Licensed Software is provided solely for the Licensee’s internal use. The Licensee may use the Software only
 for projects and activities conducted directly by or on behalf of the Licensee. The Licensee must not use the Software
-to provide services to third parties, including but not limited to consulting, analysis, development, or data processing 
-services. The Software may not be used as part of any commercial offering, hosted service, or deliverable provided to 
+to provide services to third parties, including but not limited to consulting, analysis, development, or data processing
+services. The Software may not be used as part of any commercial offering, hosted service, or deliverable provided to
 clients or other external parties without the prior written consent of the Licensor.
 
-2.6. If the Licensee intends to use the Software as part of a service offering to a third party or client, a separate 
-license must be purchased for each such client. This ensures that the client is appropriately licensed and that use of 
+2.6. If the Licensee intends to use the Software as part of a service offering to a third party or client, a separate
+license must be purchased for each such client. This ensures that the client is appropriately licensed and that use of
 the Software aligns with the Licensor’s terms of distribution and support.
 
 
@@ -247,5 +247,5 @@ license attached to their usual workplace office location.
 
 ### Schedule 2 - License Fee
 A license is available for either:
-a. the price previously agreed upon via a quote/proforma invoice supplied by North Road or a approved reseller of the product
-b. or, if no previously agreed price was supplied, at the advertised price at time of purchase
+a. the price previously agreed upon via a quote/proforma invoice supplied by North Road or a approved reseller of the product; or
+b. if no previously agreed price was supplied, at the advertised price at time of purchase.
