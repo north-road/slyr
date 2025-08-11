@@ -246,6 +246,7 @@ license attached to their usual workplace office location.
 
 ### Schedule 2 - License Fee
 
-A license is available for either:  
-a. the price previously agreed upon via a quote/proforma invoice supplied by North Road or a approved reseller of the product; or  
-b. if no previously agreed price was supplied, at the advertised price at time of purchase.
+A license is available for either:
+
+- a. the price previously agreed upon via a quote/proforma invoice supplied by North Road or a approved reseller of the product; or
+- b. if no previously agreed price was supplied, at the advertised price at time of purchase.
