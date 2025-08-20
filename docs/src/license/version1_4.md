@@ -1,6 +1,6 @@
 # SLYR End User License Agreement
 
-## Version 1.3
+## Version 1.4
 
 This Licensing Agreement ('Agreement') is made by and between:
 
@@ -178,7 +178,7 @@ and includes any modifications, enhancements, or developments made to, or arisin
 
 **“Moral Rights”** has the meaning given in the *Copyright Act 1968 (Cth)*.
 
-**"Remote User"** means a staff member of the Licensee who is formally assigned to a particular physical workplace location of the Licensee, but who accesses and uses the Software from a location other than that workplace, including while travelling or working offsite.
+**"Remote User"** means a staff member of the Licensee who is formally assigned to a particular physical workplace location of the Licensee, but who accesses and uses the Software from a location other than that workplace, including while traveling or working offsite.
 
 **“Specifications”** means the Software technical specifications requirements set out in Schedule 1, all of which may be
 updated by North Road by written notice.
