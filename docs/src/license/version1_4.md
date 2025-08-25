@@ -95,19 +95,19 @@ writing; or
 
 (a) **Products** - the lesser of:
 
-    i. the replacement of the products or the of supply of equivalent products; or
+i. the replacement of the products or the of supply of equivalent products; or
 
-    ii. the repair of the products; or
+ii. the repair of the products; or
 
-    iii. the payment of the cost of replacing the products or acquiring equivalent products; or
+iii. the payment of the cost of replacing the products or acquiring equivalent products; or
 
-    iv. the payment of the cost of having the products repaired; or
+iv. the payment of the cost of having the products repaired; or
 
 (b) in the case of services:
 
-    i. the supply of the services again; or 
-    
-    ii.the payment of the cost of having the services supplied again.
+i. the supply of the services again; or  
+
+ii.the payment of the cost of having the services supplied again.
 
 ### 6 Indemnities
 
@@ -178,7 +178,7 @@ and includes any modifications, enhancements, or developments made to, or arisin
 
 **“Moral Rights”** has the meaning given in the *Copyright Act 1968 (Cth)*.
 
-**"Remote User"** means a staff member of the Licensee who is formally assigned to a particular physical workplace location of the Licensee, but who accesses and uses the Software from a location other than that workplace, including while traveling or working offsite.
+**"Remote User"** means a staff member of the Licensee who is formally assigned to a particular physical workplace location of the Licensee, but who accesses and uses the Software from a location other than that workplace, including while travelling or working offsite.
 
 **“Specifications”** means the Software technical specifications requirements set out in Schedule 1, all of which may be
 updated by North Road by written notice.
@@ -199,7 +199,9 @@ A SLYR license grants access to the Software based on the number of licenses pur
 
 2.2 The allocation of multiple licenses is subject to the following rules:  
 (a) **Covering Additional Locations:** A separate license is required for each distinct physical workplace location where the Software will be used. *Example, a Licensee with offices in two different cities must hold a minimum of two (2) licenses, one for each office.*  
+
 (b) **Covering Additional Staff at a Single Location:** If a single workplace location has more than twenty (20) staff requiring access to the Software, additional licenses must be purchased for that location. Each additional license purchased for that location increases the permitted staff count by twenty (20).  
+
 (c) **Non-Transferability:** Licenses allocated to a specific workplace location are not transferable between different workplace locations.
 
 **3. Remote and Work From Home Users**  
@@ -212,4 +214,5 @@ A SLYR license grants access to the Software based on the number of licenses pur
 2.1 A license is available for either:
 
 (a) the price previously agreed upon in writing via a quote or proforma invoice supplied by North Road or an approved reseller of the Software; or  
+
 (b) if no previously agreed price was supplied, the advertised price of the Software as published at time of purchase.
