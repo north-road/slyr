@@ -23,17 +23,21 @@ Expression conversion
 """
 
 import re
-from typing import Optional
+from typing import Optional, Tuple
 
-from qgis.core import QgsExpression
+from qgis.core import (
+    QgsExpression,
+    QgsExpressionContext,
+    QgsVectorLayer,
+    QgsExpressionNode,
+    QgsExpressionNodeInOperator,
+    QgsExpressionNodeUnaryOperator,
+)
 
 from .context import Context
 from ..parser.objects.annotation_jscript_engine import AnnotationJScriptEngine
 from ..parser.objects.annotation_python_engine import AnnotationPythonEngine
 from ..parser.objects.annotation_vbscript_engine import AnnotationVBScriptEngine
-
-
-# pylint: disable=simplifiable-condition
 
 
 class ExpressionConverter:
@@ -60,10 +64,13 @@ class ExpressionConverter:
 
     # pylint: disable=too-many-branches
     @staticmethod
-    def convert(expression: str, engine, advanced, context: Context) -> str:
+    def convert(expression: str, engine, advanced, context: Context) -> Optional[str]:
         """
         Converts an expression which uses the specified engine
         """
+        if not expression:
+            return None
+
         expression_type = ""
         if isinstance(engine, AnnotationVBScriptEngine):
             expression_type = "VBScript"
@@ -73,37 +80,21 @@ class ExpressionConverter:
             expression_type = "JScript"
 
         if advanced and not isinstance(engine, AnnotationPythonEngine):
-            if context.unsupported_object_callback:
-                if context.layer_name:
-                    context.unsupported_object_callback(
-                        "{}: Cannot automatically convert advanced {} expression: {}".format(
-                            context.layer_name, expression_type, expression
-                        ),
-                        level=Context.WARNING,
-                    )
-                elif context.symbol_name:
-                    context.unsupported_object_callback(
-                        "{}: Cannot automatically convert advanced {} expression: {}".format(
-                            context.symbol_name, expression_type, expression
-                        ),
-                        level=Context.WARNING,
-                    )
-                else:
-                    context.unsupported_object_callback(
-                        "Cannot automatically convert advanced {} expression: {}".format(
-                            expression_type, expression
-                        ),
-                        level=Context.WARNING,
-                    )
+            context.push_warning(
+                "Cannot automatically convert advanced {} expression: {}".format(
+                    expression_type, expression
+                ),
+                level=Context.WARNING,
+            )
             return expression
 
-        if isinstance(engine, AnnotationVBScriptEngine) or False:
+        if isinstance(engine, AnnotationVBScriptEngine):
             res = ExpressionConverter.convert_vbscript_expression(expression, context)
-        elif isinstance(engine, AnnotationPythonEngine) or False:
+        elif isinstance(engine, AnnotationPythonEngine):
             res = ExpressionConverter.convert_python_expression(
                 expression, context, is_advanced=advanced
             )
-        elif isinstance(engine, AnnotationJScriptEngine) or False:
+        elif isinstance(engine, AnnotationJScriptEngine):
             res = ExpressionConverter.convert_js_expression(expression)
         else:
             res = ExpressionConverter.convert_esri_expression(expression, context)
@@ -113,41 +104,29 @@ class ExpressionConverter:
 
         exp = QgsExpression(res)
         if (
-            (not advanced or (advanced and isinstance(engine, AnnotationPythonEngine)))
-            and exp.hasParserError()
-            and context.unsupported_object_callback
-        ):
-            if context.layer_name:
-                context.unsupported_object_callback(
-                    "{}: Could not automatically convert {} expression:\n{}\nPlease check and repair this expression".format(
-                        context.layer_name, expression_type, expression
-                    ),
-                    level=Context.WARNING,
-                )
-            elif context.symbol_name:
-                context.unsupported_object_callback(
-                    "{}: Cannot automatically convert {} expression:\n{}\nPlease check and repair this expression".format(
-                        context.symbol_name, expression_type, expression
-                    ),
-                    level=Context.WARNING,
-                )
-            else:
-                context.unsupported_object_callback(
-                    "Cannot automatically convert {} expression:\n{}\nPlease check and repair this expression".format(
-                        expression_type, expression
-                    ),
-                    level=Context.WARNING,
-                )
+            not advanced or (advanced and isinstance(engine, AnnotationPythonEngine))
+        ) and exp.hasParserError():
+            context.push_warning(
+                "Could not automatically convert {} expression:\n{}\nPlease check and repair this expression".format(
+                    expression_type, expression
+                ),
+                level=Context.WARNING,
+            )
 
         return res
 
     # pylint: enable=too-many-branches
 
     @staticmethod
-    def convert_esri_expression(expression: str, context: Context) -> str:
+    def convert_esri_expression(
+        expression: Optional[str], context: Context
+    ) -> Optional[str]:
         """
         Rudimentary ESRI to QGIS expression conversion
         """
+        if not expression:
+            return None
+
         if expression.strip() == "[]":
             # seen in some files!
             return ""
@@ -183,17 +162,41 @@ class ExpressionConverter:
         return expression
 
     @staticmethod
-    def convert_vbscript_expression(expression: str, context: Context) -> str:
+    def convert_vbscript_expression(
+        expression: Optional[str], context: Context
+    ) -> Optional[str]:
         """
         Rudimentary ESRI to QGIS expression conversion
         """
+        if not expression:
+            return None
+
         if expression.strip() == "[]":
             # seen in some files!
             return ""
 
+        # silly thing, but ArcPro at least automatically upgrades this
+        # to a proper field reference...
+        match = re.match(r"^\s*([\w.\- _$#:/§€Ç]+)\s*]\s*$", expression)
+        if match:
+            return '"{}"'.format(match.group(1))
+
         expression = expression.replace("\r\n", "\n")
         expression = expression.replace("\n\r", "\n")
         expression = expression.replace("\r", "\n")
+
+        expression = re.sub(
+            r"\[\s*Shape\.STLength\(\s*\)\s*]",
+            "length($geometry)",
+            expression,
+            flags=re.UNICODE | re.IGNORECASE,
+        )
+        expression = re.sub(
+            r"\[\s*Shape\.STArea\(\s*\)\s*]",
+            "area($geometry)",
+            expression,
+            flags=re.UNICODE | re.IGNORECASE,
+        )
 
         # super dangerous!
         if re.search(
@@ -222,7 +225,17 @@ class ExpressionConverter:
                 flags=re.UNICODE,
             )
 
+        expression = re.sub(
+            r"\[\s*\"\s*([\w.\- _$#:\/§€Ç]+)\"\s*\n*]",
+            "^^!!^^\\1^^!!^^",
+            expression,
+            flags=re.UNICODE,
+        )
+
         expression = expression.replace('"', "'")
+
+        expression = expression.replace("^^!!^^", '"')
+
         expression = expression.replace("chr(13)", "'\\n'")
 
         expression = re.sub("vbnewline", "'\\n'", expression, flags=re.IGNORECASE)
@@ -258,17 +271,26 @@ class ExpressionConverter:
     # pylint: disable=too-many-branches, too-many-statements, unused-argument
     @staticmethod
     def convert_python_expression(
-        expression: str, context: Context, is_advanced: bool = False
-    ) -> str:
+        expression: Optional[str], context: Context, is_advanced: bool = False
+    ) -> Optional[str]:
         """
         Rudimentary Python to QGIS expression conversion
         """
+        if not expression:
+            return None
 
         # super dangerous!
         def convert_partial_statement(part):
-            part_expression, _ = re.subn(
-                r"(\".*?)'(.*?\")", "\\1''\\2", part, flags=re.UNICODE
-            )
+            part_expression = part
+            for match in reversed(list(re.finditer(r"\"[^\"]*?\"", part))):
+                mid = part_expression[match.start() : match.end()]
+                mid = mid.replace("'", "''")
+                part_expression = (
+                    part_expression[: match.start()]
+                    + mid
+                    + part_expression[match.end() :]
+                )
+
             part_expression = part_expression.replace('"', "'")
             part_expression = re.sub(
                 r"\[([^\W\d_][\w.\- _$#:]*)]",
@@ -432,10 +454,13 @@ class ExpressionConverter:
     # pylint: enable=too-many-branches, too-many-statements, unused-argument
 
     @staticmethod
-    def convert_js_expression(expression: str) -> str:
+    def convert_js_expression(expression: Optional[str]) -> Optional[str]:
         """
         Rudimentary JS to QGIS expression conversion
         """
+        if not expression:
+            return None
+
         # super dangerous!
         expression = re.sub(
             "\\[([\\w.\\- _$#:]+)]", '"\\1"', expression, flags=re.UNICODE
@@ -443,10 +468,13 @@ class ExpressionConverter:
         return expression
 
     @staticmethod
-    def convert_esri_sql(expression: str) -> str:
+    def convert_esri_sql(expression: Optional[str]) -> Optional[str]:
         """
         Rudimentary ESRI SQL to QGIS expression conversion
         """
+        if not expression:
+            return None
+
         expression = re.sub(
             "\\[([\\w.\\- _$#:]+)]", '"\\1"', expression, flags=re.UNICODE
         )
@@ -454,16 +482,3 @@ class ExpressionConverter:
             r"#(\d+-\d+-\d+\s+\d+:\d+:\d+)#", "'\\1'", expression, flags=re.UNICODE
         )
         return expression
-
-    @staticmethod
-    def field_name_from_qgis_expression(expression: str) -> Optional[str]:
-        """
-        Tries to extract a field name from a QGIS expression which represents a single field reference
-        """
-        exp = QgsExpression(expression)
-        exp.prepare(None)
-
-        if not exp.isField():
-            return None
-
-        return exp.rootNode().name()
