@@ -48,10 +48,14 @@ class FeatureDatasetName(Object):
         self.workspace_name = None
 
     def read(self, stream: Stream, version):
-        _ = stream.read_string("unknown")
-        self.dataset_type = stream.read_uint("unknown")
+        # category
+        # name
+        # subset names
+
+        self.name = stream.read_string("name?")
+        self.dataset_type = stream.read_uint("dataset type")
         _ = stream.read_ushort("unknown")
-        _ = stream.read_string("unknown")
+        self.category = stream.read_string("category?")
         _ = stream.read_string("unknown")
         _ = stream.read_uchar("unknown")
         self.workspace_name = stream.read_object("workspace name")

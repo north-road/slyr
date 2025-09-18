@@ -121,19 +121,23 @@ class Field(Object):
         res.name = definition["name"]
         res.alias = definition["alias"]
         res.model_name = definition["model_name"]
-        res.default_value = definition["default_value"]
-        res.field_type = definition["field_type"]
-        res.value_domain = REGISTRY.create_object_from_dict(definition["value_domain"])
-        res.geometry_def = REGISTRY.create_object_from_dict(
-            definition["geometry_definition"]
+        res.default_value = definition.get("default_value")
+        res.field_type = definition.get("field_type", 0)
+        res.value_domain = REGISTRY.create_object_from_dict(
+            definition.get("value_domain")
         )
-        res.field_length = definition["field_length"]
-        res.precision = definition["precision"]
-        res.scale = definition["scale"]
-        res.editable = definition["editable"]
-        res.is_nullable = definition["is_nullable"]
-        res.required = definition["required"]
-        res.domain_fixed = definition["domain_fixed"]
-        res.raster_def = REGISTRY.create_object_from_dict(definition["raster_def"])
+        res.geometry_def = REGISTRY.create_object_from_dict(
+            definition.get("geometry_definition")
+        )
+        res.field_length = definition.get("field_length", 0)
+        res.precision = definition.get("precision", 0)
+        res.scale = definition.get("scale", 0)
+        res.editable = definition.get("editable", False)
+        res.is_nullable = definition.get("is_nullable", False)
+        res.required = definition.get("required", False)
+        res.domain_fixed = definition.get("domain_fixed", False)
+        res.raster_def = REGISTRY.create_object_from_dict(
+            definition.get("raster_def", None)
+        )
 
         return res

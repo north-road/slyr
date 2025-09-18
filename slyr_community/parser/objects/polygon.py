@@ -27,6 +27,18 @@ class Polygon(Geometry):
     def read(self, stream: Stream, version):  # pylint: disable=too-many-locals
         size = stream.read_int("size")
         start = stream.tell()
+
+        self.read_internal(stream)
+
+        if stream.tell() != size + start:
+            stream.log("skipping unknown bytes")
+            stream.read(size + start - stream.tell())
+
+        assert stream.tell() == size + start, (stream.tell(), size + start)
+
+        self.crs = stream.read_object("crs")
+
+    def read_internal(self, stream: Stream):
         wkb_type = stream.read_int(
             "wkb type?", expected=(5, 536870963)
         )  # 536870963 = ellipse/circle
@@ -55,16 +67,14 @@ class Polygon(Geometry):
                     part.append((x, y))
                 self.parts.append(part)
 
+            # likely here:
+            # - if polygon z (wkb_type = 15), read two doubles of z range,
+            #   then array of z values (stored sequentially, as above)
+            # - if polygon z or m (wkb_type = 15 or 25), read two doubles of m range,
+            #   then array of m values (stored sequentially, as above)
+
         if wkb_type == 536870963:
             self.read_curve_points(stream)
-
-        if stream.tell() != size + start:
-            stream.log("skipping unknown bytes")
-            stream.read(size + start - stream.tell())
-
-        assert stream.tell() == size + start, (stream.tell(), size + start)
-
-        self.crs = stream.read_object("crs")
 
     def to_dict(self):  # pylint: disable=method-hidden
         res = super().to_dict()

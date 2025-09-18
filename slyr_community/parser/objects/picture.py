@@ -96,7 +96,7 @@ class StdPicture(Object):
             "picture_type": None
             if self.picture is None
             else self.picture.__class__.__name__,
-            "content": base64.b64encode(self.picture.content),
+            "content": base64.b64encode(self.picture.content)[:6000],
         }
 
     def children(self):
@@ -127,6 +127,7 @@ class BmpPicture(Picture):
     FORMAT_PNG = 1
     FORMAT_EMF = 2
     FORMAT_JPG = 3
+    FORMAT_GIF = 4
 
     def __init__(self):
         super().__init__()
@@ -168,6 +169,15 @@ class BmpPicture(Picture):
             assert check == b"\xff"
             stream.rewind(3)
             self.format = BmpPicture.FORMAT_JPG
+            return stream.read(size)
+        elif check == b"GI":
+            # GIF file
+            stream.rewind(2)
+            check = stream.read(4)
+            stream.rewind(4)
+            assert check == b"GIF8"
+
+            self.format = BmpPicture.FORMAT_GIF
             return stream.read(size)
         elif check == b"\x89\x50":
             # PNG file
@@ -229,6 +239,9 @@ class BmpPicture(Picture):
         elif check == b"\x01\x00":
             # EMF file
             self.format = BmpPicture.FORMAT_EMF
+        elif check == b"GI":
+            # GIF file
+            self.format = BmpPicture.FORMAT_GIF
         else:
             raise UnreadablePictureException(
                 "Expected 424d ('BM'), got {}".format(check)

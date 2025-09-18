@@ -53,7 +53,14 @@ class Polyline(Geometry):
                     part.append((x, y))
                 self.parts.append(part)
 
-            if wkb_type == 536870962:
+            # likely here:
+            # - if polyline z (wkb_type = 13), read two doubles of z range,
+            #   then array of z values (stored sequentially, as above)
+            # - if polyline z or m (wkb_type = 13 or 23), read two doubles of m range,
+            #   then array of m values (stored sequentially, as above)
+
+            extended_flags = wkb_type & 1056964608
+            if extended_flags & 536870912:
                 self.read_curve_points(stream)
 
         if stream.tell() != size + start:
