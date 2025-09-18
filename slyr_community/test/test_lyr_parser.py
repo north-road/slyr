@@ -400,7 +400,6 @@ expected = [
     {"filename": "labels_multi_class.lyr"},
     {"filename": "label_classes_from_symbology.lyr"},
     {"filename": "labels_multi_class_disabled.lyr"},
-
     {"filename": "raster_unique_band_8.lyr"},
     {"filename": "raster_discrete_band_8.lyr", "skip_convert": True},
     {"filename": "colormap_255.lyr"},
@@ -482,6 +481,7 @@ expected = [
 ]
 
 initialize_registry()
+
 
 class TestLyrParser(SlyrTestCase):
     """

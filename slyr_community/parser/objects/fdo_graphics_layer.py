@@ -31,4 +31,3 @@ class FDOGraphicsLayer(Object):
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {}
-
