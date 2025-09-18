@@ -434,7 +434,7 @@
                 '     </minMaxOrigin>\n'
                 '    </rasterrenderer>\n'
                 '    <brightnesscontrast brightness="0" contrast="0" '
-                'gamma="1"></brightnesscontrast>\n'
+                'gamma="3"></brightnesscontrast>\n'
                 '    <huesaturation colorizeBlue="128" colorizeGreen="128" '
                 'colorizeOn="0" colorizeRed="255" colorizeStrength="100" '
                 'grayscaleMode="0" invertColors="0" '
