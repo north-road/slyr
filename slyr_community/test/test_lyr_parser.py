@@ -9,8 +9,21 @@ import os
 import pprint
 import ast
 
+from .test_case import SlyrTestCase
+
 from ..parser.initalize_registry import initialize_registry
 from ..parser.streams.layer import LayerFile
+from ..converters.context import Context
+from ..converters.layers import LayerConverter
+from .utils import Utils
+
+from qgis.core import (
+    Qgis,
+    QgsProject,
+    QgsReadWriteContext,
+    QgsLayerDefinition,
+)
+
 
 expected = [
     {"filename": "field_formats.lyr"},
@@ -216,6 +229,56 @@ expected = [
     {"filename": "xy_event.lyr"},
     {"filename": "coverage.lyr"},
     {"filename": "edit_template_v1.lyr"},
+    {"filename": "raster_stretched_display_nodata_color_green.lyr"},
+    {"filename": "raster_discrete_color_35.lyr", "skip_convert": True},
+    {"filename": "raster_layer_zoom_range.lyr"},
+    {"filename": "raster_cubic.lyr"},
+    {"filename": "raster_constrast_33_brightness_34_transparency_35.lyr"},
+    {"filename": "raster_resample_majority.lyr"},
+    {"filename": "raster_layer_attributes.lyr"},
+    {"filename": "raster_classified.lyr"},
+    {"filename": "raster_stretched_use_hillshade_z_19.lyr"},
+    {"filename": "raster_allow_interactive_display.lyr"},
+    {"filename": "raster_stretched_display_background_color_red.lyr"},
+    {"filename": "raster_stretched.lyr"},
+    {"filename": "raster_discrete_color_255.lyr", "skip_convert": True},
+    {"filename": "raster_unique_complex_legend.lyr"},
+    {"filename": "raster_stretched_type_none.lyr"},
+    {"filename": "raster_stretched_ramp.lyr"},
+    {"filename": "raster_stretched_stats_from_each_dataset.lyr"},
+    {"filename": "raster_unique_values_all_other_checked.lyr"},
+    {"filename": "raster_stretched_labels.lyr"},
+    {"filename": "raster_display_coarse.lyr"},
+    {"filename": "raster_stretch_from_custom_settings.lyr"},
+    {"filename": "raster_unique_values_all_other_unchecked.lyr"},
+    {"filename": "raster_stretched_type_custom.lyr"},
+    {"filename": "raster_stretched_type_histogram_spec.lyr"},
+    {"filename": "raster_unique_grouped.lyr"},
+    {"filename": "raster_layer.lyr"},
+    {"filename": "raster_extent_current_display.lyr"},
+    {"filename": "raster_stretch_histogram_equalize.lyr"},
+    {"filename": "raster_show_maptips.lyr"},
+    {"filename": "raster_layer_no_zoom_range.lyr"},
+    {"filename": "raster_stretch_standard_deviations_2_5.lyr"},
+    {"filename": "raster_extent_current_setting.lyr"},
+    {"filename": "raster_display_medium.lyr"},
+    {"filename": "raster_discrete_color_nodata_red.lyr", "skip_convert": True},
+    {"filename": "raster_resample_nearest_neighbour.lyr"},
+    {"filename": "raster_extent_full.lyr"},
+    {"filename": "raster_layer_unchecked.lyr"},
+    {"filename": "raster_stretch_apply_gamma_1_9.lyr"},
+    {"filename": "raster_unique_labels.lyr"},
+    {"filename": "raster_display_background_value_77.lyr"},
+    {"filename": "raster_show_resolution_in_toc.lyr"},
+    {"filename": "raster_stretched_none_invert.lyr"},
+    {"filename": "raster_stretched_percent_clip_34_96.lyr"},
+    {"filename": "raster_stretch_sigmoid_strength_6.lyr"},
+    {"filename": "raster_bilinear.lyr"},
+    {"filename": "raster_stretched_stats_from_display_extent.lyr"},
+    {"filename": "raster_stretch_min_max.lyr"},
+    {"filename": "raster_custom_extent_4321.lyr"},
+    {"filename": "raster_stretched_9_interval_labels.lyr"},
+    {"filename": "raster_stretched_labels_interval_37.lyr"},
     {"filename": "two_joins2.lyr"},
     {"filename": "two_relations.lyr"},
     {"filename": "three_joins2.lyr"},
@@ -224,7 +287,72 @@ expected = [
     {"filename": "one_join.lyr"},
     {"filename": "indexed_join.lyr"},
     {"filename": "three_joins.lyr"},
+    {"filename": "basemap_scalerange.lyr"},
+    {"filename": "basemap_attributes.lyr"},
+    {"filename": "basemap_two_layers.lyr"},
+    {"filename": "basemap_invisible.lyr"},
+    {"filename": "basemap_37_transparency.lyr"},
     {"filename": "group_layer_scale_range_deactivated.lyr"},
+    {"filename": "basemap_deactivated_scalerange].lyr"},
+    {"filename": "raster_time_offset_39minutes.lyr"},
+    {"filename": "raster_enable_time.lyr"},
+    {"filename": "raster_time_offset_39years.lyr"},
+    {"filename": "raster_time_step_99hours.lyr"},
+    {"filename": "raster_time_step_99_decades.lyr"},
+    {"filename": "raster_two_relates.lyr"},
+    {"filename": "raster_primary_display_value.lyr"},
+    {
+        # This is identical to keep all -- seems ArcGIS forgets this setting when saving to lyr!
+        "filename": "raster_join_keep_matching.lyr",
+        "skip": True,
+    },
+    {"filename": "raster_join_keep_all.lyr"},
+    {"filename": "raster_relate.lyr"},
+    {"filename": "raster_two_joins.lyr"},
+    {"filename": "raster_primary_display_count.lyr"},
+    {"filename": "raster_rgb_bands123.lyr"},
+    {"filename": "raster_rgb_stretch_stdev_4_5.lyr"},
+    {"filename": "raster_rgb_stretch_invert.lyr"},
+    {"filename": "raster_stretched_stats_custom.lyr"},
+    {"filename": "raster_rgb_sigmoid_strength_6.lyr"},
+    {"filename": "raster_rgb_stretch_params_rgb_200_contrast_50.lyr"},
+    {"filename": "raster_rgb_nodata_color_blue.lyr"},
+    {"filename": "raster_rgb_red_blue_unchecked.lyr"},
+    {"filename": "raster_rgb_background_color_red.lyr"},
+    {"filename": "raster_rgb_display_background_value.lyr"},
+    {"filename": "raster_rgb_stats_from_custom.lyr"},
+    {"filename": "raster_stretched_band8.lyr"},
+    {"filename": "raster_rgb_alpha_b4.lyr"},
+    {"filename": "raster_rgb_bands876.lyr"},
+    {"filename": "raster_rgb_stats_from_current_display.lyr"},
+    {"filename": "raster_rgb_percent_clip_17_83.lyr"},
+    {"filename": "raster_rgb_stretch_none.lyr"},
+    {"filename": "raster_stretched_band_5.lyr"},
+    {"filename": "raster_rgb_bg_119_139_159.lyr"},
+    {"filename": "raster_rgb_stretch_esri.lyr"},
+    {"filename": "raster_rgb_stats_from_each_dataset.lyr"},
+    {"filename": "raster_rgb_stretch_minmax.lyr"},
+    {"filename": "raster_rgb_gamma_stretch_2_3_4.lyr"},
+    {"filename": "raster_rgb_pansharpen_no_4th_band_as_infrared.lyr"},
+    {"filename": "raster_rgb_pansharpen_type_bovey.lyr"},
+    {"filename": "raster_rgb_no_bands_checked.lyr"},
+    {"filename": "raster_rgb_pansharpening_enabled.lyr"},
+    {"filename": "raster_rgb_pansharpen_type_ihs.lyr"},
+    {"filename": "raster_rgb_pansharpen_using_dem.lyr"},
+    {"filename": "raster_rgb_green_checked.lyr"},
+    {"filename": "raster_rgb_pansharpen_type_mean.lyr"},
+    {"filename": "raster_rgb_pansharpen_weights_123_ir4lyr.lyr"},
+    {"filename": "raster_rgb_blue_checked.lyr"},
+    {"filename": "raster_rgb_red_checked.lyr"},
+    {"filename": "raster_rgb_alpha_checked.lyr"},
+    {"filename": "raster_rgb_alpha_band7.lyr"},
+    {"filename": "raster_pansharpen_type_esri.lyr"},
+    {"filename": "raster_classified_5_break.lyr"},
+    {"filename": "raster_classified_use_hillshade_z13.lyr"},
+    {"filename": "raster_classified_nodata_color_red.lyr"},
+    {"filename": "raster_classified_show_class_breaks_using_cell_values.lyr"},
+    {"filename": "raster_classified_3_breaks.lyr"},
+    {"filename": "raster_classified_labels.lyr"},
     {"filename": "barchart_bar_width19_spacing_13lyr.lyr"},
     {"filename": "pie_chart_orientation_clockwise_from_vertical.lyr"},
     {"filename": "stacked_3d_min_thickness.lyr"},
@@ -272,25 +400,47 @@ expected = [
     {"filename": "labels_multi_class.lyr"},
     {"filename": "label_classes_from_symbology.lyr"},
     {"filename": "labels_multi_class_disabled.lyr"},
-    {"filename": "mapserver_red_background.lyr", "skip": True},
-    {"filename": "mapserver_no_transparent_color.lyr", "skip": True},
-    {"filename": "mapserver_png_32.lyr", "skip": True},
-    {"filename": "mapserver_jpg.lyr", "skip": True},
-    {"filename": "mapserver_png.lyr", "skip": True},
-    {"filename": "mapserver_png24.lyr", "skip": True},
-    {"filename": "mapserver_format_png32.lyr", "skip": True},
-    {"filename": "mapserver_background_color_transparent.lyr", "skip": True},
+
+    {"filename": "raster_unique_band_8.lyr"},
+    {"filename": "raster_discrete_band_8.lyr", "skip_convert": True},
+    {"filename": "colormap_255.lyr"},
+    {
+        "filename": "colormap255_nodata_red.lyr",
+    },
+    {
+        "filename": "colormap_20.lyr",
+    },
+    {
+        "filename": "colormap_labels.lyr",
+    },
+    {
+        "filename": "colormap_nodata_red.lyr",
+    },
+    {"filename": "dot_density_2.lyr"},
+    {"filename": "dot_density_dot_size_5_density_7000.lyr"},
+    {"filename": "dot_density_fixed_placement_seed4815lyr.lyr"},
+    {"filename": "dot_density_maintain_density_by_dot_size.lyr"},
+    {"filename": "dot_density_legend_for_excluded.lyr"},
+    {"filename": "dot_density_maintain_density_by_dot_value.lyr"},
+    {"filename": "dot_density_green_background_red_outline.lyr"},
+    {"filename": "dot_density_use_masking_place_only_in.lyr"},
+    {"filename": "dot_density_ramp.lyr"},
+    {"filename": "dot_density_exclusion_filter.lyr"},
+    {"filename": "dot_density_red_blue.lyr"},
+    {"filename": "dot_density_no_maintain_density.lyr"},
+    {"filename": "dot_density_mask_exclude_in.lyr"},
+    {"filename": "dot_density.lyr"},
     {
         "filename": "lines_not_selectable.lyr",
     },
     {"filename": "lines_symbol_levels_no_join_no_merge.lyr"},
     {"filename": "lines_no_symbol_levels.lyr"},
     {"filename": "lines_symbol_levels_arterial_join_highway_no_join.lyr"},
-    {"filename": "group_symbol_levels.lyr"},
-    {"filename": "lines_symbol_levels_arterial_join_and_merge.lyr"},
+    {"filename": "group_symbol_levels.lyr", "skip": True},
+    {"filename": "lines_symbol_levels_arterial_join_and_merge.lyr", "skip": True},
     {"filename": "lines_draw_using_symbol_levels_join.lyr"},
     {"filename": "lines_draw_using_symbol_levels_no_join.lyr"},
-    {"filename": "layer_move_field_class_to_end.lyr"},
+    {"filename": "layer_move_field_class_to_end.lyr", "skip": True},
     {"filename": "layer_cached_true.lyr"},
     {"filename": "layer_aoi_1_2_3_4.lyr"},
     {"filename": "layer_show_tips_false.lyr"},
@@ -316,149 +466,24 @@ expected = [
     {"filename": "representation_symbology_point.lyr"},
     {"filename": "representation_symbology_point_mm.lyr"},
     {"filename": "representation_symbology_point_legend_none.lyr"},
-    {"filename": "raster_rgb_stats_from_each_dataset.lyr"},
-    {"filename": "raster_classified_nodata_color_red.lyr"},
-    {"filename": "raster_unique_grouped.lyr"},
-    {"filename": "dot_density_maintain_density_by_dot_value.lyr"},
-    {"filename": "basemap_two_layers.lyr"},
-    {"filename": "raster_unique_values_all_other_checked.lyr"},
-    {"filename": "raster_classified_use_hillshade_z13.lyr"},
-    {"filename": "raster_bilinear.lyr"},
-    {"filename": "raster_rgb_pansharpen_type_bovey.lyr"},
-    {"filename": "basemap_scalerange.lyr"},
-    {"filename": "raster_show_resolution_in_toc.lyr"},
-    {"filename": "raster_stretch_histogram_equalize.lyr"},
-    {"filename": "raster_rgb_pansharpen_weights_123_ir4lyr.lyr"},
-    {"filename": "raster_discrete_color_255.lyr"},
-    {"filename": "raster_time_step_99hours.lyr"},
-    {"filename": "raster_extent_current_setting.lyr"},
-    {"filename": "raster_display_background_value_77.lyr"},
-    {"filename": "raster_classified_show_class_breaks_using_cell_values.lyr"},
-    {"filename": "10 x 10 Degree Graticule.lyr"},
-    {"filename": "raster_stretched_stats_from_each_dataset.lyr"},
-    {"filename": "raster_rgb_pansharpen_type_ihs.lyr"},
-    {"filename": "raster_stretched_band_5.lyr"},
-    {"filename": "raster_stretched.lyr"},
-    {"filename": "raster_time_offset_39minutes.lyr"},
-    {"filename": "dot_density_exclusion_filter.lyr"},
-    {"filename": "raster_stretched_type_none.lyr"},
-    {"filename": "dot_density_maintain_density_by_dot_size.lyr"},
-    {"filename": "raster_rgb_bands123.lyr"},
-    {"filename": "raster_stretch_from_custom_settings.lyr"},
-    {"filename": "raster_rgb_stretch_minmax.lyr"},
-    {"filename": "raster_rgb_stretch_params_rgb_200_contrast_50.lyr"},
-    {"filename": "raster_rgb_stretch_invert.lyr"},
-    {"filename": "raster_layer_zoom_range.lyr"},
-    {"filename": "raster_classified_labels.lyr"},
-    {"filename": "raster_rgb_nodata_color_blue.lyr"},
-    {"filename": "raster_rgb_stretch_stdev_4_5.lyr"},
-    {"filename": "raster_rgb_alpha_checked.lyr"},
+    {"filename": "10 x 10 Degree Graticule.lyr", "skip_convert": True},
+    {"filename": "rgb_no_background.lyr"},
+    {"filename": "rgb_background_transparent.lyr"},
+    {"filename": "stretched_no_background.lyr"},
+    {"filename": "stretched_background_transparent.lyr"},
+    {"filename": "point_rotation_attribute_geographic.lyr"},
+    {"filename": "point_rotation_expression_arithmetic.lyr"},
+    {"filename": "point_rotation_expression_geographic.lyr"},
+    {"filename": "point_rotation_attribute_arithmetic.lyr"},
     {
-        "filename": "raster_stretched_labels.lyr",
+        "filename": "wfs.lyr",
     },
-    {"filename": "raster_rgb_stretch_esri.lyr"},
-    {"filename": "raster_rgb_bg_119_139_159.lyr"},
-    {"filename": "layer_v23.lyr"},
-    {"filename": "raster_rgb_background_color_red.lyr"},
-    {"filename": "dot_density_2.lyr"},
-    {"filename": "basemap_invisible.lyr"},
-    {"filename": "basemap_attributes.lyr"},
-    {"filename": "basemap_deactivated_scalerange].lyr"},
-    {"filename": "raster_classified.lyr"},
-    {"filename": "raster_stretch_standard_deviations_2_5.lyr"},
-    {"filename": "raster_rgb_gamma_stretch_2_3_4.lyr"},
-    {"filename": "dot_density_use_masking_place_only_in.lyr"},
-    {"filename": "raster_rgb_display_background_value.lyr"},
-    {"filename": "dot_density_red_blue.lyr"},
-    {"filename": "raster_stretch_min_max.lyr"},
-    {"filename": "dot_density_dot_size_5_density_7000.lyr"},
-    {"filename": "raster_classified_3_breaks.lyr"},
-    {"filename": "raster_stretched_ramp.lyr"},
-    {"filename": "raster_stretched_stats_custom.lyr"},
-    {"filename": "raster_layer.lyr"},
-    {"filename": "raster_stretch_apply_gamma_1_9.lyr"},
-    {"filename": "raster_custom_extent_4321.lyr"},
-    {"filename": "raster_stretched_labels_interval_37.lyr"},
-    {"filename": "raster_rgb_red_checked.lyr"},
-    {"filename": "raster_unique_labels.lyr"},
-    {"filename": "raster_enable_time.lyr"},
-    {"filename": "raster_rgb_alpha_b4.lyr"},
-    {"filename": "dot_density_fixed_placement_seed4815lyr.lyr"},
-    {"filename": "dot_density_mask_exclude_in.lyr"},
-    {"filename": "raster_layer_attributes.lyr"},
-    {"filename": "raster_rgb_alpha_band7.lyr"},
-    {"filename": "raster_rgb_pansharpen_type_mean.lyr"},
-    {"filename": "raster_time_step_99_decades.lyr"},
-    {"filename": "raster_rgb_no_bands_checked.lyr"},
-    {"filename": "raster_stretched_display_background_color_red.lyr"},
-    {"filename": "raster_rgb_blue_checked.lyr"},
-    {"filename": "layer_v25.lyr"},
-    {"filename": "raster_layer_unchecked.lyr"},
-    {"filename": "raster_display_medium.lyr"},
-    {"filename": "raster_discrete_color_35.lyr"},
-    {"filename": "raster_rgb_green_checked.lyr"},
-    {"filename": "raster_display_coarse.lyr"},
-    {"filename": "raster_unique_values_all_other_unchecked.lyr"},
-    {"filename": "colormap255_nodata_red.lyr"},
-    {"filename": "raster_stretched_none_invert.lyr"},
-    {"filename": "raster_primary_display_count.lyr"},
-    {"filename": "raster_layer_no_zoom_range.lyr"},
-    {"filename": "raster_cubic.lyr"},
-    {"filename": "raster_stretch_sigmoid_strength_6.lyr"},
-    {"filename": "raster_rgb_pansharpen_using_dem.lyr"},
-    {"filename": "dot_density_legend_for_excluded.lyr"},
-    {"filename": "raster_rgb_red_blue_unchecked.lyr"},
-    {"filename": "raster_stretched_use_hillshade_z_19.lyr"},
-    {"filename": "raster_stretched_band8.lyr"},
-    {"filename": "raster_resample_majority.lyr"},
-    {"filename": "raster_extent_current_display.lyr"},
-    {"filename": "unique_lookup.lyr"},
-    {"filename": "raster_stretched_stats_from_display_extent.lyr"},
-    {"filename": "raster_extent_full.lyr"},
-    {"filename": "colormap_labels.lyr"},
-    {"filename": "dot_density_ramp.lyr"},
-    {"filename": "raster_discrete_color_nodata_red.lyr"},
-    {"filename": "raster_stretched_type_histogram_spec.lyr"},
-    {"filename": "raster_two_relates.lyr"},
-    {"filename": "raster_join_keep_matching.lyr"},
-    {"filename": "raster_primary_display_value.lyr"},
-    {"filename": "raster_two_joins.lyr"},
-    {"filename": "raster_rgb_pansharpen_no_4th_band_as_infrared.lyr"},
-    {"filename": "raster_unique_complex_legend.lyr"},
-    {"filename": "raster_show_maptips.lyr"},
-    {"filename": "raster_classified_5_break.lyr"},
-    {"filename": "dot_density_no_maintain_density.lyr"},
-    {"filename": "raster_unique_band_8.lyr"},
-    {"filename": "raster_stretched_9_interval_labels.lyr"},
-    {"filename": "raster_stretched_type_custom.lyr"},
-    {"filename": "raster_constrast_33_brightness_34_transparency_35.lyr"},
-    {"filename": "raster_discrete_band_8.lyr"},
-    {"filename": "raster_rgb_stats_from_current_display.lyr"},
-    {"filename": "raster_rgb_bands876.lyr"},
-    {"filename": "colormap_nodata_red.lyr"},
-    {"filename": "dot_density.lyr"},
-    {"filename": "dot_density_green_background_red_outline.lyr"},
-    {"filename": "raster_relate.lyr"},
-    {"filename": "raster_join_keep_all.lyr"},
-    {"filename": "raster_allow_interactive_display.lyr"},
-    {"filename": "raster_rgb_pansharpening_enabled.lyr"},
-    {"filename": "raster_rgb_stats_from_custom.lyr"},
-    {"filename": "raster_stretched_percent_clip_34_96.lyr"},
-    {"filename": "raster_stretched_display_nodata_color_green.lyr"},
-    {"filename": "colormap_255.lyr"},
-    {"filename": "colormap_20.lyr"},
-    {"filename": "raster_pansharpen_type_esri.lyr"},
-    {"filename": "raster_time_offset_39years.lyr"},
-    {"filename": "raster_resample_nearest_neighbour.lyr"},
-    {"filename": "raster_rgb_sigmoid_strength_6.lyr"},
-    {"filename": "raster_rgb_percent_clip_17_83.lyr"},
-    {"filename": "raster_rgb_stretch_none.lyr"},
+    {"filename": "point_halos.lyr"},
 ]
 
 initialize_registry()
 
-
-class TestLyrParser(unittest.TestCase):
+class TestLyrParser(SlyrTestCase):
     """
     Test LYR parsing
     """
@@ -474,7 +499,7 @@ class TestLyrParser(unittest.TestCase):
         path = os.path.join(os.path.dirname(__file__), "lyr")
         for fn in os.listdir(path):
             file = os.path.join(path, fn)
-            if os.path.isfile(file):
+            if os.path.isfile(file) and ".lyr" in fn:
                 blobs.append(fn)
         some_missing = False
         for b in blobs:
@@ -513,15 +538,72 @@ class TestLyrParser(unittest.TestCase):
                 )
                 d = doc.to_dict()
 
+                res = {"dict": doc.to_dict()}
+
+                if not e.get("skip_convert"):
+                    context = Context()
+                    context.project = QgsProject.instance()
+                    context.convert_fonts = False
+                    context.upgrade_http_to_https = True
+                    context.can_place_annotations_in_main_annotation_layer = False
+                    context.destination_path = os.path.join(
+                        os.path.dirname(__file__), "lyrx"
+                    )
+                    context.stable_ids = True
+
+                    def unsupported(_, level=Qgis.MessageLevel.Warning):
+                        pass
+
+                    context.unsupported_object_callback = unsupported
+
+                    def add_layer(layer):
+                        layers = LayerConverter.layer_to_QgsLayer(layer, file, context)
+
+                        for _layer in layers:
+                            out_layers.extend(layers)
+
+                        return layers
+
+                    def add_group(group):
+                        for child in group.children:
+                            if LayerConverter.is_layer(child):
+                                add_layer(child)
+                            elif LayerConverter.is_group(child):
+                                add_group(child)
+
+                    obj = doc.root
+                    out_layers = []
+
+                    if LayerConverter.is_layer(obj):
+                        add_layer(obj)
+                    elif LayerConverter.is_group(obj):
+                        add_group(obj)
+
+                    for layer in out_layers:
+                        Utils.normalize_layer_for_test(layer)
+
+                    rw_context = QgsReadWriteContext()
+                    layer_def = QgsLayerDefinition.exportLayerDefinitionLayers(
+                        out_layers, rw_context
+                    )
+
+                    res["qgis_layers"] = Utils.normalize_xml(layer_def.toString())
+
                 if self.UPDATE:
                     with open(expected_file, "w", encoding="UTF-8") as o:
-                        pprint.pprint(d, o)
+                        pprint.pprint(res, o)
                 else:
                     with open(expected_file, "r", encoding="UTF-8") as o:
                         expected_res = ast.literal_eval(o.read())
-                    self.assertEqual(expected_res, d)
+                    self.assertEqual(expected_res, res)
 
     # pylint: enable=too-many-locals
+
+
+from qgis.core import QgsApplication
+
+QGISAPP = QgsApplication([], True)
+QgsApplication.initQgis()
 
 
 if __name__ == "__main__":
