@@ -35,6 +35,9 @@ expected = [
     {"filename": "layer_v17b.lyr"},
     {"filename": "layer_v17c.lyr"},
     {"filename": "layer_v22.lyr"},
+    {"filename": "layer_v23.lyr"},
+    {"filename": "layer_v25.lyr"},
+    {"filename": "unique_lookup.lyr"},
     {"filename": "no_connection.lyr"},
     {"filename": "label_allcaps.lyr"},
     {
