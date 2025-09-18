@@ -3,10 +3,13 @@ Test color parsing
 """
 
 import unittest
+
+from .test_case import SlyrTestCase
+
 from ..parser.color_parser import cielab_to_rgb
 
 
-class TestColorParser(unittest.TestCase):
+class TestColorParser(SlyrTestCase):
     # pylint: disable=missing-docstring
 
     """The LAB values are obtained from the color selector in ArcMap"""

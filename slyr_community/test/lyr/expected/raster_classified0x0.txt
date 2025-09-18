@@ -1,331 +1,704 @@
-{'root': {'allow_interactive_display': False,
-          'cached': False,
-          'custom_extent': None,
-          'dataset_name': {'file_name': 'raster_6class.tif',
-                           'path': 'RASTER: Workspace = C:\\temp\\; '
-                                   'RasterDataset = raster_6class.tif;',
-                           'ref_id': 1,
-                           'type': 'RasterDatasetName',
-                           'version': 4,
-                           'workspace_name': {'browse_name': 'Raster Data',
-                                              'connection_properties': {'DATABASE': 'C:\\temp\\',
-                                                                        'ref_id': 3,
-                                                                        'type': 'PropertySet',
-                                                                        'version': 1},
-                                              'name': 'C:\\temp\\',
-                                              'name_string': 'Raster Workspace '
-                                                             '= C:\\temp\\;',
-                                              'path_name': '',
-                                              'ref_id': 2,
-                                              'type': 'WorkspaceName',
-                                              'version': 1,
-                                              'workspace_factory': {'type': 'RasterWorkspaceFactory',
-                                                                    'version': 1},
-                                              'workspace_type': 'ESRI_FILESYSTEM_WORKSPACE'}},
-          'description': '',
-          'extensions': [{'properties': {'ServiceLayerID': 26,
-                                         'ref_id': 37,
-                                         'type': 'PropertySet',
-                                         'version': 1},
-                          'ref_id': 36,
-                          'type': 'ServerLayerExtension',
-                          'version': 1}],
-          'extent': {'crs': {'is_high_precision': True,
-                             'm_origin': -100000.0,
-                             'm_scale': 10000.0,
-                             'm_tolerance': 0.001,
-                             'ref_id': 42,
-                             'type': 'ProjectedCoordinateSystem',
-                             'version': 6,
-                             'wkt': 'PROJCS["grs80_Lambert_Conformal_Conic",GEOGCS["GCS_grs80",DATUM["D_unknown",SPHEROID["Geodetic_Reference_System_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["false_easting",700000.0],PARAMETER["false_northing",6600000.0],PARAMETER["central_meridian",3.0],PARAMETER["standard_parallel_1",44.0],PARAMETER["standard_parallel_2",49.0],PARAMETER["latitude_of_origin",46.5],UNIT["Meter",1.0]]',
-                             'x_origin': -35597500.0,
-                             'xy_scale': 124074650.52332792,
-                             'xy_tolerance': 0.001,
-                             'y_origin': -23641900.0,
-                             'z_origin': -100000.0,
-                             'z_scale': 10000.0,
-                             'z_tolerance': 0.001},
-                     'ref_id': 43,
-                     'type': 'Envelope',
-                     'version': 3,
-                     'x_max': 358400.0,
-                     'x_min': 344500.0,
-                     'y_max': 6693700.0,
-                     'y_min': 6682800.0},
-          'extent_bottom': 5966648.433855438,
-          'extent_left': -189560.0273558416,
-          'extent_right': -168219.9892416914,
-          'extent_top': 5983895.131182463,
-          'file': 'raster_6class.tif',
-          'histogram': None,
-          'joins': [],
-          'path': '.',
-          'ref_id': 0,
-          'relations': [],
-          'render_quality_percent': 100,
-          'renderer': {'allow_interactive_display': False,
-                       'alpha_band': None,
-                       'alpha_checked': False,
-                       'breaks': [1.0, 2.0, 3.0, 5.0, 6.0],
-                       'brightness': 0,
-                       'classifier': 'natural_breaks',
-                       'contrast': 0,
-                       'deviation_interval': 0.0,
-                       'excluded_ranges': [],
-                       'excluded_show_class': False,
-                       'excluded_values': [],
-                       'hillshade_z': 1.0,
-                       'legend': {'description': '',
-                                  'feature_count': None,
-                                  'format': None,
-                                  'label': '',
-                                  'ref_id': 27,
-                                  'symbol': {'color': {'B': 0,
-                                                       'G': 0,
-                                                       'R': 0,
-                                                       'dither': True,
-                                                       'is_null': True,
-                                                       'ref_id': 31,
-                                                       'type': 'RgbColor',
-                                                       'version': 1},
-                                             'enabled': True,
-                                             'fill_style': 'solid',
-                                             'locked': False,
-                                             'outline': {'color': {'B': 110,
-                                                                   'G': 110,
-                                                                   'R': 110,
-                                                                   'dither': True,
-                                                                   'is_null': False,
-                                                                   'ref_id': 30,
-                                                                   'type': 'RgbColor',
-                                                                   'version': 1},
-                                                         'enabled': True,
-                                                         'line_type': 'solid',
-                                                         'locked': False,
-                                                         'ref_id': 29,
-                                                         'symbol_level': 0,
-                                                         'type': 'SimpleLineSymbol',
-                                                         'version': 1,
-                                                         'width': 1.0},
-                                             'ref_id': 28,
-                                             'symbol_level': 0,
-                                             'type': 'SimpleFillSymbol',
-                                             'version': 1},
-                                  'type': 'LegendClass',
-                                  'version': 2},
-                       'legend_group': {'classes': [{'description': '',
-                                                     'feature_count': None,
-                                                     'format': None,
-                                                     'label': '1 - 2',
-                                                     'ref_id': 6,
-                                                     'symbol': {'color': {'B': 0,
-                                                                          'G': 0,
-                                                                          'R': 0,
-                                                                          'dither': False,
-                                                                          'is_null': False,
-                                                                          'ref_id': 10,
-                                                                          'type': 'HsvColor',
-                                                                          'version': 1},
-                                                                'enabled': True,
-                                                                'fill_style': 'solid',
-                                                                'locked': False,
-                                                                'outline': {'color': {'B': 110,
-                                                                                      'G': 110,
-                                                                                      'R': 110,
-                                                                                      'dither': True,
-                                                                                      'is_null': False,
-                                                                                      'ref_id': 9,
-                                                                                      'type': 'RgbColor',
-                                                                                      'version': 1},
-                                                                            'enabled': True,
-                                                                            'line_type': 'solid',
-                                                                            'locked': False,
-                                                                            'ref_id': 8,
-                                                                            'symbol_level': 0,
-                                                                            'type': 'SimpleLineSymbol',
-                                                                            'version': 1,
-                                                                            'width': 1.0},
-                                                                'ref_id': 7,
-                                                                'symbol_level': 0,
-                                                                'type': 'SimpleFillSymbol',
+{'dict': {'root': {'allow_interactive_display': False,
+                   'cached': False,
+                   'custom_extent': None,
+                   'dataset_name': {'file_name': 'raster_6class.tif',
+                                    'path': 'RASTER: Workspace = C:\\temp\\; '
+                                            'RasterDataset = '
+                                            'raster_6class.tif;',
+                                    'ref_id': 1,
+                                    'stream_offset': '0x62',
+                                    'type': 'RasterDatasetName',
+                                    'version': 4,
+                                    'workspace_name': {'browse_name': 'Raster '
+                                                                      'Data',
+                                                       'connection_properties': {'DATABASE': 'C:\\temp\\',
+                                                                                 'ref_id': 3,
+                                                                                 'stream_offset': '0x1d6',
+                                                                                 'type': 'PropertySet',
+                                                                                 'version': 1},
+                                                       'name': 'C:\\temp\\',
+                                                       'name_string': 'Raster '
+                                                                      'Workspace '
+                                                                      '= '
+                                                                      'C:\\temp\\;',
+                                                       'path_name': '',
+                                                       'ref_id': 2,
+                                                       'stream_offset': '0x150',
+                                                       'type': 'WorkspaceName',
+                                                       'version': 1,
+                                                       'workspace_factory': {'stream_offset': '0x21f',
+                                                                             'type': 'RasterWorkspaceFactory',
+                                                                             'version': 1},
+                                                       'workspace_type': 'ESRI_FILESYSTEM_WORKSPACE'}},
+                   'description': '',
+                   'extensions': [{'properties': {'ServiceLayerID': 26,
+                                                  'ref_id': 37,
+                                                  'stream_offset': '0xad0',
+                                                  'type': 'PropertySet',
+                                                  'version': 1},
+                                   'ref_id': 36,
+                                   'stream_offset': '0xaba',
+                                   'type': 'ServerLayerExtension',
+                                   'version': 1}],
+                   'extent': {'crs': {'is_high_precision': True,
+                                      'm_origin': -100000.0,
+                                      'm_scale': 10000.0,
+                                      'm_tolerance': 0.001,
+                                      'ref_id': 42,
+                                      'stream_offset': '0xe53',
+                                      'type': 'ProjectedCoordinateSystem',
+                                      'version': 6,
+                                      'wkt': 'PROJCS["grs80_Lambert_Conformal_Conic",GEOGCS["GCS_grs80",DATUM["D_unknown",SPHEROID["Geodetic_Reference_System_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["false_easting",700000.0],PARAMETER["false_northing",6600000.0],PARAMETER["central_meridian",3.0],PARAMETER["standard_parallel_1",44.0],PARAMETER["standard_parallel_2",49.0],PARAMETER["latitude_of_origin",46.5],UNIT["Meter",1.0]]',
+                                      'x_origin': -35597500.0,
+                                      'xy_scale': 124074650.52332792,
+                                      'xy_tolerance': 0.001,
+                                      'y_origin': -23641900.0,
+                                      'z_origin': -100000.0,
+                                      'z_scale': 10000.0,
+                                      'z_tolerance': 0.001},
+                              'ref_id': 43,
+                              'stream_offset': '0x10d2',
+                              'type': 'Envelope',
+                              'version': 3,
+                              'x_max': 358400.0,
+                              'x_min': 344500.0,
+                              'y_max': 6693700.0,
+                              'y_min': 6682800.0},
+                   'extent_bottom': 5966648.433855438,
+                   'extent_left': -189560.0273558416,
+                   'extent_right': -168219.9892416914,
+                   'extent_top': 5983895.131182463,
+                   'file': 'raster_6class.tif',
+                   'histogram': None,
+                   'joins': [],
+                   'path': '.',
+                   'ref_id': 0,
+                   'relations': [],
+                   'render_quality_percent': 100,
+                   'renderer': {'allow_interactive_display': False,
+                                'alpha_band': None,
+                                'alpha_checked': False,
+                                'breaks': [1.0, 2.0, 3.0, 5.0, 6.0],
+                                'brightness': 0,
+                                'classifier': 'natural_breaks',
+                                'contrast': 0,
+                                'deviation_interval': 0.0,
+                                'excluded_ranges': [],
+                                'excluded_show_class': False,
+                                'excluded_values': [],
+                                'hillshade_z': 1.0,
+                                'legend': {'description': '',
+                                           'feature_count': None,
+                                           'format': None,
+                                           'label': '',
+                                           'ref_id': 27,
+                                           'stream_offset': '0x77c',
+                                           'symbol': {'color': {'B': 0,
+                                                                'G': 0,
+                                                                'R': 0,
+                                                                'dither': True,
+                                                                'is_null': True,
+                                                                'ref_id': 31,
+                                                                'stream_offset': '0x805',
+                                                                'type': 'RgbColor',
                                                                 'version': 1},
-                                                     'type': 'LegendClass',
-                                                     'version': 2},
-                                                    {'description': '',
-                                                     'feature_count': None,
-                                                     'format': None,
-                                                     'label': '2.000000001 - 3',
-                                                     'ref_id': 11,
-                                                     'symbol': {'color': {'B': 84,
-                                                                          'G': 84,
-                                                                          'R': 84,
-                                                                          'dither': False,
-                                                                          'is_null': False,
-                                                                          'ref_id': 15,
-                                                                          'type': 'HsvColor',
-                                                                          'version': 1},
-                                                                'enabled': True,
-                                                                'fill_style': 'solid',
-                                                                'locked': False,
-                                                                'outline': {'color': {'B': 110,
-                                                                                      'G': 110,
-                                                                                      'R': 110,
-                                                                                      'dither': True,
-                                                                                      'is_null': False,
-                                                                                      'ref_id': 14,
-                                                                                      'type': 'RgbColor',
-                                                                                      'version': 1},
-                                                                            'enabled': True,
-                                                                            'line_type': 'solid',
-                                                                            'locked': False,
-                                                                            'ref_id': 13,
-                                                                            'symbol_level': 0,
-                                                                            'type': 'SimpleLineSymbol',
-                                                                            'version': 1,
-                                                                            'width': 1.0},
-                                                                'ref_id': 12,
-                                                                'symbol_level': 0,
-                                                                'type': 'SimpleFillSymbol',
-                                                                'version': 1},
-                                                     'type': 'LegendClass',
-                                                     'version': 2},
-                                                    {'description': '',
-                                                     'feature_count': None,
-                                                     'format': None,
-                                                     'label': '3.000000001 - 5',
-                                                     'ref_id': 16,
-                                                     'symbol': {'color': {'B': 168,
-                                                                          'G': 168,
-                                                                          'R': 168,
-                                                                          'dither': False,
-                                                                          'is_null': False,
-                                                                          'ref_id': 20,
-                                                                          'type': 'HsvColor',
-                                                                          'version': 1},
-                                                                'enabled': True,
-                                                                'fill_style': 'solid',
-                                                                'locked': False,
-                                                                'outline': {'color': {'B': 110,
-                                                                                      'G': 110,
-                                                                                      'R': 110,
-                                                                                      'dither': True,
-                                                                                      'is_null': False,
-                                                                                      'ref_id': 19,
-                                                                                      'type': 'RgbColor',
-                                                                                      'version': 1},
-                                                                            'enabled': True,
-                                                                            'line_type': 'solid',
-                                                                            'locked': False,
-                                                                            'ref_id': 18,
-                                                                            'symbol_level': 0,
-                                                                            'type': 'SimpleLineSymbol',
-                                                                            'version': 1,
-                                                                            'width': 1.0},
-                                                                'ref_id': 17,
-                                                                'symbol_level': 0,
-                                                                'type': 'SimpleFillSymbol',
-                                                                'version': 1},
-                                                     'type': 'LegendClass',
-                                                     'version': 2},
-                                                    {'description': '',
-                                                     'feature_count': None,
-                                                     'format': None,
-                                                     'label': '5.000000001 - 6',
-                                                     'ref_id': 21,
-                                                     'symbol': {'color': {'B': 255,
-                                                                          'G': 255,
-                                                                          'R': 255,
-                                                                          'dither': False,
-                                                                          'is_null': False,
-                                                                          'ref_id': 25,
-                                                                          'type': 'HsvColor',
-                                                                          'version': 1},
-                                                                'enabled': True,
-                                                                'fill_style': 'solid',
-                                                                'locked': False,
-                                                                'outline': {'color': {'B': 110,
-                                                                                      'G': 110,
-                                                                                      'R': 110,
-                                                                                      'dither': True,
-                                                                                      'is_null': False,
-                                                                                      'ref_id': 24,
-                                                                                      'type': 'RgbColor',
-                                                                                      'version': 1},
-                                                                            'enabled': True,
-                                                                            'line_type': 'solid',
-                                                                            'locked': False,
-                                                                            'ref_id': 23,
-                                                                            'symbol_level': 0,
-                                                                            'type': 'SimpleLineSymbol',
-                                                                            'version': 1,
-                                                                            'width': 1.0},
-                                                                'ref_id': 22,
-                                                                'symbol_level': 0,
-                                                                'type': 'SimpleFillSymbol',
-                                                                'version': 1},
-                                                     'type': 'LegendClass',
-                                                     'version': 2}],
-                                        'editable_or_expanded': True,
-                                        'heading': 'Value',
-                                        'ref_id': 5,
-                                        'type': 'LegendGroup',
-                                        'version': 3,
-                                        'visible': True},
-                       'nodata_color': {'B': 255,
-                                        'G': 255,
-                                        'R': 255,
-                                        'dither': False,
-                                        'is_null': True,
-                                        'type': 'RgbColor',
-                                        'version': 1},
-                       'normalization_field': '<None>',
-                       'number_format': {'alignment': 'ALIGN_LEFT',
-                                         'alignment_width': 12,
-                                         'ref_id': 26,
-                                         'rounding': 'ROUND_NUMBER_OF_SIGNIFICANT_DIGITS',
-                                         'rounding_value': 10,
-                                         'show_plus_sign': False,
-                                         'thousands': True,
-                                         'type': 'NumericFormat',
-                                         'version': 1,
-                                         'zero_pad': False},
-                       'primary_display_field': False,
-                       'ramp_name': 'Black to White',
-                       'ref_id': 4,
-                       'resampling_type': 'nearest_neighbor',
-                       'show_class_breaks_using_cell_values': False,
-                       'sort_classes_ascending': True,
-                       'source_field_name': 'Value',
-                       'type': 'RasterClassifyColorRampRenderer',
-                       'unique_values': {'ref_id': 32,
-                                         'type': 'UniqueValues',
-                                         'values': [[1, 1999],
-                                                    [2, 920],
-                                                    [3, 2110],
-                                                    [4, 3010],
-                                                    [5, 1960],
-                                                    [6, 5001]],
-                                         'version': 1},
-                       'use_hillshade': False,
-                       'version': 5},
-          'show_map_tips': False,
-          'show_resolution_in_toc': False,
-          'stored_zoom_max': 0.0,
-          'stored_zoom_min': 0.0,
-          'time_data_changes_regularly': False,
-          'time_enabled': False,
-          'time_offset': 0.0,
-          'time_offset_units': 'years',
-          'time_step': 0.0,
-          'time_step_units': 'hours',
-          'transform': {'ref_id': 38,
-                        'transforms': [],
-                        'type': 'CompositeXForm',
-                        'version': 2},
-          'transparency': 0,
-          'type': 'RasterLayer',
-          'version': 18,
-          'visible': True,
-          'weight': 200.0,
-          'zoom_max': 0.0,
-          'zoom_min': 0.0}}
+                                                      'enabled': True,
+                                                      'fill_style': 'solid',
+                                                      'locked': False,
+                                                      'outline': {'color': {'B': 110,
+                                                                            'G': 110,
+                                                                            'R': 110,
+                                                                            'dither': True,
+                                                                            'is_null': False,
+                                                                            'ref_id': 30,
+                                                                            'stream_offset': '0x7be',
+                                                                            'type': 'RgbColor',
+                                                                            'version': 1},
+                                                                  'enabled': True,
+                                                                  'line_type': 'solid',
+                                                                  'locked': False,
+                                                                  'ref_id': 29,
+                                                                  'stream_offset': '0x7a8',
+                                                                  'symbol_level': 0,
+                                                                  'type': 'SimpleLineSymbol',
+                                                                  'version': 1,
+                                                                  'width': 1.0},
+                                                      'ref_id': 28,
+                                                      'stream_offset': '0x792',
+                                                      'symbol_level': 0,
+                                                      'type': 'SimpleFillSymbol',
+                                                      'version': 1},
+                                           'type': 'LegendClass',
+                                           'version': 2},
+                                'legend_group': {'classes': [{'description': '',
+                                                              'feature_count': None,
+                                                              'format': None,
+                                                              'label': '1 - 2',
+                                                              'ref_id': 6,
+                                                              'stream_offset': '0x2e0',
+                                                              'symbol': {'color': {'B': 0,
+                                                                                   'G': 0,
+                                                                                   'R': 0,
+                                                                                   'dither': False,
+                                                                                   'is_null': False,
+                                                                                   'ref_id': 10,
+                                                                                   'stream_offset': '0x369',
+                                                                                   'type': 'HsvColor',
+                                                                                   'version': 1},
+                                                                         'enabled': True,
+                                                                         'fill_style': 'solid',
+                                                                         'locked': False,
+                                                                         'outline': {'color': {'B': 110,
+                                                                                               'G': 110,
+                                                                                               'R': 110,
+                                                                                               'dither': True,
+                                                                                               'is_null': False,
+                                                                                               'ref_id': 9,
+                                                                                               'stream_offset': '0x322',
+                                                                                               'type': 'RgbColor',
+                                                                                               'version': 1},
+                                                                                     'enabled': True,
+                                                                                     'line_type': 'solid',
+                                                                                     'locked': False,
+                                                                                     'ref_id': 8,
+                                                                                     'stream_offset': '0x30c',
+                                                                                     'symbol_level': 0,
+                                                                                     'type': 'SimpleLineSymbol',
+                                                                                     'version': 1,
+                                                                                     'width': 1.0},
+                                                                         'ref_id': 7,
+                                                                         'stream_offset': '0x2f6',
+                                                                         'symbol_level': 0,
+                                                                         'type': 'SimpleFillSymbol',
+                                                                         'version': 1},
+                                                              'type': 'LegendClass',
+                                                              'version': 2},
+                                                             {'description': '',
+                                                              'feature_count': None,
+                                                              'format': None,
+                                                              'label': '2.000000001 '
+                                                                       '- 3',
+                                                              'ref_id': 11,
+                                                              'stream_offset': '0x3d2',
+                                                              'symbol': {'color': {'B': 84,
+                                                                                   'G': 84,
+                                                                                   'R': 84,
+                                                                                   'dither': False,
+                                                                                   'is_null': False,
+                                                                                   'ref_id': 15,
+                                                                                   'stream_offset': '0x45b',
+                                                                                   'type': 'HsvColor',
+                                                                                   'version': 1},
+                                                                         'enabled': True,
+                                                                         'fill_style': 'solid',
+                                                                         'locked': False,
+                                                                         'outline': {'color': {'B': 110,
+                                                                                               'G': 110,
+                                                                                               'R': 110,
+                                                                                               'dither': True,
+                                                                                               'is_null': False,
+                                                                                               'ref_id': 14,
+                                                                                               'stream_offset': '0x414',
+                                                                                               'type': 'RgbColor',
+                                                                                               'version': 1},
+                                                                                     'enabled': True,
+                                                                                     'line_type': 'solid',
+                                                                                     'locked': False,
+                                                                                     'ref_id': 13,
+                                                                                     'stream_offset': '0x3fe',
+                                                                                     'symbol_level': 0,
+                                                                                     'type': 'SimpleLineSymbol',
+                                                                                     'version': 1,
+                                                                                     'width': 1.0},
+                                                                         'ref_id': 12,
+                                                                         'stream_offset': '0x3e8',
+                                                                         'symbol_level': 0,
+                                                                         'type': 'SimpleFillSymbol',
+                                                                         'version': 1},
+                                                              'type': 'LegendClass',
+                                                              'version': 2},
+                                                             {'description': '',
+                                                              'feature_count': None,
+                                                              'format': None,
+                                                              'label': '3.000000001 '
+                                                                       '- 5',
+                                                              'ref_id': 16,
+                                                              'stream_offset': '0x4d8',
+                                                              'symbol': {'color': {'B': 168,
+                                                                                   'G': 168,
+                                                                                   'R': 168,
+                                                                                   'dither': False,
+                                                                                   'is_null': False,
+                                                                                   'ref_id': 20,
+                                                                                   'stream_offset': '0x561',
+                                                                                   'type': 'HsvColor',
+                                                                                   'version': 1},
+                                                                         'enabled': True,
+                                                                         'fill_style': 'solid',
+                                                                         'locked': False,
+                                                                         'outline': {'color': {'B': 110,
+                                                                                               'G': 110,
+                                                                                               'R': 110,
+                                                                                               'dither': True,
+                                                                                               'is_null': False,
+                                                                                               'ref_id': 19,
+                                                                                               'stream_offset': '0x51a',
+                                                                                               'type': 'RgbColor',
+                                                                                               'version': 1},
+                                                                                     'enabled': True,
+                                                                                     'line_type': 'solid',
+                                                                                     'locked': False,
+                                                                                     'ref_id': 18,
+                                                                                     'stream_offset': '0x504',
+                                                                                     'symbol_level': 0,
+                                                                                     'type': 'SimpleLineSymbol',
+                                                                                     'version': 1,
+                                                                                     'width': 1.0},
+                                                                         'ref_id': 17,
+                                                                         'stream_offset': '0x4ee',
+                                                                         'symbol_level': 0,
+                                                                         'type': 'SimpleFillSymbol',
+                                                                         'version': 1},
+                                                              'type': 'LegendClass',
+                                                              'version': 2},
+                                                             {'description': '',
+                                                              'feature_count': None,
+                                                              'format': None,
+                                                              'label': '5.000000001 '
+                                                                       '- 6',
+                                                              'ref_id': 21,
+                                                              'stream_offset': '0x5de',
+                                                              'symbol': {'color': {'B': 255,
+                                                                                   'G': 255,
+                                                                                   'R': 255,
+                                                                                   'dither': False,
+                                                                                   'is_null': False,
+                                                                                   'ref_id': 25,
+                                                                                   'stream_offset': '0x667',
+                                                                                   'type': 'HsvColor',
+                                                                                   'version': 1},
+                                                                         'enabled': True,
+                                                                         'fill_style': 'solid',
+                                                                         'locked': False,
+                                                                         'outline': {'color': {'B': 110,
+                                                                                               'G': 110,
+                                                                                               'R': 110,
+                                                                                               'dither': True,
+                                                                                               'is_null': False,
+                                                                                               'ref_id': 24,
+                                                                                               'stream_offset': '0x620',
+                                                                                               'type': 'RgbColor',
+                                                                                               'version': 1},
+                                                                                     'enabled': True,
+                                                                                     'line_type': 'solid',
+                                                                                     'locked': False,
+                                                                                     'ref_id': 23,
+                                                                                     'stream_offset': '0x60a',
+                                                                                     'symbol_level': 0,
+                                                                                     'type': 'SimpleLineSymbol',
+                                                                                     'version': 1,
+                                                                                     'width': 1.0},
+                                                                         'ref_id': 22,
+                                                                         'stream_offset': '0x5f4',
+                                                                         'symbol_level': 0,
+                                                                         'type': 'SimpleFillSymbol',
+                                                                         'version': 1},
+                                                              'type': 'LegendClass',
+                                                              'version': 2}],
+                                                 'editable_or_expanded': True,
+                                                 'heading': 'Value',
+                                                 'ref_id': 5,
+                                                 'stream_offset': '0x2b2',
+                                                 'type': 'LegendGroup',
+                                                 'version': 3,
+                                                 'visible': True},
+                                'nodata_color': {'B': 255,
+                                                 'G': 255,
+                                                 'R': 255,
+                                                 'dither': False,
+                                                 'is_null': True,
+                                                 'stream_offset': '0x98e',
+                                                 'type': 'RgbColor',
+                                                 'version': 1},
+                                'normalization_field': '<None>',
+                                'number_format': {'alignment': 'ALIGN_LEFT',
+                                                  'alignment_width': 12,
+                                                  'ref_id': 26,
+                                                  'rounding': 'ROUND_NUMBER_OF_SIGNIFICANT_DIGITS',
+                                                  'rounding_value': 10,
+                                                  'show_plus_sign': False,
+                                                  'stream_offset': '0x724',
+                                                  'thousands': True,
+                                                  'type': 'NumericFormat',
+                                                  'version': 1,
+                                                  'zero_pad': False},
+                                'primary_display_field': False,
+                                'ramp_name': 'Black to White',
+                                'ref_id': 4,
+                                'resampling_type': 'nearest_neighbor',
+                                'show_class_breaks_using_cell_values': False,
+                                'sort_classes_ascending': True,
+                                'source_field_name': 'Value',
+                                'stream_offset': '0x241',
+                                'type': 'RasterClassifyColorRampRenderer',
+                                'unique_values': {'ref_id': 32,
+                                                  'stream_offset': '0x864',
+                                                  'type': 'UniqueValues',
+                                                  'values': [[1, 1999],
+                                                             [2, 920],
+                                                             [3, 2110],
+                                                             [4, 3010],
+                                                             [5, 1960],
+                                                             [6, 5001]],
+                                                  'version': 1},
+                                'use_hillshade': False,
+                                'version': 5},
+                   'show_map_tips': False,
+                   'show_resolution_in_toc': False,
+                   'stored_zoom_max': 0.0,
+                   'stored_zoom_min': 0.0,
+                   'stream_offset': '0x0',
+                   'time_data_changes_regularly': False,
+                   'time_enabled': False,
+                   'time_offset': 0.0,
+                   'time_offset_units': 'years',
+                   'time_step': 0.0,
+                   'time_step_units': 'hours',
+                   'transform': {'ref_id': 38,
+                                 'stream_offset': '0xb96',
+                                 'transforms': [],
+                                 'type': 'CompositeXForm',
+                                 'version': 2},
+                   'transparency': 0,
+                   'type': 'RasterLayer',
+                   'version': 18,
+                   'visible': True,
+                   'weight': 200.0,
+                   'zoom_max': 0.0,
+                   'zoom_min': 0.0}},
+ 'qgis_layers': '<qlr>\n'
+                ' <maplayers>\n'
+                '  <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" '
+                'hasScaleBasedVisibilityFlag="0" legendPlaceholderImage="" '
+                'maxScale="0" minScale="0" refreshOnNotifyEnabled="0" '
+                'refreshOnNotifyMessage="" '
+                'styleCategories="AllStyleCategories" type="raster">\n'
+                '   <id>...</id>\n'
+                '   <datasource>C:/temp/raster_6class.tif</datasource>\n'
+                '   <layername>raster_6class.tif</layername>\n'
+                '   <srs>\n'
+                '    <spatialrefsys nativeFormat="Wkt">\n'
+                '     '
+                '<wkt>PROJCRS["grs80_Lambert_Conformal_Conic",BASEGEOGCRS["GCS_grs80",DATUM["unknown",ELLIPSOID["Geodetic_Reference_System_1980",6378137,298.257222101,LENGTHUNIT["metre",1,ID["EPSG",9001]]]],PRIMEM["Greenwich",0,ANGLEUNIT["Degree",0.0174532925199433]]],CONVERSION["unnamed",METHOD["Lambert '
+                'Conic Conformal (2SP)",ID["EPSG",9802]],PARAMETER["Latitude '
+                'of false '
+                'origin",46.5,ANGLEUNIT["Degree",0.0174532925199433],ID["EPSG",8821]],PARAMETER["Longitude '
+                'of false '
+                'origin",3,ANGLEUNIT["Degree",0.0174532925199433],ID["EPSG",8822]],PARAMETER["Latitude '
+                'of 1st standard '
+                'parallel",44,ANGLEUNIT["Degree",0.0174532925199433],ID["EPSG",8823]],PARAMETER["Latitude '
+                'of 2nd standard '
+                'parallel",49,ANGLEUNIT["Degree",0.0174532925199433],ID["EPSG",8824]],PARAMETER["Easting '
+                'at false '
+                'origin",700000,LENGTHUNIT["metre",1],ID["EPSG",8826]],PARAMETER["Northing '
+                'at false '
+                'origin",6600000,LENGTHUNIT["metre",1],ID["EPSG",8827]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1,ID["EPSG",9001]]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1,ID["EPSG",9001]]]]</wkt>\n'
+                '     <proj4>+proj=lcc +lat_0=46.5 +lon_0=3 +lat_1=44 '
+                '+lat_2=49 +x_0=700000 +y_0=6600000 +ellps=GRS80 +units=m '
+                '+no_defs +type=crs</proj4>\n'
+                '     <srsid>0</srsid>\n'
+                '     <srid>0</srid>\n'
+                '     <authid></authid>\n'
+                '     '
+                '<description>grs80_Lambert_Conformal_Conic</description>\n'
+                '     <projectionacronym></projectionacronym>\n'
+                '     '
+                '<ellipsoidacronym>PARAMETER:6378137:6356752.31414035614579916</ellipsoidacronym>\n'
+                '     <geographicflag>false</geographicflag>\n'
+                '    </spatialrefsys>\n'
+                '   </srs>\n'
+                '   <resourceMetadata>\n'
+                '    <identifier></identifier>\n'
+                '    <parentidentifier></parentidentifier>\n'
+                '    <language></language>\n'
+                '    <type></type>\n'
+                '    <title></title>\n'
+                '    <abstract></abstract>\n'
+                '    <links></links>\n'
+                '    <dates></dates>\n'
+                '    <fees></fees>\n'
+                '    <encoding></encoding>\n'
+                '    <crs>\n'
+                '     <spatialrefsys nativeFormat="Wkt">\n'
+                '      <wkt></wkt>\n'
+                '      <proj4></proj4>\n'
+                '      <srsid>0</srsid>\n'
+                '      <srid>0</srid>\n'
+                '      <authid></authid>\n'
+                '      <description></description>\n'
+                '      <projectionacronym></projectionacronym>\n'
+                '      <ellipsoidacronym></ellipsoidacronym>\n'
+                '      <geographicflag>false</geographicflag>\n'
+                '     </spatialrefsys>\n'
+                '    </crs>\n'
+                '    <extent></extent>\n'
+                '   </resourceMetadata>\n'
+                '   <provider>gdal</provider>\n'
+                '   <noData>\n'
+                '    <noDataList bandNo="1" useSrcNoData="0"></noDataList>\n'
+                '   </noData>\n'
+                '   <map-layer-style-manager current="default">\n'
+                '    <map-layer-style name="default"></map-layer-style>\n'
+                '   </map-layer-style-manager>\n'
+                '   <flags>\n'
+                '    <Identifiable>1</Identifiable>\n'
+                '    <Removable>1</Removable>\n'
+                '    <Searchable>1</Searchable>\n'
+                '    <Private>0</Private>\n'
+                '   </flags>\n'
+                '   <temporal bandNumber="1" enabled="0" fetchMode="0" '
+                'mode="0">\n'
+                '    <fixedRange>\n'
+                '     <start></start>\n'
+                '     <end></end>\n'
+                '    </fixedRange>\n'
+                '   </temporal>\n'
+                '   <elevation band="1" enabled="0" '
+                'mode="RepresentsElevationSurface" symbology="Line" '
+                'zoffset="0" zscale="1">\n'
+                '    <data-defined-properties>\n'
+                '     <Option type="Map">\n'
+                '      <Option name="name" type="QString" value=""></Option>\n'
+                '      <Option name="properties"></Option>\n'
+                '      <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '     </Option>\n'
+                '    </data-defined-properties>\n'
+                '    <profileLineSymbol>\n'
+                '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="" type="line">\n'
+                '      <data_defined_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </data_defined_properties>\n'
+                '      <layer class="SimpleLine" enabled="1" id="..." '
+                'locked="0" pass="0">\n'
+                '       <Option type="Map">\n'
+                '        <Option name="align_dash_pattern" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="capstyle" type="QString" '
+                'value="square"></Option>\n'
+                '        <Option name="customdash" type="QString" '
+                'value="5;2"></Option>\n'
+                '        <Option name="customdash_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="customdash_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="dash_pattern_offset" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="dash_pattern_offset_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="dash_pattern_offset_unit" '
+                'type="QString" value="MM"></Option>\n'
+                '        <Option name="draw_inside_polygon" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="joinstyle" type="QString" '
+                'value="bevel"></Option>\n'
+                '        <Option name="line_color" type="QString" '
+                'value="255,0,0,255,rgb:1,0,0,1"></Option>\n'
+                '        <Option name="line_style" type="QString" '
+                'value="solid"></Option>\n'
+                '        <Option name="line_width" type="QString" '
+                'value="0.6"></Option>\n'
+                '        <Option name="line_width_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="offset" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="ring_filter" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_end" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_end_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="trim_distance_end_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="trim_distance_start" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_start_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="trim_distance_start_unit" '
+                'type="QString" value="MM"></Option>\n'
+                '        <Option name="tweak_dash_pattern_on_corners" '
+                'type="QString" value="0"></Option>\n'
+                '        <Option name="use_custom_dash" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="width_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '       </Option>\n'
+                '       <data_defined_properties>\n'
+                '        <Option type="Map">\n'
+                '         <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '         <Option name="properties"></Option>\n'
+                '         <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '        </Option>\n'
+                '       </data_defined_properties>\n'
+                '      </layer>\n'
+                '     </symbol>\n'
+                '    </profileLineSymbol>\n'
+                '    <profileFillSymbol>\n'
+                '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="" type="fill">\n'
+                '      <data_defined_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </data_defined_properties>\n'
+                '      <layer class="SimpleFill" enabled="1" id="..." '
+                'locked="0" pass="0">\n'
+                '       <Option type="Map">\n'
+                '        <Option name="border_width_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="color" type="QString" '
+                'value="255,0,0,255,rgb:1,0,0,1"></Option>\n'
+                '        <Option name="joinstyle" type="QString" '
+                'value="bevel"></Option>\n'
+                '        <Option name="offset" type="QString" '
+                'value="0,0"></Option>\n'
+                '        <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="outline_color" type="QString" '
+                'value="255,255,0,255,rgb:1,1,0,1"></Option>\n'
+                '        <Option name="outline_style" type="QString" '
+                'value="no"></Option>\n'
+                '        <Option name="outline_width" type="QString" '
+                'value="0.26"></Option>\n'
+                '        <Option name="outline_width_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="style" type="QString" '
+                'value="solid"></Option>\n'
+                '       </Option>\n'
+                '       <data_defined_properties>\n'
+                '        <Option type="Map">\n'
+                '         <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '         <Option name="properties"></Option>\n'
+                '         <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '        </Option>\n'
+                '       </data_defined_properties>\n'
+                '      </layer>\n'
+                '     </symbol>\n'
+                '    </profileFillSymbol>\n'
+                '   </elevation>\n'
+                '   <customproperties>\n'
+                '    <Option></Option>\n'
+                '   </customproperties>\n'
+                '   <mapTip enabled="1"></mapTip>\n'
+                '   <pipe-data-defined-properties>\n'
+                '    <Option type="Map">\n'
+                '     <Option name="name" type="QString" value=""></Option>\n'
+                '     <Option name="properties"></Option>\n'
+                '     <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '    </Option>\n'
+                '   </pipe-data-defined-properties>\n'
+                '   <pipe>\n'
+                '    <provider>\n'
+                '     <resampling enabled="false" maxOversampling="2" '
+                'zoomedInResamplingMethod="nearestNeighbour" '
+                'zoomedOutResamplingMethod="nearestNeighbour"></resampling>\n'
+                '    </provider>\n'
+                '    <rasterrenderer alphaBand="-1" band="1" '
+                'classificationMax="6" classificationMin="1" nodataColor="" '
+                'opacity="1" type="singlebandpseudocolor">\n'
+                '     <minMaxOrigin>\n'
+                '      <limits>None</limits>\n'
+                '      <extent>WholeRaster</extent>\n'
+                '      <statAccuracy>Estimated</statAccuracy>\n'
+                '      <cumulativeCutLower>0.02</cumulativeCutLower>\n'
+                '      <cumulativeCutUpper>0.98</cumulativeCutUpper>\n'
+                '      <stdDevFactor>2</stdDevFactor>\n'
+                '     </minMaxOrigin>\n'
+                '     <rastershader>\n'
+                '      <colorrampshader classificationMode="1" clip="0" '
+                'colorRampType="DISCRETE" labelPrecision="6" maximumValue="6" '
+                'minimumValue="1">\n'
+                '       <colorramp name="[source]" type="gradient">\n'
+                '        <Option type="Map">\n'
+                '         <Option name="color1" type="QString" '
+                'value="0,0,0,255,rgb:0,0,0,1"></Option>\n'
+                '         <Option name="color2" type="QString" '
+                'value="255,255,255,255,rgb:1,1,1,1"></Option>\n'
+                '         <Option name="direction" type="QString" '
+                'value="ccw"></Option>\n'
+                '         <Option name="discrete" type="QString" '
+                'value="0"></Option>\n'
+                '         <Option name="rampType" type="QString" '
+                'value="gradient"></Option>\n'
+                '         <Option name="spec" type="QString" '
+                'value="rgb"></Option>\n'
+                '        </Option>\n'
+                '       </colorramp>\n'
+                '       <item alpha="255" color="#000000" label="1 - 2" '
+                'value="2"></item>\n'
+                '       <item alpha="255" color="#545454" label="2.000000001 - '
+                '3" value="3"></item>\n'
+                '       <item alpha="255" color="#a8a8a8" label="3.000000001 - '
+                '5" value="5"></item>\n'
+                '       <item alpha="255" color="#ffffff" label="5.000000001 - '
+                '6" value="6"></item>\n'
+                '       <rampLegendSettings direction="0" maximumLabel="" '
+                'minimumLabel="" orientation="2" prefix="" suffix="" '
+                'useContinuousLegend="1">\n'
+                '        <numericFormat id="basic">\n'
+                '         <Option type="Map">\n'
+                '          <Option name="decimal_separator" '
+                'type="invalid"></Option>\n'
+                '          <Option name="decimals" type="int" '
+                'value="6"></Option>\n'
+                '          <Option name="rounding_type" type="int" '
+                'value="0"></Option>\n'
+                '          <Option name="show_plus" type="bool" '
+                'value="false"></Option>\n'
+                '          <Option name="show_thousand_separator" type="bool" '
+                'value="true"></Option>\n'
+                '          <Option name="show_trailing_zeros" type="bool" '
+                'value="false"></Option>\n'
+                '          <Option name="thousand_separator" '
+                'type="invalid"></Option>\n'
+                '         </Option>\n'
+                '        </numericFormat>\n'
+                '       </rampLegendSettings>\n'
+                '      </colorrampshader>\n'
+                '     </rastershader>\n'
+                '    </rasterrenderer>\n'
+                '    <brightnesscontrast brightness="0" contrast="0" '
+                'gamma="1"></brightnesscontrast>\n'
+                '    <huesaturation colorizeBlue="128" colorizeGreen="128" '
+                'colorizeOn="0" colorizeRed="255" colorizeStrength="100" '
+                'grayscaleMode="0" invertColors="0" '
+                'saturation="0"></huesaturation>\n'
+                '    <rasterresampler maxOversampling="2"></rasterresampler>\n'
+                '    <resamplingStage>resamplingFilter</resamplingStage>\n'
+                '   </pipe>\n'
+                '   <blendMode>0</blendMode>\n'
+                '  </maplayer>\n'
+                ' </maplayers>\n'
+                '</qlr>'}

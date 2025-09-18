@@ -1,633 +1,1016 @@
-{'root': {'allow_interactive_display': False,
-          'cached': False,
-          'custom_extent': None,
-          'dataset_name': {'file_name': 'dem.tif',
-                           'path': 'RASTER: Workspace = C:\\temp\\; '
-                                   'RasterDataset = dem.tif;',
-                           'ref_id': 1,
-                           'type': 'RasterDatasetName',
-                           'version': 4,
-                           'workspace_name': {'browse_name': 'Raster Data',
-                                              'connection_properties': {'DATABASE': 'C:\\temp\\',
-                                                                        'ref_id': 3,
-                                                                        'type': 'PropertySet',
-                                                                        'version': 1},
-                                              'name': 'C:\\temp\\',
-                                              'name_string': 'Raster Workspace '
-                                                             '= C:\\temp\\;',
-                                              'path_name': '',
-                                              'ref_id': 2,
-                                              'type': 'WorkspaceName',
-                                              'version': 1,
-                                              'workspace_factory': {'type': 'RasterWorkspaceFactory',
-                                                                    'version': 1},
-                                              'workspace_type': 'ESRI_FILESYSTEM_WORKSPACE'}},
-          'description': '',
-          'extensions': [{'properties': {'ServiceLayerID': 8,
-                                         'ref_id': 51,
-                                         'type': 'PropertySet',
-                                         'version': 1},
-                          'ref_id': 50,
-                          'type': 'ServerLayerExtension',
-                          'version': 1}],
-          'extent': {'crs': {'is_high_precision': True,
-                             'm_origin': -100000.0,
-                             'm_scale': 10000.0,
-                             'm_tolerance': 0.001,
-                             'ref_id': 56,
-                             'type': 'GeographicCoordinateSystem',
-                             'version': 7,
-                             'wkt': 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]',
-                             'x_origin': -400.0,
-                             'xy_scale': 11258999068426.238,
-                             'xy_tolerance': 8.983152841195215e-09,
-                             'y_origin': -400.0,
-                             'z_origin': -100000.0,
-                             'z_scale': 10000.0,
-                             'z_tolerance': 0.001},
-                     'ref_id': 57,
-                     'type': 'Envelope',
-                     'version': 3,
-                     'x_max': 18.703597944199995,
-                     'x_min': 18.6662979442,
-                     'y_max': 45.8117014376,
-                     'y_min': 45.7767014376},
-          'extent_bottom': 6640046.1258972725,
-          'extent_left': 1908643.7687869042,
-          'extent_right': 1912251.3383211542,
-          'extent_top': 6644428.256649492,
-          'file': 'dem.tif',
-          'histogram': None,
-          'joins': [],
-          'path': '.',
-          'ref_id': 0,
-          'relations': [],
-          'render_quality_percent': 100,
-          'renderer': {'alpha_band': None,
-                       'alpha_checked': False,
-                       'apply_gamma': False,
-                       'background_color': {'B': 255,
-                                            'G': 255,
-                                            'R': 255,
-                                            'dither': False,
-                                            'is_null': True,
-                                            'type': 'RgbColor',
-                                            'version': 1},
-                       'background_value': 0.0,
-                       'band': 1,
-                       'brightness': 0,
-                       'color_ramp': {'algorithm': 0,
-                                      'color1': {'B': 0,
-                                                 'G': 0,
-                                                 'R': 0,
-                                                 'dither': False,
-                                                 'is_null': False,
-                                                 'ref_id': 5,
-                                                 'type': 'HsvColor',
-                                                 'version': 1},
-                                      'color2': {'B': 255,
+{'dict': {'root': {'allow_interactive_display': False,
+                   'cached': False,
+                   'custom_extent': None,
+                   'dataset_name': {'file_name': 'dem.tif',
+                                    'path': 'RASTER: Workspace = C:\\temp\\; '
+                                            'RasterDataset = dem.tif;',
+                                    'ref_id': 1,
+                                    'stream_offset': '0x4e',
+                                    'type': 'RasterDatasetName',
+                                    'version': 4,
+                                    'workspace_name': {'browse_name': 'Raster '
+                                                                      'Data',
+                                                       'connection_properties': {'DATABASE': 'C:\\temp\\',
+                                                                                 'ref_id': 3,
+                                                                                 'stream_offset': '0x19a',
+                                                                                 'type': 'PropertySet',
+                                                                                 'version': 1},
+                                                       'name': 'C:\\temp\\',
+                                                       'name_string': 'Raster '
+                                                                      'Workspace '
+                                                                      '= '
+                                                                      'C:\\temp\\;',
+                                                       'path_name': '',
+                                                       'ref_id': 2,
+                                                       'stream_offset': '0x114',
+                                                       'type': 'WorkspaceName',
+                                                       'version': 1,
+                                                       'workspace_factory': {'stream_offset': '0x1e3',
+                                                                             'type': 'RasterWorkspaceFactory',
+                                                                             'version': 1},
+                                                       'workspace_type': 'ESRI_FILESYSTEM_WORKSPACE'}},
+                   'description': '',
+                   'extensions': [{'properties': {'ServiceLayerID': 8,
+                                                  'ref_id': 51,
+                                                  'stream_offset': '0x2481',
+                                                  'type': 'PropertySet',
+                                                  'version': 1},
+                                   'ref_id': 50,
+                                   'stream_offset': '0x246b',
+                                   'type': 'ServerLayerExtension',
+                                   'version': 1}],
+                   'extent': {'crs': {'is_high_precision': True,
+                                      'm_origin': -100000.0,
+                                      'm_scale': 10000.0,
+                                      'm_tolerance': 0.001,
+                                      'ref_id': 56,
+                                      'stream_offset': '0x26c5',
+                                      'type': 'GeographicCoordinateSystem',
+                                      'version': 7,
+                                      'wkt': 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]',
+                                      'x_origin': -400.0,
+                                      'xy_scale': 11258999068426.238,
+                                      'xy_tolerance': 8.983152841195215e-09,
+                                      'y_origin': -400.0,
+                                      'z_origin': -100000.0,
+                                      'z_scale': 10000.0,
+                                      'z_tolerance': 0.001},
+                              'ref_id': 57,
+                              'stream_offset': '0x2805',
+                              'type': 'Envelope',
+                              'version': 3,
+                              'x_max': 18.703597944199995,
+                              'x_min': 18.6662979442,
+                              'y_max': 45.8117014376,
+                              'y_min': 45.7767014376},
+                   'extent_bottom': 6640046.1258972725,
+                   'extent_left': 1908643.7687869042,
+                   'extent_right': 1912251.3383211542,
+                   'extent_top': 6644428.256649492,
+                   'file': 'dem.tif',
+                   'histogram': None,
+                   'joins': [],
+                   'path': '.',
+                   'ref_id': 0,
+                   'relations': [],
+                   'render_quality_percent': 100,
+                   'renderer': {'alpha_band': None,
+                                'alpha_checked': False,
+                                'apply_gamma': False,
+                                'background_color': {'B': 255,
+                                                     'G': 255,
+                                                     'R': 255,
+                                                     'dither': False,
+                                                     'is_null': True,
+                                                     'stream_offset': '0xc71',
+                                                     'type': 'RgbColor',
+                                                     'version': 1},
+                                'background_value': 0.0,
+                                'band': 1,
+                                'brightness': 0,
+                                'color_ramp': {'algorithm': 0,
+                                               'color1': {'B': 0,
+                                                          'G': 0,
+                                                          'R': 0,
+                                                          'dither': False,
+                                                          'is_null': False,
+                                                          'ref_id': 5,
+                                                          'stream_offset': '0xc03',
+                                                          'type': 'HsvColor',
+                                                          'version': 1},
+                                               'color2': {'B': 255,
+                                                          'G': 255,
+                                                          'R': 255,
+                                                          'dither': False,
+                                                          'is_null': False,
+                                                          'ref_id': 6,
+                                                          'stream_offset': '0xc36',
+                                                          'type': 'HsvColor',
+                                                          'version': 1},
+                                               'ref_id': 49,
+                                               'stream_offset': '0x23e1',
+                                               'type': 'AlgorithmicColorRamp',
+                                               'version': 1},
+                                'contrast': 0,
+                                'display_background_value': False,
+                                'gamma': 1.0,
+                                'hillshade_z': 1.0,
+                                'histogram': {'max': 45.0,
+                                              'mean': 46.0,
+                                              'min': 44.0,
+                                              'st_dev': 47.0,
+                                              'stream_offset': '0x1a41',
+                                              'type': 'StatsHistogram',
+                                              'version': 5},
+                                'invert_stretch': False,
+                                'legend': {'classes': [{'format': {'area_patch_override': None,
+                                                                   'description_symbol': {'angle': 0.0,
+                                                                                          'background_symbol': None,
+                                                                                          'break_character': None,
+                                                                                          'case': 'normal',
+                                                                                          'character_spacing': 0.0,
+                                                                                          'character_width': 100.0,
+                                                                                          'cjk_orientation': False,
+                                                                                          'clip': False,
+                                                                                          'color': {'B': 0,
+                                                                                                    'G': 0,
+                                                                                                    'R': 0,
+                                                                                                    'dither': False,
+                                                                                                    'is_null': False,
+                                                                                                    'ref_id': 19,
+                                                                                                    'stream_offset': '0xfc1',
+                                                                                                    'type': 'RgbColor',
+                                                                                                    'version': 1},
+                                                                                          'flip_angle': 0.0,
+                                                                                          'font': {'charset': 0,
+                                                                                                   'font_name': 'Arial',
+                                                                                                   'italic': False,
+                                                                                                   'ref_id': 21,
+                                                                                                   'size': 12.0,
+                                                                                                   'stream_offset': '0x10f5',
+                                                                                                   'strikethrough': False,
+                                                                                                   'type': 'Font',
+                                                                                                   'underline': False,
+                                                                                                   'version': 1,
+                                                                                                   'weight': 400},
+                                                                                          'font_size': 12.0,
+                                                                                          'halo_enabled': False,
+                                                                                          'halo_size': 2.0,
+                                                                                          'halo_symbol': None,
+                                                                                          'horizontal_alignment': 'center',
+                                                                                          'kerning': True,
+                                                                                          'leading': 0.0,
+                                                                                          'position': 'normal',
+                                                                                          'raster_op': 13,
+                                                                                          'ref_id': 18,
+                                                                                          'right_to_left': False,
+                                                                                          'rotate_with_transform': True,
+                                                                                          'shadow_color': {'B': 0,
+                                                                                                           'G': 0,
+                                                                                                           'R': 0,
+                                                                                                           'dither': False,
+                                                                                                           'is_null': False,
+                                                                                                           'ref_id': 20,
+                                                                                                           'stream_offset': '0x1022',
+                                                                                                           'type': 'RgbColor',
+                                                                                                           'version': 1},
+                                                                                          'shadow_x_offset': 0.0,
+                                                                                          'shadow_y_offset': 0.0,
+                                                                                          'stream_offset': '0xfab',
+                                                                                          'symbol_level': 0,
+                                                                                          'text_direction': 0,
+                                                                                          'text_fill_symbol': None,
+                                                                                          'type': 'TextSymbol',
+                                                                                          'type_setting': True,
+                                                                                          'version': 4,
+                                                                                          'vertical_alignment': 'baseline',
+                                                                                          'word_spacing': 100.0,
+                                                                                          'x_offset': 0.0,
+                                                                                          'y_offset': 0.0},
+                                                                   'height': 12.0,
+                                                                   'label_symbol': {'angle': 0.0,
+                                                                                    'background_symbol': None,
+                                                                                    'break_character': None,
+                                                                                    'case': 'normal',
+                                                                                    'character_spacing': 0.0,
+                                                                                    'character_width': 100.0,
+                                                                                    'cjk_orientation': False,
+                                                                                    'clip': False,
+                                                                                    'color': {'B': 0,
+                                                                                              'G': 0,
+                                                                                              'R': 0,
+                                                                                              'dither': False,
+                                                                                              'is_null': False,
+                                                                                              'ref_id': 15,
+                                                                                              'stream_offset': '0xe3f',
+                                                                                              'type': 'RgbColor',
+                                                                                              'version': 1},
+                                                                                    'flip_angle': 0.0,
+                                                                                    'font': {'charset': 0,
+                                                                                             'font_name': 'Arial',
+                                                                                             'italic': False,
+                                                                                             'ref_id': 17,
+                                                                                             'size': 10.0,
+                                                                                             'stream_offset': '0xf73',
+                                                                                             'strikethrough': False,
+                                                                                             'type': 'Font',
+                                                                                             'underline': False,
+                                                                                             'version': 1,
+                                                                                             'weight': 400},
+                                                                                    'font_size': 10.0,
+                                                                                    'halo_enabled': False,
+                                                                                    'halo_size': 2.0,
+                                                                                    'halo_symbol': None,
+                                                                                    'horizontal_alignment': 'left',
+                                                                                    'kerning': True,
+                                                                                    'leading': 0.0,
+                                                                                    'position': 'normal',
+                                                                                    'raster_op': 13,
+                                                                                    'ref_id': 14,
+                                                                                    'right_to_left': False,
+                                                                                    'rotate_with_transform': True,
+                                                                                    'shadow_color': {'B': 0,
+                                                                                                     'G': 0,
+                                                                                                     'R': 0,
+                                                                                                     'dither': False,
+                                                                                                     'is_null': False,
+                                                                                                     'ref_id': 16,
+                                                                                                     'stream_offset': '0xea0',
+                                                                                                     'type': 'RgbColor',
+                                                                                                     'version': 1},
+                                                                                    'shadow_x_offset': 0.0,
+                                                                                    'shadow_y_offset': 0.0,
+                                                                                    'stream_offset': '0xe29',
+                                                                                    'symbol_level': 0,
+                                                                                    'text_direction': 0,
+                                                                                    'text_fill_symbol': None,
+                                                                                    'type': 'TextSymbol',
+                                                                                    'type_setting': True,
+                                                                                    'version': 4,
+                                                                                    'vertical_alignment': 'center',
+                                                                                    'word_spacing': 100.0,
+                                                                                    'x_offset': 0.0,
+                                                                                    'y_offset': 0.0},
+                                                                   'line_patch_override': None,
+                                                                   'ref_id': 13,
+                                                                   'stream_offset': '0xe13',
+                                                                   'type': 'LegendClassFormat',
+                                                                   'version': 2,
+                                                                   'width': 0.0},
+                                                        'label': 'High : 243',
+                                                        'ref_id': 7,
+                                                        'stream_offset': '0xcd2',
+                                                        'symbol': {'color': {'B': 0,
+                                                                             'G': 0,
+                                                                             'R': 0,
+                                                                             'dither': False,
+                                                                             'is_null': False,
+                                                                             'ref_id': 9,
+                                                                             'stream_offset': '0xcfe',
+                                                                             'type': 'RgbColor',
+                                                                             'version': 1},
+                                                                   'color_ramp': {'algorithm': 0,
+                                                                                  'color1': {'B': 128,
+                                                                                             'G': 128,
+                                                                                             'R': 127,
+                                                                                             'dither': False,
+                                                                                             'is_null': False,
+                                                                                             'ref_id': 11,
+                                                                                             'stream_offset': '0xd79',
+                                                                                             'type': 'HsvColor',
+                                                                                             'version': 1},
+                                                                                  'color2': {'B': 255,
+                                                                                             'G': 255,
+                                                                                             'R': 255,
+                                                                                             'dither': False,
+                                                                                             'is_null': False,
+                                                                                             'ref_id': 12,
+                                                                                             'stream_offset': '0xdac',
+                                                                                             'type': 'HsvColor',
+                                                                                             'version': 1},
+                                                                                  'ref_id': 10,
+                                                                                  'stream_offset': '0xd3d',
+                                                                                  'type': 'AlgorithmicColorRamp',
+                                                                                  'version': 1},
+                                                                   'horizontal': False,
+                                                                   'invert': False,
+                                                                   'legend_class_index': 0,
+                                                                   'number_of_labels': 3,
+                                                                   'ref_id': 8,
+                                                                   'show_ticks': True,
+                                                                   'stream_offset': '0xce8',
+                                                                   'type': 'ColorRampSymbol',
+                                                                   'version': 5},
+                                                        'type': 'RedrawLegendClass',
+                                                        'version': 2},
+                                                       {'format': {'area_patch_override': None,
+                                                                   'description_symbol': {'angle': 0.0,
+                                                                                          'background_symbol': None,
+                                                                                          'break_character': None,
+                                                                                          'case': 'normal',
+                                                                                          'character_spacing': 0.0,
+                                                                                          'character_width': 100.0,
+                                                                                          'cjk_orientation': False,
+                                                                                          'clip': False,
+                                                                                          'color': {'B': 0,
+                                                                                                    'G': 0,
+                                                                                                    'R': 0,
+                                                                                                    'dither': False,
+                                                                                                    'is_null': False,
+                                                                                                    'ref_id': 34,
+                                                                                                    'stream_offset': '0x143c',
+                                                                                                    'type': 'RgbColor',
+                                                                                                    'version': 1},
+                                                                                          'flip_angle': 0.0,
+                                                                                          'font': {'charset': 0,
+                                                                                                   'font_name': 'Arial',
+                                                                                                   'italic': False,
+                                                                                                   'ref_id': 36,
+                                                                                                   'size': 12.0,
+                                                                                                   'stream_offset': '0x1570',
+                                                                                                   'strikethrough': False,
+                                                                                                   'type': 'Font',
+                                                                                                   'underline': False,
+                                                                                                   'version': 1,
+                                                                                                   'weight': 400},
+                                                                                          'font_size': 12.0,
+                                                                                          'halo_enabled': False,
+                                                                                          'halo_size': 2.0,
+                                                                                          'halo_symbol': None,
+                                                                                          'horizontal_alignment': 'center',
+                                                                                          'kerning': True,
+                                                                                          'leading': 0.0,
+                                                                                          'position': 'normal',
+                                                                                          'raster_op': 13,
+                                                                                          'ref_id': 33,
+                                                                                          'right_to_left': False,
+                                                                                          'rotate_with_transform': True,
+                                                                                          'shadow_color': {'B': 0,
+                                                                                                           'G': 0,
+                                                                                                           'R': 0,
+                                                                                                           'dither': False,
+                                                                                                           'is_null': False,
+                                                                                                           'ref_id': 35,
+                                                                                                           'stream_offset': '0x149d',
+                                                                                                           'type': 'RgbColor',
+                                                                                                           'version': 1},
+                                                                                          'shadow_x_offset': 0.0,
+                                                                                          'shadow_y_offset': 0.0,
+                                                                                          'stream_offset': '0x1426',
+                                                                                          'symbol_level': 0,
+                                                                                          'text_direction': 0,
+                                                                                          'text_fill_symbol': None,
+                                                                                          'type': 'TextSymbol',
+                                                                                          'type_setting': True,
+                                                                                          'version': 4,
+                                                                                          'vertical_alignment': 'baseline',
+                                                                                          'word_spacing': 100.0,
+                                                                                          'x_offset': 0.0,
+                                                                                          'y_offset': 0.0},
+                                                                   'height': 12.0,
+                                                                   'label_symbol': {'angle': 0.0,
+                                                                                    'background_symbol': None,
+                                                                                    'break_character': None,
+                                                                                    'case': 'normal',
+                                                                                    'character_spacing': 0.0,
+                                                                                    'character_width': 100.0,
+                                                                                    'cjk_orientation': False,
+                                                                                    'clip': False,
+                                                                                    'color': {'B': 0,
+                                                                                              'G': 0,
+                                                                                              'R': 0,
+                                                                                              'dither': False,
+                                                                                              'is_null': False,
+                                                                                              'ref_id': 30,
+                                                                                              'stream_offset': '0x12ba',
+                                                                                              'type': 'RgbColor',
+                                                                                              'version': 1},
+                                                                                    'flip_angle': 0.0,
+                                                                                    'font': {'charset': 0,
+                                                                                             'font_name': 'Arial',
+                                                                                             'italic': False,
+                                                                                             'ref_id': 32,
+                                                                                             'size': 10.0,
+                                                                                             'stream_offset': '0x13ee',
+                                                                                             'strikethrough': False,
+                                                                                             'type': 'Font',
+                                                                                             'underline': False,
+                                                                                             'version': 1,
+                                                                                             'weight': 400},
+                                                                                    'font_size': 10.0,
+                                                                                    'halo_enabled': False,
+                                                                                    'halo_size': 2.0,
+                                                                                    'halo_symbol': None,
+                                                                                    'horizontal_alignment': 'left',
+                                                                                    'kerning': True,
+                                                                                    'leading': 0.0,
+                                                                                    'position': 'normal',
+                                                                                    'raster_op': 13,
+                                                                                    'ref_id': 29,
+                                                                                    'right_to_left': False,
+                                                                                    'rotate_with_transform': True,
+                                                                                    'shadow_color': {'B': 0,
+                                                                                                     'G': 0,
+                                                                                                     'R': 0,
+                                                                                                     'dither': False,
+                                                                                                     'is_null': False,
+                                                                                                     'ref_id': 31,
+                                                                                                     'stream_offset': '0x131b',
+                                                                                                     'type': 'RgbColor',
+                                                                                                     'version': 1},
+                                                                                    'shadow_x_offset': 0.0,
+                                                                                    'shadow_y_offset': 0.0,
+                                                                                    'stream_offset': '0x12a4',
+                                                                                    'symbol_level': 0,
+                                                                                    'text_direction': 0,
+                                                                                    'text_fill_symbol': None,
+                                                                                    'type': 'TextSymbol',
+                                                                                    'type_setting': True,
+                                                                                    'version': 4,
+                                                                                    'vertical_alignment': 'center',
+                                                                                    'word_spacing': 100.0,
+                                                                                    'x_offset': 0.0,
+                                                                                    'y_offset': 0.0},
+                                                                   'line_patch_override': None,
+                                                                   'ref_id': 28,
+                                                                   'stream_offset': '0x128e',
+                                                                   'type': 'LegendClassFormat',
+                                                                   'version': 2,
+                                                                   'width': 0.0},
+                                                        'label': '',
+                                                        'ref_id': 22,
+                                                        'stream_offset': '0x1161',
+                                                        'symbol': {'color': {'B': 0,
+                                                                             'G': 0,
+                                                                             'R': 0,
+                                                                             'dither': False,
+                                                                             'is_null': False,
+                                                                             'ref_id': 24,
+                                                                             'stream_offset': '0x118d',
+                                                                             'type': 'RgbColor',
+                                                                             'version': 1},
+                                                                   'color_ramp': {'algorithm': 0,
+                                                                                  'color1': {'B': 0,
+                                                                                             'G': 0,
+                                                                                             'R': 0,
+                                                                                             'dither': False,
+                                                                                             'is_null': False,
+                                                                                             'ref_id': 26,
+                                                                                             'stream_offset': '0x1208',
+                                                                                             'type': 'HsvColor',
+                                                                                             'version': 1},
+                                                                                  'color2': {'B': 125,
+                                                                                             'G': 125,
+                                                                                             'R': 125,
+                                                                                             'dither': False,
+                                                                                             'is_null': False,
+                                                                                             'ref_id': 27,
+                                                                                             'stream_offset': '0x123b',
+                                                                                             'type': 'HsvColor',
+                                                                                             'version': 1},
+                                                                                  'ref_id': 25,
+                                                                                  'stream_offset': '0x11cc',
+                                                                                  'type': 'AlgorithmicColorRamp',
+                                                                                  'version': 1},
+                                                                   'horizontal': False,
+                                                                   'invert': False,
+                                                                   'legend_class_index': 1,
+                                                                   'number_of_labels': 3,
+                                                                   'ref_id': 23,
+                                                                   'show_ticks': True,
+                                                                   'stream_offset': '0x1177',
+                                                                   'type': 'ColorRampSymbol',
+                                                                   'version': 5},
+                                                        'type': 'RedrawLegendClass',
+                                                        'version': 2},
+                                                       {'format': {'area_patch_override': None,
+                                                                   'description_symbol': {'angle': 0.0,
+                                                                                          'background_symbol': None,
+                                                                                          'break_character': None,
+                                                                                          'case': 'normal',
+                                                                                          'character_spacing': 0.0,
+                                                                                          'character_width': 100.0,
+                                                                                          'cjk_orientation': False,
+                                                                                          'clip': False,
+                                                                                          'color': {'B': 0,
+                                                                                                    'G': 0,
+                                                                                                    'R': 0,
+                                                                                                    'dither': False,
+                                                                                                    'is_null': False,
+                                                                                                    'ref_id': 46,
+                                                                                                    'stream_offset': '0x1835',
+                                                                                                    'type': 'RgbColor',
+                                                                                                    'version': 1},
+                                                                                          'flip_angle': 0.0,
+                                                                                          'font': {'charset': 0,
+                                                                                                   'font_name': 'Arial',
+                                                                                                   'italic': False,
+                                                                                                   'ref_id': 48,
+                                                                                                   'size': 12.0,
+                                                                                                   'stream_offset': '0x1969',
+                                                                                                   'strikethrough': False,
+                                                                                                   'type': 'Font',
+                                                                                                   'underline': False,
+                                                                                                   'version': 1,
+                                                                                                   'weight': 400},
+                                                                                          'font_size': 12.0,
+                                                                                          'halo_enabled': False,
+                                                                                          'halo_size': 2.0,
+                                                                                          'halo_symbol': None,
+                                                                                          'horizontal_alignment': 'center',
+                                                                                          'kerning': True,
+                                                                                          'leading': 0.0,
+                                                                                          'position': 'normal',
+                                                                                          'raster_op': 13,
+                                                                                          'ref_id': 45,
+                                                                                          'right_to_left': False,
+                                                                                          'rotate_with_transform': True,
+                                                                                          'shadow_color': {'B': 0,
+                                                                                                           'G': 0,
+                                                                                                           'R': 0,
+                                                                                                           'dither': False,
+                                                                                                           'is_null': False,
+                                                                                                           'ref_id': 47,
+                                                                                                           'stream_offset': '0x1896',
+                                                                                                           'type': 'RgbColor',
+                                                                                                           'version': 1},
+                                                                                          'shadow_x_offset': 0.0,
+                                                                                          'shadow_y_offset': 0.0,
+                                                                                          'stream_offset': '0x181f',
+                                                                                          'symbol_level': 0,
+                                                                                          'text_direction': 0,
+                                                                                          'text_fill_symbol': None,
+                                                                                          'type': 'TextSymbol',
+                                                                                          'type_setting': True,
+                                                                                          'version': 4,
+                                                                                          'vertical_alignment': 'baseline',
+                                                                                          'word_spacing': 100.0,
+                                                                                          'x_offset': 0.0,
+                                                                                          'y_offset': 0.0},
+                                                                   'height': 18.0,
+                                                                   'label_symbol': {'angle': 0.0,
+                                                                                    'background_symbol': None,
+                                                                                    'break_character': None,
+                                                                                    'case': 'normal',
+                                                                                    'character_spacing': 0.0,
+                                                                                    'character_width': 100.0,
+                                                                                    'cjk_orientation': False,
+                                                                                    'clip': False,
+                                                                                    'color': {'B': 0,
+                                                                                              'G': 0,
+                                                                                              'R': 0,
+                                                                                              'dither': False,
+                                                                                              'is_null': False,
+                                                                                              'ref_id': 42,
+                                                                                              'stream_offset': '0x16b3',
+                                                                                              'type': 'RgbColor',
+                                                                                              'version': 1},
+                                                                                    'flip_angle': 0.0,
+                                                                                    'font': {'charset': 0,
+                                                                                             'font_name': 'Arial',
+                                                                                             'italic': False,
+                                                                                             'ref_id': 44,
+                                                                                             'size': 10.0,
+                                                                                             'stream_offset': '0x17e7',
+                                                                                             'strikethrough': False,
+                                                                                             'type': 'Font',
+                                                                                             'underline': False,
+                                                                                             'version': 1,
+                                                                                             'weight': 400},
+                                                                                    'font_size': 10.0,
+                                                                                    'halo_enabled': False,
+                                                                                    'halo_size': 2.0,
+                                                                                    'halo_symbol': None,
+                                                                                    'horizontal_alignment': 'left',
+                                                                                    'kerning': True,
+                                                                                    'leading': 0.0,
+                                                                                    'position': 'normal',
+                                                                                    'raster_op': 13,
+                                                                                    'ref_id': 41,
+                                                                                    'right_to_left': False,
+                                                                                    'rotate_with_transform': True,
+                                                                                    'shadow_color': {'B': 0,
+                                                                                                     'G': 0,
+                                                                                                     'R': 0,
+                                                                                                     'dither': False,
+                                                                                                     'is_null': False,
+                                                                                                     'ref_id': 43,
+                                                                                                     'stream_offset': '0x1714',
+                                                                                                     'type': 'RgbColor',
+                                                                                                     'version': 1},
+                                                                                    'shadow_x_offset': 0.0,
+                                                                                    'shadow_y_offset': 0.0,
+                                                                                    'stream_offset': '0x169d',
+                                                                                    'symbol_level': 0,
+                                                                                    'text_direction': 0,
+                                                                                    'text_fill_symbol': None,
+                                                                                    'type': 'TextSymbol',
+                                                                                    'type_setting': True,
+                                                                                    'version': 4,
+                                                                                    'vertical_alignment': 'center',
+                                                                                    'word_spacing': 100.0,
+                                                                                    'x_offset': 0.0,
+                                                                                    'y_offset': 0.0},
+                                                                   'line_patch_override': None,
+                                                                   'ref_id': 40,
+                                                                   'stream_offset': '0x1687',
+                                                                   'type': 'LegendClassFormat',
+                                                                   'version': 2,
+                                                                   'width': 0.0},
+                                                        'label': 'Low : 85',
+                                                        'ref_id': 37,
+                                                        'stream_offset': '0x15dc',
+                                                        'symbol': {'color': {'B': 0,
+                                                                             'G': 0,
+                                                                             'R': 0,
+                                                                             'dither': False,
+                                                                             'is_null': False,
+                                                                             'ref_id': 39,
+                                                                             'stream_offset': '0x1608',
+                                                                             'type': 'RgbColor',
+                                                                             'version': 1},
+                                                                   'color_ramp': None,
+                                                                   'horizontal': False,
+                                                                   'invert': False,
+                                                                   'legend_class_index': 2,
+                                                                   'number_of_labels': 3,
+                                                                   'ref_id': 38,
+                                                                   'show_ticks': True,
+                                                                   'stream_offset': '0x15f2',
+                                                                   'type': 'ColorRampSymbol',
+                                                                   'version': 5},
+                                                        'type': 'RedrawLegendClass',
+                                                        'version': 2}],
+                                           'editable_or_expanded': True,
+                                           'heading': 'Value',
+                                           'stream_offset': '0xca8',
+                                           'type': 'LegendGroup',
+                                           'version': 3,
+                                           'visible': True},
+                                'max_value': 243.0,
+                                'min_value': 85.0,
+                                'nodata_color': {'B': 255,
                                                  'G': 255,
                                                  'R': 255,
                                                  'dither': False,
-                                                 'is_null': False,
-                                                 'ref_id': 6,
-                                                 'type': 'HsvColor',
+                                                 'is_null': True,
+                                                 'stream_offset': '0x237d',
+                                                 'type': 'RgbColor',
                                                  'version': 1},
-                                      'ref_id': 49,
-                                      'type': 'AlgorithmicColorRamp',
-                                      'version': 1},
-                       'contrast': 0,
-                       'display_background_value': False,
-                       'gamma': 1.0,
-                       'hillshade_z': 1.0,
-                       'histogram': {'max': 45.0,
-                                     'mean': 46.0,
-                                     'min': 44.0,
-                                     'st_dev': 47.0,
-                                     'type': 'StatsHistogram',
-                                     'version': 5},
-                       'invert_stretch': False,
-                       'legend': {'classes': [{'format': {'area_patch_override': None,
-                                                          'description_symbol': {'angle': 0.0,
-                                                                                 'background_symbol': None,
-                                                                                 'break_character': None,
-                                                                                 'case': 'normal',
-                                                                                 'character_spacing': 0.0,
-                                                                                 'character_width': 100.0,
-                                                                                 'cjk_orientation': False,
-                                                                                 'clip': False,
-                                                                                 'color': {'B': 0,
-                                                                                           'G': 0,
-                                                                                           'R': 0,
-                                                                                           'dither': False,
-                                                                                           'is_null': False,
-                                                                                           'ref_id': 19,
-                                                                                           'type': 'RgbColor',
-                                                                                           'version': 1},
-                                                                                 'flip_angle': 0.0,
-                                                                                 'font': {'charset': 0,
-                                                                                          'font_name': 'Arial',
-                                                                                          'italic': False,
-                                                                                          'ref_id': 21,
-                                                                                          'size': 12.0,
-                                                                                          'strikethrough': False,
-                                                                                          'type': 'Font',
-                                                                                          'underline': False,
-                                                                                          'version': 1,
-                                                                                          'weight': 400},
-                                                                                 'font_size': 12.0,
-                                                                                 'halo_enabled': False,
-                                                                                 'halo_size': 2.0,
-                                                                                 'halo_symbol': None,
-                                                                                 'horizontal_alignment': 'center',
-                                                                                 'kerning': True,
-                                                                                 'leading': 0.0,
-                                                                                 'position': 'normal',
-                                                                                 'raster_op': 13,
-                                                                                 'ref_id': 18,
-                                                                                 'right_to_left': False,
-                                                                                 'rotate_with_transform': True,
-                                                                                 'shadow_color': {'B': 0,
-                                                                                                  'G': 0,
-                                                                                                  'R': 0,
-                                                                                                  'dither': False,
-                                                                                                  'is_null': False,
-                                                                                                  'ref_id': 20,
-                                                                                                  'type': 'RgbColor',
-                                                                                                  'version': 1},
-                                                                                 'shadow_x_offset': 0.0,
-                                                                                 'shadow_y_offset': 0.0,
-                                                                                 'symbol_level': 0,
-                                                                                 'text_direction': 0,
-                                                                                 'text_fill_symbol': None,
-                                                                                 'type': 'TextSymbol',
-                                                                                 'type_setting': True,
-                                                                                 'version': 4,
-                                                                                 'vertical_alignment': 'baseline',
-                                                                                 'word_spacing': 100.0,
-                                                                                 'x_offset': 0.0,
-                                                                                 'y_offset': 0.0},
-                                                          'height': 12.0,
-                                                          'label_symbol': {'angle': 0.0,
-                                                                           'background_symbol': None,
-                                                                           'break_character': None,
-                                                                           'case': 'normal',
-                                                                           'character_spacing': 0.0,
-                                                                           'character_width': 100.0,
-                                                                           'cjk_orientation': False,
-                                                                           'clip': False,
-                                                                           'color': {'B': 0,
-                                                                                     'G': 0,
-                                                                                     'R': 0,
-                                                                                     'dither': False,
-                                                                                     'is_null': False,
-                                                                                     'ref_id': 15,
-                                                                                     'type': 'RgbColor',
-                                                                                     'version': 1},
-                                                                           'flip_angle': 0.0,
-                                                                           'font': {'charset': 0,
-                                                                                    'font_name': 'Arial',
-                                                                                    'italic': False,
-                                                                                    'ref_id': 17,
-                                                                                    'size': 10.0,
-                                                                                    'strikethrough': False,
-                                                                                    'type': 'Font',
-                                                                                    'underline': False,
-                                                                                    'version': 1,
-                                                                                    'weight': 400},
-                                                                           'font_size': 10.0,
-                                                                           'halo_enabled': False,
-                                                                           'halo_size': 2.0,
-                                                                           'halo_symbol': None,
-                                                                           'horizontal_alignment': 'left',
-                                                                           'kerning': True,
-                                                                           'leading': 0.0,
-                                                                           'position': 'normal',
-                                                                           'raster_op': 13,
-                                                                           'ref_id': 14,
-                                                                           'right_to_left': False,
-                                                                           'rotate_with_transform': True,
-                                                                           'shadow_color': {'B': 0,
-                                                                                            'G': 0,
-                                                                                            'R': 0,
-                                                                                            'dither': False,
-                                                                                            'is_null': False,
-                                                                                            'ref_id': 16,
-                                                                                            'type': 'RgbColor',
-                                                                                            'version': 1},
-                                                                           'shadow_x_offset': 0.0,
-                                                                           'shadow_y_offset': 0.0,
-                                                                           'symbol_level': 0,
-                                                                           'text_direction': 0,
-                                                                           'text_fill_symbol': None,
-                                                                           'type': 'TextSymbol',
-                                                                           'type_setting': True,
-                                                                           'version': 4,
-                                                                           'vertical_alignment': 'center',
-                                                                           'word_spacing': 100.0,
-                                                                           'x_offset': 0.0,
-                                                                           'y_offset': 0.0},
-                                                          'line_patch_override': None,
-                                                          'ref_id': 13,
-                                                          'type': 'LegendClassFormat',
-                                                          'version': 2,
-                                                          'width': 0.0},
-                                               'label': 'High : 243',
-                                               'ref_id': 7,
-                                               'symbol': {'color': {'B': 0,
-                                                                    'G': 0,
-                                                                    'R': 0,
-                                                                    'dither': False,
-                                                                    'is_null': False,
-                                                                    'ref_id': 9,
-                                                                    'type': 'RgbColor',
-                                                                    'version': 1},
-                                                          'color_ramp': {'algorithm': 0,
-                                                                         'color1': {'B': 128,
-                                                                                    'G': 128,
-                                                                                    'R': 127,
-                                                                                    'dither': False,
-                                                                                    'is_null': False,
-                                                                                    'ref_id': 11,
-                                                                                    'type': 'HsvColor',
-                                                                                    'version': 1},
-                                                                         'color2': {'B': 255,
-                                                                                    'G': 255,
-                                                                                    'R': 255,
-                                                                                    'dither': False,
-                                                                                    'is_null': False,
-                                                                                    'ref_id': 12,
-                                                                                    'type': 'HsvColor',
-                                                                                    'version': 1},
-                                                                         'ref_id': 10,
-                                                                         'type': 'AlgorithmicColorRamp',
-                                                                         'version': 1},
-                                                          'horizontal': False,
-                                                          'invert': False,
-                                                          'legend_class_index': 0,
-                                                          'number_of_labels': 3,
-                                                          'ref_id': 8,
-                                                          'show_ticks': True,
-                                                          'type': 'ColorRampSymbol',
-                                                          'version': 5},
-                                               'type': 'RedrawLegendClass',
-                                               'version': 2},
-                                              {'format': {'area_patch_override': None,
-                                                          'description_symbol': {'angle': 0.0,
-                                                                                 'background_symbol': None,
-                                                                                 'break_character': None,
-                                                                                 'case': 'normal',
-                                                                                 'character_spacing': 0.0,
-                                                                                 'character_width': 100.0,
-                                                                                 'cjk_orientation': False,
-                                                                                 'clip': False,
-                                                                                 'color': {'B': 0,
-                                                                                           'G': 0,
-                                                                                           'R': 0,
-                                                                                           'dither': False,
-                                                                                           'is_null': False,
-                                                                                           'ref_id': 34,
-                                                                                           'type': 'RgbColor',
-                                                                                           'version': 1},
-                                                                                 'flip_angle': 0.0,
-                                                                                 'font': {'charset': 0,
-                                                                                          'font_name': 'Arial',
-                                                                                          'italic': False,
-                                                                                          'ref_id': 36,
-                                                                                          'size': 12.0,
-                                                                                          'strikethrough': False,
-                                                                                          'type': 'Font',
-                                                                                          'underline': False,
-                                                                                          'version': 1,
-                                                                                          'weight': 400},
-                                                                                 'font_size': 12.0,
-                                                                                 'halo_enabled': False,
-                                                                                 'halo_size': 2.0,
-                                                                                 'halo_symbol': None,
-                                                                                 'horizontal_alignment': 'center',
-                                                                                 'kerning': True,
-                                                                                 'leading': 0.0,
-                                                                                 'position': 'normal',
-                                                                                 'raster_op': 13,
-                                                                                 'ref_id': 33,
-                                                                                 'right_to_left': False,
-                                                                                 'rotate_with_transform': True,
-                                                                                 'shadow_color': {'B': 0,
-                                                                                                  'G': 0,
-                                                                                                  'R': 0,
-                                                                                                  'dither': False,
-                                                                                                  'is_null': False,
-                                                                                                  'ref_id': 35,
-                                                                                                  'type': 'RgbColor',
-                                                                                                  'version': 1},
-                                                                                 'shadow_x_offset': 0.0,
-                                                                                 'shadow_y_offset': 0.0,
-                                                                                 'symbol_level': 0,
-                                                                                 'text_direction': 0,
-                                                                                 'text_fill_symbol': None,
-                                                                                 'type': 'TextSymbol',
-                                                                                 'type_setting': True,
-                                                                                 'version': 4,
-                                                                                 'vertical_alignment': 'baseline',
-                                                                                 'word_spacing': 100.0,
-                                                                                 'x_offset': 0.0,
-                                                                                 'y_offset': 0.0},
-                                                          'height': 12.0,
-                                                          'label_symbol': {'angle': 0.0,
-                                                                           'background_symbol': None,
-                                                                           'break_character': None,
-                                                                           'case': 'normal',
-                                                                           'character_spacing': 0.0,
-                                                                           'character_width': 100.0,
-                                                                           'cjk_orientation': False,
-                                                                           'clip': False,
-                                                                           'color': {'B': 0,
-                                                                                     'G': 0,
-                                                                                     'R': 0,
-                                                                                     'dither': False,
-                                                                                     'is_null': False,
-                                                                                     'ref_id': 30,
-                                                                                     'type': 'RgbColor',
-                                                                                     'version': 1},
-                                                                           'flip_angle': 0.0,
-                                                                           'font': {'charset': 0,
-                                                                                    'font_name': 'Arial',
-                                                                                    'italic': False,
-                                                                                    'ref_id': 32,
-                                                                                    'size': 10.0,
-                                                                                    'strikethrough': False,
-                                                                                    'type': 'Font',
-                                                                                    'underline': False,
-                                                                                    'version': 1,
-                                                                                    'weight': 400},
-                                                                           'font_size': 10.0,
-                                                                           'halo_enabled': False,
-                                                                           'halo_size': 2.0,
-                                                                           'halo_symbol': None,
-                                                                           'horizontal_alignment': 'left',
-                                                                           'kerning': True,
-                                                                           'leading': 0.0,
-                                                                           'position': 'normal',
-                                                                           'raster_op': 13,
-                                                                           'ref_id': 29,
-                                                                           'right_to_left': False,
-                                                                           'rotate_with_transform': True,
-                                                                           'shadow_color': {'B': 0,
-                                                                                            'G': 0,
-                                                                                            'R': 0,
-                                                                                            'dither': False,
-                                                                                            'is_null': False,
-                                                                                            'ref_id': 31,
-                                                                                            'type': 'RgbColor',
-                                                                                            'version': 1},
-                                                                           'shadow_x_offset': 0.0,
-                                                                           'shadow_y_offset': 0.0,
-                                                                           'symbol_level': 0,
-                                                                           'text_direction': 0,
-                                                                           'text_fill_symbol': None,
-                                                                           'type': 'TextSymbol',
-                                                                           'type_setting': True,
-                                                                           'version': 4,
-                                                                           'vertical_alignment': 'center',
-                                                                           'word_spacing': 100.0,
-                                                                           'x_offset': 0.0,
-                                                                           'y_offset': 0.0},
-                                                          'line_patch_override': None,
-                                                          'ref_id': 28,
-                                                          'type': 'LegendClassFormat',
-                                                          'version': 2,
-                                                          'width': 0.0},
-                                               'label': '',
-                                               'ref_id': 22,
-                                               'symbol': {'color': {'B': 0,
-                                                                    'G': 0,
-                                                                    'R': 0,
-                                                                    'dither': False,
-                                                                    'is_null': False,
-                                                                    'ref_id': 24,
-                                                                    'type': 'RgbColor',
-                                                                    'version': 1},
-                                                          'color_ramp': {'algorithm': 0,
-                                                                         'color1': {'B': 0,
-                                                                                    'G': 0,
-                                                                                    'R': 0,
-                                                                                    'dither': False,
-                                                                                    'is_null': False,
-                                                                                    'ref_id': 26,
-                                                                                    'type': 'HsvColor',
-                                                                                    'version': 1},
-                                                                         'color2': {'B': 125,
-                                                                                    'G': 125,
-                                                                                    'R': 125,
-                                                                                    'dither': False,
-                                                                                    'is_null': False,
-                                                                                    'ref_id': 27,
-                                                                                    'type': 'HsvColor',
-                                                                                    'version': 1},
-                                                                         'ref_id': 25,
-                                                                         'type': 'AlgorithmicColorRamp',
-                                                                         'version': 1},
-                                                          'horizontal': False,
-                                                          'invert': False,
-                                                          'legend_class_index': 1,
-                                                          'number_of_labels': 3,
-                                                          'ref_id': 23,
-                                                          'show_ticks': True,
-                                                          'type': 'ColorRampSymbol',
-                                                          'version': 5},
-                                               'type': 'RedrawLegendClass',
-                                               'version': 2},
-                                              {'format': {'area_patch_override': None,
-                                                          'description_symbol': {'angle': 0.0,
-                                                                                 'background_symbol': None,
-                                                                                 'break_character': None,
-                                                                                 'case': 'normal',
-                                                                                 'character_spacing': 0.0,
-                                                                                 'character_width': 100.0,
-                                                                                 'cjk_orientation': False,
-                                                                                 'clip': False,
-                                                                                 'color': {'B': 0,
-                                                                                           'G': 0,
-                                                                                           'R': 0,
-                                                                                           'dither': False,
-                                                                                           'is_null': False,
-                                                                                           'ref_id': 46,
-                                                                                           'type': 'RgbColor',
-                                                                                           'version': 1},
-                                                                                 'flip_angle': 0.0,
-                                                                                 'font': {'charset': 0,
-                                                                                          'font_name': 'Arial',
-                                                                                          'italic': False,
-                                                                                          'ref_id': 48,
-                                                                                          'size': 12.0,
-                                                                                          'strikethrough': False,
-                                                                                          'type': 'Font',
-                                                                                          'underline': False,
-                                                                                          'version': 1,
-                                                                                          'weight': 400},
-                                                                                 'font_size': 12.0,
-                                                                                 'halo_enabled': False,
-                                                                                 'halo_size': 2.0,
-                                                                                 'halo_symbol': None,
-                                                                                 'horizontal_alignment': 'center',
-                                                                                 'kerning': True,
-                                                                                 'leading': 0.0,
-                                                                                 'position': 'normal',
-                                                                                 'raster_op': 13,
-                                                                                 'ref_id': 45,
-                                                                                 'right_to_left': False,
-                                                                                 'rotate_with_transform': True,
-                                                                                 'shadow_color': {'B': 0,
-                                                                                                  'G': 0,
-                                                                                                  'R': 0,
-                                                                                                  'dither': False,
-                                                                                                  'is_null': False,
-                                                                                                  'ref_id': 47,
-                                                                                                  'type': 'RgbColor',
-                                                                                                  'version': 1},
-                                                                                 'shadow_x_offset': 0.0,
-                                                                                 'shadow_y_offset': 0.0,
-                                                                                 'symbol_level': 0,
-                                                                                 'text_direction': 0,
-                                                                                 'text_fill_symbol': None,
-                                                                                 'type': 'TextSymbol',
-                                                                                 'type_setting': True,
-                                                                                 'version': 4,
-                                                                                 'vertical_alignment': 'baseline',
-                                                                                 'word_spacing': 100.0,
-                                                                                 'x_offset': 0.0,
-                                                                                 'y_offset': 0.0},
-                                                          'height': 18.0,
-                                                          'label_symbol': {'angle': 0.0,
-                                                                           'background_symbol': None,
-                                                                           'break_character': None,
-                                                                           'case': 'normal',
-                                                                           'character_spacing': 0.0,
-                                                                           'character_width': 100.0,
-                                                                           'cjk_orientation': False,
-                                                                           'clip': False,
-                                                                           'color': {'B': 0,
-                                                                                     'G': 0,
-                                                                                     'R': 0,
-                                                                                     'dither': False,
-                                                                                     'is_null': False,
-                                                                                     'ref_id': 42,
-                                                                                     'type': 'RgbColor',
-                                                                                     'version': 1},
-                                                                           'flip_angle': 0.0,
-                                                                           'font': {'charset': 0,
-                                                                                    'font_name': 'Arial',
-                                                                                    'italic': False,
-                                                                                    'ref_id': 44,
-                                                                                    'size': 10.0,
-                                                                                    'strikethrough': False,
-                                                                                    'type': 'Font',
-                                                                                    'underline': False,
-                                                                                    'version': 1,
-                                                                                    'weight': 400},
-                                                                           'font_size': 10.0,
-                                                                           'halo_enabled': False,
-                                                                           'halo_size': 2.0,
-                                                                           'halo_symbol': None,
-                                                                           'horizontal_alignment': 'left',
-                                                                           'kerning': True,
-                                                                           'leading': 0.0,
-                                                                           'position': 'normal',
-                                                                           'raster_op': 13,
-                                                                           'ref_id': 41,
-                                                                           'right_to_left': False,
-                                                                           'rotate_with_transform': True,
-                                                                           'shadow_color': {'B': 0,
-                                                                                            'G': 0,
-                                                                                            'R': 0,
-                                                                                            'dither': False,
-                                                                                            'is_null': False,
-                                                                                            'ref_id': 43,
-                                                                                            'type': 'RgbColor',
-                                                                                            'version': 1},
-                                                                           'shadow_x_offset': 0.0,
-                                                                           'shadow_y_offset': 0.0,
-                                                                           'symbol_level': 0,
-                                                                           'text_direction': 0,
-                                                                           'text_fill_symbol': None,
-                                                                           'type': 'TextSymbol',
-                                                                           'type_setting': True,
-                                                                           'version': 4,
-                                                                           'vertical_alignment': 'center',
-                                                                           'word_spacing': 100.0,
-                                                                           'x_offset': 0.0,
-                                                                           'y_offset': 0.0},
-                                                          'line_patch_override': None,
-                                                          'ref_id': 40,
-                                                          'type': 'LegendClassFormat',
-                                                          'version': 2,
-                                                          'width': 0.0},
-                                               'label': 'Low : 85',
-                                               'ref_id': 37,
-                                               'symbol': {'color': {'B': 0,
-                                                                    'G': 0,
-                                                                    'R': 0,
-                                                                    'dither': False,
-                                                                    'is_null': False,
-                                                                    'ref_id': 39,
-                                                                    'type': 'RgbColor',
-                                                                    'version': 1},
-                                                          'color_ramp': None,
-                                                          'horizontal': False,
-                                                          'invert': False,
-                                                          'legend_class_index': 2,
-                                                          'number_of_labels': 3,
-                                                          'ref_id': 38,
-                                                          'show_ticks': True,
-                                                          'type': 'ColorRampSymbol',
-                                                          'version': 5},
-                                               'type': 'RedrawLegendClass',
-                                               'version': 2}],
-                                  'editable_or_expanded': True,
-                                  'heading': 'Value',
-                                  'type': 'LegendGroup',
-                                  'version': 3,
-                                  'visible': True},
-                       'max_value': 243.0,
-                       'min_value': 85.0,
-                       'nodata_color': {'B': 255,
-                                        'G': 255,
-                                        'R': 255,
-                                        'dither': False,
-                                        'is_null': True,
-                                        'type': 'RgbColor',
-                                        'version': 1},
-                       'number_of_labels': 3,
-                       'primary_display_field': False,
-                       'ref_id': 4,
-                       'resampling_type': 'nearest_neighbor',
-                       'sigmoid_strength': 4,
-                       'stats_type': 'global',
-                       'stretch_high': 2.0,
-                       'stretch_low': 2.0,
-                       'stretch_standard_deviations': 2.5,
-                       'stretch_type': 'stdev',
-                       'type': 'RasterStretchColorRampRenderer',
-                       'use_hillshade': False,
-                       'version': 10},
-          'show_map_tips': False,
-          'show_resolution_in_toc': False,
-          'stored_zoom_max': 0.0,
-          'stored_zoom_min': 0.0,
-          'time_data_changes_regularly': False,
-          'time_enabled': False,
-          'time_offset': 0.0,
-          'time_offset_units': 'years',
-          'time_step': 0.0,
-          'time_step_units': 'hours',
-          'transform': {'ref_id': 52,
-                        'transforms': [],
-                        'type': 'CompositeXForm',
-                        'version': 2},
-          'transparency': 0,
-          'type': 'RasterLayer',
-          'version': 18,
-          'visible': True,
-          'weight': 200.0,
-          'zoom_max': 0.0,
-          'zoom_min': 0.0}}
+                                'number_of_labels': 3,
+                                'primary_display_field': False,
+                                'ref_id': 4,
+                                'resampling_type': 'nearest_neighbor',
+                                'sigmoid_strength': 4,
+                                'stats_type': 'global',
+                                'stream_offset': '0x205',
+                                'stretch_high': 2.0,
+                                'stretch_low': 2.0,
+                                'stretch_standard_deviations': 2.5,
+                                'stretch_type': 'stdev',
+                                'type': 'RasterStretchColorRampRenderer',
+                                'use_hillshade': False,
+                                'version': 10},
+                   'show_map_tips': False,
+                   'show_resolution_in_toc': False,
+                   'stored_zoom_max': 0.0,
+                   'stored_zoom_min': 0.0,
+                   'stream_offset': '0x0',
+                   'time_data_changes_regularly': False,
+                   'time_enabled': False,
+                   'time_offset': 0.0,
+                   'time_offset_units': 'years',
+                   'time_step': 0.0,
+                   'time_step_units': 'hours',
+                   'transform': {'ref_id': 52,
+                                 'stream_offset': '0x2547',
+                                 'transforms': [],
+                                 'type': 'CompositeXForm',
+                                 'version': 2},
+                   'transparency': 0,
+                   'type': 'RasterLayer',
+                   'version': 18,
+                   'visible': True,
+                   'weight': 200.0,
+                   'zoom_max': 0.0,
+                   'zoom_min': 0.0}},
+ 'qgis_layers': '<qlr>\n'
+                ' <maplayers>\n'
+                '  <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" '
+                'hasScaleBasedVisibilityFlag="0" legendPlaceholderImage="" '
+                'maxScale="0" minScale="0" refreshOnNotifyEnabled="0" '
+                'refreshOnNotifyMessage="" '
+                'styleCategories="AllStyleCategories" type="raster">\n'
+                '   <id>...</id>\n'
+                '   <datasource>C:/temp/dem.tif</datasource>\n'
+                '   <layername>dem.tif</layername>\n'
+                '   <srs>\n'
+                '    <spatialrefsys nativeFormat="Wkt">\n'
+                '     <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System '
+                '1984 ensemble",MEMBER["World Geodetic System 1984 '
+                '(Transit)"],MEMBER["World Geodetic System 1984 '
+                '(G730)"],MEMBER["World Geodetic System 1984 '
+                '(G873)"],MEMBER["World Geodetic System 1984 '
+                '(G1150)"],MEMBER["World Geodetic System 1984 '
+                '(G1674)"],MEMBER["World Geodetic System 1984 '
+                '(G1762)"],MEMBER["World Geodetic System 1984 '
+                '(G2139)"],MEMBER["World Geodetic System 1984 '
+                '(G2296)"],ELLIPSOID["WGS '
+                '84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic '
+                'latitude '
+                '(Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic '
+                'longitude '
+                '(Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Horizontal '
+                'component of 3D '
+                'system."],AREA["World."],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>\n'
+                '     <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>\n'
+                '     <srsid>3452</srsid>\n'
+                '     <srid>4326</srid>\n'
+                '     <authid>EPSG:4326</authid>\n'
+                '     <description>WGS 84</description>\n'
+                '     <projectionacronym>longlat</projectionacronym>\n'
+                '     <ellipsoidacronym>EPSG:7030</ellipsoidacronym>\n'
+                '     <geographicflag>true</geographicflag>\n'
+                '    </spatialrefsys>\n'
+                '   </srs>\n'
+                '   <resourceMetadata>\n'
+                '    <identifier></identifier>\n'
+                '    <parentidentifier></parentidentifier>\n'
+                '    <language></language>\n'
+                '    <type></type>\n'
+                '    <title></title>\n'
+                '    <abstract></abstract>\n'
+                '    <links></links>\n'
+                '    <dates></dates>\n'
+                '    <fees></fees>\n'
+                '    <encoding></encoding>\n'
+                '    <crs>\n'
+                '     <spatialrefsys nativeFormat="Wkt">\n'
+                '      <wkt></wkt>\n'
+                '      <proj4></proj4>\n'
+                '      <srsid>0</srsid>\n'
+                '      <srid>0</srid>\n'
+                '      <authid></authid>\n'
+                '      <description></description>\n'
+                '      <projectionacronym></projectionacronym>\n'
+                '      <ellipsoidacronym></ellipsoidacronym>\n'
+                '      <geographicflag>false</geographicflag>\n'
+                '     </spatialrefsys>\n'
+                '    </crs>\n'
+                '    <extent></extent>\n'
+                '   </resourceMetadata>\n'
+                '   <provider>gdal</provider>\n'
+                '   <noData>\n'
+                '    <noDataList bandNo="1" useSrcNoData="0"></noDataList>\n'
+                '   </noData>\n'
+                '   <map-layer-style-manager current="default">\n'
+                '    <map-layer-style name="default"></map-layer-style>\n'
+                '   </map-layer-style-manager>\n'
+                '   <flags>\n'
+                '    <Identifiable>1</Identifiable>\n'
+                '    <Removable>1</Removable>\n'
+                '    <Searchable>1</Searchable>\n'
+                '    <Private>0</Private>\n'
+                '   </flags>\n'
+                '   <temporal bandNumber="1" enabled="0" fetchMode="0" '
+                'mode="0">\n'
+                '    <fixedRange>\n'
+                '     <start></start>\n'
+                '     <end></end>\n'
+                '    </fixedRange>\n'
+                '   </temporal>\n'
+                '   <elevation band="1" enabled="0" '
+                'mode="RepresentsElevationSurface" symbology="Line" '
+                'zoffset="0" zscale="1">\n'
+                '    <data-defined-properties>\n'
+                '     <Option type="Map">\n'
+                '      <Option name="name" type="QString" value=""></Option>\n'
+                '      <Option name="properties"></Option>\n'
+                '      <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '     </Option>\n'
+                '    </data-defined-properties>\n'
+                '    <profileLineSymbol>\n'
+                '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="" type="line">\n'
+                '      <data_defined_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </data_defined_properties>\n'
+                '      <layer class="SimpleLine" enabled="1" id="..." '
+                'locked="0" pass="0">\n'
+                '       <Option type="Map">\n'
+                '        <Option name="align_dash_pattern" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="capstyle" type="QString" '
+                'value="square"></Option>\n'
+                '        <Option name="customdash" type="QString" '
+                'value="5;2"></Option>\n'
+                '        <Option name="customdash_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="customdash_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="dash_pattern_offset" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="dash_pattern_offset_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="dash_pattern_offset_unit" '
+                'type="QString" value="MM"></Option>\n'
+                '        <Option name="draw_inside_polygon" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="joinstyle" type="QString" '
+                'value="bevel"></Option>\n'
+                '        <Option name="line_color" type="QString" '
+                'value="255,0,0,255,rgb:1,0,0,1"></Option>\n'
+                '        <Option name="line_style" type="QString" '
+                'value="solid"></Option>\n'
+                '        <Option name="line_width" type="QString" '
+                'value="0.6"></Option>\n'
+                '        <Option name="line_width_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="offset" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="ring_filter" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_end" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_end_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="trim_distance_end_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="trim_distance_start" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_start_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="trim_distance_start_unit" '
+                'type="QString" value="MM"></Option>\n'
+                '        <Option name="tweak_dash_pattern_on_corners" '
+                'type="QString" value="0"></Option>\n'
+                '        <Option name="use_custom_dash" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="width_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '       </Option>\n'
+                '       <data_defined_properties>\n'
+                '        <Option type="Map">\n'
+                '         <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '         <Option name="properties"></Option>\n'
+                '         <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '        </Option>\n'
+                '       </data_defined_properties>\n'
+                '      </layer>\n'
+                '     </symbol>\n'
+                '    </profileLineSymbol>\n'
+                '    <profileFillSymbol>\n'
+                '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="" type="fill">\n'
+                '      <data_defined_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </data_defined_properties>\n'
+                '      <layer class="SimpleFill" enabled="1" id="..." '
+                'locked="0" pass="0">\n'
+                '       <Option type="Map">\n'
+                '        <Option name="border_width_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="color" type="QString" '
+                'value="255,0,0,255,rgb:1,0,0,1"></Option>\n'
+                '        <Option name="joinstyle" type="QString" '
+                'value="bevel"></Option>\n'
+                '        <Option name="offset" type="QString" '
+                'value="0,0"></Option>\n'
+                '        <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="outline_color" type="QString" '
+                'value="255,255,0,255,rgb:1,1,0,1"></Option>\n'
+                '        <Option name="outline_style" type="QString" '
+                'value="no"></Option>\n'
+                '        <Option name="outline_width" type="QString" '
+                'value="0.26"></Option>\n'
+                '        <Option name="outline_width_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="style" type="QString" '
+                'value="solid"></Option>\n'
+                '       </Option>\n'
+                '       <data_defined_properties>\n'
+                '        <Option type="Map">\n'
+                '         <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '         <Option name="properties"></Option>\n'
+                '         <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '        </Option>\n'
+                '       </data_defined_properties>\n'
+                '      </layer>\n'
+                '     </symbol>\n'
+                '    </profileFillSymbol>\n'
+                '   </elevation>\n'
+                '   <customproperties>\n'
+                '    <Option></Option>\n'
+                '   </customproperties>\n'
+                '   <mapTip enabled="1"></mapTip>\n'
+                '   <pipe-data-defined-properties>\n'
+                '    <Option type="Map">\n'
+                '     <Option name="name" type="QString" value=""></Option>\n'
+                '     <Option name="properties"></Option>\n'
+                '     <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '    </Option>\n'
+                '   </pipe-data-defined-properties>\n'
+                '   <pipe>\n'
+                '    <provider>\n'
+                '     <resampling enabled="false" maxOversampling="2" '
+                'zoomedInResamplingMethod="nearestNeighbour" '
+                'zoomedOutResamplingMethod="nearestNeighbour"></resampling>\n'
+                '    </provider>\n'
+                '    <rasterrenderer alphaBand="-1" band="1" '
+                'classificationMax="243" classificationMin="85" nodataColor="" '
+                'opacity="1" type="singlebandpseudocolor">\n'
+                '     <minMaxOrigin>\n'
+                '      <limits>None</limits>\n'
+                '      <extent>WholeRaster</extent>\n'
+                '      <statAccuracy>Estimated</statAccuracy>\n'
+                '      <cumulativeCutLower>0.02</cumulativeCutLower>\n'
+                '      <cumulativeCutUpper>0.98</cumulativeCutUpper>\n'
+                '      <stdDevFactor>2</stdDevFactor>\n'
+                '     </minMaxOrigin>\n'
+                '     <rastershader>\n'
+                '      <colorrampshader classificationMode="1" clip="0" '
+                'colorRampType="INTERPOLATED" labelPrecision="6" '
+                'maximumValue="243" minimumValue="85">\n'
+                '       <colorramp name="[source]" type="gradient">\n'
+                '        <Option type="Map">\n'
+                '         <Option name="color1" type="QString" '
+                'value="0,0,0,255,rgb:0,0,0,1"></Option>\n'
+                '         <Option name="color2" type="QString" '
+                'value="255,255,255,255,rgb:1,1,1,1"></Option>\n'
+                '         <Option name="direction" type="QString" '
+                'value="ccw"></Option>\n'
+                '         <Option name="discrete" type="QString" '
+                'value="0"></Option>\n'
+                '         <Option name="rampType" type="QString" '
+                'value="gradient"></Option>\n'
+                '         <Option name="spec" type="QString" '
+                'value="rgb"></Option>\n'
+                '        </Option>\n'
+                '       </colorramp>\n'
+                '       <item alpha="255" color="#000000" label="85" '
+                'value="85"></item>\n'
+                '       <item alpha="255" color="#ffffff" label="243" '
+                'value="243"></item>\n'
+                '       <rampLegendSettings direction="0" maximumLabel="" '
+                'minimumLabel="" orientation="2" prefix="" suffix="" '
+                'useContinuousLegend="1">\n'
+                '        <numericFormat id="basic">\n'
+                '         <Option type="Map">\n'
+                '          <Option name="decimal_separator" '
+                'type="invalid"></Option>\n'
+                '          <Option name="decimals" type="int" '
+                'value="6"></Option>\n'
+                '          <Option name="rounding_type" type="int" '
+                'value="0"></Option>\n'
+                '          <Option name="show_plus" type="bool" '
+                'value="false"></Option>\n'
+                '          <Option name="show_thousand_separator" type="bool" '
+                'value="true"></Option>\n'
+                '          <Option name="show_trailing_zeros" type="bool" '
+                'value="false"></Option>\n'
+                '          <Option name="thousand_separator" '
+                'type="invalid"></Option>\n'
+                '         </Option>\n'
+                '        </numericFormat>\n'
+                '       </rampLegendSettings>\n'
+                '      </colorrampshader>\n'
+                '     </rastershader>\n'
+                '    </rasterrenderer>\n'
+                '    <brightnesscontrast brightness="0" contrast="0" '
+                'gamma="1"></brightnesscontrast>\n'
+                '    <huesaturation colorizeBlue="128" colorizeGreen="128" '
+                'colorizeOn="0" colorizeRed="255" colorizeStrength="100" '
+                'grayscaleMode="0" invertColors="0" '
+                'saturation="0"></huesaturation>\n'
+                '    <rasterresampler maxOversampling="2"></rasterresampler>\n'
+                '    <resamplingStage>resamplingFilter</resamplingStage>\n'
+                '   </pipe>\n'
+                '   <blendMode>0</blendMode>\n'
+                '  </maplayer>\n'
+                ' </maplayers>\n'
+                '</qlr>'}

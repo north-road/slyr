@@ -314,6 +314,7 @@ from .legend import Legend
 from .legend_format import LegendFormat
 from .legend_item_base import LegendItemBase
 from .line_element import LineElement
+from .map import Map
 from .map_frame import MapFrame
 from .map_inset import MapInset
 from .marker_element import MarkerElement
@@ -335,3 +336,5 @@ from .table_frame import TableFrame
 from .text_element import TextElement
 from .tif_picture_element import TifPictureElement
 from .unknown_text_element import UnknownTextElement
+from .composite_graphics_layer import CompositeGraphicsLayer
+from .fdo_graphics_layer import FDOGraphicsLayer

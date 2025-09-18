@@ -22,9 +22,11 @@
 Coordinate reference system conversion
 """
 
+from typing import Optional
 import re
 
 from qgis.core import QgsCoordinateReferenceSystem
+from ..parser.exceptions import NotImplementedException
 from ..parser.objects.unknown_coordinate_system import UnknownCoordinateSystem
 from .context import Context
 
@@ -35,7 +37,7 @@ class CrsConverter:
     """
 
     @staticmethod
-    def convert_crs(crs, context: Context):
+    def convert_crs(crs, context: Context) -> QgsCoordinateReferenceSystem:
         """
         Converts CRS to QgsCoordinateReferenceSystem
         """
@@ -70,14 +72,33 @@ class CrsConverter:
             )
             res = QgsCoordinateReferenceSystem(wkt)
 
-        if (
-            not res.isValid()
-            and context.unsupported_object_callback
-            and crs.wkt not in context.warned_crs_definitions
-        ):
-            context.unsupported_object_callback(
+        if not res.isValid() and crs.wkt not in context.warned_crs_definitions:
+            context.push_warning(
                 "Could not convert CRS with WKT: {}".format(crs.wkt),
                 level=Context.WARNING,
             )
             context.warned_crs_definitions.add(crs.wkt)
         return res
+
+    @staticmethod
+    def crs_from_srs_number(
+        number: Optional[int], context: Context
+    ) -> Optional[QgsCoordinateReferenceSystem]:
+        """
+        Attempts to convert a raw integer srs ID to a QgsCoordinateReferenceSystem
+
+        Returns None if srs cannot be matched
+        """
+        if not number:
+            return None
+
+        res = QgsCoordinateReferenceSystem("EPSG:{}".format(number))
+        if res.isValid():
+            return res
+
+        res = QgsCoordinateReferenceSystem("ESRI:{}".format(number))
+        if res.isValid():
+            return res
+
+        return None
+
