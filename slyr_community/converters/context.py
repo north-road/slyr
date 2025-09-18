@@ -289,7 +289,6 @@ class Context:
             return 0
         return size
 
-
     def resolve_filename(self, document_file_name: str, file_name: str) -> str:
         """
         Resolves a filename to a resource based on the parent document

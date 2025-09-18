@@ -14,8 +14,8 @@ from qgis.core import QgsCoordinateReferenceSystem
 from ..converters.context import Context
 from ..converters.crs import CrsConverter
 from ..parser.initalize_registry import initialize_registry
-initialize_registry()
 
+initialize_registry()
 
 
 class TestCrsConverter(SlyrTestCase):
