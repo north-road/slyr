@@ -23,10 +23,12 @@
 Converts .stylx databases to GPL color palette files
 """
 
-from qgis.core import (QgsProcessingParameterFile,
-                       QgsProcessingParameterFileDestination,
-                       QgsProcessingOutputNumber,
-                       QgsProcessingException)
+from qgis.core import (
+    QgsProcessingParameterFile,
+    QgsProcessingParameterFileDestination,
+    QgsProcessingOutputNumber,
+    QgsProcessingException,
+)
 
 from .algorithm import SlyrAlgorithm
 
@@ -36,11 +38,11 @@ class StylxToGpl(SlyrAlgorithm):
     Converts .stylx databases to GPL color palette files
     """
 
-    INPUT = 'INPUT'
-    OUTPUT = 'OUTPUT'
+    INPUT = "INPUT"
+    OUTPUT = "OUTPUT"
 
-    COLOR_COUNT = 'COLOR_COUNT'
-    UNREADABLE_COLOR_COUNT = 'UNREADABLE_COLOR_COUNT'
+    COLOR_COUNT = "COLOR_COUNT"
+    UNREADABLE_COLOR_COUNT = "UNREADABLE_COLOR_COUNT"
 
     # pylint: disable=missing-docstring,unused-argument
 
@@ -48,39 +50,52 @@ class StylxToGpl(SlyrAlgorithm):
         return StylxToGpl()
 
     def name(self):
-        return 'stylxtogpl'
+        return "stylxtogpl"
 
     def displayName(self):
-        return 'Convert stylx to GPL color palette'
+        return "Convert stylx to GPL color palette"
 
     def shortDescription(self):
-        return 'Converts ArcGIS Pro stylx database to a GPL format color palette file.'
+        return "Converts ArcGIS Pro stylx database to a GPL format color palette file."
 
     def group(self):
-        return 'ArcGIS Pro'
+        return "ArcGIS Pro"
 
     def groupId(self):
-        return 'arcgispro'
+        return "arcgispro"
 
     def shortHelpString(self):
-        return "Converts an ArcGIS Pro stylx database to a GPL format color palette file, extracting all color entities " \
-               "saved in the style."
+        return (
+            "Converts an ArcGIS Pro stylx database to a GPL format color palette file, extracting all color entities "
+            "saved in the style."
+        )
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, 'Stylx database', extension='stylx'))
+        self.addParameter(
+            QgsProcessingParameterFile(self.INPUT, "Stylx database", extension="stylx")
+        )
 
-        self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
-                                                                'Destination GPL file', fileFilter="GPL files (*.gpl)"))
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT, "Destination GPL file", fileFilter="GPL files (*.gpl)"
+            )
+        )
 
-        self.addOutput(QgsProcessingOutputNumber(self.COLOR_COUNT, 'Color Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_COLOR_COUNT, 'Unreadable Color Count'))
+        self.addOutput(QgsProcessingOutputNumber(self.COLOR_COUNT, "Color Count"))
+        self.addOutput(
+            QgsProcessingOutputNumber(
+                self.UNREADABLE_COLOR_COUNT, "Unreadable Color Count"
+            )
+        )
 
-    def processAlgorithm(self,  # pylint: disable=too-many-locals,too-many-statements
-                         parameters,
-                         context,
-                         feedback):
+    def processAlgorithm(
+        self,  # pylint: disable=too-many-locals,too-many-statements
+        parameters,
+        context,
+        feedback,
+    ):
         raise QgsProcessingException(
-            'This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details')
+            "This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details"
+        )
 
     # pylint: enable=missing-docstring,unused-argument

@@ -53,7 +53,7 @@ class PictureUtils:
         png_data = QBuffer()
         image.save(png_data, "png")
 
-        encoded = base64.b64encode(png_data.data()).decode('UTF-8')
+        encoded = base64.b64encode(png_data.data()).decode("UTF-8")
 
         return encoded
 
@@ -62,7 +62,7 @@ class PictureUtils:
         """
         Converts generic picture data to base 64
         """
-        encoded = base64.b64encode(data).decode('UTF-8')
+        encoded = base64.b64encode(data).decode("UTF-8")
         return encoded
 
     @staticmethod
@@ -126,7 +126,7 @@ class PictureUtils:
         image = QImage()
         image.loadFromData(data)
         if image.isNull():
-            raise UnreadablePictureException('Could not read embedded picture data')
+            raise UnreadablePictureException("Could not read embedded picture data")
 
         image = image.convertToFormat(QImage.Format_ARGB32)
         ucharptr = image.bits()
@@ -142,10 +142,12 @@ class PictureUtils:
                 start = y * image.width() * 4
                 for x in range(image.width()):
                     x_start = x * 4 + start
-                    rgba = struct.unpack('I', ucharptr[x_start:x_start + 4])[0]
+                    rgba = struct.unpack("I", ucharptr[x_start : x_start + 4])[0]
 
                     if rgba == trans_rgba:
-                        ucharptr[x_start:x_start + 4] = struct.pack('I', actual_trans_rgba)
+                        ucharptr[x_start : x_start + 4] = struct.pack(
+                            "I", actual_trans_rgba
+                        )
 
         if not color.isValid():
             return image
@@ -170,14 +172,22 @@ class PictureUtils:
         image = QImage()
         image.loadFromData(data)
         if image.isNull():
-            raise UnreadablePictureException('Could not read embedded picture data')
+            raise UnreadablePictureException("Could not read embedded picture data")
 
         image = image.convertToFormat(QImage.Format_ARGB32)
         ucharptr = image.bits()
         ucharptr.setsize(image.byteCount() * image.height())
 
-        fg_rgba = qRgba(fg.red(), fg.green(), fg.blue(), fg.alpha()) if fg and fg.isValid() else None
-        bg_rgba = qRgba(bg.red(), bg.green(), bg.blue(), bg.alpha()) if bg and bg.isValid() else None
+        fg_rgba = (
+            qRgba(fg.red(), fg.green(), fg.blue(), fg.alpha())
+            if fg and fg.isValid()
+            else None
+        )
+        bg_rgba = (
+            qRgba(bg.red(), bg.green(), bg.blue(), bg.alpha())
+            if bg and bg.isValid()
+            else None
+        )
 
         COLOR_TOLERANCE = 40
 
@@ -188,17 +198,30 @@ class PictureUtils:
             start = y * image.width() * 4
             for x in range(image.width()):
                 x_start = x * 4 + start
-                rgba = struct.unpack('I', ucharptr[x_start:x_start + 4])[0]
-                if trans and abs(qRed(rgba) - trans.red()) < COLOR_TOLERANCE and abs(
-                        qGreen(rgba) - trans.green()) < COLOR_TOLERANCE and abs(
-                    qBlue(rgba) - trans.blue()) < COLOR_TOLERANCE:
-                    ucharptr[x_start:x_start + 4] = struct.pack('I', qRgba(0, 0, 0, 0))
-                elif fg_rgba is not None and abs(qRed(rgba) - fg_comp) < COLOR_TOLERANCE and abs(
-                        qGreen(rgba) - fg_comp) < COLOR_TOLERANCE and abs(qBlue(rgba) - fg_comp) < COLOR_TOLERANCE:
-                    ucharptr[x_start:x_start + 4] = struct.pack('I', fg_rgba)
-                elif bg_rgba is not None and abs(qRed(rgba) - bg_comp) < COLOR_TOLERANCE and abs(
-                        qGreen(rgba) - bg_comp) < COLOR_TOLERANCE and abs(qBlue(rgba) - bg_comp) < COLOR_TOLERANCE:
-                    ucharptr[x_start:x_start + 4] = struct.pack('I', bg_rgba)
+                rgba = struct.unpack("I", ucharptr[x_start : x_start + 4])[0]
+                if (
+                    trans
+                    and abs(qRed(rgba) - trans.red()) < COLOR_TOLERANCE
+                    and abs(qGreen(rgba) - trans.green()) < COLOR_TOLERANCE
+                    and abs(qBlue(rgba) - trans.blue()) < COLOR_TOLERANCE
+                ):
+                    ucharptr[x_start : x_start + 4] = struct.pack(
+                        "I", qRgba(0, 0, 0, 0)
+                    )
+                elif (
+                    fg_rgba is not None
+                    and abs(qRed(rgba) - fg_comp) < COLOR_TOLERANCE
+                    and abs(qGreen(rgba) - fg_comp) < COLOR_TOLERANCE
+                    and abs(qBlue(rgba) - fg_comp) < COLOR_TOLERANCE
+                ):
+                    ucharptr[x_start : x_start + 4] = struct.pack("I", fg_rgba)
+                elif (
+                    bg_rgba is not None
+                    and abs(qRed(rgba) - bg_comp) < COLOR_TOLERANCE
+                    and abs(qGreen(rgba) - bg_comp) < COLOR_TOLERANCE
+                    and abs(qBlue(rgba) - bg_comp) < COLOR_TOLERANCE
+                ):
+                    ucharptr[x_start : x_start + 4] = struct.pack("I", bg_rgba)
 
         # convert to PNG
         png_data = QBuffer()

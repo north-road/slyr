@@ -41,16 +41,16 @@ def cielab_to_xyz(l_value, a, b):
     fx = a / 500.0 + fy
     e = 0.008856
     k = 903.3
-    if fx ** 3 > e:
-        xr = fx ** 3
+    if fx**3 > e:
+        xr = fx**3
     else:
         xr = (116 * fx - 16) / k
     if l_value > k * e:
         yr = ((l_value + 16) / 116.0) ** 3
     else:
         yr = l_value / k
-    if fz ** 3 > e:
-        zr = fz ** 3
+    if fz**3 > e:
+        zr = fz**3
     else:
         zr = (116 * fz - 16) / k
 
@@ -97,6 +97,7 @@ def round_lab(l_value, a, b):
     """
     Rounds l/a/b values
     """
+
     def round_val(v):
         """
         Round a lab color component

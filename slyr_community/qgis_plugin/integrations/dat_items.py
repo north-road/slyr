@@ -24,8 +24,7 @@ Browser and app integrations for dat file integration with QGIS
 """
 
 from qgis.PyQt.QtCore import QDir, QCoreApplication
-from qgis.PyQt.QtWidgets import (
-    QAction)
+from qgis.PyQt.QtWidgets import QAction
 from qgis.PyQt.QtXml import QDomDocument
 from qgis.core import (
     QgsApplication,
@@ -33,11 +32,9 @@ from qgis.core import (
     QgsDataItem,
     QgsErrorItem,
     QgsMimeDataUtils,
-    QgsCsException
+    QgsCsException,
 )
-from qgis.gui import (
-    QgsCustomDropHandler
-)
+from qgis.gui import QgsCustomDropHandler
 from qgis.utils import iface
 
 from ...qgis_plugin.gui_utils import GuiUtils
@@ -54,12 +51,12 @@ class DatDropHandler(QgsCustomDropHandler):
         """
         Tests whether a file is an ESRI bookmark dat file
         """
-        if not file.lower().endswith('.dat'):
+        if not file.lower().endswith(".dat"):
             return False
         # check for file signature
-        with open(file, 'rb') as f:
+        with open(file, "rb") as f:
             try:
-                if not f.read(4) == b'\xd0\xcf\x11\xe0':
+                if not f.read(4) == b"\xd0\xcf\x11\xe0":
                     return False
             except Exception:  # pylint: disable=broad-except
                 return False
@@ -86,13 +83,18 @@ class DatDropHandler(QgsCustomDropHandler):
         Opens an dat bookmark file in the current project
         """
         message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
-        BrowserUtils.show_warning('Licensed version required', 'Convert Bookmarks', message,
-                                  level=Qgis.Critical, message_bar=iface.messageBar())
+        BrowserUtils.show_warning(
+            "Licensed version required",
+            "Convert Bookmarks",
+            message,
+            level=Qgis.Critical,
+            message_bar=iface.messageBar(),
+        )
 
         return True
 
     def customUriProviderKey(self):  # pylint: disable=missing-docstring
-        return 'esri_dat'
+        return "esri_dat"
 
     def handleCustomUriDrop(self, uri):  # pylint: disable=missing-docstring
         path = uri.uri
@@ -121,8 +123,11 @@ class EsriDatItem(QgsDataItem):
         # Runs in a thread!
         self.setState(QgsDataItem.Populating)
 
-        error_item = QgsErrorItem(self, "Bookmark conversion requires a licensed version of the SLYR plugin",
-                                  self.path() + '/error')
+        error_item = QgsErrorItem(
+            self,
+            "Bookmark conversion requires a licensed version of the SLYR plugin",
+            self.path() + "/error",
+        )
         self.child_items.append(error_item)
         return self.child_items
 
@@ -135,9 +140,9 @@ class EsriDatItem(QgsDataItem):
 
     def icon(self):  # pylint: disable=missing-docstring
         if self.bookmark:
-            return GuiUtils.get_icon('bookmark.svg')
+            return GuiUtils.get_icon("bookmark.svg")
         else:
-            return GuiUtils.get_icon('bookmarks.svg')
+            return GuiUtils.get_icon("bookmarks.svg")
 
     def mimeUri(self):  # pylint: disable=missing-docstring
         if not self.bookmark:
@@ -176,21 +181,35 @@ class EsriDatItem(QgsDataItem):
 
         try:
             if not iface.mapCanvas().setReferencedExtent(self.bookmark.extent()):
-                iface.messageBar().pushWarning("Zoom to Bookmark", "Bookmark extent is empty")
+                iface.messageBar().pushWarning(
+                    "Zoom to Bookmark", "Bookmark extent is empty"
+                )
             else:
                 iface.mapCanvas().refresh()
         except QgsCsException:
-            iface.messageBar().pushWarning("Zoom to Bookmark", "Could not reproject bookmark extent to project CRS.")
+            iface.messageBar().pushWarning(
+                "Zoom to Bookmark",
+                "Could not reproject bookmark extent to project CRS.",
+            )
 
     def actions(self, parent):  # pylint: disable=missing-docstring
         if not self.bookmark:
             import_icon = QgsApplication.getThemeIcon("/mActionSharingImport.svg")
-            open_action = QAction(import_icon,
-                                  QCoreApplication.translate('SLYR', '&Import Spatial Bookmarks to Project'), parent)
+            open_action = QAction(
+                import_icon,
+                QCoreApplication.translate(
+                    "SLYR", "&Import Spatial Bookmarks to Project"
+                ),
+                parent,
+            )
             open_action.triggered.connect(self.open_dat)
             return [open_action]
         else:
             zoom_icon = QgsApplication.getThemeIcon("/mActionZoomToLayer.svg")
-            zoom_action = QAction(zoom_icon, QCoreApplication.translate('SLYR', 'Zoom to Bookmark'), parent)
+            zoom_action = QAction(
+                zoom_icon,
+                QCoreApplication.translate("SLYR", "Zoom to Bookmark"),
+                parent,
+            )
             zoom_action.triggered.connect(self.zoom_to_bookmark)
             return [zoom_action]

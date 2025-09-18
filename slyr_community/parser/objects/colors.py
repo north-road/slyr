@@ -18,7 +18,7 @@ class Color(Object):
 
     def __init__(self):
         super().__init__()
-        self.model = ''
+        self.model = ""
         self.dither = False
         self.is_null = False
 
@@ -38,10 +38,10 @@ class Color(Object):
     def read(self, stream, version):
         self.read_color(stream)
 
-        self.dither = binascii.hexlify(stream.read(1)) == b'01'
-        self.is_null = binascii.hexlify(stream.read(1)) == b'ff'
+        self.dither = binascii.hexlify(stream.read(1)) == b"01"
+        self.is_null = binascii.hexlify(stream.read(1)) == b"ff"
 
-        stream.log('Read color ({}) of {}'.format(self.model, self.to_dict()))
+        stream.log("Read color ({}) of {}".format(self.model, self.to_dict()))
 
 
 class RgbColor(Color):
@@ -51,17 +51,17 @@ class RgbColor(Color):
 
     @staticmethod
     def cls_id():
-        return '7ee9c496-d123-11d0-8383-080009b996cc'
+        return "7ee9c496-d123-11d0-8383-080009b996cc"
 
     def __init__(self):
         super().__init__()
-        self.model = 'rgb'
+        self.model = "rgb"
         self.red = 0
         self.green = 0
         self.blue = 0
 
     def read_color(self, stream):
-        stream.log('Skipping 3 bytes')  # looks like 01 00 00 ?
+        stream.log("Skipping 3 bytes")  # looks like 01 00 00 ?
         stream.read(3)
 
         lab_l = stream.read_double()
@@ -81,7 +81,13 @@ class RgbColor(Color):
             raise InvalidColorException()
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {'R': self.red, 'G': self.green, 'B': self.blue, 'dither': self.dither, 'is_null': self.is_null}
+        return {
+            "R": self.red,
+            "G": self.green,
+            "B": self.blue,
+            "dither": self.dither,
+            "is_null": self.is_null,
+        }
 
 
 class CmykColor(Color):
@@ -91,11 +97,11 @@ class CmykColor(Color):
 
     @staticmethod
     def cls_id():
-        return '7ee9c497-d123-11d0-8383-080009b996cc'
+        return "7ee9c497-d123-11d0-8383-080009b996cc"
 
     def __init__(self):
         super().__init__()
-        self.model = 'cmyk'
+        self.model = "cmyk"
 
         self.cyan = 0
         self.magenta = 0
@@ -107,7 +113,7 @@ class CmykColor(Color):
         return [4]
 
     def read_color(self, stream):
-        stream.log('Skipping 2 bytes')
+        stream.log("Skipping 2 bytes")
         stream.read(2)
 
         # CMYK is nice and easy - it's just direct char representations of the C/M/Y/K integer components!
@@ -117,8 +123,14 @@ class CmykColor(Color):
         self.black = stream.read_uchar()
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {'C': self.cyan, 'M': self.magenta, 'Y': self.yellow, 'K': self.black, 'dither': self.dither,
-                'is_null': self.is_null}
+        return {
+            "C": self.cyan,
+            "M": self.magenta,
+            "Y": self.yellow,
+            "K": self.black,
+            "dither": self.dither,
+            "is_null": self.is_null,
+        }
 
 
 class HsvColor(RgbColor):
@@ -128,11 +140,11 @@ class HsvColor(RgbColor):
 
     @staticmethod
     def cls_id():
-        return '7ee9c492-d123-11d0-8383-080009b996cc'
+        return "7ee9c492-d123-11d0-8383-080009b996cc"
 
     def __init__(self):
         super().__init__()
-        self.model = 'hsv'
+        self.model = "hsv"
 
 
 class HlsColor(RgbColor):
@@ -142,13 +154,14 @@ class HlsColor(RgbColor):
 
     @staticmethod
     def cls_id():
-        return '7ee9c493-d123-11d0-8383-080009b996cc'
+        return "7ee9c493-d123-11d0-8383-080009b996cc"
 
 
 class GrayColor(RgbColor):
     """
     Grayscale Color
     """
+
     @staticmethod
     def cls_id():
-        return '7ee9c495-d123-11d0-8383-080009b996cc'
+        return "7ee9c495-d123-11d0-8383-080009b996cc"

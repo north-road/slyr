@@ -27,8 +27,7 @@ class WorkspaceFactory(Object):
         pass
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}
 
 
 class SdeWorkspaceFactory(WorkspaceFactory):
@@ -38,10 +37,10 @@ class SdeWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'd9b4fa40-d6d9-11d1-aa81-00c04fa33a15'
+        return "d9b4fa40-d6d9-11d1-aa81-00c04fa33a15"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'SdeWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "SdeWorkspaceFactory":
         return SdeWorkspaceFactory()
 
 
@@ -52,10 +51,10 @@ class AccessWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'dd48c96a-d92a-11d1-aa81-00c04fa33a15'
+        return "dd48c96a-d92a-11d1-aa81-00c04fa33a15"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'AccessWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "AccessWorkspaceFactory":
         return AccessWorkspaceFactory()
 
 
@@ -66,10 +65,10 @@ class ArcInfoWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '1d887452-d9f2-11d1-aa81-00c04fa33a15'
+        return "1d887452-d9f2-11d1-aa81-00c04fa33a15"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'ArcInfoWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "ArcInfoWorkspaceFactory":
         return ArcInfoWorkspaceFactory()
 
 
@@ -80,10 +79,10 @@ class CadWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '9e2c27ce-62c6-11d2-9aed-00c04fa33299'
+        return "9e2c27ce-62c6-11d2-9aed-00c04fa33299"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'CadWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "CadWorkspaceFactory":
         return CadWorkspaceFactory()
 
 
@@ -94,10 +93,10 @@ class IMSWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'bac84d58-fa9d-11d3-9f48-00c04f79927c'
+        return "bac84d58-fa9d-11d3-9f48-00c04f79927c"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'IMSWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "IMSWorkspaceFactory":
         return IMSWorkspaceFactory()
 
 
@@ -108,10 +107,10 @@ class OLEDBWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '59158055-3171-11d2-aa94-00c04fa37849'
+        return "59158055-3171-11d2-aa94-00c04fa37849"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'OLEDBWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "OLEDBWorkspaceFactory":
         return OLEDBWorkspaceFactory()
 
 
@@ -122,10 +121,10 @@ class PCCoverageWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '6de812d2-9ab6-11d2-b0d7-0000f8780820'
+        return "6de812d2-9ab6-11d2-b0d7-0000f8780820"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'PCCoverageWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "PCCoverageWorkspaceFactory":
         return PCCoverageWorkspaceFactory()
 
 
@@ -136,10 +135,10 @@ class RasterWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '4c91d963-3390-11d2-8d25-0000f8780535'
+        return "4c91d963-3390-11d2-8d25-0000f8780535"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'RasterWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "RasterWorkspaceFactory":
         return RasterWorkspaceFactory()
 
 
@@ -150,10 +149,10 @@ class ShapefileWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'a06adb96-d95c-11d1-aa81-00c04fa33a15'
+        return "a06adb96-d95c-11d1-aa81-00c04fa33a15"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'ShapefileWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "ShapefileWorkspaceFactory":
         return ShapefileWorkspaceFactory()
 
 
@@ -164,14 +163,14 @@ class FileGDBWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '71fe75f0-ea0c-4406-873e-b7d53748ae7e'
+        return "71fe75f0-ea0c-4406-873e-b7d53748ae7e"
 
     @staticmethod
     def supports_references():
         return False
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'FileGDBWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "FileGDBWorkspaceFactory":
         return FileGDBWorkspaceFactory()
 
 
@@ -182,10 +181,10 @@ class TextFileWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '72ce59ec-0be8-11d4-ae03-00c04fa33a15'
+        return "72ce59ec-0be8-11d4-ae03-00c04fa33a15"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'TextFileWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "TextFileWorkspaceFactory":
         return TextFileWorkspaceFactory()
 
 
@@ -196,10 +195,10 @@ class TinWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'ad4e89d9-00a5-11d2-b1ca-00c04f8edeff'
+        return "ad4e89d9-00a5-11d2-b1ca-00c04f8edeff"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'TinWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "TinWorkspaceFactory":
         return TinWorkspaceFactory()
 
 
@@ -210,10 +209,10 @@ class VpfWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '397847f9-c865-11d3-9b56-00c04fa33299'
+        return "397847f9-c865-11d3-9b56-00c04fa33299"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'VpfWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "VpfWorkspaceFactory":
         return VpfWorkspaceFactory()
 
 
@@ -224,10 +223,10 @@ class FeatureServiceWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'c81194e7-4daa-418b-8c83-2942e65d2b8c'
+        return "c81194e7-4daa-418b-8c83-2942e65d2b8c"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'FeatureServiceWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "FeatureServiceWorkspaceFactory":
         return FeatureServiceWorkspaceFactory()
 
 
@@ -238,10 +237,10 @@ class SdcWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '34dae34f-dbe2-409c-8f85-ddbb46138011'
+        return "34dae34f-dbe2-409c-8f85-ddbb46138011"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'SdcWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "SdcWorkspaceFactory":
         return SdcWorkspaceFactory()
 
 
@@ -252,10 +251,10 @@ class ExcelOrMdbWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '30f6f271-852b-4ee8-bd2d-099f51d6b238'
+        return "30f6f271-852b-4ee8-bd2d-099f51d6b238"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'ExcelOrMdbWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "ExcelOrMdbWorkspaceFactory":
         return ExcelOrMdbWorkspaceFactory()
 
 
@@ -266,10 +265,10 @@ class GpkgWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '5297187b-fd2b-4a5f-8991-eb3f6f1ca502'
+        return "5297187b-fd2b-4a5f-8991-eb3f6f1ca502"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'GpkgWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "GpkgWorkspaceFactory":
         return GpkgWorkspaceFactory()
 
 
@@ -280,10 +279,10 @@ class FMEWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'cb59701c-1c24-4291-aff2-3a8d80923902'
+        return "cb59701c-1c24-4291-aff2-3a8d80923902"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'FMEWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "FMEWorkspaceFactory":
         return FMEWorkspaceFactory()
 
 
@@ -294,10 +293,10 @@ class StreetMapWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'ae2469e8-e110-4cd6-b3f4-a756cbf921ca'
+        return "ae2469e8-e110-4cd6-b3f4-a756cbf921ca"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'StreetMapWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "StreetMapWorkspaceFactory":
         return StreetMapWorkspaceFactory()
 
 
@@ -308,10 +307,10 @@ class LasDatasetWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return '7ab01d9a-fdfe-4dfb-9209-86603ee9aec6'
+        return "7ab01d9a-fdfe-4dfb-9209-86603ee9aec6"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'LasDatasetWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "LasDatasetWorkspaceFactory":
         return LasDatasetWorkspaceFactory()
 
 
@@ -322,10 +321,10 @@ class NetCDFWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'df61a9e1-b8e2-498f-bde5-98de42e801f9'
+        return "df61a9e1-b8e2-498f-bde5-98de42e801f9"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'NetCDFWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "NetCDFWorkspaceFactory":
         return NetCDFWorkspaceFactory()
 
 
@@ -336,10 +335,10 @@ class ToolboxWorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'e9231b31-2a34-4729-8de2-12cf39674b1b'
+        return "e9231b31-2a34-4729-8de2-12cf39674b1b"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'ToolboxWorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "ToolboxWorkspaceFactory":
         return ToolboxWorkspaceFactory()
 
 
@@ -350,8 +349,8 @@ class S57WorkspaceFactory(WorkspaceFactory):
 
     @staticmethod
     def cls_id():
-        return 'cc1a41b4-17ce-4ec1-92e3-acbd91bf7b30'
+        return "cc1a41b4-17ce-4ec1-92e3-acbd91bf7b30"
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'S57WorkspaceFactory':
+    def from_dict(cls, definition: dict) -> "S57WorkspaceFactory":
         return S57WorkspaceFactory()

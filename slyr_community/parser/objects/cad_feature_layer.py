@@ -14,15 +14,15 @@ class CadFeatureLayer(Object):
 
     @staticmethod
     def cls_id():
-        return 'e0f384b6-e0c1-11d2-9b30-00c04fa33299'
+        return "e0f384b6-e0c1-11d2-9b30-00c04fa33299"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
         self.layer = None
         self.drawing_object = None
         self.visible = True
-        self.name = ''
-        self.datasource_type = ''
+        self.name = ""
+        self.datasource_type = ""
         self.dataset_name = None
 
     @staticmethod
@@ -30,17 +30,17 @@ class CadFeatureLayer(Object):
         return [2, 4]
 
     def read(self, stream: Stream, version):
-        self.layer = stream.read_object('layer')
-        self.drawing_object = stream.read_object('drawing object')
+        self.layer = stream.read_object("layer")
+        self.drawing_object = stream.read_object("drawing object")
 
-        count = stream.read_int('unknown count')
+        count = stream.read_int("unknown count")
         for i in range(count):
-            stream.read_ushort('unknown flag {}'.format(i + 1), expected=(0, 65535))
+            stream.read_ushort("unknown flag {}".format(i + 1), expected=(0, 65535))
 
         if version > 2:
-            stream.read_string('unknown', expected='')
-            stream.read_double('unknown', expected=0)
-            stream.read_double('unknown', expected=0)
+            stream.read_string("unknown", expected="")
+            stream.read_double("unknown", expected=0)
+            stream.read_double("unknown", expected=0)
 
         # copy some stuff from the layer
         if self.layer:
@@ -51,6 +51,8 @@ class CadFeatureLayer(Object):
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'layer': self.layer.to_dict() if self.layer else None,
-            'cad_drawing_object': self.drawing_object.to_dict() if self.drawing_object else None
+            "layer": self.layer.to_dict() if self.layer else None,
+            "cad_drawing_object": self.drawing_object.to_dict()
+            if self.drawing_object
+            else None,
         }

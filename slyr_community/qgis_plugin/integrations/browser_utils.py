@@ -23,13 +23,9 @@
 Browser utilities
 """
 
-from qgis.PyQt.QtWidgets import (
-    QPushButton)
+from qgis.PyQt.QtWidgets import QPushButton
 
-from qgis.core import (
-    Qgis,
-    QgsMessageOutput
-)
+from qgis.core import Qgis, QgsMessageOutput
 from qgis.utils import iface
 
 
@@ -39,7 +35,9 @@ class BrowserUtils:
     """
 
     @staticmethod
-    def show_warning(short_message, title, long_message, level=Qgis.Warning, message_bar=None):
+    def show_warning(
+        short_message, title, long_message, level=Qgis.Warning, message_bar=None
+    ):
         """
         Shows a warning via the QGIS message bar
         """
@@ -52,7 +50,7 @@ class BrowserUtils:
 
         if message_bar is None:
             message_bar = iface.messageBar()
-        message_widget = message_bar.createMessage('SLYR', short_message)
+        message_widget = message_bar.createMessage("SLYR", short_message)
         details_button = QPushButton("Details")
         details_button.clicked.connect(show_details)
         message_widget.layout().addWidget(details_button)
@@ -63,6 +61,6 @@ class BrowserUtils:
         """
         Opens the settings dialog at the SLYR options page
         """
-        iface.showOptionsDialog(iface.mainWindow(), currentPage='slyrOptions')
+        iface.showOptionsDialog(iface.mainWindow(), currentPage="slyrOptions")
         if message_bar_widget:
             iface.messageBar().popWidget(message_bar_widget)

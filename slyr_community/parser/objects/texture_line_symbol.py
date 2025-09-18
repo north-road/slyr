@@ -14,7 +14,7 @@ class TextureLineSymbol(SymbolLayer):
 
     @staticmethod
     def cls_id():
-        return 'b5710c9c-a9bc-4a16-b578-54be176ed57b'
+        return "b5710c9c-a9bc-4a16-b578-54be176ed57b"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -27,13 +27,15 @@ class TextureLineSymbol(SymbolLayer):
         return [2]
 
     def read(self, stream: Stream, version):
-        self.width = stream.read_double('width')
-        self.texture_fill_symbol = stream.read_object('texture fill symbol')
-        self.vertical_orientation = stream.read_uchar('vertical orientation') != 0
+        self.width = stream.read_double("width")
+        self.texture_fill_symbol = stream.read_object("texture fill symbol")
+        self.vertical_orientation = stream.read_uchar("vertical orientation") != 0
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'texture_fill_symbol': self.texture_fill_symbol.to_dict() if self.texture_fill_symbol else None,
-            'vertical_orientation': self.vertical_orientation,
-            'width': self.width
+            "texture_fill_symbol": self.texture_fill_symbol.to_dict()
+            if self.texture_fill_symbol
+            else None,
+            "vertical_orientation": self.vertical_orientation,
+            "width": self.width,
         }

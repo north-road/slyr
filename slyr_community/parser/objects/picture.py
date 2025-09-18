@@ -24,31 +24,31 @@ class Picture(Object):
         self.content = None
 
     @staticmethod
-    def create_from_bytes(content: bin) -> 'Picture':
+    def create_from_bytes(content: bin) -> "Picture":
         """
         Creates a picture directly from a binary blob, sniffing out the correct
         picture type.
         """
         # sniff the first couple of bytes to check for picture type
-        if binascii.hexlify(content[:2]) == b'424d':
+        if binascii.hexlify(content[:2]) == b"424d":
             # bitmap
             pic = BmpPicture()
             pic.read_binary(content)
-        elif binascii.hexlify(content[:4]) == b'01000000':
+        elif binascii.hexlify(content[:4]) == b"01000000":
             pic = EmfPicture()
             pic.read_binary(content)
         else:
-            raise UnreadablePictureException('Could not sniff picture type')
+            raise UnreadablePictureException("Could not sniff picture type")
 
         return pic
 
     @staticmethod
-    def create_from_stream(stream) -> 'Picture':
+    def create_from_stream(stream) -> "Picture":
         """
         Reads a picture from the stream and returns it
         """
-        version = stream.read_uint('version')
-        pic_type = stream.read_uint('pic_type')
+        version = stream.read_uint("version")
+        pic_type = stream.read_uint("pic_type")
 
         if version == 2:
             if pic_type == 0:
@@ -60,15 +60,17 @@ class Picture(Object):
 
             pic.read(stream, pic_type)
         elif version == 3:
-            pic = stream.read_object('picture')
+            pic = stream.read_object("picture")
         else:
-            raise UnreadablePictureException('Unknown picture version {}'.format(version))
+            raise UnreadablePictureException(
+                "Unknown picture version {}".format(version)
+            )
         return pic
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'type': self.__class__.__name__,
-            'content': base64.b64encode(self.content)
+            "type": self.__class__.__name__,
+            "content": base64.b64encode(self.content),
         }
 
 
@@ -79,7 +81,7 @@ class StdPicture(Object):
 
     @staticmethod
     def cls_id():
-        return '0be35204-8f91-11ce-9de3-00aa004bb851'
+        return "0be35204-8f91-11ce-9de3-00aa004bb851"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -91,8 +93,10 @@ class StdPicture(Object):
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'picture_type': None if self.picture is None else self.picture.__class__.__name__,
-            'content': base64.b64encode(self.picture.content)
+            "picture_type": None
+            if self.picture is None
+            else self.picture.__class__.__name__,
+            "content": base64.b64encode(self.picture.content),
         }
 
     def children(self):
@@ -104,8 +108,10 @@ class StdPicture(Object):
     def read(self, stream, version):
         constant = stream.read_ulong()
         if constant != 0x0000746C:
-            raise UnreadablePictureException('Could not read StdPicture constant, got {}'.format(hex(constant)))
-        size = stream.read_ulong('size')
+            raise UnreadablePictureException(
+                "Could not read StdPicture constant, got {}".format(hex(constant))
+            )
+        size = stream.read_ulong("size")
 
         # next bit is the picture
         content = stream.read(size)
@@ -130,67 +136,73 @@ class BmpPicture(Picture):
         """
         Reads the object from the given stream
         """
-        stream.log('Reading pixmap of type {}'.format(version))
+        stream.log("Reading pixmap of type {}".format(version))
         self.content = self.read_from_stream(stream)
 
     def read_from_stream(self, stream: Stream):
         """
         Reads a picture object from a stream
         """
-        size = stream.read_uint('Pixmap size')
+        size = stream.read_uint("Pixmap size")
 
         check = stream.read(2)
-        if check == b'BM':
+        if check == b"BM":
             # BMP file
             # next bit should be size again
             size2 = struct.unpack("<I", stream.read(4))[0]
             if size != size2:
                 raise UnreadablePictureException(
-                    'Bitmap size {} did not match size in header {}'.format(size, size2))
+                    "Bitmap size {} did not match size in header {}".format(size, size2)
+                )
             self.format = BmpPicture.FORMAT_BMP
             stream.rewind(6)
             return stream.read(size)
-        elif check == b'\x01\x00':
+        elif check == b"\x01\x00":
             # EMF file
             stream.rewind(2)
             self.format = BmpPicture.FORMAT_EMF
             return stream.read(size)
-        elif check == b'\xff\xd8':
+        elif check == b"\xff\xd8":
             # JPG file
             check = stream.read(1)
-            assert check == b'\xff'
+            assert check == b"\xff"
             stream.rewind(3)
             self.format = BmpPicture.FORMAT_JPG
             return stream.read(size)
-        elif check == b'\x89\x50':
+        elif check == b"\x89\x50":
             # PNG file
             start = stream.tell() - 2
-            if stream.read(6) != b'\x4e\x47\x0d\x0a\x1a\x0a':  # where is 0d?
-                raise UnreadablePictureException('Corrupt PNG header')
+            if stream.read(6) != b"\x4e\x47\x0d\x0a\x1a\x0a":  # where is 0d?
+                raise UnreadablePictureException("Corrupt PNG header")
 
             first = True
             while True:
                 chunk_size = struct.unpack(">I", stream.read(4))[0]
                 chunk_type = stream.read(4)
                 if first:
-                    if not chunk_type == b'IHDR':
-                        raise UnreadablePictureException('Missing PNG IHDR chunk')
+                    if not chunk_type == b"IHDR":
+                        raise UnreadablePictureException("Missing PNG IHDR chunk")
                     first = False
                 stream.read(chunk_size)
                 stream.read(4)  # CRC
-                if chunk_type == b'IEND':
+                if chunk_type == b"IEND":
                     break
 
             found_size = stream.tell() - start
             if size != found_size:
                 raise UnreadablePictureException(
-                    'PNG size {} did not match size in header {}'.format(found_size, size))
+                    "PNG size {} did not match size in header {}".format(
+                        found_size, size
+                    )
+                )
             self.format = BmpPicture.FORMAT_PNG
             stream.seek(start)
             return stream.read(found_size)
         else:
             stream.rewind(2)
-            raise UnreadablePictureException('Expected 424d (\'BM\'), got {}'.format(check))
+            raise UnreadablePictureException(
+                "Expected 424d ('BM'), got {}".format(check)
+            )
 
     def read_binary(self, content: bin):
         """
@@ -199,23 +211,28 @@ class BmpPicture(Picture):
 
         # some checks to verify that we've hit a BMP header
         check = binascii.hexlify(content[:2])
-        if check == b'424d':
+        if check == b"424d":
             # BMP file
             # next bit should be size again
             size2 = struct.unpack("<I", content[2:6])[0]
             if len(content) != size2:
                 raise UnreadablePictureException(
-                    'Bitmap size {} did not match size in header {}'.format(len(content), size2))
+                    "Bitmap size {} did not match size in header {}".format(
+                        len(content), size2
+                    )
+                )
             self.format = BmpPicture.FORMAT_BMP
-        elif binascii.hexlify(content[:4]) == b'89504e47':
+        elif binascii.hexlify(content[:4]) == b"89504e47":
             # PNG file
 
             self.format = BmpPicture.FORMAT_PNG
-        elif check == b'\x01\x00':
+        elif check == b"\x01\x00":
             # EMF file
             self.format = BmpPicture.FORMAT_EMF
         else:
-            raise UnreadablePictureException('Expected 424d (\'BM\'), got {}'.format(check))
+            raise UnreadablePictureException(
+                "Expected 424d ('BM'), got {}".format(check)
+            )
 
         # all good! rewind and store bitmap
         self.content = content
@@ -230,8 +247,8 @@ class EmfPicture(Picture):
         """
         Reads the object from the given stream
         """
-        stream.log('Reading EMF file')
-        size = stream.read_uint('EMF size')
+        stream.log("Reading EMF file")
+        size = stream.read_uint("EMF size")
 
         content = stream.read(size)
         self.read_binary(content)
@@ -243,8 +260,10 @@ class EmfPicture(Picture):
 
         # some checks to verify that we've hit a EMF header
         check = binascii.hexlify(content[:4])
-        if check != b'01000000':
-            raise UnreadablePictureException('Expected EMF header 010000000, got {}'.format(check))
+        if check != b"01000000":
+            raise UnreadablePictureException(
+                "Expected EMF header 010000000, got {}".format(check)
+            )
 
         # all good! rewind and store bitmap
         self.content = content

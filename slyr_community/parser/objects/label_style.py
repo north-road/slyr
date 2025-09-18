@@ -16,7 +16,7 @@ class LabelStyle(Object):
 
     @staticmethod
     def cls_id():
-        return '4c90de7b-cb77-11d2-9f34-00c04f6bc6a5'
+        return "4c90de7b-cb77-11d2-9f34-00c04f6bc6a5"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -24,11 +24,11 @@ class LabelStyle(Object):
         self.overposter = None
 
     def read(self, stream: Stream, version):
-        self.text_symbol = stream.read_object('text symbol')
-        self.overposter = stream.read_object('overposter')
+        self.text_symbol = stream.read_object("text symbol")
+        self.overposter = stream.read_object("overposter")
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'text_symbol': self.text_symbol.to_dict() if self.text_symbol else None,
-            'overposter': self.overposter.to_dict() if self.overposter else None
+            "text_symbol": self.text_symbol.to_dict() if self.text_symbol else None,
+            "overposter": self.overposter.to_dict() if self.overposter else None,
         }

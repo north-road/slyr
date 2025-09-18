@@ -62,22 +62,22 @@ class Converter:
         """
         Converts a FillSymbol
         """
-        raise NotImplementedException('Fill symbol conversion not implemented')
+        raise NotImplementedException("Fill symbol conversion not implemented")
 
     def convert_line_symbol(self, symbol: Union[SymbolLayer, MultiLayerLineSymbol]):  # pylint: disable=unused-argument
         """
         Converts a LineSymbol
         """
-        raise NotImplementedException('Line symbol conversion not implemented')
+        raise NotImplementedException("Line symbol conversion not implemented")
 
     def convert_marker_symbol(self, symbol: Union[SymbolLayer, MultiLayerMarkerSymbol]):  # pylint: disable=unused-argument
         """
         Converts a MarkerSymbol
         """
-        raise NotImplementedException('Marker symbol conversion not implemented')
+        raise NotImplementedException("Marker symbol conversion not implemented")
 
     def convert_color_ramp(self, ramp: ColorRamp):  # pylint: disable=unused-argument
         """
         Converts a color ramp
         """
-        raise NotImplementedException('Color ramp conversion not implemented')
+        raise NotImplementedException("Color ramp conversion not implemented")

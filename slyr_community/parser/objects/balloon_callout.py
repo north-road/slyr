@@ -20,7 +20,7 @@ class BalloonCallout(Object):
 
     @staticmethod
     def cls_id():
-        return 'c8d09ed2-4fbb-11d1-9a72-0080c7ec5c96'
+        return "c8d09ed2-4fbb-11d1-9a72-0080c7ec5c96"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -39,31 +39,31 @@ class BalloonCallout(Object):
         Converts style enum to a string
         """
         if style == BalloonCallout.STYLE_RECTANGLE:
-            return 'rectangle'
+            return "rectangle"
         elif style == BalloonCallout.STYLE_OVAL:
-            return 'oval'
+            return "oval"
         elif style == BalloonCallout.STYLE_ROUNDED_RECTANGLE:
-            return 'rounded_rectangle'
+            return "rounded_rectangle"
         return None
 
     def read(self, stream: Stream, version):
-        self.style = stream.read_int('style')
-        self.margin_left = stream.read_double('margin left')
-        self.margin_top = stream.read_double('margin top')
-        self.margin_right = stream.read_double('margin right')
-        self.margin_bottom = stream.read_double('margin bottom')
-        self.fill_symbol = stream.read_object('fill symbol')
-        self.point = stream.read_object('point')
-        self.tolerance = stream.read_double('tolerance')
+        self.style = stream.read_int("style")
+        self.margin_left = stream.read_double("margin left")
+        self.margin_top = stream.read_double("margin top")
+        self.margin_right = stream.read_double("margin right")
+        self.margin_bottom = stream.read_double("margin bottom")
+        self.fill_symbol = stream.read_object("fill symbol")
+        self.point = stream.read_object("point")
+        self.tolerance = stream.read_double("tolerance")
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'margin_top': self.margin_top,
-            'margin_right': self.margin_right,
-            'margin_bottom': self.margin_bottom,
-            'margin_left': self.margin_left,
-            'fill_symbol': self.fill_symbol.to_dict() if self.fill_symbol else None,
-            'tolerance': self.tolerance,
-            'style': BalloonCallout.style_to_string(self.style),
-            'point': self.point.to_dict() if self.point else None
+            "margin_top": self.margin_top,
+            "margin_right": self.margin_right,
+            "margin_bottom": self.margin_bottom,
+            "margin_left": self.margin_left,
+            "fill_symbol": self.fill_symbol.to_dict() if self.fill_symbol else None,
+            "tolerance": self.tolerance,
+            "style": BalloonCallout.style_to_string(self.style),
+            "point": self.point.to_dict() if self.point else None,
         }

@@ -48,18 +48,22 @@ class NumericFormatConverter:
         if Qgis.QGIS_VERSION_INT < 31200:
             if context.unsupported_object_callback:
                 context.unsupported_object_callback(
-                    'Numeric format conversion not supported on QGIS < 3.12',
-                    level=Context.WARNING)
+                    "Numeric format conversion not supported on QGIS < 3.12",
+                    level=Context.WARNING,
+                )
             return None
 
         if not numeric_format:
             return None
 
-        if numeric_format.__class__.__name__ not in ('NumericFormat', ):
+        if numeric_format.__class__.__name__ not in ("NumericFormat",):
             if context.unsupported_object_callback:
                 context.unsupported_object_callback(
-                    '{} format conversion is not yet supported'.format(numeric_format.__class__.__name__),
-                    level=Context.WARNING)
+                    "{} format conversion is not yet supported".format(
+                        numeric_format.__class__.__name__
+                    ),
+                    level=Context.WARNING,
+                )
             return None
 
         res = QgsBasicNumericFormat()
@@ -83,9 +87,9 @@ class NumericFormatConverter:
         """
         Extracts the decimal precision from a numeric format
         """
-        if numeric_format.__class__.__name__ == 'NumericFormat':
+        if numeric_format.__class__.__name__ == "NumericFormat":
             return numeric_format.rounding_value
-        elif numeric_format.__class__.__name__ == 'LatLonFormat':
+        elif numeric_format.__class__.__name__ == "LatLonFormat":
             return numeric_format.rounding_value
 
         return None

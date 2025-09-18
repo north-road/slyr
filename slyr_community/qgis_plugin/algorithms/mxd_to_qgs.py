@@ -23,12 +23,14 @@
 Converts an MXD document to a QGS project file
 """
 
-from qgis.core import (Qgis,
-                       QgsProcessingParameterFile,
-                       QgsProcessingParameterFileDestination,
-                       QgsProcessingParameterBoolean,
-                       QgsProcessingParameterDefinition,
-                       QgsProcessingException)
+from qgis.core import (
+    Qgis,
+    QgsProcessingParameterFile,
+    QgsProcessingParameterFileDestination,
+    QgsProcessingParameterBoolean,
+    QgsProcessingParameterDefinition,
+    QgsProcessingException,
+)
 
 from .algorithm import SlyrAlgorithm
 
@@ -38,9 +40,9 @@ class ConvertMxdToQgs(SlyrAlgorithm):
     Converts an MXD document to a QGS project file
     """
 
-    INPUT = 'INPUT'
-    OUTPUT = 'OUTPUT'
-    IGNORE_ONLINE = 'IGNORE_ONLINE'
+    INPUT = "INPUT"
+    OUTPUT = "OUTPUT"
+    IGNORE_ONLINE = "IGNORE_ONLINE"
 
     # pylint: disable=missing-docstring,unused-argument
 
@@ -48,41 +50,58 @@ class ConvertMxdToQgs(SlyrAlgorithm):
         return ConvertMxdToQgs()
 
     def name(self):
-        return 'convertmxdtoqgs'
+        return "convertmxdtoqgs"
 
     def displayName(self):
-        return 'Convert MXD/MXT to QGS'
+        return "Convert MXD/MXT to QGS"
 
     def shortDescription(self):
-        return 'Converts an MXD or MXT document file to a QGIS project file.'
+        return "Converts an MXD or MXT document file to a QGIS project file."
 
     def group(self):
-        return 'MXD documents'
+        return "MXD documents"
 
     def groupId(self):
-        return 'mxd'
+        return "mxd"
 
     def shortHelpString(self):
-        return 'Converts an MXD or MXT document file to a QGIS project file.'
+        return "Converts an MXD or MXT document file to a QGIS project file."
 
     def initAlgorithm(self, config=None):
         if Qgis.QGIS_VERSION_INT >= 31000:
-            self.addParameter(QgsProcessingParameterFile(
-                self.INPUT, 'Input MXD/MXT file', fileFilter='MXD/MXT Documents (*.mxd *.MXD *.mxt *.MXT)'))
+            self.addParameter(
+                QgsProcessingParameterFile(
+                    self.INPUT,
+                    "Input MXD/MXT file",
+                    fileFilter="MXD/MXT Documents (*.mxd *.MXD *.mxt *.MXT)",
+                )
+            )
         else:
-            self.addParameter(QgsProcessingParameterFile(
-                self.INPUT, 'Input MXD/MXT file', extension='mxd'))
+            self.addParameter(
+                QgsProcessingParameterFile(
+                    self.INPUT, "Input MXD/MXT file", extension="mxd"
+                )
+            )
 
-        param_no_online = QgsProcessingParameterBoolean(self.IGNORE_ONLINE, 'Ignore online sources (debug option)',
-                                                        False, True)
-        param_no_online.setFlags(param_no_online.flags() | QgsProcessingParameterDefinition.FlagHidden)
+        param_no_online = QgsProcessingParameterBoolean(
+            self.IGNORE_ONLINE, "Ignore online sources (debug option)", False, True
+        )
+        param_no_online.setFlags(
+            param_no_online.flags() | QgsProcessingParameterDefinition.FlagHidden
+        )
         self.addParameter(param_no_online)
 
-        self.addParameter(QgsProcessingParameterFileDestination(
-            self.OUTPUT, 'Destination QGS project file', fileFilter='QGS files (*.qgs)'))
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                "Destination QGS project file",
+                fileFilter="QGS files (*.qgs)",
+            )
+        )
 
     def processAlgorithm(self, parameters, context, feedback):
         raise QgsProcessingException(
-            'This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details')
+            "This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details"
+        )
 
     # pylint: enable=missing-docstring,unused-argument

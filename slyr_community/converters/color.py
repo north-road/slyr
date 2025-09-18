@@ -41,7 +41,12 @@ class ColorConverter:
 
         if isinstance(color, CmykColor):
             # CMYK color
-            c = QColor.fromCmykF(color.cyan / 100, color.magenta / 100, color.yellow / 100, color.black / 100)
+            c = QColor.fromCmykF(
+                color.cyan / 100,
+                color.magenta / 100,
+                color.yellow / 100,
+                color.black / 100,
+            )
             if color.is_null:
                 c.setAlpha(0)
             return c
