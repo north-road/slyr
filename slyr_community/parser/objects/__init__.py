@@ -338,3 +338,10 @@ from .tif_picture_element import TifPictureElement
 from .unknown_text_element import UnknownTextElement
 from .composite_graphics_layer import CompositeGraphicsLayer
 from .fdo_graphics_layer import FDOGraphicsLayer
+from .page_layout import PageLayout
+from .map_surround_frame import MapSurroundFrame
+from .graticule import Graticule
+from .simple_map_grid_border import SimpleMapGridBorder
+from .double_alternating_scale_bar import DoubleAlternatingScaleBar
+from .hollow_scale_bar import HollowScaleBar
+from .dms_grid_label import DMSGridLabel
