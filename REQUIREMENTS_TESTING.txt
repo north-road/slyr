@@ -4,3 +4,4 @@ mock
 flake8
 pep257
 pylint
+ruff==0.12.0
