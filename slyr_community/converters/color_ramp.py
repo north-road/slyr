@@ -22,14 +22,22 @@
 Color ramp conversion utilities
 """
 
+from typing import Union
+
 from qgis.core import (
+    Qgis,
     QgsPresetSchemeColorRamp,
     QgsLimitedRandomColorRamp,
     QgsGradientColorRamp,
+    QgsRandomColorRamp,
     QgsGradientStop,
+    QgsColorRamp,
+    QgsColorBrewerColorRamp,
 )
+from qgis.PyQt.QtGui import QColor
 
 from .color import ColorConverter
+
 from ..parser.exceptions import NotImplementedException
 from ..parser.objects.ramps import (
     ColorRamp,
@@ -46,7 +54,9 @@ class ColorRampConverter:
     """
 
     @staticmethod
-    def ColorRamp_to_QgsColorRamp(ramp: ColorRamp):
+    def ColorRamp_to_QgsColorRamp(
+        ramp: Union[ColorRamp,],
+    ):
         """
         Converts a ColorRamp to a QgsColorRamp
         """
@@ -54,7 +64,10 @@ class ColorRampConverter:
             return ColorRampConverter.PresetColorRamp_to_QgsColorRamp(ramp)
         elif isinstance(ramp, (RandomColorRamp,)):
             return ColorRampConverter.RandomColorRamp_to_QgsColorRamp(ramp)
-        elif isinstance(ramp, (AlgorithmicColorRamp,)):
+        elif isinstance(
+            ramp,
+            (AlgorithmicColorRamp,),
+        ):
             return ColorRampConverter.AlgorithmicColorRamp_to_QgsColorRamp(ramp)
         elif isinstance(ramp, (MultiPartColorRamp,)):
             return ColorRampConverter.MultiPartColorRamp_to_QgsColorRamp(ramp)
@@ -64,7 +77,9 @@ class ColorRampConverter:
             )
 
     @staticmethod
-    def PresetColorRamp_to_QgsColorRamp(ramp: PresetColorRamp):
+    def PresetColorRamp_to_QgsColorRamp(
+        ramp: Union[PresetColorRamp,],
+    ):
         """
         Converts a PresetColorRamp to a QgsColorRamp
         """
@@ -73,7 +88,9 @@ class ColorRampConverter:
         return out
 
     @staticmethod
-    def RandomColorRamp_to_QgsColorRamp(ramp: RandomColorRamp):
+    def RandomColorRamp_to_QgsColorRamp(
+        ramp: Union[RandomColorRamp,],
+    ):
         """
         Converts a RandomColorRamp to a QgsColorRamp
         """
@@ -98,7 +115,23 @@ class ColorRampConverter:
         return out
 
     @staticmethod
-    def AlgorithmicColorRamp_to_QgsColorRamp(ramp: AlgorithmicColorRamp):
+    def convert_polar_direction(direction, color1, color2):
+        if True:
+            hue1 = ColorConverter.color_to_qcolor(color1).hueF()
+            hue2 = ColorConverter.color_to_qcolor(color2).hueF()
+            if hue2 > hue1 and hue2 - hue1 < 0.5:
+                return Qgis.AngularDirection.CounterClockwise
+            elif hue2 < hue1 and hue1 - hue2 < 0.5:
+                return Qgis.AngularDirection.Clockwise
+            elif hue2 - hue1 < -0.5:
+                return Qgis.AngularDirection.CounterClockwise
+
+            return Qgis.AngularDirection.Clockwise
+
+    @staticmethod
+    def AlgorithmicColorRamp_to_QgsColorRamp(
+        ramp: Union[AlgorithmicColorRamp,],
+    ):
         """
         Converts a AlgorithmicColorRamp to a QgsColorRamp
         """
@@ -106,21 +139,32 @@ class ColorRampConverter:
             ColorConverter.color_to_qcolor(ramp.color1),
             ColorConverter.color_to_qcolor(ramp.color2),
         )
+
         return out
 
     # pylint: disable=too-many-branches, too-many-locals
     @staticmethod
-    def MultiPartColorRamp_to_QgsColorRamp(ramp: MultiPartColorRamp):
+    def MultiPartColorRamp_to_QgsColorRamp(
+        ramp: Union[MultiPartColorRamp,],
+    ):
         """
         Converts a MultiPartColorRamp to a QgsColorRamp
         """
+        if not ramp.parts:
+            return None
         total_length = 0
         start_color = None
         end_color = None
         end_spec = None
         end_direction = None
         for i, p in enumerate(ramp.parts):
-            if not isinstance(p, (AlgorithmicColorRamp, PresetColorRamp)):
+            if not isinstance(
+                p,
+                (
+                    AlgorithmicColorRamp,
+                    PresetColorRamp,
+                ),
+            ):
                 raise NotImplementedException(
                     "Converting MultiPartColorRamp with a {} part is not supported".format(
                         p.__class__.__name__
@@ -131,16 +175,21 @@ class ColorRampConverter:
             else:
                 total_length += 1
             if not start_color:
-                if isinstance(p, (AlgorithmicColorRamp,)):
+                if isinstance(
+                    p,
+                    (AlgorithmicColorRamp,),
+                ):
                     start_color = ColorConverter.color_to_qcolor(p.color1)
                 elif isinstance(p, (PresetColorRamp,)):
                     start_color = ColorConverter.color_to_qcolor(p.colors[0])
-            if isinstance(p, (AlgorithmicColorRamp,)):
+            if isinstance(
+                p,
+                (AlgorithmicColorRamp,),
+            ):
                 end_color = ColorConverter.color_to_qcolor(p.color2)
 
                 end_spec = None
                 end_direction = None
-
             elif isinstance(p, (PresetColorRamp,)):
                 end_color = ColorConverter.color_to_qcolor(p.colors[-1])
 
@@ -173,7 +222,10 @@ class ColorRampConverter:
                             ColorConverter.color_to_qcolor(c),
                         )
                     )
-            if isinstance(p, (AlgorithmicColorRamp,)):
+            if isinstance(
+                p,
+                (AlgorithmicColorRamp,),
+            ):
                 color1 = ColorConverter.color_to_qcolor(p.color1)
                 if stops and color1.name() != stops[-1].color.name():
                     stops.append(
@@ -185,10 +237,17 @@ class ColorRampConverter:
 
             current_length += this_length
             current_offset = current_length / total_length
-            if isinstance(p, (AlgorithmicColorRamp,)) and i < len(ramp.parts) - 1:
+            if (
+                isinstance(
+                    p,
+                    (AlgorithmicColorRamp,),
+                )
+                and i < len(ramp.parts) - 1
+            ):
                 stop = QgsGradientStop(
                     current_offset, ColorConverter.color_to_qcolor(p.color2)
                 )
+
                 stops.append(stop)
         out.setStops(stops)
 
