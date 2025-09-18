@@ -25,8 +25,8 @@ Picture handling utilities
 import base64
 import struct
 
-from PyQt5.QtCore import QBuffer
-from PyQt5.QtGui import QImage, QColor, qRgba, QPainter, qRed, qGreen, qBlue
+from qgis.PyQt.QtCore import QBuffer
+from qgis.PyQt.QtGui import QImage, QColor, qRgba, QPainter, qRed, qGreen, qBlue
 
 from .color import ColorConverter
 from ..parser.exceptions import UnreadablePictureException
@@ -128,9 +128,12 @@ class PictureUtils:
         if image.isNull():
             raise UnreadablePictureException("Could not read embedded picture data")
 
-        image = image.convertToFormat(QImage.Format_ARGB32)
+        image = image.convertToFormat(QImage.Format.Format_ARGB32)
         ucharptr = image.bits()
-        ucharptr.setsize(image.byteCount() * image.height())
+        try:
+            ucharptr.setsize(image.sizeInBytes() * image.height())
+        except AttributeError:
+            ucharptr.setsize(image.byteCount() * image.height())
 
         # assume top left pixel is transparent?
         if fix_alpha:
@@ -152,13 +155,12 @@ class PictureUtils:
         if not color.isValid():
             return image
 
-        alpha = QImage(image)
-        image.detach()
+        alpha = image.copy()
         p = QPainter(image)
-        p.setCompositionMode(QPainter.CompositionMode_SourceIn)
+        p.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
         p.setBrush(color)
         p.drawRect(image.rect())
-        p.setCompositionMode(QPainter.CompositionMode_Multiply)
+        p.setCompositionMode(QPainter.CompositionMode.CompositionMode_Multiply)
         p.drawImage(0, 0, alpha)
         p.end()
         return image
@@ -174,9 +176,12 @@ class PictureUtils:
         if image.isNull():
             raise UnreadablePictureException("Could not read embedded picture data")
 
-        image = image.convertToFormat(QImage.Format_ARGB32)
+        image = image.convertToFormat(QImage.Format.Format_ARGB32)
         ucharptr = image.bits()
-        ucharptr.setsize(image.byteCount() * image.height())
+        try:
+            ucharptr.setsize(image.sizeInBytes() * image.height())
+        except AttributeError:
+            ucharptr.setsize(image.byteCount() * image.height())
 
         fg_rgba = (
             qRgba(fg.red(), fg.green(), fg.blue(), fg.alpha())
@@ -199,27 +204,31 @@ class PictureUtils:
             for x in range(image.width()):
                 x_start = x * 4 + start
                 rgba = struct.unpack("I", ucharptr[x_start : x_start + 4])[0]
+                red = qRed(rgba)
+                blue = qBlue(rgba)
+                green = qGreen(rgba)
+
                 if (
                     trans
-                    and abs(qRed(rgba) - trans.red()) < COLOR_TOLERANCE
-                    and abs(qGreen(rgba) - trans.green()) < COLOR_TOLERANCE
-                    and abs(qBlue(rgba) - trans.blue()) < COLOR_TOLERANCE
+                    and abs(red - trans.red()) < COLOR_TOLERANCE
+                    and abs(green - trans.green()) < COLOR_TOLERANCE
+                    and abs(blue - trans.blue()) < COLOR_TOLERANCE
                 ):
                     ucharptr[x_start : x_start + 4] = struct.pack(
                         "I", qRgba(0, 0, 0, 0)
                     )
                 elif (
                     fg_rgba is not None
-                    and abs(qRed(rgba) - fg_comp) < COLOR_TOLERANCE
-                    and abs(qGreen(rgba) - fg_comp) < COLOR_TOLERANCE
-                    and abs(qBlue(rgba) - fg_comp) < COLOR_TOLERANCE
+                    and abs(red - fg_comp) < COLOR_TOLERANCE
+                    and abs(green - fg_comp) < COLOR_TOLERANCE
+                    and abs(blue - fg_comp) < COLOR_TOLERANCE
                 ):
                     ucharptr[x_start : x_start + 4] = struct.pack("I", fg_rgba)
                 elif (
                     bg_rgba is not None
-                    and abs(qRed(rgba) - bg_comp) < COLOR_TOLERANCE
-                    and abs(qGreen(rgba) - bg_comp) < COLOR_TOLERANCE
-                    and abs(qBlue(rgba) - bg_comp) < COLOR_TOLERANCE
+                    and abs(red - bg_comp) < COLOR_TOLERANCE
+                    and abs(green - bg_comp) < COLOR_TOLERANCE
+                    and abs(blue - bg_comp) < COLOR_TOLERANCE
                 ):
                     ucharptr[x_start : x_start + 4] = struct.pack("I", bg_rgba)
 
