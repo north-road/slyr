@@ -734,6 +734,14 @@ class Stream:  # pylint: disable=too-many-public-methods
         if terminator is not None and terminator != b"0000":
             raise UnreadableSymbolException("Invalid string terminator")
 
+        res = ""
+        for char in string:
+            if char in ("\ufffe", "\uffff"):
+                self.log('Found unicode fffe/ffff "not a character", stripping')
+            else:
+                res += char
+        string = res
+
         self.log('found string "{}"'.format(string))
 
         if not self.tolerant and expected is not None:
@@ -870,6 +878,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         """
         Creates and reads a new object from the stream
         """
+        start = self.tell()
         clsid = self.read_clsid(debug_string)
         try:
             res = REGISTRY.create_object(clsid)
@@ -899,6 +908,7 @@ class Stream:  # pylint: disable=too-many-public-methods
             self.log("{} not found".format(debug_string), 16)
 
         if res is not None:
+            res.stream_offset = start
             self.debug_depth += 1
 
             this_ref = None
@@ -921,7 +931,7 @@ class Stream:  # pylint: disable=too-many-public-methods
                     assert res.__class__ == old_res.__class__
                     self.debug_depth -= 1
                     return old_res
-                elif expect_existing and not this_ref - 1 in self.objects[-1]:
+                elif expect_existing and this_ref - 1 not in self.objects[-1]:
                     self.log(
                         "Expecting an existing object with ref {}, but not yet created".format(
                             this_ref
