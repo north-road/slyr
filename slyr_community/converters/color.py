@@ -22,7 +22,11 @@
 Color converter
 """
 
+from typing import Optional
+
 from qgis.PyQt.QtGui import QColor
+
+from ..parser.color_parser import cielab_to_rgb2
 from ..parser.objects.colors import CmykColor
 
 
@@ -37,7 +41,7 @@ class ColorConverter:
         Converts a symbol color to a QColor
         """
         if color is None:
-            return QColor()
+            return QColor(0, 0, 0, 0)
 
         if isinstance(color, CmykColor):
             # CMYK color
