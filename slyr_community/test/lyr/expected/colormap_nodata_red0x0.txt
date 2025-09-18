@@ -1,573 +1,968 @@
-{'root': {'allow_interactive_display': False,
-          'cached': False,
-          'custom_extent': None,
-          'dataset_name': {'file_name': 'transitions_100E_20N_v1_1.tif',
-                           'path': 'RASTER: Workspace = '
-                                   'C:\\Users\\nd13030\\Downloads\\; '
-                                   'RasterDataset = '
-                                   'transitions_100E_20N_v1_1.tif;',
-                           'ref_id': 1,
-                           'type': 'RasterDatasetName',
-                           'version': 4,
-                           'workspace_name': {'browse_name': 'Raster Data',
-                                              'connection_properties': {'DATABASE': 'C:\\Users\\nd13030\\Downloads\\',
-                                                                        'ref_id': 3,
-                                                                        'type': 'PropertySet',
-                                                                        'version': 1},
-                                              'name': 'C:\\Users\\nd13030\\Downloads\\',
-                                              'name_string': 'Raster Workspace '
-                                                             '= '
-                                                             'C:\\Users\\nd13030\\Downloads\\;',
-                                              'path_name': '',
-                                              'ref_id': 2,
-                                              'type': 'WorkspaceName',
-                                              'version': 1,
-                                              'workspace_factory': {'type': 'RasterWorkspaceFactory',
+{'dict': {'root': {'allow_interactive_display': False,
+                   'cached': False,
+                   'custom_extent': None,
+                   'dataset_name': {'file_name': 'transitions_100E_20N_v1_1.tif',
+                                    'path': 'RASTER: Workspace = '
+                                            'C:\\Users\\nd13030\\Downloads\\; '
+                                            'RasterDataset = '
+                                            'transitions_100E_20N_v1_1.tif;',
+                                    'ref_id': 1,
+                                    'stream_offset': '0x7a',
+                                    'type': 'RasterDatasetName',
+                                    'version': 4,
+                                    'workspace_name': {'browse_name': 'Raster '
+                                                                      'Data',
+                                                       'connection_properties': {'DATABASE': 'C:\\Users\\nd13030\\Downloads\\',
+                                                                                 'ref_id': 3,
+                                                                                 'stream_offset': '0x290',
+                                                                                 'type': 'PropertySet',
+                                                                                 'version': 1},
+                                                       'name': 'C:\\Users\\nd13030\\Downloads\\',
+                                                       'name_string': 'Raster '
+                                                                      'Workspace '
+                                                                      '= '
+                                                                      'C:\\Users\\nd13030\\Downloads\\;',
+                                                       'path_name': '',
+                                                       'ref_id': 2,
+                                                       'stream_offset': '0x1be',
+                                                       'type': 'WorkspaceName',
+                                                       'version': 1,
+                                                       'workspace_factory': {'stream_offset': '0x2ff',
+                                                                             'type': 'RasterWorkspaceFactory',
+                                                                             'version': 1},
+                                                       'workspace_type': 'ESRI_FILESYSTEM_WORKSPACE'}},
+                   'description': '',
+                   'extensions': [{'properties': {'ServiceLayerID': 1,
+                                                  'ref_id': 70,
+                                                  'stream_offset': '0x1082',
+                                                  'type': 'PropertySet',
+                                                  'version': 1},
+                                   'ref_id': 69,
+                                   'stream_offset': '0x106c',
+                                   'type': 'ServerLayerExtension',
+                                   'version': 1}],
+                   'extent': {'crs': {'is_high_precision': True,
+                                      'm_origin': -100000.0,
+                                      'm_scale': 10000.0,
+                                      'm_tolerance': 0.001,
+                                      'ref_id': 75,
+                                      'stream_offset': '0x12c6',
+                                      'type': 'GeographicCoordinateSystem',
+                                      'version': 7,
+                                      'wkt': 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]',
+                                      'x_origin': -400.0,
+                                      'xy_scale': 11258999068426.238,
+                                      'xy_tolerance': 8.983152841195215e-09,
+                                      'y_origin': -400.0,
+                                      'z_origin': -100000.0,
+                                      'z_scale': 10000.0,
+                                      'z_tolerance': 0.001},
+                              'ref_id': 76,
+                              'stream_offset': '0x1406',
+                              'type': 'Envelope',
+                              'version': 3,
+                              'x_max': 110.0,
+                              'x_min': 100.0,
+                              'y_max': 20.0,
+                              'y_min': 10.0},
+                   'extent_bottom': 10.0,
+                   'extent_left': 100.0,
+                   'extent_right': 110.0,
+                   'extent_top': 20.0,
+                   'file': 'transitions_100E_20N_v1_1.tif',
+                   'histogram': None,
+                   'joins': [],
+                   'path': '.',
+                   'ref_id': 0,
+                   'relations': [],
+                   'render_quality_percent': 100,
+                   'renderer': {'alpha_band': None,
+                                'alpha_checked': False,
+                                'brightness': 0,
+                                'contrast': 0,
+                                'groups': [{'classes': [{'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': 'label',
+                                                         'ref_id': 6,
+                                                         'stream_offset': '0x361',
+                                                         'symbol': {'color': {'B': 255,
+                                                                              'G': 255,
+                                                                              'R': 255,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 8,
+                                                                              'stream_offset': '0x38d',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 7,
+                                                                    'stream_offset': '0x377',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
                                                                     'version': 1},
-                                              'workspace_type': 'ESRI_FILESYSTEM_WORKSPACE'}},
-          'description': '',
-          'extensions': [{'properties': {'ServiceLayerID': 1,
-                                         'ref_id': 70,
-                                         'type': 'PropertySet',
-                                         'version': 1},
-                          'ref_id': 69,
-                          'type': 'ServerLayerExtension',
-                          'version': 1}],
-          'extent': {'crs': {'is_high_precision': True,
-                             'm_origin': -100000.0,
-                             'm_scale': 10000.0,
-                             'm_tolerance': 0.001,
-                             'ref_id': 75,
-                             'type': 'GeographicCoordinateSystem',
-                             'version': 7,
-                             'wkt': 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]',
-                             'x_origin': -400.0,
-                             'xy_scale': 11258999068426.238,
-                             'xy_tolerance': 8.983152841195215e-09,
-                             'y_origin': -400.0,
-                             'z_origin': -100000.0,
-                             'z_scale': 10000.0,
-                             'z_tolerance': 0.001},
-                     'ref_id': 76,
-                     'type': 'Envelope',
-                     'version': 3,
-                     'x_max': 110.0,
-                     'x_min': 100.0,
-                     'y_max': 20.0,
-                     'y_min': 10.0},
-          'extent_bottom': 10.0,
-          'extent_left': 100.0,
-          'extent_right': 110.0,
-          'extent_top': 20.0,
-          'file': 'transitions_100E_20N_v1_1.tif',
-          'histogram': None,
-          'joins': [],
-          'path': '.',
-          'ref_id': 0,
-          'relations': [],
-          'render_quality_percent': 100,
-          'renderer': {'alpha_band': None,
-                       'alpha_checked': False,
-                       'brightness': 0,
-                       'contrast': 0,
-                       'groups': [{'classes': [{'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': 'label',
-                                                'ref_id': 6,
-                                                'symbol': {'color': {'B': 255,
-                                                                     'G': 255,
-                                                                     'R': 255,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 8,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 7,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': 'label 1',
-                                                'ref_id': 9,
-                                                'symbol': {'color': {'B': 221,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 11,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 10,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '2',
-                                                'ref_id': 12,
-                                                'symbol': {'color': {'B': 76,
-                                                                     'G': 177,
-                                                                     'R': 33,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 14,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 13,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '3',
-                                                'ref_id': 15,
-                                                'symbol': {'color': {'B': 62,
-                                                                     'G': 7,
-                                                                     'R': 147,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 17,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 16,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '4',
-                                                'ref_id': 18,
-                                                'symbol': {'color': {'B': 234,
-                                                                     'G': 217,
-                                                                     'R': 153,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 20,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 19,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '5',
-                                                'ref_id': 21,
-                                                'symbol': {'color': {'B': 29,
-                                                                     'G': 229,
-                                                                     'R': 181,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 23,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 22,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '6',
-                                                'ref_id': 24,
-                                                'symbol': {'color': {'B': 186,
-                                                                     'G': 179,
-                                                                     'R': 235,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 26,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 25,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '7',
-                                                'ref_id': 27,
-                                                'symbol': {'color': {'B': 55,
-                                                                     'G': 139,
-                                                                     'R': 255,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 29,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 28,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '8',
-                                                'ref_id': 30,
-                                                'symbol': {'color': {'B': 102,
-                                                                     'G': 221,
-                                                                     'R': 254,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 32,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 31,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '9',
-                                                'ref_id': 33,
-                                                'symbol': {'color': {'B': 127,
-                                                                     'G': 127,
-                                                                     'R': 127,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 35,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 34,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '10',
-                                                'ref_id': 36,
-                                                'symbol': {'color': {'B': 172,
-                                                                     'G': 172,
-                                                                     'R': 172,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 38,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 37,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '11',
-                                                'ref_id': 39,
-                                                'symbol': {'color': {'B': 0,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 41,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 40,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '12',
-                                                'ref_id': 42,
-                                                'symbol': {'color': {'B': 0,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 44,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 43,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '13',
-                                                'ref_id': 45,
-                                                'symbol': {'color': {'B': 0,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 47,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 46,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '14',
-                                                'ref_id': 48,
-                                                'symbol': {'color': {'B': 0,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 50,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 49,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '15',
-                                                'ref_id': 51,
-                                                'symbol': {'color': {'B': 0,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 53,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 52,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '16',
-                                                'ref_id': 54,
-                                                'symbol': {'color': {'B': 0,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 56,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 55,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '17',
-                                                'ref_id': 57,
-                                                'symbol': {'color': {'B': 0,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 59,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 58,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '18',
-                                                'ref_id': 60,
-                                                'symbol': {'color': {'B': 0,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 62,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 61,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '19',
-                                                'ref_id': 63,
-                                                'symbol': {'color': {'B': 0,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 65,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 64,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2},
-                                               {'description': '',
-                                                'feature_count': None,
-                                                'format': None,
-                                                'label': '20',
-                                                'ref_id': 66,
-                                                'symbol': {'color': {'B': 0,
-                                                                     'G': 0,
-                                                                     'R': 0,
-                                                                     'dither': False,
-                                                                     'is_null': False,
-                                                                     'ref_id': 68,
-                                                                     'type': 'RgbColor',
-                                                                     'version': 1},
-                                                           'enabled': True,
-                                                           'locked': False,
-                                                           'ref_id': 67,
-                                                           'symbol_level': 0,
-                                                           'type': 'ColorSymbol',
-                                                           'version': 1},
-                                                'type': 'LegendClass',
-                                                'version': 2}],
-                                   'editable_or_expanded': True,
-                                   'heading': '',
-                                   'ref_id': 5,
-                                   'type': 'LegendGroup',
-                                   'version': 3,
-                                   'visible': True}],
-                       'nodata_color': {'B': 0,
-                                        'G': 0,
-                                        'R': 255,
-                                        'dither': False,
-                                        'is_null': False,
-                                        'type': 'RgbColor',
-                                        'version': 1},
-                       'primary_display_field': False,
-                       'ref_id': 4,
-                       'resampling_type': 'nearest_neighbor',
-                       'type': 'RasterColorMapRenderer',
-                       'values': [0,
-                                  1,
-                                  2,
-                                  3,
-                                  4,
-                                  5,
-                                  6,
-                                  7,
-                                  8,
-                                  9,
-                                  10,
-                                  11,
-                                  12,
-                                  13,
-                                  14,
-                                  15,
-                                  16,
-                                  17,
-                                  18,
-                                  19,
-                                  20],
-                       'version': 3},
-          'show_map_tips': False,
-          'show_resolution_in_toc': False,
-          'stored_zoom_max': 0.0,
-          'stored_zoom_min': 0.0,
-          'time_data_changes_regularly': False,
-          'time_enabled': False,
-          'time_offset': 0.0,
-          'time_offset_units': 'years',
-          'time_step': 0.0,
-          'time_step_units': 'hours',
-          'transform': {'ref_id': 71,
-                        'transforms': [],
-                        'type': 'CompositeXForm',
-                        'version': 2},
-          'transparency': 0,
-          'type': 'RasterLayer',
-          'version': 18,
-          'visible': True,
-          'weight': 200.0,
-          'zoom_max': 0.0,
-          'zoom_min': 0.0}}
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': 'label 1',
+                                                         'ref_id': 9,
+                                                         'stream_offset': '0x3f6',
+                                                         'symbol': {'color': {'B': 221,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 11,
+                                                                              'stream_offset': '0x422',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 10,
+                                                                    'stream_offset': '0x40c',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '2',
+                                                         'ref_id': 12,
+                                                         'stream_offset': '0x48f',
+                                                         'symbol': {'color': {'B': 76,
+                                                                              'G': 177,
+                                                                              'R': 33,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 14,
+                                                                              'stream_offset': '0x4bb',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 13,
+                                                                    'stream_offset': '0x4a5',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '3',
+                                                         'ref_id': 15,
+                                                         'stream_offset': '0x51c',
+                                                         'symbol': {'color': {'B': 62,
+                                                                              'G': 7,
+                                                                              'R': 147,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 17,
+                                                                              'stream_offset': '0x548',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 16,
+                                                                    'stream_offset': '0x532',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '4',
+                                                         'ref_id': 18,
+                                                         'stream_offset': '0x5a9',
+                                                         'symbol': {'color': {'B': 234,
+                                                                              'G': 217,
+                                                                              'R': 153,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 20,
+                                                                              'stream_offset': '0x5d5',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 19,
+                                                                    'stream_offset': '0x5bf',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '5',
+                                                         'ref_id': 21,
+                                                         'stream_offset': '0x636',
+                                                         'symbol': {'color': {'B': 29,
+                                                                              'G': 229,
+                                                                              'R': 181,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 23,
+                                                                              'stream_offset': '0x662',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 22,
+                                                                    'stream_offset': '0x64c',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '6',
+                                                         'ref_id': 24,
+                                                         'stream_offset': '0x6c3',
+                                                         'symbol': {'color': {'B': 186,
+                                                                              'G': 179,
+                                                                              'R': 235,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 26,
+                                                                              'stream_offset': '0x6ef',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 25,
+                                                                    'stream_offset': '0x6d9',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '7',
+                                                         'ref_id': 27,
+                                                         'stream_offset': '0x750',
+                                                         'symbol': {'color': {'B': 55,
+                                                                              'G': 139,
+                                                                              'R': 255,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 29,
+                                                                              'stream_offset': '0x77c',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 28,
+                                                                    'stream_offset': '0x766',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '8',
+                                                         'ref_id': 30,
+                                                         'stream_offset': '0x7dd',
+                                                         'symbol': {'color': {'B': 102,
+                                                                              'G': 221,
+                                                                              'R': 254,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 32,
+                                                                              'stream_offset': '0x809',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 31,
+                                                                    'stream_offset': '0x7f3',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '9',
+                                                         'ref_id': 33,
+                                                         'stream_offset': '0x86a',
+                                                         'symbol': {'color': {'B': 127,
+                                                                              'G': 127,
+                                                                              'R': 127,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 35,
+                                                                              'stream_offset': '0x896',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 34,
+                                                                    'stream_offset': '0x880',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '10',
+                                                         'ref_id': 36,
+                                                         'stream_offset': '0x8f7',
+                                                         'symbol': {'color': {'B': 172,
+                                                                              'G': 172,
+                                                                              'R': 172,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 38,
+                                                                              'stream_offset': '0x923',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 37,
+                                                                    'stream_offset': '0x90d',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '11',
+                                                         'ref_id': 39,
+                                                         'stream_offset': '0x986',
+                                                         'symbol': {'color': {'B': 0,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 41,
+                                                                              'stream_offset': '0x9b2',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 40,
+                                                                    'stream_offset': '0x99c',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '12',
+                                                         'ref_id': 42,
+                                                         'stream_offset': '0xa15',
+                                                         'symbol': {'color': {'B': 0,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 44,
+                                                                              'stream_offset': '0xa41',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 43,
+                                                                    'stream_offset': '0xa2b',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '13',
+                                                         'ref_id': 45,
+                                                         'stream_offset': '0xaa4',
+                                                         'symbol': {'color': {'B': 0,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 47,
+                                                                              'stream_offset': '0xad0',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 46,
+                                                                    'stream_offset': '0xaba',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '14',
+                                                         'ref_id': 48,
+                                                         'stream_offset': '0xb33',
+                                                         'symbol': {'color': {'B': 0,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 50,
+                                                                              'stream_offset': '0xb5f',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 49,
+                                                                    'stream_offset': '0xb49',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '15',
+                                                         'ref_id': 51,
+                                                         'stream_offset': '0xbc2',
+                                                         'symbol': {'color': {'B': 0,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 53,
+                                                                              'stream_offset': '0xbee',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 52,
+                                                                    'stream_offset': '0xbd8',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '16',
+                                                         'ref_id': 54,
+                                                         'stream_offset': '0xc51',
+                                                         'symbol': {'color': {'B': 0,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 56,
+                                                                              'stream_offset': '0xc7d',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 55,
+                                                                    'stream_offset': '0xc67',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '17',
+                                                         'ref_id': 57,
+                                                         'stream_offset': '0xce0',
+                                                         'symbol': {'color': {'B': 0,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 59,
+                                                                              'stream_offset': '0xd0c',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 58,
+                                                                    'stream_offset': '0xcf6',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '18',
+                                                         'ref_id': 60,
+                                                         'stream_offset': '0xd6f',
+                                                         'symbol': {'color': {'B': 0,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 62,
+                                                                              'stream_offset': '0xd9b',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 61,
+                                                                    'stream_offset': '0xd85',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '19',
+                                                         'ref_id': 63,
+                                                         'stream_offset': '0xdfe',
+                                                         'symbol': {'color': {'B': 0,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 65,
+                                                                              'stream_offset': '0xe2a',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 64,
+                                                                    'stream_offset': '0xe14',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2},
+                                                        {'description': '',
+                                                         'feature_count': None,
+                                                         'format': None,
+                                                         'label': '20',
+                                                         'ref_id': 66,
+                                                         'stream_offset': '0xe8d',
+                                                         'symbol': {'color': {'B': 0,
+                                                                              'G': 0,
+                                                                              'R': 0,
+                                                                              'dither': False,
+                                                                              'is_null': False,
+                                                                              'ref_id': 68,
+                                                                              'stream_offset': '0xeb9',
+                                                                              'type': 'RgbColor',
+                                                                              'version': 1},
+                                                                    'enabled': True,
+                                                                    'locked': False,
+                                                                    'ref_id': 67,
+                                                                    'stream_offset': '0xea3',
+                                                                    'symbol_level': 0,
+                                                                    'type': 'ColorSymbol',
+                                                                    'version': 1},
+                                                         'type': 'LegendClass',
+                                                         'version': 2}],
+                                            'editable_or_expanded': True,
+                                            'heading': '',
+                                            'ref_id': 5,
+                                            'stream_offset': '0x33d',
+                                            'type': 'LegendGroup',
+                                            'version': 3,
+                                            'visible': True}],
+                                'nodata_color': {'B': 0,
+                                                 'G': 0,
+                                                 'R': 255,
+                                                 'dither': False,
+                                                 'is_null': False,
+                                                 'stream_offset': '0xfc6',
+                                                 'type': 'RgbColor',
+                                                 'version': 1},
+                                'primary_display_field': False,
+                                'ref_id': 4,
+                                'resampling_type': 'nearest_neighbor',
+                                'stream_offset': '0x321',
+                                'type': 'RasterColorMapRenderer',
+                                'values': [0,
+                                           1,
+                                           2,
+                                           3,
+                                           4,
+                                           5,
+                                           6,
+                                           7,
+                                           8,
+                                           9,
+                                           10,
+                                           11,
+                                           12,
+                                           13,
+                                           14,
+                                           15,
+                                           16,
+                                           17,
+                                           18,
+                                           19,
+                                           20],
+                                'version': 3},
+                   'show_map_tips': False,
+                   'show_resolution_in_toc': False,
+                   'stored_zoom_max': 0.0,
+                   'stored_zoom_min': 0.0,
+                   'stream_offset': '0x0',
+                   'time_data_changes_regularly': False,
+                   'time_enabled': False,
+                   'time_offset': 0.0,
+                   'time_offset_units': 'years',
+                   'time_step': 0.0,
+                   'time_step_units': 'hours',
+                   'transform': {'ref_id': 71,
+                                 'stream_offset': '0x1148',
+                                 'transforms': [],
+                                 'type': 'CompositeXForm',
+                                 'version': 2},
+                   'transparency': 0,
+                   'type': 'RasterLayer',
+                   'version': 18,
+                   'visible': True,
+                   'weight': 200.0,
+                   'zoom_max': 0.0,
+                   'zoom_min': 0.0}},
+ 'qgis_layers': '<qlr>\n'
+                ' <maplayers>\n'
+                '  <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" '
+                'hasScaleBasedVisibilityFlag="0" legendPlaceholderImage="" '
+                'maxScale="0" minScale="0" refreshOnNotifyEnabled="0" '
+                'refreshOnNotifyMessage="" '
+                'styleCategories="AllStyleCategories" type="raster">\n'
+                '   <id>...</id>\n'
+                '   '
+                '<datasource>C:/Users/nd13030/Downloads/transitions_100E_20N_v1_1.tif</datasource>\n'
+                '   <layername>transitions_100E_20N_v1_1.tif</layername>\n'
+                '   <srs>\n'
+                '    <spatialrefsys nativeFormat="Wkt">\n'
+                '     <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System '
+                '1984 ensemble",MEMBER["World Geodetic System 1984 '
+                '(Transit)"],MEMBER["World Geodetic System 1984 '
+                '(G730)"],MEMBER["World Geodetic System 1984 '
+                '(G873)"],MEMBER["World Geodetic System 1984 '
+                '(G1150)"],MEMBER["World Geodetic System 1984 '
+                '(G1674)"],MEMBER["World Geodetic System 1984 '
+                '(G1762)"],MEMBER["World Geodetic System 1984 '
+                '(G2139)"],MEMBER["World Geodetic System 1984 '
+                '(G2296)"],ELLIPSOID["WGS '
+                '84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic '
+                'latitude '
+                '(Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic '
+                'longitude '
+                '(Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Horizontal '
+                'component of 3D '
+                'system."],AREA["World."],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>\n'
+                '     <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>\n'
+                '     <srsid>3452</srsid>\n'
+                '     <srid>4326</srid>\n'
+                '     <authid>EPSG:4326</authid>\n'
+                '     <description>WGS 84</description>\n'
+                '     <projectionacronym>longlat</projectionacronym>\n'
+                '     <ellipsoidacronym>EPSG:7030</ellipsoidacronym>\n'
+                '     <geographicflag>true</geographicflag>\n'
+                '    </spatialrefsys>\n'
+                '   </srs>\n'
+                '   <resourceMetadata>\n'
+                '    <identifier></identifier>\n'
+                '    <parentidentifier></parentidentifier>\n'
+                '    <language></language>\n'
+                '    <type></type>\n'
+                '    <title></title>\n'
+                '    <abstract></abstract>\n'
+                '    <links></links>\n'
+                '    <dates></dates>\n'
+                '    <fees></fees>\n'
+                '    <encoding></encoding>\n'
+                '    <crs>\n'
+                '     <spatialrefsys nativeFormat="Wkt">\n'
+                '      <wkt></wkt>\n'
+                '      <proj4></proj4>\n'
+                '      <srsid>0</srsid>\n'
+                '      <srid>0</srid>\n'
+                '      <authid></authid>\n'
+                '      <description></description>\n'
+                '      <projectionacronym></projectionacronym>\n'
+                '      <ellipsoidacronym></ellipsoidacronym>\n'
+                '      <geographicflag>false</geographicflag>\n'
+                '     </spatialrefsys>\n'
+                '    </crs>\n'
+                '    <extent></extent>\n'
+                '   </resourceMetadata>\n'
+                '   <provider>gdal</provider>\n'
+                '   <noData>\n'
+                '    <noDataList bandNo="1" useSrcNoData="0"></noDataList>\n'
+                '   </noData>\n'
+                '   <map-layer-style-manager current="default">\n'
+                '    <map-layer-style name="default"></map-layer-style>\n'
+                '   </map-layer-style-manager>\n'
+                '   <flags>\n'
+                '    <Identifiable>1</Identifiable>\n'
+                '    <Removable>1</Removable>\n'
+                '    <Searchable>1</Searchable>\n'
+                '    <Private>0</Private>\n'
+                '   </flags>\n'
+                '   <temporal bandNumber="1" enabled="0" fetchMode="0" '
+                'mode="0">\n'
+                '    <fixedRange>\n'
+                '     <start></start>\n'
+                '     <end></end>\n'
+                '    </fixedRange>\n'
+                '   </temporal>\n'
+                '   <elevation band="1" enabled="0" '
+                'mode="RepresentsElevationSurface" symbology="Line" '
+                'zoffset="0" zscale="1">\n'
+                '    <data-defined-properties>\n'
+                '     <Option type="Map">\n'
+                '      <Option name="name" type="QString" value=""></Option>\n'
+                '      <Option name="properties"></Option>\n'
+                '      <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '     </Option>\n'
+                '    </data-defined-properties>\n'
+                '    <profileLineSymbol>\n'
+                '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="" type="line">\n'
+                '      <data_defined_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </data_defined_properties>\n'
+                '      <layer class="SimpleLine" enabled="1" id="..." '
+                'locked="0" pass="0">\n'
+                '       <Option type="Map">\n'
+                '        <Option name="align_dash_pattern" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="capstyle" type="QString" '
+                'value="square"></Option>\n'
+                '        <Option name="customdash" type="QString" '
+                'value="5;2"></Option>\n'
+                '        <Option name="customdash_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="customdash_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="dash_pattern_offset" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="dash_pattern_offset_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="dash_pattern_offset_unit" '
+                'type="QString" value="MM"></Option>\n'
+                '        <Option name="draw_inside_polygon" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="joinstyle" type="QString" '
+                'value="bevel"></Option>\n'
+                '        <Option name="line_color" type="QString" '
+                'value="255,0,0,255,rgb:1,0,0,1"></Option>\n'
+                '        <Option name="line_style" type="QString" '
+                'value="solid"></Option>\n'
+                '        <Option name="line_width" type="QString" '
+                'value="0.6"></Option>\n'
+                '        <Option name="line_width_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="offset" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="ring_filter" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_end" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_end_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="trim_distance_end_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="trim_distance_start" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_start_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="trim_distance_start_unit" '
+                'type="QString" value="MM"></Option>\n'
+                '        <Option name="tweak_dash_pattern_on_corners" '
+                'type="QString" value="0"></Option>\n'
+                '        <Option name="use_custom_dash" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="width_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '       </Option>\n'
+                '       <data_defined_properties>\n'
+                '        <Option type="Map">\n'
+                '         <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '         <Option name="properties"></Option>\n'
+                '         <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '        </Option>\n'
+                '       </data_defined_properties>\n'
+                '      </layer>\n'
+                '     </symbol>\n'
+                '    </profileLineSymbol>\n'
+                '    <profileFillSymbol>\n'
+                '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="" type="fill">\n'
+                '      <data_defined_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </data_defined_properties>\n'
+                '      <layer class="SimpleFill" enabled="1" id="..." '
+                'locked="0" pass="0">\n'
+                '       <Option type="Map">\n'
+                '        <Option name="border_width_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="color" type="QString" '
+                'value="255,0,0,255,rgb:1,0,0,1"></Option>\n'
+                '        <Option name="joinstyle" type="QString" '
+                'value="bevel"></Option>\n'
+                '        <Option name="offset" type="QString" '
+                'value="0,0"></Option>\n'
+                '        <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="outline_color" type="QString" '
+                'value="255,255,0,255,rgb:1,1,0,1"></Option>\n'
+                '        <Option name="outline_style" type="QString" '
+                'value="no"></Option>\n'
+                '        <Option name="outline_width" type="QString" '
+                'value="0.26"></Option>\n'
+                '        <Option name="outline_width_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="style" type="QString" '
+                'value="solid"></Option>\n'
+                '       </Option>\n'
+                '       <data_defined_properties>\n'
+                '        <Option type="Map">\n'
+                '         <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '         <Option name="properties"></Option>\n'
+                '         <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '        </Option>\n'
+                '       </data_defined_properties>\n'
+                '      </layer>\n'
+                '     </symbol>\n'
+                '    </profileFillSymbol>\n'
+                '   </elevation>\n'
+                '   <customproperties>\n'
+                '    <Option></Option>\n'
+                '   </customproperties>\n'
+                '   <mapTip enabled="1"></mapTip>\n'
+                '   <pipe-data-defined-properties>\n'
+                '    <Option type="Map">\n'
+                '     <Option name="name" type="QString" value=""></Option>\n'
+                '     <Option name="properties"></Option>\n'
+                '     <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '    </Option>\n'
+                '   </pipe-data-defined-properties>\n'
+                '   <pipe>\n'
+                '    <provider>\n'
+                '     <resampling enabled="false" maxOversampling="2" '
+                'zoomedInResamplingMethod="nearestNeighbour" '
+                'zoomedOutResamplingMethod="nearestNeighbour"></resampling>\n'
+                '    </provider>\n'
+                '    <rasterrenderer alphaBand="-1" band="1" '
+                'nodataColor="255,0,0,255,rgb:1,0,0,1" opacity="1" '
+                'type="paletted">\n'
+                '     <minMaxOrigin>\n'
+                '      <limits>None</limits>\n'
+                '      <extent>WholeRaster</extent>\n'
+                '      <statAccuracy>Estimated</statAccuracy>\n'
+                '      <cumulativeCutLower>0.02</cumulativeCutLower>\n'
+                '      <cumulativeCutUpper>0.98</cumulativeCutUpper>\n'
+                '      <stdDevFactor>2</stdDevFactor>\n'
+                '     </minMaxOrigin>\n'
+                '     <colorPalette>\n'
+                '      <paletteEntry alpha="255" color="#ffffff" label="label" '
+                'value="0"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#0000dd" label="label '
+                '1" value="1"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#21b14c" label="2" '
+                'value="2"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#93073e" label="3" '
+                'value="3"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#99d9ea" label="4" '
+                'value="4"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#b5e51d" label="5" '
+                'value="5"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#ebb3ba" label="6" '
+                'value="6"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#ff8b37" label="7" '
+                'value="7"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#fedd66" label="8" '
+                'value="8"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#7f7f7f" label="9" '
+                'value="9"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#acacac" label="10" '
+                'value="10"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#000000" label="11" '
+                'value="11"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#000000" label="12" '
+                'value="12"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#000000" label="13" '
+                'value="13"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#000000" label="14" '
+                'value="14"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#000000" label="15" '
+                'value="15"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#000000" label="16" '
+                'value="16"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#000000" label="17" '
+                'value="17"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#000000" label="18" '
+                'value="18"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#000000" label="19" '
+                'value="19"></paletteEntry>\n'
+                '      <paletteEntry alpha="255" color="#000000" label="20" '
+                'value="20"></paletteEntry>\n'
+                '     </colorPalette>\n'
+                '    </rasterrenderer>\n'
+                '    <brightnesscontrast brightness="0" contrast="0" '
+                'gamma="1"></brightnesscontrast>\n'
+                '    <huesaturation colorizeBlue="128" colorizeGreen="128" '
+                'colorizeOn="0" colorizeRed="255" colorizeStrength="100" '
+                'grayscaleMode="0" invertColors="0" '
+                'saturation="0"></huesaturation>\n'
+                '    <rasterresampler maxOversampling="2"></rasterresampler>\n'
+                '    <resamplingStage>resamplingFilter</resamplingStage>\n'
+                '   </pipe>\n'
+                '   <blendMode>0</blendMode>\n'
+                '  </maplayer>\n'
+                ' </maplayers>\n'
+                '</qlr>'}
