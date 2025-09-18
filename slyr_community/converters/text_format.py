@@ -23,10 +23,10 @@ Text symbol conversion
 """
 
 import math
-from typing import Tuple
+from typing import Union, Tuple
 
 from qgis.PyQt.QtCore import QSizeF, QPointF, Qt
-from qgis.PyQt.QtGui import QFont, QPainter, QColor, QFontDatabase
+from qgis.PyQt.QtGui import QFont, QPainter, QColor
 from qgis.core import (
     Qgis,
     QgsTextFormat,
@@ -48,6 +48,7 @@ from ..parser.objects.line_symbol_layer import SimpleLineSymbol
 from ..parser.objects.marker_text_background import MarkerTextBackground
 from ..parser.objects.simple_line_callout import SimpleLineCallout
 from ..parser.objects.text_symbol import TextSymbol
+from .utils import ConversionUtils
 
 
 class TextSymbolConverter:
@@ -56,22 +57,18 @@ class TextSymbolConverter:
     """
 
     CAPITALIZATION_MAP = {
-        TextSymbol.CASE_NORMAL: QFont.MixedCase,
-        TextSymbol.CASE_LOWER: QFont.AllLowercase,
-        TextSymbol.CASE_ALL_CAPS: QFont.AllUppercase,
-        TextSymbol.CASE_SMALL_CAPS: QFont.MixedCase,  # QFont.SmallCaps is broken :(
+        TextSymbol.CASE_NORMAL: QFont.Capitalization.MixedCase,
+        TextSymbol.CASE_LOWER: QFont.Capitalization.AllLowercase,
+        TextSymbol.CASE_ALL_CAPS: QFont.Capitalization.AllUppercase,
+        TextSymbol.CASE_SMALL_CAPS: QFont.Capitalization.MixedCase,  # QFont.SmallCaps is broken :(
     }
 
     TEXT_CAPITALIZATION_MAP = {
-        TextSymbol.CASE_NORMAL: QgsStringUtils.MixedCase,
-        TextSymbol.CASE_LOWER: QgsStringUtils.AllLowercase,
-        TextSymbol.CASE_ALL_CAPS: QgsStringUtils.AllUppercase,
-        TextSymbol.CASE_SMALL_CAPS: QgsStringUtils.MixedCase,  # QFont.SmallCaps is broken :(
+        TextSymbol.CASE_NORMAL: QgsStringUtils.Capitalization.MixedCase,
+        TextSymbol.CASE_LOWER: QgsStringUtils.Capitalization.AllLowercase,
+        TextSymbol.CASE_ALL_CAPS: QgsStringUtils.Capitalization.AllUppercase,
+        TextSymbol.CASE_SMALL_CAPS: QgsStringUtils.Capitalization.MixedCase,  # QFont.SmallCaps is broken :(
     }
-
-    CIM_CAPITALIZATION_MAP = {}
-
-    CIM_TEXT_CAPITALIZATION_MAP = {}
 
     @staticmethod
     def std_font_to_qfont(font) -> Tuple[QFont, str, str]:  # pylint: disable=too-many-branches
@@ -85,7 +82,7 @@ class TextSymbolConverter:
         # we need to sometimes strip 'Italic' or 'Bold' suffixes from the font name stored in the ESRI object
         # in order to match against actual font families
         keep_scanning = True
-        while name not in QFontDatabase().families() and keep_scanning:
+        while name not in ConversionUtils.available_font_families() and keep_scanning:
             keep_scanning = False
             if name.lower().endswith(" italic"):
                 name = name[: -len(" italic")]
@@ -113,13 +110,13 @@ class TextSymbolConverter:
 
         # pretty annoying, but because qgis relies on style strings, we need to convert the raw bools to style names if possible...
         if res.italic() and not res.bold():
-            styles = QFontDatabase().styles(res.family())
+            styles = ConversionUtils.available_font_styles(res.family())
             for s in styles:
                 if s.lower() in ["oblique", "italic"]:
                     res.setStyleName(s)
                     break
         elif res.italic() and res.bold():
-            styles = QFontDatabase().styles(res.family())
+            styles = ConversionUtils.available_font_styles(res.family())
             for s in styles:
                 if (
                     "oblique" in s.lower() or "italic" in s.lower()
@@ -127,14 +124,15 @@ class TextSymbolConverter:
                     res.setStyleName(s)
                     break
         elif res.bold():
-            styles = QFontDatabase().styles(res.family())
+            styles = ConversionUtils.available_font_styles(res.family())
             for s in styles:
                 if s.lower() == "bold":
                     res.setStyleName(s)
                     break
 
-        if style_name is not None and style_name in QFontDatabase().styles(
-            res.family()
+        if (
+            style_name is not None
+            and style_name in ConversionUtils.available_font_styles(res.family())
         ):
             res.setStyleName(style_name)
 
@@ -147,36 +145,36 @@ class TextSymbolConverter:
         return res, name, style_name
 
     @staticmethod
-    def convert_horizontal_alignment(text_symbol: TextSymbol):
+    def convert_horizontal_alignment(text_symbol: Union[TextSymbol,]):
         """
         Converts the horizontal alignment from a text symbol
         """
         if text_symbol.horizontal_alignment == TextSymbol.HALIGN_LEFT:
-            res = Qt.AlignLeft
+            res = Qt.AlignmentFlag.AlignLeft
         elif text_symbol.horizontal_alignment == TextSymbol.HALIGN_RIGHT:
-            res = Qt.AlignRight
+            res = Qt.AlignmentFlag.AlignRight
         elif text_symbol.horizontal_alignment == TextSymbol.HALIGN_CENTER:
-            res = Qt.AlignHCenter
+            res = Qt.AlignmentFlag.AlignHCenter
         elif text_symbol.horizontal_alignment == TextSymbol.HALIGN_FULL:
-            res = Qt.AlignJustify
+            res = Qt.AlignmentFlag.AlignJustify
         else:
             assert False
 
         return res
 
     @staticmethod
-    def convert_vertical_alignment(text_symbol: TextSymbol):
+    def convert_vertical_alignment(text_symbol: Union[TextSymbol,]):
         """
         Converts the vertical alignment from a text symbol
         """
         if text_symbol.vertical_alignment == TextSymbol.VALIGN_TOP:
-            res = Qt.AlignTop, False
+            res = Qt.AlignmentFlag.AlignTop, False
         elif text_symbol.vertical_alignment == TextSymbol.VALIGN_CENTER:
-            res = Qt.AlignVCenter, False
+            res = Qt.AlignmentFlag.AlignVCenter, False
         elif text_symbol.vertical_alignment == TextSymbol.VALIGN_BOTTOM:
-            res = Qt.AlignBottom, False
+            res = Qt.AlignmentFlag.AlignBottom, False
         elif text_symbol.vertical_alignment == TextSymbol.VALIGN_BASELINE:
-            res = Qt.AlignBottom, True
+            res = Qt.AlignmentFlag.AlignBottom, True
         else:
             assert False
 
@@ -185,11 +183,14 @@ class TextSymbolConverter:
     # pylint: disable=too-many-locals, too-many-branches, too-many-statements
     @staticmethod
     def text_symbol_to_qgstextformat(
-        text_symbol: TextSymbol, context, reference_scale=None
+        text_symbol: Union[TextSymbol,],
+        context,
+        reference_scale=None,
     ):
         """
         Converts ESRI text symbol to QGIS text format
         """
+
         text_format = QgsTextFormat()
 
         if isinstance(text_symbol, TextSymbol):
@@ -197,25 +198,22 @@ class TextSymbolConverter:
                 text_symbol.font
             )
 
-        if (
-            context.unsupported_object_callback
-            and font.family() not in QFontDatabase().families()
-        ):
-            context.unsupported_object_callback(
-                "Font {} not available on system".format(font_family)
-            )
+        if font.family() not in ConversionUtils.available_font_families():
+            context.push_warning("Font {} not available on system".format(font_family))
 
-        if Qgis.QGIS_VERSION_INT >= 30900:
-            font.setKerning(text_symbol.kerning)
+        font.setKerning(text_symbol.kerning)
 
         conversion_factor = (
             reference_scale * 0.000352778 if reference_scale is not None else 1
         )
-        # why 5.55? why not! It's based on rendering match with ArcGIS -- there's no documentation
+        # why 0.0052? why not! It's based on rendering match with ArcGIS -- there's no documentation
         # about what the ArcGIS character spacing value actually means!
         font.setLetterSpacing(
-            QFont.AbsoluteSpacing,
-            conversion_factor * (text_symbol.character_spacing or 0) / 5.55,
+            QFont.SpacingType.AbsoluteSpacing,
+            conversion_factor
+            * 0.0052
+            * text_symbol.font_size
+            * (text_symbol.character_spacing or 0),
         )
 
         # may need tweaking
@@ -225,10 +223,9 @@ class TextSymbolConverter:
             font.setCapitalization(
                 TextSymbolConverter.CAPITALIZATION_MAP[text_symbol.case]
             )
-            if Qgis.QGIS_VERSION_INT >= 31600:
-                text_format.setCapitalization(
-                    TextSymbolConverter.TEXT_CAPITALIZATION_MAP[text_symbol.case]
-                )
+            text_format.setCapitalization(
+                TextSymbolConverter.TEXT_CAPITALIZATION_MAP[text_symbol.case]
+            )
 
         if isinstance(text_symbol, TextSymbol):
             text_format.setLineHeight(1 + text_symbol.leading / text_symbol.font_size)
@@ -240,11 +237,11 @@ class TextSymbolConverter:
         text_format.setFont(font)
         if reference_scale is None:
             text_format.setSize(text_symbol.font_size)
-            text_format.setSizeUnit(QgsUnitTypes.RenderPoints)
+            text_format.setSizeUnit(QgsUnitTypes.RenderUnit.RenderPoints)
         else:
             text_format.setSize(text_symbol.font_size * reference_scale * 0.000352778)
             # todo - use normal map units
-            text_format.setSizeUnit(QgsUnitTypes.RenderMetersInMapUnits)
+            text_format.setSizeUnit(QgsUnitTypes.RenderUnit.RenderMetersInMapUnits)
 
         if Qgis.QGIS_VERSION_INT >= 32300 and text_symbol.character_width != 100:
             text_format.setStretchFactor(round(text_symbol.character_width))
@@ -252,6 +249,15 @@ class TextSymbolConverter:
         opacity = 1
         if isinstance(text_symbol, TextSymbol):
             color = ColorConverter.color_to_qcolor(text_symbol.color)
+            # need to move opacity setting from color to dedicated setter
+            opacity = color.alphaF()
+            color.setAlpha(255)
+            text_format.setColor(color)
+            text_format.setOpacity(opacity)
+        else:
+            from .symbols import SymbolConverter
+
+            color = SymbolConverter.symbol_to_color(text_symbol.symbol, context)
             # need to move opacity setting from color to dedicated setter
             opacity = color.alphaF()
             color.setAlpha(255)
@@ -286,13 +292,13 @@ class TextSymbolConverter:
                 shadow.setOffsetUnit(context.units)
             else:
                 shadow.setOffsetDistance(shadow_dist * reference_scale * 0.000352778)
-                shadow.setOffsetUnit(QgsUnitTypes.RenderMetersInMapUnits)
+                shadow.setOffsetUnit(QgsUnitTypes.RenderUnit.RenderMetersInMapUnits)
 
-            shadow.setBlendMode(QPainter.CompositionMode_SourceOver)
+            shadow.setBlendMode(QPainter.CompositionMode.CompositionMode_SourceOver)
 
             # arc has no option for blurring shadows - we convert with a slight blur (because it's UGLY if we don't,
             # but use a lower blur then the default to give a somewhat closer match)
-            shadow.setBlurRadius(0.5)
+            shadow.setBlurRadius(0.2)
 
             text_format.setShadow(shadow)
 
@@ -304,11 +310,14 @@ class TextSymbolConverter:
             buffer.setEnabled(bool(text_symbol.halo_symbol))
 
         if reference_scale is None:
-            buffer.setSize(context.convert_size(text_symbol.halo_size))
+            if isinstance(text_symbol, TextSymbol):
+                buffer.setSize(context.convert_size(text_symbol.halo_size))
+            else:
+                buffer.setSize(2 * context.convert_size(text_symbol.halo_size))
             buffer.setSizeUnit(context.units)
         else:
             buffer.setSize(2 * text_symbol.halo_size * reference_scale * 0.000352778)
-            buffer.setSizeUnit(QgsUnitTypes.RenderMetersInMapUnits)
+            buffer.setSizeUnit(QgsUnitTypes.RenderUnit.RenderMetersInMapUnits)
 
         # QGIS has no option for halo symbols. Instead, we just get the color from the symbol
         if text_symbol.halo_symbol:
@@ -337,18 +346,9 @@ class TextSymbolConverter:
 
         if isinstance(text_symbol, TextSymbol):
             if text_symbol.cjk_orientation:
-                if Qgis.QGIS_VERSION_INT < 30900:
-                    if context.unsupported_object_callback:
-                        context.unsupported_object_callback(
-                            "Vertical text orientation requires QGIS 3.10 or later",
-                            level=Context.WARNING,
-                        )
-                    else:
-                        raise NotImplementedException(
-                            "Vertical text orientation requires QGIS 3.10 or later"
-                        )
-                else:
-                    text_format.setOrientation(QgsTextFormat.VerticalOrientation)
+                text_format.setOrientation(
+                    QgsTextFormat.TextOrientation.VerticalOrientation
+                )
         else:
             pass
 
@@ -378,8 +378,15 @@ class TextSymbolConverter:
                 )
             else:
                 return None
-        elif False:  # pylint: disable=using-constant-test
-            pass
+        elif isinstance(
+            background_symbol,
+        ):
+            if background_symbol.background_symbol:
+                return TextSymbolConverter.convert_fill_symbol_background(
+                    background_symbol, context, reference_scale
+                )
+            else:
+                return None
         elif isinstance(background_symbol, LineCallout):
             if background_symbol.border_symbol:
                 return TextSymbolConverter.convert_fill_symbol_background(
@@ -400,15 +407,12 @@ class TextSymbolConverter:
 
     @staticmethod
     def convert_marker_text_background(
-        marker_text_background: MarkerTextBackground, context
+        marker_text_background: Union[MarkerTextBackground,],
+        context,
     ) -> QgsTextBackgroundSettings:
         """
         Converts a MarkerTextBackground to QgsTextBackgroundSettings
         """
-        if not hasattr(QgsTextBackgroundSettings, "ShapeMarkerSymbol"):
-            # raise NotImplementedException('Marker Text Background conversion requires QGIS 3.10 or later')
-            return None
-
         from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel, cyclic-import
 
         symbol = SymbolConverter.Symbol_to_QgsSymbol(
@@ -417,15 +421,13 @@ class TextSymbolConverter:
 
         settings = QgsTextBackgroundSettings()
         settings.setEnabled(True)
-        settings.setType(QgsTextBackgroundSettings.ShapeMarkerSymbol)
+        settings.setType(QgsTextBackgroundSettings.ShapeType.ShapeMarkerSymbol)
         settings.setMarkerSymbol(symbol)
-        if False:  # pylint: disable=using-constant-test
-            pass
-        else:
+        if True:
             if marker_text_background.scale_to_fit_text:
-                settings.setSizeType(QgsTextBackgroundSettings.SizeBuffer)
+                settings.setSizeType(QgsTextBackgroundSettings.SizeType.SizeBuffer)
             else:
-                settings.setSizeType(QgsTextBackgroundSettings.SizeFixed)
+                settings.setSizeType(QgsTextBackgroundSettings.SizeType.SizeFixed)
                 settings.setSize(QSizeF(symbol.size(), symbol.size()))
                 settings.setSizeUnit(symbol.sizeUnit())
 
@@ -441,29 +443,23 @@ class TextSymbolConverter:
         """
         settings = QgsTextBackgroundSettings()
         settings.setEnabled(True)
-        settings.setType(QgsTextBackgroundSettings.ShapeRectangle)
-        if isinstance(background_symbol, (BalloonCallout,)):
+        settings.setType(QgsTextBackgroundSettings.ShapeType.ShapeRectangle)
+        if isinstance(background_symbol, (BalloonCallout)):
             fill_symbol = background_symbol.fill_symbol
-            if False:  # pylint: disable=using-constant-test
-                pass
-            else:
+            if True:
                 if background_symbol.style == BalloonCallout.STYLE_ROUNDED_RECTANGLE:
                     # TODO - confirm actual size rendering on Arc
                     settings.setRadii(QSizeF(1, 1))
                 elif background_symbol.style == BalloonCallout.STYLE_OVAL:
                     # TODO - verify comparitive rendering
-                    settings.setType(QgsTextBackgroundSettings.ShapeEllipse)
-        elif False:  # pylint: disable=using-constant-test
-            pass
+                    settings.setType(QgsTextBackgroundSettings.ShapeType.ShapeEllipse)
         else:
             fill_symbol = background_symbol.border_symbol
 
         from .symbols import SymbolConverter  # pylint: disable=import-outside-toplevel, cyclic-import
 
         # can't use the fill itself - we can only use the fill color and outline
-        if False:  # pylint: disable=using-constant-test
-            pass
-        elif isinstance(fill_symbol, SimpleFillSymbol):
+        if isinstance(fill_symbol, SimpleFillSymbol):
             if not fill_symbol.color.is_null:
                 fill_color = ColorConverter.color_to_qcolor(fill_symbol.color)
                 settings.setFillColor(fill_color)
@@ -484,29 +480,30 @@ class TextSymbolConverter:
                         settings.setStrokeWidth(
                             fill_symbol.outline.width * reference_scale * 0.000352778
                         )
-                        settings.setStrokeWidthUnit(QgsUnitTypes.RenderMetersInMapUnits)
+                        settings.setStrokeWidthUnit(
+                            QgsUnitTypes.RenderUnit.RenderMetersInMapUnits
+                        )
             else:
                 stroke = SymbolConverter.Symbol_to_QgsSymbol(fill_symbol, context)
                 if stroke:
                     settings.setStrokeColor(stroke.color())
                     if reference_scale is None:
                         settings.setStrokeWidth(0.2)
-                        settings.setStrokeWidthUnit(QgsUnitTypes.RenderMillimeters)
+                        settings.setStrokeWidthUnit(
+                            QgsUnitTypes.RenderUnit.RenderMillimeters
+                        )
                     else:
                         settings.setStrokeWidth(0.2 * reference_scale * 0.001)
-                        settings.setStrokeWidthUnit(QgsUnitTypes.RenderMetersInMapUnits)
+                        settings.setStrokeWidthUnit(
+                            QgsUnitTypes.RenderUnit.RenderMetersInMapUnits
+                        )
         else:
             symbol = SymbolConverter.Symbol_to_QgsSymbol(fill_symbol, context)
             settings.setFillColor(symbol.color())
 
-        settings.setSizeType(QgsTextBackgroundSettings.SizeBuffer)
+        settings.setSizeType(QgsTextBackgroundSettings.SizeType.SizeBuffer)
         # TODO: margin
-        if False:  # pylint: disable=using-constant-test
-            x_margin = 0
-            y_margin = 0
-            x_delta = 0
-            y_delta = 0
-        else:
+        if True:
             x_margin = (
                 background_symbol.margin_left + background_symbol.margin_right
             ) / 2
@@ -533,7 +530,7 @@ class TextSymbolConverter:
                     y_margin * reference_scale * 0.000352778,
                 )
             )
-            settings.setSizeUnit(QgsUnitTypes.RenderMetersInMapUnits)
+            settings.setSizeUnit(QgsUnitTypes.RenderUnit.RenderMetersInMapUnits)
 
         if reference_scale is None:
             settings.setOffset(
@@ -547,7 +544,7 @@ class TextSymbolConverter:
                     y_delta * reference_scale * 0.000352778,
                 )
             )
-            settings.setOffsetUnit(QgsUnitTypes.RenderMetersInMapUnits)
+            settings.setOffsetUnit(QgsUnitTypes.RenderUnit.RenderMetersInMapUnits)
 
         return settings
 
