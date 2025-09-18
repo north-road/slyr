@@ -6,3 +6,4 @@ pep257
 pylint
 ruff==0.12.0
 pytest
+coverage
