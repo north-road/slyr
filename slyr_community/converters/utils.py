@@ -25,12 +25,21 @@ Conversion utilities
 import math
 import os
 import re
+import unicodedata
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 
 from qgis.PyQt.QtCore import Qt, QPointF, QVariant
-from qgis.core import QgsField, QgsFields, QgsMemoryProviderUtils, QgsFeature
+from qgis.PyQt.QtGui import QFontDatabase
+from qgis.core import (
+    QgsField,
+    QgsFields,
+    QgsMemoryProviderUtils,
+    QgsFeature,
+    QgsVectorLayer,
+    QgsFeatureRequest,
+)
 
 from ..bintools.extractor import Extractor
 
@@ -68,12 +77,12 @@ class ConversionUtils:
         Converts a symbol pen style to a QPenStyle
         """
         types = {
-            "solid": Qt.SolidLine,
-            "dashed": Qt.DashLine,
-            "dotted": Qt.DotLine,
-            "dash dot": Qt.DashDotLine,
-            "dash dot dot": Qt.DashDotDotLine,
-            "null": Qt.NoPen,
+            "solid": Qt.PenStyle.SolidLine,
+            "dashed": Qt.PenStyle.DashLine,
+            "dotted": Qt.PenStyle.DotLine,
+            "dash dot": Qt.PenStyle.DashDotLine,
+            "dash dot dot": Qt.PenStyle.DashDotDotLine,
+            "null": Qt.PenStyle.NoPen,
         }
         return types[style]
 
@@ -82,7 +91,11 @@ class ConversionUtils:
         """
         Converts a symbol pen cap to a QPenCapStyle
         """
-        types = {"butt": Qt.FlatCap, "round": Qt.RoundCap, "square": Qt.SquareCap}
+        types = {
+            "butt": Qt.PenCapStyle.FlatCap,
+            "round": Qt.PenCapStyle.RoundCap,
+            "square": Qt.PenCapStyle.SquareCap,
+        }
         return types[style]
 
     @staticmethod
@@ -90,7 +103,11 @@ class ConversionUtils:
         """
         Converts a symbol pen join to a QPenJoinStyle
         """
-        types = {"miter": Qt.MiterJoin, "round": Qt.RoundJoin, "bevel": Qt.BevelJoin}
+        types = {
+            "miter": Qt.PenJoinStyle.MiterJoin,
+            "round": Qt.PenJoinStyle.RoundJoin,
+            "bevel": Qt.PenJoinStyle.BevelJoin,
+        }
         return types[style]
 
     @staticmethod
@@ -217,21 +234,25 @@ class ConversionUtils:
         return res
 
     @staticmethod
-    def format_xml(input_xml: str) -> str:
+    def format_xml(input_xml: ET.Element) -> str:
         """
         Pretty formats an XML string
         """
+        xml = ET.tostring(input_xml, encoding="unicode")
+
+        if os.name == "nt":
+            # seen segfaults on lxml.fromstring on Windows?
+            return xml
+
         try:
             from lxml import etree as LET  # pylint: disable=import-outside-toplevel
-
-            xml = ET.tostring(input_xml, encoding="unicode")
 
             root = LET.fromstring(xml)
             tree = LET.ElementTree(root)
             LET.indent(tree, "   ")
-            return LET.tostring(tree, encoding="utf-8")
+            return LET.tostring(tree, encoding="utf-8").decode("utf-8")
         except ImportError:
-            return input_xml
+            return xml
 
     @staticmethod
     def is_gdal_version_available(major: int, minor: int, rev: int) -> bool:
@@ -243,3 +264,66 @@ class ConversionUtils:
         required_version_int = major * 1000000 + minor * 10000 + rev * 100
 
         return int(gdal.VersionInfo("VERSION_NUM")) >= required_version_int
+
+    @staticmethod
+    def open_gdb_items_layer(gdb_path: str) -> Optional[QgsVectorLayer]:
+        """
+        Opens a GDB items layer
+        """
+
+        catalog_path = Path(gdb_path) / "a00000001.gdbtable"
+        catalog_layer = QgsVectorLayer(catalog_path.as_posix(), "catalog")
+        assert catalog_layer.isValid()
+
+        request = QgsFeatureRequest().setFilterExpression("lower(\"Name\")='gdb_items'")
+        try:
+            items_feature = next(catalog_layer.getFeatures(request))
+        except StopIteration:
+            return None
+
+        id_field_idx = catalog_layer.fields().lookupField("ID")
+        items_id = items_feature[id_field_idx]
+
+        items_path = Path(gdb_path) / "a{:0>8x}.gdbtable".format(items_id)
+        items_layer = QgsVectorLayer(items_path.as_posix(), "items")
+        return items_layer
+
+    @staticmethod
+    def safe_filename(text: str) -> str:
+        """
+        Converts text to a string safe for a filename
+        """
+        normalized = unicodedata.normalize("NFD", text)
+
+        # Filter out non-Latin characters
+        return re.sub(r"[^a-zA-Z0-9_\-]", "_", normalized)
+
+    @staticmethod
+    def available_font_families() -> List[str]:
+        """
+        Returns the installed font families
+        """
+        try:
+            return QFontDatabase().families()
+        except TypeError:
+            return QFontDatabase.families()
+
+    @staticmethod
+    def available_font_styles(family: str) -> List[str]:
+        """
+        Returns the available font styles for a family
+        """
+        try:
+            return QFontDatabase().styles(family)
+        except TypeError:
+            return QFontDatabase.styles(family)
+
+    @staticmethod
+    def font_style_string(font) -> str:
+        """
+        Returns the style string for a font
+        """
+        try:
+            return QFontDatabase().styleString(font)
+        except TypeError:
+            return QFontDatabase.styleString(font)
