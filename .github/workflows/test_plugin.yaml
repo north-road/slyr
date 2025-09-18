@@ -37,11 +37,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Docker pull and create qgis-testing-environment
-        run: |
-          docker pull "$DOCKER_IMAGE":${{ matrix.docker_tags }}
-          docker run -d --name qgis-testing-environment -v "$GITHUB_WORKSPACE":/tests_directory -e DISPLAY=:99 "$DOCKER_IMAGE":${{ matrix.docker_tags }}
-
       - name: Test
         run: |
           docker compose -f .docker/docker-compose.yml run qgis /usr/src/.docker/run-docker-tests.sh
