@@ -100,7 +100,7 @@ class DecorationConverter:
             line.setLocked(locked)
 
             # TODO - maybe need to offset this by marker width / 4? seems a better match to ESRI
-            line.setPlacement(QgsMarkerLineSymbolLayer.FirstVertex)
+            line.setPlacement(QgsMarkerLineSymbolLayer.Placement.FirstVertex)
             symbol.appendSymbolLayer(line)
             context.symbol_layer_output_to_input_index_map[line] = (
                 context.current_symbol_layer
@@ -123,7 +123,7 @@ class DecorationConverter:
                     layer.setOffset(offset)
 
             line.setSubSymbol(end_marker)
-            line.setPlacement(QgsMarkerLineSymbolLayer.LastVertex)
+            line.setPlacement(QgsMarkerLineSymbolLayer.Placement.LastVertex)
             line.setEnabled(enabled)
             line.setLocked(locked)
 
@@ -150,7 +150,7 @@ class DecorationConverter:
                     layer.setOffset(offset)
 
             line.setSubSymbol(end_marker)
-            line.setPlacement(QgsMarkerLineSymbolLayer.CentralPoint)
+            line.setPlacement(QgsMarkerLineSymbolLayer.Placement.CentralPoint)
             line.setEnabled(enabled)
             line.setLocked(locked)
 
