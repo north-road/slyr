@@ -31,13 +31,28 @@ class Object:
                     d["version"] = self.version
                     if self.ref_id is not None:
                         d["ref_id"] = self.ref_id
+                    if self.stream_offset is not None:
+                        d["stream_offset"] = hex(self.stream_offset)
+
+                    def format_dict_value(v):
+                        if isinstance(v, Object):
+                            return v.to_dict()
+                        return v
+
+                    for k in list(d.keys()):
+                        if isinstance(d[k], dict):
+                            d[k] = {
+                                kk: format_dict_value(vv) for kk, vv in d[k].items()
+                            }
+
                 return d
 
             return wrapper
 
         self.to_dict = to_dict_(self.to_dict)
-        self.version = None
-        self.ref_id = None
+        self.version: Optional[int] = None
+        self.ref_id: Optional[int] = None
+        self.stream_offset: Optional[int] = None
 
     @staticmethod
     def cls_id():

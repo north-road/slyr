@@ -82,6 +82,12 @@ class DocumentTypeException(Exception):
     """
 
 
+class CorruptDocumentException(Exception):
+    """
+    Thrown on encountering a corrupt document
+    """
+
+
 class RequiresLicenseException(Exception):
     """
     Raised when functionality requires a valid license

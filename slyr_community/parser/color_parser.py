@@ -3,6 +3,10 @@
 Extracts colors from a persistent stream binary
 """
 
+import math
+import itertools
+import operator
+
 from .color_lut import COLOR_LUT
 
 
@@ -71,6 +75,31 @@ def cielab_to_xyz(l_value, a, b):
     return xr * Xr, yr * Yr, zr * Zr
 
 
+def cielab_to_xyz2(l_value, a, b, illuminants):
+    """Translate lab color to xyz, CIM version"""
+
+    fy = (l_value + 16) / 116.0
+    fz = fy - (b / 200.0)
+    fx = a / 500.0 + fy
+
+    e = 216 / 24389  # 0.008856
+    k = 24389 / 27  # 903.3
+    if fx**3 > e:
+        xr = fx**3
+    else:
+        xr = (116 * fx - 16) / k
+    if l_value > k * e:
+        yr = fy**3
+    else:
+        yr = l_value / k
+    if fz**3 > e:
+        zr = fz**3
+    else:
+        zr = (116 * fz - 16) / k
+
+    return xr * illuminants[0], yr * illuminants[1], zr * illuminants[2]
+
+
 def scale_and_round(r, g, b):
     """Scale to 0-255 and round valued. The algorithm seems to be extremely
     precise and equivalent to what is done inside Esri apps, except for
@@ -132,3 +161,151 @@ def cielab_to_rgb(l_value, a, b):
 
     # lab value not present in lookup table, use standard conversion formula
     return scale_and_round(*apply_gamma(*xyz_to_rgb(*cielab_to_xyz(l_value, a, b))))
+
+
+def matrix_multiply_3(m, v):
+    """
+    matrix multiply vector by inner production.
+    """
+    return [
+        [sum(a * b for a, b in zip(X_row, Y_col)) for Y_col in zip(*v)] for X_row in m
+    ]
+
+
+def dot(x, y):
+    """
+    Matrix dot product
+    """
+    assert len(x) == len(y)
+    return sum(itertools.starmap(operator.mul, zip(x, y)))
+
+
+def matrix_vector_product(m, v):
+    """
+    Matrix vector product
+    """
+    return [dot(row, v) for row in m]
+
+
+def matrix_invert_3x3(a):
+    """
+    Inverts a 3x3 matrix
+    """
+    c = [
+        [
+            a[1][1] * a[2][2] - a[1][2] * a[2][1],
+            -1 * (a[0][1] * a[2][2] - a[0][2] * a[2][1]),
+            a[0][1] * a[1][2] - a[0][2] * a[1][1],
+        ],
+        [
+            -1 * (a[1][0] * a[2][2] - a[1][2] * a[2][0]),
+            a[0][0] * a[2][2] - a[0][2] * a[2][0],
+            -1 * (a[0][0] * a[1][2] - a[0][2] * a[1][0]),
+        ],
+        [
+            a[1][0] * a[2][1] - a[1][1] * a[2][0],
+            -1 * (a[0][0] * a[2][1] - a[0][1] * a[2][0]),
+            a[0][0] * a[1][1] - a[0][1] * a[1][0],
+        ],
+    ]
+
+    b = a[0][0] * c[0][0] + a[0][1] * c[1][0] + a[0][2] * c[2][0]
+
+    for d in range(3):
+        for e in range(3):
+            c[d][e] = c[d][e] / b
+
+    return c
+
+
+def bradford_transform(a, b):
+    c = [
+        [0.8951, 0.2664, -0.1614],
+        [-0.7502, 1.7135, 0.0367],
+        [0.0389, -0.0685, 1.0296],
+    ]
+    f = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+
+    d = matrix_vector_product(c, a)
+    e = matrix_vector_product(c, b)
+
+    for g in range(3):
+        f[g][g] = e[g] / d[g]
+
+    return matrix_multiply_3(matrix_multiply_3(matrix_invert_3x3(c), f), c)
+
+
+def xyz_chromaticity(a):
+    return [a[0] / (a[0] + a[1] + a[2]), a[1] / (a[0] + a[1] + a[2])]
+
+
+def rgb_matrix(a, b, c, d):
+    e = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    f = [
+        [a[0] / a[1], b[0] / b[1], c[0] / c[1]],
+        [1, 1, 1],
+        [(1 - a[0] - a[1]) / a[1], (1 - b[0] - b[1]) / b[1], (1 - c[0] - c[1]) / c[1]],
+    ]
+    g = [d[0] / d[1], 1, (1 - d[0] - d[1]) / d[1]]
+
+    j = matrix_vector_product(matrix_invert_3x3(f), g)
+    for h in range(3):
+        for i in range(3):
+            e[h][i] = j[i] * f[h][i]
+    return e
+
+
+def cielab_to_rgb2(l_value, a, b):
+    illuminants = [0.9672, 1, 0.81427]
+
+    x, y, z = cielab_to_xyz2(l_value, a, b, illuminants)
+
+    b = x > illuminants[0] or y > illuminants[1] or z > illuminants[2]
+
+    #    bc  = bradford_transform(illuminants,illuminants)
+
+    bt = [
+        [0.9522842143556952, -0.025006988135028507, 0.06684232012747596],
+        [-0.030901431979861445, 1.0117439273544555, 0.02228245871328488],
+        [0.012942977697302113, -0.021511192838354815, 1.348229389280612],
+    ]
+
+    x, y, z = matrix_vector_product(bt, [x, y, z])
+
+    if not b:
+        if x > illuminants[0]:
+            x = illuminants[0]
+        if y > illuminants[1]:
+            y = illuminants[1]
+        if z > illuminants[2]:
+            z = illuminants[2]
+
+    h = (x, y, z)
+
+    i = matrix_invert_3x3(
+        rgb_matrix(
+            [0.64, 0.33],
+            [0.3, 0.6],
+            [0.15, 0.06],
+            xyz_chromaticity([0.95047, 1, 1.08883]),
+        )
+    )
+
+    r, g, b = matrix_vector_product(i, h)
+    i = [r, g, b]
+
+    # convert to srgb
+    for h in range(3):
+        if i[h] > 0.0031308:
+            i[h] = 1.055 * (i[h] ** (1 / 2.4)) - 0.055
+        else:
+            i[h] = 12.92 * i[h]
+        i[h] = 255 * i[h] + 0.5
+        if i[h] < 0:
+            i[h] = 0
+        elif i[h] > 255:
+            i[h] = 255
+
+        i[h] = math.floor(i[h])
+
+    return i
