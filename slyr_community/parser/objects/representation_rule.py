@@ -37,10 +37,8 @@ class RepresentationRule(Object):
             self.effects.append(stream.read_object("effect {}".format(i + 1)))
             assert stream.tell() == start + size
 
-        total_objects = stream.read_int("total objects")
-        count = stream.read_int(
-            "layer count", expected=total_objects - len(self.effects)
-        )
+        total_objects = stream.read_int("total objects?")
+        count = stream.read_int("layer count")
         for i in range(count):
             self.layers.append(stream.read_object("layer {}".format(i + 1)))
 
@@ -52,11 +50,11 @@ class RepresentationRule(Object):
             field_name = stream.read_string("field name {}".format(i + 1))
             self.field_overrides[effect_index][attribute_index] = field_name
 
-        count = stream.read_int(
-            "unknown count", expected=len(self.effects) + len(self.layers)
-        )
+        count = stream.read_int("unknown count")
+        # expected=len(self.effects) + len(self.layers))
+        # maybe something to do with ordering?
         for i in range(count):
-            stream.read_int("unknown {}".format(i + 1), expected=i + 1)
+            stream.read_int("unknown {}".format(i + 1))  # , expected=i + 1)
 
         self.map_level = stream.read_int("map level")
 

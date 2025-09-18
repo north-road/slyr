@@ -279,7 +279,7 @@ class GpkgFeatureClassQuery(Object):
         stream.read_string("unknown")  # fid, objectid
         stream.read_int("unknown", expected=0)
         stream.read_int("unknown", expected=1)
-        stream.read_int("unknown", expected=(3, 4))
+        stream.read_int("unknown", expected=(1, 3, 4))
         self.fields = stream.read_object("fields")
 
         self.crs = stream.read_object("crs")

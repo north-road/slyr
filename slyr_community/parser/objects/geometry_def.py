@@ -59,6 +59,6 @@ class GeometryDef(Object):
             definition["geometry_type"]
         )
         res.crs = REGISTRY.create_object_from_dict(definition["crs"])
-        res.has_m = definition["has_m"]
-        res.has_z = definition["has_z"]
+        res.has_m = definition.get("has_m", False)
+        res.has_z = definition.get("has_z", False)
         return res

@@ -107,5 +107,5 @@ class ProjectedCoordinateSystem(Object):
         res.xy_tolerance = definition["xy_tolerance"]
         res.z_tolerance = definition["z_tolerance"]
         res.m_tolerance = definition["m_tolerance"]
-        res.is_high_precision = definition["is_high_precision"]
+        res.is_high_precision = definition.get("is_high_precision", False)
         return res

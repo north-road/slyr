@@ -40,7 +40,7 @@ class DBTableName(Object):
 
         self.shape_field_name = stream.read_string("shape field name")
         self.geometry_type = stream.read_int(
-            "unknown", expected=(3, 7)
+            "unknown", expected=(3, 4, 7)
         )  # maybe geometry type?
         self.crs = stream.read_object("crs")
 

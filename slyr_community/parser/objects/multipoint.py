@@ -40,6 +40,12 @@ class Multipoint(Geometry):
             y = stream.read_double("y {}".format(i + 1))
             self.points.append([x, y])
 
+        # likely here:
+        # - if wkb type is 18 we need to read two doubles of z min/max, then
+        #   an array of z values
+        # - if wkb type is 18 or 28  we need to read two doubles of m min/max,
+        #   then an array of m values
+
         assert stream.tell() == size + start, (stream.tell(), size + start)
         self.crs = stream.read_object("crs")
 

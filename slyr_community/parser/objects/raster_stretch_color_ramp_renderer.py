@@ -98,7 +98,7 @@ class RasterStretchColorRampRenderer(RasterRenderer):
                 stream.read_int("unknown", expected=1)
             elif ref == 12:
                 assert size == 2
-                stream.read_ushort("unknown", expected=0)
+                stream.read_ushort("unknown flag", expected=(0, 65535))
             elif ref == 13:
                 assert size == 16
                 self.min_value = stream.read_double("min value")
