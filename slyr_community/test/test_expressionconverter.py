@@ -6,35 +6,27 @@ Test Conversion Utils
 
 import unittest
 
+from .test_case import SlyrTestCase
+
 from ..converters.context import Context
 from ..converters.expressions import ExpressionConverter
+from qgis.PyQt.QtCore import QVariant
+from qgis.core import QgsMemoryProviderUtils, QgsFields, QgsField
 
 
-class TestExpressionConverter(unittest.TestCase):
+class TestExpressionConverter(SlyrTestCase):
     """
     Test Expression Conversion
     """
-
-    def test_qgis_expression_to_field(self):
-        """
-        Test getting field name from qgis expression
-        """
-        self.assertIsNone(ExpressionConverter.field_name_from_qgis_expression(""))
-        self.assertIsNone(ExpressionConverter.field_name_from_qgis_expression("1+2"))
-        self.assertEqual(
-            ExpressionConverter.field_name_from_qgis_expression('"my field"'),
-            "my field",
-        )
-        self.assertEqual(
-            ExpressionConverter.field_name_from_qgis_expression("my_field"), "my_field"
-        )
 
     def test_python(self):
         """
         Test Python expression conversion
         """
         context = Context()
-        self.assertEqual(ExpressionConverter.convert_python_expression("", context), "")
+        self.assertEqual(
+            ExpressionConverter.convert_python_expression("", context), None
+        )
         self.assertEqual(
             ExpressionConverter.convert_python_expression("[a field]", context),
             '"a field"',
@@ -248,12 +240,21 @@ class TestExpressionConverter(unittest.TestCase):
             ),
             'substr("GlobalId", 2, 8)',
         )
+        self.assertEqual(
+            ExpressionConverter.convert_python_expression("'\\n'", context), "'\\n'"
+        )
+        self.assertEqual(
+            ExpressionConverter.convert_python_expression(
+                """"Name: " + [Name] + '\\n' + "Betreiber: " + [Betreiber]+ '\\n' + "Massn: " + [Maßnahmen] """,
+                context,
+            ),
+            """\'Name: \' + "Name" + '\\n' + 'Betreiber: ' + "Betreiber"+ '\\n' + 'Massn: ' + "Maßnahmen\" """,
+        )
 
     def test_sql(self):
         """
         Test SQL expression conversion
         """
-
         self.assertEqual(ExpressionConverter.convert_esri_sql("[a field]"), '"a field"')
 
     def test_esri(self):
@@ -330,6 +331,26 @@ class TestExpressionConverter(unittest.TestCase):
         self.assertEqual(
             ExpressionConverter.convert_vbscript_expression("[Id]", context), '"Id"'
         )
+        self.assertEqual(
+            ExpressionConverter.convert_vbscript_expression(
+                '["Generellt namn"]', context
+            ),
+            '"Generellt namn"',
+        )
+
+        # dumb, but seems ArcPro automatically silently upgrades this
+        self.assertEqual(
+            ExpressionConverter.convert_vbscript_expression("oid]", context), '"oid"'
+        )
+        self.assertEqual(
+            ExpressionConverter.convert_vbscript_expression("OID oid]", context),
+            '"OID oid"',
+        )
+        self.assertEqual(
+            ExpressionConverter.convert_vbscript_expression("§_Schutz]", context),
+            '"§_Schutz"',
+        )
+
         self.assertEqual(
             ExpressionConverter.convert_vbscript_expression("[§_Schutz]", context),
             '"§_Schutz"',
@@ -474,6 +495,19 @@ class TestExpressionConverter(unittest.TestCase):
         self.assertEqual(
             ExpressionConverter.convert_vbscript_expression("[WC_LLID_NR]", context),
             '"WC_LLID_NR"',
+        )
+
+        self.assertEqual(
+            ExpressionConverter.convert_vbscript_expression(
+                "[SHAPE.STLength()]", context
+            ),
+            "length($geometry)",
+        )
+        self.assertEqual(
+            ExpressionConverter.convert_vbscript_expression(
+                "[SHAPE.STArea()]", context
+            ),
+            "area($geometry)",
         )
 
 
