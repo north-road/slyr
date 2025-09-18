@@ -27,5 +27,5 @@ jobs:
         run: |
           pip install -r REQUIREMENTS_TESTING.txt
 
-      - name: flake8 Lint
-        uses: py-actions/flake8@v1
+      - name: Pylint
+        run: make pylint
