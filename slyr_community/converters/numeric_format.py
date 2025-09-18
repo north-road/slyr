@@ -24,7 +24,6 @@ Numeric format conversion
 
 from typing import Optional
 
-from qgis.core import Qgis
 
 try:
     from qgis.core import QgsBasicNumericFormat
@@ -45,37 +44,31 @@ class NumericFormatConverter:
         """
         Converts NumericFormat to QgsNumericFormat
         """
-        if Qgis.QGIS_VERSION_INT < 31200:
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    "Numeric format conversion not supported on QGIS < 3.12",
-                    level=Context.WARNING,
-                )
-            return None
-
         if not numeric_format:
             return None
 
-        if numeric_format.__class__.__name__ not in ("NumericFormat",):
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    "{} format conversion is not yet supported".format(
-                        numeric_format.__class__.__name__
-                    ),
-                    level=Context.WARNING,
-                )
+        if numeric_format.__class__.__name__ not in (
+            "NumericFormat",
+            "CIMNumericFormat",
+        ):
+            context.push_warning(
+                "{} format conversion is not yet supported".format(
+                    numeric_format.__class__.__name__
+                ),
+                level=Context.WARNING,
+            )
             return None
 
         res = QgsBasicNumericFormat()
 
-        res.setNumberDecimalPlaces(numeric_format.rounding_value)
-        if False:  # pylint: disable=using-constant-test
-            pass
-        else:
+        res.setNumberDecimalPlaces(numeric_format.rounding_value or 0)
+        if True:
             if numeric_format.rounding == 0:
-                res.setRoundingType(QgsBasicNumericFormat.DecimalPlaces)
+                res.setRoundingType(QgsBasicNumericFormat.RoundingType.DecimalPlaces)
             elif numeric_format.rounding == 1:
-                res.setRoundingType(QgsBasicNumericFormat.SignificantFigures)
+                res.setRoundingType(
+                    QgsBasicNumericFormat.RoundingType.SignificantFigures
+                )
 
         res.setShowThousandsSeparator(numeric_format.thousands)
         res.setShowPlusSign(numeric_format.show_plus_sign)
