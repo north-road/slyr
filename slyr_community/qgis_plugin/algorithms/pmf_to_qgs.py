@@ -23,9 +23,11 @@
 Converts a PMF document to a QGS project file
 """
 
-from qgis.core import (QgsProcessingParameterFile,
-                       QgsProcessingParameterFileDestination,
-                       QgsProcessingException)
+from qgis.core import (
+    QgsProcessingParameterFile,
+    QgsProcessingParameterFileDestination,
+    QgsProcessingException,
+)
 
 from .algorithm import SlyrAlgorithm
 
@@ -35,8 +37,8 @@ class ConvertPmfToQgs(SlyrAlgorithm):
     Converts a PMF document to a QGS project file
     """
 
-    INPUT = 'INPUT'
-    OUTPUT = 'OUTPUT'
+    INPUT = "INPUT"
+    OUTPUT = "OUTPUT"
 
     # pylint: disable=missing-docstring,unused-argument
 
@@ -44,35 +46,44 @@ class ConvertPmfToQgs(SlyrAlgorithm):
         return ConvertPmfToQgs()
 
     def name(self):
-        return 'convertpmftoqgs'
+        return "convertpmftoqgs"
 
     def displayName(self):
-        return 'Convert PMF to QGS'
+        return "Convert PMF to QGS"
 
     def shortDescription(self):
-        return 'Converts a PMF document file to a QGIS project file.'
+        return "Converts a PMF document file to a QGIS project file."
 
     def group(self):
-        return 'PMF published maps'
+        return "PMF published maps"
 
     def groupId(self):
-        return 'pmf'
+        return "pmf"
 
     def shortHelpString(self):
-        return 'Converts a PMF document file to a QGIS project file.'
+        return "Converts a PMF document file to a QGIS project file."
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, 'Input PMF file', extension='pmf'))
+        self.addParameter(
+            QgsProcessingParameterFile(self.INPUT, "Input PMF file", extension="pmf")
+        )
 
-        self.addParameter(QgsProcessingParameterFileDestination(
-            self.OUTPUT, 'Destination QGS project file', fileFilter='QGS files (*.qgs)'))
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                "Destination QGS project file",
+                fileFilter="QGS files (*.qgs)",
+            )
+        )
 
-    def processAlgorithm(self,  # pylint: disable=too-many-locals,too-many-statements
-                         parameters,
-                         context,
-                         feedback):
+    def processAlgorithm(
+        self,  # pylint: disable=too-many-locals,too-many-statements
+        parameters,
+        context,
+        feedback,
+    ):
         raise QgsProcessingException(
-            'This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details')
+            "This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details"
+        )
 
     # pylint: enable=missing-docstring,unused-argument

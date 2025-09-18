@@ -25,12 +25,9 @@ Converts an MXD document to a QGS project file, and all data to standard formats
 
 from collections import defaultdict
 
-from qgis.core import (QgsProcessingParameterFolderDestination,
-                       QgsProcessingException)
+from qgis.core import QgsProcessingParameterFolderDestination, QgsProcessingException
 
-from .mxd_to_qgs import (
-    ConvertMxdToQgs
-)
+from .mxd_to_qgs import ConvertMxdToQgs
 
 
 class ConvertMxdAndData(ConvertMxdToQgs):
@@ -38,7 +35,7 @@ class ConvertMxdAndData(ConvertMxdToQgs):
     Converts an MXD document to a QGS project file, and all data to standard formats....
     """
 
-    OUTPUT_DATA_FOLDER = 'OUTPUT_DATA_FOLDER'
+    OUTPUT_DATA_FOLDER = "OUTPUT_DATA_FOLDER"
 
     def __init__(self):
         super().__init__()
@@ -52,13 +49,13 @@ class ConvertMxdAndData(ConvertMxdToQgs):
         return ConvertMxdAndData()
 
     def name(self):
-        return 'convertmxdanddatatoqgs'
+        return "convertmxdanddatatoqgs"
 
     def displayName(self):
-        return 'Convert MXD/MXT to QGS and data to GPKG (beta)'
+        return "Convert MXD/MXT to QGS and data to GPKG (beta)"
 
     def shortDescription(self):
-        return 'Converts an MXD or MXT document file to a QGIS project file, and converts all referenced data to standard formats'
+        return "Converts an MXD or MXT document file to a QGIS project file, and converts all referenced data to standard formats"
 
     def shortHelpString(self):
         return """Converts an MXD or MXT document file to a QGIS project file, and converts all referenced data to standard formats.\n
@@ -69,11 +66,15 @@ class ConvertMxdAndData(ConvertMxdToQgs):
     def initAlgorithm(self, config=None):
         super().initAlgorithm(config)
 
-        self.addParameter(QgsProcessingParameterFolderDestination(
-            self.OUTPUT_DATA_FOLDER, 'Folder to store converted data in'))
+        self.addParameter(
+            QgsProcessingParameterFolderDestination(
+                self.OUTPUT_DATA_FOLDER, "Folder to store converted data in"
+            )
+        )
 
     def processAlgorithm(self, parameters, context, feedback):  # pylint:disable=too-many-locals,too-many-branches
         raise QgsProcessingException(
-            'This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details')
+            "This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details"
+        )
 
     # pylint: enable=missing-docstring,unused-argument

@@ -15,7 +15,7 @@ class MapServerRESTLayer(Object):
 
     @staticmethod
     def cls_id():
-        return '1ded52f5-8837-40da-adc3-596c1c4a29ce'
+        return "1ded52f5-8837-40da-adc3-596c1c4a29ce"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -25,11 +25,12 @@ class MapServerRESTLayer(Object):
         return [7]
 
     def read(self, stream: Stream, version):
-        raise RequiresLicenseException('Converting MapServer REST layers requires the licensed version of SLYR')
+        raise RequiresLicenseException(
+            "Converting MapServer REST layers requires the licensed version of SLYR"
+        )
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}
 
 
 class MapServerRESTSubLayer(Object):
@@ -39,7 +40,7 @@ class MapServerRESTSubLayer(Object):
 
     @staticmethod
     def cls_id():
-        return '8ad8359a-d7f3-4cdb-83e4-fe54ca37ccff'
+        return "8ad8359a-d7f3-4cdb-83e4-fe54ca37ccff"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -49,8 +50,9 @@ class MapServerRESTSubLayer(Object):
         return [7]
 
     def read(self, stream: Stream, version):
-        raise RequiresLicenseException('Converting MapServer REST layers requires the licensed version of SLYR')
+        raise RequiresLicenseException(
+            "Converting MapServer REST layers requires the licensed version of SLYR"
+        )
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}

@@ -15,7 +15,7 @@ class ColorRamp(Object):
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
-        self.ramp_name_type = ''
+        self.ramp_name_type = ""
 
     def to_dict(self) -> dict:  # pylint: disable=method-hidden
         """
@@ -32,7 +32,7 @@ class RandomColorRamp(ColorRamp):
 
     @staticmethod
     def cls_id():
-        return 'beb87094-c0b4-11d0-8379-080009b996cc'
+        return "beb87094-c0b4-11d0-8379-080009b996cc"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -45,21 +45,25 @@ class RandomColorRamp(ColorRamp):
         self.hue_max = 360
 
     def read(self, stream, version):
-        self.ramp_name_type = stream.read_stringv2('ramp name type')
+        self.ramp_name_type = stream.read_stringv2("ramp name type")
 
         stream.read(4)
-        self.same_everywhere = bool(stream.read_ushort('Same everywhere'))
+        self.same_everywhere = bool(stream.read_ushort("Same everywhere"))
         stream.read(4)
-        self.val_min = stream.read_ushort('val min')
-        self.val_max = stream.read_ushort('val max')
-        self.sat_min = stream.read_ushort('sat min')
-        self.sat_max = stream.read_ushort('sat max')
-        self.hue_min = stream.read_ushort('hue min')
-        self.hue_max = stream.read_ushort('hue max')
+        self.val_min = stream.read_ushort("val min")
+        self.val_max = stream.read_ushort("val max")
+        self.sat_min = stream.read_ushort("sat min")
+        self.sat_max = stream.read_ushort("sat max")
+        self.hue_min = stream.read_ushort("hue min")
+        self.hue_max = stream.read_ushort("hue max")
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {'value_range': [self.val_min, self.val_max], 'saturation_range': [self.sat_min, self.sat_max],
-                'hue_range': [self.hue_min, self.hue_max], 'same_everywhere': self.same_everywhere}
+        return {
+            "value_range": [self.val_min, self.val_max],
+            "saturation_range": [self.sat_min, self.sat_max],
+            "hue_range": [self.hue_min, self.hue_max],
+            "same_everywhere": self.same_everywhere,
+        }
 
 
 class PresetColorRamp(ColorRamp):
@@ -69,11 +73,11 @@ class PresetColorRamp(ColorRamp):
 
     @staticmethod
     def cls_id():
-        return 'beb8709a-c0b4-11d0-8379-080009b996cc'
+        return "beb8709a-c0b4-11d0-8379-080009b996cc"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
-        self.ramp_name_type = ''
+        self.ramp_name_type = ""
         self.colors = []
 
     def children(self):
@@ -82,16 +86,16 @@ class PresetColorRamp(ColorRamp):
         return res
 
     def read(self, stream, version):
-        self.ramp_name_type = stream.read_stringv2('ramp name type')
+        self.ramp_name_type = stream.read_stringv2("ramp name type")
 
         stream.read(4)
 
-        color_count = stream.read_uint('Number of colors')
+        color_count = stream.read_uint("Number of colors")
         for i in range(color_count):
-            self.colors.append(stream.read_object('Color {}'.format(i + 1)))
+            self.colors.append(stream.read_object("Color {}".format(i + 1)))
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {'colors': [c.to_dict() for c in self.colors]}
+        return {"colors": [c.to_dict() for c in self.colors]}
 
 
 class MultiPartColorRamp(ColorRamp):
@@ -101,7 +105,7 @@ class MultiPartColorRamp(ColorRamp):
 
     @staticmethod
     def cls_id():
-        return 'beb87099-c0b4-11d0-8379-080009b996cc'
+        return "beb87099-c0b4-11d0-8379-080009b996cc"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -120,18 +124,20 @@ class MultiPartColorRamp(ColorRamp):
         return res
 
     def read(self, stream, version):
-        self.ramp_name_type = stream.read_stringv2('ramp name type')
-        count = stream.read_uint('Number of parts')
+        self.ramp_name_type = stream.read_stringv2("ramp name type")
+        count = stream.read_uint("Number of parts")
         for i in range(count):
-            self.parts.append(stream.read_object('Part {}'.format(i + 1)))
+            self.parts.append(stream.read_object("Part {}".format(i + 1)))
 
         if version > 1:
             for i in range(count):
-                self.part_lengths.append(stream.read_double('Length {}'.format(i + 1)))
+                self.part_lengths.append(stream.read_double("Length {}".format(i + 1)))
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {'parts': [p.to_dict() for p in self.parts],
-                'part_lengths': self.part_lengths}
+        return {
+            "parts": [p.to_dict() for p in self.parts],
+            "part_lengths": self.part_lengths,
+        }
 
 
 class AlgorithmicColorRamp(ColorRamp):
@@ -145,11 +151,11 @@ class AlgorithmicColorRamp(ColorRamp):
 
     @staticmethod
     def cls_id():
-        return 'beb8709b-c0b4-11d0-8379-080009b996cc'
+        return "beb8709b-c0b4-11d0-8379-080009b996cc"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
-        self.ramp_name_type = ''
+        self.ramp_name_type = ""
         self.algorithm = None
         self.color1 = None
         self.color2 = None
@@ -167,12 +173,14 @@ class AlgorithmicColorRamp(ColorRamp):
         return res
 
     def read(self, stream, version):
-        self.ramp_name_type = stream.read_stringv2('ramp name type')
-        self.algorithm = stream.read_uint('Algorithm')
-        self.color1 = stream.read_object('Color 1')
-        self.color2 = stream.read_object('Color 2')
+        self.ramp_name_type = stream.read_stringv2("ramp name type")
+        self.algorithm = stream.read_uint("Algorithm")
+        self.color1 = stream.read_object("Color 1")
+        self.color2 = stream.read_object("Color 2")
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {'color1': self.color1.to_dict(),
-                'color2': self.color2.to_dict(),
-                'algorithm': self.algorithm}
+        return {
+            "color1": self.color1.to_dict(),
+            "color2": self.color2.to_dict(),
+            "algorithm": self.algorithm,
+        }

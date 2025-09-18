@@ -14,7 +14,7 @@ class CompositeXForm(Object):
 
     @staticmethod
     def cls_id():
-        return '44923ebb-d988-4847-9b29-11aa8e6e132c'
+        return "44923ebb-d988-4847-9b29-11aa8e6e132c"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -25,15 +25,13 @@ class CompositeXForm(Object):
         return [1, 2]
 
     def read(self, stream: Stream, version):
-        stream.read_ushort('unknown', expected=0)
-        count = stream.read_int('count')
+        stream.read_ushort("unknown", expected=0)
+        count = stream.read_int("count")
         for i in range(count):
-            stream.read_object('transform {}'.format(i + 1))
+            stream.read_object("transform {}".format(i + 1))
 
         if version >= 2:
-            stream.read_ushort('unknown flag', expected=0)
+            stream.read_ushort("unknown flag", expected=0)
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-            'transforms': [t.to_dict() for t in self.transforms]
-        }
+        return {"transforms": [t.to_dict() for t in self.transforms]}

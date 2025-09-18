@@ -1,0 +1,2 @@
+[tool.ruff]
+exclude = ["slyr_community/parser/cim", "slyr_community/parser/color_lut.py"]

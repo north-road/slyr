@@ -30,30 +30,30 @@ class LineSymbolLayer(SymbolLayer):
         """
         Reads a line cap style from the stream
         """
-        cap_bin = stream.read_int('cap')
+        cap_bin = stream.read_int("cap")
         if cap_bin == 0:
-            return 'butt'
+            return "butt"
         elif cap_bin == 1:
-            return 'round'
+            return "round"
         elif cap_bin == 2:
-            return 'square'
+            return "square"
         else:
-            raise UnreadableSymbolException('unknown cap style {}'.format(cap_bin))
+            raise UnreadableSymbolException("unknown cap style {}".format(cap_bin))
 
     @staticmethod
     def read_join(stream: Stream):
         """
         Reads a line join style from the stream
         """
-        join_bin = stream.read_int('join')
+        join_bin = stream.read_int("join")
         if join_bin == 0:
-            return 'miter'
+            return "miter"
         elif join_bin == 1:
-            return 'round'
+            return "round"
         elif join_bin == 2:
-            return 'bevel'
+            return "bevel"
         else:
-            raise UnreadableSymbolException('unknown join style {}'.format(join_bin))
+            raise UnreadableSymbolException("unknown join style {}".format(join_bin))
 
     @staticmethod
     def read_line_type(stream: Stream):
@@ -61,14 +61,18 @@ class LineSymbolLayer(SymbolLayer):
         Interprets the line type bytes
         """
         line_type = stream.read_uint()
-        types = {0: 'solid',
-                 1: 'dashed',
-                 2: 'dotted',
-                 3: 'dash dot',
-                 4: 'dash dot dot',
-                 5: 'null'}
+        types = {
+            0: "solid",
+            1: "dashed",
+            2: "dotted",
+            3: "dash dot",
+            4: "dash dot dot",
+            5: "null",
+        }
         if line_type not in types:
-            raise UnreadableSymbolException('unknown line type {} at {}'.format(line_type, hex(stream.tell() - 4)))
+            raise UnreadableSymbolException(
+                "unknown line type {} at {}".format(line_type, hex(stream.tell() - 4))
+            )
         return types[line_type]
 
 
@@ -79,7 +83,7 @@ class SimpleLineSymbol(LineSymbolLayer):
 
     @staticmethod
     def cls_id():
-        return '7914e5f9-c892-11d0-8bb6-080009ee4e41'
+        return "7914e5f9-c892-11d0-8bb6-080009ee4e41"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -92,18 +96,18 @@ class SimpleLineSymbol(LineSymbolLayer):
 
     def to_dict(self):  # pylint: disable=method-hidden
         out = {
-            'color': self.color.to_dict() if self.color is not None else None,
-            'width': self.width,
-            'line_type': self.line_type
+            "color": self.color.to_dict() if self.color is not None else None,
+            "width": self.width,
+            "line_type": self.line_type,
         }
         return out
 
     def read(self, stream: Stream, version):
-        self.color = stream.read_object('color')
-        self.width = stream.read_double('width')
+        self.color = stream.read_object("color")
+        self.width = stream.read_double("width")
 
         self.line_type = self.read_line_type(stream)
-        stream.log('read line type of {}'.format(self.line_type))
+        stream.log("read line type of {}".format(self.line_type))
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
 
 
@@ -114,7 +118,7 @@ class CartographicLineSymbol(LineSymbolLayer):
 
     @staticmethod
     def cls_id():
-        return '7914e5fb-c892-11d0-8bb6-080009ee4e41'
+        return "7914e5fb-c892-11d0-8bb6-080009ee4e41"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -131,23 +135,23 @@ class CartographicLineSymbol(LineSymbolLayer):
 
     def to_dict(self):  # pylint: disable=method-hidden
         out = {
-            'color': self.color.to_dict() if self.color is not None else None,
-            'width': self.width,
-            'offset': self.offset,
-            'cap': self.cap,
-            'join': self.join,
-            'template': None,
-            'decoration': None,
-            'miter_limit': self.miter_limit,
-            'decoration_on_top': self.decoration_on_top,
-            'flip': self.flip,
-            'line_start_offset': self.line_start_offset
+            "color": self.color.to_dict() if self.color is not None else None,
+            "width": self.width,
+            "offset": self.offset,
+            "cap": self.cap,
+            "join": self.join,
+            "template": None,
+            "decoration": None,
+            "miter_limit": self.miter_limit,
+            "decoration_on_top": self.decoration_on_top,
+            "flip": self.flip,
+            "line_start_offset": self.line_start_offset,
         }
         if self.template is not None:
-            out['template'] = self.template.to_dict()
+            out["template"] = self.template.to_dict()
 
         if self.decoration is not None:
-            out['decoration'] = self.decoration.to_dict()
+            out["decoration"] = self.decoration.to_dict()
 
         return out
 
@@ -162,20 +166,20 @@ class CartographicLineSymbol(LineSymbolLayer):
     def read(self, stream: Stream, version):
         self.cap = self.read_cap(stream)
         self.join = self.read_join(stream)
-        self.width = stream.read_double('width')
+        self.width = stream.read_double("width")
 
-        self.flip = stream.read_uchar('flip') != 0
+        self.flip = stream.read_uchar("flip") != 0
 
-        self.offset = stream.read_double('offset')
-        self.color = stream.read_object('color')
-        self.template = stream.read_object('template')
+        self.offset = stream.read_double("offset")
+        self.color = stream.read_object("color")
+        self.template = stream.read_object("template")
 
-        self.decoration = stream.read_object('decoration')
+        self.decoration = stream.read_object("decoration")
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
 
-        self.decoration_on_top = stream.read_uchar('decoration on top') != 0
-        self.line_start_offset = stream.read_double('line start offset')
-        self.miter_limit = stream.read_double('miter limit')
+        self.decoration_on_top = stream.read_uchar("decoration on top") != 0
+        self.line_start_offset = stream.read_double("line start offset")
+        self.miter_limit = stream.read_double("miter limit")
 
 
 class MarkerLineSymbol(LineSymbolLayer):
@@ -185,7 +189,7 @@ class MarkerLineSymbol(LineSymbolLayer):
 
     @staticmethod
     def cls_id():
-        return '7914e5fd-c892-11d0-8bb6-080009ee4e41'
+        return "7914e5fd-c892-11d0-8bb6-080009ee4e41"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -206,25 +210,25 @@ class MarkerLineSymbol(LineSymbolLayer):
 
     def to_dict(self):  # pylint: disable=method-hidden
         out = {
-            'color': self.color.to_dict() if self.color is not None else None,
-            'offset': self.offset,
-            'join': self.join,
-            'template': None,
-            'pattern_marker': None,
-            'decoration': None,
-            'line_start_offset': self.line_start_offset,
-            'decoration_on_top': self.decoration_on_top,
-            'miter_limit': self.miter_limit,
-            'flip': self.flip
+            "color": self.color.to_dict() if self.color is not None else None,
+            "offset": self.offset,
+            "join": self.join,
+            "template": None,
+            "pattern_marker": None,
+            "decoration": None,
+            "line_start_offset": self.line_start_offset,
+            "decoration_on_top": self.decoration_on_top,
+            "miter_limit": self.miter_limit,
+            "flip": self.flip,
         }
         if self.template is not None:
-            out['template'] = self.template.to_dict()
+            out["template"] = self.template.to_dict()
 
         if self.pattern_marker is not None:
-            out['pattern_marker'] = self.pattern_marker.to_dict()
+            out["pattern_marker"] = self.pattern_marker.to_dict()
 
         if self.decoration is not None:
-            out['decoration'] = self.decoration.to_dict()
+            out["decoration"] = self.decoration.to_dict()
 
         return out
 
@@ -239,19 +243,19 @@ class MarkerLineSymbol(LineSymbolLayer):
         return res
 
     def read(self, stream: Stream, version):
-        self.flip = stream.read_uchar('flip') != 0
-        self.offset = stream.read_double('offset')
-        self.pattern_marker = stream.read_object('pattern marker')
-        self.template = stream.read_object('template')
-        self.decoration = stream.read_object('decoration')
+        self.flip = stream.read_uchar("flip") != 0
+        self.offset = stream.read_double("offset")
+        self.pattern_marker = stream.read_object("pattern marker")
+        self.template = stream.read_object("template")
+        self.decoration = stream.read_object("decoration")
 
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
-        self.decoration_on_top = stream.read_uchar('decoration on top') != 0
-        self.line_start_offset = stream.read_double('line start offset')
+        self.decoration_on_top = stream.read_uchar("decoration on top") != 0
+        self.line_start_offset = stream.read_double("line start offset")
 
         self.cap = self.read_cap(stream)
         self.join = self.read_join(stream)
-        self.miter_limit = stream.read_double('miter limit')
+        self.miter_limit = stream.read_double("miter limit")
 
 
 class HashLineSymbol(LineSymbolLayer):
@@ -261,7 +265,7 @@ class HashLineSymbol(LineSymbolLayer):
 
     @staticmethod
     def cls_id():
-        return '7914e5fc-c892-11d0-8bb6-080009ee4e41'
+        return "7914e5fc-c892-11d0-8bb6-080009ee4e41"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -284,27 +288,27 @@ class HashLineSymbol(LineSymbolLayer):
 
     def to_dict(self):  # pylint: disable=method-hidden
         out = {
-            'color': self.color.to_dict() if self.color is not None else None,
-            'width': self.width,
-            'offset': self.offset,
-            'cap': self.cap,
-            'join': self.join,
-            'template': None,
-            'decoration': None,
-            'line': None,
-            'line_start_offset': self.line_start_offset,
-            'miter_limit': self.miter_limit,
-            'decoration_on_top': self.decoration_on_top,
-            'flip': self.flip
+            "color": self.color.to_dict() if self.color is not None else None,
+            "width": self.width,
+            "offset": self.offset,
+            "cap": self.cap,
+            "join": self.join,
+            "template": None,
+            "decoration": None,
+            "line": None,
+            "line_start_offset": self.line_start_offset,
+            "miter_limit": self.miter_limit,
+            "decoration_on_top": self.decoration_on_top,
+            "flip": self.flip,
         }
         if self.template is not None:
-            out['template'] = self.template.to_dict()
+            out["template"] = self.template.to_dict()
 
         if self.line is not None:
-            out['line'] = self.line.to_dict()
+            out["line"] = self.line.to_dict()
 
         if self.decoration is not None:
-            out['decoration'] = self.decoration.to_dict()
+            out["decoration"] = self.decoration.to_dict()
 
         return out
 
@@ -319,24 +323,24 @@ class HashLineSymbol(LineSymbolLayer):
         return res
 
     def read(self, stream: Stream, version):
-        self.angle = stream.read_double('angle')
+        self.angle = stream.read_double("angle")
         self.cap = self.read_cap(stream)
         self.join = self.read_join(stream)
-        self.width = stream.read_double('width')
-        self.flip = stream.read_uchar('flip') != 0
-        self.offset = stream.read_double('offset')
+        self.width = stream.read_double("width")
+        self.flip = stream.read_uchar("flip") != 0
+        self.offset = stream.read_double("offset")
 
-        self.line = stream.read_object('line')
+        self.line = stream.read_object("line")
 
-        self.color = stream.read_object('color')
-        self.template = stream.read_object('template')
+        self.color = stream.read_object("color")
+        self.template = stream.read_object("template")
 
-        self.decoration = stream.read_object('decoration')
+        self.decoration = stream.read_object("decoration")
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
 
-        self.decoration_on_top = stream.read_uchar('decoration on top') != 0
-        self.line_start_offset = stream.read_double('line start offset')
-        self.miter_limit = stream.read_double('miter limit')
+        self.decoration_on_top = stream.read_uchar("decoration on top") != 0
+        self.line_start_offset = stream.read_double("line start offset")
+        self.miter_limit = stream.read_double("miter limit")
 
 
 class PictureLineSymbol(LineSymbolLayer):
@@ -346,7 +350,7 @@ class PictureLineSymbol(LineSymbolLayer):
 
     @staticmethod
     def cls_id():
-        return '22c8c5a1-84fc-11d4-834d-0080c79f0371'
+        return "22c8c5a1-84fc-11d4-834d-0080c79f0371"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -355,14 +359,14 @@ class PictureLineSymbol(LineSymbolLayer):
         self.fill_symbol = None
 
     def read(self, stream: Stream, version):
-        stream.read_uchar('unknown', expected=0)
-        self.offset = stream.read_double('offset')
-        self.width = stream.read_double('width')
-        self.fill_symbol = stream.read_object('fill symbol')
+        stream.read_uchar("unknown", expected=0)
+        self.offset = stream.read_double("offset")
+        self.width = stream.read_double("width")
+        self.fill_symbol = stream.read_object("fill symbol")
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'width': self.width,
-            'offset': self.offset,
-            'fill_symbol': self.fill_symbol.to_dict() if self.fill_symbol else None
+            "width": self.width,
+            "offset": self.offset,
+            "fill_symbol": self.fill_symbol.to_dict() if self.fill_symbol else None,
         }

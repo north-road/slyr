@@ -38,19 +38,19 @@ class Units:
     TIME_UNITS_CENTURIES = 10
 
     UNIT_TO_STRING_MAP = {
-        DISTANCE_UNKNOWN: 'unknown',
-        DISTANCE_INCHES: 'inches',
-        DISTANCE_POINTS: 'points',
-        DISTANCE_FEET: 'feet',
-        DISTANCE_YARDS: 'yards',
-        DISTANCE_MILES: 'miles',
-        DISTANCE_NAUTICAL_MILES: 'nautical_miles',
-        DISTANCE_MILLIMETERS: 'millimeters',
-        DISTANCE_CENTIMETERS: 'centimeters',
-        DISTANCE_METERS: 'meters',
-        DISTANCE_KILOMETERS: 'kilometers',
-        DISTANCE_DECIMAL_DEGREES: 'decimal_degrees',
-        DISTANCE_DECIMETERS: 'decimeters',
+        DISTANCE_UNKNOWN: "unknown",
+        DISTANCE_INCHES: "inches",
+        DISTANCE_POINTS: "points",
+        DISTANCE_FEET: "feet",
+        DISTANCE_YARDS: "yards",
+        DISTANCE_MILES: "miles",
+        DISTANCE_NAUTICAL_MILES: "nautical_miles",
+        DISTANCE_MILLIMETERS: "millimeters",
+        DISTANCE_CENTIMETERS: "centimeters",
+        DISTANCE_METERS: "meters",
+        DISTANCE_KILOMETERS: "kilometers",
+        DISTANCE_DECIMAL_DEGREES: "decimal_degrees",
+        DISTANCE_DECIMETERS: "decimeters",
     }
 
     @staticmethod
@@ -73,16 +73,16 @@ class Units:
         Converts a time unit to a string representation
         """
         unit_map = {
-            Units.TIME_UNITS_UNKNOWN: 'unknown',
-            Units.TIME_UNITS_MILLISECONDS: 'milliseconds',
-            Units.TIME_UNITS_SECONDS: 'seconds',
-            Units.TIME_UNITS_MINUTES: 'minutes',
-            Units.TIME_UNITS_HOURS: 'hours',
-            Units.TIME_UNITS_DAYS: 'days',
-            Units.TIME_UNITS_WEEKS: 'weeks',
-            Units.TIME_UNITS_MONTHS: 'months',
-            Units.TIME_UNITS_YEARS: 'years',
-            Units.TIME_UNITS_DECADES: 'decades',
-            Units.TIME_UNITS_CENTURIES: 'centuries',
+            Units.TIME_UNITS_UNKNOWN: "unknown",
+            Units.TIME_UNITS_MILLISECONDS: "milliseconds",
+            Units.TIME_UNITS_SECONDS: "seconds",
+            Units.TIME_UNITS_MINUTES: "minutes",
+            Units.TIME_UNITS_HOURS: "hours",
+            Units.TIME_UNITS_DAYS: "days",
+            Units.TIME_UNITS_WEEKS: "weeks",
+            Units.TIME_UNITS_MONTHS: "months",
+            Units.TIME_UNITS_YEARS: "years",
+            Units.TIME_UNITS_DECADES: "decades",
+            Units.TIME_UNITS_CENTURIES: "centuries",
         }
         return unit_map.get(unit, None)

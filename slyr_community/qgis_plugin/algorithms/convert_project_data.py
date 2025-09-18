@@ -25,9 +25,11 @@ Converts all data from the open project to standard formats
 
 from collections import defaultdict
 
-from qgis.core import (QgsProcessingAlgorithm,
-                       QgsProcessingParameterFolderDestination,
-                       QgsProcessingException)
+from qgis.core import (
+    QgsProcessingAlgorithm,
+    QgsProcessingParameterFolderDestination,
+    QgsProcessingException,
+)
 
 from .algorithm import SlyrAlgorithm
 
@@ -37,7 +39,7 @@ class ConvertProjectData(SlyrAlgorithm):
     Converts all data from the open project to standard formats
     """
 
-    OUTPUT_DATA_FOLDER = 'OUTPUT_DATA_FOLDER'
+    OUTPUT_DATA_FOLDER = "OUTPUT_DATA_FOLDER"
 
     def __init__(self):
         super().__init__()
@@ -54,13 +56,13 @@ class ConvertProjectData(SlyrAlgorithm):
         return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
 
     def name(self):
-        return 'convertprojectdata'
+        return "convertprojectdata"
 
     def displayName(self):
-        return 'Convert project data to GPKG (beta)'
+        return "Convert project data to GPKG (beta)"
 
     def shortDescription(self):
-        return 'Converts all data referenced by the current project to standard formats'
+        return "Converts all data referenced by the current project to standard formats"
 
     def shortHelpString(self):
         return """Converts all referenced data from the current project to standard formats.\n
@@ -69,17 +71,21 @@ class ConvertProjectData(SlyrAlgorithm):
         """
 
     def group(self):
-        return 'Data conversion'
+        return "Data conversion"
 
     def groupId(self):
-        return 'data'
+        return "data"
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterFolderDestination(
-            self.OUTPUT_DATA_FOLDER, 'Folder to store converted data in'))
+        self.addParameter(
+            QgsProcessingParameterFolderDestination(
+                self.OUTPUT_DATA_FOLDER, "Folder to store converted data in"
+            )
+        )
 
     def processAlgorithm(self, parameters, context, feedback):  # pylint: disable=too-many-locals
         raise QgsProcessingException(
-            'This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details')
+            "This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details"
+        )
 
     # pylint: enable=missing-docstring,unused-argument

@@ -23,24 +23,28 @@
 Converts .lyr to QGIS style XML
 """
 
-from qgis.core import (Qgis,
-                       QgsProcessingParameterFile,
-                       QgsProcessingParameterFileDestination,
-                       QgsStyle,
-                       QgsColorRamp,
-                       QgsSymbol,
-                       QgsTextFormat,
-                       QgsProcessingException)
+from qgis.core import (
+    Qgis,
+    QgsProcessingParameterFile,
+    QgsProcessingParameterFileDestination,
+    QgsStyle,
+    QgsColorRamp,
+    QgsSymbol,
+    QgsTextFormat,
+    QgsProcessingException,
+)
 
 from .algorithm import SlyrAlgorithm
 from ..gui_utils import GuiUtils
 from ...converters.context import Context
 from ...converters.layers import LayerConverter
 from ...converters.vector_renderer import VectorRendererConverter
-from ...parser.exceptions import (UnreadableSymbolException,
-                                  NotImplementedException,
-                                  UnknownClsidException,
-                                  RequiresLicenseException)
+from ...parser.exceptions import (
+    UnreadableSymbolException,
+    NotImplementedException,
+    UnknownClsidException,
+    RequiresLicenseException,
+)
 from ...parser.objects.group_layer import GroupLayer
 from ...parser.stream import Stream
 
@@ -50,8 +54,8 @@ class LyrToStyleXml(SlyrAlgorithm):
     Converts .lyr to QGIS style XML
     """
 
-    INPUT = 'INPUT'
-    OUTPUT = 'OUTPUT'
+    INPUT = "INPUT"
+    OUTPUT = "OUTPUT"
 
     # pylint: disable=missing-docstring,unused-argument
 
@@ -59,35 +63,42 @@ class LyrToStyleXml(SlyrAlgorithm):
         return LyrToStyleXml()
 
     def name(self):
-        return 'lyrtostylexml'
+        return "lyrtostylexml"
 
     def displayName(self):
-        return 'Convert LYR to QGIS style XML'
+        return "Convert LYR to QGIS style XML"
 
     def shortDescription(self):
-        return 'Converts an ESRI LYR file to a QGIS style XML file'
+        return "Converts an ESRI LYR file to a QGIS style XML file"
 
     def group(self):
-        return 'LYR datasets'
+        return "LYR datasets"
 
     def groupId(self):
-        return 'lyr'
+        return "lyr"
 
     def shortHelpString(self):
         return "Converts an ESRI LYR file to a QGIS style XML file"
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, 'Input LYR file', extension='lyr'))
+        self.addParameter(
+            QgsProcessingParameterFile(self.INPUT, "Input LYR file", extension="lyr")
+        )
 
-        self.addParameter(QgsProcessingParameterFileDestination(
-            self.OUTPUT, 'Destination style XML file', fileFilter='XML files (*.xml)'))
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                "Destination style XML file",
+                fileFilter="XML files (*.xml)",
+            )
+        )
 
-    def processAlgorithm(self,  # pylint: disable=too-many-locals,too-many-statements,too-many-branches
-                         parameters,
-                         context,
-                         feedback):
-
+    def processAlgorithm(
+        self,  # pylint: disable=too-many-locals,too-many-statements,too-many-branches
+        parameters,
+        context,
+        feedback,
+    ):
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
 
@@ -102,7 +113,7 @@ class LyrToStyleXml(SlyrAlgorithm):
 
             warnings.add(msg)
             if level == Context.WARNING:
-                feedback.reportError('Warning: {}'.format(msg), False)
+                feedback.reportError("Warning: {}".format(msg), False)
             elif level == Context.CRITICAL:
                 feedback.reportError(msg, False)
 
@@ -113,28 +124,32 @@ class LyrToStyleXml(SlyrAlgorithm):
             conversion_context.invalid_layer_resolver = GuiUtils.get_valid_mime_uri
         # context.style_folder, _ = os.path.split(output_file)
 
-        with open(input_file, 'rb') as f:
+        with open(input_file, "rb") as f:
             stream = Stream(f, False, force_layer=True, offset=0)
             try:
                 obj = stream.read_object()
             except RequiresLicenseException as e:
-                raise QgsProcessingException('{} - please see https://north-road.com/slyr/ for details'.format(e)) from e
+                raise QgsProcessingException(
+                    "{} - please see https://north-road.com/slyr/ for details".format(e)
+                ) from e
             except UnknownClsidException as e:
                 feedback.reportError(str(e), fatalError=True)
                 return {}
             except UnreadableSymbolException as e:
-                feedback.reportError('Unreadable object: {}'.format(e), fatalError=True)
+                feedback.reportError("Unreadable object: {}".format(e), fatalError=True)
                 return {}
             except NotImplementedException as e:
                 feedback.reportError(str(e), fatalError=True)
                 return {}
             except UnicodeDecodeError as e:
-                feedback.reportError('Unreadable object: {}'.format(e), fatalError=True)
+                feedback.reportError("Unreadable object: {}".format(e), fatalError=True)
                 return {}
 
         if not LayerConverter.is_layer(obj) and not isinstance(obj, GroupLayer):
-            feedback.reportError('Objects of type {} are not supported'.format(obj.__class__.__name__),
-                                 fatalError=False)
+            feedback.reportError(
+                "Objects of type {} are not supported".format(obj.__class__.__name__),
+                fatalError=False,
+            )
             return {}
 
         symbol_names = set()
@@ -148,23 +163,29 @@ class LyrToStyleXml(SlyrAlgorithm):
             while candidate.lower() in symbol_names:
                 # make name unique
                 if counter == 0:
-                    candidate += '_1'
+                    candidate += "_1"
                 else:
-                    candidate = candidate[:candidate.rfind('_') + 1] + str(counter)
+                    candidate = candidate[: candidate.rfind("_") + 1] + str(counter)
                 counter += 1
             symbol_names.add(candidate.lower())
             return candidate
 
         layers = LayerConverter.unique_layer_name_map(obj)
         for name, layer in layers.items():
-            feedback.pushInfo('Extracting symbols from {}'.format(name))
-            symbols = VectorRendererConverter.extract_symbols_from_renderer(layer, conversion_context, default_name=name,
-                                                                            base_name=name if len(layers) > 1 else '')
+            feedback.pushInfo("Extracting symbols from {}".format(name))
+            symbols = VectorRendererConverter.extract_symbols_from_renderer(
+                layer,
+                conversion_context,
+                default_name=name,
+                base_name=name if len(layers) > 1 else "",
+            )
 
             for k, v in symbols.items():
                 unique_name = make_name_unique(k)
                 if k != unique_name:
-                    feedback.pushInfo('Corrected to unique name of {}'.format(unique_name))
+                    feedback.pushInfo(
+                        "Corrected to unique name of {}".format(unique_name)
+                    )
 
                 if isinstance(v, QgsSymbol):
                     style.addSymbol(unique_name, v, True)

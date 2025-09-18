@@ -20,7 +20,7 @@ class MaplexRotationProperties(Object):
 
     @staticmethod
     def cls_id():
-        return '20664808-bba1-ccd2-8967-f453c9ed732a'
+        return "20664808-bba1-ccd2-8967-f453c9ed732a"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -28,7 +28,7 @@ class MaplexRotationProperties(Object):
         self.rotation_type = MaplexRotationProperties.ROTATE_LABEL_GEOGRAPHIC
         self.keep_upright = True
         self.perpendicular_to_angle = False
-        self.rotation_attribute = ''
+        self.rotation_attribute = ""
 
     @staticmethod
     def compatible_versions():
@@ -40,27 +40,29 @@ class MaplexRotationProperties(Object):
         Converts rotation type to string
         """
         if rotate_type == MaplexRotationProperties.ROTATE_LABEL_GEOGRAPHIC:
-            return 'geographic'
+            return "geographic"
         elif rotate_type == MaplexRotationProperties.ROTATE_LABEL_ARITHMETIC:
-            return 'arithmetic'
+            return "arithmetic"
         elif rotate_type == MaplexRotationProperties.ROTATE_LABEL_RADIANS:
-            return 'radians'
+            return "radians"
         elif rotate_type == MaplexRotationProperties.ROTATE_LABEL_AV3:
-            return 'av3'
+            return "av3"
         return None
 
     def read(self, stream: Stream, version):
-        self.rotate_by_attribute = stream.read_ushort('rotate by attribute') != 0
-        self.rotation_type = stream.read_int('rotation type')
-        self.rotation_attribute = stream.read_string('attribute')
-        self.perpendicular_to_angle = stream.read_ushort('perpendicular to angle') != 0
-        self.keep_upright = stream.read_ushort('keep upright') == 0
+        self.rotate_by_attribute = stream.read_ushort("rotate by attribute") != 0
+        self.rotation_type = stream.read_int("rotation type")
+        self.rotation_attribute = stream.read_string("attribute")
+        self.perpendicular_to_angle = stream.read_ushort("perpendicular to angle") != 0
+        self.keep_upright = stream.read_ushort("keep upright") == 0
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'rotate_by_attribute': self.rotate_by_attribute,
-            'rotation_attribute': self.rotation_attribute,
-            'keep_upright': self.keep_upright,
-            'perpendicular_to_angle': self.perpendicular_to_angle,
-            'rotation_type': MaplexRotationProperties.rotate_type_to_string(self.rotation_type),
+            "rotate_by_attribute": self.rotate_by_attribute,
+            "rotation_attribute": self.rotation_attribute,
+            "keep_upright": self.keep_upright,
+            "perpendicular_to_angle": self.perpendicular_to_angle,
+            "rotation_type": MaplexRotationProperties.rotate_type_to_string(
+                self.rotation_type
+            ),
         }

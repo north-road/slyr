@@ -14,7 +14,7 @@ class ScaleDependentRenderer(Object):
 
     @staticmethod
     def cls_id():
-        return '207c19f5-ed81-11d0-8bba-080009ee4e41'
+        return "207c19f5-ed81-11d0-8bba-080009ee4e41"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -26,13 +26,13 @@ class ScaleDependentRenderer(Object):
         return None
 
     def read(self, stream: Stream, version):
-        count = stream.read_int('count')
+        count = stream.read_int("count")
         for i in range(count):
-            self.breaks.append(stream.read_double('break {}'.format(i + 1)))
-            self.renderers.append(stream.read_object('renderer {}'.format(i + 1)))
+            self.breaks.append(stream.read_double("break {}".format(i + 1)))
+            self.renderers.append(stream.read_object("renderer {}".format(i + 1)))
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'breaks': self.breaks,
-            'renderers': [r.to_dict() for r in self.renderers]
+            "breaks": self.breaks,
+            "renderers": [r.to_dict() for r in self.renderers],
         }

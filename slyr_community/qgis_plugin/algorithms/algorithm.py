@@ -23,7 +23,7 @@
 Base class for SLYR algorithms
 """
 
-from qgis.core import (QgsProcessingAlgorithm)
+from qgis.core import QgsProcessingAlgorithm
 
 
 class SlyrAlgorithm(QgsProcessingAlgorithm):

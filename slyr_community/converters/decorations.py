@@ -36,7 +36,13 @@ class DecorationConverter:
     """
 
     @staticmethod
-    def append_decorations(symbol, decorations: LineDecoration, context: Context, enabled: bool, locked: bool):
+    def append_decorations(
+        symbol,
+        decorations: LineDecoration,
+        context: Context,
+        enabled: bool,
+        locked: bool,
+    ):
         """
         Appends decorations to the given symbol
         """
@@ -44,14 +50,18 @@ class DecorationConverter:
             return
 
         for decoration in decorations.decorations:
-            DecorationConverter.append_decoration(symbol, decoration, context, enabled, locked)
+            DecorationConverter.append_decoration(
+                symbol, decoration, context, enabled, locked
+            )
 
     @staticmethod
-    def append_decoration(symbol,  # pylint: disable=too-many-branches,too-many-statements
-                          decoration: SimpleLineDecorationElement,
-                          context: Context,
-                          enabled: bool,
-                          locked: bool):
+    def append_decoration(
+        symbol,  # pylint: disable=too-many-branches,too-many-statements
+        decoration: SimpleLineDecorationElement,
+        context: Context,
+        enabled: bool,
+        locked: bool,
+    ):
         """
         Appends decorations to the given symbol
         """
@@ -77,7 +87,9 @@ class DecorationConverter:
                 layer = start_marker.symbolLayer(layer_index)
                 if layer.offset().x() or layer.offset().y():
                     # adjust marker offset to account for rotation of line markers
-                    offset = ConversionUtils.adjust_offset_for_rotation(layer.offset(), layer.angle())
+                    offset = ConversionUtils.adjust_offset_for_rotation(
+                        layer.offset(), layer.angle()
+                    )
                     if decoration.flip_first or decoration.flip_all:
                         offset.setY(-offset.y())
                     layer.setOffset(offset)
@@ -90,7 +102,9 @@ class DecorationConverter:
             # TODO - maybe need to offset this by marker width / 4? seems a better match to ESRI
             line.setPlacement(QgsMarkerLineSymbolLayer.FirstVertex)
             symbol.appendSymbolLayer(line)
-            context.symbol_layer_output_to_input_index_map[line] = context.current_symbol_layer
+            context.symbol_layer_output_to_input_index_map[line] = (
+                context.current_symbol_layer
+            )
 
         if 1 in positions:
             # end marker
@@ -101,7 +115,9 @@ class DecorationConverter:
                 layer = end_marker.symbolLayer(layer_index)
                 if layer.offset().x() or layer.offset().y():
                     # adjust marker offset to account for rotation of line markers
-                    offset = ConversionUtils.adjust_offset_for_rotation(layer.offset(), layer.angle())
+                    offset = ConversionUtils.adjust_offset_for_rotation(
+                        layer.offset(), layer.angle()
+                    )
                     if decoration.flip_all:
                         offset.setY(-offset.y())
                     layer.setOffset(offset)
@@ -113,7 +129,9 @@ class DecorationConverter:
 
             # TODO - maybe need to offset this by marker width / 4? seems a better match to ESRI
             symbol.appendSymbolLayer(line)
-            context.symbol_layer_output_to_input_index_map[line] = context.current_symbol_layer
+            context.symbol_layer_output_to_input_index_map[line] = (
+                context.current_symbol_layer
+            )
 
         if 0.5 in positions:
             # mid marker
@@ -124,7 +142,9 @@ class DecorationConverter:
                 layer = end_marker.symbolLayer(layer_index)
                 if layer.offset().x() or layer.offset().y():
                     # adjust marker offset to account for rotation of line markers
-                    offset = ConversionUtils.adjust_offset_for_rotation(layer.offset(), layer.angle())
+                    offset = ConversionUtils.adjust_offset_for_rotation(
+                        layer.offset(), layer.angle()
+                    )
                     if decoration.flip_all:
                         offset.setY(-offset.y())
                     layer.setOffset(offset)
@@ -135,7 +155,9 @@ class DecorationConverter:
             line.setLocked(locked)
 
             symbol.appendSymbolLayer(line)
-            context.symbol_layer_output_to_input_index_map[line] = context.current_symbol_layer
+            context.symbol_layer_output_to_input_index_map[line] = (
+                context.current_symbol_layer
+            )
 
         # TODO other positions
         other_positions = [p for p in positions if p not in (0, 0.5, 1)]
@@ -144,4 +166,7 @@ class DecorationConverter:
             # and offset first marker by $length/3 to avoid placing a marker at the start
             # of the line
             raise NotImplementedException(
-                'Non start/end decoration positions are not implemented (need {})'.format(other_positions))
+                "Non start/end decoration positions are not implemented (need {})".format(
+                    other_positions
+                )
+            )

@@ -16,18 +16,16 @@ class FeatureIDSet(Object):
 
     @staticmethod
     def cls_id():
-        return 'd5bb4b88-e0a1-11d2-9f4d-00c04f6bc78e'
+        return "d5bb4b88-e0a1-11d2-9f4d-00c04f6bc78e"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
         self.features = []
 
     def read(self, stream: Stream, version):
-        count = stream.read_int('count')
+        count = stream.read_int("count")
         for i in range(count):
-            self.features.append(stream.read_int('id {}'.format(i + 1)))
+            self.features.append(stream.read_int("id {}".format(i + 1)))
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-            'features': self.features
-        }
+        return {"features": self.features}

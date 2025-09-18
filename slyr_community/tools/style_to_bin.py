@@ -21,16 +21,21 @@ args = parser.parse_args()
 styles = [(args.file, Extractor.FILL_SYMBOLS)]
 output_path = args.destination
 
-for symbol_type in [Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS, Extractor.COLORS, Extractor.COLOR_RAMPS]:
-
+for symbol_type in [
+    Extractor.FILL_SYMBOLS,
+    Extractor.LINE_SYMBOLS,
+    Extractor.MARKER_SYMBOLS,
+    Extractor.COLORS,
+    Extractor.COLOR_RAMPS,
+]:
     raw_symbols = Extractor.extract_styles(args.file, symbol_type)
     print('Found {} symbols of type "{}"\n\n'.format(len(raw_symbols), symbol_type))
 
     for raw_symbol in raw_symbols:
         symbol_name = raw_symbol[Extractor.NAME]
-        print('Extracting {}'.format(symbol_name))
+        print("Extracting {}".format(symbol_name))
 
-        out_filename = FileUtils.clean_symbol_name_for_file(symbol_name) + '.bin'
+        out_filename = FileUtils.clean_symbol_name_for_file(symbol_name) + ".bin"
         file = os.path.join(output_path, out_filename)
-        with open(file, 'wb') as e:
+        with open(file, "wb") as e:
             e.write(raw_symbol[Extractor.BLOB])

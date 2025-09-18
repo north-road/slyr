@@ -24,15 +24,9 @@ Browser and app integrations for LYR/STYLE file integration with QGIS
 """
 
 from qgis.PyQt.QtCore import QFileInfo
-from qgis.core import (
-    QgsDataItemProvider,
-    QgsDataProvider
-)
+from qgis.core import QgsDataItemProvider, QgsDataProvider
 
-from .dat_items import (
-    EsriDatItem,
-    DatDropHandler
-)
+from .dat_items import EsriDatItem, DatDropHandler
 from .lyr_items import EsriLyrItem
 from .mxd_items import EsriMxdItem
 from .style_items import EsriStyleItem
@@ -44,7 +38,7 @@ class SlyrDataItemProvider(QgsDataItemProvider):
     """
 
     def name(self):  # pylint: disable=missing-docstring
-        return 'slyr'
+        return "slyr"
 
     def capabilities(self):  # pylint: disable=missing-docstring
         return QgsDataProvider.File
@@ -52,12 +46,12 @@ class SlyrDataItemProvider(QgsDataItemProvider):
     def createDataItem(self, path, parentItem):  # pylint: disable=missing-docstring
         file_info = QFileInfo(path)
 
-        if file_info.suffix().lower() == 'style':
+        if file_info.suffix().lower() == "style":
             return EsriStyleItem(parentItem, file_info.fileName(), path)
-        elif file_info.suffix().lower() in ('lyr', 'lyrx'):
+        elif file_info.suffix().lower() in ("lyr", "lyrx"):
             return EsriLyrItem(parentItem, file_info.fileName(), path)
         elif DatDropHandler.is_bookmark_dat(path):
             return EsriDatItem(parentItem, file_info.fileName(), path)
-        elif file_info.suffix().lower() in ('mxd', 'pmf', 'sxd', '3dd', 'mxt'):
+        elif file_info.suffix().lower() in ("mxd", "pmf", "sxd", "3dd", "mxt"):
             return EsriMxdItem(parentItem, file_info.fileName(), path)
         return None

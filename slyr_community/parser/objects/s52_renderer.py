@@ -15,7 +15,7 @@ class S52Renderer(VectorRendererBase):
 
     @staticmethod
     def cls_id():
-        return 'ea77a441-5f16-4bd1-897d-17242d6b896e'
+        return "ea77a441-5f16-4bd1-897d-17242d6b896e"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -27,10 +27,10 @@ class S52Renderer(VectorRendererBase):
 
     def read(self, stream: Stream, version):
         stream.push_object_store()
-        self.symbol = stream.read_object('some symbol')
+        self.symbol = stream.read_object("some symbol")
         stream.pop_object_store()
 
     def to_dict(self):  # pylint: disable=method-hidden
         res = super().to_dict()
-        res['symbol'] = self.symbol.to_dict() if self.symbol else None
+        res["symbol"] = self.symbol.to_dict() if self.symbol else None
         return res

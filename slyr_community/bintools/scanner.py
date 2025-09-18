@@ -72,7 +72,7 @@ class ObjectMatch:
         """
         Returns a string representation of the match
         """
-        return ''
+        return ""
 
 
 class StringMatch(ObjectMatch):
@@ -100,6 +100,7 @@ class StringScan(ObjectScan):
     """
     Scans for encoded strings
     """
+
     PRINTABLE = set(string.printable)
 
     @staticmethod
@@ -107,13 +108,16 @@ class StringScan(ObjectScan):
         """
         Removes all non-ascii characters from a string
         """
-        return ''.join(filter(lambda x: x in StringScan.PRINTABLE, s))
+        return "".join(filter(lambda x: x in StringScan.PRINTABLE, s))
 
     def check_handle(self, file_handle):
         try:
             start = file_handle.tell()
             string_value = Stream(file_handle).read_string()
-            if string_value and StringScan.strip_non_ascii(string_value) == string_value:
+            if (
+                string_value
+                and StringScan.strip_non_ascii(string_value) == string_value
+            ):
                 return StringMatch(start, file_handle.tell() - start, string_value)
         except:  # nopep8, pylint: disable=bare-except
             pass
@@ -154,7 +158,9 @@ class GuidCodeScan(ObjectScan):
             obj = REGISTRY.create_object(guid)
             if obj is None:
                 return None
-            return GuidCodeMatch(file_handle.tell() - 16, 16, str(obj.__class__.__name__))
+            return GuidCodeMatch(
+                file_handle.tell() - 16, 16, str(obj.__class__.__name__)
+            )
         except:  # nopep8, pylint: disable=bare-except
             pass
         return None
@@ -189,8 +195,11 @@ class DoubleScan(ObjectScan):
     def check_handle(self, file_handle):
         try:
             real_value = unpack("<d", file_handle.read(8))[0]
-            if -1000 < real_value < 10000 and (real_value > 0.00001 or real_value < -0.00001) \
-                    and round(real_value * 10) == real_value * 10:
+            if (
+                -1000 < real_value < 10000
+                and (real_value > 0.00001 or real_value < -0.00001)
+                and round(real_value * 10) == real_value * 10
+            ):
                 return DoubleMatch(file_handle.tell() - 8, 8, real_value)
         except:  # nopep8, pylint: disable=bare-except
             pass
@@ -252,12 +261,25 @@ class ColorMatch(ObjectMatch):
         return Fore.MAGENTA
 
     def value(self):
-        if self.color_model in ('rgb', 'hsv'):
-            return str(self.matched_color['R']) + ',' + str(self.matched_color['G']) + ',' + str(
-                self.matched_color['B'])
-        elif self.color_model == 'cmyk':
-            return 'CMYK:' + str(self.matched_color['C']) + ',' + str(self.matched_color['M']) + ',' + str(
-                self.matched_color['Y']) + ',' + str(self.matched_color['K'])
+        if self.color_model in ("rgb", "hsv"):
+            return (
+                str(self.matched_color["R"])
+                + ","
+                + str(self.matched_color["G"])
+                + ","
+                + str(self.matched_color["B"])
+            )
+        elif self.color_model == "cmyk":
+            return (
+                "CMYK:"
+                + str(self.matched_color["C"])
+                + ","
+                + str(self.matched_color["M"])
+                + ","
+                + str(self.matched_color["Y"])
+                + ","
+                + str(self.matched_color["K"])
+            )
         return None
 
 
@@ -272,7 +294,9 @@ class ColorScan(ObjectScan):
             stream = Stream(file_handle)
             color = stream.read_object()
             if issubclass(color.__class__, Color):
-                return ColorMatch(start, file_handle.tell() - start, color.color_model, color)
+                return ColorMatch(
+                    start, file_handle.tell() - start, color.color_model, color
+                )
             else:
                 return None
         except:  # nopep8, pylint: disable=bare-except
@@ -319,5 +343,11 @@ class PersistentScan(ObjectScan):
         return None
 
 
-SCANNERS = [StringScan(), GuidCodeScan(), DoubleScan(), IntScan(),
-            ColorScan(), PersistentScan()]
+SCANNERS = [
+    StringScan(),
+    GuidCodeScan(),
+    DoubleScan(),
+    IntScan(),
+    ColorScan(),
+    PersistentScan(),
+]

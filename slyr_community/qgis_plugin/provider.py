@@ -47,7 +47,7 @@ from .algorithms import (
     ConvertAnnotationClassToGeopackage,
     ConvertProjectData,
     ExtractHyperlinksToTables,
-    ExtractSDEConnectionDetails
+    ExtractSDEConnectionDetails,
 )
 from .gui_utils import GuiUtils
 
@@ -61,11 +61,26 @@ class SlyrProvider(QgsProcessingProvider):
         QgsProcessingProvider.__init__(self)
 
     def loadAlgorithms(self):  # pylint: disable=missing-docstring
-        for alg in [StyleToQgisXml, StyleToGpl, StylxToGpl, GplToStylx,
-                    StylxToQgisXml, XmlToStylx,
-                    LyrToQlr, StyleFromLyr, LyrToQml, LyrToStyleXml, ConvertMxdToQgs,
-                    AddLayersFromMxd, ConvertPmfToQgs, ConvertSxdToQgs, ExportStructureToJson, AvlToQml,
-                    ExtractHyperlinksToTables, ExtractSDEConnectionDetails]:
+        for alg in [
+            StyleToQgisXml,
+            StyleToGpl,
+            StylxToGpl,
+            GplToStylx,
+            StylxToQgisXml,
+            XmlToStylx,
+            LyrToQlr,
+            StyleFromLyr,
+            LyrToQml,
+            LyrToStyleXml,
+            ConvertMxdToQgs,
+            AddLayersFromMxd,
+            ConvertPmfToQgs,
+            ConvertSxdToQgs,
+            ExportStructureToJson,
+            AvlToQml,
+            ExtractHyperlinksToTables,
+            ExtractSDEConnectionDetails,
+        ]:
             self.addAlgorithm(alg())
 
         self.addAlgorithm(ConvertMxdAndData())
@@ -74,17 +89,17 @@ class SlyrProvider(QgsProcessingProvider):
         self.addAlgorithm(ConvertAnnotationClassToGeopackage())
 
     def id(self):  # pylint: disable=missing-docstring
-        return 'slyr'
+        return "slyr"
 
     def name(self):  # pylint: disable=missing-docstring
-        return 'SLYR (community edition)'
+        return "SLYR (community edition)"
 
     def longName(self):  # pylint: disable=missing-docstring
-        return 'Converts ESRI Style and LYR files'
+        return "Converts ESRI Style and LYR files"
 
     def icon(self):  # pylint: disable=missing-docstring
-        return GuiUtils.get_icon('icon.svg')
+        return GuiUtils.get_icon("icon.svg")
 
     def versionInfo(self):
         # pylint: disable=missing-docstring
-        return '5.0.0'
+        return "5.0.0"

@@ -21,13 +21,13 @@ class MaplexUtils:
         Converts maplex unit to string
         """
         if unit == MaplexUtils.UNIT_MAP:
-            return 'map_unit'
+            return "map_unit"
         elif unit == MaplexUtils.UNIT_MM:
-            return 'mm'
+            return "mm"
         elif unit == MaplexUtils.UNIT_INCH:
-            return 'inch'
+            return "inch"
         elif unit == MaplexUtils.UNIT_POINT:
-            return 'point'
+            return "point"
         elif unit == MaplexUtils.UNIT_PERCENT:
-            return 'percent'
+            return "percent"
         return None

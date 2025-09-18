@@ -29,9 +29,7 @@ from io import BytesIO
 from struct import unpack
 
 from qgis.PyQt.QtCore import QFileInfo, QDir, QCoreApplication
-from qgis.PyQt.QtWidgets import (
-    QAction,
-    QFileDialog)
+from qgis.PyQt.QtWidgets import QAction, QFileDialog
 from qgis.core import (
     Qgis,
     QgsDataItem,
@@ -45,12 +43,9 @@ from qgis.core import (
     QgsDataCollectionItem,
     QgsLayerItem,
     QgsTextFormat,
-    QgsErrorItem
+    QgsErrorItem,
 )
-from qgis.gui import (
-    QgsCustomDropHandler,
-    QgsStyleManagerDialog
-)
+from qgis.gui import QgsCustomDropHandler, QgsStyleManagerDialog
 from qgis.utils import iface
 
 from .browser_utils import BrowserUtils
@@ -59,12 +54,14 @@ from ...converters.context import Context
 from ...converters.layers import LayerConverter
 from ...converters.vector_layer import VectorLayerConverter
 from ...converters.vector_renderer import VectorRendererConverter
-from ...parser.exceptions import (UnreadableSymbolException,
-                                  UnsupportedVersionException,
-                                  NotImplementedException,
-                                  UnknownClsidException,
-                                  UnreadablePictureException,
-                                  RequiresLicenseException)
+from ...parser.exceptions import (
+    UnreadableSymbolException,
+    UnsupportedVersionException,
+    NotImplementedException,
+    UnknownClsidException,
+    UnreadablePictureException,
+    RequiresLicenseException,
+)
 from ...parser.objects.base_map_layer import BaseMapLayer
 from ...parser.objects.feature_layer import FeatureLayer
 from ...parser.objects.group_layer import GroupLayer
@@ -77,10 +74,10 @@ class LyrDropHandler(QgsCustomDropHandler):
     """
 
     def handleFileDrop(self, file):  # pylint: disable=missing-docstring
-        if file.lower().endswith('.lyr'):
+        if file.lower().endswith(".lyr"):
             self.open_lyr(file)
             return True
-        elif file.lower().endswith('.lyrx'):
+        elif file.lower().endswith(".lyrx"):
             self.open_lyrx(file)
             return True
 
@@ -98,8 +95,13 @@ class LyrDropHandler(QgsCustomDropHandler):
             count = unpack("<L", mime_binary.read(4))[0]
             offset = mime_binary.tell()
             try:
-                stream = Stream(mime_binary, False, force_layer=True, offset=offset,
-                                extract_doc_structure=False)
+                stream = Stream(
+                    mime_binary,
+                    False,
+                    force_layer=True,
+                    offset=offset,
+                    extract_doc_structure=False,
+                )
 
                 for _ in range(count):
                     LyrDropHandler.open_lyr_stream(stream)
@@ -119,7 +121,7 @@ class LyrDropHandler(QgsCustomDropHandler):
         return False
 
     @staticmethod
-    def open_lyr_stream(stream, input_file=''):  # pylint:disable=too-many-statements
+    def open_lyr_stream(stream, input_file=""):  # pylint:disable=too-many-statements
         """
         Opens a lyr file from a binary object
         """
@@ -143,7 +145,9 @@ class LyrDropHandler(QgsCustomDropHandler):
 
         def add_layer(layer, group_node):
             nonlocal fallback_crs
-            layers = LayerConverter.layer_to_QgsLayer(layer, input_file, context, fallback_crs)
+            layers = LayerConverter.layer_to_QgsLayer(
+                layer, input_file, context, fallback_crs
+            )
             for _layer in layers:
                 if not fallback_crs.isValid() and _layer.crs().isValid():
                     fallback_crs = _layer.crs()
@@ -151,7 +155,9 @@ class LyrDropHandler(QgsCustomDropHandler):
                 node = group_node.addLayer(_layer)
                 if not layer.visible:
                     node.setItemVisibilityChecked(False)
-                if hasattr(layer, 'renderer') and hasattr(layer.renderer, 'legend_group'):
+                if hasattr(layer, "renderer") and hasattr(
+                    layer.renderer, "legend_group"
+                ):
                     node.setExpanded(layer.renderer.legend_group.editable_or_expanded)
                 elif len(node.children()) > 10:
                     node.setExpanded(False)
@@ -174,28 +180,38 @@ class LyrDropHandler(QgsCustomDropHandler):
         elif LayerConverter.is_group(obj):
             add_group(obj, QgsProject.instance().layerTreeRoot())
         else:
-            iface.messageBar().pushCritical('SLYR', '{} layers are not yet supported'.format(obj.__class__.__name__))
+            iface.messageBar().pushCritical(
+                "SLYR", "{} layers are not yet supported".format(obj.__class__.__name__)
+            )
             return True
 
         if warnings or errors:
-            message = ''
+            message = ""
             if errors:
-                message = '<p>The following errors were generated while converting the LYR file:</p>'
-                message += '<ul>'
+                message = "<p>The following errors were generated while converting the LYR file:</p>"
+                message += "<ul>"
                 for w in errors:
-                    message += '<li>{}</li>'.format(html.escape(w).replace('\n', '<br>'))
-                message += '</ul>'
+                    message += "<li>{}</li>".format(
+                        html.escape(w).replace("\n", "<br>")
+                    )
+                message += "</ul>"
             if warnings:
                 if message:
-                    message += '<p>Additionally, some warnings were generated:</p>'
+                    message += "<p>Additionally, some warnings were generated:</p>"
                 else:
-                    message += '<p>The following warnings were generated while converting the LYR file:</p>'
-                message += '<ul>'
+                    message += "<p>The following warnings were generated while converting the LYR file:</p>"
+                message += "<ul>"
                 for w in warnings:
-                    message += '<li>{}</li>'.format(html.escape(w).replace('\n', '<br>'))
-                message += '</ul>'
-            BrowserUtils.show_warning('LYR could not be completely converted', 'Convert LYR', message,
-                                      level=Qgis.Critical if errors else Qgis.Warning)
+                    message += "<li>{}</li>".format(
+                        html.escape(w).replace("\n", "<br>")
+                    )
+                message += "</ul>"
+            BrowserUtils.show_warning(
+                "LYR could not be completely converted",
+                "Convert LYR",
+                message,
+                level=Qgis.Critical if errors else Qgis.Warning,
+            )
 
         return True
 
@@ -205,14 +221,20 @@ class LyrDropHandler(QgsCustomDropHandler):
         Opens a LYR file in the current project
         """
 
-        with open(input_file, 'rb') as f:
+        with open(input_file, "rb") as f:
             try:
                 stream = Stream(f, False, force_layer=True)
                 return LyrDropHandler.open_lyr_stream(stream, input_file)
             except RequiresLicenseException as e:
-                message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(e)
-                BrowserUtils.show_warning('Licensed version required', 'Convert LYR', message,
-                                          level=Qgis.Critical)
+                message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(
+                    e
+                )
+                BrowserUtils.show_warning(
+                    "Licensed version required",
+                    "Convert LYR",
+                    message,
+                    level=Qgis.Critical,
+                )
                 return True
 
     @staticmethod
@@ -222,17 +244,22 @@ class LyrDropHandler(QgsCustomDropHandler):
         """
 
         message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
-        BrowserUtils.show_warning('Licensed version required', 'Convert LYRX', message,
-                                  level=Qgis.Critical, message_bar=iface.messageBar())
+        BrowserUtils.show_warning(
+            "Licensed version required",
+            "Convert LYRX",
+            message,
+            level=Qgis.Critical,
+            message_bar=iface.messageBar(),
+        )
 
         return True
 
     def customUriProviderKey(self):  # pylint: disable=missing-docstring
-        return 'esri_lyr'
+        return "esri_lyr"
 
     def handleCustomUriDrop(self, uri):  # pylint: disable=missing-docstring
         path = uri.uri
-        if path.lower().endswith('.lyrx'):
+        if path.lower().endswith(".lyrx"):
             self.open_lyrx(path)
         else:
             self.open_lyr(path)
@@ -243,16 +270,16 @@ class EsriLyrItem(QgsDataItem):
     Data item for .lyr/.lyrx files
     """
 
-    def __init__(self, parent, name, path, lyr_object=None, layer_path=''):
+    def __init__(self, parent, name, path, lyr_object=None, layer_path=""):
         super().__init__(QgsDataItem.Custom, parent, name, path)
         self.setCapabilities(QgsDataItem.Fertile | QgsDataItem.Collapse)
         self.layer_path = layer_path or path
         self.object = lyr_object
         if path:
-            self.setIcon(GuiUtils.get_icon('icon.svg'))
+            self.setIcon(GuiUtils.get_icon("icon.svg"))
         elif isinstance(self.object, (GroupLayer, BaseMapLayer)):
             self.setIcon(QgsDataCollectionItem.iconDir())
-        elif self.object.__class__.__name__ in ('WmsMapLayer', 'RasterLayer'):
+        elif self.object.__class__.__name__ in ("WmsMapLayer", "RasterLayer"):
             self.setIcon(QgsLayerItem.iconRaster())
         else:
             wkb_type = VectorLayerConverter.layer_to_wkb_type(self.object)
@@ -270,7 +297,9 @@ class EsriLyrItem(QgsDataItem):
             if isinstance(self.object, (GroupLayer, BaseMapLayer)):
                 self.add_children()
             self.setState(QgsDataItem.Populated)
-        self.setToolTip(QDir.toNativeSeparators(path) if not lyr_object else lyr_object.name)
+        self.setToolTip(
+            QDir.toNativeSeparators(path) if not lyr_object else lyr_object.name
+        )
         self.child_items = []
 
     def hasDragEnabled(self):  # pylint: disable=missing-docstring
@@ -288,32 +317,34 @@ class EsriLyrItem(QgsDataItem):
         Adds a child data item from the LYR
         """
         for c in self.object.children:
-            self.addChildItem(EsriLyrItem(self, c.name, '', c, self.layer_path))
+            self.addChildItem(EsriLyrItem(self, c.name, "", c, self.layer_path))
 
     def createChildren(self):  # pylint: disable=missing-function-docstring
         # Runs in a thread!
 
-        if self.path().lower().endswith('.lyrx'):
+        if self.path().lower().endswith(".lyrx"):
             return []
 
         self.setState(QgsDataItem.Populating)
         if not self.object:
-            with open(self.path(), 'rb') as f:
-
+            with open(self.path(), "rb") as f:
                 try:
                     stream = Stream(f, False, force_layer=True, offset=0)
                     self.object = stream.read_object()
                 except RequiresLicenseException as e:
-                    error_item = QgsErrorItem(self, str(e),
-                                              self.path() + '/error')
+                    error_item = QgsErrorItem(self, str(e), self.path() + "/error")
                     self.child_items.append(error_item)
                     return self.child_items
 
         def add_layer(layer):
-            self.child_items.append(EsriLyrItem(self, layer.name, '', layer, self.path()))
+            self.child_items.append(
+                EsriLyrItem(self, layer.name, "", layer, self.path())
+            )
 
         def add_group(group):
-            self.child_items.append(EsriLyrItem(self, group.name, '', group, self.path()))
+            self.child_items.append(
+                EsriLyrItem(self, group.name, "", group, self.path())
+            )
 
         if LayerConverter.is_layer(self.object):
             add_layer(self.object)
@@ -337,7 +368,7 @@ class EsriLyrItem(QgsDataItem):
         """
         Handles opening .lyr files
         """
-        if self.path().lower().endswith('.lyrx'):
+        if self.path().lower().endswith(".lyrx"):
             LyrDropHandler.open_lyrx(self.path())
             return True
         else:
@@ -353,7 +384,9 @@ class EsriLyrItem(QgsDataItem):
 
         def add_layer(layer, group_node):
             nonlocal fallback_crs
-            layers = LayerConverter.layer_to_QgsLayer(layer, self.layer_path, context, fallback_crs)
+            layers = LayerConverter.layer_to_QgsLayer(
+                layer, self.layer_path, context, fallback_crs
+            )
             for _layer in layers:
                 if not fallback_crs.isValid() and _layer.crs().isValid():
                     fallback_crs = _layer.crs()
@@ -361,7 +394,9 @@ class EsriLyrItem(QgsDataItem):
                 node = group_node.addLayer(_layer)
                 if not layer.visible:
                     node.setItemVisibilityChecked(False)
-                if hasattr(layer, 'renderer') and hasattr(layer.renderer, 'legend_group'):
+                if hasattr(layer, "renderer") and hasattr(
+                    layer.renderer, "legend_group"
+                ):
                     node.setExpanded(layer.renderer.legend_group.editable_or_expanded)
                 elif len(node.children()) > 10:
                     node.setExpanded(False)
@@ -392,15 +427,21 @@ class EsriLyrItem(QgsDataItem):
         context = Context()
         # context.style_folder, _ = os.path.split(output_file)
 
-        with open(self.path(), 'rb') as f:
+        with open(self.path(), "rb") as f:
             try:
                 stream = Stream(f, False, force_layer=True, offset=-1)
                 root_object = stream.read_object()
 
             except RequiresLicenseException as e:
-                message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(e)
-                BrowserUtils.show_warning('Licensed version required', 'Convert LYR', message,
-                                      level=Qgis.Critical)
+                message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(
+                    e
+                )
+                BrowserUtils.show_warning(
+                    "Licensed version required",
+                    "Convert LYR",
+                    message,
+                    level=Qgis.Critical,
+                )
 
                 return True
 
@@ -410,9 +451,12 @@ class EsriLyrItem(QgsDataItem):
                 if not isinstance(layer, FeatureLayer):
                     continue
 
-                symbols = VectorRendererConverter.extract_symbols_from_renderer(layer, context, default_name=name,
-                                                                                base_name=name if len(
-                                                                                    layers) > 1 else '')
+                symbols = VectorRendererConverter.extract_symbols_from_renderer(
+                    layer,
+                    context,
+                    default_name=name,
+                    base_name=name if len(layers) > 1 else "",
+                )
 
                 for k, v in symbols.items():
                     if isinstance(v, QgsSymbol):
@@ -438,28 +482,38 @@ class EsriLyrItem(QgsDataItem):
         """
 
         if not self.object:
-            with open(self.path(), 'rb') as f:
+            with open(self.path(), "rb") as f:
                 try:
                     stream = Stream(f, False, force_layer=True, offset=0)
                     self.object = stream.read_object()
                 except RequiresLicenseException as e:
-                    message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(e)
-                    BrowserUtils.show_warning('Licensed version required', 'Convert LYR', message,
-                                              level=Qgis.Critical)
+                    message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(
+                        e
+                    )
+                    BrowserUtils.show_warning(
+                        "Licensed version required",
+                        "Convert LYR",
+                        message,
+                        level=Qgis.Critical,
+                    )
 
                     return True
 
         input_path = self.path() or self.layer_path
         input_folder, base = os.path.split(input_path)
         base, _ = os.path.splitext(self.name())
-        default_name = os.path.join(input_folder, base + '.qlr')
+        default_name = os.path.join(input_folder, base + ".qlr")
 
-        dest_path, _ = QFileDialog.getSaveFileName(None, 'Save as QLR', default_name, 'QLR files (*.qlr *.QLR)')
+        dest_path, _ = QFileDialog.getSaveFileName(
+            None, "Save as QLR", default_name, "QLR files (*.qlr *.QLR)"
+        )
         if dest_path:
             context = Context()
-            res, error = LayerConverter.object_to_qlr(self.object, input_path, dest_path, context)
+            res, error = LayerConverter.object_to_qlr(
+                self.object, input_path, dest_path, context
+            )
             if not res:
-                iface.messageBar().pushMessage('Save as QLR', error, Qgis.Critical)
+                iface.messageBar().pushMessage("Save as QLR", error, Qgis.Critical)
 
         return True
 
@@ -469,59 +523,92 @@ class EsriLyrItem(QgsDataItem):
         """
 
         if not self.object:
-            with open(self.path(), 'rb') as f:
+            with open(self.path(), "rb") as f:
                 try:
                     stream = Stream(f, False, force_layer=True, offset=0)
                     self.object = stream.read_object()
 
                 except RequiresLicenseException as e:
-                    message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(e)
-                    BrowserUtils.show_warning('Licensed version required', 'Convert LYR', message,
-                                          level=Qgis.Critical)
+                    message = '<p>{}. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'.format(
+                        e
+                    )
+                    BrowserUtils.show_warning(
+                        "Licensed version required",
+                        "Convert LYR",
+                        message,
+                        level=Qgis.Critical,
+                    )
                     return True
 
         input_path = self.path() or self.layer_path
         input_folder, base = os.path.split(input_path)
         base, _ = os.path.splitext(self.name())
-        default_name = os.path.join(input_folder, base + '.qml')
+        default_name = os.path.join(input_folder, base + ".qml")
 
         errors = []
 
         def on_error(error):
             nonlocal errors
             errors.append(error)
-            iface.messageBar().pushMessage('Save as QML', error, Qgis.Critical)
+            iface.messageBar().pushMessage("Save as QML", error, Qgis.Critical)
 
-        dest_path, _ = QFileDialog.getSaveFileName(None, 'Save as QML', default_name, 'QML files (*.qml *.QML)')
+        dest_path, _ = QFileDialog.getSaveFileName(
+            None, "Save as QML", default_name, "QML files (*.qml *.QML)"
+        )
         if dest_path:
             context = Context()
-            LayerConverter.layers_to_qml(self.object, input_path, dest_path, context=context, on_error=on_error)
+            LayerConverter.layers_to_qml(
+                self.object, input_path, dest_path, context=context, on_error=on_error
+            )
 
         if not errors:
-            iface.messageBar().pushMessage('Save as QML', 'Saved to {}'.format(dest_path), Qgis.Success)
+            iface.messageBar().pushMessage(
+                "Save as QML", "Saved to {}".format(dest_path), Qgis.Success
+            )
 
         return True
 
     def actions(self, parent):  # pylint: disable=missing-docstring
-        save_as_qlr_action = QAction(QCoreApplication.translate('SLYR', 'Save as &QLR…'), parent)
+        save_as_qlr_action = QAction(
+            QCoreApplication.translate("SLYR", "Save as &QLR…"), parent
+        )
         save_as_qlr_action.triggered.connect(self.save_as_qlr)
         if self.path():
-            open_action = QAction(QCoreApplication.translate('SLYR', '&Add Layer(s)'), parent)
+            open_action = QAction(
+                QCoreApplication.translate("SLYR", "&Add Layer(s)"), parent
+            )
             open_action.triggered.connect(self.open_lyr)
-            save_as_qml_action = QAction(QCoreApplication.translate('SLYR', 'Save as QML…'), parent)
+            save_as_qml_action = QAction(
+                QCoreApplication.translate("SLYR", "Save as QML…"), parent
+            )
             save_as_qml_action.triggered.connect(self.save_as_qml)
-            extract_symbols_action = QAction(QCoreApplication.translate('SLYR', '&Extract Symbols…'), parent)
+            extract_symbols_action = QAction(
+                QCoreApplication.translate("SLYR", "&Extract Symbols…"), parent
+            )
             extract_symbols_action.triggered.connect(self.extract_symbols)
-            return [open_action, save_as_qlr_action, save_as_qml_action, extract_symbols_action]
+            return [
+                open_action,
+                save_as_qlr_action,
+                save_as_qml_action,
+                extract_symbols_action,
+            ]
         elif isinstance(self.object, GroupLayer):
-            open_action = QAction(QCoreApplication.translate('SLYR', '&Add Group'), parent)
+            open_action = QAction(
+                QCoreApplication.translate("SLYR", "&Add Group"), parent
+            )
             open_action.triggered.connect(self.open_object)
-            save_as_qml_action = QAction(QCoreApplication.translate('SLYR', 'Save Group as QML…'), parent)
+            save_as_qml_action = QAction(
+                QCoreApplication.translate("SLYR", "Save Group as QML…"), parent
+            )
             save_as_qml_action.triggered.connect(self.save_as_qml)
             return [open_action, save_as_qlr_action, save_as_qml_action]
         else:
-            open_action = QAction(QCoreApplication.translate('SLYR', '&Add Layer'), parent)
+            open_action = QAction(
+                QCoreApplication.translate("SLYR", "&Add Layer"), parent
+            )
             open_action.triggered.connect(self.open_object)
-            save_as_qml_action = QAction(QCoreApplication.translate('SLYR', 'Save Layer as QML…'), parent)
+            save_as_qml_action = QAction(
+                QCoreApplication.translate("SLYR", "Save Layer as QML…"), parent
+            )
             save_as_qml_action.triggered.connect(self.save_as_qml)
             return [open_action, save_as_qlr_action, save_as_qml_action]

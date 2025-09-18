@@ -30,12 +30,7 @@ from pathlib import Path
 from typing import Optional
 
 from qgis.PyQt.QtCore import Qt, QPointF, QVariant
-from qgis.core import (
-    QgsField,
-    QgsFields,
-    QgsMemoryProviderUtils,
-    QgsFeature
-)
+from qgis.core import QgsField, QgsFields, QgsMemoryProviderUtils, QgsFeature
 
 from ..bintools.extractor import Extractor
 
@@ -62,8 +57,10 @@ class ConversionUtils:
         Adjusts marker offset to account for rotation
         """
         angle = -math.radians(rotation)
-        return QPointF(offset.x() * math.cos(angle) - offset.y() * math.sin(angle),
-                       offset.x() * math.sin(angle) + offset.y() * math.cos(angle))
+        return QPointF(
+            offset.x() * math.cos(angle) - offset.y() * math.sin(angle),
+            offset.x() * math.sin(angle) + offset.y() * math.cos(angle),
+        )
 
     @staticmethod
     def symbol_pen_to_qpenstyle(style):
@@ -71,12 +68,12 @@ class ConversionUtils:
         Converts a symbol pen style to a QPenStyle
         """
         types = {
-            'solid': Qt.SolidLine,
-            'dashed': Qt.DashLine,
-            'dotted': Qt.DotLine,
-            'dash dot': Qt.DashDotLine,
-            'dash dot dot': Qt.DashDotDotLine,
-            'null': Qt.NoPen
+            "solid": Qt.SolidLine,
+            "dashed": Qt.DashLine,
+            "dotted": Qt.DotLine,
+            "dash dot": Qt.DashDotLine,
+            "dash dot dot": Qt.DashDotDotLine,
+            "null": Qt.NoPen,
         }
         return types[style]
 
@@ -85,11 +82,7 @@ class ConversionUtils:
         """
         Converts a symbol pen cap to a QPenCapStyle
         """
-        types = {
-            'butt': Qt.FlatCap,
-            'round': Qt.RoundCap,
-            'square': Qt.SquareCap
-        }
+        types = {"butt": Qt.FlatCap, "round": Qt.RoundCap, "square": Qt.SquareCap}
         return types[style]
 
     @staticmethod
@@ -97,11 +90,7 @@ class ConversionUtils:
         """
         Converts a symbol pen join to a QPenJoinStyle
         """
-        types = {
-            'miter': Qt.MiterJoin,
-            'round': Qt.RoundJoin,
-            'bevel': Qt.BevelJoin
-        }
+        types = {"miter": Qt.MiterJoin, "round": Qt.RoundJoin, "bevel": Qt.BevelJoin}
         return types[style]
 
     @staticmethod
@@ -154,7 +143,7 @@ class ConversionUtils:
         Recursive part of path_insensitive to do the work.
         """
 
-        if path == '' or os.path.exists(path):
+        if path == "" or os.path.exists(path):
             return Path(path).absolute().as_posix() if path else path
 
         path = Path(path).absolute().as_posix()
@@ -162,10 +151,10 @@ class ConversionUtils:
         base = os.path.basename(path)  # may be a directory or a file
         dirname = os.path.dirname(path)
 
-        suffix = ''
+        suffix = ""
         if not base:  # dir ends with a slash?
             if len(dirname) < len(path):
-                suffix = path[:len(path) - len(dirname)]
+                suffix = path[: len(path) - len(dirname)]
 
             base = os.path.basename(dirname)
             dirname = os.path.dirname(dirname)
@@ -201,13 +190,13 @@ class ConversionUtils:
         """
         Returns True if a path is an absolute path
         """
-        if path.startswith('.'):
+        if path.startswith("."):
             return False
 
-        if path.startswith(r'//'):
+        if path.startswith(r"//"):
             return True
 
-        return bool(re.match(r'^\w:', path))
+        return bool(re.match(r"^\w:", path))
 
     @staticmethod
     def get_absolute_path(path: str, base: str) -> str:
@@ -218,13 +207,13 @@ class ConversionUtils:
         if Path(base_folder).is_file():
             base_folder = Path(base_folder).parent.as_posix()
 
-        path = path.replace('\\', '/')
+        path = path.replace("\\", "/")
 
         if ConversionUtils.is_absolute_path(path):
             return ConversionUtils.path_insensitive(path)
 
-        res = ConversionUtils.path_insensitive('{}/{}'.format(base_folder, path))
-        res = res.replace('/./', '/')
+        res = ConversionUtils.path_insensitive("{}/{}".format(base_folder, path))
+        res = res.replace("/./", "/")
         return res
 
     @staticmethod
@@ -234,11 +223,12 @@ class ConversionUtils:
         """
         try:
             from lxml import etree as LET  # pylint: disable=import-outside-toplevel
-            xml = ET.tostring(input_xml, encoding='unicode')
+
+            xml = ET.tostring(input_xml, encoding="unicode")
 
             root = LET.fromstring(xml)
             tree = LET.ElementTree(root)
-            LET.indent(tree, '   ')
+            LET.indent(tree, "   ")
             return LET.tostring(tree, encoding="utf-8")
         except ImportError:
             return input_xml
@@ -252,4 +242,4 @@ class ConversionUtils:
 
         required_version_int = major * 1000000 + minor * 10000 + rev * 100
 
-        return int(gdal.VersionInfo('VERSION_NUM')) >= required_version_int
+        return int(gdal.VersionInfo("VERSION_NUM")) >= required_version_int

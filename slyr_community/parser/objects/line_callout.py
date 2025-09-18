@@ -25,7 +25,7 @@ class LineCallout(Object):
 
     @staticmethod
     def cls_id():
-        return 'c8d09ed3-4fbb-11d1-9a72-0080c7ec5c96'
+        return "c8d09ed3-4fbb-11d1-9a72-0080c7ec5c96"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -47,49 +47,55 @@ class LineCallout(Object):
         Converts style enum to string
         """
         if style == LineCallout.STYLE_BASE:
-            return 'base'
+            return "base"
         elif style == LineCallout.STYLE_MIDPOINT:
-            return 'midpoint'
+            return "midpoint"
         elif style == LineCallout.STYLE_THREE_POINT:
-            return 'three_point'
+            return "three_point"
         elif style == LineCallout.STYLE_FOUR_POINT:
-            return 'four_point'
+            return "four_point"
         elif style == LineCallout.STYLE_UNDERLINE:
-            return 'underline'
+            return "underline"
         elif style == LineCallout.STYLE_CUSTOM:
-            return 'custom'
+            return "custom"
         elif style == LineCallout.STYLE_CIRCULAR_CW:
-            return 'circular_cw'
+            return "circular_cw"
         elif style == LineCallout.STYLE_CIRCULAR_CCW:
-            return 'circular_ccw'
+            return "circular_ccw"
         return None
 
     def read(self, stream: Stream, version):
-        self.border_symbol = stream.read_object('border symbol')
-        self.accent_symbol = stream.read_object('accent symbol')
-        self.leader_symbol = stream.read_object('leader symbol')
+        self.border_symbol = stream.read_object("border symbol")
+        self.accent_symbol = stream.read_object("accent symbol")
+        self.leader_symbol = stream.read_object("leader symbol")
 
-        self.point = stream.read_object('point')
+        self.point = stream.read_object("point")
 
-        self.gap = stream.read_double('gap')
-        self.style = stream.read_int('style')
-        self.margin_left = stream.read_double('margin left')
-        self.margin_top = stream.read_double('margin top')
-        self.margin_right = stream.read_double('margin right')
-        self.margin_bottom = stream.read_double('margin bottom')
-        self.tolerance = stream.read_double('tolerance')
+        self.gap = stream.read_double("gap")
+        self.style = stream.read_int("style")
+        self.margin_left = stream.read_double("margin left")
+        self.margin_top = stream.read_double("margin top")
+        self.margin_right = stream.read_double("margin right")
+        self.margin_bottom = stream.read_double("margin bottom")
+        self.tolerance = stream.read_double("tolerance")
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'margin_top': self.margin_top,
-            'margin_right': self.margin_right,
-            'margin_bottom': self.margin_bottom,
-            'margin_left': self.margin_left,
-            'border_symbol': self.border_symbol.to_dict() if self.border_symbol else None,
-            'accent_symbol': self.accent_symbol.to_dict() if self.accent_symbol else None,
-            'leader_symbol': self.leader_symbol.to_dict() if self.leader_symbol else None,
-            'tolerance': self.tolerance,
-            'gap': self.gap,
-            'style': LineCallout.style_to_string(self.style),
-            'point': self.point.to_dict() if self.point else None,
+            "margin_top": self.margin_top,
+            "margin_right": self.margin_right,
+            "margin_bottom": self.margin_bottom,
+            "margin_left": self.margin_left,
+            "border_symbol": self.border_symbol.to_dict()
+            if self.border_symbol
+            else None,
+            "accent_symbol": self.accent_symbol.to_dict()
+            if self.accent_symbol
+            else None,
+            "leader_symbol": self.leader_symbol.to_dict()
+            if self.leader_symbol
+            else None,
+            "tolerance": self.tolerance,
+            "gap": self.gap,
+            "style": LineCallout.style_to_string(self.style),
+            "point": self.point.to_dict() if self.point else None,
         }

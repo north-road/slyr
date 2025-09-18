@@ -14,7 +14,7 @@ class HotlinkVbscriptEngine(Object):
 
     @staticmethod
     def cls_id():
-        return '55ef0065-fdff-469b-b693-8ebfc56b3b3b'
+        return "55ef0065-fdff-469b-b693-8ebfc56b3b3b"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -24,8 +24,7 @@ class HotlinkVbscriptEngine(Object):
         return [2]
 
     def read(self, stream: Stream, version):
-        assert stream.read(2) == b'\xff\xff'
+        assert stream.read(2) == b"\xff\xff"
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}

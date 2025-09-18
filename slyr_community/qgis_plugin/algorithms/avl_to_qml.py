@@ -23,10 +23,12 @@
 Converts .avl to QML
 """
 
-from qgis.core import (QgsProcessingParameterFile,
-                       QgsProcessingParameterFileDestination,
-                       QgsProcessingOutputString,
-                       QgsProcessingException)
+from qgis.core import (
+    QgsProcessingParameterFile,
+    QgsProcessingParameterFileDestination,
+    QgsProcessingOutputString,
+    QgsProcessingException,
+)
 
 from .algorithm import SlyrAlgorithm
 
@@ -44,10 +46,10 @@ class AvlToQml(SlyrAlgorithm):
     Converts .avl to QML
     """
 
-    INPUT = 'INPUT'
-    OUTPUT = 'OUTPUT'
-    CONVERTED = 'CONVERTED'
-    ERROR = 'ERROR'
+    INPUT = "INPUT"
+    OUTPUT = "OUTPUT"
+    CONVERTED = "CONVERTED"
+    ERROR = "ERROR"
 
     # pylint: disable=missing-docstring,unused-argument
 
@@ -55,39 +57,46 @@ class AvlToQml(SlyrAlgorithm):
         return AvlToQml()
 
     def name(self):
-        return 'avltoqml'
+        return "avltoqml"
 
     def displayName(self):
-        return 'Convert AVL to QML'
+        return "Convert AVL to QML"
 
     def shortDescription(self):
-        return 'Converts an ESRI ArcInfo AVL file to a QGIS QML file'
+        return "Converts an ESRI ArcInfo AVL file to a QGIS QML file"
 
     def group(self):
-        return 'AVL styles'
+        return "AVL styles"
 
     def groupId(self):
-        return 'avl'
+        return "avl"
 
     def shortHelpString(self):
         return "Converts an ESRI ArcInfo AVL file to a QGIS QML file."
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, 'Input AVL file', extension='avl'))
+        self.addParameter(
+            QgsProcessingParameterFile(self.INPUT, "Input AVL file", extension="avl")
+        )
 
-        self.addParameter(QgsProcessingParameterFileDestination(
-            self.OUTPUT, 'Destination QML file', fileFilter='QML files (*.qml)'))
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT, "Destination QML file", fileFilter="QML files (*.qml)"
+            )
+        )
 
         if HAS_BOOLEAN_OUTPUT:
-            self.addOutput(QgsProcessingOutputBoolean(self.CONVERTED, 'Converted'))
-        self.addOutput(QgsProcessingOutputString(self.ERROR, 'Error message'))
+            self.addOutput(QgsProcessingOutputBoolean(self.CONVERTED, "Converted"))
+        self.addOutput(QgsProcessingOutputString(self.ERROR, "Error message"))
 
-    def processAlgorithm(self,  # pylint: disable=too-many-locals,too-many-statements
-                         parameters,
-                         context,
-                         feedback):
+    def processAlgorithm(
+        self,  # pylint: disable=too-many-locals,too-many-statements
+        parameters,
+        context,
+        feedback,
+    ):
         raise QgsProcessingException(
-            'This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details')
+            "This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details"
+        )
 
     # pylint: enable=missing-docstring,unused-argument

@@ -23,8 +23,7 @@
 Adds layers from an MXD document to the current project
 """
 
-from qgis.core import (QgsProcessingParameterFile,
-                       QgsProcessingException)
+from qgis.core import QgsProcessingParameterFile, QgsProcessingException
 
 from .algorithm import SlyrAlgorithm
 
@@ -34,12 +33,12 @@ class AddLayersFromMxd(SlyrAlgorithm):
     Adds layers from an MXD document to the current project
     """
 
-    INPUT = 'INPUT'
+    INPUT = "INPUT"
 
     def __init__(self):
         super().__init__()
         self.obj = None
-        self.input_file = ''
+        self.input_file = ""
 
     # pylint: disable=missing-docstring,unused-argument
 
@@ -47,32 +46,36 @@ class AddLayersFromMxd(SlyrAlgorithm):
         return AddLayersFromMxd()
 
     def name(self):
-        return 'addlayersfrommxd'
+        return "addlayersfrommxd"
 
     def displayName(self):
-        return 'Add layers from MXD to project'
+        return "Add layers from MXD to project"
 
     def shortDescription(self):
-        return 'Adds layers from an MXD document to the current project, respecting their original symbology.'
+        return "Adds layers from an MXD document to the current project, respecting their original symbology."
 
     def group(self):
-        return 'MXD documents'
+        return "MXD documents"
 
     def groupId(self):
-        return 'mxd'
+        return "mxd"
 
     def shortHelpString(self):
-        return 'Adds layers from an MXD document to the current project, respecting their original symbology.'
+        return "Adds layers from an MXD document to the current project, respecting their original symbology."
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, 'Input MXD file', extension='mxd'))
+        self.addParameter(
+            QgsProcessingParameterFile(self.INPUT, "Input MXD file", extension="mxd")
+        )
 
-    def processAlgorithm(self,  # pylint: disable=too-many-locals,too-many-statements
-                         parameters,
-                         context,
-                         feedback):
+    def processAlgorithm(
+        self,  # pylint: disable=too-many-locals,too-many-statements
+        parameters,
+        context,
+        feedback,
+    ):
         raise QgsProcessingException(
-            'This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details')
+            "This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details"
+        )
 
     # pylint: enable=missing-docstring,unused-argument
