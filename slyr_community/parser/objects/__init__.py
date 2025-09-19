@@ -346,3 +346,6 @@ from .double_alternating_scale_bar import DoubleAlternatingScaleBar
 from .hollow_scale_bar import HollowScaleBar
 from .dms_grid_label import DMSGridLabel
 from .ole_frame import OleFrame
+from .symbol_background import SymbolBackground
+from .symbol_border import SymbolBorder
+from .symbol_shadow import SymbolShadow
