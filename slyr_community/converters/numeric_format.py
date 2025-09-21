@@ -62,13 +62,10 @@ class NumericFormatConverter:
         res = QgsBasicNumericFormat()
 
         res.setNumberDecimalPlaces(numeric_format.rounding_value or 0)
-        if True:
-            if numeric_format.rounding == 0:
-                res.setRoundingType(QgsBasicNumericFormat.RoundingType.DecimalPlaces)
-            elif numeric_format.rounding == 1:
-                res.setRoundingType(
-                    QgsBasicNumericFormat.RoundingType.SignificantFigures
-                )
+        if numeric_format.rounding == 0:
+            res.setRoundingType(QgsBasicNumericFormat.RoundingType.DecimalPlaces)
+        elif numeric_format.rounding == 1:
+            res.setRoundingType(QgsBasicNumericFormat.RoundingType.SignificantFigures)
 
         res.setShowThousandsSeparator(numeric_format.thousands)
         res.setShowPlusSign(numeric_format.show_plus_sign)
