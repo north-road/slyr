@@ -758,19 +758,17 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         #    if context.units == QgsUnitTypes.RenderMillimeters:
         #        separation *= 0.352
 
-        if True:
-            out.setDistance(context.convert_size(separation))
-            out.setDistanceUnit(context.units)
+        out.setDistance(context.convert_size(separation))
+        out.setDistanceUnit(context.units)
 
         if True:
             out.setOffset(context.convert_size(layer.offset))
             out.setOffsetUnit(context.units)
 
-        if True:
-            symbol.appendSymbolLayer(out)
-            context.symbol_layer_output_to_input_index_map[out] = (
-                context.current_symbol_layer
-            )
+        symbol.appendSymbolLayer(out)
+        context.symbol_layer_output_to_input_index_map[out] = (
+            context.current_symbol_layer
+        )
 
         if True:
             if isinstance(layer.outline, MultiLayerLineSymbol):
@@ -822,8 +820,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             out = QgsShapeburstFillSymbolLayer()
             out.setColorType(QgsShapeburstFillSymbolLayer.ShapeburstColorType.ColorRamp)
             ramp.invert()
-            if True:
-                scale_ramp(ramp, layer.percent)
+            scale_ramp(ramp, layer.percent)
             ramp.invert()
             out.setColorRamp(ramp)
 
@@ -832,11 +829,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             if layer.symbol_level != 0xFFFFFFFF:
                 out.setRenderingPass(layer.symbol_level)
 
-            if True:
-                symbol.appendSymbolLayer(out)
-                context.symbol_layer_output_to_input_index_map[out] = (
-                    context.current_symbol_layer
-                )
+            symbol.appendSymbolLayer(out)
+            context.symbol_layer_output_to_input_index_map[out] = (
+                context.current_symbol_layer
+            )
             return
         elif (
             isinstance(layer, GradientFillSymbol)
@@ -898,11 +894,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             ):
                 out.setRenderingPass(layer.symbol_level)
 
-        if True:
-            symbol.appendSymbolLayer(out)
-            context.symbol_layer_output_to_input_index_map[out] = (
-                context.current_symbol_layer
-            )
+        symbol.appendSymbolLayer(out)
+        context.symbol_layer_output_to_input_index_map[out] = (
+            context.current_symbol_layer
+        )
 
     @staticmethod
     def append_MarkerFillSymbolLayer(symbol, layer: MarkerFillSymbol, context: Context):
@@ -1420,11 +1415,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         if layer.symbol_level != 0xFFFFFFFF:
             out.setRenderingPass(layer.symbol_level)
 
-        if True:
-            out.setWidth(
-                context.convert_size(context.fix_line_width(layer.width))
-            )  # sometimes lines have negative width?
-            out.setWidthUnit(context.units)
+        out.setWidth(
+            context.convert_size(context.fix_line_width(layer.width))
+        )  # sometimes lines have negative width?
+        out.setWidthUnit(context.units)
 
         if True:
             # for arcgis, a pen width of 0 is not drawn, yet in QGIS it's a "hairline" size
@@ -3624,10 +3618,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         Appends a CharacterMarkerSymbolLayer to a symbol, converting the symbol to a simple qgis marker
         """
 
-        if True:
-            font_name, character = SymbolConverter.replace_char_if_needed(
-                layer.font, layer.unicode
-            )
+        font_name, character = SymbolConverter.replace_char_if_needed(
+            layer.font, layer.unicode
+        )
 
         vertical_offset_factor = 0
         if (
@@ -3671,8 +3664,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         cim_polygon_symbol = None
         solid_stroke = None
-        if True:
-            color = ColorConverter.color_to_qcolor(layer.color)
+        color = ColorConverter.color_to_qcolor(layer.color)
 
         angle_offset = 0
         outline_stroke_width = 1
@@ -3716,10 +3708,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 marker_type
             ) or conversion_properties.get("outline_only", False)
 
-            if True:
-                out = QgsSimpleMarkerSymbolLayer(
-                    marker_type, context.convert_size(simple_size)
-                )
+            out = QgsSimpleMarkerSymbolLayer(
+                marker_type, context.convert_size(simple_size)
+            )
 
             y_offset = (layer.y_offset or 0) + vertical_offset_factor * simple_size
             x_offset = (layer.x_offset or 0) + horizontal_offset_factor * simple_size
@@ -3787,9 +3778,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked or character == 32)
-        if True:
-            if layer.symbol_level != 0xFFFFFFFF:
-                out.setRenderingPass(layer.symbol_level)
+        if layer.symbol_level != 0xFFFFFFFF:
+            out.setRenderingPass(layer.symbol_level)
 
         if True:
             angle = ConversionUtils.convert_angle(layer.angle)
@@ -3800,12 +3790,11 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         offset_x = context.convert_size(x_offset)
         offset_y = -context.convert_size(y_offset)
 
-        if True:
-            out.setOffset(
-                # ConversionUtils.adjust_offset_for_rotation(
-                QPointF(offset_x, offset_y)
-            )
-            #    angle))
+        out.setOffset(
+            # ConversionUtils.adjust_offset_for_rotation(
+            QPointF(offset_x, offset_y)
+        )
+        #    angle))
 
         out.setOffsetUnit(context.units)
 
@@ -3898,11 +3887,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             out.setSize(out.size() * size_scale_factor)
 
         if not appended_to_prev_layer:
-            if True:
-                symbol.appendSymbolLayer(out)
-                context.symbol_layer_output_to_input_index_map[out] = (
-                    context.current_symbol_layer
-                )
+            symbol.appendSymbolLayer(out)
+            context.symbol_layer_output_to_input_index_map[out] = (
+                context.current_symbol_layer
+            )
 
         if "overlay" in conversion_properties:
             # Add overlay layer
@@ -3939,9 +3927,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             overlay.setEnabled(layer.enabled)
             overlay.setLocked(layer.locked or character == 32)
-            if True:
-                if layer.symbol_level != 0xFFFFFFFF:
-                    overlay.setRenderingPass(layer.symbol_level)
+            if layer.symbol_level != 0xFFFFFFFF:
+                overlay.setRenderingPass(layer.symbol_level)
 
             if True:
                 angle = ConversionUtils.convert_angle(layer.angle)
@@ -3970,11 +3957,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             overlay.setOffsetUnit(context.units)
 
-            if True:
-                symbol.appendSymbolLayer(overlay)
-                context.symbol_layer_output_to_input_index_map[overlay] = (
-                    context.current_symbol_layer
-                )
+            symbol.appendSymbolLayer(overlay)
+            context.symbol_layer_output_to_input_index_map[overlay] = (
+                context.current_symbol_layer
+            )
 
         if "central_overlay" in conversion_properties:
             # Add central dot symbol layer
@@ -4017,9 +4003,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             out.setEnabled(layer.enabled)
             out.setLocked(layer.locked or character == 32)
-            if True:
-                if layer.symbol_level != 0xFFFFFFFF:
-                    out.setRenderingPass(layer.symbol_level)
+            if layer.symbol_level != 0xFFFFFFFF:
+                out.setRenderingPass(layer.symbol_level)
 
             if True:
                 angle = ConversionUtils.convert_angle(layer.angle)
@@ -4056,11 +4041,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             out.setOffsetUnit(context.units)
 
-            if True:
-                symbol.appendSymbolLayer(out)
-                context.symbol_layer_output_to_input_index_map[out] = (
-                    context.current_symbol_layer
-                )
+            symbol.appendSymbolLayer(out)
+            context.symbol_layer_output_to_input_index_map[out] = (
+                context.current_symbol_layer
+            )
 
     # pylint: disable=too-many-locals,too-many-statements,too-many-branches
     @staticmethod
@@ -4074,22 +4058,19 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         to an SVG file.
         """
 
-        if True:
-            font_family, unicode = SymbolConverter.replace_char_if_needed(
-                layer.font, layer.unicode
-            )
+        font_family, unicode = SymbolConverter.replace_char_if_needed(
+            layer.font, layer.unicode
+        )
 
         if font_family not in ConversionUtils.available_font_families():
             context.push_warning("Font {} not available on system".format(font_family))
-            if True:
-                return SymbolConverter.append_CharacterMarkerSymbolLayerAsFont(
-                    symbol, layer, context
-                )
+            return SymbolConverter.append_CharacterMarkerSymbolLayerAsFont(
+                symbol, layer, context
+            )
 
         character = chr(unicode)
         cim_solid_stroke = None
-        if True:
-            color = ColorConverter.color_to_qcolor(layer.color)
+        color = ColorConverter.color_to_qcolor(layer.color)
 
         if True:
             original_angle = layer.angle
@@ -4112,12 +4093,11 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         font_bounding_rect = QFontMetricsF(font).boundingRect(character)
 
         # adjust size -- marker size in esri is the font size, svg marker size in qgis is the svg rect size
-        if True:
-            scale = (
-                rect.width() / font_bounding_rect.width()
-                if font_bounding_rect.width()
-                else 1
-            )
+        scale = (
+            rect.width() / font_bounding_rect.width()
+            if font_bounding_rect.width()
+            else 1
+        )
 
         gen = QSvgGenerator()
         svg_path = SymbolConverter.symbol_name_to_filename(
@@ -4161,14 +4141,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setSizeUnit(context.units)
         # esri symbol sizes are for height, QGIS are for width
-        if True:
-            if out.defaultAspectRatio() != 1 and out.defaultAspectRatio() != 0:
-                size = (
-                    context.convert_size(scale * rect.width())
-                    / out.defaultAspectRatio()
-                )
-            else:
-                size = context.convert_size(scale * rect.width())
+        if out.defaultAspectRatio() != 1 and out.defaultAspectRatio() != 0:
+            size = context.convert_size(scale * rect.width()) / out.defaultAspectRatio()
+        else:
+            size = context.convert_size(scale * rect.width())
 
         if (
             context.apply_conversion_tweaks
@@ -4185,29 +4161,26 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
-        if True:
-            if layer.symbol_level != 0xFFFFFFFF:
-                out.setRenderingPass(layer.symbol_level)
+        if layer.symbol_level != 0xFFFFFFFF:
+            out.setRenderingPass(layer.symbol_level)
 
         offset_x = layer.x_offset or 0
         offset_y = layer.y_offset or 0
-        if True:
-            out.setOffset(
-                ConversionUtils.adjust_offset_for_rotation(
-                    QPointF(
-                        context.convert_size(layer.x_offset or 0),
-                        -context.convert_size(layer.y_offset or 0),
-                    ),
-                    original_angle,
-                )
+        out.setOffset(
+            ConversionUtils.adjust_offset_for_rotation(
+                QPointF(
+                    context.convert_size(layer.x_offset or 0),
+                    -context.convert_size(layer.y_offset or 0),
+                ),
+                original_angle,
             )
+        )
         out.setOffsetUnit(context.units)
 
-        if True:
-            symbol.appendSymbolLayer(out)
-            context.symbol_layer_output_to_input_index_map[out] = (
-                context.current_symbol_layer
-            )
+        symbol.appendSymbolLayer(out)
+        context.symbol_layer_output_to_input_index_map[out] = (
+            context.current_symbol_layer
+        )
 
     # pylint: enable=too-many-locals,too-many-statements,too-many-branches
 
@@ -4222,10 +4195,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         Appends a CharacterMarkerSymbolLayer to a symbol, using QGIS font marker symbols
         """
 
-        if True:
-            font_family, unicode = SymbolConverter.replace_char_if_needed(
-                layer.font, layer.unicode
-            )
+        font_family, unicode = SymbolConverter.replace_char_if_needed(
+            layer.font, layer.unicode
+        )
 
         if font_family not in ConversionUtils.available_font_families():
             context.push_warning("Font {} not available on system".format(font_family))
@@ -4233,8 +4205,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         character = chr(unicode)
 
         cim_solid_stroke = None
-        if True:
-            color = ColorConverter.color_to_qcolor(layer.color)
+        color = ColorConverter.color_to_qcolor(layer.color)
 
         # we need to calculate the character bounding box, as ESRI font marker symbols are rendered centered
         # on the character's bounding box (not the overall font metrics, like QGIS does)
@@ -4254,9 +4225,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         y_offset_points = -rect.center().y() - font_metrics.ascent() / 2.0
 
         original_angle = 0
-        if True:
-            original_angle = layer.angle
-            angle = ConversionUtils.convert_angle(layer.angle)
+        original_angle = layer.angle
+        angle = ConversionUtils.convert_angle(layer.angle)
 
         out = QgsFontMarkerSymbolLayer(
             font_family, character, context.convert_size(layer.size), color, angle
@@ -4265,30 +4235,27 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
         out.setEnabled(layer.enabled)
         out.setLocked(layer.locked)
-        if True:
-            if layer.symbol_level != 0xFFFFFFFF:
-                out.setRenderingPass(layer.symbol_level)
+        if layer.symbol_level != 0xFFFFFFFF:
+            out.setRenderingPass(layer.symbol_level)
 
         offset_x = layer.x_offset or 0
         offset_y = layer.y_offset or 0
-        if True:
-            temp_offset = ConversionUtils.adjust_offset_for_rotation(
-                QPointF(offset_x, -offset_y), original_angle
+        temp_offset = ConversionUtils.adjust_offset_for_rotation(
+            QPointF(offset_x, -offset_y), original_angle
+        )
+        out.setOffset(
+            QPointF(
+                context.convert_size(temp_offset.x() + x_offset_points),
+                context.convert_size(temp_offset.y() + y_offset_points),
             )
-            out.setOffset(
-                QPointF(
-                    context.convert_size(temp_offset.x() + x_offset_points),
-                    context.convert_size(temp_offset.y() + y_offset_points),
-                )
-            )
+        )
 
         out.setOffsetUnit(context.units)
 
-        if True:
-            symbol.appendSymbolLayer(out)
-            context.symbol_layer_output_to_input_index_map[out] = (
-                context.current_symbol_layer
-            )
+        symbol.appendSymbolLayer(out)
+        context.symbol_layer_output_to_input_index_map[out] = (
+            context.current_symbol_layer
+        )
 
     # pylint: enable=too-many-locals,too-many-branches
 

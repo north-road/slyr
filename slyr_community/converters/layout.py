@@ -448,9 +448,8 @@ class LayoutConverter:
         context.layer_name = None
         context.symbol_name = None
         context.element_name = None
-        if True:
-            layout.setName("Page Layout")
-            context.layout_name = "Page Layout"
+        layout.setName("Page Layout")
+        context.layout_name = "Page Layout"
 
         if layer_to_layer_map is None:
             layer_to_layer_map = {}
@@ -472,35 +471,32 @@ class LayoutConverter:
         else:
             page.setPageSize("A4")
 
-        if True:
-            c = ColorConverter.color_to_qcolor(obj.page.background_color)
-            layout.pageCollection().setPageStyleSymbol(
-                QgsFillSymbol.createSimple({"color": c.name(), "outline_style": "no"})
-            )
+        c = ColorConverter.color_to_qcolor(obj.page.background_color)
+        layout.pageCollection().setPageStyleSymbol(
+            QgsFillSymbol.createSimple({"color": c.name(), "outline_style": "no"})
+        )
         layout.pageCollection().addPage(page)
 
         if obj.page_index is not None:
-            if True:
-                if obj.page_index.feature_layer not in layer_to_layer_map:
-                    context.push_warning(
-                        "Could not restore atlas: layer {} was not found".format(
-                            obj.page_index.feature_layer.name
-                        ),
-                        level=Context.CRITICAL,
-                    )
-                else:
-                    layout.atlas().setEnabled(True)
-                    coverage_layer = layer_to_layer_map[obj.page_index.feature_layer]
-                    layout.atlas().setCoverageLayer(coverage_layer)
-                    layout.atlas().setPageNameExpression(obj.page_index.name_field)
-                    layout.atlas().setSortFeatures(True)
-                    layout.atlas().setSortAscending(obj.page_index.sort_ascending)
-                    layout.atlas().setSortExpression(obj.page_index.sort_field)
+            if obj.page_index.feature_layer not in layer_to_layer_map:
+                context.push_warning(
+                    "Could not restore atlas: layer {} was not found".format(
+                        obj.page_index.feature_layer.name
+                    ),
+                    level=Context.CRITICAL,
+                )
+            else:
+                layout.atlas().setEnabled(True)
+                coverage_layer = layer_to_layer_map[obj.page_index.feature_layer]
+                layout.atlas().setCoverageLayer(coverage_layer)
+                layout.atlas().setPageNameExpression(obj.page_index.name_field)
+                layout.atlas().setSortFeatures(True)
+                layout.atlas().setSortAscending(obj.page_index.sort_ascending)
+                layout.atlas().setSortExpression(obj.page_index.sort_field)
 
         added_items = {}
 
-        if True:
-            source_elements = reversed(obj.elements)
+        source_elements = reversed(obj.elements)
 
         for e in source_elements:
             items = LayoutConverter.convert_element(
@@ -523,52 +519,51 @@ class LayoutConverter:
 
         layout.updateZValues(False)
         if obj.page_index is not None:
-            if True:
-                added_items[obj.page_index.map_frame].setAtlasDriven(True)
+            added_items[obj.page_index.map_frame].setAtlasDriven(True)
 
-                if obj.page_index.scale_type == 0:
-                    added_items[obj.page_index.map_frame].setAtlasScalingMode(
-                        QgsLayoutItemMap.AtlasScalingMode.Auto
-                    )
-                    if obj.page_index.best_fit_units != 0:
-                        context.push_warning(
-                            "Data driven pages currently only support margin based sizes",
-                            level=Context.CRITICAL,
-                        )
-                    else:
-                        added_items[obj.page_index.map_frame].setAtlasMargin(
-                            obj.page_index.best_fit_size - 1
-                        )
-                elif obj.page_index.scale_type == 1:
-                    # maintain scale
-                    added_items[obj.page_index.map_frame].setAtlasScalingMode(
-                        QgsLayoutItemMap.AtlasScalingMode.Fixed
-                    )
-                elif obj.page_index.scale_type == 2:
-                    # data defined scale
-                    added_items[obj.page_index.map_frame].setAtlasScalingMode(
-                        QgsLayoutItemMap.AtlasScalingMode.Auto
-                    )
-                    added_items[
-                        obj.page_index.map_frame
-                    ].dataDefinedProperties().setProperty(
-                        QgsLayoutObject.DataDefinedProperty.MapScale,
-                        QgsProperty.fromField(obj.page_index.scale_field),
-                    )
-
-                if obj.page_index.rotation_field:
-                    added_items[
-                        obj.page_index.map_frame
-                    ].dataDefinedProperties().setProperty(
-                        QgsLayoutObject.DataDefinedProperty.MapRotation,
-                        QgsProperty.fromField(obj.page_index.rotation_field),
-                    )
-                if obj.page_index.crs_field:
-                    # todo -- will need a custom function to map these!
+            if obj.page_index.scale_type == 0:
+                added_items[obj.page_index.map_frame].setAtlasScalingMode(
+                    QgsLayoutItemMap.AtlasScalingMode.Auto
+                )
+                if obj.page_index.best_fit_units != 0:
                     context.push_warning(
-                        "Data driven pages using field based spatial reference are not supported",
+                        "Data driven pages currently only support margin based sizes",
                         level=Context.CRITICAL,
                     )
+                else:
+                    added_items[obj.page_index.map_frame].setAtlasMargin(
+                        obj.page_index.best_fit_size - 1
+                    )
+            elif obj.page_index.scale_type == 1:
+                # maintain scale
+                added_items[obj.page_index.map_frame].setAtlasScalingMode(
+                    QgsLayoutItemMap.AtlasScalingMode.Fixed
+                )
+            elif obj.page_index.scale_type == 2:
+                # data defined scale
+                added_items[obj.page_index.map_frame].setAtlasScalingMode(
+                    QgsLayoutItemMap.AtlasScalingMode.Auto
+                )
+                added_items[
+                    obj.page_index.map_frame
+                ].dataDefinedProperties().setProperty(
+                    QgsLayoutObject.DataDefinedProperty.MapScale,
+                    QgsProperty.fromField(obj.page_index.scale_field),
+                )
+
+            if obj.page_index.rotation_field:
+                added_items[
+                    obj.page_index.map_frame
+                ].dataDefinedProperties().setProperty(
+                    QgsLayoutObject.DataDefinedProperty.MapRotation,
+                    QgsProperty.fromField(obj.page_index.rotation_field),
+                )
+            if obj.page_index.crs_field:
+                # todo -- will need a custom function to map these!
+                context.push_warning(
+                    "Data driven pages using field based spatial reference are not supported",
+                    level=Context.CRITICAL,
+                )
 
         if True:
             for g in obj.horizontal_snap_guides.guides:
@@ -609,59 +604,58 @@ class LayoutConverter:
     def set_common_properties(
         layout, element, item, page_height, context, base_units, conversion_factor
     ):
-        if True:
-            if isinstance(element.shape, Point):
-                if isinstance(element, MarkerElement):
-                    # these always store center points
-                    item.setReferencePoint(QgsLayoutItem.ReferencePoint.Middle)
-                    item.attemptMove(
-                        QgsLayoutPoint(
-                            element.shape.x * conversion_factor,
-                            page_height - element.shape.y * conversion_factor,
-                            base_units,
-                        ),
-                        useReferencePoint=True,
-                    )
-                    item.setReferencePoint(LayoutConverter.ANCHOR_MAP[element.anchor])
-                else:
-                    # is this reachable??
-                    item.setReferencePoint(LayoutConverter.ANCHOR_MAP[element.anchor])
-                    item.attemptMove(
-                        QgsLayoutPoint(
-                            element.shape.x * conversion_factor,
-                            page_height - element.shape.y * conversion_factor,
-                            base_units,
-                        ),
-                        useReferencePoint=True,
-                    )
-            else:
-                if (
-                    not math.isnan(element.shape.x_max)
-                    and not math.isnan(element.shape.y_max)
-                    and not math.isnan(element.shape.x_min)
-                    and not math.isnan(element.shape.y_min)
-                ):
-                    item.attemptResize(
-                        QgsLayoutSize(
-                            element.shape.x_max * conversion_factor
-                            - element.shape.x_min * conversion_factor,
-                            element.shape.y_max * conversion_factor
-                            - element.shape.y_min * conversion_factor,
-                            base_units,
-                        )
-                    )
+        if isinstance(element.shape, Point):
+            if isinstance(element, MarkerElement):
+                # these always store center points
+                item.setReferencePoint(QgsLayoutItem.ReferencePoint.Middle)
+                item.attemptMove(
+                    QgsLayoutPoint(
+                        element.shape.x * conversion_factor,
+                        page_height - element.shape.y * conversion_factor,
+                        base_units,
+                    ),
+                    useReferencePoint=True,
+                )
                 item.setReferencePoint(LayoutConverter.ANCHOR_MAP[element.anchor])
-                if not math.isnan(element.shape.x_min) and not math.isnan(
-                    element.shape.y_max
-                ):
-                    item.attemptMove(
-                        QgsLayoutPoint(
-                            element.shape.x_min * conversion_factor,
-                            page_height - element.shape.y_max * conversion_factor,
-                            base_units,
-                        ),
-                        useReferencePoint=False,
+            else:
+                # is this reachable??
+                item.setReferencePoint(LayoutConverter.ANCHOR_MAP[element.anchor])
+                item.attemptMove(
+                    QgsLayoutPoint(
+                        element.shape.x * conversion_factor,
+                        page_height - element.shape.y * conversion_factor,
+                        base_units,
+                    ),
+                    useReferencePoint=True,
+                )
+        else:
+            if (
+                not math.isnan(element.shape.x_max)
+                and not math.isnan(element.shape.y_max)
+                and not math.isnan(element.shape.x_min)
+                and not math.isnan(element.shape.y_min)
+            ):
+                item.attemptResize(
+                    QgsLayoutSize(
+                        element.shape.x_max * conversion_factor
+                        - element.shape.x_min * conversion_factor,
+                        element.shape.y_max * conversion_factor
+                        - element.shape.y_min * conversion_factor,
+                        base_units,
                     )
+                )
+            item.setReferencePoint(LayoutConverter.ANCHOR_MAP[element.anchor])
+            if not math.isnan(element.shape.x_min) and not math.isnan(
+                element.shape.y_max
+            ):
+                item.attemptMove(
+                    QgsLayoutPoint(
+                        element.shape.x_min * conversion_factor,
+                        page_height - element.shape.y_max * conversion_factor,
+                        base_units,
+                    ),
+                    useReferencePoint=False,
+                )
 
         LayoutConverter.process_element_border_background_shadow(
             layout, element, item, page_height, context, base_units, conversion_factor
@@ -725,8 +719,7 @@ class LayoutConverter:
                 and background_gap_y == 0
                 and background_rounding == 0
             ):
-                if True:
-                    use_simple_background = True
+                use_simple_background = True
             else:
                 use_complex_background = True
         if has_shadow:
@@ -1112,9 +1105,8 @@ class LayoutConverter:
         elif isinstance(element, (MapFrame,)):
             map = QgsLayoutItemMap(layout)
 
-            if True:
-                if element.map.crs:
-                    map.setCrs(CrsConverter.convert_crs(element.map.crs, context))
+            if element.map.crs:
+                map.setCrs(CrsConverter.convert_crs(element.map.crs, context))
 
             LayoutConverter.set_common_properties(
                 layout,
@@ -1126,20 +1118,18 @@ class LayoutConverter:
                 conversion_factor,
             )
 
-            if True:
-                rect = QgsRectangle(
-                    element.map.full_extent_x_min,
-                    element.map.full_extent_y_min,
-                    element.map.full_extent_x_max,
-                    element.map.full_extent_y_max,
-                )
-                map.zoomToExtent(rect)
-                map.setMapRotation(ConversionUtils.convert_angle(element.map.rotation))
+            rect = QgsRectangle(
+                element.map.full_extent_x_min,
+                element.map.full_extent_y_min,
+                element.map.full_extent_x_max,
+                element.map.full_extent_y_max,
+            )
+            map.zoomToExtent(rect)
+            map.setMapRotation(ConversionUtils.convert_angle(element.map.rotation))
 
             if len(layout.project().mapThemeCollection().mapThemes()) > 1:
                 map.setFollowVisibilityPreset(True)
-                if True:
-                    map.setFollowVisibilityPresetName(layer_to_layer_map[element.map])
+                map.setFollowVisibilityPresetName(layer_to_layer_map[element.map])
 
             if True:
                 map.setId(element.map.name)
@@ -1489,20 +1479,19 @@ class LayoutConverter:
                 conversion_factor,
             )
 
-            if True:
-                picture_path, is_svg = AnnotationConverter.picture_element_to_path(
-                    element, context
-                )
+            picture_path, is_svg = AnnotationConverter.picture_element_to_path(
+                element, context
+            )
 
-                if is_svg is not None:
-                    picture.setPicturePath(
-                        picture_path,
-                        QgsLayoutItemPicture.Format.FormatSVG
-                        if is_svg
-                        else QgsLayoutItemPicture.Format.FormatRaster,
-                    )
-                else:
-                    picture.setPicturePath(picture_path)
+            if is_svg is not None:
+                picture.setPicturePath(
+                    picture_path,
+                    QgsLayoutItemPicture.Format.FormatSVG
+                    if is_svg
+                    else QgsLayoutItemPicture.Format.FormatRaster,
+                )
+            else:
+                picture.setPicturePath(picture_path)
 
             layout.addLayoutItem(picture)
             return {element: picture}
@@ -2055,8 +2044,7 @@ class LayoutConverter:
             return {element: label}
 
         elif isinstance(element, (MapSurroundFrame,)):
-            if True:
-                map_surround = element.element
+            map_surround = element.element
 
             if isinstance(map_surround, (MarkerNorthArrow,)):
                 if USE_LAYOUT_MARKER:
@@ -2215,10 +2203,9 @@ class LayoutConverter:
                 )
                 item.setTextFormat(text_format)
 
-                if True:
-                    units, factor = VectorRendererConverter.convert_distance_unit(
-                        map_surround.division_units
-                    )
+                units, factor = VectorRendererConverter.convert_distance_unit(
+                    map_surround.division_units
+                )
                 item.setUnits(units)
                 if isinstance(
                     map_surround,
@@ -2233,10 +2220,9 @@ class LayoutConverter:
                     item.setNumberOfSegmentsLeft(map_surround.sub_divisions or 0)
                 else:
                     item.setNumberOfSegments(map_surround.divisions)
-                    if True:
-                        item.setNumberOfSegmentsLeft(
-                            1 if map_surround.show_one_div_before_zero else 0
-                        )
+                    item.setNumberOfSegmentsLeft(
+                        1 if map_surround.show_one_div_before_zero else 0
+                    )
                 item.setUnitsPerSegment((map_surround.division_value or 0) * factor)
                 item.setUnitLabel(map_surround.division_unit_label)
                 item.setLabelBarSpace((map_surround.label_gap or 0) * POINTS_TO_MM)
@@ -2319,10 +2305,9 @@ class LayoutConverter:
 
                     item.setHeight((map_surround.bar_height or 0) * POINTS_TO_MM)
 
-                    if True:
-                        symbol = SymbolConverter.Symbol_to_QgsSymbol(
-                            map_surround.fill_symbol1, context
-                        )
+                    symbol = SymbolConverter.Symbol_to_QgsSymbol(
+                        map_surround.fill_symbol1, context
+                    )
                     if symbol:
                         item.setFillSymbol(symbol)
 
@@ -2571,10 +2556,11 @@ class LayoutConverter:
                                 original_linked_layer.renderer,
                                 (SimpleRenderer,),
                             ):
-                                if True:
-                                    label = original_linked_layer.renderer.legend_group.classes[
+                                label = (
+                                    original_linked_layer.renderer.legend_group.classes[
                                         0
                                     ].label
+                                )
                                 if label:
                                     node.setCustomProperty("legend/title-label", label)
                                     if item.model().legendNodeEmbeddedInParent(node):
@@ -2724,9 +2710,8 @@ class LayoutConverter:
                                     level=Context.WARNING,
                                 )
 
-                        if True:
-                            legend_patch_width = legend_item.legend_class_format.height
-                            legend_patch_height = legend_item.legend_class_format.width
+                        legend_patch_width = legend_item.legend_class_format.height
+                        legend_patch_height = legend_item.legend_class_format.width
 
                         if legend_patch_height not in (
                             0,
@@ -2833,8 +2818,7 @@ class LayoutConverter:
             for child in element.elements:
                 LayoutConverter.reconnect_element(child, layout, added_items, context)
         elif isinstance(element, (MapSurroundFrame,)):
-            if True:
-                map_surround = element.element
+            map_surround = element.element
 
             map = LayoutConverter.find_referenced_object(added_items, element.map_frame)
             if map and issubclass(
@@ -2903,14 +2887,13 @@ class LayoutConverter:
                     )
                     continue
 
-                if True:
-                    fill_symbol = SymbolConverter.convert_border_background_shadow(
-                        border=l.border,
-                        background=l.background,
-                        shadow=l.shadow,
-                        context=context,
-                    )
-                    map_name = l.map.map.name
+                fill_symbol = SymbolConverter.convert_border_background_shadow(
+                    border=l.border,
+                    background=l.background,
+                    shadow=l.shadow,
+                    context=context,
+                )
+                map_name = l.map.map.name
 
                 overview = QgsLayoutItemMapOverview(map_name, map)
                 overview.setLinkedMap(linked_map)

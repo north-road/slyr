@@ -277,9 +277,8 @@ class LabelConverter:
                     placement_flags |= QgsPalLayerSettings.AboveLine
                 if overposter.line_label_position.online:
                     placement_flags |= QgsPalLayerSettings.OnLine
-                if True:
-                    if not overposter.line_label_position.follow_line_orientation:
-                        placement_flags |= QgsPalLayerSettings.MapOrientation
+                if not overposter.line_label_position.follow_line_orientation:
+                    placement_flags |= QgsPalLayerSettings.MapOrientation
             except AttributeError:
                 if maplex_overposter:
                     if maplex_overposter.line_placement_method in (
@@ -392,8 +391,7 @@ class LabelConverter:
         # label_settings.fitInPolygonOnly
 
         if overposter:
-            if True:
-                dest_label_settings.dist = overposter.offset
+            dest_label_settings.dist = overposter.offset
 
         dest_label_settings.distUnits = QgsUnitTypes.RenderUnit.RenderPoints
         dest_label_settings.offsetType = QgsPalLayerSettings.OffsetType.FromSymbolBounds
@@ -418,14 +416,13 @@ class LabelConverter:
         # label_settings.upsidedownLabels
 
         dest_label_settings.labelPerPart = False
-        if True:
-            try:
-                dest_label_settings.labelPerPart = (
-                    overposter.number_restriction
-                    == BasicOverposterLayerProperties.NUM_ONE_PER_PART
-                )
-            except AttributeError:
-                pass  # TODO - maplex
+        try:
+            dest_label_settings.labelPerPart = (
+                overposter.number_restriction
+                == BasicOverposterLayerProperties.NUM_ONE_PER_PART
+            )
+        except AttributeError:
+            pass  # TODO - maplex
 
         # label_settings.mergeLines
 
@@ -558,16 +555,15 @@ class LabelConverter:
             else:
                 label_settings.isExpression = True
 
-        if True:
-            LabelConverter.convert_overposter(
-                properties.overposter,
-                properties.overposter
-                if isinstance(properties.overposter, MaplexOverposterLayerProperties)
-                else None,
-                layer_geometry_type,
-                label_settings,
-                context,
-            )
+        LabelConverter.convert_overposter(
+            properties.overposter,
+            properties.overposter
+            if isinstance(properties.overposter, MaplexOverposterLayerProperties)
+            else None,
+            layer_geometry_type,
+            label_settings,
+            context,
+        )
 
         label_settings.scaleVisibility = bool(
             properties.scale_range_max or properties.scale_range_min

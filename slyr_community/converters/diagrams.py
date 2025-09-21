@@ -71,12 +71,11 @@ class DiagramConverter:
         settings = QgsDiagramSettings()
         settings.categoryLabels = renderer.labels
         settings.categoryAttributes = renderer.attributes
-        if True:
-            chart_symbol_layer = renderer.symbol
-            settings.categoryColors = [
-                SymbolConverter.symbol_to_color(c.symbol, context)
-                for c in renderer.class_legend.classes
-            ]
+        chart_symbol_layer = renderer.symbol
+        settings.categoryColors = [
+            SymbolConverter.symbol_to_color(c.symbol, context)
+            for c in renderer.class_legend.classes
+        ]
 
         if isinstance(
             chart_symbol_layer,
@@ -91,20 +90,19 @@ class DiagramConverter:
                     level=Context.WARNING,
                 )
 
-            if True:
-                if renderer.class_legend.classes:
-                    first_symbol = renderer.class_legend.classes[0].symbol
-                    color = SymbolConverter.symbol_to_line_color(first_symbol, context)
-                    if color:
-                        settings.penColor = SymbolConverter.symbol_to_line_color(
-                            first_symbol, context
-                        )
-                        settings.penWidth = SymbolConverter.symbol_to_line_width(
-                            first_symbol, context
-                        )
-                    else:
-                        settings.penColor = QColor(0, 0, 0, 0)
-                    settings.lineSizeUnit = context.units
+            if renderer.class_legend.classes:
+                first_symbol = renderer.class_legend.classes[0].symbol
+                color = SymbolConverter.symbol_to_line_color(first_symbol, context)
+                if color:
+                    settings.penColor = SymbolConverter.symbol_to_line_color(
+                        first_symbol, context
+                    )
+                    settings.penWidth = SymbolConverter.symbol_to_line_width(
+                        first_symbol, context
+                    )
+                else:
+                    settings.penColor = QColor(0, 0, 0, 0)
+                settings.lineSizeUnit = context.units
 
             if isinstance(chart_symbol_layer, (BarChartSymbol,)):
                 try:
@@ -146,11 +144,10 @@ class DiagramConverter:
             if isinstance(chart_symbol_layer, StackedChartSymbol):
                 if chart_symbol_layer.fixed_length:
                     diagram_renderer = QgsSingleCategoryDiagramRenderer()
-                    if True:
-                        settings.size = QSizeF(
-                            context.convert_size(chart_symbol_layer.max_length),
-                            context.convert_size(chart_symbol_layer.max_length),
-                        )
+                    settings.size = QSizeF(
+                        context.convert_size(chart_symbol_layer.max_length),
+                        context.convert_size(chart_symbol_layer.max_length),
+                    )
                     settings.sizeType = context.units
                 else:
                     expression = "+".join(
@@ -161,14 +158,13 @@ class DiagramConverter:
                     if isinstance(renderer, ChartRenderer):
                         diagram_renderer.setLowerValue(renderer.min_value or 0)
 
-                    if True:
-                        diagram_renderer.setUpperValue(renderer.symbol.max_value)
-                        diagram_renderer.setUpperSize(
-                            QSizeF(
-                                context.convert_size(renderer.symbol.max_length),
-                                context.convert_size(renderer.symbol.max_length),
-                            )
+                    diagram_renderer.setUpperValue(renderer.symbol.max_value)
+                    diagram_renderer.setUpperSize(
+                        QSizeF(
+                            context.convert_size(renderer.symbol.max_length),
+                            context.convert_size(renderer.symbol.max_length),
                         )
+                    )
                     settings.sizeType = context.units
 
                 if not chart_symbol_layer.orientation_vertical:
@@ -186,15 +182,14 @@ class DiagramConverter:
             else:
                 diagram_renderer.setDiagram(QgsHistogramDiagram())
 
-                if True:
-                    diagram_renderer.setUpperValue(renderer.symbol.max_value)
+                diagram_renderer.setUpperValue(renderer.symbol.max_value)
 
-                    diagram_renderer.setUpperSize(
-                        QSizeF(
-                            renderer.symbol.max_length * 0.352778,
-                            renderer.symbol.max_length * 0.352778,
-                        )
+                diagram_renderer.setUpperSize(
+                    QSizeF(
+                        renderer.symbol.max_length * 0.352778,
+                        renderer.symbol.max_length * 0.352778,
                     )
+                )
 
             diagram_renderer.setDiagramSettings(settings)
 
@@ -223,29 +218,26 @@ class DiagramConverter:
                 QgsDiagramLayerSettings.Property.Show, QgsProperty.fromExpression(exp)
             )
 
-            if True:
-                if not renderer.vary_size_by_attribute:
-                    diagram_renderer = QgsSingleCategoryDiagramRenderer()
-                else:
-                    diagram_renderer = QgsLinearlyInterpolatedDiagramRenderer()
-                    diagram_renderer.setClassificationField(
-                        renderer.vary_size_by_attribute
+            if not renderer.vary_size_by_attribute:
+                diagram_renderer = QgsSingleCategoryDiagramRenderer()
+            else:
+                diagram_renderer = QgsLinearlyInterpolatedDiagramRenderer()
+                diagram_renderer.setClassificationField(renderer.vary_size_by_attribute)
+                diagram_renderer.setLowerValue(renderer.min_value)
+                diagram_renderer.setLowerSize(
+                    QSizeF(
+                        renderer.min_size * 0.352778 * 0.5,
+                        renderer.min_size * 0.352778 * 0.5,
                     )
-                    diagram_renderer.setLowerValue(renderer.min_value)
-                    diagram_renderer.setLowerSize(
-                        QSizeF(
-                            renderer.min_size * 0.352778 * 0.5,
-                            renderer.min_size * 0.352778 * 0.5,
-                        )
+                )
+                diagram_renderer.setUpperValue(renderer.min_value * 2)
+                diagram_renderer.setUpperSize(
+                    QSizeF(
+                        renderer.min_size * 0.352778 * 2 * 0.5,
+                        renderer.min_size * 0.352778 * 2 * 0.5,
                     )
-                    diagram_renderer.setUpperValue(renderer.min_value * 2)
-                    diagram_renderer.setUpperSize(
-                        QSizeF(
-                            renderer.min_size * 0.352778 * 2 * 0.5,
-                            renderer.min_size * 0.352778 * 2 * 0.5,
-                        )
-                    )
-                    settings.scaleByArea = False
+                )
+                settings.scaleByArea = False
             diagram_renderer.setDiagram(QgsPieDiagram())
             settings.size = QSizeF(
                 context.convert_size(chart_symbol_layer.size),
@@ -264,22 +256,20 @@ class DiagramConverter:
 
             # looks redundant, but actually used by ArcGIS when a diagram has no "global" outline set
             try:
-                if True:
-                    outline_symbol = SymbolConverter.Symbol_to_QgsSymbol(
-                        renderer.class_legend.classes[0].symbol.outline, context
-                    ).color()
-                    if outline_symbol:
-                        settings.penColor = outline_symbol.color()
-                        settings.penWidth = outline_symbol.width() * 0.352778
+                outline_symbol = SymbolConverter.Symbol_to_QgsSymbol(
+                    renderer.class_legend.classes[0].symbol.outline, context
+                ).color()
+                if outline_symbol:
+                    settings.penColor = outline_symbol.color()
+                    settings.penWidth = outline_symbol.width() * 0.352778
 
             except AttributeError:
                 pass
 
-            if True:
-                if not chart_symbol_layer.clockwise:
-                    settings.rotationOffset = chart_symbol_layer.starting_angle
-                else:
-                    settings.rotationOffset = 360.0 - chart_symbol_layer.starting_angle
+            if not chart_symbol_layer.clockwise:
+                settings.rotationOffset = chart_symbol_layer.starting_angle
+            else:
+                settings.rotationOffset = 360.0 - chart_symbol_layer.starting_angle
 
             diagram_renderer.setDiagramSettings(settings)
 

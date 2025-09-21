@@ -423,13 +423,12 @@ class TextSymbolConverter:
         settings.setEnabled(True)
         settings.setType(QgsTextBackgroundSettings.ShapeType.ShapeMarkerSymbol)
         settings.setMarkerSymbol(symbol)
-        if True:
-            if marker_text_background.scale_to_fit_text:
-                settings.setSizeType(QgsTextBackgroundSettings.SizeType.SizeBuffer)
-            else:
-                settings.setSizeType(QgsTextBackgroundSettings.SizeType.SizeFixed)
-                settings.setSize(QSizeF(symbol.size(), symbol.size()))
-                settings.setSizeUnit(symbol.sizeUnit())
+        if marker_text_background.scale_to_fit_text:
+            settings.setSizeType(QgsTextBackgroundSettings.SizeType.SizeBuffer)
+        else:
+            settings.setSizeType(QgsTextBackgroundSettings.SizeType.SizeFixed)
+            settings.setSize(QSizeF(symbol.size(), symbol.size()))
+            settings.setSizeUnit(symbol.sizeUnit())
 
         return settings
 
@@ -446,13 +445,12 @@ class TextSymbolConverter:
         settings.setType(QgsTextBackgroundSettings.ShapeType.ShapeRectangle)
         if isinstance(background_symbol, (BalloonCallout)):
             fill_symbol = background_symbol.fill_symbol
-            if True:
-                if background_symbol.style == BalloonCallout.STYLE_ROUNDED_RECTANGLE:
-                    # TODO - confirm actual size rendering on Arc
-                    settings.setRadii(QSizeF(1, 1))
-                elif background_symbol.style == BalloonCallout.STYLE_OVAL:
-                    # TODO - verify comparitive rendering
-                    settings.setType(QgsTextBackgroundSettings.ShapeType.ShapeEllipse)
+            if background_symbol.style == BalloonCallout.STYLE_ROUNDED_RECTANGLE:
+                # TODO - confirm actual size rendering on Arc
+                settings.setRadii(QSizeF(1, 1))
+            elif background_symbol.style == BalloonCallout.STYLE_OVAL:
+                # TODO - verify comparitive rendering
+                settings.setType(QgsTextBackgroundSettings.ShapeType.ShapeEllipse)
         else:
             fill_symbol = background_symbol.border_symbol
 
@@ -503,20 +501,11 @@ class TextSymbolConverter:
 
         settings.setSizeType(QgsTextBackgroundSettings.SizeType.SizeBuffer)
         # TODO: margin
-        if True:
-            x_margin = (
-                background_symbol.margin_left + background_symbol.margin_right
-            ) / 2
-            y_margin = (
-                background_symbol.margin_top + background_symbol.margin_bottom
-            ) / 2
+        x_margin = (background_symbol.margin_left + background_symbol.margin_right) / 2
+        y_margin = (background_symbol.margin_top + background_symbol.margin_bottom) / 2
 
-            x_delta = (
-                background_symbol.margin_right - background_symbol.margin_left
-            ) / 2
-            y_delta = (
-                background_symbol.margin_bottom - background_symbol.margin_top
-            ) / 2
+        x_delta = (background_symbol.margin_right - background_symbol.margin_left) / 2
+        y_delta = (background_symbol.margin_bottom - background_symbol.margin_top) / 2
 
         if reference_scale is None:
             settings.setSize(

@@ -115,141 +115,133 @@ class RasterLayerConverter:
         base, _ = os.path.split(input_file)
         uri = ""
 
-        if True:
-            if isinstance(layer.dataset_name, RasterBandName):
-                dataset_name = layer.dataset_name.dataset_name
-                band = layer.dataset_name.band
-            else:
-                dataset_name = layer.dataset_name
-                band = -1
+        if isinstance(layer.dataset_name, RasterBandName):
+            dataset_name = layer.dataset_name.dataset_name
+            band = layer.dataset_name.band
+        else:
+            dataset_name = layer.dataset_name
+            band = -1
 
-            if isinstance(dataset_name, (SdeRasterDatasetName, FgdbRasterDatasetName)):
-                if ConversionUtils.is_gdal_version_available(3, 7, 0):
-                    file_name = ConversionUtils.get_absolute_path(
-                        dataset_name.workspace_name.name, base
-                    )
-                    layer_name = dataset_name.path
-                    uri = 'OpenFileGDB:"{}":{}'.format(
-                        context.resolve_filename(input_file, file_name), layer_name
-                    )
-                else:
-                    context.push_warning(
-                        "{}: Raster layers in Geodatabase files require a newer QGIS version, the database {} will need to be converted to TIFF before it can be used outside of ArcGIS".format(
-                            layer.name, dataset_name.workspace_name.name
-                        ),
-                        level=Context.WARNING,
-                    )
-                    file_name = ConversionUtils.get_absolute_path(
-                        dataset_name.workspace_name.name, base
-                    )
-                    uri = file_name + "|" + dataset_name.file_name
-            elif isinstance(dataset_name, FunctionRasterDatasetName):
+        if isinstance(dataset_name, (SdeRasterDatasetName, FgdbRasterDatasetName)):
+            if ConversionUtils.is_gdal_version_available(3, 7, 0):
                 file_name = ConversionUtils.get_absolute_path(
                     dataset_name.workspace_name.name, base
                 )
-                if file_name[-1] == "/":
-                    file_name = file_name[:-1]
-                file_name = file_name + "/" + dataset_name.full_name
-                uri = context.resolve_filename(input_file, file_name)
+                layer_name = dataset_name.path
+                uri = 'OpenFileGDB:"{}":{}'.format(
+                    context.resolve_filename(input_file, file_name), layer_name
+                )
+            else:
                 context.push_warning(
-                    "Raster layer “{}” was originally set to use a raster function ({}), these are not supported by QGIS".format(
-                        layer.name, dataset_name.function.__class__.__name__
+                    "{}: Raster layers in Geodatabase files require a newer QGIS version, the database {} will need to be converted to TIFF before it can be used outside of ArcGIS".format(
+                        layer.name, dataset_name.workspace_name.name
                     ),
                     level=Context.WARNING,
                 )
-            elif dataset_name.workspace_name.connection_properties:
-                if (
-                    "DATABASE"
-                    in dataset_name.workspace_name.connection_properties.properties
-                ):
-                    file_name = (
-                        dataset_name.workspace_name.connection_properties.properties[
-                            "DATABASE"
-                        ].replace("\\", "/")
-                        + dataset_name.file_name
-                    )
-                else:
-                    file_name = (
-                        dataset_name.workspace_name.connection_properties.properties[
-                            "SERVER"
-                        ]
-                        + dataset_name.file_name
-                    )
-                uri = context.resolve_filename(input_file, file_name)
-            else:
-                file_name = ConversionUtils.path_insensitive(
-                    "{}/{}".format(
-                        ConversionUtils.get_absolute_path(
-                            dataset_name.workspace_name.name, base
-                        ),
-                        dataset_name.file_name,
-                    )
+                file_name = ConversionUtils.get_absolute_path(
+                    dataset_name.workspace_name.name, base
                 )
-                uri = context.resolve_filename(input_file, file_name)
+                uri = file_name + "|" + dataset_name.file_name
+        elif isinstance(dataset_name, FunctionRasterDatasetName):
+            file_name = ConversionUtils.get_absolute_path(
+                dataset_name.workspace_name.name, base
+            )
+            if file_name[-1] == "/":
+                file_name = file_name[:-1]
+            file_name = file_name + "/" + dataset_name.full_name
+            uri = context.resolve_filename(input_file, file_name)
+            context.push_warning(
+                "Raster layer “{}” was originally set to use a raster function ({}), these are not supported by QGIS".format(
+                    layer.name, dataset_name.function.__class__.__name__
+                ),
+                level=Context.WARNING,
+            )
+        elif dataset_name.workspace_name.connection_properties:
+            if (
+                "DATABASE"
+                in dataset_name.workspace_name.connection_properties.properties
+            ):
+                file_name = (
+                    dataset_name.workspace_name.connection_properties.properties[
+                        "DATABASE"
+                    ].replace("\\", "/")
+                    + dataset_name.file_name
+                )
+            else:
+                file_name = (
+                    dataset_name.workspace_name.connection_properties.properties[
+                        "SERVER"
+                    ]
+                    + dataset_name.file_name
+                )
+            uri = context.resolve_filename(input_file, file_name)
+        else:
+            file_name = ConversionUtils.path_insensitive(
+                "{}/{}".format(
+                    ConversionUtils.get_absolute_path(
+                        dataset_name.workspace_name.name, base
+                    ),
+                    dataset_name.file_name,
+                )
+            )
+            uri = context.resolve_filename(input_file, file_name)
 
         options = QgsRasterLayer.LayerOptions()
         options.skipCrsValidation = True
         rl = QgsRasterLayer(uri, layer.name, provider, options)
 
         if True:
-            if True:
-                crs = (
-                    CrsConverter.convert_crs(layer.extent.crs, context)
-                    if layer.extent
-                    else QgsCoordinateReferenceSystem()
-                )
-                if not crs.isValid():
-                    crs = fallback_crs
-                rl.setCrs(crs)
+            crs = (
+                CrsConverter.convert_crs(layer.extent.crs, context)
+                if layer.extent
+                else QgsCoordinateReferenceSystem()
+            )
+            if not crs.isValid():
+                crs = fallback_crs
+            rl.setCrs(crs)
 
         metadata = rl.metadata()
         metadata.setAbstract(layer.description)
         rl.setMetadata(metadata)
 
-        if True:
-            # layer.zoom_max = "don't show when zoomed out beyond"
-            zoom_max = layer.zoom_max or 0
-            # layer.zoom_min = "don't show when zoomed in beyond"
-            zoom_min = layer.zoom_min or 0
+        # layer.zoom_max = "don't show when zoomed out beyond"
+        zoom_max = layer.zoom_max or 0
+        # layer.zoom_min = "don't show when zoomed in beyond"
+        zoom_min = layer.zoom_min or 0
 
-            enabled_scale_range = bool(zoom_max or zoom_min)
-            if zoom_max and zoom_min and zoom_min > zoom_max:
-                # inconsistent scale range -- zoom_max should be bigger number than zoom_min
-                tmp = zoom_min
-                zoom_min = zoom_max
-                zoom_max = tmp
+        enabled_scale_range = bool(zoom_max or zoom_min)
+        if zoom_max and zoom_min and zoom_min > zoom_max:
+            # inconsistent scale range -- zoom_max should be bigger number than zoom_min
+            tmp = zoom_min
+            zoom_min = zoom_max
+            zoom_max = tmp
 
-            # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max
-            rl.setMinimumScale(
-                zoom_max if enabled_scale_range else layer.stored_zoom_max
-            )
-            # qgis maximum scale = don't show when zoomed in beyond, i.e. ArcGIS zoom_min
-            rl.setMaximumScale(
-                zoom_min if enabled_scale_range else layer.stored_zoom_min
-            )
-            rl.setScaleBasedVisibility(enabled_scale_range)
+        # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max
+        rl.setMinimumScale(zoom_max if enabled_scale_range else layer.stored_zoom_max)
+        # qgis maximum scale = don't show when zoomed in beyond, i.e. ArcGIS zoom_min
+        rl.setMaximumScale(zoom_min if enabled_scale_range else layer.stored_zoom_min)
+        rl.setScaleBasedVisibility(enabled_scale_range)
 
         def apply_colorizer(source):
             brightness_contrast = QgsBrightnessContrastFilter()
             gamma = 1
             invert = False
-            if True:
-                renderer = RasterLayerConverter.convert_raster_renderer(
-                    source, band, rl, context
-                )
-                if isinstance(source, RasterStretchColorRampRenderer):
-                    gamma = source.gamma if source.apply_gamma else 1
-                elif isinstance(source, RasterRGBRenderer):
-                    if source.apply_gamma:
-                        if (source.red_gamma != source.green_gamma) or (
-                            source.red_gamma != source.blue_gamma
-                        ):
-                            context.push_warning(
-                                "Different per band gamma stretch values are not permitted in QGIS",
-                            )
-                        gamma = (
-                            source.red_gamma + source.green_gamma + source.blue_gamma
-                        ) / 3
+            renderer = RasterLayerConverter.convert_raster_renderer(
+                source, band, rl, context
+            )
+            if isinstance(source, RasterStretchColorRampRenderer):
+                gamma = source.gamma if source.apply_gamma else 1
+            elif isinstance(source, RasterRGBRenderer):
+                if source.apply_gamma:
+                    if (source.red_gamma != source.green_gamma) or (
+                        source.red_gamma != source.blue_gamma
+                    ):
+                        context.push_warning(
+                            "Different per band gamma stretch values are not permitted in QGIS",
+                        )
+                    gamma = (
+                        source.red_gamma + source.green_gamma + source.blue_gamma
+                    ) / 3
 
             if gamma != 1:
                 brightness_contrast.setGamma(gamma)
@@ -266,26 +258,20 @@ class RasterLayerConverter:
                 hue_filter.setInvertColors(True)
             rl.pipe().set(hue_filter)
             rl.pipe().set(QgsRasterResampleFilter())
-            if True:
-                if source.resampling_type in (
-                    RasterRenderer.RESAMPLING_BILINEAR,
-                    RasterRenderer.RESAMPLING_BILINEAR_PLUS,
-                ):
-                    rl.resampleFilter().setZoomedInResampler(
-                        QgsBilinearRasterResampler()
-                    )
-                    rl.resampleFilter().setZoomedOutResampler(
-                        QgsBilinearRasterResampler()
-                    )
-                elif source.resampling_type == RasterRenderer.RESAMPLING_CUBIC:
-                    rl.resampleFilter().setZoomedInResampler(QgsCubicRasterResampler())
-                    rl.resampleFilter().setZoomedOutResampler(
-                        QgsBilinearRasterResampler()
-                    )  # can't use cubic for zoomed out
+            if source.resampling_type in (
+                RasterRenderer.RESAMPLING_BILINEAR,
+                RasterRenderer.RESAMPLING_BILINEAR_PLUS,
+            ):
+                rl.resampleFilter().setZoomedInResampler(QgsBilinearRasterResampler())
+                rl.resampleFilter().setZoomedOutResampler(QgsBilinearRasterResampler())
+            elif source.resampling_type == RasterRenderer.RESAMPLING_CUBIC:
+                rl.resampleFilter().setZoomedInResampler(QgsCubicRasterResampler())
+                rl.resampleFilter().setZoomedOutResampler(
+                    QgsBilinearRasterResampler()
+                )  # can't use cubic for zoomed out
             rl.pipe().set(QgsRasterProjector())
 
-        if True:
-            apply_colorizer(layer.renderer)
+        apply_colorizer(layer.renderer)
 
         return rl
 
@@ -329,9 +315,8 @@ class RasterLayerConverter:
             if color_ramp and renderer.invert_stretch:
                 color_ramp.invert()
 
-            if True:
-                min_value = renderer.min_value or 0
-                max_value = renderer.max_value or 0
+            min_value = renderer.min_value or 0
+            max_value = renderer.max_value or 0
             res.setClassificationMin(min_value)
             res.setClassificationMax(max_value)
 
@@ -478,15 +463,14 @@ class RasterLayerConverter:
         elif isinstance(renderer, RasterColorMapRenderer):
             classes = []
             for i, v in enumerate(renderer.values):
-                if True:
-                    if len(renderer.groups[0].classes) <= i:
-                        # sometimes more values are present than classes, for an unknown reason. Possibly corrupt document??
-                        break
+                if len(renderer.groups[0].classes) <= i:
+                    # sometimes more values are present than classes, for an unknown reason. Possibly corrupt document??
+                    break
 
-                    legend = renderer.groups[0].classes[i].label
-                    color = ColorConverter.color_to_qcolor(
-                        renderer.groups[0].classes[i].symbol.color
-                    )
+                legend = renderer.groups[0].classes[i].label
+                color = ColorConverter.color_to_qcolor(
+                    renderer.groups[0].classes[i].symbol.color
+                )
                 cl = QgsPalettedRasterRenderer.Class(v, color, legend)
                 classes.append(cl)
 
@@ -561,9 +545,8 @@ class RasterLayerConverter:
                 "Raster {} not yet implemented".format(renderer.__class__.__name__)
             )
 
-        if True:
-            if renderer and renderer.alpha_band is not None and renderer.alpha_checked:
-                res.setAlphaBand(renderer.alpha_band)
+        if renderer and renderer.alpha_band is not None and renderer.alpha_checked:
+            res.setAlphaBand(renderer.alpha_band)
 
         if renderer and not renderer.nodata_color.is_null:
             res.setNodataColor(ColorConverter.color_to_qcolor(renderer.nodata_color))
