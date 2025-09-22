@@ -22,8 +22,10 @@ from qgis.core import (
 from qgis.core import QgsProject
 
 from ...converters.context import Context
+
 from .algorithm import SlyrAlgorithm
 from ...converters.layout import LayoutConverter
+
 from ...parser.exceptions import (
     UnreadableSymbolException,
     NotImplementedException,

@@ -37,6 +37,7 @@ from ...parser.exceptions import (
 from ...parser.objects.base_map_layer import BaseMapLayer
 from ...parser.objects.group_layer import GroupLayer
 from ...parser.streams.layer import LayerFile
+
 from ...parser.exceptions import RequiresLicenseException
 
 try:

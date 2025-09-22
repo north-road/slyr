@@ -22,6 +22,7 @@ from qgis.core import (
 )
 
 from .algorithm import SlyrAlgorithm
+
 from ...parser.exceptions import NotImplementedException
 
 

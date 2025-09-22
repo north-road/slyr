@@ -25,6 +25,7 @@ from qgis.core import (
 
 from .algorithm import SlyrAlgorithm
 from ...converters.color import ColorConverter
+
 from ...parser.exceptions import (
     InvalidColorException,
     NotImplementedException,

@@ -44,6 +44,7 @@ from ...converters.color_ramp import ColorRampConverter
 from ...converters.context import Context
 from ...converters.labels import LabelConverter
 from ...converters.symbols import SymbolConverter
+
 from ...parser.exceptions import (
     UnreadableSymbolException,
     UnsupportedVersionException,
