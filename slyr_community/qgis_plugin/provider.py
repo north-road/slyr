@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+SLYR QGIS Processing provider
+"""
 
-# /***************************************************************************
-# provider.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,12 +11,7 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-SLYR QGIS Processing provider
-"""
-
-from qgis.core import QgsProcessingProvider
+from qgis.core import QgsProcessingProvider, Qgis
 
 from .algorithms import (
     StyleToQgisXml,
@@ -33,6 +21,8 @@ from .algorithms import (
     StylxToQgisXml,
     XmlToStylx,
     LyrToQlr,
+    LyrxToQlr,
+    LyrxToQml,
     StyleFromLyr,
     LyrToQml,
     LyrToStyleXml,
@@ -48,7 +38,22 @@ from .algorithms import (
     ConvertProjectData,
     ExtractHyperlinksToTables,
     ExtractSDEConnectionDetails,
+    LayerToLyrx,
+    ConvertMapxToQgs,
+    ConvertQgsToMapx,
+    ConvertAprxToQgs,
+    GdbToGpkg,
+    LyrxToSld,
+    LyrToSld,
+    ConvertQgsToAprx,
+    ConvertAprxAndData,
+    QmlToStylex,
+    ConvertQptToPagx,
+    ConvertQlrToLyrx,
+    MxdToSld,
+    StylxToSld,
 )
+from .algorithms.pagx_to_qgs import ConvertPagxToQgs
 from .gui_utils import GuiUtils
 
 
@@ -69,24 +74,42 @@ class SlyrProvider(QgsProcessingProvider):
             StylxToQgisXml,
             XmlToStylx,
             LyrToQlr,
+            LyrxToQlr,
+            LyrxToQml,
             StyleFromLyr,
             LyrToQml,
             LyrToStyleXml,
             ConvertMxdToQgs,
+            ConvertMapxToQgs,
+            ConvertQgsToMapx,
             AddLayersFromMxd,
             ConvertPmfToQgs,
             ConvertSxdToQgs,
             ExportStructureToJson,
+            ConvertPagxToQgs,
             AvlToQml,
             ExtractHyperlinksToTables,
             ExtractSDEConnectionDetails,
+            LayerToLyrx,
+            ConvertAprxToQgs,
+            LyrxToSld,
+            LyrToSld,
+            ConvertQgsToAprx,
+            ConvertAprxAndData,
+            QmlToStylex,
+            ConvertQptToPagx,
+            ConvertQlrToLyrx,
+            MxdToSld,
+            ConvertMxdAndData,
+            ConvertProjectData,
+            ConvertAnnotations,
+            ConvertAnnotationClassToGeopackage,
+            StylxToSld,
         ]:
             self.addAlgorithm(alg())
 
-        self.addAlgorithm(ConvertMxdAndData())
-        self.addAlgorithm(ConvertProjectData())
-        self.addAlgorithm(ConvertAnnotations())
-        self.addAlgorithm(ConvertAnnotationClassToGeopackage())
+        if Qgis.QGIS_VERSION_INT >= 32800:
+            self.addAlgorithm(GdbToGpkg())
 
     def id(self):  # pylint: disable=missing-docstring
         return "slyr"
@@ -102,4 +125,4 @@ class SlyrProvider(QgsProcessingProvider):
 
     def versionInfo(self):
         # pylint: disable=missing-docstring
-        return "5.0.0"
+        return "6.0.0"
