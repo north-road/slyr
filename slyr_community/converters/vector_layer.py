@@ -30,8 +30,6 @@ from qgis.core import (
     Qgis,
     QgsCoordinateReferenceSystem,
     QgsWkbTypes,
-    QgsMemoryProviderUtils,
-    QgsFields,
     QgsVectorLayer,
     QgsVectorLayerJoinInfo,
     QgsNullSymbolRenderer,
@@ -42,6 +40,8 @@ from qgis.core import (
     QgsExpression,
     QgsMapLayer,
     QgsProviderRegistry,
+    QgsAttributeTableConfig,
+    QgsEditorWidgetSetup,
 )
 
 from .context import Context
@@ -51,11 +51,15 @@ from .diagrams import DiagramConverter
 from .expressions import ExpressionConverter
 from .labels import LabelConverter
 from .vector_renderer import VectorRendererConverter
-from ..parser.objects.feature_layer import FeatureLayer
-from ..parser.objects.geometry import Geometry
-from ..parser.objects.memory_relationship_class_name import MemoryRelationshipClassName
-from ..parser.objects.rel_query_table_name import RelQueryTableName
-from ..parser.objects.standalone_table import StandaloneTable
+
+from ..parser.objects import (
+    FDOGraphicsLayer,
+    FeatureLayer,
+    Geometry,
+    MemoryRelationshipClassName,
+    RelQueryTableName,
+    StandaloneTable,
+)
 
 
 class VectorLayerConverter:
@@ -69,26 +73,26 @@ class VectorLayerConverter:
         Converts ESRI geometry type to WKB equivalent
         """
         GEOMETRY_TYPES = {
-            0: QgsWkbTypes.NoGeometry,
-            1: QgsWkbTypes.Point,
-            2: QgsWkbTypes.MultiPoint,
-            3: QgsWkbTypes.MultiLineString,
-            4: QgsWkbTypes.MultiPolygon,
-            5: QgsWkbTypes.MultiPolygon,
-            6: QgsWkbTypes.MultiLineString,
-            7: QgsWkbTypes.Unknown,
-            9: QgsWkbTypes.MultiPolygon,
-            11: QgsWkbTypes.MultiLineString,
-            13: QgsWkbTypes.MultiLineString,
-            14: QgsWkbTypes.CircularString,
-            15: QgsWkbTypes.Unknown,
-            16: QgsWkbTypes.Unknown,
-            17: QgsWkbTypes.Unknown,
-            18: QgsWkbTypes.Unknown,
-            19: QgsWkbTypes.Unknown,
-            20: QgsWkbTypes.Unknown,
-            21: QgsWkbTypes.Unknown,
-            22: QgsWkbTypes.Unknown,
+            0: QgsWkbTypes.Type.NoGeometry,
+            1: QgsWkbTypes.Type.Point,
+            2: QgsWkbTypes.Type.MultiPoint,
+            3: QgsWkbTypes.Type.MultiLineString,
+            4: QgsWkbTypes.Type.MultiPolygon,
+            5: QgsWkbTypes.Type.MultiPolygon,
+            6: QgsWkbTypes.Type.MultiLineString,
+            7: QgsWkbTypes.Type.Unknown,
+            9: QgsWkbTypes.Type.MultiPolygon,
+            11: QgsWkbTypes.Type.MultiLineString,
+            13: QgsWkbTypes.Type.MultiLineString,
+            14: QgsWkbTypes.Type.CircularString,
+            15: QgsWkbTypes.Type.Unknown,
+            16: QgsWkbTypes.Type.Unknown,
+            17: QgsWkbTypes.Type.Unknown,
+            18: QgsWkbTypes.Type.Unknown,
+            19: QgsWkbTypes.Type.Unknown,
+            20: QgsWkbTypes.Type.Unknown,
+            21: QgsWkbTypes.Type.Unknown,
+            22: QgsWkbTypes.Type.Unknown,
         }
         return GEOMETRY_TYPES[geometry_type]
 
@@ -104,7 +108,7 @@ class VectorLayerConverter:
             hasattr(layer, "datasource_type")
             and layer.datasource_type == "XY Event Source"
         ):
-            return QgsWkbTypes.Point
+            return QgsWkbTypes.Type.Point
         elif (
             hasattr(layer, "dataset_name")
             and hasattr(layer.dataset_name, "shape_type")
@@ -118,17 +122,14 @@ class VectorLayerConverter:
             return VectorLayerConverter.geometry_type_to_wkb(
                 layer.dataset_name.shape_type
             )
-        elif False:  # pylint: disable=using-constant-test
-            pass
-        return QgsWkbTypes.Unknown
+        return QgsWkbTypes.Type.Unknown
 
     @staticmethod
     def layer_to_QgsVectorLayer(
         source_layer,  # pylint: disable=too-many-locals,too-many-branches,too-many-statements
-        input_file,
+        input_file: str,
         context: Context,
         fallback_crs=QgsCoordinateReferenceSystem(),
-        defer_layer_uri_set: bool = False,
     ):
         """
         Converts a vector layer
@@ -138,9 +139,14 @@ class VectorLayerConverter:
         else:
             layer = source_layer
 
-        if False:  # pylint: disable=using-constant-test
-            crs = QgsCoordinateReferenceSystem()
-        else:
+        context.document_file = input_file
+
+        context.field_to_alias_map = {}
+        for field, info in layer.field_info.items():
+            if info and field != info.alias:
+                context.field_to_alias_map[field] = info.alias
+
+        if True:
             crs = (
                 CrsConverter.convert_crs(layer.layer_extent.crs, context)
                 if layer.layer_extent
@@ -150,19 +156,16 @@ class VectorLayerConverter:
                 crs = fallback_crs
 
         subset_string = ""
-        if False:  # pylint: disable=using-constant-test
-            pass
-        else:
-            if layer.selection_set:
-                subset_string = "fid in ({})".format(
-                    ",".join([str(s) for s in layer.selection_set])
-                )
-            elif layer.definition_query:
-                subset_string = ExpressionConverter.convert_esri_sql(
-                    layer.definition_query
-                )
+        if layer.selection_set:
+            subset_string = "fid in ({})".format(
+                ",".join([str(s) for s in layer.selection_set])
+            )
+        elif layer.definition_query:
+            subset_string = ExpressionConverter.convert_esri_sql(layer.definition_query)
 
         base, _ = os.path.split(input_file)
+
+        wkb_type_hint = VectorLayerConverter.layer_to_wkb_type(layer)
 
         uri, wkb_type, provider, encoding, file_name = VectorLayerConverter.get_uri(
             source_layer=source_layer,
@@ -171,91 +174,63 @@ class VectorLayerConverter:
             crs=crs,
             subset=subset_string,
             context=context,
+            input_file=input_file,
+            wkb_type_hint=wkb_type_hint,
         )
 
-        # pylint: disable=simplifiable-condition
-        if wkb_type is None or wkb_type == QgsWkbTypes.Unknown:
-            if False:  # pylint: disable=using-constant-test
-                pass
-            else:
-                wkb_type = VectorLayerConverter.layer_to_wkb_type(layer)
-        elif (
-            wkb_type == QgsWkbTypes.NoGeometry
-            and not False
-            and source_layer.shape_type != 0
+        if wkb_type is None or wkb_type in (
+            QgsWkbTypes.Type.Unknown,
+            QgsWkbTypes.Type.GeometryCollection,
         ):
             wkb_type = VectorLayerConverter.layer_to_wkb_type(layer)
-        # pylint: enable=simplifiable-condition
+        elif wkb_type == QgsWkbTypes.Type.NoGeometry and source_layer.shape_type != 0:
+            wkb_type = VectorLayerConverter.layer_to_wkb_type(layer)
 
         context.layer_type_hint = wkb_type
 
-        if Qgis.QGIS_VERSION_INT >= 31600:
-            # try to get the layer name so that we can remove it from field references.
-            # e.g. if layer name is polys then qgis won't support to arcgis style "polys.field" format
-            parts = QgsProviderRegistry.instance().decodeUri(provider, uri)
-            context.main_layer_name = parts.get("layerName")
-            if not context.main_layer_name and provider == "ogr":
-                context.main_layer_name = Path(parts["path"]).stem
+        # try to get the layer name so that we can remove it from field references.
+        # e.g. if layer name is polys then qgis won't support to arcgis style "polys.field" format
+        parts = QgsProviderRegistry.instance().decodeUri(provider, uri)
+        context.main_layer_name = parts.get("layerName")
+        if not context.main_layer_name and provider == "ogr":
+            context.main_layer_name = Path(parts["path"]).stem
 
-            if context.main_layer_name:
-                subset_string = subset_string.replace(context.main_layer_name + ".", "")
-        else:
-            context.main_layer_name = None
+        if context.main_layer_name:
+            subset_string = subset_string.replace(context.main_layer_name + ".", "")
 
-        if (
-            provider == "ogr"
-            and (not file_name or not os.path.exists(file_name))
-            and context.invalid_layer_resolver
-        ):
-            res = context.invalid_layer_resolver(layer.name, uri, wkb_type)
-            uri = res.uri
-            provider = res.providerKey
+        opts = QgsVectorLayer.LayerOptions()
+        if wkb_type is not None:
+            opts.fallbackWkbType = wkb_type
 
-        if Qgis.QGIS_VERSION_INT >= 31000:
-            opts = QgsVectorLayer.LayerOptions()
-            if wkb_type is not None:
-                opts.fallbackWkbType = wkb_type
-
-            if provider == "ogr" and subset_string:
+        if provider == "ogr" and subset_string:
+            if ".dxf" in uri.lower():
+                context.push_warning("Filtering DXF layers is not supported in QGIS")
+            else:
                 uri += "|subset={}".format(subset_string)
 
-            original_uri = uri
-            if defer_layer_uri_set:
-                uri = "xxxxxxxxx" + uri
+        original_uri = uri
+        if context.defer_set_path_for_mdb_layers and ".mdb" in uri.lower():
+            uri = "xxxxxxxxx" + uri
 
-            vl = QgsVectorLayer(uri, layer.name, provider, opts)
-            if defer_layer_uri_set:
-                vl.setCustomProperty("original_uri", original_uri)
-        else:
-            vl = QgsMemoryProviderUtils.createMemoryLayer(
-                layer.name, QgsFields(), wkb_type, crs
-            )
+        vl = QgsVectorLayer(uri, layer.name, provider, opts)
+        if context.defer_set_path_for_mdb_layers:
+            vl.setCustomProperty("original_uri", original_uri)
 
-        # context.style_folder, _ = os.path.split(output_file)
-        if False:  # pylint: disable=using-constant-test
-            pass
-
-        elif layer.renderer:
+        if layer.renderer:
             renderer = VectorRendererConverter.convert_renderer(
-                layer.renderer, layer, context
+                layer.renderer, layer, context, vl
             )
-            if False:  # pylint: disable=using-constant-test
+            try:
+                if not renderer.usingSymbolLevels():
+                    renderer.setUsingSymbolLevels(layer.use_advanced_symbol_levels)
+            except AttributeError:
                 pass
-            else:
-                try:
-                    if not renderer.usingSymbolLevels():
-                        renderer.setUsingSymbolLevels(layer.use_advanced_symbol_levels)
-                except AttributeError:
-                    pass
 
             page_filter_expression = None
-            if False:  # pylint: disable=using-constant-test
-                pass
-            else:
-                if layer.use_page_definition_query:
-                    page_filter_expression = '"{}" {} @atlas_pagename'.format(
-                        layer.page_name_field, layer.page_name_match_operator
-                    )
+            if layer.use_page_definition_query:
+                page_filter_expression = '"{}" {} @atlas_pagename'.format(
+                    layer.page_name_field, layer.page_name_match_operator
+                )
 
             if page_filter_expression:
                 root_rule = QgsRuleBasedRenderer.Rule(None)
@@ -288,51 +263,38 @@ class VectorLayerConverter:
             vl.setRenderer(QgsNullSymbolRenderer())
             vl.triggerRepaint()
 
-        if False:  # pylint: disable=using-constant-test
-            pass
-        else:
-            # layer.zoom_max = "don't show when zoomed out beyond"
-            zoom_max = layer.zoom_max
-            # layer.zoom_min = "don't show when zoomed in beyond"
-            zoom_min = layer.zoom_min
+        # layer.zoom_max = "don't show when zoomed out beyond"
+        zoom_max = layer.zoom_max
+        # layer.zoom_min = "don't show when zoomed in beyond"
+        zoom_min = layer.zoom_min
 
-            enabled_scale_range = bool(zoom_max or zoom_min)
-            if zoom_max and zoom_min and zoom_min > zoom_max:
-                # inconsistent scale range -- zoom_max should be bigger number than zoom_min
-                zoom_min, zoom_max = zoom_max, zoom_min
-            # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max
-            vl.setMinimumScale(
-                zoom_max if enabled_scale_range else layer.stored_zoom_max
-            )
-            # qgis maximum scale = don't show when zoomed in beyond, i.e. ArcGIS zoom_min
-            vl.setMaximumScale(
-                zoom_min if enabled_scale_range else layer.stored_zoom_min
-            )
-            vl.setScaleBasedVisibility(enabled_scale_range)
+        enabled_scale_range = bool(zoom_max or zoom_min)
+        if zoom_max and zoom_min and zoom_min > zoom_max:
+            # inconsistent scale range -- zoom_max should be bigger number than zoom_min
+            zoom_min, zoom_max = zoom_max, zoom_min
+        # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max
+        vl.setMinimumScale(zoom_max if enabled_scale_range else layer.stored_zoom_max)
+        # qgis maximum scale = don't show when zoomed in beyond, i.e. ArcGIS zoom_min
+        vl.setMaximumScale(zoom_min if enabled_scale_range else layer.stored_zoom_min)
+        vl.setScaleBasedVisibility(enabled_scale_range)
 
         vl.setOpacity(1.0 - (layer.transparency or 0) / 100)
 
         has_set_display_expression = False
-        if False:  # pylint: disable=using-constant-test
-            pass
-        else:
-            if (
-                layer.display_expression_properties
-                and layer.display_expression_properties.expression
-                and layer.display_expression_properties.expression_parser is not None
-            ):
-                has_set_display_expression = True
-                vl.setDisplayExpression(
-                    ExpressionConverter.convert(
-                        layer.display_expression_properties.expression,
-                        layer.display_expression_properties.expression_parser,
-                        layer.display_expression_properties.advanced,
-                        context,
-                    )
+        if (
+            layer.display_expression_properties
+            and layer.display_expression_properties.expression
+            and layer.display_expression_properties.expression_parser is not None
+        ):
+            has_set_display_expression = True
+            vl.setDisplayExpression(
+                ExpressionConverter.convert(
+                    layer.display_expression_properties.expression,
+                    layer.display_expression_properties.expression_parser,
+                    layer.display_expression_properties.advanced,
+                    context,
                 )
-
-        if Qgis.QGIS_VERSION_INT < 31000:
-            vl.setDataSource(uri, layer.name, provider)
+            )
 
         if encoding:
             vl.dataProvider().setEncoding(encoding)
@@ -340,10 +302,9 @@ class VectorLayerConverter:
         if subset_string:
             vl.setSubsetString(subset_string)
 
-        if True:  # pylint: disable=using-constant-test
-            vl.setCrs(crs)
+        vl.setCrs(crs)
 
-        if True:  # pylint: disable=using-constant-test
+        if True:
             for e in layer.extensions:
                 if e.__class__.__name__ == "ServerLayerExtension":
                     if "CopyrightText" in e.properties.properties:
@@ -357,63 +318,92 @@ class VectorLayerConverter:
             metadata = vl.metadata()
             metadata.setAbstract(layer.description)
             vl.setMetadata(metadata)
-        else:
-            pass
 
-        if True:  # pylint: disable=using-constant-test
-            if False:  # pylint: disable=using-constant-test
-                pass
-            else:
-                LabelConverter.convert_annotation_collection(
-                    layer.annotation_collection, dest_layer=vl, context=context
-                )
-                vl.setLabelsEnabled(layer.labels_enabled)
+        if True:
+            LabelConverter.convert_annotation_collection(
+                layer.annotation_collection,
+                source_layer=layer,
+                dest_layer=vl,
+                context=context,
+            )
+            vl.setLabelsEnabled(layer.labels_enabled)
 
         DiagramConverter.convert_diagrams(
             layer.renderer, dest_layer=vl, context=context
         )
 
-        if True:  # pylint: disable=using-constant-test
-            # setup joins
-            join_layer = VectorLayerConverter.add_joined_layer(
-                source_layer=layer,
-                input_file=input_file,
-                base_layer=vl,
-                context=context,
-            )
-        else:
-            # TODO
-            join_layer = None
+        join_layer = VectorLayerConverter.add_joined_layer(
+            source_layer=layer, input_file=input_file, base_layer=vl, context=context
+        )
 
         context.dataset_name = ""
 
         vl.setLegend(QgsMapLayerLegend.defaultVectorLegend(vl))
 
-        if True:  # pylint: disable=using-constant-test
-            if layer.hyperlinks:
-                VectorLayerConverter.convert_hyperlinks(layer.hyperlinks, vl)
-        else:
-            pass
+        if layer.hyperlinks:
+            VectorLayerConverter.convert_hyperlinks(layer.hyperlinks, vl)
 
-        # pylint: disable=simplifiable-condition
-        if True and not has_set_display_expression:  # pylint: disable=using-constant-test
+        if not has_set_display_expression:
             vl.setDisplayExpression(QgsExpression.quotedColumnRef(layer.display_field))
-        # pylint: enable=simplifiable-condition
 
         res = [vl]
         if join_layer:
             res.append(join_layer)
 
-        if False:  # pylint: disable=using-constant-test
-            pass
+        hidden_field_names = set()
+        hidden_field_indices = []
+        attribute_table_config = vl.attributeTableConfig()
+        columns = []
+        edit_form_config = vl.editFormConfig()
+        for field, info in layer.field_info.items():
+            column_config = QgsAttributeTableConfig.ColumnConfig()
+            column_config.name = field
+
+            if not info:
+                columns.append(column_config)
+                continue
+
+            field_index = vl.fields().lookupField(field)
+            if field_index >= 0:
+                if field != info.alias:
+                    vl.setFieldAlias(field_index, info.alias)
+                if not info.visible:
+                    widget_setup = QgsEditorWidgetSetup("Hidden", {})
+                    vl.setEditorWidgetSetup(field_index, widget_setup)
+                if info.read_only:
+                    edit_form_config.setReadOnly(field_index, True)
+            column_config.hidden = not info.visible
+            if column_config.hidden:
+                if field_index >= 0:
+                    hidden_field_indices.append(field_index)
+                hidden_field_names.add(field)
+
+            columns.append(column_config)
+
+        attribute_table_config.setColumns(columns)
+        vl.setAttributeTableConfig(attribute_table_config)
+        vl.setEditFormConfig(edit_form_config)
+
+        if Qgis.QGIS_VERSION_INT >= 33400:
+            for index in hidden_field_indices:
+                vl.setFieldConfigurationFlag(
+                    index, Qgis.FieldConfigurationFlag.HideFromWms, True
+                )
+                vl.setFieldConfigurationFlag(
+                    index, Qgis.FieldConfigurationFlag.HideFromWfs, True
+                )
+        else:
+            vl.setExcludeAttributesWfs(hidden_field_names)
+            vl.setExcludeAttributesWms(hidden_field_names)
 
         context.main_layer_name = None
         return res
 
+    # pylint: disable=too-many-locals,too-many-branches
     @staticmethod
     def standalone_table_to_QgsVectorLayer(
-        layer: StandaloneTable,  # pylint: disable=too-many-locals,too-many-branches
-        input_file,
+        layer: StandaloneTable,
+        input_file: str,
         context: Context,
     ):
         """
@@ -432,41 +422,26 @@ class VectorLayerConverter:
             crs=QgsCoordinateReferenceSystem(),
             subset=subset_string,
             context=context,
+            input_file=input_file,
+            wkb_type_hint=QgsWkbTypes.Type.NoGeometry,
         )
 
         if wkb_type is None:
-            wkb_type = QgsWkbTypes.NoGeometry
+            wkb_type = QgsWkbTypes.Type.NoGeometry
         context.layer_type_hint = wkb_type
 
-        if (
-            provider == "ogr"
-            and (not file_name or not os.path.exists(file_name))
-            and context.invalid_layer_resolver
-        ):
-            res = context.invalid_layer_resolver(layer.name, uri, wkb_type)
-            uri = res.uri
-            provider = res.providerKey
+        opts = QgsVectorLayer.LayerOptions()
+        if wkb_type is not None:
+            opts.fallbackWkbType = wkb_type
 
-        if Qgis.QGIS_VERSION_INT >= 31000:
-            opts = QgsVectorLayer.LayerOptions()
-            if wkb_type is not None:
-                opts.fallbackWkbType = wkb_type
+        if provider == "ogr" and subset_string:
+            uri += "|subset={}".format(subset_string)
 
-            if provider == "ogr" and subset_string:
-                uri += "|subset={}".format(subset_string)
-
-            vl = QgsVectorLayer(uri, layer.name, provider, opts)
-        else:
-            vl = QgsMemoryProviderUtils.createMemoryLayer(
-                layer.name, QgsFields(), wkb_type, QgsCoordinateReferenceSystem()
-            )
+        vl = QgsVectorLayer(uri, layer.name, provider, opts)
 
         metadata = vl.metadata()
         metadata.setAbstract(layer.description)
         vl.setMetadata(metadata)  #
-
-        if Qgis.QGIS_VERSION_INT < 31000:
-            vl.setDataSource(uri, layer.name, provider)
 
         if encoding:
             vl.dataProvider().setEncoding(encoding)
@@ -485,8 +460,12 @@ class VectorLayerConverter:
                     vl.setMetadata(metadata)
 
         # setup joins
+        join_layer = None
         join_layer = VectorLayerConverter.add_joined_layer(
-            source_layer=layer, input_file=input_file, base_layer=vl, context=context
+            source_layer=layer,
+            input_file=input_file,
+            base_layer=vl,
+            context=context,
         )
 
         context.dataset_name = ""
@@ -498,6 +477,8 @@ class VectorLayerConverter:
             res.append(join_layer)
 
         return res
+
+    # pylint: enable=too-many-locals,too-many-branches
 
     @staticmethod
     def convert_hyperlinks(hyperlinks, layer: QgsVectorLayer):
@@ -528,7 +509,7 @@ class VectorLayerConverter:
             QDesktopServices.openUrl(QUrl(res))
     """
         action = QgsAction(
-            QgsAction.GenericPython,
+            QgsAction.ActionType.GenericPython,
             "Open Hyperlinks",
             script,
             "",
@@ -538,10 +519,11 @@ class VectorLayerConverter:
         )
         layer.actions().addAction(action)
 
+    # pylint: disable=too-many-branches
     @staticmethod
     def add_joined_layer(
-        source_layer: Union[FeatureLayer, StandaloneTable],  # pylint: disable=too-many-branches
-        input_file,
+        source_layer: Union[FeatureLayer, StandaloneTable],
+        input_file: str,
         base_layer: QgsVectorLayer,
         context: Context,
     ):
@@ -551,19 +533,15 @@ class VectorLayerConverter:
         if not source_layer.join:
             return None
 
+        join_info = QgsVectorLayerJoinInfo()
+
         if isinstance(source_layer.join, MemoryRelationshipClassName):
             if isinstance(source_layer.join.origin_name, RelQueryTableName):
-                if context.unsupported_object_callback:
-                    context.unsupported_object_callback(
-                        "{}: Nested joins are not supported in QGIS".format(
-                            context.layer_name
-                        ),
-                        level=Context.CRITICAL,
-                    )
+                context.push_warning(
+                    "Nested joins are not supported in QGIS", level=Context.CRITICAL
+                )
 
                 return None
-
-            join_info = QgsVectorLayerJoinInfo()
 
             join_info.setJoinFieldName(source_layer.join.origin_primary_key)
             join_info.setTargetFieldName(source_layer.join.origin_foreign_key)
@@ -583,41 +561,19 @@ class VectorLayerConverter:
                 name = source_layer.join.destination_name.name
                 join_info.setPrefix(name + ".")
 
-            if Qgis.QGIS_VERSION_INT >= 30800:
-                opts = QgsVectorLayer.LayerOptions()
-                if source_layer_props.wkb_type is not None:
-                    opts.fallbackWkbType = source_layer_props.wkb_type
+            opts = QgsVectorLayer.LayerOptions()
+            if source_layer_props.wkb_type is not None:
+                opts.fallbackWkbType = source_layer_props.wkb_type
 
-                vl = QgsVectorLayer(
-                    source_layer_props.uri, name, source_layer_props.provider, opts
-                )
-            else:
-                vl = QgsVectorLayer(
-                    source_layer_props.uri, name, source_layer_props.provider
-                )
-            if not vl.isValid() and Qgis.QGIS_VERSION_INT < 30600:
-                if (
-                    source_layer_props.provider == "ogr"
-                    and not os.path.exists(source_layer_props.file_name)
-                    and context.invalid_layer_resolver
-                ):
-                    res = context.invalid_layer_resolver(
-                        source_layer.join.name,
-                        source_layer_props.uri,
-                        source_layer_props.wkb_type,
-                    )
-                    source_layer_props.uri = res.uri
-                    source_layer_props.provider = res.providerKey
-
-                vl = QgsVectorLayer(
-                    source_layer_props.uri, "join", source_layer_props.provider
-                )
+            vl = QgsVectorLayer(
+                source_layer_props.uri, name, source_layer_props.provider, opts
+            )
 
             # todo layer name
             vl.setRenderer(QgsNullSymbolRenderer())
 
             try:
-                vl.setFlags(vl.flags() | QgsMapLayer.Private)
+                vl.setFlags(vl.flags() | QgsMapLayer.LayerFlag.Private)
             except AttributeError:
                 pass
 
@@ -627,15 +583,16 @@ class VectorLayerConverter:
             return vl
 
         else:
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    "{}: Join layers of type {} are not yet supported".format(
-                        context.layer_name, source_layer.join.__class__.__name__
-                    ),
-                    level=Context.CRITICAL,
-                )
+            context.push_warning(
+                "Join layers of type {} are not yet supported".format(
+                    source_layer.join.__class__.__name__
+                ),
+                level=Context.CRITICAL,
+            )
 
             return None
+
+    # pylint: enable=too-many-branches
 
     @staticmethod
     def get_uri(
@@ -645,13 +602,13 @@ class VectorLayerConverter:
         subset: str,
         crs: QgsCoordinateReferenceSystem,
         context: Context,
+        input_file: str,
+        wkb_type_hint: QgsWkbTypes.Type = QgsWkbTypes.Type.Unknown,
     ):
         """
         Gets the URI for a converted layer
         """
-        if False:  # pylint: disable=using-constant-test
-            pass
-        elif (
+        if (
             source_layer.__class__.__name__ == "CadFeatureLayer"
             and source_layer.drawing_object
         ):
@@ -663,11 +620,9 @@ class VectorLayerConverter:
                 wkb_type=None,
             )
         else:
-            if obj.dataset_name is None and context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    "{}: Layer has a corrupted path in MXD document -- the path cannot be recovered".format(
-                        context.layer_name
-                    ),
+            if obj.dataset_name is None:
+                context.push_warning(
+                    "Layer has a corrupted path in MXD document -- the path cannot be recovered",
                     level=Context.CRITICAL,
                 )
 
@@ -677,6 +632,8 @@ class VectorLayerConverter:
                 crs=crs,
                 subset=subset,
                 context=context,
+                document_file=input_file,
+                wkb_type_hint=wkb_type_hint,
             )
 
         return (
@@ -700,15 +657,13 @@ class VectorLayerConverter:
             crs=QgsCoordinateReferenceSystem(),
             subset=None,
             context=context,
+            document_file=input_file,
         )
 
         context.layer_type_hint = source_props.wkb_type
 
-        if Qgis.QGIS_VERSION_INT >= 31000:
-            opts = QgsVectorLayer.LayerOptions()
-            if source_props.wkb_type is not None:
-                opts.fallbackWkbType = source_props.wkb_type
+        opts = QgsVectorLayer.LayerOptions()
+        if source_props.wkb_type is not None:
+            opts.fallbackWkbType = source_props.wkb_type
 
-            return QgsVectorLayer(source_props.uri, name, source_props.provider, opts)
-        else:
-            return None
+        return QgsVectorLayer(source_props.uri, name, source_props.provider, opts)
