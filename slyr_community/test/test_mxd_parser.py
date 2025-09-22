@@ -372,6 +372,7 @@ class TestMxdParser(SlyrTestCase):
                 doc = MapDocument(
                     f, debug=False, offset=-1, tolerant=False, check_length=True
                 )
+                self.assertFalse(doc.layout_read_error)
 
                 def warning(msg, level=0):
                     pass
