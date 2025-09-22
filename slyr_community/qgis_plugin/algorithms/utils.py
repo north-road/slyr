@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Base class for SLYR algorithms
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,23 +11,38 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-Base class for SLYR algorithms
-"""
-
+import json
+import os
 import pathlib
+from typing import Optional
+from collections import defaultdict
+from shutil import copyfile
+
+from qgis.PyQt.QtCore import QDir, QVariant
 
 from qgis.core import (
+    Qgis,
     QgsWkbTypes,
     QgsProviderRegistry,
     QgsDataProvider,
     QgsVectorLayer,
     QgsVectorFileWriter,
+    QgsSettings,
+    QgsProcessingMultiStepFeedback,
+    QgsProject,
+    QgsProcessingFeedback,
+    QgsMapLayer,
+    QgsStyle,
+    QgsProcessingException,
+    QgsFeature,
 )
 
 from ...converters.utils import ConversionUtils
 from ...parser.object import Object
+from ...converters.text_format import TextSymbolConverter
+from ...converters.color_ramp import ColorRampConverter
+from ...converters.context import Context
+from ...parser.exceptions import NotImplementedException
 
 
 class ConversionResults:
@@ -72,7 +80,7 @@ class AlgorithmUtils:
     def convert_vector_layer(
         layer,  # pylint: disable=too-many-locals,too-many-branches,too-many-statements
         project,
-        data_folder,
+        data_folder: str,
         feedback,
         conversion_results: ConversionResults,
         change_source_on_error: bool = False,
@@ -93,6 +101,8 @@ class AlgorithmUtils:
                 feedback.pushDebugInfo(
                     "Original layer URI not found in custom properties"
                 )
+
+        original_crs = layer.crs()
 
         source = QgsProviderRegistry.instance().decodeUri(layer.providerType(), uri)
         if verbose_log:
@@ -203,6 +213,7 @@ class AlgorithmUtils:
                     feedback.pushDebugInfo("Resetting subset string: {}".format(subset))
                 layer.setSubsetString(subset)
 
+            layer.setCrs(original_crs)
             return previous_results
 
         source_layer = QgsVectorLayer(source_uri, "", layer.providerType())
@@ -288,6 +299,7 @@ class AlgorithmUtils:
                             )
                         layer.setSubsetString(subset)
 
+                    layer.setCrs(original_crs)
                     conversion_results.layer_map[result_key] = {"error": error}
                     return conversion_results.layer_map[result_key]
 
@@ -301,7 +313,7 @@ class AlgorithmUtils:
                         )
                     )
 
-                if layer.wkbType() == QgsWkbTypes.NoGeometry:
+                if layer.wkbType() == QgsWkbTypes.Type.NoGeometry:
                     if verbose_log:
                         feedback.pushDebugInfo(
                             "Attempting fallback for non-spatial tables"
@@ -355,6 +367,8 @@ class AlgorithmUtils:
                                 )
                             )
 
+                        layer.setCrs(original_crs)
+
                     return conversion_results.layer_map[result_key]
             else:
                 if not path.exists():
@@ -376,6 +390,7 @@ class AlgorithmUtils:
                         )
                     layer.setSubsetString(subset)
 
+                layer.setCrs(original_crs)
                 conversion_results.layer_map[result_key] = {"error": error}
                 return conversion_results.layer_map[result_key]
 
@@ -386,16 +401,45 @@ class AlgorithmUtils:
 
         options.layerName = layer_name_candidate
         options.actionOnExistingFile = (
-            QgsVectorFileWriter.CreateOrOverwriteLayer
+            QgsVectorFileWriter.ActionOnExistingFile.CreateOrOverwriteLayer
             if pathlib.Path(dest_file_name).exists()
-            else QgsVectorFileWriter.CreateOrOverwriteFile
+            else QgsVectorFileWriter.ActionOnExistingFile.CreateOrOverwriteFile
         )
         options.feedback = feedback
+        options.layerOptions = ["GEOMETRY_NAME=Shape"]
 
-        error, error_message = QgsVectorFileWriter.writeAsVectorFormatV2(
-            source_layer, dest_file_name, project.transformContext(), options
-        )
-        if error != QgsVectorFileWriter.NoError:
+        if Qgis.QGIS_VERSION_INT >= 33000:
+            options.includeConstraints = True
+
+        # check if we can safely use an existing FID field, or if it has to be dropped
+        attributes_list = []
+        for field_index, field in enumerate(source_layer.fields()):
+            if field.name().lower() == "fid":
+                if field.type() not in (QVariant.Int, QVariant.LongLong):
+                    # FID not compatible with geopackage, skip it
+                    continue
+
+            attributes_list.append(field_index)
+        options.attributes = attributes_list[:]
+        if not attributes_list:
+            options.skipAttributeCreation = True
+
+        if Qgis.QGIS_VERSION_INT >= 32000:
+            options.saveMetadata = True
+            options.layerMetadata = source_layer.metadata()
+            error, error_message, new_filename, new_layername = (
+                QgsVectorFileWriter.writeAsVectorFormatV3(
+                    source_layer, dest_file_name, project.transformContext(), options
+                )
+            )
+        else:
+            error, error_message = QgsVectorFileWriter.writeAsVectorFormatV2(
+                source_layer, dest_file_name, project.transformContext(), options
+            )
+            new_filename = dest_file_name
+            new_layername = options.layerName
+
+        if error != QgsVectorFileWriter.WriterError.NoError:
             if verbose_log:
                 feedback.reportError("Failed: {}".format(error_message))
                 feedback.pushDebugInfo("Restoring stored URI")
@@ -406,6 +450,7 @@ class AlgorithmUtils:
                     feedback.pushDebugInfo("Resetting subset string: {}".format(subset))
                 layer.setSubsetString(subset)
 
+            layer.setCrs(original_crs)
             conversion_results.layer_map[result_key] = {"error": error_message}
             return conversion_results.layer_map[result_key]
 
@@ -417,7 +462,7 @@ class AlgorithmUtils:
         subset = layer.subsetString()
         layer.setDataSource(
             QgsProviderRegistry.instance().encodeUri(
-                "ogr", {"path": dest_file_name, "layerName": options.layerName}
+                "ogr", {"path": new_filename, "layerName": new_layername}
             ),
             layer.name(),
             "ogr",
@@ -428,6 +473,7 @@ class AlgorithmUtils:
                 feedback.pushDebugInfo("Resetting subset string: {}".format(subset))
             layer.setSubsetString(subset)
 
+        layer.setCrs(original_crs)
         if verbose_log:
             feedback.pushDebugInfo(
                 "new source {}".format(layer.dataProvider().dataSourceUri())
@@ -436,8 +482,8 @@ class AlgorithmUtils:
         conversion_results.layer_map[result_key] = {
             "sourcePath": source["path"],
             "sourceLayer": source["layerName"],
-            "destPath": dest_file_name,
-            "destLayer": options.layerName,
+            "destPath": new_filename,
+            "destLayer": new_layername,
         }
 
         return conversion_results.layer_map[result_key]
