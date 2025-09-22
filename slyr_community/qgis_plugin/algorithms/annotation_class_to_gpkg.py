@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+SLYR QGIS Processing algorithms
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,19 +11,52 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+import base64
+import json
+import os
+import struct
+from io import BytesIO
+from json import JSONDecodeError
+from pathlib import Path
 
-"""
-SLYR QGIS Processing algorithms
-"""
-
+from qgis.PyQt.QtCore import QVariant
+from qgis.PyQt.QtGui import QFont
+from qgis.PyQt.QtXml import QDomDocument
 from qgis.core import (
     Qgis,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingException,
+    QgsFeature,
+    QgsFields,
+    QgsField,
+    QgsWkbTypes,
+    QgsProject,
+    QgsProviderRegistry,
+    QgsVectorLayer,
+    QgsProcessingMultiStepFeedback,
+    QgsFeatureSink,
+    QgsFeatureRequest,
+    QgsProcessingUtils,
+    NULL,
+    QgsProcessingContext,
+    QgsGeometry,
+    QgsPoint,
 )
 
 from .algorithm import SlyrAlgorithm
+from ...converters.context import Context
+from ...converters.geometry import GeometryConverter
+from ...converters.text_format import TextSymbolConverter
+from ...converters.annotations import AnnotationConverter
+from ...parser.exceptions import (
+    UnreadableSymbolException,
+    NotImplementedException,
+    EmptyDocumentException,
+    UnknownClsidException,
+)
+from ...parser.stream import Stream
+from .utils import AlgorithmUtils
 
 
 class ConvertAnnotationClassToGeopackage(SlyrAlgorithm):
@@ -51,7 +77,7 @@ class ConvertAnnotationClassToGeopackage(SlyrAlgorithm):
         return "convertannotationclasstogpkg"
 
     def displayName(self):
-        return "Convert annotation classes to GeoPackage (beta)"
+        return "Convert annotation classes to GeoPackage"
 
     def shortDescription(self):
         return ""
@@ -66,24 +92,14 @@ class ConvertAnnotationClassToGeopackage(SlyrAlgorithm):
         return ""
 
     def initAlgorithm(self, config=None):
-        if Qgis.QGIS_VERSION_INT >= 31000:
-            self.addParameter(
-                QgsProcessingParameterFile(
-                    self.INPUT,
-                    "Input Geodatabase",
-                    behavior=QgsProcessingParameterFile.Folder,
-                    fileFilter="File Geodatabases (*.gdb)",
-                )
+        self.addParameter(
+            QgsProcessingParameterFile(
+                self.INPUT,
+                "Input Geodatabase",
+                behavior=QgsProcessingParameterFile.Behavior.Folder,
+                fileFilter="File Geodatabases (*.gdb)",
             )
-        else:
-            self.addParameter(
-                QgsProcessingParameterFile(
-                    self.INPUT,
-                    "Input Geodatabase",
-                    behavior=QgsProcessingParameterFile.Folder,
-                    extension="gdb",
-                )
-            )
+        )
 
         self.addParameter(
             QgsProcessingParameterFileDestination(
