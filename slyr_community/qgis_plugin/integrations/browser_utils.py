@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Browser utilities
+"""
 
-# /***************************************************************************
-# browser.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,11 +10,6 @@
 #  *   (at your option) any later version.                                   *
 #  *                                                                         *
 #  ***************************************************************************/
-
-
-"""
-Browser utilities
-"""
 
 from qgis.PyQt.QtWidgets import QPushButton
 
@@ -36,7 +24,11 @@ class BrowserUtils:
 
     @staticmethod
     def show_warning(
-        short_message, title, long_message, level=Qgis.Warning, message_bar=None
+        short_message,
+        title,
+        long_message,
+        level=Qgis.MessageLevel.Warning,
+        message_bar=None,
     ):
         """
         Shows a warning via the QGIS message bar
@@ -45,7 +37,7 @@ class BrowserUtils:
         def show_details(_):
             dialog = QgsMessageOutput.createMessageOutput()
             dialog.setTitle(title)
-            dialog.setMessage(long_message, QgsMessageOutput.MessageHtml)
+            dialog.setMessage(long_message, QgsMessageOutput.MessageType.MessageHtml)
             dialog.showMessage()
 
         if message_bar is None:
