@@ -1,4 +1,6 @@
 import os
+from typing import Optional
+
 from ..stream import Stream
 from ..exceptions import EmptyDocumentException, DocumentTypeException
 
@@ -46,7 +48,7 @@ class MapDocument:
         self.use_relative_sources = False
         self.default_database = None
         self.table_properties = None
-        self.layout_read_error = False
+        self.layout_read_error: Optional[str] = None
 
         if io_stream.read(4) != b"\xd0\xcf\x11\xe0":
             raise DocumentTypeException()
@@ -178,16 +180,16 @@ class MapDocument:
                 if not tolerant or read_layouts:
                     try:
                         self.read_layout(stream)
-                    except:
-                        self.layout_read_error = True
+                    except Exception as e:
+                        self.layout_read_error = str(e)
 
         if page_layout_stream and not document_stream and not metadata_only:
             stream.io_stream = page_layout_stream
             if not tolerant or read_layouts:
                 try:
                     self.read_layout(stream)
-                except:
-                    self.layout_read_error = True
+                except Exception as e:
+                    self.layout_read_error = str(e)
                 if False and check_length:
                     pos = page_layout_stream.tell()
                     page_layout_stream.seek(0, os.SEEK_END)
