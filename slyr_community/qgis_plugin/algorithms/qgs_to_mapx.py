@@ -1,5 +1,5 @@
 """
-Converts a PMF document to a QGS project file
+Converts an MAPX document to a QGS project file
 """
 
 # /***************************************************************************
@@ -11,32 +11,26 @@ Converts a PMF document to a QGS project file
 #  *                                                                         *
 #  ***************************************************************************/
 
+import json
 from pathlib import Path
 
 from qgis.core import (
     Qgis,
+    QgsProject,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
-    QgsProcessingException,
     QgsProcessingParameterBoolean,
     QgsProcessingParameterDefinition,
 )
 
 from .algorithm import SlyrAlgorithm
 from ...converters.context import Context
-from ...converters.project import ProjectConverter
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    NotImplementedException,
-    UnknownClsidException,
-    EmptyDocumentException,
-    DocumentTypeException,
-)
+from qgis.core import QgsProcessingException
 
 
-class ConvertPmfToQgs(SlyrAlgorithm):
+class ConvertQgsToMapx(SlyrAlgorithm):
     """
-    Converts a PMF document to a QGS project file
+    Converts a QGS project file to a MAPX Document
     """
 
     INPUT = "INPUT"
@@ -46,29 +40,33 @@ class ConvertPmfToQgs(SlyrAlgorithm):
     # pylint: disable=missing-docstring,unused-argument
 
     def createInstance(self):
-        return ConvertPmfToQgs()
+        return ConvertQgsToMapx()
 
     def name(self):
-        return "convertpmftoqgs"
+        return "convertqgstomapx"
 
     def displayName(self):
-        return "Convert PMF to QGS"
+        return "Convert QGS to MAPX"
 
     def shortDescription(self):
-        return "Converts a PMF document file to a QGIS project file."
+        return "Converts a QGIS project file as a MAPX file."
 
     def group(self):
-        return "PMF published maps"
+        return "ArcGIS Pro"
 
     def groupId(self):
-        return "pmf"
+        return "arcgispro"
 
     def shortHelpString(self):
-        return "Converts a PMF document file to a QGIS project file."
+        return "Converts a QGIS project file as a MAPX."
 
     def initAlgorithm(self, config=None):
         self.addParameter(
-            QgsProcessingParameterFile(self.INPUT, "Input PMF file", extension="pmf")
+            QgsProcessingParameterFile(
+                self.INPUT,
+                "Input QGS file",
+                fileFilter="QGS Documents (*.qgs *.QGS *.qgz *.QGZ)",
+            )
         )
 
         param_test_mode = QgsProcessingParameterBoolean(
@@ -82,8 +80,8 @@ class ConvertPmfToQgs(SlyrAlgorithm):
         self.addParameter(
             QgsProcessingParameterFileDestination(
                 self.OUTPUT,
-                "Destination QGS project file",
-                fileFilter="QGS files (*.qgs);;QGZ files (*.qgz)",
+                "Destination MAPX project file",
+                fileFilter="MAPX files (*.mapx)",
             )
         )
 
@@ -93,18 +91,11 @@ class ConvertPmfToQgs(SlyrAlgorithm):
             if input_file:
                 input_path = Path(input_file)
                 if input_path.exists():
-                    return {self.OUTPUT: input_path.with_suffix(".qgs").as_posix()}
+                    return {self.OUTPUT: input_path.with_suffix(".mapx").as_posix()}
 
         return {}
 
-    def processAlgorithm(
-        self,  # pylint: disable=too-many-locals,too-many-statements
-        parameters,
-        context,
-        feedback,
-    ):
+    def processAlgorithm(self, parameters, context, feedback):
         raise QgsProcessingException(
             "This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details"
         )
-
-    # pylint: enable=missing-docstring,unused-argument
