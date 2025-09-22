@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+SLYR QGIS Processing algorithms
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,18 +11,28 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-SLYR QGIS Processing algorithms
-"""
+from pathlib import Path
 
 from qgis.core import (
+    Qgis,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
-    QgsProcessingException,
+    QgsProject,
+    QgsProcessingParameterBoolean,
+    QgsProcessingParameterDefinition,
 )
 
 from .algorithm import SlyrAlgorithm
+from ...converters.context import Context
+from ...converters.project import ProjectConverter
+from ...parser.exceptions import (
+    UnreadableSymbolException,
+    NotImplementedException,
+    UnknownClsidException,
+)
+from ...parser.stream import Stream
+
+from qgis.core import QgsProcessingException
 
 
 class ConvertSxdToQgs(SlyrAlgorithm):
@@ -39,6 +42,7 @@ class ConvertSxdToQgs(SlyrAlgorithm):
 
     INPUT = "INPUT"
     OUTPUT = "OUTPUT"
+    TEST_MODE = "TEST_MODE"
 
     # pylint: disable=missing-docstring,unused-argument
 
@@ -68,13 +72,31 @@ class ConvertSxdToQgs(SlyrAlgorithm):
             QgsProcessingParameterFile(self.INPUT, "Input SXD file", extension="sxd")
         )
 
+        param_test_mode = QgsProcessingParameterBoolean(
+            self.TEST_MODE, "Test mode (debug option)", False, True
+        )
+        param_test_mode.setFlags(
+            param_test_mode.flags() | QgsProcessingParameterDefinition.Flag.FlagHidden
+        )
+        self.addParameter(param_test_mode)
+
         self.addParameter(
             QgsProcessingParameterFileDestination(
                 self.OUTPUT,
                 "Destination QGS project file",
-                fileFilter="QGS files (*.qgs)",
+                fileFilter="QGS files (*.qgs);;QGZ files (*.qgz)",
             )
         )
+
+    def autogenerateParameterValues(self, rowParameters, changedParameter, mode):
+        if changedParameter == self.INPUT:
+            input_file = rowParameters.get(self.INPUT)
+            if input_file:
+                input_path = Path(input_file)
+                if input_path.exists():
+                    return {self.OUTPUT: input_path.with_suffix(".qgs").as_posix()}
+
+        return {}
 
     def processAlgorithm(
         self,  # pylint: disable=too-many-locals,too-many-statements
