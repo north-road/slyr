@@ -1,6 +1,6 @@
 [{'class': 'QgsSimpleMarkerSymbolLayer',
   'name': 'cross2',
   'offset_unit': 'Point',
-  'outline_color': '255,0,0,255',
+  'outline_color': '255,0,0,255,rgb:1,0,0,1',
   'size': '8',
   'size_unit': 'Point'}]

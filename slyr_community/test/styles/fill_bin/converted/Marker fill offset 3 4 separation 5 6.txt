@@ -9,7 +9,7 @@
   'offset_y_unit': 'Point',
   'seed': '0',
   'subsymbol': [{'class': 'QgsSimpleMarkerSymbolLayer',
-                 'color': '230,0,0,255',
+                 'color': '230,0,0,255,rgb:0.9019608,0,0,1',
                  'offset_unit': 'Point',
                  'outline_style': 'no',
                  'size': '8',
@@ -17,6 +17,6 @@
  {'capstyle': 'round',
   'class': 'QgsSimpleLineSymbolLayer',
   'joinstyle': 'round',
-  'line_color': '110,110,110,255',
+  'line_color': '110,110,110,255,rgb:0.4313725,0.4313725,0.4313725,1',
   'line_width': '1',
   'line_width_unit': 'Point'}]

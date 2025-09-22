@@ -3,6 +3,7 @@
                      'm_origin': -100000.0,
                      'm_scale': 10000.0,
                      'm_tolerance': 0.001,
+                     'stream_offset': '0x2764',
                      'type': 'GeographicCoordinateSystem',
                      'version': 7,
                      'wkt': 'GEOGCS["WGS '
@@ -637,6 +638,7 @@
                         (-102.32453015954655, 45.11857705077102),
                         (-102.4450998295465, 45.11857705077102)]],
              'segments': [],
+             'stream_offset': '0x12',
              'type': 'Polygon',
              'version': 2,
              'x_max': -83.79001199101509,
@@ -644,5 +646,6 @@
              'y_max': 46.72617265077048,
              'y_min': 24.5078697186849},
  'preserve_aspect': True,
+ 'stream_offset': '0x0',
  'type': 'AreaPatch',
  'version': 3}

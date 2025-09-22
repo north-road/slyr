@@ -1,7 +1,7 @@
 [{'capstyle': 'flat',
   'class': 'QgsSimpleLineSymbolLayer',
   'joinstyle': 'miter',
-  'line_color': '255,0,0,255',
+  'line_color': '255,0,0,255,rgb:1,0,0,1',
   'line_width': '8',
   'line_width_unit': 'Point',
   'offset': '4',

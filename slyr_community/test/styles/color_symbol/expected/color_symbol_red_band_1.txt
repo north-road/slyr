@@ -3,10 +3,12 @@
            'R': 255,
            'dither': True,
            'is_null': False,
+           'stream_offset': '0x12',
            'type': 'RgbColor',
            'version': 1},
  'enabled': True,
  'locked': False,
+ 'stream_offset': '0x0',
  'symbol_level': 0,
  'type': 'ColorSymbol',
  'version': 1}

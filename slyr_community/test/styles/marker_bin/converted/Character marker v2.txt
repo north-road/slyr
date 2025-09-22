@@ -1,6 +1,6 @@
 [{'chr': '1',
   'class': 'QgsFontMarkerSymbolLayer',
-  'color': '0,0,0,255',
+  'color': '0,0,0,255,rgb:0,0,0,1',
   'font': 'ESRI NIMA City Graphic PT',
   'offset': '-0.0703125,-1.5',
   'offset_unit': 'Point',

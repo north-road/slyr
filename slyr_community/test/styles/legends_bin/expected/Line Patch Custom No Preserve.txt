@@ -3,6 +3,7 @@
                       'm_origin': -100000.0,
                       'm_scale': 10000.0,
                       'm_tolerance': 0.001,
+                      'stream_offset': '0x168',
                       'type': 'GeographicCoordinateSystem',
                       'version': 7,
                       'wkt': 'GEOGCS["WGS '
@@ -32,6 +33,7 @@
                          (-98.54748610899992, 46.01521125995254),
                          (-98.37978753947736, 46.18290982947509)]],
               'segments': [],
+              'stream_offset': '0x12',
               'type': 'Polyline',
               'version': 2,
               'x_max': -98.37978753947736,
@@ -39,5 +41,6 @@
               'y_max': 46.18290982947509,
               'y_min': 43.164335578069114},
  'preserve_aspect': False,
+ 'stream_offset': '0x0',
  'type': 'LinePatch',
  'version': 3}
