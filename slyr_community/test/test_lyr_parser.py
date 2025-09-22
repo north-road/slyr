@@ -488,7 +488,7 @@ class TestLyrParser(SlyrTestCase):
     Test LYR parsing
     """
 
-    UPDATE = True
+    UPDATE = False
 
     # pylint: disable=too-many-locals
     def test_lyr_parsing(self):
