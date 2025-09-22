@@ -349,3 +349,9 @@ from .ole_frame import OleFrame
 from .symbol_background import SymbolBackground
 from .symbol_border import SymbolBorder
 from .symbol_shadow import SymbolShadow
+from .selection_environment import SelectionEnvironment
+from .style_gallery import StyleGallery
+from .area_patch import AreaPatch
+from .line_patch import LinePatch
+from .element_collection import ElementCollection
+from .illumination_props import IlluminationProps
