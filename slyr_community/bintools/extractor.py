@@ -27,8 +27,8 @@ import os
 import subprocess
 import sys
 from ctypes import cdll
-from PyQt5.QtCore import QSettings
-from slyr_community.parser.exceptions import RequiresLicenseException
+from qgis.PyQt.QtCore import QSettings
+from ..parser.exceptions import RequiresLicenseException
 
 
 class MissingBinaryException(Exception):
@@ -70,6 +70,32 @@ class Extractor:
     TEXT_SYMBOLS = "Text Symbols"
     NORTH_ARROWS = "North Arrows"
     SHADOWS = "Shadows"
+    REPRESENTATION_RULES = "Representation Rules"
+    GRIDS = "Grid"
+    MESH_SYMBOLS = "Mesh Symbol"
+    TABLE_FRAME = "Table Frame"
+    MAP_SURROUNDS = "Map Surround"
+
+    OBJECT_TYPE_NAMES = {
+        COLORS: "Colors",
+        FILL_SYMBOLS: "Fill symbols",
+        LINE_SYMBOLS: "Line symbols",
+        MARKER_SYMBOLS: "Marker symbols",
+        COLOR_RAMPS: "Color ramps",
+        TEXT_SYMBOLS: "Text formats",
+        LABELS: "Labels",
+        MAPLEX_LABELS: "Maplex labels",
+        LINE_PATCHES: "Line patches",
+        AREA_PATCHES: "Area patches",
+        SCALE_BARS: "Scale bars",
+        LEGEND_ITEMS: "Legend items",
+        SCALE_TEXTS: "Scale texts",
+        BORDERS: "Borders",
+        BACKGROUNDS: "Backgrounds",
+        NORTH_ARROWS: "North arrows",
+        SHADOWS: "Shadows",
+        REPRESENTATION_RULES: "Representation rules",
+    }
 
     NAME = "NAME"
     TAGS = "TAGS"
