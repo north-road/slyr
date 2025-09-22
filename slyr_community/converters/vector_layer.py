@@ -146,14 +146,13 @@ class VectorLayerConverter:
             if info and field != info.alias:
                 context.field_to_alias_map[field] = info.alias
 
-        if True:
-            crs = (
-                CrsConverter.convert_crs(layer.layer_extent.crs, context)
-                if layer.layer_extent
-                else QgsCoordinateReferenceSystem()
-            )
-            if not crs.isValid():
-                crs = fallback_crs
+        crs = (
+            CrsConverter.convert_crs(layer.layer_extent.crs, context)
+            if layer.layer_extent
+            else QgsCoordinateReferenceSystem()
+        )
+        if not crs.isValid():
+            crs = fallback_crs
 
         subset_string = ""
         if layer.selection_set:
@@ -304,20 +303,19 @@ class VectorLayerConverter:
 
         vl.setCrs(crs)
 
-        if True:
-            for e in layer.extensions:
-                if e.__class__.__name__ == "ServerLayerExtension":
-                    if "CopyrightText" in e.properties.properties:
-                        layer_credits = e.properties.properties["CopyrightText"]
-                        metadata = vl.metadata()
-                        rights = metadata.rights()
-                        rights.append(layer_credits)
-                        metadata.setRights(rights)
-                        vl.setMetadata(metadata)
+        for e in layer.extensions:
+            if e.__class__.__name__ == "ServerLayerExtension":
+                if "CopyrightText" in e.properties.properties:
+                    layer_credits = e.properties.properties["CopyrightText"]
+                    metadata = vl.metadata()
+                    rights = metadata.rights()
+                    rights.append(layer_credits)
+                    metadata.setRights(rights)
+                    vl.setMetadata(metadata)
 
-            metadata = vl.metadata()
-            metadata.setAbstract(layer.description)
-            vl.setMetadata(metadata)
+        metadata = vl.metadata()
+        metadata.setAbstract(layer.description)
+        vl.setMetadata(metadata)
 
         if True:
             LabelConverter.convert_annotation_collection(

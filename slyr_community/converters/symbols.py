@@ -757,25 +757,23 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         out.setDistance(context.convert_size(separation))
         out.setDistanceUnit(context.units)
 
-        if True:
-            out.setOffset(context.convert_size(layer.offset))
-            out.setOffsetUnit(context.units)
+        out.setOffset(context.convert_size(layer.offset))
+        out.setOffsetUnit(context.units)
 
         symbol.appendSymbolLayer(out)
         context.symbol_layer_output_to_input_index_map[out] = (
             context.current_symbol_layer
         )
 
-        if True:
-            if isinstance(layer.outline, MultiLayerLineSymbol):
-                # get all layers from outline
-                SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(
-                    symbol, layer.outline, context
-                )
-            elif layer.outline:
-                SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(
-                    symbol, layer.outline, context
-                )
+        if isinstance(layer.outline, MultiLayerLineSymbol):
+            # get all layers from outline
+            SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(
+                symbol, layer.outline, context
+            )
+        elif layer.outline:
+            SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(
+                symbol, layer.outline, context
+            )
 
     @staticmethod
     def append_GradientFillSymbolLayer(
@@ -1410,33 +1408,32 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         )  # sometimes lines have negative width?
         out.setWidthUnit(context.units)
 
-        if True:
-            # for arcgis, a pen width of 0 is not drawn, yet in QGIS it's a "hairline" size
-            out.setPenStyle(
-                ConversionUtils.symbol_pen_to_qpenstyle(layer.line_type)
-                if layer.width > 0
-                else Qt.PenStyle.NoPen
-            )
-            # better match for ArcGIS rendering
-            out.setPenCapStyle(Qt.PenCapStyle.RoundCap)
-            out.setPenJoinStyle(Qt.PenJoinStyle.RoundJoin)
+        # for arcgis, a pen width of 0 is not drawn, yet in QGIS it's a "hairline" size
+        out.setPenStyle(
+            ConversionUtils.symbol_pen_to_qpenstyle(layer.line_type)
+            if layer.width > 0
+            else Qt.PenStyle.NoPen
+        )
+        # better match for ArcGIS rendering
+        out.setPenCapStyle(Qt.PenCapStyle.RoundCap)
+        out.setPenJoinStyle(Qt.PenJoinStyle.RoundJoin)
 
-            # better matching of null stroke color to QGIS symbology
-            if out.color().alpha() == 0:
-                out.setPenStyle(Qt.PenStyle.NoPen)
+        # better matching of null stroke color to QGIS symbology
+        if out.color().alpha() == 0:
+            out.setPenStyle(Qt.PenStyle.NoPen)
 
-            if (
-                context.apply_conversion_tweaks
-                and out.color().alpha() == 0
-                or out.penStyle() == Qt.PenStyle.NoPen
-            ):
-                # avoid invisible layers
-                return
+        if (
+            context.apply_conversion_tweaks
+            and out.color().alpha() == 0
+            or out.penStyle() == Qt.PenStyle.NoPen
+        ):
+            # avoid invisible layers
+            return
 
-            symbol.appendSymbolLayer(out)
-            context.symbol_layer_output_to_input_index_map[out] = (
-                context.current_symbol_layer
-            )
+        symbol.appendSymbolLayer(out)
+        context.symbol_layer_output_to_input_index_map[out] = (
+            context.current_symbol_layer
+        )
 
     @staticmethod
     def circular_mean(angles):
@@ -3771,8 +3768,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         if layer.symbol_level != 0xFFFFFFFF:
             out.setRenderingPass(layer.symbol_level)
 
-        if True:
-            angle = ConversionUtils.convert_angle(layer.angle)
+        angle = ConversionUtils.convert_angle(layer.angle)
 
         angle += angle_offset
         out.setAngle(angle)
@@ -3920,8 +3916,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             if layer.symbol_level != 0xFFFFFFFF:
                 overlay.setRenderingPass(layer.symbol_level)
 
-            if True:
-                angle = ConversionUtils.convert_angle(layer.angle)
+            angle = ConversionUtils.convert_angle(layer.angle)
 
             angle += conversion_properties.get("overlay_angle", 0)
 
@@ -3996,8 +3991,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             if layer.symbol_level != 0xFFFFFFFF:
                 out.setRenderingPass(layer.symbol_level)
 
-            if True:
-                angle = ConversionUtils.convert_angle(layer.angle)
+            angle = ConversionUtils.convert_angle(layer.angle)
 
             angle += conversion_properties.get("overlay_angle", 0)
 
@@ -4062,9 +4056,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         cim_solid_stroke = None
         color = ColorConverter.color_to_qcolor(layer.color)
 
-        if True:
-            original_angle = layer.angle
-            angle = ConversionUtils.convert_angle(layer.angle)
+        original_angle = layer.angle
+        angle = ConversionUtils.convert_angle(layer.angle)
 
         font = QFont(font_family)
         if not font.exactMatch():
