@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Extracts connection details from a .sde connection file
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,15 +11,9 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-Extracts connection details from a .sde connection file
-"""
-
 import json
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingException,
@@ -74,25 +61,20 @@ class ExtractSDEConnectionDetails(SlyrAlgorithm):
 
     def shortHelpString(self):
         return (
-            "This algorithm extracts the connection details from a .sde connection file.\n\n"
-            + "Optionally, a JSON representation containing these details can be exported."
+            "This algorithm extracts the connection details from "
+            "a .sde connection file.\n\n"
+            "Optionally, a JSON representation containing these "
+            "details can be exported."
         )
 
     def initAlgorithm(self, config=None):
-        if Qgis.QGIS_VERSION_INT >= 31000:
-            self.addParameter(
-                QgsProcessingParameterFile(
-                    self.INPUT,
-                    "Input SDE file",
-                    fileFilter="SDE Files (*.sde *.SDE);;All files (*.*)",
-                )
+        self.addParameter(
+            QgsProcessingParameterFile(
+                self.INPUT,
+                "Input SDE file",
+                fileFilter="SDE Files (*.sde *.SDE);;All files (*.*)",
             )
-        else:
-            self.addParameter(
-                QgsProcessingParameterFile(
-                    self.INPUT, "Input SDE file", extension="sde"
-                )
-            )
+        )
 
         self.addParameter(
             QgsProcessingParameterFileDestination(
