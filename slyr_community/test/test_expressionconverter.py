@@ -10,8 +10,6 @@ from .test_case import SlyrTestCase
 
 from ..converters.context import Context
 from ..converters.expressions import ExpressionConverter
-from qgis.PyQt.QtCore import QVariant
-from qgis.core import QgsMemoryProviderUtils, QgsFields, QgsField
 
 
 class TestExpressionConverter(SlyrTestCase):

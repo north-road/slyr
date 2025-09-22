@@ -11,7 +11,6 @@ Converts .stylx databases to GPL color palette files
 #  *                                                                         *
 #  ***************************************************************************/
 
-import os
 from pathlib import Path
 
 from qgis.core import (
@@ -19,18 +18,9 @@ from qgis.core import (
     QgsProcessingParameterFileDestination,
     QgsProcessingOutputNumber,
     QgsProcessingException,
-    QgsVectorLayer,
-    QgsFeatureRequest,
 )
 
 from .algorithm import SlyrAlgorithm
-from ...converters.color import ColorConverter
-
-from ...parser.exceptions import (
-    InvalidColorException,
-    NotImplementedException,
-    UnknownObjectTypeException,
-)
 
 
 class StylxToGpl(SlyrAlgorithm):

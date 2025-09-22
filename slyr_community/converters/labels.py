@@ -22,7 +22,7 @@
 Label conversion
 """
 
-from typing import Union, List, Optional
+from typing import Optional
 
 from qgis.core import (
     Qgis,

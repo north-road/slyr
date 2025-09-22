@@ -22,9 +22,7 @@
 Vector renderer conversion
 """
 
-from typing import Union, Optional
-import os
-from copy import copy
+from typing import Optional
 
 from qgis.PyQt.QtCore import Qt
 from qgis.core import (
@@ -49,26 +47,12 @@ from qgis.core import (
     QgsSymbolLayer,
     QgsSimpleFillSymbolLayer,
     QgsCentroidFillSymbolLayer,
-    QgsSimpleLineSymbolLayer,
-    QgsColorRampTransformer,
-    QgsSvgMarkerSymbolLayer,
-    QgsSimpleMarkerSymbolLayer,
-    QgsFeatureRequest,
-    QgsFontMarkerSymbolLayer,
-    QgsClassificationJenks,
-    QgsClassificationEqualInterval,
-    QgsClassificationQuantile,
-    QgsClassificationStandardDeviation,
-    QgsCoordinateReferenceSystem,
     QgsVectorLayer,
-    QgsProviderRegistry,
-    QgsHeatmapRenderer,
 )
 
 from .context import Context
 from .expressions import ExpressionConverter
 from ..converters.color import ColorConverter
-from ..converters.color_ramp import ColorRampConverter
 from ..converters.symbols import SymbolConverter
 from ..parser.exceptions import NotImplementedException
 from ..parser.objects.bi_unique_value_renderer import BiUniqueValueRenderer
@@ -93,8 +77,6 @@ from ..parser.objects.simple_renderer import SimpleRenderer
 from ..parser.objects.unique_value_renderer import UniqueValueRenderer
 from ..parser.objects.units import Units
 from ..parser.objects.vector_renderer import VectorRendererBase
-
-from .dataset_name import DatasetNameConverter
 
 
 class VectorRendererConverter:

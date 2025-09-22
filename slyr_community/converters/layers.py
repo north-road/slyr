@@ -30,18 +30,14 @@ from typing import Tuple, Optional
 from qgis.PyQt.QtCore import QFile, QTextStream
 from qgis.PyQt.QtXml import QDomDocument
 from qgis.core import (
-    Qgis,
     QgsCoordinateReferenceSystem,
     QgsLayerTreeGroup,
     QgsLayerDefinition,
     QgsFileUtils,
     QgsReadWriteContext,
     QgsPathResolver,
-    QgsVectorLayer,
-    QgsRasterLayer,
 )
 
-from .annotations import AnnotationConverter
 from .context import Context
 from .converter import NotImplementedException
 

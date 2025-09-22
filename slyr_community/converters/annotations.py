@@ -19,47 +19,15 @@
 #  ***************************************************************************/
 
 import os
-import re
 import base64
-from typing import Tuple, Union, List, Optional
+from typing import Tuple, Optional
 
-from qgis.core import (
-    QgsCoordinateTransform,
-    QgsWkbTypes,
-    Qgis,
-    QgsCoordinateReferenceSystem,
-    QgsProject,
-    QgsPointXY,
-    QgsPoint,
-    QgsMapLayer,
-    QgsLineString,
-    QgsFillSymbol,
-    QgsMargins,
-)
 
-from qgis.PyQt.QtCore import Qt
-from ..parser.objects.composite_graphics_layer import CompositeGraphicsLayer
-from ..parser.objects.text_element import TextElement
 from ..parser.objects.picture_element import PictureElement
-from ..parser.objects.group_element import GroupElement
-from .text_format import TextSymbolConverter
 from .context import Context
-from ..parser.exceptions import NotImplementedException
 
-from .crs import CrsConverter
-from .geometry import GeometryConverter
 from .symbols import SymbolConverter
 from ..parser.objects import (
-    LineElement,
-    MarkerElement,
-    PolygonElement,
-    RectangleElement,
-    CircleElement,
-    EllipseElement,
-    ParagraphTextElement,
-    EmfPictureElement,
-    FrameElement,
-    OleFrame,
     StdPicture,
     EmfPicture,
     BmpPicture,

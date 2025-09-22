@@ -38,7 +38,6 @@ from qgis.core import (
 )
 
 from .color import ColorConverter
-from .context import Context
 
 from ..parser.exceptions import NotImplementedException
 from ..parser.objects.balloon_callout import BalloonCallout

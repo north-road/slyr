@@ -11,14 +11,9 @@ Base class for SLYR algorithms
 #  *                                                                         *
 #  ***************************************************************************/
 
-import json
-import os
 import pathlib
-from typing import Optional
-from collections import defaultdict
-from shutil import copyfile
 
-from qgis.PyQt.QtCore import QDir, QVariant
+from qgis.PyQt.QtCore import QVariant
 
 from qgis.core import (
     Qgis,
@@ -27,24 +22,10 @@ from qgis.core import (
     QgsDataProvider,
     QgsVectorLayer,
     QgsVectorFileWriter,
-    QgsSettings,
-    QgsProcessingMultiStepFeedback,
-    QgsProject,
-    QgsProcessingFeedback,
-    QgsMapLayer,
-    QgsStyle,
-    QgsProcessingException,
-    QgsFeature,
 )
 
 from ...converters.utils import ConversionUtils
 from ...parser.object import Object
-
-from ...converters.text_format import TextSymbolConverter
-from ...converters.color_ramp import ColorRampConverter
-from ...converters.context import Context
-
-from ...parser.exceptions import NotImplementedException
 
 
 class ConversionResults:

@@ -29,12 +29,8 @@ from qgis.core import (
     QgsPresetSchemeColorRamp,
     QgsLimitedRandomColorRamp,
     QgsGradientColorRamp,
-    QgsRandomColorRamp,
     QgsGradientStop,
-    QgsColorRamp,
-    QgsColorBrewerColorRamp,
 )
-from qgis.PyQt.QtGui import QColor
 
 from .color import ColorConverter
 

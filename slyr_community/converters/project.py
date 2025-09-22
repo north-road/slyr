@@ -19,7 +19,7 @@
 #  ***************************************************************************/
 
 import os
-from typing import Union, Optional, Dict
+from typing import Optional, Dict
 
 from qgis.core import (
     Qgis,
@@ -49,7 +49,6 @@ from qgis.utils import iface
 from ..parser.object import CustomObject
 
 from ..parser.objects import (
-    GroupLayer,
     MemoryRelationshipClassName,
     FeatureLayer,
     BasicOverposterProperties,
@@ -60,7 +59,6 @@ from ..parser.streams import MapDocument
 
 from .color import ColorConverter
 from .context import Context
-from .annotations import AnnotationConverter
 from .layers import LayerConverter
 from .vector_layer import VectorLayerConverter
 from .symbols import SymbolConverter

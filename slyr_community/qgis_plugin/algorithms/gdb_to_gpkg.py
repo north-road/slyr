@@ -11,26 +11,12 @@ Converts all data from the open project to standard formats
 #  *                                                                         *
 #  ***************************************************************************/
 
-import os
-import pathlib
 from collections import defaultdict
-from typing import List
 
 from qgis.core import (
-    NULL,
-    Qgis,
-    QgsFeature,
-    QgsFields,
-    QgsVectorLayer,
-    QgsVectorFileWriter,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
-    QgsProcessingMultiStepFeedback,
     QgsProcessingException,
-    QgsProviderRegistry,
-    QgsAbstractDatabaseProviderConnection,
-    QgsProviderConnectionException,
-    QgsRelation,
 )
 
 from .algorithm import SlyrAlgorithm

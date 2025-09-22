@@ -2,24 +2,15 @@
 Converts an QPT document to a PAGX file
 """
 
-import json
 from pathlib import Path
 
-from qgis.PyQt.QtCore import QFile, QIODevice
-from qgis.PyQt.QtXml import QDomDocument
 from qgis.core import (
-    Qgis,
-    QgsPrintLayout,
-    QgsProject,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
-    QgsReadWriteContext,
     QgsProcessingException,
 )
 
 from .algorithm import SlyrAlgorithm
-from ...converters.context import Context
-from ...converters.layout import LayoutConverter
 
 
 class ConvertQptToPagx(SlyrAlgorithm):

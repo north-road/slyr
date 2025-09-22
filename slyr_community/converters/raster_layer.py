@@ -26,13 +26,9 @@ Converts parsed symbol properties to QGIS Symbols
 
 import os
 import re
-import urllib.parse
 from collections import defaultdict
-from typing import Union
 
-from qgis.PyQt.QtCore import QUrl, QUrlQuery
 from qgis.core import (
-    Qgis,
     QgsCoordinateReferenceSystem,
     QgsRasterLayer,
     QgsSingleBandPseudoColorRenderer,
@@ -50,10 +46,6 @@ from qgis.core import (
     QgsVectorLayer,
     QgsProviderRegistry,
     QgsFeatureRequest,
-    QgsMapLayerStyle,
-    QgsContrastEnhancement,
-    QgsRasterMinMaxOrigin,
-    QgsHillshadeRenderer,
 )
 
 from .color import ColorConverter
@@ -61,15 +53,10 @@ from .color_ramp import ColorRampConverter
 from .context import Context
 from .converter import NotImplementedException
 from .crs import CrsConverter
-from .dataset_name import DatasetNameConverter
 from .symbols import SymbolConverter
 from .utils import ConversionUtils
 
 from ..parser.objects.function_raster_dataset_name import FunctionRasterDatasetName
-from ..parser.objects.image_server_layer import ImageServerLayer
-from ..parser.objects.internet_tiled_layer import InternetTiledLayer
-from ..parser.objects.map_server_layer import MapServerLayer, MapServerSubLayer
-from ..parser.objects.map_server_rest_layer import MapServerRESTLayer
 from ..parser.objects.multi_layer_symbols import MultiLayerFillSymbol
 from ..parser.objects.raster_band_name import RasterBandName
 from ..parser.objects.raster_basemap_layer import RasterBasemapLayer
@@ -89,9 +76,6 @@ from ..parser.objects.raster_stretch_color_ramp_renderer import (
 )
 from ..parser.objects.raster_unique_value_renderer import RasterUniqueValueRenderer
 from ..parser.objects.simple_raster_renderer import SimpleRasterRenderer
-from ..parser.objects.wms_layer import WmsMapLayer, WmsGroupLayer
-from ..parser.objects.wmts_layer import WmtsLayer
-from ..parser.objects.workspace_name import WorkspaceName
 
 
 class RasterLayerConverter:

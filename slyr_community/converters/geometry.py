@@ -18,7 +18,7 @@
 #  *                                                                         *
 #  ***************************************************************************/
 import math
-from typing import List, Union, Optional
+from typing import List
 
 from qgis.PyQt.QtCore import QRectF, QPointF, QLineF
 from qgis.PyQt.QtGui import QPainterPath, QTransform
@@ -32,13 +32,7 @@ from qgis.core import (
     QgsCompoundCurve,
     QgsCurvePolygon,
     QgsMultiPoint,
-    QgsMultiPolygon,
-    QgsMultiSurface,
-    QgsMultiLineString,
-    QgsRectangle,
     QgsMultiCurve,
-    QgsReferencedRectangle,
-    QgsGeometryCollection,
 )
 
 from ..parser.exceptions import NotImplementedException
@@ -48,8 +42,6 @@ from ..parser.objects.polygon import Polygon
 from ..parser.objects.polyline import Polyline
 from ..parser.objects.multipoint import Multipoint
 from ..parser.objects.geometry_bag import GeometryBag
-from .crs import CrsConverter
-from .context import Context
 
 
 class GeometryConverter:

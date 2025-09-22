@@ -11,24 +11,16 @@ SLYR QGIS Processing algorithms
 #  *                                                                         *
 #  ***************************************************************************/
 
-import json
-import os
 from pathlib import Path
-from shutil import copyfile
 
-from qgis.PyQt.QtCore import QFile
 from qgis.core import (
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingOutputNumber,
     QgsProcessingException,
-    QgsFeature,
-    QgsVectorLayer,
-    QgsSymbolLayerUtils,
 )
 
 from .algorithm import SlyrAlgorithm
-from ...converters.color import ColorConverter
 
 
 class GplToStylx(SlyrAlgorithm):

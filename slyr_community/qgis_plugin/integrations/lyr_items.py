@@ -14,7 +14,6 @@ Browser and app integrations for LYR/lyrx file integration with QGIS
 import html
 import os
 from io import BytesIO
-from pathlib import Path
 from struct import unpack
 
 from qgis.PyQt.QtCore import QFileInfo, QDir, QCoreApplication
@@ -49,7 +48,6 @@ from ...parser.exceptions import (
     NotImplementedException,
     UnknownClsidException,
     UnreadablePictureException,
-    CorruptDocumentException,
 )
 
 from ...parser.exceptions import RequiresLicenseException

@@ -14,7 +14,6 @@ Converts a PMF document to a QGS project file
 from pathlib import Path
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingException,
@@ -23,15 +22,6 @@ from qgis.core import (
 )
 
 from .algorithm import SlyrAlgorithm
-from ...converters.context import Context
-from ...converters.project import ProjectConverter
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    NotImplementedException,
-    UnknownClsidException,
-    EmptyDocumentException,
-    DocumentTypeException,
-)
 
 
 class ConvertPmfToQgs(SlyrAlgorithm):

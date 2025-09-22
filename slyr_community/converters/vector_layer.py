@@ -53,7 +53,6 @@ from .labels import LabelConverter
 from .vector_renderer import VectorRendererConverter
 
 from ..parser.objects import (
-    FDOGraphicsLayer,
     FeatureLayer,
     Geometry,
     MemoryRelationshipClassName,

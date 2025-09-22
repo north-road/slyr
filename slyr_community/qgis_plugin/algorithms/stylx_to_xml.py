@@ -13,9 +13,7 @@ Converts .stylx databases to QGIS Style XML databases
 
 from pathlib import Path
 
-from qgis.PyQt.QtCore import QVariant, QRegularExpression
 from qgis.core import (
-    Qgis,
     QgsProcessing,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
@@ -25,33 +23,10 @@ from qgis.core import (
     QgsProcessingOutputNumber,
     QgsProcessingException,
     QgsProcessingParameterDefinition,
-    QgsStyle,
-    QgsFeature,
-    QgsFields,
-    QgsField,
-    QgsColorRamp,
-    QgsSymbol,
-    QgsTextFormat,
-    QgsPalLayerSettings,
-    QgsVectorLayer,
-    QgsFeatureRequest,
-    QgsWkbTypes,
 )
 
 from .algorithm import SlyrAlgorithm
 from ...bintools.extractor import Extractor
-from ...converters.color_ramp import ColorRampConverter
-from ...converters.context import Context
-from ...converters.labels import LabelConverter
-from ...converters.symbols import SymbolConverter
-
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    UnsupportedVersionException,
-    NotImplementedException,
-    UnknownClsidException,
-    UnreadablePictureException,
-)
 
 
 class StylxToQgisXml(SlyrAlgorithm):

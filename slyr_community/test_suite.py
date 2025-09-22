@@ -14,7 +14,6 @@ import os
 import unittest
 import tempfile
 from osgeo import gdal
-import qgis  # pylint: disable=unused-import
 
 try:
     from pip import main as pipmain

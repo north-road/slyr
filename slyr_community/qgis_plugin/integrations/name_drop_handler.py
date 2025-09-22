@@ -11,20 +11,8 @@ Handles dropping ESRI name mime data
 #  *                                                                         *
 #  ***************************************************************************/
 
-from io import BytesIO
-
-from qgis.core import QgsProject, QgsVectorLayer
 from qgis.gui import QgsCustomDropHandler
 
-from ...converters.layers import LayerConverter
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    UnsupportedVersionException,
-    NotImplementedException,
-    UnknownClsidException,
-    UnreadablePictureException,
-)
-from ...parser.stream import Stream
 from qgis.core import Qgis
 from .browser_utils import BrowserUtils
 

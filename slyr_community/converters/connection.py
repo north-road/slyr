@@ -248,7 +248,6 @@ class ConnectionConverter:
         """
         Tries to convert extract connection properties to a QgsDataSourceUri equivalent
         """
-        from .dataset_name import DatasetNameConverter
 
         db_client = connection.properties.get("DBCLIENT")
 

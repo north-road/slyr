@@ -7,7 +7,6 @@ NEAR COMPLETE INTERPRETATION - all useful components
 
 from ..object import Object
 from ..stream import Stream
-from ..exceptions import RequiresLicenseException
 
 
 class CompositeGraphicsLayer(Object):

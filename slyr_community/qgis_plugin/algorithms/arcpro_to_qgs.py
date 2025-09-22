@@ -12,26 +12,12 @@ Converts an APRX document to a QGS project file
 #  ***************************************************************************/
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFileDestination,
     QgsProcessingParameterBoolean,
     QgsProcessingParameterDefinition,
-    QgsProcessingException,
 )
-from qgis.core import QgsProject
 
 from .algorithm import SlyrAlgorithm
-from ...converters.context import Context
-
-from ...converters.project import ProjectConverter
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    NotImplementedException,
-    UnknownClsidException,
-    EmptyDocumentException,
-    DocumentTypeException,
-    CorruptDocumentException,
-)
 
 
 class ConvertArcProToQgs(SlyrAlgorithm):

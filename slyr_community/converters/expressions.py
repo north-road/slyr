@@ -23,15 +23,10 @@ Expression conversion
 """
 
 import re
-from typing import Optional, Tuple
+from typing import Optional
 
 from qgis.core import (
     QgsExpression,
-    QgsExpressionContext,
-    QgsVectorLayer,
-    QgsExpressionNode,
-    QgsExpressionNodeInOperator,
-    QgsExpressionNodeUnaryOperator,
 )
 
 from .context import Context

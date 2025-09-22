@@ -11,20 +11,14 @@ Converts all data from the open project to standard formats
 #  *                                                                         *
 #  ***************************************************************************/
 
-import pathlib
 from collections import defaultdict
 
-from qgis.PyQt.QtCore import QDir
 from qgis.core import (
     QgsProcessingAlgorithm,
     QgsProcessingParameterFolderDestination,
-    QgsMapLayer,
-    QgsProcessingMultiStepFeedback,
-    QgsSettings,
 )
 
 from .algorithm import SlyrAlgorithm
-from .utils import AlgorithmUtils, ConversionResults
 from qgis.core import QgsProcessingException
 
 

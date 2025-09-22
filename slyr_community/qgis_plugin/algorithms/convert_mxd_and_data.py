@@ -11,7 +11,6 @@ Converts an MXD document to a QGS project file, and all data to standard formats
 #  *                                                                         *
 #  ***************************************************************************/
 
-import os
 import pathlib
 from collections import defaultdict
 
@@ -21,8 +20,6 @@ from qgis.core import (
 )
 
 from .mxd_to_qgs import ConvertMxdToQgs
-from .utils import AlgorithmUtils
-from ...converters.context import Context
 
 
 class ConvertMxdAndData(ConvertMxdToQgs):

@@ -22,11 +22,8 @@
 Color converter
 """
 
-from typing import Optional
-
 from qgis.PyQt.QtGui import QColor
 
-from ..parser.color_parser import cielab_to_rgb2
 from ..parser.objects.colors import CmykColor
 
 

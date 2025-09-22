@@ -19,12 +19,10 @@
 #  ***************************************************************************/
 
 import re
-import base64
 import math
-from io import BytesIO
 import xml.etree.ElementTree as ET
 
-from typing import Union, Optional, Tuple, List
+from typing import Union, Optional, Tuple
 
 from qgis.PyQt.QtGui import (
     QColor,
@@ -85,7 +83,6 @@ from qgis.core import (
     QgsFontUtils,
     QgsLayout,
     QgsLayoutItemPage,
-    QgsLayoutGuideCollection,
     QgsLayoutItemLegend,
     QgsTextBackgroundSettings,
 )
@@ -169,8 +166,6 @@ from .numeric_format import NumericFormatConverter
 from .geometry import GeometryConverter
 from ..parser.objects.arcobjects_enums import DMSGridLabelType
 from .annotations import AnnotationConverter
-from ..parser.objects.polygon import Polygon
-from ..parser.stream import Stream
 
 
 DYNAMIC_TEXT_REPLACEMENTS = {

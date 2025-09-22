@@ -14,7 +14,6 @@ Converts .avl to QML
 from pathlib import Path
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingOutputString,
@@ -23,8 +22,6 @@ from qgis.core import (
 
 from .algorithm import SlyrAlgorithm
 
-from ...converters.context import Context
-from ...parser.exceptions import NotImplementedException
 
 HAS_BOOLEAN_OUTPUT = False
 try:

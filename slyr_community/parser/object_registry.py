@@ -7,7 +7,6 @@ from typing import Optional
 from .exceptions import (
     UnknownClsidException,
     CustomExtensionClsidException,
-    UnknownObjectTypeException,
 )
 from .object import CustomObject
 
