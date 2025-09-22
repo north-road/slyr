@@ -30,46 +30,53 @@ from typing import Tuple, Optional
 from qgis.PyQt.QtCore import QFile, QTextStream
 from qgis.PyQt.QtXml import QDomDocument
 from qgis.core import (
+    Qgis,
     QgsCoordinateReferenceSystem,
     QgsLayerTreeGroup,
     QgsLayerDefinition,
     QgsFileUtils,
     QgsReadWriteContext,
     QgsPathResolver,
+    QgsVectorLayer,
+    QgsRasterLayer,
 )
 
+from .annotations import AnnotationConverter
 from .context import Context
 from .converter import NotImplementedException
+
 from .raster_layer import RasterLayerConverter
 from .vector_layer import VectorLayerConverter
-from ..parser.objects.base_map_layer import BaseMapLayer
-from ..parser.objects.cad_annotation_layer import CadAnnotationLayer
-from ..parser.objects.cad_feature_layer import CadFeatureLayer
-from ..parser.objects.cad_layer import CadLayer
-from ..parser.objects.feature_class_name import FgdbFeatureClassName, FeatureClassName
-from ..parser.objects.feature_layer import FeatureLayer
-from ..parser.objects.group_layer import GroupLayer
-from ..parser.objects.image_server_layer import ImageServerLayer
-from ..parser.objects.internet_tiled_layer import InternetTiledLayer
-from ..parser.objects.las_dataset_layer import LasDatasetLayer
-from ..parser.objects.map_server_layer import (
+
+from ..parser.objects import (
+    BaseMapLayer,
+    CadAnnotationLayer,
+    CadFeatureLayer,
+    CadLayer,
+    CompositeGraphicsLayer,
+    FgdbFeatureClassName,
+    FeatureClassName,
+    FeatureLayer,
+    GroupLayer,
+    ImageServerLayer,
+    InternetTiledLayer,
+    LasDatasetLayer,
     MapServerLayer,
     MapServerSubLayer,
     MapServerBasicSublayer,
-)
-from ..parser.objects.map_server_rest_layer import (
     MapServerRESTLayer,
     MapServerRESTSubLayer,
+    NetworkLayer,
+    RasterBasemapLayer,
+    RasterCatalogLayer,
+    RasterLayer,
+    StandaloneTable,
+    TinLayer,
+    TopologyLayer,
+    WmsMapLayer,
+    WmsLayer,
+    WmtsLayer,
 )
-from ..parser.objects.network_layer import NetworkLayer
-from ..parser.objects.raster_basemap_layer import RasterBasemapLayer
-from ..parser.objects.raster_catalog_layer import RasterCatalogLayer
-from ..parser.objects.raster_layer import RasterLayer
-from ..parser.objects.standalone_table import StandaloneTable
-from ..parser.objects.tin_layer import TinLayer
-from ..parser.objects.topology_layer import TopologyLayer
-from ..parser.objects.wms_layer import WmsMapLayer, WmsLayer
-from ..parser.objects.wmts_layer import WmtsLayer
 
 
 class LayerConverter:
@@ -77,14 +84,13 @@ class LayerConverter:
     Layer converter
     """
 
-    # pylint: disable=too-many-branches, too-many-statements
+    # pylint: disable=too-many-branches,too-many-statements
     @staticmethod
     def layer_to_QgsLayer(
         source_layer,
-        input_file,
+        input_file: str,
         context: Context,
         fallback_crs=QgsCoordinateReferenceSystem(),
-        defer_layer_uri_set: bool = False,
     ):
         """
         Converts a layer to a QGIS layer
@@ -98,11 +104,7 @@ class LayerConverter:
         if LayerConverter.is_vector_layer(source_layer):
             try:
                 res = VectorLayerConverter.layer_to_QgsVectorLayer(
-                    source_layer,
-                    input_file,
-                    context=context,
-                    fallback_crs=fallback_crs,
-                    defer_layer_uri_set=defer_layer_uri_set,
+                    source_layer, input_file, context=context, fallback_crs=fallback_crs
                 )
             except NotImplementedException as e:
                 context.push_warning(
@@ -110,13 +112,13 @@ class LayerConverter:
                     level=Context.CRITICAL,
                 )
 
-        elif isinstance(source_layer, (RasterLayer,)):
+        elif isinstance(source_layer, RasterLayer):
             res = [
                 RasterLayerConverter.raster_layer_to_QgsRasterLayer(
                     source_layer, input_file, context=context, fallback_crs=fallback_crs
                 )
             ]
-        elif isinstance(source_layer, (WmsMapLayer,)):
+        elif isinstance(source_layer, WmsMapLayer):
             pass
         elif isinstance(source_layer, WmtsLayer):
             pass
@@ -124,11 +126,9 @@ class LayerConverter:
             res = RasterLayerConverter.raster_basemap_layer_to_QgsRasterLayer(
                 source_layer, input_file, context=context, fallback_crs=fallback_crs
             )
-        elif isinstance(source_layer, (MapServerLayer,)):
+        elif isinstance(source_layer, MapServerLayer):
             pass
         elif isinstance(source_layer, InternetTiledLayer):
-            pass
-        elif False:  # pylint: disable=using-constant-test
             pass
         elif isinstance(source_layer, MapServerRESTLayer):
             pass
@@ -136,20 +136,11 @@ class LayerConverter:
             res = VectorLayerConverter.standalone_table_to_QgsVectorLayer(
                 source_layer, input_file, context=context
             )
-        elif isinstance(source_layer, (TinLayer,)):
+        elif isinstance(source_layer, TinLayer):
             pass
-        elif False:  # pylint: disable=using-constant-test
+        elif isinstance(source_layer, CompositeGraphicsLayer):
             pass
-        elif False:  # pylint: disable=using-constant-test
-            pass
-        elif False:  # pylint: disable=using-constant-test
-            context.push_warning(
-                "Mosaic layer “{}” has been removed from the project (Mosaic layers are not supported by QGIS)".format(
-                    source_layer.name
-                ),
-                level=Context.CRITICAL,
-            )
-        elif isinstance(source_layer, (LasDatasetLayer,)):
+        elif isinstance(source_layer, LasDatasetLayer):
             pass
         elif isinstance(source_layer, TopologyLayer):
             context.push_warning(
@@ -172,57 +163,40 @@ class LayerConverter:
                 ),
                 level=Context.CRITICAL,
             )
-        elif False:  # pylint: disable=using-constant-test
-            pass
-        elif False:  # pylint: disable=using-constant-test
-            pass
-        elif False:  # pylint: disable=using-constant-test
-            context.push_warning(
-                "Terrain layer “{}” has been removed from the project (Terrain layers are not supported by QGIS)".format(
-                    source_layer.name
-                ),
-                level=Context.CRITICAL,
-            )
-        elif isinstance(source_layer, (RasterCatalogLayer,)):
+        elif isinstance(source_layer, RasterCatalogLayer):
             context.push_warning(
                 "Raster catalog layer “{}” has been removed from the project (raster catalog layers are not supported by QGIS)".format(
                     source_layer.name
                 ),
                 level=Context.CRITICAL,
             )
-        elif False:  # pylint: disable=using-constant-test
+        elif isinstance(source_layer, ImageServerLayer):
             context.push_warning(
-                "Globe server layer “{}” has been removed from the project (GlobeServer layers are not supported by QGIS)".format(
+                "ImageServer layer “{}” has been converted to a simple MapServer layer (ImageServer layers are not supported by QGIS)".format(
                     source_layer.name
                 ),
                 level=Context.CRITICAL,
             )
-        elif False:  # pylint: disable=using-constant-test
-            context.push_warning(
-                "3D Graphics Layer “{}” has been removed from the project (GraphicsLayer3D layers are not supported by QGIS)".format(
-                    source_layer.name
-                ),
-                level=Context.CRITICAL,
+            res = RasterLayerConverter.imageserver_layer_to_QgsRasterLayer(
+                source_layer, input_file, context=context, fallback_crs=fallback_crs
             )
-        elif isinstance(source_layer, (ImageServerLayer,)):
-            pass
         elif isinstance(source_layer, WmsLayer):
-            pass
+            context.push_warning(
+                "WMS layer “{}” is incomplete and cannot be added".format(
+                    source_layer.name
+                ),
+                level=Context.CRITICAL,
+            )
         elif isinstance(
             source_layer,
-            (
-                MapServerRESTSubLayer,
-                MapServerSubLayer,
-            ),
+            (MapServerRESTSubLayer, MapServerSubLayer),
         ):
-            pass
-        elif False:  # pylint: disable=using-constant-test
             context.push_warning(
-                "Converting annotation layers is not yet supported",
-                level=Context.WARNING,
+                "MapServer layer “{}” is incomplete and cannot be added".format(
+                    source_layer.name
+                ),
+                level=Context.CRITICAL,
             )
-        elif False:  # pylint: disable=using-constant-test
-            pass
         else:
             raise NotImplementedException(
                 "Converting {} is not yet implemented".format(
@@ -259,7 +233,9 @@ class LayerConverter:
         return uri
 
     @staticmethod
-    def object_to_layers_and_tree(obj, input_file, context: Context, definitions=None):  # pylint: disable=unused-argument
+    def object_to_layers_and_tree(
+        obj, input_file: str, context: Context, definitions=None
+    ):
         """
         Converts an ESRI object to layers and equivalent layer tree
         """
@@ -275,8 +251,26 @@ class LayerConverter:
                 fallback_crs=QgsCoordinateReferenceSystem("EPSG:4326"),
             )
             for res in results:
-                node = group_node.addLayer(res)
-                if not layer.visible:
+                if res.customProperty("_slyr_group_name"):
+                    new_group_name = res.customProperty("_slyr_group_name")
+                    child_group = group_node.findGroup(new_group_name)
+                    if not child_group:
+                        child_group = group_node.addGroup(new_group_name)
+                        child_group.setExpanded(
+                            res.customProperty("_slyr_group_expanded")
+                        )
+                        child_group.setItemVisibilityChecked(
+                            res.customProperty("_slyr_group_visible")
+                        )
+                    node = child_group.addLayer(res)
+                    res.removeCustomProperty("_slyr_group_name")
+                    res.removeCustomProperty("_slyr_group_expanded")
+                    res.removeCustomProperty("_slyr_group_visible")
+                else:
+                    node = group_node.addLayer(res)
+
+                if not layer.visible or res.customProperty("_slyr_hidden_layer"):
+                    res.removeCustomProperty("_slyr_hidden_layer")
                     node.setItemVisibilityChecked(False)
                 if len(node.children()) > 10:
                     node.setExpanded(False)
@@ -284,32 +278,27 @@ class LayerConverter:
 
         def add_group(group, parent):
             group_node = parent.addGroup(group.name)
+            group_node.setItemVisibilityChecked(group.visible)
 
-            if False:  # pylint: disable=using-constant-test
-                pass
-            else:
-                for c in group.children:
-                    if isinstance(c, (GroupLayer, BaseMapLayer)):
-                        add_group(c, group_node)
-                    else:
-                        add_layer(c, group_node)
+            for c in group.children:
+                if isinstance(c, (GroupLayer, BaseMapLayer)):
+                    add_group(c, group_node)
+                else:
+                    add_layer(c, group_node)
 
         root_node = QgsLayerTreeGroup()
 
-        if False:  # pylint: disable=using-constant-test
-            pass
+        if LayerConverter.is_layer(obj):
+            add_layer(obj, root_node)
         else:
-            if LayerConverter.is_layer(obj):
-                add_layer(obj, root_node)
-            else:
-                add_group(obj, root_node)
+            add_group(obj, root_node)
 
         return root_node, layers
 
     @staticmethod
     def object_to_qlr(
         obj,
-        input_file,
+        input_file: str,
         output_path,
         context: Context,
         use_relative_paths: bool = False,
@@ -326,7 +315,7 @@ class LayerConverter:
         output_path = QgsFileUtils.ensureFileNameHasExtension(output_path, ["qlr"])
 
         file = QFile(output_path)
-        if not file.open(QFile.WriteOnly | QFile.Truncate):
+        if not file.open(QFile.OpenModeFlag.WriteOnly | QFile.OpenModeFlag.Truncate):
             return False, file.errorString()
 
         rw_context = QgsReadWriteContext()
@@ -358,6 +347,7 @@ class LayerConverter:
                 CadLayer,
                 CadAnnotationLayer,
                 FeatureLayer,
+                CompositeGraphicsLayer,
                 WmsMapLayer,
                 RasterLayer,
                 MapServerLayer,
@@ -400,7 +390,7 @@ class LayerConverter:
         return isinstance(obj, FeatureClassName)
 
     @staticmethod
-    def unique_layer_name_map(obj, definitions=None):  # pylint: disable=unused-argument
+    def unique_layer_name_map(obj, definitions=None):
         """
         Returns a dict of unique name for layers to layers
         """
@@ -418,17 +408,15 @@ class LayerConverter:
             layers[name] = layer
 
         def add_group(group, parent):  # pylint: disable=unused-argument
-            if False:  # pylint: disable=using-constant-test
-                pass
-            else:
-                for c in group.children:
-                    if isinstance(c, (GroupLayer, BaseMapLayer)):
-                        add_group(c, group)
-                    else:
-                        add_layer(c, group)
+            for c in group.children:
+                if isinstance(c, (GroupLayer, BaseMapLayer)):
+                    add_group(c, group)
+                else:
+                    add_layer(c, group)
 
-        if False:  # pylint: disable=using-constant-test
-            pass
+        if isinstance(obj, list):
+            for layer in obj:
+                add_layer(layer, None)
         else:
             if LayerConverter.is_layer(obj):
                 add_layer(obj, None)
