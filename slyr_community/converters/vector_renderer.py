@@ -22,6 +22,10 @@
 Vector renderer conversion
 """
 
+from typing import Union, Optional
+import os
+from copy import copy
+
 from qgis.PyQt.QtCore import Qt
 from qgis.core import (
     Qgis,
@@ -36,7 +40,6 @@ from qgis.core import (
     QgsRendererRange,
     QgsProperty,
     QgsFillSymbol,
-    QgsGeometryGeneratorSymbolLayer,
     QgsRuleBasedRenderer,
     QgsUnitTypes,
     QgsSizeScaleTransformer,
@@ -46,11 +49,26 @@ from qgis.core import (
     QgsSymbolLayer,
     QgsSimpleFillSymbolLayer,
     QgsCentroidFillSymbolLayer,
+    QgsSimpleLineSymbolLayer,
+    QgsColorRampTransformer,
+    QgsSvgMarkerSymbolLayer,
+    QgsSimpleMarkerSymbolLayer,
+    QgsFeatureRequest,
+    QgsFontMarkerSymbolLayer,
+    QgsClassificationJenks,
+    QgsClassificationEqualInterval,
+    QgsClassificationQuantile,
+    QgsClassificationStandardDeviation,
+    QgsCoordinateReferenceSystem,
+    QgsVectorLayer,
+    QgsProviderRegistry,
+    QgsHeatmapRenderer,
 )
 
 from .context import Context
 from .expressions import ExpressionConverter
 from ..converters.color import ColorConverter
+from ..converters.color_ramp import ColorRampConverter
 from ..converters.symbols import SymbolConverter
 from ..parser.exceptions import NotImplementedException
 from ..parser.objects.bi_unique_value_renderer import BiUniqueValueRenderer
@@ -76,6 +94,8 @@ from ..parser.objects.unique_value_renderer import UniqueValueRenderer
 from ..parser.objects.units import Units
 from ..parser.objects.vector_renderer import VectorRendererBase
 
+from .dataset_name import DatasetNameConverter
+
 
 class VectorRendererConverter:
     """
@@ -88,33 +108,31 @@ class VectorRendererConverter:
         Converts distance units
         """
         if unit == Units.DISTANCE_UNKNOWN:
-            return QgsUnitTypes.DistanceUnknownUnit, 1
+            return QgsUnitTypes.DistanceUnit.DistanceUnknownUnit, 1
         elif unit == Units.DISTANCE_INCHES:
-            return QgsUnitTypes.DistanceMillimeters, 25.4
+            return QgsUnitTypes.DistanceUnit.DistanceMillimeters, 25.4
         elif unit == Units.DISTANCE_POINTS:
-            return QgsUnitTypes.DistanceMillimeters, 0.352778
+            return QgsUnitTypes.DistanceUnit.DistanceMillimeters, 0.352778
         elif unit == Units.DISTANCE_FEET:
-            return QgsUnitTypes.DistanceFeet, 1
+            return QgsUnitTypes.DistanceUnit.DistanceFeet, 1
         elif unit == Units.DISTANCE_YARDS:
-            return QgsUnitTypes.DistanceYards, 1
+            return QgsUnitTypes.DistanceUnit.DistanceYards, 1
         elif unit == Units.DISTANCE_MILES:
-            return QgsUnitTypes.DistanceMiles, 1
+            return QgsUnitTypes.DistanceUnit.DistanceMiles, 1
         elif unit == Units.DISTANCE_NAUTICAL_MILES:
-            return QgsUnitTypes.DistanceNauticalMiles, 1
+            return QgsUnitTypes.DistanceUnit.DistanceNauticalMiles, 1
         elif unit == Units.DISTANCE_MILLIMETERS:
-            return QgsUnitTypes.DistanceMillimeters, 1
+            return QgsUnitTypes.DistanceUnit.DistanceMillimeters, 1
         elif unit == Units.DISTANCE_CENTIMETERS:
-            return QgsUnitTypes.DistanceCentimeters, 1
+            return QgsUnitTypes.DistanceUnit.DistanceCentimeters, 1
         elif unit == Units.DISTANCE_METERS:
-            return QgsUnitTypes.DistanceMeters, 1
+            return QgsUnitTypes.DistanceUnit.DistanceMeters, 1
         elif unit == Units.DISTANCE_KILOMETERS:
-            return QgsUnitTypes.DistanceKilometers, 1
+            return QgsUnitTypes.DistanceUnit.DistanceKilometers, 1
         elif unit == Units.DISTANCE_DECIMAL_DEGREES:
-            return QgsUnitTypes.DistanceDegrees, 1
+            return QgsUnitTypes.DistanceUnit.DistanceDegrees, 1
         elif unit == Units.DISTANCE_DECIMETERS:
-            return QgsUnitTypes.DistanceCentimeters, 10
-        elif False:  # pylint: disable=using-constant-test
-            pass
+            return QgsUnitTypes.DistanceUnit.DistanceCentimeters, 10
         return None
 
     @staticmethod
@@ -124,15 +142,34 @@ class VectorRendererConverter:
         """
         distance_unit, factor = VectorRendererConverter.convert_distance_unit(units)
         factor = factor * QgsUnitTypes.fromUnitToUnitFactor(
-            distance_unit, QgsUnitTypes.DistanceMeters
+            distance_unit, QgsUnitTypes.DistanceUnit.DistanceMeters
         )
         return factor
+
+    @staticmethod
+    def apply_common_properties(
+        source_layer: FeatureLayer,
+        source_renderer,
+        destination_renderer: QgsFeatureRenderer,
+        context: Context,
+    ):
+        """
+        Applies common properties to the renderer
+        """
+        if source_layer.scale_symbols and context.map_reference_scale:
+            if Qgis.QGIS_VERSION_INT >= 32200:
+                destination_renderer.setReferenceScale(context.map_reference_scale)
+            else:
+                context.push_warning(
+                    "Scaling layers by reference scales requires QGIS 3.22 or later"
+                )
 
     @staticmethod
     def convert_renderer(
         renderer,  # pylint: disable=too-many-locals,too-many-return-statements,too-many-branches,too-many-statements
         layer,
         context: Context,
+        target_layer: QgsVectorLayer,
         ignore_subheadings: bool = False,
     ):
         """
@@ -142,7 +179,7 @@ class VectorRendererConverter:
         if layer and hasattr(layer, "symbol_layer_drawing"):
             context.symbol_layer_drawing = layer.symbol_layer_drawing
 
-        if isinstance(renderer, (SimpleRenderer,)):
+        if isinstance(renderer, SimpleRenderer):
             if renderer.symbol:
                 context.symbol_name = "default"
                 symbol = SymbolConverter.Symbol_to_QgsSymbol(renderer.symbol, context)
@@ -150,53 +187,56 @@ class VectorRendererConverter:
                     symbol, renderer, context
                 )
 
+                if symbol is None:
+                    return QgsNullSymbolRenderer()
+
                 res = QgsSingleSymbolRenderer(symbol)
+                VectorRendererConverter.apply_common_properties(
+                    layer, renderer, res, context
+                )
                 return res
             else:
                 return QgsNullSymbolRenderer()
 
-        elif isinstance(renderer, (ChartRenderer,)):
-            if isinstance(renderer, ChartRenderer) and renderer.symbol2 is not None:
+        elif isinstance(renderer, ChartRenderer):
+            if renderer.symbol2 is not None:
                 context.symbol_name = "default"
                 symbol = SymbolConverter.Symbol_to_QgsSymbol(renderer.symbol2, context)
                 VectorRendererConverter.apply_renderer_settings_to_symbol(
                     symbol, renderer, context
                 )
-                return QgsSingleSymbolRenderer(symbol)
-            elif False:  # pylint: disable=using-constant-test
-                pass
+                if symbol is None:
+                    return QgsNullSymbolRenderer()
+
+                res = QgsSingleSymbolRenderer(symbol)
+                VectorRendererConverter.apply_common_properties(
+                    layer, renderer, res, context
+                )
+                return res
             else:
                 return QgsNullSymbolRenderer()
-        elif isinstance(renderer, (ProportionalSymbolRenderer,)):
+        elif isinstance(renderer, ProportionalSymbolRenderer):
             context.symbol_name = "default"
-            if isinstance(renderer, ProportionalSymbolRenderer):
-                symbol = SymbolConverter.Symbol_to_QgsSymbol(renderer.symbol, context)
-            else:
-                symbol = None
+            symbol = SymbolConverter.Symbol_to_QgsSymbol(renderer.symbol, context)
 
-            # pylint: disable=simplifiable-condition
             if (
                 isinstance(renderer, ProportionalSymbolRenderer)
                 and renderer.proportional_symbol_units != Units.DISTANCE_UNKNOWN
-            ) or (
-                False
-                and renderer.unit_symbolization
-                and renderer.unit_symbolization.value_unit
             ):
-                # pylint: enable=simplifiable-condition
                 for i in range(symbol.symbolLayerCount()):
-                    layer = symbol.symbolLayer(i)
-                    if symbol.type() == QgsSymbol.Marker:
-                        layer.setSizeUnit(QgsUnitTypes.RenderMetersInMapUnits)
+                    symbol_layer = symbol.symbolLayer(i)
+                    if symbol.type() == QgsSymbol.SymbolType.Marker:
+                        symbol_layer.setSizeUnit(
+                            QgsUnitTypes.RenderUnit.RenderMetersInMapUnits
+                        )
                     else:
-                        layer.setWidthUnit(QgsUnitTypes.RenderMetersInMapUnits)
+                        symbol_layer.setWidthUnit(
+                            QgsUnitTypes.RenderUnit.RenderMetersInMapUnits
+                        )
 
-                if isinstance(renderer, ProportionalSymbolRenderer):
-                    scale_factor = VectorRendererConverter.conversion_factor_to_meters(
-                        renderer.proportional_symbol_units
-                    )
-                else:
-                    scale_factor = 1
+                scale_factor = VectorRendererConverter.conversion_factor_to_meters(
+                    renderer.proportional_symbol_units
+                )
                 if scale_factor != 1:
                     size_property = QgsProperty.fromExpression(
                         '{}*"{}"'.format(scale_factor, renderer.attribute)
@@ -205,7 +245,7 @@ class VectorRendererConverter:
                     size_property = QgsProperty.fromField(renderer.attribute)
             else:
                 # need to calculate max size from min size, since ArcMap does this for users without exposing this choice
-                if symbol.type() == QgsSymbol.Marker:
+                if symbol.type() == QgsSymbol.SymbolType.Marker:
                     if renderer.compensate_using_flannery:
                         max_size = symbol.size() * 5.5 + 1.34
                     else:
@@ -216,14 +256,11 @@ class VectorRendererConverter:
                     min_size = symbol.width()
                 size_property = QgsProperty.fromField(renderer.attribute)
 
-                if isinstance(renderer, ProportionalSymbolRenderer):
-                    scale_type = (
-                        QgsSizeScaleTransformer.Flannery
-                        if renderer.compensate_using_flannery
-                        else QgsSizeScaleTransformer.Linear
-                    )
-                else:
-                    scale_type = QgsSizeScaleTransformer.Flannery
+                scale_type = (
+                    QgsSizeScaleTransformer.ScaleType.Flannery
+                    if renderer.compensate_using_flannery
+                    else QgsSizeScaleTransformer.ScaleType.Linear
+                )
 
                 transformer = QgsSizeScaleTransformer(
                     type=scale_type,
@@ -235,7 +272,7 @@ class VectorRendererConverter:
 
                 size_property.setTransformer(transformer)
 
-            if symbol.type() == QgsSymbol.Marker:
+            if symbol.type() == QgsSymbol.SymbolType.Marker:
                 symbol.setDataDefinedSize(size_property)
             else:
                 symbol.setDataDefinedWidth(size_property)
@@ -253,8 +290,8 @@ class VectorRendererConverter:
             uses_symbol_levels = False
             if (
                 QgsWkbTypes.geometryType(context.layer_type_hint)
-                == QgsWkbTypes.PolygonGeometry
-                and symbol.type() == QgsSymbol.Marker
+                == QgsWkbTypes.GeometryType.PolygonGeometry
+                and symbol.type() == QgsSymbol.SymbolType.Marker
             ):
                 polygon_symbol = background_symbol.clone()
                 for i in range(polygon_symbol.symbolLayerCount()):
@@ -269,6 +306,9 @@ class VectorRendererConverter:
                 uses_symbol_levels = True
 
             if not renderer.exclusion_filter:
+                if symbol is None:
+                    return QgsNullSymbolRenderer()
+
                 res = QgsSingleSymbolRenderer(symbol)
             else:
                 rootrule = QgsRuleBasedRenderer.Rule(None)
@@ -280,18 +320,24 @@ class VectorRendererConverter:
 
             res.setUsingSymbolLevels(uses_symbol_levels)
 
-            return res
+            VectorRendererConverter.apply_common_properties(
+                layer, renderer, res, context
+            )
 
+            return res
         # pylint: disable=too-many-nested-blocks
-        elif isinstance(renderer, (UniqueValueRenderer,)):
+        elif isinstance(renderer, UniqueValueRenderer):
             requires_rule_based = False
             class_count = 0
             for g in renderer.groups:
                 class_count += len(g.classes)
-                if (
-                    g.heading
-                    and (", ".join(renderer.fields)).upper() != g.heading.upper()
-                ):
+
+                fields = []
+                for f in renderer.fields:
+                    fields.append(context.field_to_alias_map.get(f, f))
+                arcmap_default_group_name = ", ".join(fields)
+
+                if g.heading and arcmap_default_group_name.upper() != g.heading.upper():
                     requires_rule_based = True
 
             use_rule_based = requires_rule_based and not ignore_subheadings
@@ -301,13 +347,12 @@ class VectorRendererConverter:
 
             if requires_rule_based and not use_rule_based:
                 for g in renderer.groups:
-                    if context.unsupported_object_callback:
-                        context.unsupported_object_callback(
-                            "Unique Value legend group title “{}” is not supported by QGIS".format(
-                                g.heading
-                            ),
-                            level=Context.WARNING,
-                        )
+                    context.push_warning(
+                        "Unique Value legend group title “{}” is not supported by QGIS".format(
+                            g.heading
+                        ),
+                        level=Context.WARNING,
+                    )
 
             fields = renderer.fields[:]
             if context.main_layer_name:
@@ -315,25 +360,17 @@ class VectorRendererConverter:
 
             if len(fields) == 1:
                 cat_exp = QgsExpression.quotedColumnRef(fields[0])
-            elif isinstance(renderer, UniqueValueRenderer):
+            else:
                 cat_exp = "concat({})".format(
                     ",'{}',".format(renderer.concatenator).join(
                         ['"{}"'.format(f) for f in fields]
                     )
                 )
-            elif False:  # pylint: disable=using-constant-test
-                pass
 
-            renderer_default_symbol = None
-            all_other_label = ""
-            include_default = False
-
-            if False:  # pylint: disable=using-constant-test
-                pass
-            else:
-                renderer_default_symbol = renderer.symbol
-                all_other_label = renderer.all_other_value
-                include_default = renderer.include_all_other
+            renderer_default_symbol = renderer.symbol
+            all_other_label = renderer.all_other_value
+            include_default = True
+            show_default = renderer.include_all_other
 
             if use_rule_based:
                 rootrule = QgsRuleBasedRenderer.Rule(None)
@@ -350,16 +387,14 @@ class VectorRendererConverter:
                         heading_rule = None
 
                     for c in g.classes:
+                        visible = True
                         context.symbol_name = c.label
                         if renderer_default_symbol == c.symbol:
                             val = None
                             found_all_other = True
                         else:
-                            if False:  # pylint: disable=using-constant-test
-                                pass
-                            else:
-                                val = renderer.values[i]
-                                i += 1
+                            val = renderer.values[i]
+                            i += 1
                         symbol = SymbolConverter.Symbol_to_QgsSymbol(c.symbol, context)
                         VectorRendererConverter.apply_renderer_settings_to_symbol(
                             symbol, renderer, context
@@ -379,12 +414,14 @@ class VectorRendererConverter:
                         rule = QgsRuleBasedRenderer.Rule(
                             symbol, 0, 0, filter_string, c.label, c.label
                         )
+                        rule.setActive(visible)
+
                         if heading_rule:
                             heading_rule.appendChild(rule)
                         else:
                             rootrule.appendChild(rule)
 
-                if renderer_default_symbol and not found_all_other:
+                if renderer_default_symbol and not found_all_other and include_default:
                     default_symbol = SymbolConverter.Symbol_to_QgsSymbol(
                         renderer_default_symbol, context
                     )
@@ -392,11 +429,14 @@ class VectorRendererConverter:
                     all_other_rule = QgsRuleBasedRenderer.Rule(
                         default_symbol, 0, 0, "", all_other_label, all_other_label, True
                     )
-                    all_other_rule.setActive(include_default)
+                    all_other_rule.setActive(show_default)
                     rootrule.appendChild(all_other_rule)
 
                 res = QgsRuleBasedRenderer(rootrule)
 
+                VectorRendererConverter.apply_common_properties(
+                    layer, renderer, res, context
+                )
                 return res
 
             else:
@@ -406,22 +446,20 @@ class VectorRendererConverter:
                 for g in renderer.groups:
                     for c in g.classes:
                         context.symbol_name = c.label
+                        visible = True
                         if renderer_default_symbol == c.symbol:
                             val = None
                             found_all_other = True
                         else:
-                            if False:  # pylint: disable=using-constant-test
-                                pass
-                            else:
-                                val = renderer.values[i]
+                            val = renderer.values[i]
 
-                                i += 1
+                            i += 1
                         symbol = SymbolConverter.Symbol_to_QgsSymbol(c.symbol, context)
                         VectorRendererConverter.apply_renderer_settings_to_symbol(
                             symbol, renderer, context
                         )
 
-                        cat = QgsRendererCategory(val, symbol, c.label)
+                        cat = QgsRendererCategory(val, symbol, c.label, visible)
                         cats.append(cat)
 
                 if found_all_other:
@@ -441,19 +479,20 @@ class VectorRendererConverter:
                     # even though the features aren't being rendered. Ie- same as QGIS null symbol renderer
                     return QgsNullSymbolRenderer()
 
-                if renderer_default_symbol and not found_all_other:
+                if include_default and renderer_default_symbol and not found_all_other:
                     default_symbol = SymbolConverter.Symbol_to_QgsSymbol(
                         renderer_default_symbol, context
                     )
                     cat = QgsRendererCategory(
-                        None, default_symbol, all_other_label, include_default
+                        None, default_symbol, all_other_label, show_default
                     )
                     cats.append(cat)
 
                 res = QgsCategorizedSymbolRenderer(cat_exp, cats)
 
-                if False:  # pylint: disable=using-constant-test
-                    pass
+                VectorRendererConverter.apply_common_properties(
+                    layer, renderer, res, context
+                )
 
                 return res
         # pylint: enable=too-many-nested-blocks
@@ -475,9 +514,9 @@ class VectorRendererConverter:
                     )
 
                     if renderer.variation_renderer.is_graduated_symbol:
-                        if symbol.type() == QgsSymbol.Marker:
+                        if symbol.type() == QgsSymbol.SymbolType.Marker:
                             val = symbol.size()
-                        elif symbol.type() == QgsSymbol.Line:
+                        elif symbol.type() == QgsSymbol.SymbolType.Line:
                             val = symbol.width()
                         else:
                             assert False
@@ -497,13 +536,13 @@ class VectorRendererConverter:
                     sym.setDataDefinedSize(prop)
                 else:
                     for symbol_layer in range(sym.symbolLayerCount()):
-                        if sym.type() == QgsSymbol.Line:
+                        if sym.type() == QgsSymbol.SymbolType.Line:
                             sym.symbolLayer(symbol_layer).setDataDefinedProperty(
-                                QgsSymbolLayer.PropertyStrokeColor, prop
+                                QgsSymbolLayer.Property.PropertyStrokeColor, prop
                             )
-                        elif sym.type() == QgsSymbol.Marker:
+                        elif sym.type() == QgsSymbol.SymbolType.Marker:
                             sym.symbolLayer(symbol_layer).setDataDefinedProperty(
-                                QgsSymbolLayer.PropertyFillColor, prop
+                                QgsSymbolLayer.Property.PropertyFillColor, prop
                             )
                         # fill symbols seem to ignore the variation renderer?
 
@@ -512,27 +551,14 @@ class VectorRendererConverter:
             return res
 
         elif isinstance(renderer, DotDensityRenderer):
-            if Qgis.QGIS_VERSION_INT < 31100 and context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    "{}: Dot density renderers require QGIS 3.12 or later".format(
-                        context.layer_name or context.symbol_name
-                    ),
-                    level=Context.CRITICAL,
-                )
-                return QgsSingleSymbolRenderer(QgsFillSymbol())
-
             if len(renderer.fields) > 1:
-                context.unsupported_object_callback(
-                    "{}: Dot density renderers with multiple attributes must cannot be merged into a single symbol in QGIS".format(
-                        context.layer_name
-                    ),
+                context.push_warning(
+                    "Dot density renderers with multiple attributes must cannot be merged into a single symbol in QGIS",
                     level=Context.WARNING,
                 )
             if renderer.mask_layer:
-                context.unsupported_object_callback(
-                    "{}: Dot density renderers with mask layers are not supported in QGIS".format(
-                        context.layer_name
-                    ),
+                context.push_warning(
+                    "Dot density renderers with mask layers are not supported in QGIS",
                     level=Context.WARNING,
                 )
 
@@ -544,14 +570,20 @@ class VectorRendererConverter:
                     ColorConverter.color_to_qcolor(
                         renderer.fill_symbol.background_color
                     ),
-                    strokeStyle=Qt.NoPen,
+                    strokeStyle=Qt.PenStyle.NoPen,
                 )
                 s.appendSymbolLayer(background)
 
             for i, f in enumerate(renderer.fields):
-                symbol_layer = QgsRandomMarkerFillSymbolLayer(
-                    1, method=QgsRandomMarkerFillSymbolLayer.AbsoluteCount
-                )
+                if Qgis.QGIS_VERSION_INT >= 32400:
+                    symbol_layer = QgsRandomMarkerFillSymbolLayer(
+                        1, method=Qgis.PointCountMethod.Absolute
+                    )
+                else:
+                    symbol_layer = QgsRandomMarkerFillSymbolLayer(
+                        1,
+                        method=QgsRandomMarkerFillSymbolLayer.CountMethod.AbsoluteCount,
+                    )
                 if renderer.maintain_density and renderer.maintain_density_by_dot_value:
                     exp = '("{}" * {}) / ({} * @map_scale)'.format(
                         f, renderer.scale, renderer.dot_value
@@ -559,7 +591,8 @@ class VectorRendererConverter:
                 else:
                     exp = '"{}" / {}'.format(f, renderer.dot_value)
                 symbol_layer.setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyPointCount, QgsProperty.fromExpression(exp)
+                    QgsSymbolLayer.Property.PropertyPointCount,
+                    QgsProperty.fromExpression(exp),
                 )
                 symbol_layer.setSeed(renderer.fill_symbol.seed)
                 symbol_layer.setClipPoints(False)
@@ -591,9 +624,12 @@ class VectorRendererConverter:
 
             s.deleteSymbolLayer(0)
             s.setClipFeaturesToExtent(False)
-            return QgsSingleSymbolRenderer(s)
-
-        elif isinstance(renderer, (ClassBreaksRenderer,)):
+            res = QgsSingleSymbolRenderer(s)
+            VectorRendererConverter.apply_common_properties(
+                layer, renderer, res, context
+            )
+            return res
+        elif isinstance(renderer, ClassBreaksRenderer):
             i = 0
             cats = []
 
@@ -601,9 +637,8 @@ class VectorRendererConverter:
                 isinstance(renderer, ClassBreaksRenderer)
                 and renderer.legend_group.heading
                 and renderer.legend_group.heading != renderer.attribute
-                and context.unsupported_object_callback
             ):
-                context.unsupported_object_callback(
+                context.push_warning(
                     "Class Break legend group title “{}” is not supported by QGIS".format(
                         renderer.legend_group.heading
                     ),
@@ -616,26 +651,18 @@ class VectorRendererConverter:
                 else None
             )
 
-            if isinstance(renderer, ClassBreaksRenderer):
-                classes = renderer.legend_group.classes
-            else:
-                classes = []
+            classes = renderer.legend_group.classes
+
             for c in classes:
                 context.symbol_name = c.label
 
-                if isinstance(renderer, ClassBreaksRenderer):
-                    range_index = (
-                        i if renderer.sort_ascending else len(renderer.ranges) - i - 1
-                    )
-                else:
-                    range_index = 0
+                range_index = (
+                    i if renderer.sort_ascending else len(renderer.ranges) - i - 1
+                )
 
-                if isinstance(renderer, ClassBreaksRenderer):
+                if True:
                     lower = renderer.ranges[range_index][0]
                     upper = renderer.ranges[range_index][1]
-                else:
-                    lower = 0
-                    upper = 0
                 i += 1
                 symbol = SymbolConverter.Symbol_to_QgsSymbol(c.symbol, context)
                 VectorRendererConverter.apply_renderer_settings_to_symbol(
@@ -644,8 +671,8 @@ class VectorRendererConverter:
 
                 if (
                     QgsWkbTypes.geometryType(context.layer_type_hint)
-                    == QgsWkbTypes.PolygonGeometry
-                    and symbol.type() == QgsSymbol.Marker
+                    == QgsWkbTypes.GeometryType.PolygonGeometry
+                    and symbol.type() == QgsSymbol.SymbolType.Marker
                 ):
                     centroid_fill = QgsCentroidFillSymbolLayer()
                     centroid_fill.setSubSymbol(symbol)
@@ -662,62 +689,52 @@ class VectorRendererConverter:
                 cat = QgsRendererRange(lower, upper, symbol, c.label)
                 cats.append(cat)
 
-            if isinstance(renderer, ClassBreaksRenderer):
-                if (
-                    renderer.normalization_method
-                    == VectorRendererBase.NORMALIZE_BY_PERCENT_OF_TOTAL
-                ):
-                    attr = "{}/sum({})*100".format(
-                        renderer.attribute, renderer.attribute
-                    )
-                elif (
-                    renderer.normalization_method
-                    != VectorRendererBase.NORMALIZE_BY_NOTHING
-                    and context.unsupported_object_callback
-                ):
-                    context.unsupported_object_callback(
-                        "Class Break normalization method “{}” is not supported by QGIS".format(
-                            VectorRendererBase.normalize_method_to_string(
-                                renderer.normalization_method
-                            )
-                        ),
-                        level=Context.CRITICAL,
-                    )
-                    attr = renderer.attribute
-                else:
-                    attr = renderer.attribute
+            if (
+                renderer.normalization_method
+                == VectorRendererBase.NORMALIZE_BY_PERCENT_OF_TOTAL
+            ):
+                attr = "{}/sum({})*100".format(renderer.attribute, renderer.attribute)
+            elif (
+                renderer.normalization_method != VectorRendererBase.NORMALIZE_BY_NOTHING
+            ):
+                context.push_warning(
+                    "Class Break normalization method “{}” is not supported by QGIS".format(
+                        VectorRendererBase.normalize_method_to_string(
+                            renderer.normalization_method
+                        )
+                    ),
+                    level=Context.CRITICAL,
+                )
+                attr = renderer.attribute
             else:
-                pass
+                attr = renderer.attribute
 
             res = QgsGraduatedSymbolRenderer(attr, cats)
             if (
                 isinstance(renderer, ClassBreaksRenderer)
                 and renderer.is_graduated_symbol
             ):
-                res.setGraduatedMethod(QgsGraduatedSymbolRenderer.GraduatedSize)
-            elif False:  # pylint: disable=using-constant-test
-                pass
+                if Qgis.QGIS_VERSION_INT >= 32600:
+                    res.setGraduatedMethod(Qgis.GraduatedMethod.Size)
+                else:
+                    res.setGraduatedMethod(
+                        QgsGraduatedSymbolRenderer.GraduatedMethod.GraduatedSize
+                    )
 
-            if False:  # pylint: disable=using-constant-test
-                pass
+            VectorRendererConverter.apply_common_properties(
+                layer, renderer, res, context
+            )
 
             return res
 
         elif isinstance(renderer, ScaleDependentRenderer):
             for r in renderer.renderers:
                 if not isinstance(r, SimpleRenderer):
-                    if context.unsupported_object_callback:
-                        context.unsupported_object_callback(
-                            "Scale dependant renderer with complex child renderers cannot be converted",
-                            level=Context.CRITICAL,
-                        )
-                        return None
-
-                    raise NotImplementedException(
-                        "{} renderers cannot be converted yet".format(
-                            renderer.__class__.__name__
-                        )
+                    context.push_warning(
+                        "Scale dependant renderer with complex child renderers cannot be converted",
+                        level=Context.CRITICAL,
                     )
+                    return None
 
             rootrule = QgsRuleBasedRenderer.Rule(None)
             for i, r in enumerate(renderer.renderers):
@@ -737,65 +754,36 @@ class VectorRendererConverter:
                 rootrule.appendChild(rule)
 
             res = QgsRuleBasedRenderer(rootrule)
+
+            VectorRendererConverter.apply_common_properties(
+                layer, renderer, res, context
+            )
+            VectorRendererConverter.apply_sort_order_to_renderer(layer, res)
+
+            res = VectorRendererConverter.apply_display_filters_to_renderer(layer, res)
+
             return res
 
         elif isinstance(renderer, RepresentationRenderer):
-            if context.layer_type_hint is not None:
-                symbol = None
-                if (
-                    QgsWkbTypes.geometryType(context.layer_type_hint)
-                    == QgsWkbTypes.PointGeometry
-                ):
-                    symbol = QgsMarkerSymbol()
-
-                elif (
-                    QgsWkbTypes.geometryType(context.layer_type_hint)
-                    == QgsWkbTypes.LineGeometry
-                ):
-                    symbol = QgsLineSymbol()
-                elif (
-                    QgsWkbTypes.geometryType(context.layer_type_hint)
-                    == QgsWkbTypes.PolygonGeometry
-                ):
-                    symbol = QgsFillSymbol()
-
-                if symbol:
-                    if context.unsupported_object_callback:
-                        context.unsupported_object_callback(
-                            "Representation renderers are not well supported in QGIS, feature styling has been dropped",
-                            level=Context.CRITICAL,
-                        )
-                    symbol_layer = QgsGeometryGeneratorSymbolLayer.create({})
-                    symbol_layer.setSymbolType(symbol.type())
-                    symbol_layer.setGeometryExpression("get_representation_geometry()")
-                    symbol.changeSymbolLayer(0, symbol_layer)
-                    return QgsSingleSymbolRenderer(symbol)
-
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    "Representation renderers could not be converted",
-                    level=Context.CRITICAL,
-                )
-            return None
+            context.push_warning(
+                "Converting representation renderers requires the licensed version of SLYR",
+                level=Context.CRITICAL,
+            )
+            return QgsFeatureRenderer.defaultRenderer(
+                QgsWkbTypes.geometryType(context.layer_type_hint)
+            )
         elif isinstance(renderer, S52Renderer):
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    "{}: S52 Renderers are not supported by QGIS".format(
-                        context.layer_name or context.symbol_name
-                    ),
-                    level=Context.CRITICAL,
-                )
+            context.push_warning(
+                "{}: S52 Renderers are not supported by QGIS", level=Context.CRITICAL
+            )
             return QgsFeatureRenderer.defaultRenderer(
                 QgsWkbTypes.geometryType(context.layer_type_hint)
             )
         elif isinstance(renderer, CustomRenderer):
-            if context.unsupported_object_callback:
-                context.unsupported_object_callback(
-                    "{}: Layer had a renderer provided by a custom extension, this could not be converted".format(
-                        context.layer_name or context.symbol_name
-                    ),
-                    level=Context.CRITICAL,
-                )
+            context.push_warning(
+                "Layer had a renderer provided by a custom extension, this could not be converted",
+                level=Context.CRITICAL,
+            )
             return QgsFeatureRenderer.defaultRenderer(
                 QgsWkbTypes.geometryType(context.layer_type_hint)
             )
@@ -812,9 +800,15 @@ class VectorRendererConverter:
         prop = QgsProperty.fromExpression(expression)
         for symbol_layer_index in range(symbol.symbolLayerCount()):
             layer = symbol.symbolLayer(symbol_layer_index)
-            layer.setDataDefinedProperty(QgsSymbolLayer.PropertyFillColor, prop)
-            layer.setDataDefinedProperty(QgsSymbolLayer.PropertyStrokeColor, prop)
-            layer.setDataDefinedProperty(QgsSymbolLayer.PropertySecondaryColor, prop)
+            layer.setDataDefinedProperty(
+                QgsSymbolLayer.Property.PropertyFillColor, prop
+            )
+            layer.setDataDefinedProperty(
+                QgsSymbolLayer.Property.PropertyStrokeColor, prop
+            )
+            layer.setDataDefinedProperty(
+                QgsSymbolLayer.Property.PropertySecondaryColor, prop
+            )
             if layer.subSymbol() is not None:
                 VectorRendererConverter.apply_data_defined_color_to_symbol(
                     layer.subSymbol(), expression
@@ -828,16 +822,11 @@ class VectorRendererConverter:
         """
         Applies renderer level settings to a symbol, i.e. data defined overrides
         """
-        if False:  # pylint: disable=using-constant-test
-            return
-
-        if False:  # pylint: disable=using-constant-test
-            return
 
         if renderer.transparency_attribute:
             if Qgis.QGIS_VERSION_INT >= 31800:
                 symbol.setDataDefinedProperty(
-                    QgsSymbol.PropertyOpacity,
+                    QgsSymbol.Property.PropertyOpacity,
                     QgsProperty.fromExpression(
                         '100-"{}"'.format(renderer.transparency_attribute)
                     ),
@@ -855,10 +844,15 @@ class VectorRendererConverter:
             size_expression = ExpressionConverter.convert_vbscript_expression(
                 renderer.graduated_expression, context
             )
-            if isinstance(symbol, QgsMarkerSymbol):
-                symbol.setDataDefinedSize(QgsProperty.fromExpression(size_expression))
-            elif isinstance(symbol, QgsLineSymbol):
-                symbol.setDataDefinedWidth(QgsProperty.fromExpression(size_expression))
+            if size_expression:
+                if isinstance(symbol, QgsMarkerSymbol):
+                    symbol.setDataDefinedSize(
+                        QgsProperty.fromExpression(size_expression)
+                    )
+                elif isinstance(symbol, QgsLineSymbol):
+                    symbol.setDataDefinedWidth(
+                        QgsProperty.fromExpression(size_expression)
+                    )
         elif renderer.graduated_size_type == VectorRendererBase.SIZE_RANDOM:
             size_expression = "randf({}, {}, seed:=coalesce($id, 0))".format(
                 renderer.random_size_min, renderer.random_size_max
@@ -894,14 +888,15 @@ class VectorRendererConverter:
                     renderer.rotation_type
                     == VectorRendererBase.ROTATE_SYMBOL_ARITHMETIC
                 ):
-                    rotation_expression = "90 - {}".format(
+                    rotation_expression = "90 - ({})".format(
                         ExpressionConverter.convert(
                             renderer.rotation_expression_z, None, False, context
                         )
                     )
-                    symbol.setDataDefinedAngle(
-                        QgsProperty.fromExpression(rotation_expression)
-                    )
+                    if rotation_expression:
+                        symbol.setDataDefinedAngle(
+                            QgsProperty.fromExpression(rotation_expression)
+                        )
                 elif (
                     renderer.rotation_type
                     == VectorRendererBase.ROTATE_SYMBOL_GEOGRAPHIC
@@ -909,9 +904,10 @@ class VectorRendererConverter:
                     rotation_expression = ExpressionConverter.convert(
                         renderer.rotation_expression_z, None, False, context
                     )
-                    symbol.setDataDefinedAngle(
-                        QgsProperty.fromExpression(rotation_expression)
-                    )
+                    if rotation_expression:
+                        symbol.setDataDefinedAngle(
+                            QgsProperty.fromExpression(rotation_expression)
+                        )
                 else:
                     assert False, "Unknown rotation type"
         elif renderer.rotate_flag_3d == VectorRendererBase.ROTATE_FLAG_3D_RANDOM_Z:
@@ -929,65 +925,39 @@ class VectorRendererConverter:
     # pylint: enable=too-many-branches
 
     @staticmethod
-    def guess_geometry_type_from_renderer(layer: FeatureLayer):
+    def guess_geometry_type_from_renderer(
+        layer: FeatureLayer,
+    ) -> Optional[QgsWkbTypes.Type]:
         """
         Infers a layer's geometry type from the renderer's symbols
         """
         renderer = layer.renderer
 
-        if isinstance(renderer, (SimpleRenderer,)):
+        if isinstance(renderer, SimpleRenderer):
             return VectorRendererConverter.wkb_type_from_symbol(renderer.symbol)
         elif isinstance(renderer, UniqueValueRenderer):
             return VectorRendererConverter.wkb_type_from_symbol(renderer.symbol)
-        elif False:  # pylint: disable=using-constant-test
-            pass
         elif isinstance(renderer, ClassBreaksRenderer):
             if renderer.legend_group and renderer.legend_group.classes:
                 return VectorRendererConverter.wkb_type_from_symbol(
                     renderer.legend_group.classes[0].symbol
                 )
-        elif False:  # pylint: disable=using-constant-test
-            pass
-        elif False:  # pylint: disable=using-constant-test
-            pass
-        elif False:  # pylint: disable=using-constant-test
-            pass
         return None
 
     @staticmethod
-    def wkb_type_from_symbol(symbol):
+    def wkb_type_from_symbol(symbol) -> QgsWkbTypes.Type:
         """
         Guess a layer's WKB type using a symbol
         """
-        if False:  # pylint: disable=using-constant-test
-            pass
 
-        if isinstance(
-            symbol,
-            (
-                MultiLayerFillSymbol,
-                FillSymbolLayer,
-            ),
-        ):
-            return QgsWkbTypes.MultiPolygon
-        elif isinstance(
-            symbol,
-            (
-                MultiLayerLineSymbol,
-                LineSymbolLayer,
-            ),
-        ):
-            return QgsWkbTypes.MultiLineString
-        elif isinstance(
-            symbol,
-            (
-                MultiLayerMarkerSymbol,
-                MarkerSymbolLayer,
-            ),
-        ):
-            return QgsWkbTypes.Point
+        if isinstance(symbol, (MultiLayerFillSymbol, FillSymbolLayer)):
+            return QgsWkbTypes.Type.MultiPolygon
+        elif isinstance(symbol, (MultiLayerLineSymbol, LineSymbolLayer)):
+            return QgsWkbTypes.Type.MultiLineString
+        elif isinstance(symbol, (MultiLayerMarkerSymbol, MarkerSymbolLayer)):
+            return QgsWkbTypes.Type.Point
 
-        return QgsWkbTypes.Unknown
+        return QgsWkbTypes.Type.Unknown
 
     @staticmethod
     def extract_symbols_from_renderer(
@@ -999,7 +969,7 @@ class VectorRendererConverter:
         renderer = layer.renderer
 
         symbols = {}
-        if isinstance(renderer, (SimpleRenderer,)):
+        if isinstance(renderer, SimpleRenderer):
             name = base_name if base_name else default_name
             context.symbol_name = name
             symbols[name] = SymbolConverter.Symbol_to_QgsSymbol(
@@ -1013,15 +983,11 @@ class VectorRendererConverter:
                     symbols[name] = SymbolConverter.Symbol_to_QgsSymbol(
                         c.symbol, context
                     )
-        elif False:  # pylint: disable=using-constant-test
-            pass
         elif isinstance(renderer, ClassBreaksRenderer):
             for c in renderer.legend_group.classes:
                 name = "{} {}".format(base_name, c.label) if base_name else c.label
                 context.symbol_name = name
                 symbols[name] = SymbolConverter.Symbol_to_QgsSymbol(c.symbol, context)
-        elif False:  # pylint: disable=using-constant-test
-            pass
 
         if isinstance(layer, FeatureLayer):
             if layer.annotation_collection and layer.annotation_collection.properties:
