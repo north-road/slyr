@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Browser and app integrations for MXD/PMF/SXD/MXT file integration with QGIS
+"""
 
-# /***************************************************************************
-# browser.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,19 +11,31 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+import html
+from pathlib import PureWindowsPath
 
-"""
-Browser and app integrations for MXD/PMF/SXD/MXT file integration with QGIS
-"""
-
-from qgis.PyQt.QtCore import QDir, QCoreApplication
+from qgis.PyQt.QtCore import QDir, QCoreApplication, QTimer
 from qgis.PyQt.QtWidgets import QAction
-from qgis.core import Qgis, QgsDataItem, QgsMimeDataUtils
+from qgis.core import (
+    Qgis,
+    QgsDataItem,
+    QgsMimeDataUtils,
+    QgsProject,
+    QgsProjectDirtyBlocker,
+)
 from qgis.gui import QgsCustomDropHandler
 from qgis.utils import iface
 
 from .browser_utils import BrowserUtils
+from .mxd_browser_widget import MxdBrowserWidget
 from ..gui_utils import GuiUtils
+from ...converters.context import Context
+from ...converters.project import ProjectConverter
+from ...parser.exceptions import EmptyDocumentException, DocumentTypeException
+from ...parser.exceptions import RequiresLicenseException
+from ...parser.objects.map import Map
+from ...parser.stream import Stream
+from ...parser.streams.map_document import MapDocument
 
 try:
     from qgis.gui import QgsCustomProjectOpenHandler  # pylint: disable=ungrouped-imports
@@ -57,13 +62,16 @@ class MxdDropHandler(QgsCustomDropHandler):
         return self.open_mxd(file)
 
     @staticmethod
-    def open_mxd(
-        input_file,  # pylint:disable=too-many-locals,too-many-return-statements,too-many-branches,too-many-statements
-        use_warnings=True,
-    ):  # pylint:disable=unused-argument
+    def open_mxd(input_file, use_warnings=True):  # pylint:disable=too-many-locals,too-many-return-statements,too-many-branches,too-many-statements
         """
         Opens an MXD file in the current project
         """
+        global blocker  # pylint: disable=global-statement
+
+        warnings = set()
+        errors = set()
+        info = set()
+
         type_string = None
         if input_file.lower().endswith("mxd"):
             type_string = "MXD"
@@ -79,14 +87,204 @@ class MxdDropHandler(QgsCustomDropHandler):
         if not type_string:
             return False
 
-        message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
-        BrowserUtils.show_warning(
-            "Licensed version required",
-            "Convert MXD",
-            message,
-            level=Qgis.Critical,
-            message_bar=iface.messageBar(),
-        )
+        if type_string in ("MXD", "MXT") and use_warnings:
+            res = iface.newProject(True)
+            if res is None:
+                # old api (pre 3.10.1)
+                if QgsProject.instance().isDirty():
+                    # user opted to cancel, return
+                    return True
+            elif not res:
+                # creating new project was cancelled
+                return True
+
+        with open(input_file, "rb") as f:
+            stream = None
+            try:
+                if type_string in ("MXD", "MXT"):
+                    obj = MapDocument(f, False, tolerant=True, read_layouts=True)
+                else:
+                    stream = Stream(f, False, force_layer=True, offset=-1)
+                    stream.allow_shortcuts = True
+                    obj = stream.read_object()
+
+            except EmptyDocumentException:
+                iface.messageBar().pushCritical(
+                    "Convert {}".format(type_string), "File is empty or corrupt"
+                )
+                return True
+            except DocumentTypeException:
+                iface.messageBar().pushCritical(
+                    "Convert {}".format(type_string),
+                    "File is corrupt or not an {}".format(type_string),
+                )
+                return True
+            except RequiresLicenseException as e:
+                iface.messageBar().pushCritical(
+                    "Convert {}".format(type_string),
+                    "{}. Please see https://north-road.com/slyr/ for details".format(
+                        type_string
+                    ),
+                )
+                return True
+
+            def unsupported_object_callback(msg, level=Context.WARNING):
+                if level == Context.WARNING:
+                    warnings.add(msg)
+                elif level == Context.CRITICAL:
+                    errors.add(msg)
+                elif level == Context.INFO:
+                    info.add(msg)
+
+            conversion_context = Context()
+            if isinstance(obj, MapDocument) and obj.original_path:
+                conversion_context.original_path = PureWindowsPath(
+                    obj.original_path
+                ).parent
+
+            conversion_context.project = QgsProject.instance()
+            conversion_context.unsupported_object_callback = unsupported_object_callback
+
+            blocker = None
+            if isinstance(obj, MapDocument):
+                # yuck
+                blocker = QgsProjectDirtyBlocker(QgsProject.instance())
+
+                prev_setting = iface.layerTreeCanvasBridge().autoSetupOnFirstLayer()
+                iface.layerTreeCanvasBridge().setAutoSetupOnFirstLayer(False)
+
+                if Qgis.QGIS_VERSION_INT >= 33500:
+                    iface.blockActiveLayerChanges(True)
+                ProjectConverter.convert_target_project(
+                    QgsProject.instance(),
+                    input_file,
+                    obj,
+                    conversion_context,
+                    canvas=iface.mapCanvas(),
+                )
+                if Qgis.QGIS_VERSION_INT >= 33500:
+                    iface.blockActiveLayerChanges(False)
+
+                def post_steps():
+                    global blocker  # pylint: disable=global-statement
+                    iface.layerTreeCanvasBridge().setAutoSetupOnFirstLayer(prev_setting)
+                    del blocker
+                    blocker = None
+
+                QTimer.singleShot(500, lambda: post_steps)
+
+            elif isinstance(obj, Map):
+                # yuck
+                prev_setting = iface.layerTreeCanvasBridge().autoSetupOnFirstLayer()
+                iface.layerTreeCanvasBridge().setAutoSetupOnFirstLayer(False)
+
+                if Qgis.QGIS_VERSION_INT >= 33500:
+                    iface.blockActiveLayerChanges(True)
+                ProjectConverter.update_project(
+                    QgsProject.instance(),
+                    input_file,
+                    obj,
+                    conversion_context,
+                    multiframes=stream.data_frame_count > 1,
+                    canvas=iface.mapCanvas(),
+                )
+                if Qgis.QGIS_VERSION_INT >= 33500:
+                    iface.blockActiveLayerChanges(False)
+
+                if stream.data_frame_count > 1:
+                    for _ in range(1, stream.data_frame_count):
+                        obj = stream.read_object()
+                        if isinstance(obj, Map):
+                            if Qgis.QGIS_VERSION_INT >= 33500:
+                                iface.blockActiveLayerChanges(True)
+                            ProjectConverter.update_project(
+                                QgsProject.instance(),
+                                input_file,
+                                obj,
+                                conversion_context,
+                                multiframes=True,
+                            )
+                            if Qgis.QGIS_VERSION_INT >= 33500:
+                                iface.blockActiveLayerChanges(False)
+                        else:
+                            assert False, "unexpected object type"
+                QTimer.singleShot(
+                    500,
+                    lambda: iface.layerTreeCanvasBridge().setAutoSetupOnFirstLayer(
+                        prev_setting
+                    ),
+                )
+            else:
+                return False
+
+        try:
+            QgsProject.instance().setOriginalPath(input_file)
+        except AttributeError:
+            pass
+
+        if warnings or errors or info:
+            message = ""
+            title = ""
+            level = None
+
+            if errors:
+                message = "<p>The following errors were generated while converting the {} file:</p>".format(
+                    type_string
+                )
+                message += "<ul>"
+                for w in errors:
+                    message += "<li>{}</li>".format(
+                        html.escape(w).replace("\n", "<br>")
+                    )
+                message += "</ul>"
+                title = "{} could not be completely converted".format(type_string)
+                level = Qgis.MessageLevel.Critical
+            if warnings:
+                if message:
+                    message += "<p>Additionally, some warnings were generated:</p>"
+                else:
+                    message += "<p>The following warnings were generated while converting the {} file:</p>".format(
+                        type_string
+                    )
+                message += "<ul>"
+                for w in warnings:
+                    message += "<li>{}</li>".format(
+                        html.escape(w).replace("\n", "<br>")
+                    )
+                message += "</ul>"
+                if not title:
+                    title = "Some warnings were encountered while converting {}".format(
+                        type_string
+                    )
+                if level is None:
+                    level = Qgis.MessageLevel.Warning
+
+            if info:
+                if message:
+                    message += (
+                        "<p>Additionally, some extra messages were generated:</p>"
+                    )
+                else:
+                    message += "<p>The following information messages were generated converting the {} file:</p>".format(
+                        type_string
+                    )
+                message += "<ul>"
+                for w in info:
+                    message += "<li>{}</li>".format(
+                        html.escape(w).replace("\n", "<br>")
+                    )
+                message += "</ul>"
+                if not title:
+                    title = "Some messages were generated while converting {}".format(
+                        type_string
+                    )
+                if level is None:
+                    level = Qgis.MessageLevel.Info
+
+            BrowserUtils.show_warning(
+                title, "Convert {}".format(type_string), message, level=level
+            )
+
         return True
 
     def customUriProviderKey(self):  # pylint: disable=missing-docstring
@@ -103,8 +301,8 @@ class EsriMxdItem(QgsDataItem):
     """
 
     def __init__(self, parent, name, path):
-        super().__init__(QgsDataItem.Custom, parent, name, path)
-        self.setState(QgsDataItem.Populated)  # no children
+        super().__init__(QgsDataItem.Type.Custom, parent, name, path)
+        self.setState(QgsDataItem.State.Populated)  # no children
         self.setToolTip(QDir.toNativeSeparators(path))
 
     def hasDragEnabled(self):  # pylint: disable=missing-docstring
@@ -128,10 +326,15 @@ class EsriMxdItem(QgsDataItem):
     def mimeUris(self):  # pylint: disable=missing-docstring
         return [self.mimeUri()]
 
+    def paramWidget(self):  # pylint: disable=missing-docstring
+        widget = MxdBrowserWidget(self.path())
+        return widget
+
     def open_mxd(self):
         """
         Handles opening .mxd files
         """
+
         MxdDropHandler.open_mxd(self.path())
         return True
 
