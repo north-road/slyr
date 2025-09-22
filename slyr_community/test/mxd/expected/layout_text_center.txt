@@ -1,0 +1,1463 @@
+{'original': {'active_frame': <PageLayout: (36)>,
+              'author': '',
+              'credits': '',
+              'default_area_patch': {'name': '',
+                                     'polygon': {'crs': None,
+                                                 'parts': [[(3.000001907348633,
+                                                             0.0),
+                                                            (0.0, 0.0),
+                                                            (0.0,
+                                                             2.000001907348633),
+                                                            (1.5000019073486328,
+                                                             2.000001907348633),
+                                                            (3.000001907348633,
+                                                             2.000001907348633),
+                                                            (3.000001907348633,
+                                                             0.0)]],
+                                                 'ref_id': 26,
+                                                 'segments': [],
+                                                 'stream_offset': '0x5d0',
+                                                 'type': 'Polygon',
+                                                 'version': 2,
+                                                 'x_max': 3.000001907348633,
+                                                 'x_min': 0.0,
+                                                 'y_max': 2.000001907348633,
+                                                 'y_min': 0.0},
+                                     'preserve_aspect': True,
+                                     'ref_id': 25,
+                                     'stream_offset': '0x5ba',
+                                     'type': 'AreaPatch',
+                                     'version': 3},
+              'default_callout_symbol': {'angle': 0.0,
+                                         'background_symbol': {'fill_symbol': {'color': {'B': 190,
+                                                                                         'G': 255,
+                                                                                         'R': 255,
+                                                                                         'dither': True,
+                                                                                         'is_null': False,
+                                                                                         'ref_id': 23,
+                                                                                         'stream_offset': '0x4f1',
+                                                                                         'type': 'RgbColor',
+                                                                                         'version': 1},
+                                                                               'enabled': True,
+                                                                               'fill_style': 'solid',
+                                                                               'locked': False,
+                                                                               'outline': {'color': {'B': 110,
+                                                                                                     'G': 110,
+                                                                                                     'R': 110,
+                                                                                                     'dither': True,
+                                                                                                     'is_null': False,
+                                                                                                     'ref_id': 22,
+                                                                                                     'stream_offset': '0x4aa',
+                                                                                                     'type': 'RgbColor',
+                                                                                                     'version': 1},
+                                                                                           'enabled': True,
+                                                                                           'line_type': 'solid',
+                                                                                           'locked': False,
+                                                                                           'ref_id': 21,
+                                                                                           'stream_offset': '0x494',
+                                                                                           'symbol_level': 0,
+                                                                                           'type': 'SimpleLineSymbol',
+                                                                                           'version': 1,
+                                                                                           'width': 1.0},
+                                                                               'ref_id': 20,
+                                                                               'stream_offset': '0x47e',
+                                                                               'symbol_level': 0,
+                                                                               'type': 'SimpleFillSymbol',
+                                                                               'version': 1},
+                                                               'margin_bottom': 5.0,
+                                                               'margin_left': 5.0,
+                                                               'margin_right': 5.0,
+                                                               'margin_top': 5.0,
+                                                               'point': None,
+                                                               'ref_id': 19,
+                                                               'stream_offset': '0x444',
+                                                               'style': 'rectangle',
+                                                               'tolerance': 15.0,
+                                                               'type': 'BalloonCallout',
+                                                               'version': 1},
+                                         'break_character': None,
+                                         'case': 'normal',
+                                         'character_spacing': 0.0,
+                                         'character_width': 100.0,
+                                         'cjk_orientation': False,
+                                         'clip': False,
+                                         'color': {'B': 0,
+                                                   'G': 0,
+                                                   'R': 0,
+                                                   'dither': True,
+                                                   'is_null': False,
+                                                   'ref_id': 17,
+                                                   'stream_offset': '0x35a',
+                                                   'type': 'RgbColor',
+                                                   'version': 1},
+                                         'flip_angle': 0.0,
+                                         'font': {'charset': 0,
+                                                  'font_name': 'Arial',
+                                                  'italic': False,
+                                                  'ref_id': 24,
+                                                  'size': 9.75,
+                                                  'stream_offset': '0x582',
+                                                  'strikethrough': False,
+                                                  'type': 'Font',
+                                                  'underline': False,
+                                                  'version': 1,
+                                                  'weight': 400},
+                                         'font_size': 10.0,
+                                         'halo_enabled': False,
+                                         'halo_size': 2.0,
+                                         'halo_symbol': None,
+                                         'horizontal_alignment': 'left',
+                                         'kerning': True,
+                                         'leading': 0.0,
+                                         'position': 'normal',
+                                         'raster_op': 13,
+                                         'ref_id': 16,
+                                         'right_to_left': False,
+                                         'rotate_with_transform': True,
+                                         'shadow_color': {'B': 0,
+                                                          'G': 0,
+                                                          'R': 0,
+                                                          'dither': False,
+                                                          'is_null': False,
+                                                          'ref_id': 18,
+                                                          'stream_offset': '0x3bb',
+                                                          'type': 'RgbColor',
+                                                          'version': 1},
+                                         'shadow_x_offset': 0.0,
+                                         'shadow_y_offset': 0.0,
+                                         'stream_offset': '0x344',
+                                         'symbol_level': 0,
+                                         'text_direction': 0,
+                                         'text_fill_symbol': None,
+                                         'type': 'TextSymbol',
+                                         'type_setting': True,
+                                         'version': 4,
+                                         'vertical_alignment': 'center',
+                                         'word_spacing': 100.0,
+                                         'x_offset': 0.0,
+                                         'y_offset': 0.0},
+              'default_database': {'browse_name': 'Default',
+                                   'connection_properties': {'DATABASE': 'C:\\Users\\nd13030\\Documents\\ArcGIS\\Default.gdb',
+                                                             'ref_id': 66,
+                                                             'stream_offset': '0x90',
+                                                             'type': 'PropertySet',
+                                                             'version': 1},
+                                   'name': 'C:\\Users\\nd13030\\Documents\\ArcGIS\\Default.gdb',
+                                   'name_string': '',
+                                   'path_name': '',
+                                   'ref_id': 65,
+                                   'stream_offset': '0x0',
+                                   'type': 'WorkspaceName',
+                                   'version': 1,
+                                   'workspace_factory': {'stream_offset': '0x123',
+                                                         'type': 'FileGDBWorkspaceFactory',
+                                                         'version': 1},
+                                   'workspace_type': 'ESRI_LOCALDATABASE_WORKSPACE'},
+              'default_fill': {'color': {'B': 190,
+                                         'G': 255,
+                                         'R': 255,
+                                         'dither': True,
+                                         'is_null': False,
+                                         'ref_id': 6,
+                                         'stream_offset': '0x73',
+                                         'type': 'RgbColor',
+                                         'version': 1},
+                               'enabled': True,
+                               'fill_style': 'solid',
+                               'locked': False,
+                               'outline': {'color': {'B': 110,
+                                                     'G': 110,
+                                                     'R': 110,
+                                                     'dither': True,
+                                                     'is_null': False,
+                                                     'ref_id': 5,
+                                                     'stream_offset': '0x2c',
+                                                     'type': 'RgbColor',
+                                                     'version': 1},
+                                           'enabled': True,
+                                           'line_type': 'solid',
+                                           'locked': False,
+                                           'ref_id': 4,
+                                           'stream_offset': '0x16',
+                                           'symbol_level': 0,
+                                           'type': 'SimpleLineSymbol',
+                                           'version': 1,
+                                           'width': 1.0},
+                               'ref_id': 3,
+                               'stream_offset': '0x0',
+                               'symbol_level': 0,
+                               'type': 'SimpleFillSymbol',
+                               'version': 1},
+              'default_line': {'color': {'B': 0,
+                                         'G': 0,
+                                         'R': 0,
+                                         'dither': True,
+                                         'is_null': False,
+                                         'ref_id': 8,
+                                         'stream_offset': '0xc8',
+                                         'type': 'RgbColor',
+                                         'version': 1},
+                               'enabled': True,
+                               'line_type': 'solid',
+                               'locked': False,
+                               'ref_id': 7,
+                               'stream_offset': '0xb2',
+                               'symbol_level': 0,
+                               'type': 'SimpleLineSymbol',
+                               'version': 1,
+                               'width': 1.0},
+              'default_line_patch': {'name': '',
+                                     'polyline': {'crs': None,
+                                                  'parts': [[(0.0,
+                                                              6.000001907348633),
+                                                             (24.000001907348633,
+                                                              6.000001907348633)]],
+                                                  'ref_id': 28,
+                                                  'segments': [],
+                                                  'stream_offset': '0x6a8',
+                                                  'type': 'Polyline',
+                                                  'version': 2,
+                                                  'x_max': 24.000001907348633,
+                                                  'x_min': 0.0,
+                                                  'y_max': 6.000001907348633,
+                                                  'y_min': 6.000001907348633},
+                                     'preserve_aspect': True,
+                                     'ref_id': 27,
+                                     'stream_offset': '0x692',
+                                     'type': 'LinePatch',
+                                     'version': 3},
+              'default_marker': {'angle': 0.0,
+                                 'color': {'B': 0,
+                                           'G': 255,
+                                           'R': 85,
+                                           'dither': False,
+                                           'is_null': False,
+                                           'ref_id': 10,
+                                           'stream_offset': '0x125',
+                                           'type': 'RgbColor',
+                                           'version': 1},
+                                 'enabled': True,
+                                 'locked': False,
+                                 'marker_type': 'circle',
+                                 'outline_color': {'B': 0,
+                                                   'G': 0,
+                                                   'R': 0,
+                                                   'dither': False,
+                                                   'is_null': False,
+                                                   'ref_id': 11,
+                                                   'stream_offset': '0x18d',
+                                                   'type': 'RgbColor',
+                                                   'version': 1},
+                                 'outline_enabled': True,
+                                 'outline_size': 1.0,
+                                 'ref_id': 9,
+                                 'rotate_with_transform': True,
+                                 'size': 7.0,
+                                 'stream_offset': '0x10f',
+                                 'symbol_level': 0,
+                                 'type': 'SimpleMarkerSymbol',
+                                 'version': 2,
+                                 'x_offset': 0.0,
+                                 'y_offset': 0.0},
+              'default_text_symbol': {'angle': 0.0,
+                                      'background_symbol': None,
+                                      'break_character': None,
+                                      'case': 'normal',
+                                      'character_spacing': 0.0,
+                                      'character_width': 100.0,
+                                      'cjk_orientation': False,
+                                      'clip': False,
+                                      'color': {'B': 0,
+                                                'G': 0,
+                                                'R': 0,
+                                                'dither': True,
+                                                'is_null': False,
+                                                'ref_id': 13,
+                                                'stream_offset': '0x1d8',
+                                                'type': 'RgbColor',
+                                                'version': 1},
+                                      'flip_angle': 0.0,
+                                      'font': {'charset': 0,
+                                               'font_name': 'Arial',
+                                               'italic': False,
+                                               'ref_id': 15,
+                                               'size': 9.75,
+                                               'stream_offset': '0x30c',
+                                               'strikethrough': False,
+                                               'type': 'Font',
+                                               'underline': False,
+                                               'version': 1,
+                                               'weight': 400},
+                                      'font_size': 10.0,
+                                      'halo_enabled': False,
+                                      'halo_size': 2.0,
+                                      'halo_symbol': None,
+                                      'horizontal_alignment': 'center',
+                                      'kerning': True,
+                                      'leading': 0.0,
+                                      'position': 'normal',
+                                      'raster_op': 13,
+                                      'ref_id': 12,
+                                      'right_to_left': False,
+                                      'rotate_with_transform': True,
+                                      'shadow_color': {'B': 0,
+                                                       'G': 0,
+                                                       'R': 0,
+                                                       'dither': False,
+                                                       'is_null': False,
+                                                       'ref_id': 14,
+                                                       'stream_offset': '0x239',
+                                                       'type': 'RgbColor',
+                                                       'version': 1},
+                                      'shadow_x_offset': 0.0,
+                                      'shadow_y_offset': 0.0,
+                                      'stream_offset': '0x1c2',
+                                      'symbol_level': 0,
+                                      'text_direction': 0,
+                                      'text_fill_symbol': None,
+                                      'type': 'TextSymbol',
+                                      'type_setting': True,
+                                      'version': 4,
+                                      'vertical_alignment': 'baseline',
+                                      'word_spacing': 100.0,
+                                      'x_offset': 0.0,
+                                      'y_offset': 0.0},
+              'default_toc_symbol_height': 12.0,
+              'default_toc_symbol_width': 12.0,
+              'description': '',
+              'frames': [{'allow_assignment_of_unique_ids_for_publishing': False,
+                          'area_of_interest': None,
+                          'auto_extent_layer': None,
+                          'auto_extent_map': None,
+                          'auto_extent_margin': 0.0,
+                          'auto_extent_margin_units': 1,
+                          'background': None,
+                          'bookmarks': [],
+                          'cache_build_when_map_extent_changes': False,
+                          'cache_minimum_scale': 0.0,
+                          'case_use_minimum_scale': False,
+                          'clip_grid_and_graticules': True,
+                          'clipping_border': None,
+                          'clipping_exempt_layers': [],
+                          'clipping_map': None,
+                          'clipping_path': None,
+                          'clipping_type': 0,
+                          'conserve_memory': True,
+                          'credits': '',
+                          'crs': None,
+                          'current_time_extent': None,
+                          'current_time_value': None,
+                          'default_time_interval': 0.0,
+                          'default_time_interval_units': 0,
+                          'default_time_window': 0.0,
+                          'delay_background_draw': False,
+                          'description': '',
+                          'display_date_format': '',
+                          'display_each_timestamp': True,
+                          'display_speed': 10,
+                          'display_time_format': '',
+                          'distance_units': 'unknown',
+                          'draw_using_masking_options': False,
+                          'dynamic_time_refresh': False,
+                          'elements': [],
+                          'expanded': False,
+                          'extent_type': 0,
+                          'fixed_extent': None,
+                          'fixed_scale': 0.0,
+                          'full_extent_x_max': 1000.0,
+                          'full_extent_x_min': 0.0,
+                          'full_extent_y_max': 1223.0458013701646,
+                          'full_extent_y_min': -223.04580137016467,
+                          'full_time_extent': None,
+                          'graphics_layer': {'annotation_group_crs': {'is_high_precision': True,
+                                                                      'm_origin': -100000.0,
+                                                                      'm_scale': 10000.0,
+                                                                      'm_tolerance': 0.001,
+                                                                      'ref_id': 32,
+                                                                      'stream_offset': '0xe0',
+                                                                      'type': 'GeographicCoordinateSystem',
+                                                                      'version': 7,
+                                                                      'wkt': 'GEOGCS["GCS_North_American_1927",DATUM["D_North_American_1927",SPHEROID["Clarke_1866",6378206.4,294.9786982]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]',
+                                                                      'x_origin': -400.0,
+                                                                      'xy_scale': 999999999.9999999,
+                                                                      'xy_tolerance': 8.983055097289157e-09,
+                                                                      'y_origin': -400.0,
+                                                                      'z_origin': -100000.0,
+                                                                      'z_scale': 10000.0,
+                                                                      'z_tolerance': 0.001},
+                                             'annotation_groups': [],
+                                             'associated_layer': None,
+                                             'barrier_weight': 3,
+                                             'cached': False,
+                                             'description': '',
+                                             'elements': [],
+                                             'groups': [[]],
+                                             'name': '<Default>',
+                                             'overflow_graphics_container': {'elements': [],
+                                                                             'linked_feature_ids': [],
+                                                                             'ref_id': 31,
+                                                                             'stream_offset': '0xa2',
+                                                                             'type': 'ElementCollection',
+                                                                             'version': 4},
+                                             'ref_id': 30,
+                                             'reference_scale': 0.0,
+                                             'show_tips': True,
+                                             'stream_offset': '0x4a',
+                                             'type': 'CompositeGraphicsLayer',
+                                             'use_associated_layer_visibility': True,
+                                             'version': 6,
+                                             'visible': True,
+                                             'zoom_max': 0.0,
+                                             'zoom_min': 0.0},
+                          'has_live_data': False,
+                          'illumination_properties': {'altitude': 30.000000000000004,
+                                                      'azimuth': -45.0,
+                                                      'contrast': 3.0,
+                                                      'ref_id': 33,
+                                                      'stream_offset': '0x27d',
+                                                      'sun_x': -0.61237243569579,
+                                                      'sun_y': 0.61237243569579,
+                                                      'sun_z': 0.5,
+                                                      'type': 'IlluminationProps',
+                                                      'version': 1},
+                          'is_framed': True,
+                          'map_units': 'unknown',
+                          'masking': {},
+                          'name': 'Layers',
+                          'output_band_size': 0,
+                          'overposter_properties': {'orientation_vertical_labels': 2.0,
+                                                    'ref_id': 34,
+                                                    'rotate_point_line_labels_when_frame_rotated': False,
+                                                    'stream_offset': '0x33f',
+                                                    'type': 'BasicOverposterProperties',
+                                                    'unplaced_label_color': {'B': 0,
+                                                                             'G': 0,
+                                                                             'R': 255,
+                                                                             'dither': True,
+                                                                             'is_null': False,
+                                                                             'ref_id': 35,
+                                                                             'stream_offset': '0x357',
+                                                                             'type': 'RgbColor',
+                                                                             'version': 1},
+                                                    'version': 2,
+                                                    'view_unplaced': False},
+                          'play_option': 0,
+                          'ref_id': 29,
+                          'reference_scale': 0.0,
+                          'root_groups': [],
+                          'rotation': 0.0,
+                          'scales': [1000.0,
+                                     10000.0,
+                                     24000.0,
+                                     100000.0,
+                                     250000.0,
+                                     500000.0,
+                                     750000.0,
+                                     1000000.0,
+                                     3000000.0,
+                                     10000000.0],
+                          'show_time': True,
+                          'show_time_on_display': False,
+                          'simulate_layer_transparency_in_legends': True,
+                          'standalone_tables': [],
+                          'stream_offset': '0x4',
+                          'time_definition_layer': None,
+                          'time_extent_option': 0,
+                          'time_reference': None,
+                          'time_relation': 0,
+                          'time_text_element': None,
+                          'top_filter_index': 0,
+                          'top_filter_phase': 0,
+                          'transformations': [],
+                          'type': 'Map',
+                          'use_symbol_levels': False,
+                          'verbose_events': False,
+                          'version': 52}],
+              'hyperlink_base': '',
+              'last_exported': None,
+              'last_printed': None,
+              'last_saved': '2019-04-29 08:02:19',
+              'major_version': 23,
+              'original_path': 'R:\\WORKING\\Nyall\\Temp\\layout_text_left.mxd',
+              'page_layout': {'align_to_margins': False,
+                              'conserve_memory': True,
+                              'delay_background_draw': False,
+                              'elements': [{'anchor': 'middle',
+                                            'annotation_group_index': 0,
+                                            'auto_transform': True,
+                                            'background': None,
+                                            'border': None,
+                                            'custom_property': None,
+                                            'draft_mode': False,
+                                            'element_name': '',
+                                            'element_type': 'Text',
+                                            'locked': False,
+                                            'preserve_aspect': False,
+                                            'ref_id': 37,
+                                            'reference_scale': 0.0,
+                                            'shadow': None,
+                                            'shape': {'crs': {'is_high_precision': False,
+                                                              'm_origin': -1440000.0,
+                                                              'm_resolution': 1000000.0,
+                                                              'm_tolerance': 2e-06,
+                                                              'name': 'Unknown',
+                                                              'ref_id': 43,
+                                                              'stream_offset': '0x22c',
+                                                              'type': 'UnknownCoordinateSystem',
+                                                              'version': 3,
+                                                              'x_origin': -10000.0,
+                                                              'xy_resolution': 10000.0,
+                                                              'xy_tolerance': 0.001,
+                                                              'y_origin': -10000.0,
+                                                              'z_origin': -1440000.0,
+                                                              'z_resolution': 1000000.0,
+                                                              'z_tolerance': 2e-06},
+                                                      'm': None,
+                                                      'ref_id': 42,
+                                                      'stream_offset': '0x1fe',
+                                                      'type': 'Point',
+                                                      'version': 2,
+                                                      'x': 14.900799999999435,
+                                                      'y': 20.387800000000425,
+                                                      'z': None},
+                                            'stream_offset': '0x26',
+                                            'symbol': None,
+                                            'text': 'Text',
+                                            'text_symbol': {'angle': 0.0,
+                                                            'background_symbol': None,
+                                                            'break_character': None,
+                                                            'case': 'normal',
+                                                            'character_spacing': 0.0,
+                                                            'character_width': 100.0,
+                                                            'cjk_orientation': False,
+                                                            'clip': False,
+                                                            'color': {'B': 0,
+                                                                      'G': 0,
+                                                                      'R': 0,
+                                                                      'dither': True,
+                                                                      'is_null': False,
+                                                                      'ref_id': 39,
+                                                                      'stream_offset': '0x8a',
+                                                                      'type': 'RgbColor',
+                                                                      'version': 1},
+                                                            'flip_angle': 0.0,
+                                                            'font': {'charset': 0,
+                                                                     'font_name': 'Arial',
+                                                                     'italic': False,
+                                                                     'ref_id': 41,
+                                                                     'size': 9.75,
+                                                                     'stream_offset': '0x1c6',
+                                                                     'strikethrough': False,
+                                                                     'type': 'Font',
+                                                                     'underline': False,
+                                                                     'version': 1,
+                                                                     'weight': 400},
+                                                            'font_size': 10.0,
+                                                            'halo_enabled': False,
+                                                            'halo_size': 2.0,
+                                                            'halo_symbol': None,
+                                                            'horizontal_alignment': 'center',
+                                                            'kerning': True,
+                                                            'leading': 0.0,
+                                                            'position': 'normal',
+                                                            'raster_op': 13,
+                                                            'ref_id': 38,
+                                                            'right_to_left': False,
+                                                            'rotate_with_transform': True,
+                                                            'shadow_color': {'B': 0,
+                                                                             'G': 0,
+                                                                             'R': 0,
+                                                                             'dither': False,
+                                                                             'is_null': False,
+                                                                             'ref_id': 40,
+                                                                             'stream_offset': '0xeb',
+                                                                             'type': 'RgbColor',
+                                                                             'version': 1},
+                                                            'shadow_x_offset': 0.0,
+                                                            'shadow_y_offset': 0.0,
+                                                            'stream_offset': '0x74',
+                                                            'symbol_level': 0,
+                                                            'text_direction': 0,
+                                                            'text_fill_symbol': None,
+                                                            'type': 'TextSymbol',
+                                                            'type_setting': True,
+                                                            'version': 4,
+                                                            'vertical_alignment': 'top',
+                                                            'word_spacing': 100.0,
+                                                            'x_offset': 0.0,
+                                                            'y_offset': 0.0},
+                                            'type': 'TextElement',
+                                            'version': 8},
+                                           {'anchor': 'bottom_left',
+                                            'auto_transform': True,
+                                            'background': None,
+                                            'border': {'gap_x': 0.0,
+                                                       'gap_y': 0.0,
+                                                       'ref_id': 46,
+                                                       'rounding': 0,
+                                                       'stream_offset': '0x3e6',
+                                                       'symbol': {'color': {'B': 0,
+                                                                            'G': 0,
+                                                                            'R': 0,
+                                                                            'dither': True,
+                                                                            'is_null': False,
+                                                                            'ref_id': 48,
+                                                                            'stream_offset': '0x41a',
+                                                                            'type': 'RgbColor',
+                                                                            'version': 1},
+                                                                  'enabled': True,
+                                                                  'line_type': 'solid',
+                                                                  'locked': False,
+                                                                  'ref_id': 47,
+                                                                  'stream_offset': '0x404',
+                                                                  'symbol_level': 0,
+                                                                  'type': 'SimpleLineSymbol',
+                                                                  'version': 1,
+                                                                  'width': 1.0},
+                                                       'type': 'SymbolBorder',
+                                                       'version': 2},
+                                            'custom_property': None,
+                                            'draft_mode': False,
+                                            'element_name': '',
+                                            'element_type': 'Data Frame',
+                                            'grids': [],
+                                            'locators': [],
+                                            'locked': False,
+                                            'map': <Map: Layers (29)>,
+                                            'preserve_aspect': False,
+                                            'ref_id': 44,
+                                            'reference_scale': 0.0,
+                                            'shadow': None,
+                                            'shape': {'crs': {'is_high_precision': False,
+                                                              'm_origin': -1440000.0,
+                                                              'm_resolution': 1000000.0,
+                                                              'm_tolerance': 2e-06,
+                                                              'name': 'Unknown',
+                                                              'ref_id': 43,
+                                                              'stream_offset': '0x22c',
+                                                              'type': 'UnknownCoordinateSystem',
+                                                              'version': 3,
+                                                              'x_origin': -10000.0,
+                                                              'xy_resolution': 10000.0,
+                                                              'xy_tolerance': 0.001,
+                                                              'y_origin': -10000.0,
+                                                              'z_origin': -1440000.0,
+                                                              'z_resolution': 1000000.0,
+                                                              'z_tolerance': 2e-06},
+                                                      'parts': [[(0.75, 0.75),
+                                                                 (0.75,
+                                                                  28.951100000000224),
+                                                                 (20.2515999999996,
+                                                                  28.951100000000224),
+                                                                 (20.2515999999996,
+                                                                  0.75),
+                                                                 (0.75, 0.75)]],
+                                                      'ref_id': 45,
+                                                      'segments': [],
+                                                      'stream_offset': '0x300',
+                                                      'type': 'Polygon',
+                                                      'version': 2,
+                                                      'x_max': 20.2515999999996,
+                                                      'x_min': 0.75,
+                                                      'y_max': 28.951100000000224,
+                                                      'y_min': 0.75},
+                                            'stream_offset': '0x2ca',
+                                            'symbol': None,
+                                            'type': 'MapFrame',
+                                            'version': 4}],
+                              'extensions': [],
+                              'horizontal_snap_guides': {'guides': [],
+                                                         'ref_id': 53,
+                                                         'stream_offset': '0x57e',
+                                                         'type': 'SnapGuides',
+                                                         'version': 1},
+                              'is_map_activated': False,
+                              'output_band_size': 1024,
+                              'page': {'background': None,
+                                       'background_color': {'B': 255,
+                                                            'G': 255,
+                                                            'R': 255,
+                                                            'dither': False,
+                                                            'is_null': False,
+                                                            'ref_id': 50,
+                                                            'stream_offset': '0x4e5',
+                                                            'type': 'RgbColor',
+                                                            'version': 1},
+                                       'border': None,
+                                       'bottom_margin': 29.277791888917115,
+                                       'height': 29.70112606891881,
+                                       'left_margin': 0.42333418000169337,
+                                       'orientation': 1,
+                                       'page_size': 12,
+                                       'page_to_printer_mapping': 2,
+                                       'printable_area_visible': 65535,
+                                       'ref_id': 49,
+                                       'right_margin': 20.574041148082298,
+                                       'stream_offset': '0x48d',
+                                       'stretch_graphics_with_page': False,
+                                       'top_margin': 0.43180086360172726,
+                                       'type': 'Page',
+                                       'units': 'centimeters',
+                                       'version': 1,
+                                       'width': 21.001608669884007},
+                              'page_index': None,
+                              'ref_id': 36,
+                              'ruler_settings': {'ref_id': 51,
+                                                 'smallest_division': 0.1,
+                                                 'stream_offset': '0x538',
+                                                 'type': 'RulerSettings',
+                                                 'version': 1},
+                              'show_rulers': True,
+                              'snap_grid': {'ref_id': 52,
+                                            'stream_offset': '0x556',
+                                            'type': 'SnapGrid',
+                                            'version': 1,
+                                            'visible': False},
+                              'stream_offset': '0x0',
+                              'type': 'PageLayout',
+                              'verbose_events': False,
+                              'version': 15,
+                              'vertical_snap_guides': {'guides': [],
+                                                       'ref_id': 54,
+                                                       'stream_offset': '0x59e',
+                                                       'type': 'SnapGuides',
+                                                       'version': 1}},
+              'selection_environment': {'area_search_distance': 0.0,
+                                        'area_selection_method': 1,
+                                        'clear_invisible_layers': True,
+                                        'combination_method': 0,
+                                        'default_color': {'B': 255,
+                                                          'G': 255,
+                                                          'R': 0,
+                                                          'dither': True,
+                                                          'is_null': False,
+                                                          'ref_id': 1,
+                                                          'stream_offset': '0x16e',
+                                                          'type': 'RgbColor',
+                                                          'version': 1},
+                                        'linear_search_distance': 0.0,
+                                        'linear_selection_method': 1,
+                                        'point_search_distance': 0.0,
+                                        'point_selection_method': 1,
+                                        'ref_id': 0,
+                                        'save_selections': True,
+                                        'scale_selection_symbols': False,
+                                        'search_tolerance': 3,
+                                        'show_selection_warning': True,
+                                        'stream_offset': '0x12c',
+                                        'type': 'SelectionEnvironment',
+                                        'version': 5,
+                                        'warning_threshold': 2000},
+              'style_gallery': {'default_path': 'C:\\Users\\nd13030\\AppData\\Roaming\\ESRI\\Desktop10.6\\ArcMap\\nd13030.style',
+                                'ref_id': 2,
+                                'stream_offset': '0x0',
+                                'styles': ['C:\\Users\\nd13030\\AppData\\Roaming\\ESRI\\Desktop10.6\\ArcMap\\nd13030.style',
+                                           'ESRI.style'],
+                                'type': 'StyleGallery',
+                                'version': 1},
+              'summary': '',
+              'table_properties': {'auto_validate_edits': False,
+                                   'cell_font': {'charset': 0,
+                                                 'font_name': 'Arial',
+                                                 'italic': False,
+                                                 'ref_id': 62,
+                                                 'size': 8.25,
+                                                 'stream_offset': '0xa4',
+                                                 'strikethrough': False,
+                                                 'type': 'Font',
+                                                 'underline': False,
+                                                 'version': 1,
+                                                 'weight': 400},
+                                   'cell_text_color': {'B': 0,
+                                                       'G': 0,
+                                                       'R': 0,
+                                                       'dither': True,
+                                                       'is_null': False,
+                                                       'ref_id': 64,
+                                                       'stream_offset': '0xfb',
+                                                       'type': 'RgbColor',
+                                                       'version': 1},
+                                   'fire_row_changed_event_for_joins': False,
+                                   'heading_font': {'charset': 0,
+                                                    'font_name': 'Arial',
+                                                    'italic': False,
+                                                    'ref_id': 61,
+                                                    'size': 8.25,
+                                                    'stream_offset': '0x80',
+                                                    'strikethrough': False,
+                                                    'type': 'Font',
+                                                    'underline': False,
+                                                    'version': 1,
+                                                    'weight': 400},
+                                   'heading_text_color': {'B': 0,
+                                                          'G': 0,
+                                                          'R': 0,
+                                                          'dither': True,
+                                                          'is_null': False,
+                                                          'ref_id': 63,
+                                                          'stream_offset': '0xc8',
+                                                          'type': 'RgbColor',
+                                                          'version': 1},
+                                   'index_field_char': '*',
+                                   'ref_id': 58,
+                                   'selection_color': {'B': 255,
+                                                       'G': 255,
+                                                       'R': 176,
+                                                       'dither': True,
+                                                       'is_null': False,
+                                                       'ref_id': 59,
+                                                       'stream_offset': '0x16',
+                                                       'type': 'RgbColor',
+                                                       'version': 1},
+                                   'show_coded_value_domain_descriptions': True,
+                                   'show_index_field_char': True,
+                                   'stream_offset': '0x0',
+                                   'type': 'TableProperties',
+                                   'version': 16},
+              'tags': '',
+              'template_paths': ['C:\\Users\\nd13030\\AppData\\Roaming\\ESRI\\Desktop10.6\\ArcMap\\Templates\\Normal.mxt'],
+              'title': '',
+              'toc_view_mode': 'Display',
+              'use_relative_sources': False,
+              'version': '10.6'},
+ 'qgs_xml': '<qgis projectname="" saveDateTime="..." saveUser="nyall" '
+            'saveUserFull="..." version="3.xx.xx">\n'
+            ' <homePath path="/home/dev/slyr/slyr/test/mxd"></homePath>\n'
+            ' <title></title>\n'
+            ' <transaction mode="Disabled"></transaction>\n'
+            ' <projectFlags set=""></projectFlags>\n'
+            ' <projectCrs>\n'
+            '  <spatialrefsys nativeFormat="Wkt">\n'
+            '   <wkt></wkt>\n'
+            '   <proj4></proj4>\n'
+            '   <srsid>0</srsid>\n'
+            '   <srid>0</srid>\n'
+            '   <authid></authid>\n'
+            '   <description></description>\n'
+            '   <projectionacronym></projectionacronym>\n'
+            '   <ellipsoidacronym></ellipsoidacronym>\n'
+            '   <geographicflag>false</geographicflag>\n'
+            '  </spatialrefsys>\n'
+            ' </projectCrs>\n'
+            ' <verticalCrs>\n'
+            '  <spatialrefsys nativeFormat="Wkt">\n'
+            '   <wkt></wkt>\n'
+            '   <proj4></proj4>\n'
+            '   <srsid>0</srsid>\n'
+            '   <srid>0</srid>\n'
+            '   <authid></authid>\n'
+            '   <description></description>\n'
+            '   <projectionacronym></projectionacronym>\n'
+            '   <ellipsoidacronym></ellipsoidacronym>\n'
+            '   <geographicflag>false</geographicflag>\n'
+            '  </spatialrefsys>\n'
+            ' </verticalCrs>\n'
+            ' <elevation-shading-renderer combined-method="0" '
+            'edl-distance="0.5" edl-distance-unit="0" edl-is-active="1" '
+            'edl-strength="1000" hillshading-is-active="0" '
+            'hillshading-is-multidirectional="0" hillshading-z-factor="1" '
+            'is-active="0" light-altitude="45" '
+            'light-azimuth="315"></elevation-shading-renderer>\n'
+            ' <layer-tree-group>\n'
+            '  <customproperties>\n'
+            '   <Option></Option>\n'
+            '  </customproperties>\n'
+            '  <custom-order enabled="0"></custom-order>\n'
+            ' </layer-tree-group>\n'
+            ' <snapping-settings enabled="0" intersection-snapping="0" '
+            'maxScale="0" minScale="0" mode="2" scaleDependencyMode="0" '
+            'self-snapping="0" tolerance="12" type="1" unit="1">\n'
+            '  <individual-layer-settings></individual-layer-settings>\n'
+            ' </snapping-settings>\n'
+            ' <relations></relations>\n'
+            ' <polymorphicRelations></polymorphicRelations>\n'
+            ' <main-annotation-layer autoRefreshMode="Disabled" '
+            'autoRefreshTime="0" hasScaleBasedVisibilityFlag="0" '
+            'legendPlaceholderImage="" maxScale="0" minScale="1e+08" '
+            'refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" '
+            'styleCategories="AllStyleCategories" type="annotation">\n'
+            '  <id>...</id>\n'
+            '  <datasource></datasource>\n'
+            '  <layername>Annotations</layername>\n'
+            '  <srs>\n'
+            '   <spatialrefsys nativeFormat="Wkt">\n'
+            '    <wkt>GEOGCRS["NAD27",DATUM["North American Datum '
+            '1927",ELLIPSOID["Clarke '
+            '1866",6378206.4,294.978698213898,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic '
+            'latitude '
+            '(Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic '
+            'longitude '
+            '(Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Geodesy."],AREA["North '
+            'and central America: Antigua and Barbuda - onshore. Bahamas - '
+            'onshore plus offshore over internal continental shelf only. '
+            'Belize - onshore. British Virgin Islands - onshore. Canada '
+            'onshore - Alberta, British Columbia, Manitoba, New Brunswick, '
+            'Newfoundland and Labrador, Northwest Territories, Nova Scotia, '
+            'Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan and '
+            'Yukon - plus offshore east coast. Cuba - onshore and offshore. El '
+            'Salvador - onshore. Guatemala - onshore. Honduras - onshore. '
+            'Panama - onshore. Puerto Rico - onshore. Mexico - onshore plus '
+            'offshore east coast. Nicaragua - onshore. United States (USA) '
+            'onshore and offshore - Alabama, Alaska, Arizona, Arkansas, '
+            'California, Colorado, Connecticut, Delaware, Florida, Georgia, '
+            'Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana, '
+            'Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, '
+            'Missouri, Montana, Nebraska, Nevada, New Hampshire, New Jersey, '
+            'New Mexico, New York, North Carolina, North Dakota, Ohio, '
+            'Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina, '
+            'South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, '
+            'Washington, West Virginia, Wisconsin and Wyoming - plus offshore '
+            '. US Virgin Islands - '
+            'onshore."],BBOX[7.15,167.65,83.17,-47.74]],ID["EPSG",4267]]</wkt>\n'
+            '    <proj4>+proj=longlat +datum=NAD27 +no_defs</proj4>\n'
+            '    <srsid>3399</srsid>\n'
+            '    <srid>4267</srid>\n'
+            '    <authid>EPSG:4267</authid>\n'
+            '    <description>NAD27</description>\n'
+            '    <projectionacronym>longlat</projectionacronym>\n'
+            '    <ellipsoidacronym>EPSG:7008</ellipsoidacronym>\n'
+            '    <geographicflag>true</geographicflag>\n'
+            '   </spatialrefsys>\n'
+            '  </srs>\n'
+            '  <resourceMetadata>\n'
+            '   <identifier></identifier>\n'
+            '   <parentidentifier></parentidentifier>\n'
+            '   <language></language>\n'
+            '   <type></type>\n'
+            '   <title></title>\n'
+            '   <abstract></abstract>\n'
+            '   <links></links>\n'
+            '   <dates></dates>\n'
+            '   <fees></fees>\n'
+            '   <encoding></encoding>\n'
+            '   <crs>\n'
+            '    <spatialrefsys nativeFormat="Wkt">\n'
+            '     <wkt></wkt>\n'
+            '     <proj4></proj4>\n'
+            '     <srsid>0</srsid>\n'
+            '     <srid>0</srid>\n'
+            '     <authid></authid>\n'
+            '     <description></description>\n'
+            '     <projectionacronym></projectionacronym>\n'
+            '     <ellipsoidacronym></ellipsoidacronym>\n'
+            '     <geographicflag>false</geographicflag>\n'
+            '    </spatialrefsys>\n'
+            '   </crs>\n'
+            '   <extent></extent>\n'
+            '  </resourceMetadata>\n'
+            '  <items></items>\n'
+            '  <flags>\n'
+            '   <Identifiable>1</Identifiable>\n'
+            '   <Removable>1</Removable>\n'
+            '   <Searchable>1</Searchable>\n'
+            '   <Private>0</Private>\n'
+            '  </flags>\n'
+            '  <customproperties>\n'
+            '   <Option></Option>\n'
+            '  </customproperties>\n'
+            '  <layerOpacity>1</layerOpacity>\n'
+            '  <blendMode>0</blendMode>\n'
+            '  <paintEffect></paintEffect>\n'
+            ' </main-annotation-layer>\n'
+            ' <projectlayers></projectlayers>\n'
+            ' <layerorder></layerorder>\n'
+            ' <labelEngineSettings></labelEngineSettings>\n'
+            ' <properties name="properties">\n'
+            '  <properties name="Digitizing">\n'
+            '   <properties name="AvoidIntersectionsMode" '
+            'type="int">0</properties>\n'
+            '  </properties>\n'
+            '  <properties name="Gui">\n'
+            '   <properties name="CanvasColorBluePart" '
+            'type="int">255</properties>\n'
+            '   <properties name="CanvasColorGreenPart" '
+            'type="int">255</properties>\n'
+            '   <properties name="CanvasColorRedPart" '
+            'type="int">255</properties>\n'
+            '   <properties name="SelectionColorAlphaPart" '
+            'type="int">255</properties>\n'
+            '   <properties name="SelectionColorBluePart" '
+            'type="int">0</properties>\n'
+            '   <properties name="SelectionColorGreenPart" '
+            'type="int">255</properties>\n'
+            '   <properties name="SelectionColorRedPart" '
+            'type="int">255</properties>\n'
+            '  </properties>\n'
+            '  <properties name="Measurement">\n'
+            '   <properties name="AreaUnits" type="QString">m2</properties>\n'
+            '   <properties name="DistanceUnits" '
+            'type="QString">meters</properties>\n'
+            '   <properties name="ScaleMethod" '
+            'type="QString">HorizontalMiddle</properties>\n'
+            '  </properties>\n'
+            '  <properties name="PAL">\n'
+            '   <properties name="CandidatesLinePerCM" '
+            'type="double">5</properties>\n'
+            '   <properties name="CandidatesPolygonPerCM" '
+            'type="double">2.5</properties>\n'
+            '   <properties name="DrawLabelMetrics" '
+            'type="bool">false</properties>\n'
+            '   <properties name="DrawRectOnly" '
+            'type="bool">false</properties>\n'
+            '   <properties name="DrawUnplaced" '
+            'type="bool">false</properties>\n'
+            '   <properties name="PlacementEngineVersion" '
+            'type="int">1</properties>\n'
+            '   <properties name="SearchMethod" type="int">0</properties>\n'
+            '   <properties name="ShowingAllLabels" '
+            'type="bool">false</properties>\n'
+            '   <properties name="ShowingCandidates" '
+            'type="bool">false</properties>\n'
+            '   <properties name="ShowingPartialsLabels" '
+            'type="bool">false</properties>\n'
+            '   <properties name="TextFormat" type="int">0</properties>\n'
+            '   <properties name="UnplacedColor" '
+            'type="QString">255,0,0,255,rgb:1,0,0,1</properties>\n'
+            '  </properties>\n'
+            '  <properties name="Paths">\n'
+            '   <properties name="Absolute" type="int">1</properties>\n'
+            '  </properties>\n'
+            '  <properties name="PositionPrecision">\n'
+            '   <properties name="Automatic" type="bool">true</properties>\n'
+            '   <properties name="DecimalPlaces" type="int">2</properties>\n'
+            '  </properties>\n'
+            ' </properties>\n'
+            ' <dataDefinedServerProperties>\n'
+            '  <Option type="Map">\n'
+            '   <Option name="name" type="QString" value=""></Option>\n'
+            '   <Option name="properties"></Option>\n'
+            '   <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '  </Option>\n'
+            ' </dataDefinedServerProperties>\n'
+            ' <visibility-presets>\n'
+            '  <visibility-preset name="Layers"></visibility-preset>\n'
+            ' </visibility-presets>\n'
+            ' <transformContext></transformContext>\n'
+            ' <projectMetadata>\n'
+            '  <identifier></identifier>\n'
+            '  <parentidentifier></parentidentifier>\n'
+            '  <language></language>\n'
+            '  <type></type>\n'
+            '  <title></title>\n'
+            '  <abstract></abstract>\n'
+            '  <keywords vocabulary="Tags">\n'
+            '   <keyword></keyword>\n'
+            '  </keywords>\n'
+            '  <links></links>\n'
+            '  <dates>\n'
+            '   <date type="Created" value="..."></date>\n'
+            '  </dates>\n'
+            '  <author>Author</author>\n'
+            '  <creation>...</creation>\n'
+            ' </projectMetadata>\n'
+            ' <Annotations></Annotations>\n'
+            ' <Layouts>\n'
+            '  <Layout name="Page Layout" printResolution="300" units="mm" '
+            'worldFileMap="">\n'
+            '   <Snapper snapToGrid="0" snapToGuides="1" snapToItems="1" '
+            'tolerance="5"></Snapper>\n'
+            '   <Grid offsetUnits="mm" offsetX="0" offsetY="0" resUnits="mm" '
+            'resolution="10"></Grid>\n'
+            '   <PageCollection>\n'
+            '    <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+            'frame_rate="10" is_animated="0" name="" type="fill">\n'
+            '     <data_defined_properties>\n'
+            '      <Option type="Map">\n'
+            '       <Option name="name" type="QString" value=""></Option>\n'
+            '       <Option name="properties"></Option>\n'
+            '       <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '      </Option>\n'
+            '     </data_defined_properties>\n'
+            '     <layer class="SimpleFill" enabled="1" id="..." locked="0" '
+            'pass="0">\n'
+            '      <Option type="Map">\n'
+            '       <Option name="border_width_map_unit_scale" type="QString" '
+            'value="3x:0,0,0,0,0,0"></Option>\n'
+            '       <Option name="color" type="QString" '
+            'value="255,255,255,255,rgb:1,1,1,1"></Option>\n'
+            '       <Option name="joinstyle" type="QString" '
+            'value="bevel"></Option>\n'
+            '       <Option name="offset" type="QString" '
+            'value="0,0"></Option>\n'
+            '       <Option name="offset_map_unit_scale" type="QString" '
+            'value="3x:0,0,0,0,0,0"></Option>\n'
+            '       <Option name="offset_unit" type="QString" '
+            'value="MM"></Option>\n'
+            '       <Option name="outline_color" type="QString" '
+            'value="35,35,35,255,rgb:0.1372549,0.1372549,0.1372549,1"></Option>\n'
+            '       <Option name="outline_style" type="QString" '
+            'value="no"></Option>\n'
+            '       <Option name="outline_width" type="QString" '
+            'value="0.26"></Option>\n'
+            '       <Option name="outline_width_unit" type="QString" '
+            'value="MM"></Option>\n'
+            '       <Option name="style" type="QString" '
+            'value="solid"></Option>\n'
+            '      </Option>\n'
+            '      <data_defined_properties>\n'
+            '       <Option type="Map">\n'
+            '        <Option name="name" type="QString" value=""></Option>\n'
+            '        <Option name="properties"></Option>\n'
+            '        <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '       </Option>\n'
+            '      </data_defined_properties>\n'
+            '     </layer>\n'
+            '    </symbol>\n'
+            '    <LayoutItem background="true" blendMode="0" '
+            'excludeFromExports="0" frame="false" frameJoinStyle="miter" '
+            'groupUuid="" id="" itemRotation="0" opacity="1" '
+            'outlineWidthM="0.3,mm" position="0,0,mm" positionLock="false" '
+            'positionOnPage="0,0,mm" referencePoint="0" '
+            'size="21.0016,29.7011,cm" templateUuid="..." type="65638" '
+            'uuid="..." visibility="1" zValue="0">\n'
+            '     <FrameColor alpha="255" blue="0" green="0" '
+            'red="0"></FrameColor>\n'
+            '     <BackgroundColor alpha="255" blue="255" green="255" '
+            'red="255"></BackgroundColor>\n'
+            '     <LayoutObject>\n'
+            '      <dataDefinedProperties>\n'
+            '       <Option type="Map">\n'
+            '        <Option name="name" type="QString" value=""></Option>\n'
+            '        <Option name="properties"></Option>\n'
+            '        <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '       </Option>\n'
+            '      </dataDefinedProperties>\n'
+            '      <customproperties>\n'
+            '       <Option></Option>\n'
+            '      </customproperties>\n'
+            '     </LayoutObject>\n'
+            '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+            'frame_rate="10" is_animated="0" name="" type="fill">\n'
+            '      <data_defined_properties>\n'
+            '       <Option type="Map">\n'
+            '        <Option name="name" type="QString" value=""></Option>\n'
+            '        <Option name="properties"></Option>\n'
+            '        <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '       </Option>\n'
+            '      </data_defined_properties>\n'
+            '      <layer class="SimpleFill" enabled="1" id="..." locked="0" '
+            'pass="0">\n'
+            '       <Option type="Map">\n'
+            '        <Option name="border_width_map_unit_scale" type="QString" '
+            'value="3x:0,0,0,0,0,0"></Option>\n'
+            '        <Option name="color" type="QString" '
+            'value="255,255,255,255,rgb:1,1,1,1"></Option>\n'
+            '        <Option name="joinstyle" type="QString" '
+            'value="miter"></Option>\n'
+            '        <Option name="offset" type="QString" '
+            'value="0,0"></Option>\n'
+            '        <Option name="offset_map_unit_scale" type="QString" '
+            'value="3x:0,0,0,0,0,0"></Option>\n'
+            '        <Option name="offset_unit" type="QString" '
+            'value="MM"></Option>\n'
+            '        <Option name="outline_color" type="QString" '
+            'value="35,35,35,255,rgb:0.1372549,0.1372549,0.1372549,1"></Option>\n'
+            '        <Option name="outline_style" type="QString" '
+            'value="no"></Option>\n'
+            '        <Option name="outline_width" type="QString" '
+            'value="0.26"></Option>\n'
+            '        <Option name="outline_width_unit" type="QString" '
+            'value="MM"></Option>\n'
+            '        <Option name="style" type="QString" '
+            'value="solid"></Option>\n'
+            '       </Option>\n'
+            '       <data_defined_properties>\n'
+            '        <Option type="Map">\n'
+            '         <Option name="name" type="QString" value=""></Option>\n'
+            '         <Option name="properties"></Option>\n'
+            '         <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '        </Option>\n'
+            '       </data_defined_properties>\n'
+            '      </layer>\n'
+            '     </symbol>\n'
+            '    </LayoutItem>\n'
+            '    <GuideCollection visible="1"></GuideCollection>\n'
+            '   </PageCollection>\n'
+            '   <LayoutItem background="false" blendMode="0" '
+            'excludeFromExports="0" frame="false" frameJoinStyle="miter" '
+            'groupUuid="" halign="4" htmlState="0" id="" itemRotation="0" '
+            'labelText="Text" marginX="0" marginY="0" opacity="1" '
+            'outlineWidthM="0.3,mm" position="14.9008,9.61176,cm" '
+            'positionLock="false" positionOnPage="14.9008,9.61176,cm" '
+            'referencePoint="4" size="8.46934,5.96875,mm" templateUuid="..." '
+            'type="65641" uuid="..." valign="32" visibility="1" zValue="2">\n'
+            '    <FrameColor alpha="255" blue="0" green="0" '
+            'red="0"></FrameColor>\n'
+            '    <BackgroundColor alpha="255" blue="255" green="255" '
+            'red="255"></BackgroundColor>\n'
+            '    <LayoutObject>\n'
+            '     <dataDefinedProperties>\n'
+            '      <Option type="Map">\n'
+            '       <Option name="name" type="QString" value=""></Option>\n'
+            '       <Option name="properties"></Option>\n'
+            '       <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '      </Option>\n'
+            '     </dataDefinedProperties>\n'
+            '     <customproperties>\n'
+            '      <Option></Option>\n'
+            '     </customproperties>\n'
+            '    </LayoutObject>\n'
+            '    <text-style allowHtml="0" blendMode="0" capitalization="0" '
+            'fontFamily="Arial" fontItalic="0" fontKerning="1" '
+            'fontLetterSpacing="0" fontSize="10" '
+            'fontSizeMapUnitScale="3x:0,0,0,0,0,0" fontSizeUnit="Point" '
+            'fontStrikeout="0" fontUnderline="0" fontWeight="16" '
+            'fontWordSpacing="0" forcedBold="0" forcedItalic="0" '
+            'multilineHeight="1" multilineHeightUnit="Percentage" '
+            'namedStyle="" previewBkgrdColor="255,255,255,255,rgb:1,1,1,1" '
+            'tabStopDistance="6" tabStopDistanceMapUnitScale="3x:0,0,0,0,0,0" '
+            'tabStopDistanceUnit="Percentage" '
+            'textColor="0,0,0,255,rgb:0,0,0,1" textOpacity="1" '
+            'textOrientation="horizontal">\n'
+            '     <families></families>\n'
+            '     <text-buffer bufferBlendMode="0" '
+            'bufferColor="255,255,255,255,rgb:1,1,1,1" bufferDraw="0" '
+            'bufferJoinStyle="128" bufferNoFill="1" bufferOpacity="1" '
+            'bufferSize="2" bufferSizeMapUnitScale="3x:0,0,0,0,0,0" '
+            'bufferSizeUnits="Point"></text-buffer>\n'
+            '     <text-mask maskEnabled="0" maskJoinStyle="128" '
+            'maskOpacity="1" maskSize="1.5" maskSize2="1.5" '
+            'maskSizeMapUnitScale="3x:0,0,0,0,0,0" maskSizeUnits="MM" '
+            'maskType="0" maskedSymbolLayers=""></text-mask>\n'
+            '     <background shapeBlendMode="0" '
+            'shapeBorderColor="128,128,128,255,rgb:0.5019608,0.5019608,0.5019608,1" '
+            'shapeBorderWidth="0" '
+            'shapeBorderWidthMapUnitScale="3x:0,0,0,0,0,0" '
+            'shapeBorderWidthUnit="MM" shapeDraw="0" '
+            'shapeFillColor="255,255,255,255,rgb:1,1,1,1" shapeJoinStyle="64" '
+            'shapeOffsetMapUnitScale="3x:0,0,0,0,0,0" shapeOffsetUnit="MM" '
+            'shapeOffsetX="0" shapeOffsetY="0" shapeOpacity="1" '
+            'shapeRadiiMapUnitScale="3x:0,0,0,0,0,0" shapeRadiiUnit="MM" '
+            'shapeRadiiX="0" shapeRadiiY="0" shapeRotation="0" '
+            'shapeRotationType="0" shapeSVGFile="" '
+            'shapeSizeMapUnitScale="3x:0,0,0,0,0,0" shapeSizeType="0" '
+            'shapeSizeUnit="MM" shapeSizeX="0" shapeSizeY="0" shapeType="0">\n'
+            '      <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+            'frame_rate="10" is_animated="0" name="fillSymbol" type="fill">\n'
+            '       <data_defined_properties>\n'
+            '        <Option type="Map">\n'
+            '         <Option name="name" type="QString" value=""></Option>\n'
+            '         <Option name="properties"></Option>\n'
+            '         <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '        </Option>\n'
+            '       </data_defined_properties>\n'
+            '       <layer class="SimpleFill" enabled="1" id="" locked="0" '
+            'pass="0">\n'
+            '        <Option type="Map">\n'
+            '         <Option name="border_width_map_unit_scale" '
+            'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+            '         <Option name="color" type="QString" '
+            'value="255,255,255,255,rgb:1,1,1,1"></Option>\n'
+            '         <Option name="joinstyle" type="QString" '
+            'value="bevel"></Option>\n'
+            '         <Option name="offset" type="QString" '
+            'value="0,0"></Option>\n'
+            '         <Option name="offset_map_unit_scale" type="QString" '
+            'value="3x:0,0,0,0,0,0"></Option>\n'
+            '         <Option name="offset_unit" type="QString" '
+            'value="MM"></Option>\n'
+            '         <Option name="outline_color" type="QString" '
+            'value="128,128,128,255,rgb:0.5019608,0.5019608,0.5019608,1"></Option>\n'
+            '         <Option name="outline_style" type="QString" '
+            'value="no"></Option>\n'
+            '         <Option name="outline_width" type="QString" '
+            'value="0"></Option>\n'
+            '         <Option name="outline_width_unit" type="QString" '
+            'value="MM"></Option>\n'
+            '         <Option name="style" type="QString" '
+            'value="solid"></Option>\n'
+            '        </Option>\n'
+            '        <data_defined_properties>\n'
+            '         <Option type="Map">\n'
+            '          <Option name="name" type="QString" value=""></Option>\n'
+            '          <Option name="properties"></Option>\n'
+            '          <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '         </Option>\n'
+            '        </data_defined_properties>\n'
+            '       </layer>\n'
+            '      </symbol>\n'
+            '     </background>\n'
+            '     <shadow shadowBlendMode="6" '
+            'shadowColor="0,0,0,255,rgb:0,0,0,1" shadowDraw="0" '
+            'shadowOffsetAngle="135" shadowOffsetDist="1" '
+            'shadowOffsetGlobal="1" shadowOffsetMapUnitScale="3x:0,0,0,0,0,0" '
+            'shadowOffsetUnit="MM" shadowOpacity="0.69999999999999996" '
+            'shadowRadius="1.5" shadowRadiusAlphaOnly="0" '
+            'shadowRadiusMapUnitScale="3x:0,0,0,0,0,0" shadowRadiusUnit="MM" '
+            'shadowScale="100" shadowUnder="0"></shadow>\n'
+            '     <dd_properties>\n'
+            '      <Option type="Map">\n'
+            '       <Option name="name" type="QString" value=""></Option>\n'
+            '       <Option name="properties"></Option>\n'
+            '       <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '      </Option>\n'
+            '     </dd_properties>\n'
+            '    </text-style>\n'
+            '   </LayoutItem>\n'
+            '   <LayoutItem background="false" blendMode="0" '
+            'drawCanvasItems="true" enableZRange="0" excludeFromExports="0" '
+            'followPreset="false" followPresetName="" frame="true" '
+            'frameJoinStyle="miter" groupUuid="" id="Layers" isTemporal="0" '
+            'itemRotation="0" keepLayerSet="false" labelMargin="0,mm" '
+            'mapFlags="0" mapRotation="0" opacity="1" outlineWidthM="1,pt" '
+            'position="0.75,28.9511,cm" positionLock="false" '
+            'positionOnPage="0.75,28.9511,cm" referencePoint="6" '
+            'size="19.5016,28.2011,cm" templateUuid="..." type="65639" '
+            'uuid="..." visibility="1" zValue="1">\n'
+            '    <FrameColor alpha="255" blue="0" green="0" '
+            'red="0"></FrameColor>\n'
+            '    <BackgroundColor alpha="255" blue="255" green="255" '
+            'red="255"></BackgroundColor>\n'
+            '    <LayoutObject>\n'
+            '     <dataDefinedProperties>\n'
+            '      <Option type="Map">\n'
+            '       <Option name="name" type="QString" value=""></Option>\n'
+            '       <Option name="properties"></Option>\n'
+            '       <Option name="type" type="QString" '
+            'value="collection"></Option>\n'
+            '      </Option>\n'
+            '     </dataDefinedProperties>\n'
+            '     <customproperties>\n'
+            '      <Option></Option>\n'
+            '     </customproperties>\n'
+            '    </LayoutObject>\n'
+            '    <Extent xmax="1000" xmin="0" ymax="1223.0458013701645541" '
+            'ymin="-223.04580137016478147"></Extent>\n'
+            '    <LayerSet></LayerSet>\n'
+            '    <AtlasMap atlasDriven="0" margin="0.10000000000000001" '
+            'scalingMode="2"></AtlasMap>\n'
+            '    <labelBlockingItems></labelBlockingItems>\n'
+            '    <atlasClippingSettings clippingType="1" enabled="0" '
+            'forceLabelsInside="0" restrictLayers="0">\n'
+            '     <layersToClip></layersToClip>\n'
+            '    </atlasClippingSettings>\n'
+            '    <itemClippingSettings clipSource="" clippingType="1" '
+            'enabled="0" forceLabelsInside="0"></itemClippingSettings>\n'
+            '   </LayoutItem>\n'
+            '   <customproperties>\n'
+            '    <Option type="Map">\n'
+            '     <Option name="singleFile" type="bool" '
+            'value="true"></Option>\n'
+            '    </Option>\n'
+            '   </customproperties>\n'
+            '   <Atlas coverageLayer="" enabled="0" '
+            'filenamePattern="\'output_\'||@atlas_featurenumber" '
+            'filterFeatures="0" hideCoverage="0" pageNameExpression="" '
+            'sortFeatures="0"></Atlas>\n'
+            '  </Layout>\n'
+            ' </Layouts>\n'
+            ' <ElevationProfiles></ElevationProfiles>\n'
+            ' <mapViewDocks3D></mapViewDocks3D>\n'
+            ' <Bookmarks></Bookmarks>\n'
+            ' <Sensors></Sensors>\n'
+            ' <ProjectViewSettings UseProjectScales="1" rotation="0">\n'
+            '  <Scales>\n'
+            '   <Scale Value="10000000"></Scale>\n'
+            '   <Scale Value="3000000"></Scale>\n'
+            '   <Scale Value="1000000"></Scale>\n'
+            '   <Scale Value="750000"></Scale>\n'
+            '   <Scale Value="500000"></Scale>\n'
+            '   <Scale Value="250000"></Scale>\n'
+            '   <Scale Value="100000"></Scale>\n'
+            '   <Scale Value="24000"></Scale>\n'
+            '   <Scale Value="10000"></Scale>\n'
+            '   <Scale Value="1000"></Scale>\n'
+            '  </Scales>\n'
+            ' </ProjectViewSettings>\n'
+            ' <ProjectStyleSettings DefaultSymbolOpacity="1" '
+            'RandomizeDefaultSymbolColor="1" colorModel="Rgb" '
+            'iccProfileId="attachment:///" projectStyleId="...">\n'
+            '  <databases></databases>\n'
+            ' </ProjectStyleSettings>\n'
+            ' <ProjectTimeSettings cumulativeTemporalRange="0" frameRate="1" '
+            'timeStep="1" timeStepUnit="h" '
+            'totalMovieFrames="100"></ProjectTimeSettings>\n'
+            ' <ElevationProperties FilterInvertSlider="0">\n'
+            '  <terrainProvider type="flat">\n'
+            '   <TerrainProvider offset="0" scale="1"></TerrainProvider>\n'
+            '  </terrainProvider>\n'
+            ' </ElevationProperties>\n'
+            ' <ProjectDisplaySettings CoordinateAxisOrder="Default" '
+            'CoordinateType="MapCrs">\n'
+            '  <BearingFormat id="bearing">\n'
+            '   <Option type="Map">\n'
+            '    <Option name="decimal_separator" type="invalid"></Option>\n'
+            '    <Option name="decimals" type="int" value="6"></Option>\n'
+            '    <Option name="direction_format" type="int" '
+            'value="0"></Option>\n'
+            '    <Option name="rounding_type" type="int" value="0"></Option>\n'
+            '    <Option name="show_plus" type="bool" value="false"></Option>\n'
+            '    <Option name="show_thousand_separator" type="bool" '
+            'value="true"></Option>\n'
+            '    <Option name="show_trailing_zeros" type="bool" '
+            'value="false"></Option>\n'
+            '    <Option name="thousand_separator" type="invalid"></Option>\n'
+            '   </Option>\n'
+            '  </BearingFormat>\n'
+            '  <GeographicCoordinateFormat id="geographiccoordinate">\n'
+            '   <Option type="Map">\n'
+            '    <Option name="angle_format" type="QString" '
+            'value="DecimalDegrees"></Option>\n'
+            '    <Option name="decimal_separator" type="invalid"></Option>\n'
+            '    <Option name="decimals" type="int" value="6"></Option>\n'
+            '    <Option name="rounding_type" type="int" value="0"></Option>\n'
+            '    <Option name="show_leading_degree_zeros" type="bool" '
+            'value="false"></Option>\n'
+            '    <Option name="show_leading_zeros" type="bool" '
+            'value="false"></Option>\n'
+            '    <Option name="show_plus" type="bool" value="false"></Option>\n'
+            '    <Option name="show_suffix" type="bool" '
+            'value="false"></Option>\n'
+            '    <Option name="show_thousand_separator" type="bool" '
+            'value="true"></Option>\n'
+            '    <Option name="show_trailing_zeros" type="bool" '
+            'value="false"></Option>\n'
+            '    <Option name="thousand_separator" type="invalid"></Option>\n'
+            '   </Option>\n'
+            '  </GeographicCoordinateFormat>\n'
+            '  <CoordinateCustomCrs>\n'
+            '   <spatialrefsys nativeFormat="Wkt">\n'
+            '    <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 '
+            'ensemble",MEMBER["World Geodetic System 1984 '
+            '(Transit)"],MEMBER["World Geodetic System 1984 '
+            '(G730)"],MEMBER["World Geodetic System 1984 '
+            '(G873)"],MEMBER["World Geodetic System 1984 '
+            '(G1150)"],MEMBER["World Geodetic System 1984 '
+            '(G1674)"],MEMBER["World Geodetic System 1984 '
+            '(G1762)"],MEMBER["World Geodetic System 1984 '
+            '(G2139)"],MEMBER["World Geodetic System 1984 '
+            '(G2296)"],ELLIPSOID["WGS '
+            '84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic '
+            'latitude '
+            '(Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic '
+            'longitude '
+            '(Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["Horizontal '
+            'component of 3D '
+            'system."],AREA["World."],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>\n'
+            '    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>\n'
+            '    <srsid>3452</srsid>\n'
+            '    <srid>4326</srid>\n'
+            '    <authid>EPSG:4326</authid>\n'
+            '    <description>WGS 84</description>\n'
+            '    <projectionacronym>longlat</projectionacronym>\n'
+            '    <ellipsoidacronym>EPSG:7030</ellipsoidacronym>\n'
+            '    <geographicflag>true</geographicflag>\n'
+            '   </spatialrefsys>\n'
+            '  </CoordinateCustomCrs>\n'
+            ' </ProjectDisplaySettings>\n'
+            ' <ProjectGpsSettings autoAddTrackVertices="0" '
+            'autoCommitFeatures="0" destinationFollowsActiveLayer="1" '
+            'destinationLayer="">\n'
+            '  <timeStampFields></timeStampFields>\n'
+            ' </ProjectGpsSettings>\n'
+            '</qgis>'}
