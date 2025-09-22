@@ -15,6 +15,7 @@ from qgis.PyQt.QtCore import QFileInfo
 from qgis.core import QgsDataItemProvider, QgsDataProvider
 
 from .lyr_items import EsriLyrItem
+
 from .mxd_items import EsriMxdItem
 from .style_items import EsriStyleItem
 
