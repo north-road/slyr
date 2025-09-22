@@ -660,9 +660,8 @@ class VectorRendererConverter:
                     i if renderer.sort_ascending else len(renderer.ranges) - i - 1
                 )
 
-                if True:
-                    lower = renderer.ranges[range_index][0]
-                    upper = renderer.ranges[range_index][1]
+                lower = renderer.ranges[range_index][0]
+                upper = renderer.ranges[range_index][1]
                 i += 1
                 symbol = SymbolConverter.Symbol_to_QgsSymbol(c.symbol, context)
                 VectorRendererConverter.apply_renderer_settings_to_symbol(

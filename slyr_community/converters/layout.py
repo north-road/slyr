@@ -565,25 +565,24 @@ class LayoutConverter:
                     level=Context.CRITICAL,
                 )
 
-        if True:
-            for g in obj.horizontal_snap_guides.guides:
-                layout.guides().addGuide(
-                    QgsLayoutGuide(
-                        Qt.Orientation.Horizontal,
-                        QgsLayoutMeasurement(
-                            obj.page.height - g * conversion_factor, base_units
-                        ),
-                        page,
-                    )
+        for g in obj.horizontal_snap_guides.guides:
+            layout.guides().addGuide(
+                QgsLayoutGuide(
+                    Qt.Orientation.Horizontal,
+                    QgsLayoutMeasurement(
+                        obj.page.height - g * conversion_factor, base_units
+                    ),
+                    page,
                 )
-            for g in obj.vertical_snap_guides.guides:
-                layout.guides().addGuide(
-                    QgsLayoutGuide(
-                        Qt.Orientation.Vertical,
-                        QgsLayoutMeasurement(g * conversion_factor, base_units),
-                        page,
-                    )
+            )
+        for g in obj.vertical_snap_guides.guides:
+            layout.guides().addGuide(
+                QgsLayoutGuide(
+                    Qt.Orientation.Vertical,
+                    QgsLayoutMeasurement(g * conversion_factor, base_units),
+                    page,
                 )
+            )
 
         context.layout_name = None
         return layout
@@ -1131,8 +1130,7 @@ class LayoutConverter:
                 map.setFollowVisibilityPreset(True)
                 map.setFollowVisibilityPresetName(layer_to_layer_map[element.map])
 
-            if True:
-                map.setId(element.map.name)
+            map.setId(element.map.name)
 
             # grids
             for g in element.grids:
