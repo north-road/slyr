@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Converts annotations in a binary column to a QGIS annotation layer
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,19 +11,32 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+import base64
 
-"""
-Converts annotations in a binary column to a QGIS annotation layer
-"""
+from io import BytesIO
 
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtXml import QDomDocument
 from qgis.core import (
+    Qgis,
     QgsProcessingAlgorithm,
     QgsProcessingParameterVectorLayer,
     QgsProcessingParameterField,
     QgsProcessingException,
+    QgsPointXY,
+    QgsWkbTypes,
+    QgsProviderRegistry,
+    QgsFeatureRequest,
 )
 
 from .algorithm import SlyrAlgorithm
+from ...converters.context import Context
+from ...converters.geometry import GeometryConverter
+from ...converters.text_format import TextSymbolConverter
+from ...converters.annotations import AnnotationConverter
+from ...parser.objects.text_element import TextElement
+from ...parser.stream import Stream
+from .utils import AlgorithmUtils
 
 
 class ConvertAnnotations(SlyrAlgorithm):
@@ -51,13 +57,13 @@ class ConvertAnnotations(SlyrAlgorithm):
         return "convertannotations"
 
     def displayName(self):
-        return "Convert annotations (beta)"
+        return "Convert annotations"
 
     def shortDescription(self):
         return ""
 
     def flags(self):
-        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+        return super().flags() | QgsProcessingAlgorithm.Flag.FlagNoThreading
 
     def group(self):
         return "Annotations"
