@@ -66,6 +66,7 @@ from .vector_layer import VectorLayerConverter
 from .symbols import SymbolConverter
 from .crs import CrsConverter
 from .layout import LayoutConverter
+from ..parser.exceptions import RequiresLicenseException
 
 
 class ProjectConverter:
@@ -462,6 +463,12 @@ class ProjectConverter:
         theme_name = layer_to_layer_map.get(map)
 
         context.can_place_annotations_in_main_annotation_layer = not has_multiple_frames
+        if map.graphics_layer:
+            for g in map.graphics_layer.groups:
+                if g:
+                    raise RequiresLicenseException(
+                        "Converting annotations or graphics layers requires the licensed version of SLYR"
+                    )
 
         if is_first_frame:
             # better match for ArcGIS
