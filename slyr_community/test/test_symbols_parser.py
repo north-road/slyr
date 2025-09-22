@@ -12,6 +12,7 @@ import pprint
 from .test_case import SlyrTestCase
 
 from qgis.PyQt.QtGui import QGuiApplication
+
 from ..parser.object_registry import ObjectRegistry
 from ..parser.initalize_registry import initialize_registry
 from ..parser.objects.multi_layer_symbols import MultiLayerSymbol
