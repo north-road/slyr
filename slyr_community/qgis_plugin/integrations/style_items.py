@@ -38,12 +38,14 @@ from qgis.utils import iface
 
 from .browser_utils import BrowserUtils
 from ..gui_utils import GuiUtils
+
 from ...bintools.extractor import Extractor, MissingBinaryException
 from ...converters.color_ramp import ColorRampConverter
 from ...converters.context import Context
 from ...converters.geometry import GeometryConverter
 from ...converters.labels import LabelConverter
 from ...converters.symbols import SymbolConverter
+
 from ...parser.exceptions import (
     UnreadableSymbolException,
     UnsupportedVersionException,
@@ -52,6 +54,7 @@ from ...parser.exceptions import (
     UnreadablePictureException,
     UnknownObjectTypeException,
 )
+
 from ...parser.exceptions import RequiresLicenseException
 from ...parser.stream import Stream
 

@@ -29,11 +29,14 @@ from qgis.utils import iface
 from .browser_utils import BrowserUtils
 from .mxd_browser_widget import MxdBrowserWidget
 from ..gui_utils import GuiUtils
+
 from ...converters.context import Context
 from ...converters.project import ProjectConverter
 from ...parser.exceptions import EmptyDocumentException, DocumentTypeException
+
 from ...parser.exceptions import RequiresLicenseException
 from ...parser.objects.map import Map
+
 from ...parser.stream import Stream
 from ...parser.streams.map_document import MapDocument
 

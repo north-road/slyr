@@ -10,6 +10,7 @@ the Free Software Foundation; either version 2 of the License, or
 import os
 from qgis.PyQt.uic import loadUiType
 from qgis.core import QgsApplication
+
 from ...parser.streams.map_document import MapDocument
 from ...parser.exceptions import (
     UnreadableSymbolException,
