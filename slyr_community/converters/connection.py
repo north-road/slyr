@@ -322,10 +322,6 @@ class ConnectionConverter:
                 )
                 uri.setUseEstimatedMetadata(True)
 
-                uri = DatasetNameConverter.add_stored_oracle_connection_params_to_uri(
-                    uri, context
-                )
-
                 if context.ignore_online_sources:
                     uri.setConnection("", "", "", "")
 
@@ -340,10 +336,6 @@ class ConnectionConverter:
                 )
 
                 uri.setUseEstimatedMetadata(True)
-
-                uri = DatasetNameConverter.add_stored_oracle_connection_params_to_uri(
-                    uri, context
-                )
 
                 if context.ignore_online_sources:
                     uri.setConnection("", "", "", "")
@@ -398,9 +390,6 @@ class ConnectionConverter:
                 )
                 uri.setUseEstimatedMetadata(True)
 
-                uri = DatasetNameConverter.add_stored_postgres_connection_params_to_uri(
-                    uri, context
-                )
                 if context.ignore_online_sources:
                     uri.setConnection("", "", "", "")
 
@@ -466,10 +455,6 @@ class ConnectionConverter:
                 connection.properties["DATABASE"],
                 connection.properties.get("USER"),
                 "",
-            )
-
-            uri = DatasetNameConverter.add_stored_sql_server_connection_params_to_uri(
-                uri, context
             )
 
             if context.ignore_online_sources:
