@@ -4,15 +4,19 @@
 Test layer source conversion
 """
 
+import json
 import unittest
+
+from .test_case import SlyrTestCase
 from copy import deepcopy
 
-from qgis.core import QgsCoordinateReferenceSystem
+from qgis.core import Qgis, QgsCoordinateReferenceSystem, QgsWkbTypes, QgsDataSourceUri
 
 from ..converters.context import Context
 from ..converters.dataset_name import DatasetNameConverter
 from ..parser.initalize_registry import initialize_registry
 from ..parser.object_registry import REGISTRY
+
 from .utilities import get_qgis_app
 
 QGIS_APP = get_qgis_app()
@@ -741,7 +745,7 @@ expected = {
         "expected": {
             "provider": "arcgisfeatureserver",
             "uri": "crs='EPSG:3057' "
-            "url='http://rrrr-01.rrrrrrr.ca/arcgis/rest/services/Umffff/Hhhh_Vvvvv/FeatureServer/0'",
+            "url='https://rrrr-01.rrrrrrr.ca/arcgis/rest/services/Umffff/Hhhh_Vvvvv/FeatureServer/0'",
             "wkb_type": 1,
             "factory": "FeatureServiceWorkspaceFactory",
         },
@@ -1046,9 +1050,61 @@ expected = {
             "factory": "SdeWorkspaceFactory",
         },
     },
-    "sql server": {
+    "sql server no server": {
         "object": {
             "name": "sde.START.AAA_Overlay_NNNnnnnnnRRRRrrrrrCCCccc",
+            "dataset_name": {
+                "category": "",
+                "name": "",
+                "subset_names": None,
+                "dataset_type": "DATASET_TYPE_CONTAINER",
+                "workspace_name": {
+                    "name": "C:\\Users\\dangermouse\\AppData\\Roaming\\ESRI\\Desktop10.5\\ArcCatalog\\Guest.sde",
+                    "browse_name": "ArcSDE Data",
+                    "connection_properties": {
+                        "INSTANCE": "sde:sqlserver:sde",
+                        "DBCLIENT": "sqlserver",
+                        "DB_CONNECTION_PROPERTIES": "sde",
+                        "DATABASE": "sdc",
+                        "IS_GEODATABASE": "true",
+                        "AUTHENTICATION_MODE": "DBMS",
+                        "USER": "asdddd",
+                        "PASSWORD": "********************************************************",
+                        "CONNPROP-REV": "Rev1.0",
+                        "VERSION": "sde.DEFAULT",
+                        "type": "PropertySet",
+                        "version": 1,
+                    },
+                    "path_name": "",
+                    "workspace_type": "ESRI_REMOTEDATABASE_WORKSPACE",
+                    "workspace_factory": {"type": "SdeWorkspaceFactory", "version": 1},
+                    "name_string": "",
+                    "type": "WorkspaceName",
+                    "version": 1,
+                },
+                "type": "FeatureDatasetName",
+                "version": 1,
+            },
+            "datasource_type": "SDE Feature Class",
+            "feature_type": "FT_SIMPLE",
+            "shape_field_name": "Shape",
+            "shape_type": "polygon",
+            "type": "FeatureClassName",
+            "version": 2,
+        },
+        "base": "/home/me/test_slyr/Archive/LYRs",
+        "crs": "EPSG:28356",
+        "subset": '"Changes_20111025" is null or "Changes_20111025" = \'Add\'',
+        "expected": {
+            "uri": "dbname='sdc' host=sde user='asdddd' key='OBJECTID' srid=28356 type=Polygon disableInvalidGeometryHandling='0' table=\"START\".\"AAA_Overlay_NNNnnnnnnRRRRrrrrrCCCccc\" (Shape) sql=\"Changes_20111025\" is null or \"Changes_20111025\" = 'Add'",
+            "provider": "mssql",
+            "wkb_type": Qgis.WkbType.Polygon,
+            "factory": "SdeWorkspaceFactory",
+        },
+    },
+    "sql server no schema": {
+        "object": {
+            "name": "sde.AAA_Overlay_NNNnnnnnnRRRRrrrrrCCCccc",
             "dataset_name": {
                 "category": "",
                 "name": "",
@@ -1093,9 +1149,9 @@ expected = {
         "crs": "EPSG:28356",
         "subset": '"Changes_20111025" is null or "Changes_20111025" = \'Add\'',
         "expected": {
-            "uri": "dbname='sde' host=sde key='OBJECTID' srid=28356 type=Polygon disableInvalidGeometryHandling='0' table=\"START\".\"AAA_Overlay_NNNnnnnnnRRRRrrrrrCCCccc\" (Shape) sql=\"Changes_20111025\" is null or \"Changes_20111025\" = 'Add'",
+            "uri": "dbname='sde' host=sde user='asdddd' key='OBJECTID' srid=28356 type=Polygon disableInvalidGeometryHandling='0' table=\"sde\".\"AAA_Overlay_NNNnnnnnnRRRRrrrrrCCCccc\" (Shape) sql=\"Changes_20111025\" is null or \"Changes_20111025\" = 'Add'",
             "provider": "mssql",
-            "wkb_type": 3,
+            "wkb_type": Qgis.WkbType.Polygon,
             "factory": "SdeWorkspaceFactory",
         },
     },
@@ -1146,9 +1202,9 @@ expected = {
         "crs": "EPSG:28356",
         "subset": "",
         "expected": {
-            "uri": "dbname='DBC' host=db-dbc.somewhere.local key='OBJECTID' srid=28356 type=Polygon disableInvalidGeometryHandling='0' table=\"GDA\".\"KP_Table\" (SHAPE)",
+            "uri": "dbname='DBC' host=db-dbc.somewhere.local user='DBC_read' key='OBJECTID' srid=28356 type=Polygon disableInvalidGeometryHandling='0' table=\"GDA\".\"KP_Table\" (SHAPE)",
             "provider": "mssql",
-            "wkb_type": 3,
+            "wkb_type": Qgis.WkbType.Polygon,
             "factory": "SdeWorkspaceFactory",
         },
     },
@@ -1233,6 +1289,88 @@ expected = {
         },
     },
     "sde no dbclient": {
+        "object": {
+            "name": "SD_MMMMMM.SSSS_AAAA_BBBB",
+            "dataset_name": {
+                "name": "C:\\Users\\RR112333\\AppData\\Roaming\\ESRI\\Desktop10.2\\ArcCatalog\\ASDD to ASDDD_ASDD.sde",
+                "browse_name": "ArcSDE Data",
+                "connection_properties": {
+                    "SERVER": "sde",
+                    "INSTANCE": "sde:oracle$sde:oracle11g:ssss",
+                    "IS_GEODATABASE": "true",
+                    "AUTHENTICATION_MODE": "DBMS",
+                    "CONNPROP-REV": "Rev1.0",
+                    "type": "PropertySet",
+                    "version": 1,
+                },
+                "path_name": "",
+                "workspace_type": "ESRI_REMOTEDATABASE_WORKSPACE",
+                "workspace_factory": {"type": "SdeWorkspaceFactory", "version": 1},
+                "name_string": "",
+                "type": "WorkspaceName",
+                "version": 1,
+            },
+            "datasource_type": "SDE Feature Class",
+            "feature_type": "FT_SIMPLE",
+            "shape_field_name": "SHAPE",
+            "shape_type": "polyline",
+            "type": "FeatureClassName",
+            "version": 2,
+        },
+        "base": "/home/me/test_slyr/Archive/LYRs",
+        "crs": "EPSG:28356",
+        "subset": "",
+        "expected": {
+            "uri": "C:/Users/RR112333/AppData/Roaming/ESRI/Desktop10.2/ArcCatalog/ASDD to ASDDD_ASDD.sde|layername=SD_MMMMMM.SSSS_AAAA_BBBB",
+            "provider": "ogr",
+            "wkb_type": 5,
+            "file_name": "C:/Users/RR112333/AppData/Roaming/ESRI/Desktop10.2/ArcCatalog/ASDD to ASDDD_ASDD.sde",
+            "factory": "SdeWorkspaceFactory",
+        },
+    },
+    "sde oracle geometry_collection": {
+        "object": {
+            "name": "SD_MMMMMM.SSSS_AAAA_BBBB",
+            "dataset_name": {
+                "name": "C:\\Users\\RR112333\\AppData\\Roaming\\ESRI\\Desktop10.2\\ArcCatalog\\ASDD to ASDDD_ASDD.sde",
+                "browse_name": "ArcSDE Data",
+                "connection_properties": {
+                    "SERVER": "sde",
+                    "INSTANCE": "sde:oracle$sde:oracle11g:ssss",
+                    "IS_GEODATABASE": "true",
+                    "AUTHENTICATION_MODE": "DBMS",
+                    "DBCLIENT": "oracle",
+                    "CONNPROP-REV": "Rev1.0",
+                    "type": "PropertySet",
+                    "version": 1,
+                },
+                "path_name": "",
+                "workspace_type": "ESRI_REMOTEDATABASE_WORKSPACE",
+                "workspace_factory": {"type": "SdeWorkspaceFactory", "version": 1},
+                "name_string": "",
+                "type": "WorkspaceName",
+                "version": 1,
+            },
+            "datasource_type": "SDE Feature Class",
+            "feature_type": "FT_SIMPLE",
+            "shape_field_name": "SHAPE",
+            "shape_type": "any",
+            "type": "FeatureClassName",
+            "version": 2,
+        },
+        "base": "/home/me/test_slyr/Archive/LYRs",
+        "crs": "EPSG:28356",
+        "subset": "",
+        "expected": {
+            "provider": "oracle",
+            "uri": "host=ssss port=1521 key='OBJECTID' "
+            "estimatedmetadata=true srid=28356 type=Point "
+            'table="SD_MMMMMM"."SSSS_AAAA_BBBB" (SHAPE)',
+            "wkb_type": QgsWkbTypes.Type.Point,
+            "factory": "SdeWorkspaceFactory",
+        },
+    },
+    "sde oracle 11g15g": {
         "object": {
             "name": "SD_MMMMMM.SSSS_AAAA_BBBB",
             "dataset_name": {
@@ -1462,7 +1600,7 @@ expected = {
         "crs": "EPSG:26913",
         "subset": "",
         "expected": {
-            "uri": "dbname='iiiiiiddddddd' host=keeeeaa3aa33 key='OBJECTID' srid=26913 type=Polygon disableInvalidGeometryHandling='0' table=\"IIIIIIIIAAAAAA\".\"KK_aaaa_CCCC_dissolve\" (SHAPE)",
+            "uri": "dbname='iiiiiiddddddd' host=keeeeaa3aa33\\sdesqlco key='OBJECTID' srid=26913 type=Polygon disableInvalidGeometryHandling='0' table=\"IIIIIIIIAAAAAA\".\"KK_aaaa_CCCC_dissolve\" (SHAPE)",
             "provider": "mssql",
             "wkb_type": 3,
             "factory": "SdeWorkspaceFactory",
@@ -1722,7 +1860,7 @@ expected = {
                         "PROJECT_INSTANCE": "TTTTA_PPPPP_RRRR",
                         "IS_GEODATABASE": "true",
                         "AUTHENTICATION_MODE": "DBMS",
-                        "USER": "/",
+                        "USER": "uu",
                         "PASSWORD": "********************************************************",
                         "CONNPROP-REV": "Rev1.0",
                         "VERSION": "TTTTA_PPPPP_RRRR.DEFAULT",
@@ -1751,7 +1889,7 @@ expected = {
         "subset": "",
         "skip_old": True,
         "expected": {
-            "uri": "dbname='TTTTA_PPPPP_RRRR' port=1521 key='OBJECTID' estimatedmetadata=true srid=26911 type=Polygon table=\"TTTTA_PPPPP_RRRR\".\"aAAAAAAsssspppttTTT\" (SHAPE)",
+            "uri": "dbname='TTTTA_PPPPP_RRRR' host=gaaa09b port=1521 user='uu' key='OBJECTID' estimatedmetadata=true srid=26911 type=Polygon table=\"TTTTA_PPPPP_RRRR\".\"aAAAAAAsssspppttTTT\" (SHAPE)",
             "provider": "oracle",
             "wkb_type": 3,
             "factory": "SdeWorkspaceFactory",
@@ -1809,7 +1947,7 @@ expected = {
                         "PROJECT_INSTANCE": "sde",
                         "IS_GEODATABASE": "true",
                         "AUTHENTICATION_MODE": "DBMS",
-                        "USER": "/",
+                        "USER": "uu",
                         "PASSWORD": "********************************************************",
                         "CONNPROP-REV": "Rev1.0",
                         "VERSION": "SDE.DEFAULT",
@@ -1838,7 +1976,7 @@ expected = {
         "subset": "FORESTNAME = 'Gifford Pinchot National Forest'",
         "expected": {
             "provider": "oracle",
-            "uri": "port=1521 key='OBJECTID' estimatedmetadata=true srid=4269 "
+            "uri": "host=dasdd.ghg.err.aa port=1521 user='uu' key='OBJECTID' estimatedmetadata=true srid=4269 "
             'type=Polygon table="S_TTT"."aAAAAAAsssspppttTTT" (SHAPE) '
             "sql=FORESTNAME = 'Gifford Pinchot National Forest'",
             "wkb_type": 3,
@@ -2066,7 +2204,7 @@ expected = {
         "crs": "EPSG:3005",
         "subset": "NAME IN ( 'Victoria', 'Vancouver', 'Nanaimo', 'Campbell River', 'Kamloops', 'Kelowna', 'Prince Rupert', 'Prince George', 'Smithers', 'Atlin', 'Fort Nelson', 'Fort St. John', 'Williams Lake', 'Revelstoke', 'Nelson', 'Cranbrook', 'Masset' )  or ( REGION_CODE = 48 AND POPULATION_RANGE > 3) or ( REGION_CODE > 59 AND POPULATION_RANGE > 2)",
         "expected": {
-            "uri": "dbname='aavbvvv_tttrrr1.bcgov' port=1521 key='OBJECTID' estimatedmetadata=true srid=3005 type=Point table=\"ASASD_BBBAAAAAA\".\"CCA_RDDD_9G_GGGGG_AAAA_BBBBB\" (GEOMETRY) sql=NAME IN ( 'Victoria', 'Vancouver', 'Nanaimo', 'Campbell River', 'Kamloops', 'Kelowna', 'Prince Rupert', 'Prince George', 'Smithers', 'Atlin', 'Fort Nelson', 'Fort St. John', 'Williams Lake', 'Revelstoke', 'Nelson', 'Cranbrook', 'Masset' )  or ( REGION_CODE = 48 AND POPULATION_RANGE > 3) or ( REGION_CODE > 59 AND POPULATION_RANGE > 2)",
+            "uri": "dbname='aavbvvv_tttrrr1.bcgov' host=bbbb.aaaaaa port=1521 key='OBJECTID' estimatedmetadata=true srid=3005 type=Point table=\"ASASD_BBBAAAAAA\".\"CCA_RDDD_9G_GGGGG_AAAA_BBBBB\" (GEOMETRY) sql=NAME IN ( 'Victoria', 'Vancouver', 'Nanaimo', 'Campbell River', 'Kamloops', 'Kelowna', 'Prince Rupert', 'Prince George', 'Smithers', 'Atlin', 'Fort Nelson', 'Fort St. John', 'Williams Lake', 'Revelstoke', 'Nelson', 'Cranbrook', 'Masset' )  or ( REGION_CODE = 48 AND POPULATION_RANGE > 3) or ( REGION_CODE > 59 AND POPULATION_RANGE > 2)",
             "provider": "oracle",
             "wkb_type": 1,
             "factory": "SdeWorkspaceFactory",
@@ -2175,7 +2313,48 @@ expected = {
         "subset": "",
         "expected": {
             "provider": "oracle",
-            "uri": "port=1521 key='OBJECTID' estimatedmetadata=true "
+            "uri": "host=ssss port=1521 key='OBJECTID' estimatedmetadata=true "
+            'table="AA_SSSSSSSS"."SSSRRR"',
+            "factory": "SdeWorkspaceFactory",
+        },
+    },
+    "SDE Table 10g": {
+        "object": {
+            "name": "AA_SSSSSSSS.SSSRRR",
+            "category": "",
+            "datasource_type": "SDE Table",
+            "workspace_name": {
+                "name": "C:\\Users\\A333333\\AppData\\Roaming\\ESRI\\Desktop10.2\\ArcCatalog\\ssss.sde",
+                "browse_name": "ArcSDE Data",
+                "connection_properties": {
+                    "SERVER": "ssss",
+                    "INSTANCE": "sde:oracle10g:ssss",
+                    "DBCLIENT": "oracle",
+                    "DB_CONNECTION_PROPERTIES": "ssss",
+                    "PROJECT_INSTANCE": "sde",
+                    "IS_GEODATABASE": "true",
+                    "AUTHENTICATION_MODE": "DBMS",
+                    "VERSION": "SDE.DEFAULT",
+                    "CONNPROP-REV": "Rev1.0",
+                    "type": "PropertySet",
+                    "version": 1,
+                },
+                "path_name": "",
+                "workspace_type": "ESRI_REMOTEDATABASE_WORKSPACE",
+                "workspace_factory": {"type": "SdeWorkspaceFactory", "version": 1},
+                "name_string": "",
+                "type": "WorkspaceName",
+                "version": 1,
+            },
+            "type": "TableName",
+            "version": 1,
+        },
+        "base": "/home/me/test_slyr/ABBBB/r2/MXDs",
+        "crs": "",
+        "subset": "",
+        "expected": {
+            "provider": "oracle",
+            "uri": "host=ssss port=1521 key='OBJECTID' estimatedmetadata=true "
             'table="AA_SSSSSSSS"."SSSRRR"',
             "factory": "SdeWorkspaceFactory",
         },
@@ -2972,7 +3151,7 @@ expected = {
                     "version": 2,
                 },
                 "crs": {
-                    "wkt": 'GEOGCS["GCS_GDA_1994",DATUM["D_GDA_1994",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433],AUTHORITY["EPSG",12483]]',
+                    "wkt": 'PROJCS["GDA_1994_VICGRID94",GEOGCS["GCS_GDA_1994",DATUM["D_GDA_1994",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["False_Easting",2500000.0],PARAMETER["False_Northing",2500000.0],PARAMETER["Central_Meridian",145.0],PARAMETER["Standard_Parallel_1",-36.0],PARAMETER["Standard_Parallel_2",-38.0],PARAMETER["Latitude_Of_Origin",-37.0],UNIT["Meter",1.0]]',
                     "x_origin": -400.0,
                     "y_origin": -400.0,
                     "xy_scale": 999999999.9999999,
@@ -3098,72 +3277,6 @@ expected = {
             "provider": "ogr",
             "uri": "P:/Saaasdas Baaaaa/Jhggff Trrrrr/AAAA_BBBBB/CAD/DWG/999_AAB.dwg|layername=Annotation",
             "wkb_type": 1,
-        },
-    },
-    "XY Event fields with text": {
-        "object": {
-            "name": "BBBASAA.csv_Features",
-            "feature_dataset_name": {
-                "name": "BBBASAA.csv",
-                "category": "",
-                "datasource_type": "Text File",
-                "workspace_name": {
-                    "name": "C:\\Projects\\Ghhhh_Aaaaaa_ZBbbb\\2021 Aaa Bbbbbbbb\\Pictures",
-                    "browse_name": "Pictures",
-                    "connection_properties": {
-                        "DATABASE": "C:\\Projects\\Ghhhh_Aaaaaa_ZBbbb\\2021 Aaa Bbbbbbbb\\Pictures",
-                        "type": "PropertySet",
-                        "version": 1,
-                    },
-                    "path_name": "",
-                    "workspace_type": "ESRI_FILESYSTEM_WORKSPACE",
-                    "workspace_factory": {
-                        "type": "TextFileWorkspaceFactory",
-                        "version": 1,
-                    },
-                    "name_string": "",
-                    "type": "WorkspaceName",
-                    "version": 1,
-                },
-                "type": "TableName",
-                "version": 1,
-            },
-            "event_properties": {
-                "x_field": "X_Coord",
-                "y_field": "Y_Coord",
-                "z_field": "SOMA",
-                "type": "XYEvent2FieldsProperties",
-                "version": 1,
-            },
-            "crs": {
-                "wkt": 'PROJCS["WGS_1984_UTM_Zone_23S",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",500000.0],PARAMETER["False_Northing",10000000.0],PARAMETER["Central_Meridian",-45.0],PARAMETER["Scale_Factor",0.9996],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]',
-                "x_origin": -5120900.0,
-                "y_origin": 1900.0,
-                "m_origin": -100000.0,
-                "z_origin": -100000.0,
-                "xy_scale": 10000.0,
-                "m_scale": 10000.0,
-                "z_scale": 10000.0,
-                "xy_tolerance": 0.001,
-                "z_tolerance": 0.001,
-                "m_tolerance": 0.001,
-                "is_high_precision": True,
-                "type": "ProjectedCoordinateSystem",
-                "version": 6,
-            },
-            "type": "XYEventSourceName",
-            "version": 1,
-        },
-        "base": "/home/me/test_slyr/Aaaaaa Bbbbbb",
-        "crs": "EPSG:32723",
-        "subset": "",
-        "skip_old": True,
-        "expected": {
-            "factory": "TextFileWorkspaceFactory",
-            "file_name": "C:/Projects/Ghhhh_Aaaaaa_ZBbbb/2021 Aaa Bbbbbbbb/Pictures/BBBASAA.csv",
-            "provider": "delimitedtext",
-            "uri": "file:///C:/Projects/Ghhhh_Aaaaaa_ZBbbb/2021%20Aaa%20Bbbbbbbb/Pictures/BBBASAA.csv?type=csv&maxFields=10000&detectTypes=yes&spatialIndex=yes&subsetIndex=no&watchFile=no&xField=X_Coord&yField=Y_Coord&zField=SOMA&crs=EPSG:32723",
-            "wkb_type": 1001,
         },
     },
     "SQL server with escaped table name": {
@@ -3814,7 +3927,239 @@ expected = {
             "uri": "dbname='ccaaaaaccc' host=sde_prod key='OBJECTID' srid=28356 type=Polygon "
             "disableInvalidGeometryHandling='0' "
             'table="gis"."SV_CAADA_TABLE_NAME" (Shape)',
-            "wkb_type": 3,
+            "wkb_type": Qgis.WkbType.Polygon,
+        },
+    },
+    "Postgres with port": {
+        "object": {
+            "name": "db.AA_SSSSSSSS.sCCCccccVaaaa_asd",
+            "dataset_name": {
+                "category": "",
+                "name": "",
+                "subset_names": None,
+                "dataset_type": "DATASET_TYPE_CONTAINER",
+                "workspace_name": {
+                    "name": "C:\\Users\\RR112333\\AppData\\Roaming\\ESRI\\Desktop10.2\\ArcCatalog\\ASDD to ASDDD_ASDD.sde",
+                    "browse_name": "ArcSDE Data",
+                    "connection_properties": {
+                        "SERVER": "abc02",
+                        "INSTANCE": "sde:postgresql:cclgis02,5433",
+                        "IS_GEODATABASE": "false",
+                        "DBCLIENT": "postgresql",
+                        "DATABASE": "my_database",
+                        "AUTHENTICATION_MODE": "OSA",
+                        "CONNPROP-REV": "Rev1.0",
+                        "type": "PropertySet",
+                        "version": 1,
+                    },
+                    "path_name": "",
+                    "workspace_type": "ESRI_REMOTEDATABASE_WORKSPACE",
+                    "workspace_factory": {"type": "SdeWorkspaceFactory", "version": 1},
+                    "name_string": "",
+                    "type": "WorkspaceName",
+                    "version": 1,
+                },
+                "type": "FeatureDatasetName",
+                "version": 1,
+            },
+            "datasource_type": "SDE Feature Class",
+            "feature_type": "FT_SIMPLE",
+            "shape_field_name": "SHAPE",
+            "shape_type": "point",
+            "type": "FeatureClassName",
+            "version": 2,
+        },
+        "base": "/home/me/test_slyr/Archive/LYRs",
+        "crs": "EPSG:28356",
+        "subset": "STATUS <> 'ERR'",
+        "expected": {
+            "uri": "dbname='my_database' host=cclgis02 port=5433 key='OBJECTID' "
+            "estimatedmetadata=true srid=28356 type=Point "
+            'table="AA_SSSSSSSS"."sCCCccccVaaaa_asd" (SHAPE) sql=STATUS <> \'ERR\'',
+            "provider": "postgres",
+            "wkb_type": 1,
+            "factory": "SdeWorkspaceFactory",
+        },
+    },
+    "Postgres no port": {
+        "object": {
+            "name": "db.AA_SSSSSSSS.sCCCccccVaaaa_asd",
+            "dataset_name": {
+                "category": "",
+                "name": "",
+                "subset_names": None,
+                "dataset_type": "DATASET_TYPE_CONTAINER",
+                "workspace_name": {
+                    "name": "C:\\Users\\RR112333\\AppData\\Roaming\\ESRI\\Desktop10.2\\ArcCatalog\\ASDD to ASDDD_ASDD.sde",
+                    "browse_name": "ArcSDE Data",
+                    "connection_properties": {
+                        "SERVER": "abc02",
+                        "INSTANCE": "sde:postgresql:cclgis02",
+                        "IS_GEODATABASE": "false",
+                        "DBCLIENT": "postgresql",
+                        "DATABASE": "my_database",
+                        "AUTHENTICATION_MODE": "OSA",
+                        "CONNPROP-REV": "Rev1.0",
+                        "type": "PropertySet",
+                        "version": 1,
+                    },
+                    "path_name": "",
+                    "workspace_type": "ESRI_REMOTEDATABASE_WORKSPACE",
+                    "workspace_factory": {"type": "SdeWorkspaceFactory", "version": 1},
+                    "name_string": "",
+                    "type": "WorkspaceName",
+                    "version": 1,
+                },
+                "type": "FeatureDatasetName",
+                "version": 1,
+            },
+            "datasource_type": "SDE Feature Class",
+            "feature_type": "FT_SIMPLE",
+            "shape_field_name": "SHAPE",
+            "shape_type": "point",
+            "type": "FeatureClassName",
+            "version": 2,
+        },
+        "base": "/home/me/test_slyr/Archive/LYRs",
+        "crs": "EPSG:28356",
+        "subset": "STATUS <> 'ERR'",
+        "expected": {
+            "uri": "dbname='my_database' host=cclgis02 port=5432 key='OBJECTID' "
+            "estimatedmetadata=true srid=28356 type=Point "
+            'table="AA_SSSSSSSS"."sCCCccccVaaaa_asd" (SHAPE) sql=STATUS <> \'ERR\'',
+            "provider": "postgres",
+            "wkb_type": 1,
+            "factory": "SdeWorkspaceFactory",
+        },
+    },
+    "Postgres query": {
+        "object": {
+            "name": "db_master.some_schema.%some_table",
+            "dataset_name": {
+                "name": "C:\\Users\\xxx\\AppData\\Roaming\\ESRI\\Desktop10.8\\ArcCatalog\\db_master@some_host.com",
+                "browse_name": "db_master@some_host.com",
+                "connection_properties": {
+                    "SERVER": "some_host.com",
+                    "INSTANCE": "sde:postgresql:some_host.com",
+                    "DBCLIENT": "postgresql",
+                    "DB_CONNECTION_PROPERTIES": "some_host.com",
+                    "DATABASE": "db_master",
+                    "IS_GEODATABASE": "false",
+                    "AUTHENTICATION_MODE": "DBMS",
+                    "USER": "some_user",
+                    "PASSWORD": "********************************************************",
+                    "CONNPROP-REV": "Rev1.0",
+                    "type": "PropertySet",
+                    "version": 1,
+                    "ref_id": 36,
+                },
+                "path_name": "",
+                "workspace_type": "ESRI_REMOTEDATABASE_WORKSPACE",
+                "workspace_factory": {"type": "SdeWorkspaceFactory", "version": 1},
+                "name_string": "",
+                "type": "WorkspaceName",
+                "version": 1,
+                "ref_id": 35,
+            },
+            "datasource_type": "Query Feature Class",
+            "feature_type": "FT_SIMPLE",
+            "shape_field_name": "",
+            "shape_type": "any",
+            "topologies": [],
+            "query": {
+                "query": "select objectid,stable_id from db_master.some_schema.some_table",
+                "fid": "objectid",
+                "geometry_field": "shape",
+                "esri_oid": "ESRI_OID",
+                "fields": {
+                    "fields": [
+                        {
+                            "name": "objectid",
+                            "alias": "",
+                            "model_name": "",
+                            "type": "Field",
+                            "version": 3,
+                            "ref_id": 39,
+                        },
+                        {
+                            "name": "shape",
+                            "alias": "",
+                            "model_name": "",
+                            "field_type": 7,
+                            "geometry_definition": {
+                                "average_number_of_points": 0,
+                                "geometry_type": "point",
+                                "crs": {
+                                    "wkt": 'PROJCS["CH1903+_LV95",GEOGCS["GCS_CH1903+",DATUM["D_CH1903+",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["False_Easting",2600000.0],PARAMETER["False_Northing",1200000.0],PARAMETER["Scale_Factor",1.0],PARAMETER["Azimuth",90.0],PARAMETER["Longitude_Of_Center",7.439583333333333],PARAMETER["Latitude_Of_Center",46.95240555555556],UNIT["Meter",1.0]]',
+                                    "x_origin": -27386400.0,
+                                    "y_origin": -32067900.0,
+                                    "m_origin": 0.0,
+                                    "z_origin": 0.0,
+                                    "xy_scale": 10000.0,
+                                    "m_scale": 1.0,
+                                    "z_scale": 1.0,
+                                    "xy_tolerance": 0.001,
+                                    "z_tolerance": 0.0,
+                                    "m_tolerance": 0.0,
+                                    "type": "ProjectedCoordinateSystem",
+                                    "version": 6,
+                                    "ref_id": 96,
+                                },
+                                "type": "GeometryDef",
+                                "version": 1,
+                                "ref_id": 95,
+                            },
+                            "field_length": 4,
+                            "precision": 0,
+                            "scale": 0,
+                            "type": "Field",
+                            "version": 3,
+                            "ref_id": 94,
+                        },
+                    ],
+                    "type": "Fields",
+                    "version": 2,
+                    "ref_id": 38,
+                },
+                "crs": {
+                    "wkt": 'PROJCS["CH1903+_LV95",GEOGCS["GCS_CH1903+",DATUM["D_CH1903+",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["False_Easting",2600000.0],PARAMETER["False_Northing",1200000.0],PARAMETER["Scale_Factor",1.0],PARAMETER["Azimuth",90.0],PARAMETER["Longitude_Of_Center",7.439583333333333],PARAMETER["Latitude_Of_Center",46.95240555555556],UNIT["Meter",1.0]]',
+                    "x_origin": -27386400.0,
+                    "y_origin": -32067900.0,
+                    "m_origin": 0.0,
+                    "z_origin": 0.0,
+                    "xy_scale": 10000.0,
+                    "m_scale": 1.0,
+                    "z_scale": 1.0,
+                    "xy_tolerance": 0.001,
+                    "z_tolerance": 0.0,
+                    "m_tolerance": 0.0,
+                    "is_high_precision": True,
+                    "type": "ProjectedCoordinateSystem",
+                    "version": 6,
+                    "ref_id": 96,
+                },
+                "type": "GpkgFeatureClassQuery",
+                "version": 3,
+                "ref_id": 37,
+            },
+            "type": "GpkgFeatureClassName",
+            "version": 2,
+            "ref_id": 34,
+        },
+        "base": "/home/nyall/Documents/North Road/SLYR/ABBBB/r2/MXDs",
+        "crs": "EPSG:3857",
+        "subset": "Wwwww_AAaaaa.Code NOT LIKE 'ABBBB%'",
+        "skip_old": True,
+        "expected": {
+            "factory": "SdeWorkspaceFactory",
+            "provider": "postgres",
+            "uri": "dbname='db_master' host=some_host.com port=5432 "
+            + "user='some_user' key='OBJECTID' "
+            + "estimatedmetadata=true srid=2056 "
+            + "type=Point "
+            + 'table="some_schema"."some_table" (shape) '
+            + "sql=Wwwww_AAaaaa.Code NOT LIKE 'ABBBB%'",
+            "wkb_type": Qgis.WkbType.Point,
         },
     },
     "XY event source with join": {
@@ -4024,47 +4369,6 @@ expected = {
             "wkb_type": 1,
         },
     },
-    "FME Workspace": {
-        "object": {
-            "name": "aaaaaa_bbbbbbb_ws",
-            "dataset_name": {
-                "category": "",
-                "name": "",
-                "subset_names": None,
-                "dataset_type": "DATASET_TYPE_CONTAINER",
-                "workspace_name": {
-                    "name": "C:\\Users\\ccaaaaaa\\AppData\\Roaming\\Safe Software\\Interoperability",
-                    "browse_name": "Interoperability",
-                    "connection_properties": None,
-                    "path_name": "",
-                    "workspace_type": "ESRI_FILESYSTEM_WORKSPACE",
-                    "workspace_factory": {"type": "FMEWorkspaceFactory", "version": 1},
-                    "name_string": "",
-                    "type": "WorkspaceName",
-                    "version": 1,
-                },
-                "type": "FeatureDatasetName",
-                "version": 1,
-            },
-            "datasource_type": "Interoperability Feature Class",
-            "feature_type": "FT_SIMPLE",
-            "shape_field_name": "SHAPE",
-            "shape_type": "multipoint",
-            "type": "FeatureClassName",
-            "version": 2,
-        },
-        "base": "/home/nyall/Documents/North Road/SLYR/Ddddddd",
-        "crs": "EPSG:25832",
-        "subset": "",
-        "skip_old": True,
-        "expected": {
-            "factory": "FMEWorkspaceFactory",
-            "file_name": "C:/Users/ccaaaaaa/AppData/Roaming/Safe "
-            "Software/Interoperability/aaaaaa_bbbbbbb_ws",
-            "provider": "ogr",
-            "uri": "C:/Users/ccaaaaaa/AppData/Roaming/Safe Software/Interoperability/aaaaaa_bbbbbbb_ws",
-        },
-    },
     "street map": {
         "object": {
             "name": "usa_mr.edg",
@@ -4182,9 +4486,9 @@ expected = {
         "expected": {
             "factory": "SdeWorkspaceFactory",
             "provider": "mssql",
-            "uri": "dbname='cccccvaaa' host=data.xxxxxxx.com,8043 key='OBJECTID' "
+            "uri": "dbname='cccccvaaa' host=data.xxxxxxx.com,8043 user='asdasd' key='OBJECTID' "
             'table="dbo"."vvvvvvv"',
-            "wkb_type": 100,
+            "wkb_type": Qgis.WkbType.NoGeometry,
         },
     },
     "sql server standalone no geom": {
@@ -4231,9 +4535,9 @@ expected = {
         "expected": {
             "factory": "SdeWorkspaceFactory",
             "provider": "mssql",
-            "uri": "dbname='AC' host=data.abc.com,8043 key='OBJECTID' "
+            "uri": "dbname='AC' host=data.abc.com,8043 user='gisuser' key='OBJECTID' "
             'table="dbo"."vwbbcc"',
-            "wkb_type": 100,
+            "wkb_type": Qgis.WkbType.NoGeometry,
         },
     },
     "sql server query no geom": {
@@ -4244,7 +4548,7 @@ expected = {
                 "browse_name": "Geo",
                 "connection_properties": {
                     "SERVER": "prd-sql",
-                    "INSTANCE": "sde:sqlserver:host-name",
+                    "INSTANCE": "sde:sqlserver:prd-sql",
                     "DBCLIENT": "sqlserver",
                     "DB_CONNECTION_PROPERTIES": "host-name",
                     "DATABASE": "Geo",
@@ -4678,9 +4982,9 @@ expected = {
         "expected": {
             "factory": "SdeWorkspaceFactory",
             "provider": "mssql",
-            "uri": "dbname='Geo' host=prd-sql key='OBJECTID' "
+            "uri": "dbname='Geo' host=prd-sql user='ga' key='OBJECTID' "
             'table="ArcGis"."colombia_cities"',
-            "wkb_type": 100,
+            "wkb_type": Qgis.WkbType.NoGeometry,
         },
     },
     "sql server alternative port encoding": {
@@ -4846,18 +5150,38 @@ expected = {
         "expected": {
             "factory": "SdeWorkspaceFactory",
             "provider": "mssql",
-            "uri": "dbname='MyDatabase' host=data.myconnection.com,8043 key='OBJECTID' "
+            "uri": "dbname='MyDatabase' host=data.myconnection.com,8043 user='myuser' key='OBJECTID' "
             "srid=3452 type=Polygon disableInvalidGeometryHandling='0' "
             'table="dbo"."vwParcels" (Shape)',
-            "wkb_type": 3,
+            "wkb_type": Qgis.WkbType.Polygon,
         },
     },
+}
+
+expected_cim = {
+    "oracle_sde": {
+        "object": {
+            "type": "CIMStandardDataConnection",
+            "workspaceConnectionString": "SERVER=bcgw.bcgov;INSTANCE=sde:oracle$bcgw.bcgov/idwprod1.bcgov;DBCLIENT=oracle;DB_CONNECTION_PROPERTIES=bcgw.bcgov/idwprod1.bcgov;AUTHENTICATION_MODE=DBMS",
+            "workspaceFactory": "SDE",
+            "dataset": "WHSE_TANTALIS.TA_PARK_ECORES_PA_SVW",
+            "datasetType": "esriDTFeatureClass",
+        },
+        "base": "/home/me/test_slyr/Archive/LYRs",
+        "crs": "EPSG:28356",
+        "subset": "STATUS <> 'ERR'",
+        "expected": {
+            "uri": '''dbname='idwprod1.bcgov' host=bcgw.bcgov port=1521 estimatedmetadata=true type=Point table="WHSE_TANTALIS"."TA_PARK_ECORES_PA_SVW"''',
+            "provider": "oracle",
+            "factory": "SdeWorkspaceFactory",
+        },
+    }
 }
 
 initialize_registry()
 
 
-class TestLayerSourceConversion(unittest.TestCase):
+class TestLayerSourceConversion(SlyrTestCase):
     """
     Test layer source conversion
     """
@@ -4870,10 +5194,11 @@ class TestLayerSourceConversion(unittest.TestCase):
         """
         context = Context()
 
-        def unsupported(string, level):  # pylint: disable=unused-argument
+        def unsupported(string, level):
             pass
 
         context.unsupported_object_callback = unsupported
+        context.upgrade_http_to_https = True
 
         for name, definition in expected.items():
             print(name)
@@ -4890,6 +5215,7 @@ class TestLayerSourceConversion(unittest.TestCase):
                 crs=QgsCoordinateReferenceSystem(definition.get("crs", "")),
                 subset=definition.get("subset"),
                 context=context,
+                wkb_type_hint=QgsWkbTypes.Type.Point,
             )
 
             self.assertEqual(expected_res, res.to_dict())
