@@ -34,6 +34,9 @@ class MarkerNorthArrow(Object):
 
     @staticmethod
     def angle_to_string(angle):
+        """
+        Converts Angles to a string
+        """
         if angle == MarkerNorthArrow.ANGLE_ABSOLUTE:
             return "absolute"
         elif angle == MarkerNorthArrow.ANGLE_DATA_FRAME:

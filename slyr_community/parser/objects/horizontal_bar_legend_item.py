@@ -23,6 +23,9 @@ class HorizontalBarLegendItem(Object):
 
     @staticmethod
     def arrangement_to_string(arrangement) -> str:
+        """
+        Converts legend item arrangement to a string
+        """
         if arrangement == HorizontalBarLegendItem.ARRANGEMENT_SYMBOL_LABEL_DESCRIPTION:
             return "symbol_label_description"
         elif (

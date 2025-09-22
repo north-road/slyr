@@ -40,6 +40,9 @@ class Element(Object):
 
     @staticmethod
     def anchor_to_string(anchor) -> str:
+        """
+        Converts element anchor to a string
+        """
         if anchor == Element.ANCHOR_TOP_LEFT:
             return "top_left"
         elif anchor == Element.ANCHOR_TOP_MIDDLE:

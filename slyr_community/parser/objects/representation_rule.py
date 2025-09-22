@@ -37,7 +37,7 @@ class RepresentationRule(Object):
             self.effects.append(stream.read_object("effect {}".format(i + 1)))
             assert stream.tell() == start + size
 
-        total_objects = stream.read_int("total objects?")
+        stream.read_int("total objects?")
         count = stream.read_int("layer count")
         for i in range(count):
             self.layers.append(stream.read_object("layer {}".format(i + 1)))

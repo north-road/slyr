@@ -156,7 +156,7 @@ class Map(Object):
         stream.read_ushort("unknown flag", expected=65535)
 
         self.graphics_layer = stream.read_object("graphics layer")
-        if version > 19 and version <= 22:
+        if 19 < version <= 22:
             # possibly could be something in CompositeGraphicsLayer v <6
             stream.read_int("unknown", expected=0)
             stream.read_ushort("unknown", expected=0)

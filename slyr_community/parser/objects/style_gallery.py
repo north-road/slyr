@@ -24,7 +24,7 @@ class StyleGallery(Object):
     def read(self, stream: Stream, version):
         count = stream.read_int("count")
         for i in range(count):
-            self.styles.append(stream.read_string("style path"))
+            self.styles.append(stream.read_string("style path {}".format(i + 1)))
         self.default_path = stream.read_string("default path")
 
     def to_dict(self):  # pylint: disable=method-hidden

@@ -49,6 +49,9 @@ class ScalebarBase(Object):
 
     @staticmethod
     def label_pos_to_string(pos) -> str:
+        """
+        Converts label position to a string
+        """
         if pos == ScalebarBase.ABOVE_CENTER:
             return "above_center"
         elif pos == ScalebarBase.BEFORE_LABELS:
@@ -81,6 +84,9 @@ class ScalebarBase(Object):
 
     @staticmethod
     def frequency_to_string(frequency) -> str:
+        """
+        Convert label frequency to a string
+        """
         if frequency == ScalebarBase.SCALE_BAR_NONE:
             return "none"
         elif frequency == ScalebarBase.SCALE_BAR_ONE:
@@ -99,6 +105,9 @@ class ScalebarBase(Object):
 
     @staticmethod
     def position_to_string(position) -> str:
+        """
+        Converts positions to a string
+        """
         if position == ScalebarBase.ABOVE_BAR:
             return "above_bar"
         elif position == ScalebarBase.ALIGN_TO_TOP:
@@ -113,6 +122,9 @@ class ScalebarBase(Object):
 
     @staticmethod
     def resize_to_string(resize) -> str:
+        """
+        Converts resize modes to a string
+        """
         if resize == ScalebarBase.RESIZE_FIXED:
             return "fixed"
         elif resize == ScalebarBase.RESIZE_AUTO_DIVISION_SIZE:
@@ -153,7 +165,7 @@ class ScalebarBase(Object):
         self.preserve_aspect_ratio = False
         self.align_to_zero_division = False
 
-    def _read(self, stream: Stream, version, type_string):
+    def _read(self, stream: Stream, version, type_string):  # pylint: disable=unused-argument
         internal_version = stream.read_ushort("internal version", expected=(3, 4, 6))
         internal_subversion = stream.read_ushort(
             "internal subversion", expected=(1, 2, 3)
