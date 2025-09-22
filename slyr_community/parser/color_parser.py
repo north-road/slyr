@@ -219,6 +219,9 @@ def matrix_invert_3x3(a):
 
 
 def bradford_transform(a, b):
+    """
+    Applies a Bradford transform between two matrices
+    """
     c = [
         [0.8951, 0.2664, -0.1614],
         [-0.7502, 1.7135, 0.0367],
@@ -236,10 +239,16 @@ def bradford_transform(a, b):
 
 
 def xyz_chromaticity(a):
+    """
+    Returns the XZY chromaticity component
+    """
     return [a[0] / (a[0] + a[1] + a[2]), a[1] / (a[0] + a[1] + a[2])]
 
 
 def rgb_matrix(a, b, c, d):
+    """
+    Constructs a RGB color matrix
+    """
     e = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
     f = [
         [a[0] / a[1], b[0] / b[1], c[0] / c[1]],
@@ -256,6 +265,9 @@ def rgb_matrix(a, b, c, d):
 
 
 def cielab_to_rgb2(l_value, a, b):
+    """
+    Converts CIELAB colors to RGB
+    """
     illuminants = [0.9672, 1, 0.81427]
 
     x, y, z = cielab_to_xyz2(l_value, a, b, illuminants)
@@ -273,12 +285,9 @@ def cielab_to_rgb2(l_value, a, b):
     x, y, z = matrix_vector_product(bt, [x, y, z])
 
     if not b:
-        if x > illuminants[0]:
-            x = illuminants[0]
-        if y > illuminants[1]:
-            y = illuminants[1]
-        if z > illuminants[2]:
-            z = illuminants[2]
+        x = min(x, illuminants[0])
+        y = min(y, illuminants[1])
+        z = min(z, illuminants[2])
 
     h = (x, y, z)
 

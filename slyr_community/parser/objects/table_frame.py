@@ -37,7 +37,7 @@ class TableFrame(Element):
         self.locked = stream.read_int("locked") != 0
         self.preserve_aspect = stream.read_ushort("fixed aspect ratio") != 0
 
-        internal_version = stream.read_ushort("internal version", expected=6)
+        stream.read_ushort("internal version", expected=6)
 
         self.element_name = stream.read_string("element name")
         self.element_type = stream.read_string("element type", expected="Table")

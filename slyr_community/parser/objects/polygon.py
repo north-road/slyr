@@ -39,6 +39,9 @@ class Polygon(Geometry):
         self.crs = stream.read_object("crs")
 
     def read_internal(self, stream: Stream):
+        """
+        Reads actual polygon part, excluding the header
+        """
         wkb_type = stream.read_int(
             "wkb type?", expected=(5, 536870963)
         )  # 536870963 = ellipse/circle

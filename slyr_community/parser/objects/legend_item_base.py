@@ -20,6 +20,9 @@ class LegendItemBase(Object):
 
     @staticmethod
     def arrangement_to_string(arrangement) -> str:
+        """
+        Converts legend arrangement to a string
+        """
         if arrangement == LegendItemBase.ARRANGEMENT_SYMBOL_LABEL_DESCRIPTION:
             return "symbol_label_description"
         elif arrangement == LegendItemBase.ARRANGEMENT_SYMBOL_DESCRIPTION_LABEL:

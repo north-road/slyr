@@ -739,9 +739,6 @@ class VectorRendererConverter:
             VectorRendererConverter.apply_common_properties(
                 layer, renderer, res, context
             )
-            VectorRendererConverter.apply_sort_order_to_renderer(layer, res)
-
-            res = VectorRendererConverter.apply_display_filters_to_renderer(layer, res)
 
             return res
 

@@ -387,7 +387,7 @@ class ProjectConverter:
             group_node.setItemVisibilityChecked(group.visible)
             group_node.setExpanded(group.expanded)
 
-            if group.transparency or 0:
+            if group.transparency:
                 if Qgis.QGIS_VERSION_INT >= 32400:
                     from qgis.core import QgsGroupLayer
 
