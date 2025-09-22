@@ -153,7 +153,7 @@ class ConvertMxdToQgs(SlyrAlgorithm):
         with open(input_file, "rb") as f:
             try:
                 doc = MapDocument(f, read_layouts=True)
-            except UnknownClsidException as e:
+            except UnknownClsidException:
                 feedback.reportError(
                     "This document requires the licensed version of SLYR to convert - please see https://north-road.com/slyr/ for details",
                     fatalError=True,
