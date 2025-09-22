@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+SLYR QGIS Processing algorithms
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,19 +11,24 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+import json
+import os
+from pathlib import Path
+from shutil import copyfile
 
-"""
-SLYR QGIS Processing algorithms
-"""
-
+from qgis.PyQt.QtCore import QFile
 from qgis.core import (
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingOutputNumber,
     QgsProcessingException,
+    QgsFeature,
+    QgsVectorLayer,
+    QgsSymbolLayerUtils,
 )
 
 from .algorithm import SlyrAlgorithm
+from ...converters.color import ColorConverter
 
 
 class GplToStylx(SlyrAlgorithm):
@@ -52,10 +50,10 @@ class GplToStylx(SlyrAlgorithm):
         return "gpltostlyx"
 
     def displayName(self):
-        return "Convert GPL color palette to stylx"
+        return "Convert GPL color palette to STYLX"
 
     def shortDescription(self):
-        return "Convert a GPL color palette to an ArcGIS Pro stylx database"
+        return "Convert a GPL color palette to an ArcGIS Pro STYLX database"
 
     def group(self):
         return "ArcGIS Pro"
@@ -65,7 +63,7 @@ class GplToStylx(SlyrAlgorithm):
 
     def shortHelpString(self):
         return (
-            "Converts a GPL format color palette file to an ArcGIS Pro stylx database."
+            "Converts a GPL format color palette file to an ArcGIS Pro STYLX database."
         )
 
     def initAlgorithm(self, config=None):
@@ -82,6 +80,16 @@ class GplToStylx(SlyrAlgorithm):
         )
 
         self.addOutput(QgsProcessingOutputNumber(self.COLOR_COUNT, "Color Count"))
+
+    def autogenerateParameterValues(self, rowParameters, changedParameter, mode):
+        if changedParameter == self.INPUT:
+            input_file = rowParameters.get(self.INPUT)
+            if input_file:
+                input_path = Path(input_file)
+                if input_path.exists():
+                    return {self.OUTPUT: input_path.with_suffix(".stylx").as_posix()}
+
+        return {}
 
     def processAlgorithm(
         self,  # pylint: disable=too-many-locals,too-many-statements
