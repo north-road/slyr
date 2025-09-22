@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Sets a layer's style from a lyr file
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,11 +10,6 @@
 #  *   (at your option) any later version.                                   *
 #  *                                                                         *
 #  ***************************************************************************/
-
-
-"""
-Sets a layer's style from a lyr file
-"""
 
 from qgis.core import (
     QgsProcessingAlgorithm,
@@ -80,7 +68,7 @@ class StyleFromLyr(SlyrAlgorithm):
         )
 
     def flags(self):
-        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+        return super().flags() | QgsProcessingAlgorithm.Flag.FlagNoThreading
 
     def processAlgorithm(
         self,  # pylint: disable=too-many-locals,too-many-statements
@@ -93,7 +81,6 @@ class StyleFromLyr(SlyrAlgorithm):
 
         conversion_context = Context()
         conversion_context.project = context.project()
-        # context.style_folder, _ = os.path.split(output_file)
 
         with open(input_file, "rb") as f:
             stream = Stream(f, False, force_layer=True, offset=-1)
@@ -115,7 +102,7 @@ class StyleFromLyr(SlyrAlgorithm):
                 raise QgsProcessingException("Could not read LYR")
 
             renderer = VectorRendererConverter.convert_renderer(
-                feature_layer.renderer, feature_layer, conversion_context
+                feature_layer.renderer, feature_layer, conversion_context, layer
             )
             if renderer:
                 layer.setRenderer(renderer)
