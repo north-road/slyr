@@ -16,7 +16,7 @@ class AlternatingScaleBar(ScalebarBase):
 
     @staticmethod
     def cls_id():
-        return "6589f148-f7f7-11d2-b872-00600802e603"
+        return "6589f147-f7f7-11d2-b872-600802e603"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()

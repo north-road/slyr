@@ -1,5 +1,5 @@
 [{'class': 'QgsLinePatternFillSymbolLayer',
-  'color': NULL,
+  'color': 'NULL',
   'distance_unit': 'Point',
   'line_width': '0',
   'offset': '3',

@@ -9,7 +9,7 @@ from base64 import b64decode, b64encode
 
 import lxml.etree as ET
 from qgis.PyQt.QtGui import QColor, QImageReader
-from qgis.core import QgsSymbolLayer, QgsSymbol, QgsMapLayer
+from qgis.core import QgsSymbolLayer, QgsSymbol, QgsMapLayer, NULL
 
 
 class Utils:
@@ -79,6 +79,8 @@ class Utils:
 
         output_properties = {k: v for k, v in layer_properties.items()}
         for k, v in layer_properties.items():
+            if v == NULL:
+                output_properties[k] = "NULL"
             if isinstance(v, str) and v.startswith("base64:"):
                 output_properties[k] = Utils.normalize_embedded_content(v)
 
