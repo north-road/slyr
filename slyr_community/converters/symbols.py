@@ -465,10 +465,6 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(
                     out, layer, context
                 )
-                if context.symbol_layer_drawing:
-                    SymbolConverter.apply_symbol_layer_drawing(
-                        out, layer, context.symbol_layer_drawing
-                    )
 
             if True and symbol.symbol_level != 0xFFFFFFFF:
                 # 0xffffffff = sub layers have own level
@@ -904,12 +900,6 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         """
         Appends a MarkerFillSymbolLayer to a symbol
         """
-        for override in context.cim_symbol_overrides:
-            context.push_warning(
-                "Marker fill symbol {} override is not yet supported".format(
-                    override.property_name
-                )
-            )
 
         marker = SymbolConverter.Symbol_to_QgsSymbol(layer.marker, context)
 

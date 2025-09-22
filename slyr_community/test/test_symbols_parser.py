@@ -4,21 +4,22 @@
 Test symbol parsing
 """
 
-import ast
-import os
-import pprint
 import unittest
+import os
+import ast
+import pprint
+
+from .test_case import SlyrTestCase
 
 from qgis.PyQt.QtGui import QGuiApplication
-
-from .utils import Utils
+from ..parser.object_registry import ObjectRegistry
+from ..parser.initalize_registry import initialize_registry
+from ..parser.objects.multi_layer_symbols import MultiLayerSymbol
+from ..parser.exceptions import NotImplementedException
+from ..parser.stream import Stream
 from ..converters.context import Context
 from ..converters.symbols import SymbolConverter
-from ..parser.exceptions import NotImplementedException
-from ..parser.initalize_registry import initialize_registry
-from ..parser.object_registry import ObjectRegistry
-from ..parser.objects.multi_layer_symbols import MultiLayerSymbol
-from ..parser.stream import Stream
+from .utils import Utils
 
 expected = {
     "cmyk_bin": {
@@ -85,8 +86,7 @@ expected = {
         "R1 G0 B0 dither.bin": True,
         "R1 G0 B0.bin": True,
         "R1 G1 B1.bin": True,
-        "R2 G2 B2.bin": False,
-        # Color tolerance results in slight difference to expected
+        "R2 G2 B2.bin": False,  # Color tolerance results in slight difference to expected
         "R254 G254 B254.bin": True,
         "R255 G0 B0 HSV.bin": True,
         "R255 G0 B0 dither.bin": True,
@@ -639,12 +639,10 @@ expected = {
 initialize_registry()
 
 
-class TestSymbolParser(unittest.TestCase):
+class TestSymbolParser(SlyrTestCase):
     """
     Test symbol parsing
     """
-
-    maxDiff = None
 
     UPDATE = False
 
@@ -701,6 +699,7 @@ class TestSymbolParser(unittest.TestCase):
 
                 if isinstance(symbol, MultiLayerSymbol):
                     context = Context()
+                    context.convert_fonts = False
                     try:
                         qgis_symbol = SymbolConverter.Symbol_to_QgsSymbol(
                             symbol, context
@@ -716,32 +715,6 @@ class TestSymbolParser(unittest.TestCase):
                                 expected_converted_file, "rt", encoding="utf8"
                             ) as o:
                                 expected_res = ast.literal_eval(o.read())
-
-                            def skip_dict_value(input_value):
-                                """
-                                Returns True if the value should be omitted
-                                from testing
-                                """
-                                return isinstance(input_value, str) and (
-                                    input_value.startswith("base64:")
-                                    or input_value.startswith("/tmp/")
-                                )
-
-                            def clean_dict(input_dict):
-                                """
-                                Cleans a dictionary for easy comparison
-                                """
-                                return [
-                                    {
-                                        k: v
-                                        for k, v in d.items()
-                                        if not skip_dict_value(v)
-                                    }
-                                    for d in input_dict
-                                ]
-
-                            qgis_symbol_props = clean_dict(qgis_symbol_props)
-                            expected_res = clean_dict(expected_res)
                             self.assertEqual(expected_res, qgis_symbol_props)
                     except NotImplementedException:
                         pass
@@ -802,14 +775,6 @@ class TestSymbolParser(unittest.TestCase):
         path = os.path.join(os.path.dirname(__file__), "styles", "linev2_bin")
         self.run_symbol_checks(path)
 
-    @unittest.skip("Not community")
-    def test_legends(self):
-        """
-        Test legend type objects
-        """
-        path = os.path.join(os.path.dirname(__file__), "styles", "legends_bin")
-        self.run_symbol_checks(path)
-
     def test_text_symbols(self):
         """
         Test text symbols
@@ -867,6 +832,18 @@ class TestSymbolParser(unittest.TestCase):
         self.assertEqual(
             ObjectRegistry.hex_to_clsid(b"f5883d531a0ad211b27f0000f878229e"),
             "533d88f5-0a1a-11d2-b27f-0000f878229e",
+        )
+
+    def test_symbol_name_to_filename(self):
+        self.assertEqual(
+            SymbolConverter.symbol_name_to_filename("HelloWorld", "/temp/pic", "svg"),
+            "/temp/pic/HelloWorld.svg",
+        )
+        self.assertEqual(
+            SymbolConverter.symbol_name_to_filename(
+                'a/b>c<d\\e?f*g"h:i;j k,l', "/temp/pic", "svg"
+            ),
+            "/temp/pic/a_b_c_d_e_f_g_h_i_j_k_l.svg",
         )
 
 
