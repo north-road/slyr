@@ -37,7 +37,9 @@ from .bintools.extractor import Extractor
 from .converters.context import Context
 from .converters.geometry import GeometryConverter
 
+
 from .parser.exceptions import NotImplementedException
+
 from .parser.initalize_registry import initialize_registry
 from .parser.object_registry import REGISTRY
 from .parser.stream import Stream
@@ -52,7 +54,9 @@ from .qgis_plugin.integrations import (
     LayoutDropHandler,
     MxdProjectOpenHandler,
 )
+
 from .qgis_plugin.provider import SlyrProvider
+
 from .qgis_plugin.integrations.browser_utils import BrowserUtils
 
 initialize_registry()
@@ -138,35 +142,33 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
         """
         s = QSettings()
         s.setValue(
-            "/plugins/slyr/enable_annotations",
-            0 if not self.enable_annotations.isChecked() else 1,
-        )
-        s.setValue(
-            "/plugins/slyr/convert_layouts",
-            0 if not self.enable_layouts.isChecked() else 1,
+            "/plugins/slyr/enable_verbose_log",
+            0 if not self.enable_verbose_log.isChecked() else 1,
         )
         s.setValue(
             "/plugins/slyr/convert_fonts_to_simple_markers",
             0 if not self.convert_font_to_simple_marker.isChecked() else 1,
         )
         s.setValue(
-            "/plugins/slyr/convert_font_to_svg",
+            "/plugins/slyr/convert_fonts_to_svg",
             0 if not self.convert_font_to_svg.isChecked() else 1,
         )
         s.setValue("/plugins/slyr/symbol_units", self.symbol_units.currentData())
-        s.setValue("/plugins/slyr/picture_store_folder", self.picture_store.filePath())
         s.setValue("/plugins/slyr/inkscape_path", self.inkscape_path_widget.filePath())
         s.setValue("/plugins/slyr/mdbtools_path", self.mdbtools_path_widget.filePath())
         s.setValue(
-            "/plugins/slyr/store_relative",
-            0 if not self.store_relative.isChecked() else 1,
-        )
-        s.setValue(
-            "/plugins/slyr/embed_pictures",
-            0 if not self.embed_pictures.isChecked() else 1,
-        )
-        s.setValue(
             "/plugins/slyr/apply_tweaks", 0 if not self.apply_tweaks.isChecked() else 1
+        )
+        s.setValue(
+            "/plugins/slyr/replace_http",
+            0 if not self.replace_http_check.isChecked() else 1,
+        )
+        s.setValue(
+            "/plugins/slyr/sde_primary_key", self.sde_primary_key_line_edit.text()
+        )
+        s.setValue(
+            "/plugins/slyr/sde_name_conversion",
+            self.sde_table_name_conversion_combo.currentData(),
         )
 
 
@@ -204,6 +206,21 @@ class SlyrPlugin:
         self.options_factory = None
         self.open_handler = None
 
+    @staticmethod
+    def tr(message):
+        """Get the translation for a string using Qt translation API.
+
+        We implement this ourselves since we do not inherit QObject.
+
+        :param message: String for translation.
+        :type message: str, QString
+
+        :returns: Translated version of message.
+        :rtype: QString
+        """
+        # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
+        return QCoreApplication.translate("slyr", message)
+
     def initGui(self):
         """startup"""
         self.initProcessing()
@@ -213,6 +230,7 @@ class SlyrPlugin:
         self.iface.registerCustomDropHandler(self.dat_drop_handler)
         self.iface.registerCustomDropHandler(self.name_drop_handler)
         self.iface.registerCustomLayoutDropHandler(self.layout_drop_handler)
+
         QgsApplication.dataItemProviderRegistry().addProvider(self.item_provider)
 
         self.options_factory = SlyrOptionsFactory()
@@ -222,6 +240,13 @@ class SlyrPlugin:
         if MxdProjectOpenHandler is not None:
             self.open_handler = MxdProjectOpenHandler()
             self.iface.registerCustomProjectOpenHandler(self.open_handler)
+
+        if Qgis.QGIS_VERSION_INT < 32200:
+            self.iface.messageBar().pushWarning(
+                "SLYR",
+                "Support for QGIS versions older than 3.22 will be removed"
+                " in a coming update. Please update to QGIS 3.22 or later.",
+            )
 
     def initProcessing(self):
         """Create the Processing provider"""
