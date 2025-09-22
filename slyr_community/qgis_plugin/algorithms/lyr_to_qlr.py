@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Converts .lyr to QLR
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,10 +11,7 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-Converts .lyr to QLR
-"""
+from pathlib import Path
 
 from qgis.core import (
     Qgis,
@@ -34,7 +24,6 @@ from qgis.core import (
 )
 
 from .algorithm import SlyrAlgorithm
-from ..gui_utils import GuiUtils
 from ...converters.context import Context
 from ...converters.layers import LayerConverter
 from ...parser.exceptions import (
@@ -44,11 +33,11 @@ from ...parser.exceptions import (
     UnknownClsidException,
     EmptyDocumentException,
     DocumentTypeException,
-    RequiresLicenseException,
 )
 from ...parser.objects.base_map_layer import BaseMapLayer
 from ...parser.objects.group_layer import GroupLayer
 from ...parser.streams.layer import LayerFile
+from ...parser.exceptions import RequiresLicenseException
 
 try:
     from qgis.core import QgsProcessingOutputBoolean  # pylint: disable=ungrouped-imports
@@ -64,7 +53,7 @@ class LyrToQlr(SlyrAlgorithm):
     INPUT = "INPUT"
     OUTPUT = "OUTPUT"
     USE_RELATIVE_PATHS = "USE_RELATIVE_PATHS"
-    IGNORE_ONLINE = "IGNORE_ONLINE"
+    TEST_MODE = "TEST_MODE"
     CONVERTED = "CONVERTED"
     ERROR = "ERROR"
 
@@ -108,17 +97,27 @@ class LyrToQlr(SlyrAlgorithm):
             )
         )
 
-        param_no_online = QgsProcessingParameterBoolean(
-            self.IGNORE_ONLINE, "Ignore online sources (debug option)", False, True
+        param_test_mode = QgsProcessingParameterBoolean(
+            self.TEST_MODE, "Test mode (debug option)", False, True
         )
-        param_no_online.setFlags(
-            param_no_online.flags() | QgsProcessingParameterDefinition.FlagHidden
+        param_test_mode.setFlags(
+            param_test_mode.flags() | QgsProcessingParameterDefinition.Flag.FlagHidden
         )
-        self.addParameter(param_no_online)
+        self.addParameter(param_test_mode)
 
         if QgsProcessingOutputBoolean is not None:
             self.addOutput(QgsProcessingOutputBoolean(self.CONVERTED, "Converted"))
         self.addOutput(QgsProcessingOutputString(self.ERROR, "Error message"))
+
+    def autogenerateParameterValues(self, rowParameters, changedParameter, mode):
+        if changedParameter == self.INPUT:
+            input_file = rowParameters.get(self.INPUT)
+            if input_file:
+                input_path = Path(input_file)
+                if input_path.exists():
+                    return {self.OUTPUT: input_path.with_suffix(".qlr").as_posix()}
+
+        return {}
 
     def processAlgorithm(
         self,  # pylint: disable=too-many-locals,too-many-statements,too-many-return-statements
@@ -128,33 +127,40 @@ class LyrToQlr(SlyrAlgorithm):
     ):
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
-        ignore_online_sources = self.parameterAsBool(
-            parameters, self.IGNORE_ONLINE, context
-        )
+        test_mode = self.parameterAsBool(parameters, self.TEST_MODE, context)
 
         use_relative_paths = self.parameterAsBool(
             parameters, self.USE_RELATIVE_PATHS, context
         )
 
         warnings = set()
+        info = set()
 
         def unsupported_object_callback(msg, level=Context.WARNING):
-            if msg in warnings:
-                return
-
-            warnings.add(msg)
             if level == Context.WARNING:
-                feedback.reportError("Warning: {}".format(msg), False)
+                if msg in warnings:
+                    return
+
+                warnings.add(msg)
+                if Qgis.QGIS_VERSION_INT >= 31602:
+                    feedback.pushWarning("Warning: {}".format(msg))
+                else:
+                    feedback.reportError("Warning: {}".format(msg), False)
+
+            elif level == Context.INFO:
+                if msg in info:
+                    return
+
+                info.add(msg)
+                feedback.pushInfo(msg)
             elif level == Context.CRITICAL:
                 feedback.reportError(msg, False)
 
         conversion_context = Context()
         conversion_context.project = context.project()
+        conversion_context.can_place_annotations_in_main_annotation_layer = False
         conversion_context.unsupported_object_callback = unsupported_object_callback
-        conversion_context.ignore_online_sources = ignore_online_sources
-        if Qgis.QGIS_VERSION_INT < 30600:
-            conversion_context.invalid_layer_resolver = GuiUtils.get_valid_mime_uri
-        # context.style_folder, _ = os.path.split(output_file)
+        conversion_context.ignore_online_sources = test_mode
 
         with open(input_file, "rb") as f:
             try:
@@ -162,6 +168,10 @@ class LyrToQlr(SlyrAlgorithm):
             except UnknownClsidException as e:
                 feedback.reportError(str(e), fatalError=True)
                 return {self.ERROR: str(e), self.CONVERTED: False, self.OUTPUT: None}
+            except RequiresLicenseException as e:
+                raise QgsProcessingException(
+                    "{} - please see https://north-road.com/slyr/ for details".format(e)
+                ) from e
             except UnreadableSymbolException as e:
                 feedback.reportError("Unreadable object: {}".format(e), fatalError=True)
                 return {self.ERROR: str(e), self.CONVERTED: False, self.OUTPUT: None}
@@ -176,10 +186,6 @@ class LyrToQlr(SlyrAlgorithm):
                 err = "Unreadable object: {}".format(e)
                 feedback.reportError(err, fatalError=True)
                 return {self.ERROR: err, self.CONVERTED: False, self.OUTPUT: None}
-            except RequiresLicenseException as e:
-                raise QgsProcessingException(
-                    "{} - please see https://north-road.com/slyr/ for details".format(e)
-                ) from e
             except EmptyDocumentException as e:
                 raise QgsProcessingException(
                     "Cannot read {} - document is empty".format(input_file)
