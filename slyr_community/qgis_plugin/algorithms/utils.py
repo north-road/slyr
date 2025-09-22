@@ -39,9 +39,11 @@ from qgis.core import (
 
 from ...converters.utils import ConversionUtils
 from ...parser.object import Object
+
 from ...converters.text_format import TextSymbolConverter
 from ...converters.color_ramp import ColorRampConverter
 from ...converters.context import Context
+
 from ...parser.exceptions import NotImplementedException
 
 

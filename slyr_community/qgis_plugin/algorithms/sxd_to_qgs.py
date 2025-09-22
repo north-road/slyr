@@ -30,6 +30,7 @@ from ...parser.exceptions import (
     NotImplementedException,
     UnknownClsidException,
 )
+
 from ...parser.stream import Stream
 
 from qgis.core import QgsProcessingException

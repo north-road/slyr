@@ -36,6 +36,7 @@ from ...converters.text_format import TextSymbolConverter
 from ...converters.annotations import AnnotationConverter
 from ...parser.objects.text_element import TextElement
 from ...parser.stream import Stream
+
 from .utils import AlgorithmUtils
 
 

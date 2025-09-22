@@ -56,6 +56,7 @@ from ...parser.exceptions import (
     UnknownClsidException,
 )
 from ...parser.stream import Stream
+
 from .utils import AlgorithmUtils
 
 

@@ -35,6 +35,7 @@ from .algorithm import SlyrAlgorithm
 from ...bintools.extractor import Extractor
 from ...converters.context import Context
 from ...converters.symbols import SymbolConverter
+
 from ...parser.exceptions import (
     UnreadableSymbolException,
     UnsupportedVersionException,

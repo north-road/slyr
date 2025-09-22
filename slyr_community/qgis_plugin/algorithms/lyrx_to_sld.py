@@ -26,6 +26,7 @@ from qgis.core import (
 from .algorithm import SlyrAlgorithm
 from ...converters.context import Context
 from ...converters.layers import LayerConverter
+
 from ...parser.exceptions import NotImplementedException, CorruptDocumentException
 
 try:
