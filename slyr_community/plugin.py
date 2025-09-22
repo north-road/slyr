@@ -68,54 +68,68 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
-        self.symbol_units.addItem("Points", int(QgsUnitTypes.RenderPoints))
-        self.symbol_units.addItem("Millimeters", int(QgsUnitTypes.RenderMillimeters))
+        self.symbol_units.addItem("Points", int(QgsUnitTypes.RenderUnit.RenderPoints))
+        self.symbol_units.addItem(
+            "Millimeters", int(QgsUnitTypes.RenderUnit.RenderMillimeters)
+        )
         self.setObjectName("slyrOptions")
-        self.picture_store.setStorageMode(QgsFileWidget.GetDirectory)
-        self.inkscape_path_widget.setStorageMode(QgsFileWidget.GetFile)
-        self.mdbtools_path_widget.setStorageMode(QgsFileWidget.GetDirectory)
+        self.inkscape_path_widget.setStorageMode(QgsFileWidget.StorageMode.GetFile)
+        self.mdbtools_path_widget.setStorageMode(QgsFileWidget.StorageMode.GetDirectory)
 
         if not Extractor.is_windows():
             self.label_mdb_tools_win.hide()
 
         s = QSettings()
-        self.enable_annotations.setChecked(
-            int(s.value("/plugins/slyr/enable_annotations", 0))
+        self.enable_verbose_log.setChecked(
+            int(s.value("/plugins/slyr/enable_verbose_log", 0))
         )
-        self.enable_layouts.setChecked(int(s.value("/plugins/slyr/convert_layouts", 1)))
         self.convert_font_to_simple_marker.setChecked(
             int(s.value("/plugins/slyr/convert_fonts_to_simple_markers", 1))
         )
         self.convert_font_to_svg.setChecked(
-            int(s.value("/plugins/slyr/convert_font_to_svg", 0))
+            int(s.value("/plugins/slyr/convert_fonts_to_svg", 1))
         )
-        self.store_relative.setChecked(int(s.value("/plugins/slyr/store_relative", 0)))
-        self.embed_pictures.setChecked(
-            int(s.value("/plugins/slyr/embed_pictures", Qgis.QGIS_VERSION_INT >= 30600))
+        self.replace_http_check.setChecked(
+            int(s.value("/plugins/slyr/replace_http", 0))
         )
         self.apply_tweaks.setChecked(int(s.value("/plugins/slyr/apply_tweaks", 1)))
-
         try:
             symbol_units = s.value("/plugins/slyr/symbol_units")
             if symbol_units is None:
-                symbol_units = QgsUnitTypes.RenderPoints
+                symbol_units = QgsUnitTypes.RenderUnit.RenderPoints
             else:
                 symbol_units = QgsUnitTypes.RenderUnit(int(symbol_units))
             prev_units = symbol_units
         except TypeError:
-            prev_units = QgsUnitTypes.RenderPoints
+            prev_units = QgsUnitTypes.RenderUnit.RenderPoints
         except AttributeError:
-            prev_units = QgsUnitTypes.RenderPoints
+            prev_units = QgsUnitTypes.RenderUnit.RenderPoints
         self.symbol_units.setCurrentIndex(self.symbol_units.findData(int(prev_units)))
-
-        self.picture_store.setFilePath(
-            s.value("/plugins/slyr/picture_store_folder", "")
-        )
         self.inkscape_path_widget.setFilePath(
             s.value("/plugins/slyr/inkscape_path", "inkscape")
         )
         self.mdbtools_path_widget.setFilePath(
             s.value("/plugins/slyr/mdbtools_path", "")
+        )
+
+        self.sde_primary_key_line_edit.setText(
+            s.value("/plugins/slyr/sde_primary_key", "OBJECTID")
+        )
+
+        self.sde_table_name_conversion_combo.addItem(
+            self.tr("Leave Unchanged"), "unchanged"
+        )
+        self.sde_table_name_conversion_combo.addItem(
+            self.tr("Convert to Uppercase"), "upper"
+        )
+        self.sde_table_name_conversion_combo.addItem(
+            self.tr("Convert to Lowercase"), "lower"
+        )
+
+        self.sde_table_name_conversion_combo.setCurrentIndex(
+            self.sde_table_name_conversion_combo.findData(
+                s.value("/plugins/slyr/sde_name_conversion", "unchanged")
+            )
         )
 
     def apply(self):
