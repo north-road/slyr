@@ -1,5 +1,5 @@
 """
-Converts an MXD document to a QGS project file, and all data to standard formats
+Converts an APRX document to a QGS project file, and all data to standard formats
 """
 
 # /***************************************************************************
@@ -11,62 +11,61 @@ Converts an MXD document to a QGS project file, and all data to standard formats
 #  *                                                                         *
 #  ***************************************************************************/
 
-import os
 import pathlib
-from collections import defaultdict
 
 from qgis.core import (
     QgsProcessingParameterFolderDestination,
     QgsProcessingException,
+    QgsProcessingParameterFile,
 )
 
-from .mxd_to_qgs import ConvertMxdToQgs
+from .arcpro_to_qgs import ConvertArcProToQgs
 from .utils import AlgorithmUtils
-from ...converters.context import Context
 
 
-class ConvertMxdAndData(ConvertMxdToQgs):
+class ConvertAprxAndData(ConvertArcProToQgs):
     """
-    Converts an MXD document to a QGS project file, and all data to standard formats....
+    Converts an APRX document to a QGS project file, and all data to standard formats....
     """
 
     OUTPUT_DATA_FOLDER = "OUTPUT_DATA_FOLDER"
 
-    def __init__(self):
-        super().__init__()
-        self.errors = []
-        self.converted = defaultdict(list)
-        self.converted_count = 0
-
     # pylint: disable=missing-docstring,unused-argument
 
     def createInstance(self):
-        return ConvertMxdAndData()
+        return ConvertAprxAndData()
 
     def name(self):
-        return "convertmxdanddatatoqgs"
+        return "convertaprxanddatatoqgs"
 
     def displayName(self):
-        return "Convert MXD/MXT to QGS and data to GPKG"
+        return "Convert APRX/MAPX to QGS and data to GPKG"
 
     def shortDescription(self):
         return (
-            "Converts an MXD or MXT document file to a QGIS project "
+            "Converts an APRX or MAPX document file to a QGIS project "
             "file, and converts all referenced data to standard formats"
         )
 
     def shortHelpString(self):
         return (
-            "Converts an MXD or MXT document file to a QGIS project file, "
-            "and converts all referenced data to standard formats.\n\n"
-            "Referenced layer data stored in non-standard formats "
-            "(such as MDB or GDB files) will be converted to the "
-            "standard GeoPackage format in order to create projects "
-            "which are optimized for use in QGIS and other "
-            "open-source tools."
+            "Converts an APRX or MAPX document file to a QGIS project "
+            "file, and converts all referenced data to standard formats.\n\n"
+            "Referenced layer data stored in non-standard formats (such "
+            "as MDB or GDB files) will be converted to the standard "
+            "GeoPackage format in order to create projects which are "
+            "optimized for use in QGIS and other open-source tools."
         )
 
     def initAlgorithm(self, config=None):
+        self.addParameter(
+            QgsProcessingParameterFile(
+                self.INPUT,
+                "Input APRX/MAPX file",
+                fileFilter="ArcGIS Pro Documents (*.aprx *.APRX *.mapx *.MAPX);;APRX Documents (*.aprx *.APRX);;MAPX Documents (*.mapx *.MAPX)",
+            )
+        )
+
         super().initAlgorithm(config)
 
         self.addParameter(
