@@ -6,6 +6,9 @@ Test color entity parsing from styles
 
 import unittest
 import os
+
+from .test_case import SlyrTestCase
+
 from ..parser.initalize_registry import initialize_registry
 from ..parser.stream import Stream
 
@@ -73,12 +76,10 @@ expected = {
 initialize_registry()
 
 
-class TestStyleColorParser(unittest.TestCase):
+class TestStyleColorParser(SlyrTestCase):
     """
     Test style color parsing
     """
-
-    maxDiff = None
 
     def run_symbol_checks(self, path):
         """
@@ -100,11 +101,13 @@ class TestStyleColorParser(unittest.TestCase):
                 expected_symbol = expected[group][symbol_name]
                 if "skip" in expected_symbol:
                     continue
+
                 stream = Stream(f, debug=False)
 
                 color = stream.read_object()
-
-                self.assertEqual(expected_symbol["color"], color.to_dict())
+                res = color.to_dict()
+                del res["stream_offset"]
+                self.assertEqual(expected_symbol["color"], res)
 
     def test_colors(self):
         """
