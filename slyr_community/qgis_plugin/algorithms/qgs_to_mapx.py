@@ -11,12 +11,9 @@ Converts an MAPX document to a QGS project file
 #  *                                                                         *
 #  ***************************************************************************/
 
-import json
 from pathlib import Path
 
 from qgis.core import (
-    Qgis,
-    QgsProject,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingParameterBoolean,
@@ -24,7 +21,6 @@ from qgis.core import (
 )
 
 from .algorithm import SlyrAlgorithm
-from ...converters.context import Context
 
 from qgis.core import QgsProcessingException
 

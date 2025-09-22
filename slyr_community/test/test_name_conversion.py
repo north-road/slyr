@@ -4,13 +4,12 @@
 Test layer source conversion
 """
 
-import json
 import unittest
 
 from .test_case import SlyrTestCase
 from copy import deepcopy
 
-from qgis.core import Qgis, QgsCoordinateReferenceSystem, QgsWkbTypes, QgsDataSourceUri
+from qgis.core import Qgis, QgsCoordinateReferenceSystem, QgsWkbTypes
 
 from ..converters.context import Context
 from ..converters.dataset_name import DatasetNameConverter

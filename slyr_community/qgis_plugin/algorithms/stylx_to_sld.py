@@ -11,38 +11,20 @@ Converts .stylx databases to SLD files
 #  *                                                                         *
 #  ***************************************************************************/
 
-import os
 from pathlib import Path
 
-from qgis.PyQt.QtCore import QRegularExpression
-from qgis.PyQt.QtXml import QDomDocument
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFile,
-    QgsSingleSymbolRenderer,
     QgsProcessingParameterEnum,
     QgsProcessingParameterString,
     QgsProcessingOutputNumber,
     QgsProcessingException,
     QgsProcessingParameterFolderDestination,
     QgsProcessingParameterDefinition,
-    QgsSymbol,
-    QgsVectorLayer,
-    QgsFeatureRequest,
 )
 
 from .algorithm import SlyrAlgorithm
 from ...bintools.extractor import Extractor
-from ...converters.context import Context
-from ...converters.symbols import SymbolConverter
-
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    UnsupportedVersionException,
-    NotImplementedException,
-    UnknownClsidException,
-    UnreadablePictureException,
-)
 
 
 class StylxToSld(SlyrAlgorithm):

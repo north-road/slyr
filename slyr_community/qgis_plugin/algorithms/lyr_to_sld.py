@@ -14,7 +14,6 @@ Converts .lyr to SLD
 from pathlib import Path
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingParameterFolderDestination,
@@ -23,14 +22,6 @@ from qgis.core import (
 )
 
 from .algorithm import SlyrAlgorithm
-from ...converters.context import Context
-from ...converters.layers import LayerConverter
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    NotImplementedException,
-    UnknownClsidException,
-)
-from ...parser.stream import Stream
 
 try:
     from qgis.core import QgsProcessingOutputBoolean  # pylint: disable=ungrouped-imports

@@ -4,7 +4,6 @@
 Test Conversion Utils
 """
 
-import os
 import unittest
 
 from .test_case import SlyrTestCase

@@ -5,13 +5,10 @@ Test Conversion Utils
 """
 
 import unittest
-import os
 
 from .test_case import SlyrTestCase
 
 from ..converters.utils import ConversionUtils
-from qgis.PyQt.QtCore import QVariant
-from qgis.core import NULL
 
 
 class TestConversionUtils(SlyrTestCase):

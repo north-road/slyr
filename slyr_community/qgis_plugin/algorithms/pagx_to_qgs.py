@@ -14,24 +14,13 @@ Converts a PMF document to a QGS project file
 from typing import Optional
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFile,
     QgsProcessingOutputString,
     QgsProcessingException,
 )
-from qgis.core import QgsProject
 
-from ...converters.context import Context
 
 from .algorithm import SlyrAlgorithm
-from ...converters.layout import LayoutConverter
-
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    NotImplementedException,
-    UnknownClsidException,
-    CorruptDocumentException,
-)
 
 
 class ConvertPagxToQgs(SlyrAlgorithm):

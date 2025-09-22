@@ -4,7 +4,6 @@
 Test LYR parsing
 """
 
-import ast
 import os
 import pprint
 import unittest

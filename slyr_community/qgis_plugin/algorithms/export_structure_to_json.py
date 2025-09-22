@@ -11,8 +11,6 @@ Converts an MXD/LYR document to a JSON representation
 #  *                                                                         *
 #  ***************************************************************************/
 
-import json
-import os
 from pathlib import Path
 
 from qgis.core import (
@@ -22,17 +20,6 @@ from qgis.core import (
 )
 
 from .algorithm import SlyrAlgorithm
-from .utils import AlgorithmUtils
-from ...converters.context import Context
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    NotImplementedException,
-    UnknownClsidException,
-    EmptyDocumentException,
-    DocumentTypeException,
-)
-from ...parser.streams.layer import LayerFile
-from ...parser.streams.map_document import MapDocument
 
 
 class ExportStructureToJson(SlyrAlgorithm):

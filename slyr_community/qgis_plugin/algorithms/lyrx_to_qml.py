@@ -14,7 +14,6 @@ Converts .lyrx to QML
 from pathlib import Path
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingOutputString,
@@ -22,10 +21,7 @@ from qgis.core import (
 )
 
 from .algorithm import SlyrAlgorithm
-from ...converters.context import Context
-from ...converters.layers import LayerConverter
 
-from ...parser.exceptions import CorruptDocumentException, NotImplementedException
 
 try:
     from qgis.core import QgsProcessingOutputBoolean  # pylint: disable=ungrouped-imports

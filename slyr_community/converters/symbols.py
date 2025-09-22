@@ -26,17 +26,12 @@ Symbol converter
 import base64
 import math
 import os
-import random
-import re
 import shutil
 from shutil import SameFileError
 import subprocess
 import uuid
-from copy import deepcopy
-from enum import Enum
 from pathlib import Path
-from random import randint
-from typing import Union, Tuple, List, Optional, Dict
+from typing import Union, Tuple
 
 from qgis.core import (
     qgsDoubleNear,
@@ -61,18 +56,9 @@ from qgis.core import (
     QgsGradientFillSymbolLayer,
     QgsGradientStop,
     QgsShapeburstFillSymbolLayer,
-    QgsGeometryGeneratorSymbolLayer,
     QgsRectangle,
-    QgsMarkerSymbolLayer,
-    QgsFilledMarkerSymbolLayer,
-    QgsCentroidFillSymbolLayer,
     QgsPointPatternFillSymbolLayer,
-    QgsSymbolLayer,
-    QgsLineSymbolLayer,
     QgsSymbol,
-    QgsFillSymbolLayer,
-    QgsProperty,
-    QgsWkbTypes,
     QgsTemplatedLineSymbolLayerBase,
     QgsHashedLineSymbolLayer,
     QgsRandomMarkerFillSymbolLayer,
@@ -83,7 +69,7 @@ try:
 except ImportError:
     pass
 
-from qgis.PyQt.QtCore import Qt, QPointF, QLineF, QBuffer, QRectF
+from qgis.PyQt.QtCore import Qt, QPointF, QLineF, QBuffer
 from qgis.PyQt.QtGui import (
     QColor,
     QFont,
@@ -91,7 +77,6 @@ from qgis.PyQt.QtGui import (
     QPainterPath,
     QPainter,
     QBrush,
-    QImage,
     QTransform,
 )
 from qgis.PyQt.QtSvg import QSvgGenerator, QSvgRenderer
@@ -136,7 +121,6 @@ from ..parser.exceptions import NotImplementedException
 from .context import Context
 from .color import ColorConverter
 from .decorations import DecorationConverter
-from .expressions import ExpressionConverter
 from ..parser.objects.simple_line3d_symbol import SimpleLine3DSymbol
 from ..parser.objects.marker3d_symbol import Marker3DSymbol
 from ..parser.objects.simple_marker3d_symbol import SimpleMarker3DSymbol
@@ -148,12 +132,7 @@ from ..parser.objects.symbol_shadow import SymbolShadow
 from ..parser.objects.symbol_background import SymbolBackground
 from ..parser.objects.symbol_border import SymbolBorder
 
-from ..parser.objects import RepresentationRule as aoRepresentationRule
-from ..parser.objects import Polyline as aoPolyline
-from ..parser.objects import Polygon as aoPolygon
 
-
-from .geometry import GeometryConverter
 from .text_format import TextSymbolConverter
 from .labels import LabelConverter
 from .color_ramp import ColorRampConverter

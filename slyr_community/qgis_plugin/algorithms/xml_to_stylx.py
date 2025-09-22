@@ -11,7 +11,6 @@ Converts QGIS xml style databases to a stylx database
 #  *                                                                         *
 #  ***************************************************************************/
 
-import os
 from pathlib import Path
 
 from qgis.core import (
@@ -19,11 +18,9 @@ from qgis.core import (
     QgsProcessingParameterFileDestination,
     QgsProcessingOutputNumber,
     QgsProcessingException,
-    QgsStyle,
 )
 
 from .algorithm import SlyrAlgorithm
-from .utils import AlgorithmUtils
 from qgis.core import QgsProcessingException
 
 

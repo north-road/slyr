@@ -3,20 +3,14 @@ QLR to LYRX
 """
 
 from pathlib import Path
-import json
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFileDestination,
     QgsProcessingException,
     QgsProcessingParameterFile,
-    QgsLayerDefinition,
 )
 
 from .algorithm import SlyrAlgorithm
-
-from ...converters.context import Context
-from ...parser.exceptions import NotImplementedException
 
 
 class ConvertQlrToLyrx(SlyrAlgorithm):

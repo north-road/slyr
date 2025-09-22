@@ -20,7 +20,6 @@ from qgis.core import (
 )
 
 from .arcpro_to_qgs import ConvertArcProToQgs
-from .utils import AlgorithmUtils
 
 
 class ConvertAprxAndData(ConvertArcProToQgs):

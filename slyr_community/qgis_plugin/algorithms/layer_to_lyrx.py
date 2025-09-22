@@ -11,19 +11,13 @@ SLYR QGIS Processing algorithms
 #  *                                                                         *
 #  ***************************************************************************/
 
-from pathlib import Path
-import json
-
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFileDestination,
     QgsProcessingException,
     QgsProcessingParameterMapLayer,
 )
 
 from .algorithm import SlyrAlgorithm
-
-from ...parser.exceptions import NotImplementedException
 
 
 class LayerToLyrx(SlyrAlgorithm):

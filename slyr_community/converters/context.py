@@ -22,7 +22,6 @@
 Conversion context
 """
 
-import base64
 import os
 import tempfile
 from math import cos, sin, asin, sqrt, radians

@@ -14,24 +14,14 @@ SLYR QGIS Processing algorithms
 from pathlib import Path
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
-    QgsProject,
     QgsProcessingParameterBoolean,
     QgsProcessingParameterDefinition,
 )
 
 from .algorithm import SlyrAlgorithm
-from ...converters.context import Context
-from ...converters.project import ProjectConverter
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    NotImplementedException,
-    UnknownClsidException,
-)
 
-from ...parser.stream import Stream
 
 from qgis.core import QgsProcessingException
 

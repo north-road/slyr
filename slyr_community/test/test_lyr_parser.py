@@ -7,7 +7,6 @@ Test LYR parsing
 import unittest
 import os
 import pprint
-import ast
 
 from .test_case import SlyrTestCase
 

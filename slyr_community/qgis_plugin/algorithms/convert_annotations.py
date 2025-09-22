@@ -11,33 +11,14 @@ Converts annotations in a binary column to a QGIS annotation layer
 #  *                                                                         *
 #  ***************************************************************************/
 
-import base64
-
-from io import BytesIO
-
-from qgis.PyQt.QtCore import Qt
-from qgis.PyQt.QtXml import QDomDocument
 from qgis.core import (
-    Qgis,
     QgsProcessingAlgorithm,
     QgsProcessingParameterVectorLayer,
     QgsProcessingParameterField,
     QgsProcessingException,
-    QgsPointXY,
-    QgsWkbTypes,
-    QgsProviderRegistry,
-    QgsFeatureRequest,
 )
 
 from .algorithm import SlyrAlgorithm
-from ...converters.context import Context
-from ...converters.geometry import GeometryConverter
-from ...converters.text_format import TextSymbolConverter
-from ...converters.annotations import AnnotationConverter
-from ...parser.objects.text_element import TextElement
-from ...parser.stream import Stream
-
-from .utils import AlgorithmUtils
 
 
 class ConvertAnnotations(SlyrAlgorithm):

@@ -9,8 +9,6 @@ from pathlib import Path
 from qgis.core import (
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
-    QgsMemoryProviderUtils,
-    QgsFields,
     QgsWkbTypes,
     QgsStyleEntityVisitorInterface,
     QgsStyle,
@@ -19,7 +17,6 @@ from qgis.core import (
 from qgis.PyQt.QtXml import QDomDocument
 
 from .algorithm import SlyrAlgorithm
-from .utils import AlgorithmUtils
 
 
 class QmlStyleEntityVisitor(QgsStyleEntityVisitorInterface):

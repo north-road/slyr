@@ -11,37 +11,15 @@ Extract hyperlinks from layers to tables algorithm
 #  *                                                                         *
 #  ***************************************************************************/
 
-import os
 from pathlib import Path
 
-from qgis.PyQt.QtCore import QVariant
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingException,
-    QgsFeature,
-    QgsFields,
-    QgsField,
-    QgsVectorFileWriter,
-    QgsMemoryProviderUtils,
-    QgsFeatureSink,
 )
 
 from .algorithm import SlyrAlgorithm
-from ...converters.context import Context
-from ...converters.layers import LayerConverter
-from ...parser.exceptions import (
-    UnreadableSymbolException,
-    NotImplementedException,
-    UnknownClsidException,
-    EmptyDocumentException,
-    DocumentTypeException,
-)
-from ...parser.objects.feature_layer import FeatureLayer
-from ...parser.objects.group_layer import GroupLayer
-from ...parser.streams.layer import LayerFile
-from ...parser.streams.map_document import MapDocument
 
 
 class ExtractHyperlinksToTables(SlyrAlgorithm):
