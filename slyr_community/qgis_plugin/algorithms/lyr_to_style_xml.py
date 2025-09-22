@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Converts .lyr to QGIS style XML
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,10 +11,7 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-Converts .lyr to QGIS style XML
-"""
+from pathlib import Path
 
 from qgis.core import (
     Qgis,
@@ -31,11 +21,9 @@ from qgis.core import (
     QgsColorRamp,
     QgsSymbol,
     QgsTextFormat,
-    QgsProcessingException,
 )
 
 from .algorithm import SlyrAlgorithm
-from ..gui_utils import GuiUtils
 from ...converters.context import Context
 from ...converters.layers import LayerConverter
 from ...converters.vector_renderer import VectorRendererConverter
@@ -43,10 +31,10 @@ from ...parser.exceptions import (
     UnreadableSymbolException,
     NotImplementedException,
     UnknownClsidException,
-    RequiresLicenseException,
 )
 from ...parser.objects.group_layer import GroupLayer
 from ...parser.stream import Stream
+from ...parser.exceptions import RequiresLicenseException
 
 
 class LyrToStyleXml(SlyrAlgorithm):
@@ -93,6 +81,16 @@ class LyrToStyleXml(SlyrAlgorithm):
             )
         )
 
+    def autogenerateParameterValues(self, rowParameters, changedParameter, mode):
+        if changedParameter == self.INPUT:
+            input_file = rowParameters.get(self.INPUT)
+            if input_file:
+                input_path = Path(input_file)
+                if input_path.exists():
+                    return {self.OUTPUT: input_path.with_suffix(".xml").as_posix()}
+
+        return {}
+
     def processAlgorithm(
         self,  # pylint: disable=too-many-locals,too-many-statements,too-many-branches
         parameters,
@@ -106,35 +104,44 @@ class LyrToStyleXml(SlyrAlgorithm):
         style.createMemoryDatabase()
 
         warnings = set()
+        info = set()
 
         def unsupported_object_callback(msg, level=Context.WARNING):
-            if msg in warnings:
-                return
-
-            warnings.add(msg)
             if level == Context.WARNING:
-                feedback.reportError("Warning: {}".format(msg), False)
+                if msg in warnings:
+                    return
+
+                warnings.add(msg)
+                if Qgis.QGIS_VERSION_INT >= 31602:
+                    feedback.pushWarning("Warning: {}".format(msg))
+                else:
+                    feedback.reportError("Warning: {}".format(msg), False)
+
+            elif level == Context.INFO:
+                if msg in info:
+                    return
+
+                info.add(msg)
+                feedback.pushInfo(msg)
             elif level == Context.CRITICAL:
                 feedback.reportError(msg, False)
 
         conversion_context = Context()
         conversion_context.project = context.project()
         conversion_context.unsupported_object_callback = unsupported_object_callback
-        if Qgis.QGIS_VERSION_INT < 30600:
-            conversion_context.invalid_layer_resolver = GuiUtils.get_valid_mime_uri
-        # context.style_folder, _ = os.path.split(output_file)
+        conversion_context.can_place_annotations_in_main_annotation_layer = False
 
         with open(input_file, "rb") as f:
             stream = Stream(f, False, force_layer=True, offset=0)
             try:
                 obj = stream.read_object()
+            except UnknownClsidException as e:
+                feedback.reportError(str(e), fatalError=True)
+                return {}
             except RequiresLicenseException as e:
                 raise QgsProcessingException(
                     "{} - please see https://north-road.com/slyr/ for details".format(e)
                 ) from e
-            except UnknownClsidException as e:
-                feedback.reportError(str(e), fatalError=True)
-                return {}
             except UnreadableSymbolException as e:
                 feedback.reportError("Unreadable object: {}".format(e), fatalError=True)
                 return {}
@@ -192,8 +199,7 @@ class LyrToStyleXml(SlyrAlgorithm):
                 elif isinstance(v, QgsColorRamp):
                     style.addColorRamp(unique_name, v, True)
                 elif isinstance(v, QgsTextFormat):
-                    if Qgis.QGIS_VERSION_INT >= 30900:
-                        style.addTextFormat(unique_name, v, True)
+                    style.addTextFormat(unique_name, v, True)
 
         style.exportXml(output_file)
         return {self.OUTPUT: output_file}
