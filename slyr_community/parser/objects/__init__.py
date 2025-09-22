@@ -355,3 +355,10 @@ from .area_patch import AreaPatch
 from .line_patch import LinePatch
 from .element_collection import ElementCollection
 from .illumination_props import IlluminationProps
+from .page import Page
+from .ruler_settings import RulerSettings
+from .snap_grid import SnapGrid
+from .snap_guides import SnapGuides
+from .page_index import PageIndex
+from .locator_rectangle import LocatorRectangle
+from .mixed_font_grid_label import MixedFontGridLabel

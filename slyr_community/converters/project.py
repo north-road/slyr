@@ -217,7 +217,9 @@ class ProjectConverter:
 
         if document.layout_read_error:
             context.push_warning(
-                "An error was encountered while reading the Page Layout",
+                "An error was encountered while reading the Page Layout: {}".format(
+                    document.layout_read_error
+                ),
                 level=Context.CRITICAL,
             )
 
