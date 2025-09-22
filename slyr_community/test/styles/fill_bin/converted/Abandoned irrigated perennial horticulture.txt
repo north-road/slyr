@@ -1,9 +1,9 @@
 [{'class': 'QgsSimpleFillSymbolLayer',
-  'color': '232,190,255,255',
+  'color': '232,190,255,255,rgb:0.9098039,0.745098,1,1',
   'outline_style': 'no'},
  {'class': 'QgsSimpleLineSymbolLayer',
   'joinstyle': 'miter',
-  'line_color': '0,0,0,255',
+  'line_color': '0,0,0,255,rgb:0,0,0,1',
   'line_width': '0.5',
   'line_width_unit': 'Point',
   'offset_unit': 'Point'}]

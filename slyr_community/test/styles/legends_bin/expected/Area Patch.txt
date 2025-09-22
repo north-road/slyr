@@ -6,6 +6,7 @@
                         (100.0, 0.0),
                         (0.0, 0.0)]],
              'segments': [],
+             'stream_offset': '0x12',
              'type': 'Polygon',
              'version': 2,
              'x_max': 100.0,
@@ -13,5 +14,6 @@
              'y_max': 100.0,
              'y_min': 0.0},
  'preserve_aspect': False,
+ 'stream_offset': '0x0',
  'type': 'AreaPatch',
  'version': 3}

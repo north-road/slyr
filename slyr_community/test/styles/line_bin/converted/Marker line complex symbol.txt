@@ -5,7 +5,7 @@
   'offset_along_line_unit': 'Point',
   'offset_unit': 'Point',
   'subsymbol': [{'class': 'QgsSimpleMarkerSymbolLayer',
-                 'color': '0,0,255,255',
+                 'color': '0,0,255,255,rgb:0,0,1,1',
                  'offset': '3,-7',
                  'offset_unit': 'Point',
                  'outline_style': 'no',

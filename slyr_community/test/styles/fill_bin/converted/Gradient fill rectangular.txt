@@ -1,6 +1,6 @@
 [{'class': 'QgsShapeburstFillSymbolLayer',
-  'color1': '35,35,140,255',
-  'color2': '0,0,255,255',
+  'color1': '35,35,140,255,rgb:0.1372549,0.1372549,0.5490196,1',
+  'color2': '0,0,255,255,rgb:0,0,1,1',
   'color_type': '1',
   'direction': 'cw',
-  'stops': '0.75;0,0,255,255;rgb;ccw'}]
+  'stops': '0.75;0,0,255,255,rgb:0,0,1,1;rgb;ccw'}]
