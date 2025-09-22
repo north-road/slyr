@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+QGIS Plugin interface to SLYR conversions
+"""
 
-# /***************************************************************************
-# plugin.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,20 +11,37 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+import json
+from io import BytesIO
+from pathlib import Path
+import html
 
-"""
-QGIS Plugin interface to SLYR conversions
-"""
-
-from qgis.core import Qgis, QgsApplication, QgsUnitTypes
+from qgis.PyQt.QtCore import QCoreApplication, QUrl, QDir
+from qgis.PyQt.QtWidgets import QAction, QFileDialog, QMenu
+from qgis.PyQt import uic, sip
+from qgis.PyQt.QtCore import QSettings
+from qgis.core import (
+    Qgis,
+    QgsApplication,
+    QgsUnitTypes,
+    qgsfunction,
+    QgsExpression,
+    QgsProject,
+    QgsFileUtils,
+    QgsLayerTreeLayer,
+    QgsMapLayerType,
+)
 from qgis.gui import QgsOptionsWidgetFactory, QgsOptionsPageWidget, QgsFileWidget
 
-from qgis.PyQt.QtCore import QSettings
-from qgis.PyQt import uic
-
 from .bintools.extractor import Extractor
-from .qgis_plugin.provider import SlyrProvider
+from .converters.context import Context
+from .converters.geometry import GeometryConverter
+
+from .parser.exceptions import NotImplementedException
 from .parser.initalize_registry import initialize_registry
+from .parser.object_registry import REGISTRY
+from .parser.stream import Stream
+from .qgis_plugin.gui_utils import GuiUtils
 from .qgis_plugin.integrations import (
     StyleDropHandler,
     SlyrDataItemProvider,
@@ -42,7 +52,8 @@ from .qgis_plugin.integrations import (
     LayoutDropHandler,
     MxdProjectOpenHandler,
 )
-from .qgis_plugin.gui_utils import GuiUtils
+from .qgis_plugin.provider import SlyrProvider
+from .qgis_plugin.integrations.browser_utils import BrowserUtils
 
 initialize_registry()
 
