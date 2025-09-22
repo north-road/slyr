@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Extracts print layouts from an MXD document and adds to the current project
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,11 +10,6 @@
 #  *   (at your option) any later version.                                   *
 #  *                                                                         *
 #  ***************************************************************************/
-
-
-"""
-Extracts print layouts from an MXD document and adds to the current project
-"""
 
 from qgis.core import QgsProcessingParameterFile
 
@@ -47,7 +35,10 @@ class ExtractPrintLayoutsFromMxd(SlyrAlgorithm):
         return "Extract print layouts from MXD"
 
     def shortDescription(self):
-        return "Extracts print layouts from an MXD document and adds them to the current project."
+        return (
+            "Extracts print layouts from an MXD document and "
+            "adds them to the current project."
+        )
 
     def group(self):
         return "MXD documents"
@@ -56,7 +47,10 @@ class ExtractPrintLayoutsFromMxd(SlyrAlgorithm):
         return "mxd"
 
     def shortHelpString(self):
-        return "Extracts print layouts from an MXD document and adds them to the current project."
+        return (
+            "Extracts print layouts from an MXD document "
+            "and adds them to the current project."
+        )
 
     def initAlgorithm(self, config=None):
         self.addParameter(
