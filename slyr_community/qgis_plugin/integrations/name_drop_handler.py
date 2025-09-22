@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Handles dropping ESRI name mime data
+"""
 
-# /***************************************************************************
-# browser.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,14 +11,21 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+from io import BytesIO
 
-"""
-Handles dropping ESRI name mime data
-"""
-
-from qgis.core import Qgis
+from qgis.core import QgsProject, QgsVectorLayer
 from qgis.gui import QgsCustomDropHandler
 
+from ...converters.layers import LayerConverter
+from ...parser.exceptions import (
+    UnreadableSymbolException,
+    UnsupportedVersionException,
+    NotImplementedException,
+    UnknownClsidException,
+    UnreadablePictureException,
+)
+from ...parser.stream import Stream
+from qgis.core import Qgis
 from .browser_utils import BrowserUtils
 
 
