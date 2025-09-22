@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Converts .style databases to QGIS Style XML databases
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,22 +11,20 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-Converts .style databases to QGIS Style XML databases
-"""
-
-import os
 from io import BytesIO
+from pathlib import Path
 
-from qgis.PyQt.QtCore import QVariant
+from qgis.PyQt.QtCore import QVariant, QRegularExpression
 from qgis.core import (
     Qgis,
     QgsProcessing,
+    QgsProcessingParameterDefinition,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingParameterFeatureSink,
+    QgsProcessingParameterEnum,
     QgsProcessingOutputNumber,
+    QgsProcessingParameterString,
     QgsProcessingException,
     QgsStyle,
     QgsFeature,
@@ -48,6 +39,7 @@ from qgis.core import (
 from .algorithm import SlyrAlgorithm
 from ...bintools.extractor import Extractor, MissingBinaryException
 from ...converters.context import Context
+from ...converters.geometry import GeometryConverter
 from ...converters.symbols import SymbolConverter
 from ...parser.exceptions import (
     UnreadableSymbolException,
@@ -72,6 +64,20 @@ class StyleToQgisXml(SlyrAlgorithm):
     INPUT = "INPUT"
     OUTPUT = "OUTPUT"
     REPORT = "REPORT"
+    OBJECT_TYPES = "OBJECT_TYPES"
+    FILTER = "FILTER"
+    ALL_OBJECT_TYPES = [
+        Extractor.FILL_SYMBOLS,
+        Extractor.LINE_SYMBOLS,
+        Extractor.MARKER_SYMBOLS,
+        Extractor.COLOR_RAMPS,
+        Extractor.LABELS,
+        Extractor.TEXT_SYMBOLS,
+        Extractor.MAPLEX_LABELS,
+        Extractor.AREA_PATCHES,
+        Extractor.LINE_PATCHES,
+        Extractor.REPRESENTATION_RULES,
+    ]
 
     MARKER_SYMBOL_COUNT = "MARKER_SYMBOL_COUNT"
     LINE_SYMBOL_COUNT = "LINE_SYMBOL_COUNT"
@@ -110,9 +116,11 @@ class StyleToQgisXml(SlyrAlgorithm):
             return False, error
 
         if not Extractor.is_mdb_tools_binary_available():
-            return (
-                False,
-                'The MDB tools "mdb-export" utility is required to convert .style databases. Please setup a path to the MDB tools utility in the Settings - Options dialog, under the SLYR tab.',
+            return False, (
+                'The MDB tools "mdb-export" utility is required '
+                "to convert .style databases. Please setup a "
+                "path to the MDB tools utility in the "
+                "Settings - Options dialog, under the SLYR tab."
             )
 
         return True, None
@@ -131,6 +139,27 @@ class StyleToQgisXml(SlyrAlgorithm):
             QgsProcessingParameterFile(self.INPUT, "Style database", extension="style")
         )
 
+        type_filter = QgsProcessingParameterEnum(
+            self.OBJECT_TYPES,
+            "Objects to extract",
+            [Extractor.OBJECT_TYPE_NAMES[t] for t in self.ALL_OBJECT_TYPES],
+            allowMultiple=True,
+            defaultValue=list(range(len(self.ALL_OBJECT_TYPES))),
+            optional=True,
+        )
+        type_filter.setFlags(
+            type_filter.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced
+        )
+        self.addParameter(type_filter)
+
+        filter_param = QgsProcessingParameterString(
+            self.FILTER, "Filter items by name", optional=True
+        )
+        filter_param.setFlags(
+            filter_param.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced
+        )
+        self.addParameter(filter_param)
+
         self.addParameter(
             QgsProcessingParameterFileDestination(
                 self.OUTPUT, "Destination XML file", fileFilter="XML files (*.xml)"
@@ -141,7 +170,7 @@ class StyleToQgisXml(SlyrAlgorithm):
             QgsProcessingParameterFeatureSink(
                 self.REPORT,
                 "Unconvertable symbols report",
-                QgsProcessing.TypeVector,
+                QgsProcessing.SourceType.TypeVector,
                 None,
                 True,
                 False,
@@ -205,6 +234,16 @@ class StyleToQgisXml(SlyrAlgorithm):
             )
         )
 
+    def autogenerateParameterValues(self, rowParameters, changedParameter, mode):
+        if changedParameter == self.INPUT:
+            input_file = rowParameters.get(self.INPUT)
+            if input_file:
+                input_path = Path(input_file)
+                if input_path.exists():
+                    return {self.OUTPUT: input_path.with_suffix(".xml").as_posix()}
+
+        return {}
+
     def processAlgorithm(
         self,  # pylint:disable=too-many-locals,too-many-statements,too-many-branches
         parameters,
@@ -213,6 +252,21 @@ class StyleToQgisXml(SlyrAlgorithm):
     ):
         input_file = self.parameterAsString(parameters, self.INPUT, context)
         output_file = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
+        if not parameters.get(self.OBJECT_TYPES):
+            selected_types = self.ALL_OBJECT_TYPES
+        else:
+            selected_types = [
+                self.ALL_OBJECT_TYPES[i]
+                for i in self.parameterAsEnums(parameters, self.OBJECT_TYPES, context)
+            ]
+
+        type_filter = self.parameterAsString(parameters, self.FILTER, context)
+        type_filter_re = None
+        if type_filter:
+            type_filter_re = QRegularExpression(
+                QRegularExpression.wildcardToRegularExpression("*" + type_filter + "*"),
+                QRegularExpression.PatternOption.CaseInsensitiveOption,
+            )
 
         fields = QgsFields()
         fields.append(QgsField("name", QVariant.String, "", 60))
@@ -243,25 +297,12 @@ class StyleToQgisXml(SlyrAlgorithm):
             symbol_names.add(candidate.lower())
             return candidate
 
-        symbols_to_extract = [
-            Extractor.FILL_SYMBOLS,
-            Extractor.LINE_SYMBOLS,
-            Extractor.MARKER_SYMBOLS,
-            Extractor.COLOR_RAMPS,
-            Extractor.LINE_PATCHES,
-            Extractor.AREA_PATCHES,
-        ]
-        if Qgis.QGIS_VERSION_INT >= 30900:
-            symbols_to_extract.extend(
-                (Extractor.TEXT_SYMBOLS, Extractor.LABELS, Extractor.MAPLEX_LABELS)
-            )
-
-        type_percent = 100.0 / len(symbols_to_extract)
+        type_percent = 100.0 / len(selected_types)
 
         results[self.LABEL_SETTINGS_COUNT] = 0
         results[self.UNREADABLE_LABEL_SETTINGS] = 0
 
-        for type_index, symbol_type in enumerate(symbols_to_extract):
+        for type_index, symbol_type in enumerate(selected_types):
             feedback.pushInfo("Importing {} from {}".format(symbol_type, input_file))
 
             try:
@@ -288,6 +329,12 @@ class StyleToQgisXml(SlyrAlgorithm):
                 if feedback.isCanceled():
                     break
                 name = raw_symbol[Extractor.NAME]
+                if not name:
+                    name = "unnamed"
+
+                if type_filter_re and not type_filter_re.match(name).hasMatch():
+                    continue
+
                 tags = raw_symbol[Extractor.TAGS].split(";")
                 feedback.pushInfo("{}/{}: {}".format(index + 1, len(raw_symbols), name))
 
@@ -345,11 +392,28 @@ class StyleToQgisXml(SlyrAlgorithm):
                         sink.addFeature(f)
                     continue
 
+                warnings = set()
+                info = set()
+
                 def unsupported_object_callback(msg, level=Context.WARNING):
                     if level == Context.WARNING:
-                        feedback.reportError("Warning: {}".format(msg), False)
+                        if msg in warnings:
+                            return
+
+                        warnings.add(msg)
+                        if Qgis.QGIS_VERSION_INT >= 31602:
+                            feedback.pushWarning("Warning: {}".format(msg))
+                        else:
+                            feedback.reportError("Warning: {}".format(msg), False)
                     elif level == Context.CRITICAL:
                         feedback.reportError(msg, False)
+                    elif level == Context.INFO:
+                        if msg in info:
+                            return
+
+                        info.add(msg)
+                        feedback.pushInfo(msg)
+                        return
 
                     if sink:
                         feat = QgsFeature()
@@ -358,80 +422,78 @@ class StyleToQgisXml(SlyrAlgorithm):
 
                 context = Context()
                 context.symbol_name = unique_name
-                context.style_folder, _ = os.path.split(output_file)
                 context.unsupported_object_callback = unsupported_object_callback
 
                 if symbol_type in (Extractor.AREA_PATCHES, Extractor.LINE_PATCHES):
-                    feedback.reportError(
-                        "{}: Legend patch conversion requires the licensed version of SLYR".format(
-                            name
-                        ),
-                        False,
-                    )
-                    unreadable += 1
-                    if sink:
-                        f.setAttributes(
-                            [name, "Unreadable legend patch: {}".format(name)]
+                    if symbol_type == Extractor.LINE_PATCHES:
+                        geom = GeometryConverter.convert_geometry(symbol.polyline)
+                        qgis_symbol = QgsLegendPatchShape(
+                            QgsSymbol.SymbolType.Line, geom, symbol.preserve_aspect
                         )
-                        sink.addFeature(f)
-                    continue
+                    elif symbol_type == Extractor.AREA_PATCHES:
+                        geom = GeometryConverter.convert_geometry(symbol.polygon)
+                        qgis_symbol = QgsLegendPatchShape(
+                            QgsSymbol.SymbolType.Fill, geom, symbol.preserve_aspect
+                        )
+                else:
+                    try:
+                        qgis_symbol = SymbolConverter.Symbol_to_QgsSymbol(
+                            symbol, context
+                        )
 
-                try:
-                    qgis_symbol = SymbolConverter.Symbol_to_QgsSymbol(symbol, context)
-
-                except NotImplementedException as e:
-                    feedback.reportError(str(e), False)
-                    unreadable += 1
-                    if sink:
-                        f.setAttributes([name, str(e)])
-                        sink.addFeature(f)
-                    continue
-                except UnreadablePictureException as e:
-                    feedback.reportError(str(e), False)
-                    unreadable += 1
-                    if sink:
-                        f.setAttributes([name, "Unreadable picture: {}".format(e)])
-                        sink.addFeature(f)
-                    continue
+                    except NotImplementedException as e:
+                        feedback.reportError(str(e), False)
+                        unreadable += 1
+                        if sink:
+                            f.setAttributes([name, str(e)])
+                            sink.addFeature(f)
+                        continue
+                    except UnreadablePictureException as e:
+                        feedback.reportError(str(e), False)
+                        unreadable += 1
+                        if sink:
+                            f.setAttributes([name, "Unreadable picture: {}".format(e)])
+                            sink.addFeature(f)
+                        continue
 
                 if isinstance(qgis_symbol, QgsSymbol):
                     style.addSymbol(unique_name, qgis_symbol, True)
                 elif isinstance(qgis_symbol, QgsColorRamp):
                     style.addColorRamp(unique_name, qgis_symbol, True)
                 elif isinstance(qgis_symbol, QgsTextFormat):
-                    if Qgis.QGIS_VERSION_INT >= 30900:
-                        style.addTextFormat(unique_name, qgis_symbol, True)
+                    style.addTextFormat(unique_name, qgis_symbol, True)
                 elif isinstance(qgis_symbol, QgsPalLayerSettings):
-                    if Qgis.QGIS_VERSION_INT >= 30900:
-                        style.addLabelSettings(unique_name, qgis_symbol, True)
-                elif Qgis.QGIS_VERSION_INT >= 31300:
-                    if isinstance(qgis_symbol, QgsLegendPatchShape):
-                        style.addLegendPatchShape(unique_name, qgis_symbol, True)
+                    style.addLabelSettings(unique_name, qgis_symbol, True)
+                elif isinstance(qgis_symbol, QgsLegendPatchShape):
+                    style.addLegendPatchShape(unique_name, qgis_symbol, True)
 
                 if tags:
                     if isinstance(qgis_symbol, QgsSymbol):
-                        assert style.tagSymbol(QgsStyle.SymbolEntity, unique_name, tags)
+                        assert style.tagSymbol(
+                            QgsStyle.StyleEntity.SymbolEntity, unique_name, tags
+                        )
                     elif isinstance(qgis_symbol, QgsColorRamp):
                         assert style.tagSymbol(
-                            QgsStyle.ColorrampEntity, unique_name, tags
+                            QgsStyle.StyleEntity.ColorrampEntity, unique_name, tags
                         )
                     elif isinstance(qgis_symbol, QgsTextFormat) and hasattr(
                         QgsStyle, "TextFormatEntity"
                     ):
                         assert style.tagSymbol(
-                            QgsStyle.TextFormatEntity, unique_name, tags
+                            QgsStyle.StyleEntity.TextFormatEntity, unique_name, tags
                         )
                     elif isinstance(qgis_symbol, QgsPalLayerSettings) and hasattr(
                         QgsStyle, "LabelSettingsEntity"
                     ):
                         assert style.tagSymbol(
-                            QgsStyle.LabelSettingsEntity, unique_name, tags
+                            QgsStyle.StyleEntity.LabelSettingsEntity, unique_name, tags
                         )
-                    elif Qgis.QGIS_VERSION_INT >= 31300:
-                        if isinstance(qgis_symbol, QgsLegendPatchShape):
-                            assert style.tagSymbol(
-                                QgsStyle.LegendPatchShapeEntity, unique_name, tags
-                            )
+                    elif isinstance(qgis_symbol, QgsLegendPatchShape):
+                        assert style.tagSymbol(
+                            QgsStyle.StyleEntity.LegendPatchShapeEntity,
+                            unique_name,
+                            tags,
+                        )
 
             if symbol_type == Extractor.FILL_SYMBOLS:
                 results[self.FILL_SYMBOL_COUNT] = len(raw_symbols)

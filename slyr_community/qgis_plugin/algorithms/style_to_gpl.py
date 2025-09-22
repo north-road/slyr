@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Converts .style databases to GPL color palette files
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,13 +11,9 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-Converts .style databases to GPL color palette files
-"""
-
 import os
 from io import BytesIO
+from pathlib import Path
 
 from qgis.core import (
     QgsProcessingParameterFile,
@@ -73,7 +62,8 @@ class StyleToGpl(SlyrAlgorithm):
 
     def shortHelpString(self):
         return (
-            "Converts ESRI style database to a GPL format color palette file, extracting all color entities "
+            "Converts ESRI style database to a GPL format color palette "
+            "file, extracting all color entities "
             "saved in the style."
         )
 
@@ -107,6 +97,16 @@ class StyleToGpl(SlyrAlgorithm):
                 self.UNREADABLE_COLOR_COUNT, "Unreadable Color Count"
             )
         )
+
+    def autogenerateParameterValues(self, rowParameters, changedParameter, mode):
+        if changedParameter == self.INPUT:
+            input_file = rowParameters.get(self.INPUT)
+            if input_file:
+                input_path = Path(input_file)
+                if input_path.exists():
+                    return {self.OUTPUT: input_path.with_suffix(".gpl").as_posix()}
+
+        return {}
 
     def processAlgorithm(
         self,  # pylint: disable=too-many-locals,too-many-statements
