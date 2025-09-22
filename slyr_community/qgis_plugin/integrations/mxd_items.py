@@ -122,7 +122,7 @@ class MxdDropHandler(QgsCustomDropHandler):
                     "File is corrupt or not an {}".format(type_string),
                 )
                 return True
-            except RequiresLicenseException as e:
+            except RequiresLicenseException:
                 iface.messageBar().pushCritical(
                     "Convert {}".format(type_string),
                     "{}. Please see https://north-road.com/slyr/ for details".format(
