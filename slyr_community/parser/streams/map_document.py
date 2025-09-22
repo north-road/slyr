@@ -66,20 +66,21 @@ class MapDocument:
         if not stream.directories:
             raise EmptyDocumentException()
 
-        document_stream = stream.extract_file_from_stream("Mx Document")
+        version_stream = stream.extract_file_from_stream("Version")
         document_version_info = stream.extract_file_from_stream(
             "Mx Document Version Info"
         )
+        metadata_stream = stream.extract_file_from_stream("Metadata")
         templates_stream = stream.extract_file_from_stream("Templates")
         style_gallery_stream = stream.extract_file_from_stream("StyleGallery")
         drawing_defaults_stream = stream.extract_file_from_stream("DrawingDefaults")
+        document_stream = stream.extract_file_from_stream("Mx Document")
         maps_stream = stream.extract_file_from_stream("Maps")
         page_layout_stream = stream.extract_file_from_stream("PageLayout")
-        view_stream = stream.extract_file_from_stream("View")
-        table_properties_stream = stream.extract_file_from_stream("TableProperties")
-        document_database_stream = stream.extract_file_from_stream("DocumentDatabase")
-        version_stream = stream.extract_file_from_stream("Version")
-        metadata_stream = stream.extract_file_from_stream("Metadata")
+
+        view_stream = None
+        table_properties_stream = None
+        document_database_stream = None
 
         if version_stream:
             stream.io_stream = version_stream
