@@ -131,6 +131,9 @@ class GeometryConverter:
     def convert_to_curve(
         ring, segments: List[Segment], is_ring: bool, part_start_index: int = 0
     ) -> QgsCurve:
+        """
+        Converts rings to a QGIS curve
+        """
         if not segments:
             # nice and easy, a LineString
             return QgsLineString([QgsPoint(x, y) for (x, y) in ring])
@@ -280,6 +283,9 @@ class GeometryConverter:
 
     @staticmethod
     def convert_polygon(polygon, segments, part_start_index: int = 0) -> QgsGeometry:
+        """
+        Converts a polygon to a QGIS geometry
+        """
         exterior = GeometryConverter.convert_to_curve(
             polygon, segments, True, part_start_index
         )
@@ -327,6 +333,9 @@ class GeometryConverter:
         semi_major: float,
         semi_minor: float,
     ):
+        """
+        Calculates an angle on ellipse
+        """
         if semi_major == 0 or semi_minor == 0:
             return 0
 
@@ -356,6 +365,9 @@ class GeometryConverter:
         is_minor,
         use_max_gap: bool = False,
     ):
+        """
+        Calculates approximate arc angles
+        """
         line = QgsLineString()
         out_x = []
         out_y = []

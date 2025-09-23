@@ -34,6 +34,7 @@ from ...parser.exceptions import (
 )
 from ...parser.objects.group_layer import GroupLayer
 from ...parser.stream import Stream
+from qgis.core import QgsProcessingException
 from ...parser.exceptions import RequiresLicenseException
 
 

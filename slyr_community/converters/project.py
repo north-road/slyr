@@ -242,7 +242,7 @@ class ProjectConverter:
     def update_project(
         project: QgsProject,
         input_file: str,
-        map: Map,
+        map_object: Map,
         context: Context,
         fallback_crs=None,
         multiframes=False,
@@ -251,14 +251,14 @@ class ProjectConverter:
         """
         Adds layers from a map document to an existing project
         """
-        context.map_reference_scale = map.reference_scale
+        context.map_reference_scale = map_object.reference_scale
         return ProjectConverter.add_layers_to_project(
             project,
             input_file,
-            map,
+            map_object,
             context=context,
             fallback_crs=fallback_crs,
-            parent_group_name=map.name if multiframes else None,
+            parent_group_name=map_object.name if multiframes else None,
         )
         # ProjectConverter.convert_project_properties(map, project, context, canvas=canvas)
 
@@ -395,9 +395,7 @@ class ProjectConverter:
             enabled_scale_range = bool(zoom_max or zoom_min)
             if zoom_max and zoom_min and zoom_min > zoom_max:
                 # inconsistent scale range -- zoom_max should be bigger number than zoom_min
-                tmp = zoom_min
-                zoom_min = zoom_max
-                zoom_max = tmp
+                zoom_min, zoom_max = zoom_max, zoom_min
 
             if enabled_scale_range:
                 # qgis has no ability to set scale range based on layer tree groups, so push this down to layers

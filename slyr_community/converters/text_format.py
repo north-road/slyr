@@ -377,15 +377,6 @@ class TextSymbolConverter:
                 )
             else:
                 return None
-        elif isinstance(
-            background_symbol,
-        ):
-            if background_symbol.background_symbol:
-                return TextSymbolConverter.convert_fill_symbol_background(
-                    background_symbol, context, reference_scale
-                )
-            else:
-                return None
         elif isinstance(background_symbol, LineCallout):
             if background_symbol.border_symbol:
                 return TextSymbolConverter.convert_fill_symbol_background(

@@ -770,6 +770,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             ramp = ColorRampConverter.ColorRamp_to_QgsColorRamp(layer.ramp)
 
         def scale_ramp(ramp, percent):
+            """
+            Scales a ramp by the percent factor
+            """
             # percent has a different meaning here -- it effectively stretches the ramp
             if percent < 1:
                 # only support this for gradient ramps
@@ -1058,9 +1061,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                         export_args,
                         stdout=subprocess.PIPE,
                         creationflags=CREATE_NO_WINDOW,
+                        check=False,
                     )
                 except ValueError:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE)
+                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)
             except FileNotFoundError:
                 pass
             except PermissionError:
@@ -1076,9 +1080,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                         export_args,
                         stdout=subprocess.PIPE,
                         creationflags=CREATE_NO_WINDOW,
+                        check=False,
                     )
                 except ValueError:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE)
+                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)
             except FileNotFoundError:
                 pass
             except PermissionError:
@@ -1103,9 +1108,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                         export_args,
                         stdout=subprocess.PIPE,
                         creationflags=CREATE_NO_WINDOW,
+                        check=False,
                     )
                 except ValueError:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE)
+                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)
                 lo_office_export_path = os.path.exists(
                     (Path(svg_path).parent / Path(emf_path).stem).as_posix() + ".svg"
                 )
@@ -4115,9 +4121,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             context.apply_conversion_tweaks
             and context.units == QgsUnitTypes.RenderUnit.RenderPoints
         ):
-            if size < 0.76:
-                # below this size QGIS can make the symbol invisible, it's less than one pixel
-                size = 0.76
+            # below this size QGIS can make the symbol invisible, it's less than one pixel
+            size = max(size, 0.76)
         out.setSize(size)
 
         out.setAngle(angle)
@@ -4344,6 +4349,9 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         shadow: SymbolShadow,
         context: Context,
     ) -> QgsFillSymbol:
+        """
+        Converts symbol border/background/shadow to a QGIS fill symbol
+        """
         fill_symbol = None
 
         if shadow:

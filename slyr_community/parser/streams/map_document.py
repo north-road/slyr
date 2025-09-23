@@ -435,7 +435,10 @@ class MapDocument:
             stream.read_int("unknown", expected=0)
             stream.read_ushort("unknown", expected=0)
 
-    def to_dict(self):  # pylint: disable=method-hidden
+    def to_dict(self):
+        """
+        Returns a dictionary representing the document
+        """
         return {
             "version": self.version,
             "major_version": self.major_version,
