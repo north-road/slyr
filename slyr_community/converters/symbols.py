@@ -1030,10 +1030,13 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         try:
             try:
                 _ = subprocess.run(
-                    export_args, stdout=subprocess.PIPE, creationflags=CREATE_NO_WINDOW
+                    export_args,
+                    stdout=subprocess.PIPE,
+                    creationflags=CREATE_NO_WINDOW,
+                    check=False,
                 )
             except ValueError:
-                _ = subprocess.run(export_args, stdout=subprocess.PIPE)
+                _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)
         except FileNotFoundError:
             pass
         except PermissionError:

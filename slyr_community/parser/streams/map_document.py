@@ -1,3 +1,7 @@
+"""
+Map document stream
+"""
+
 import os
 from typing import Optional
 
@@ -6,6 +10,10 @@ from ..exceptions import EmptyDocumentException, DocumentTypeException
 
 
 class MapDocument:
+    """
+    Represents a map document (e.g. .mxd)
+    """
+
     def __init__(
         self,
         io_stream,
@@ -244,6 +252,9 @@ class MapDocument:
                     print("WARNING: missing ref {}".format(i))
 
     def read_version(self, stream):
+        """
+        Read version stream
+        """
         self.version = stream.read_string("version")
         self.major_version = stream.read_ushort("major version")  # 16 =9.3, 23=10.6?
         if self.major_version > 10:
@@ -252,11 +263,17 @@ class MapDocument:
             )  # maybe minor/patch revision? e.g. 58, 64, 67, 82, 131, 132, 138, 143, 185
 
     def read_document_version(self, stream):
+        """
+        Read document version stream
+        """
         stream.read_int("unknown", expected=1)
         properties = stream.read_object("version properties")
         self.version = properties.properties["Build Number"]
 
     def read_metadata(self, stream):
+        """
+        Read metadata stream
+        """
         try:
             major_version_from_string = (
                 int(self.version.split(".")[0]) if self.version else None
@@ -301,6 +318,9 @@ class MapDocument:
                 stream.read_string("unknown", expected="")
 
     def read_templates(self, stream, has_drawing_defaults):
+        """
+        Read templates stream
+        """
         count = stream.read_int("template count")
         for i in range(count):
             self.template_paths.append(
@@ -357,9 +377,15 @@ class MapDocument:
             stream.read_object("unknown font")
 
     def read_style_gallery(self, stream):
+        """
+        Read style gallery stream
+        """
         self.style_gallery = stream.read_object("style gallery")
 
     def read_drawing_defaults(self, stream):
+        """
+        Read drawing defaults stream
+        """
         self.default_fill = stream.read_object("default fill")
         self.default_line = stream.read_object("default line")
         self.default_marker = stream.read_object("default marker")
@@ -371,6 +397,9 @@ class MapDocument:
         self.default_toc_symbol_height = stream.read_double("default toc symbol height")
 
     def read_maps(self, stream, is_document_stream):
+        """
+        Read maps stream
+        """
         data_frame_count = stream.read_int("data frame count")
         if data_frame_count == 0:
             raise EmptyDocumentException()
@@ -383,9 +412,15 @@ class MapDocument:
             stream.read_int("unknown", expected=(0, 1))
 
     def read_layout(self, stream):
+        """
+        Read page layout stream
+        """
         self.page_layout = stream.read_object("page layout")
 
     def read_view(self, stream):
+        """
+        Read view stream
+        """
         version = stream.read_ushort("version", expected=(1, 2))
         self.active_frame = stream.read_object("window")
         if version > 1:

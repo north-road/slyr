@@ -166,6 +166,9 @@ class ScalebarBase(Object):
         self.align_to_zero_division = False
 
     def _read(self, stream: Stream, version, type_string):  # pylint: disable=unused-argument
+        """
+        Internal read common scalebar properties from stream
+        """
         internal_version = stream.read_ushort("internal version", expected=(3, 4, 6))
         internal_subversion = stream.read_ushort(
             "internal subversion", expected=(1, 2, 3)
