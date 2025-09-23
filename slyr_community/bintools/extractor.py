@@ -270,12 +270,15 @@ class Extractor:
         try:
             result = subprocess.run(
                 export_args,
-                stdout=subprocess.PIPE,  # pylint: disable=subprocess-run-check
+                stdout=subprocess.PIPE,
                 creationflags=CREATE_NO_WINDOW,
+                check=False,
             )
         except ValueError:
             try:
-                result = subprocess.run(export_args, stdout=subprocess.PIPE)  # pylint: disable=subprocess-run-check
+                result = subprocess.run(
+                    export_args, stdout=subprocess.PIPE, check=False
+                )
             except FileNotFoundError as e:
                 raise MissingBinaryException from e
         except FileNotFoundError as e:

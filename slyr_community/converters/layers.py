@@ -173,9 +173,6 @@ class LayerConverter:
                 ),
                 level=Context.CRITICAL,
             )
-            res = RasterLayerConverter.imageserver_layer_to_QgsRasterLayer(
-                source_layer, input_file, context=context, fallback_crs=fallback_crs
-            )
         elif isinstance(source_layer, WmsLayer):
             context.push_warning(
                 "WMS layer “{}” is incomplete and cannot be added".format(
