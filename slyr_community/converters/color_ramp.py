@@ -112,6 +112,9 @@ class ColorRampConverter:
 
     @staticmethod
     def convert_polar_direction(direction, color1, color2):
+        """
+        Converts polar direction to a QGIS angular direction
+        """
         hue1 = ColorConverter.color_to_qcolor(color1).hueF()
         hue2 = ColorConverter.color_to_qcolor(color2).hueF()
         if hue2 > hue1 and hue2 - hue1 < 0.5:

@@ -1,14 +1,7 @@
-#!/usr/bin/env python
+"""
+Project file converter
+"""
 
-# /***************************************************************************
-# project.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,6 +28,7 @@ from qgis.core import (
     QgsRelation,
     QgsRasterLayer,
     QgsVectorLayer,
+    QgsLayerTreeGroup,
 )
 
 try:
@@ -68,6 +62,10 @@ from ..parser.exceptions import RequiresLicenseException
 
 
 class ProjectConverter:
+    """
+    Project file converter
+    """
+
     @staticmethod
     def convert_project(
         input_file: str,
@@ -75,6 +73,10 @@ class ProjectConverter:
         context: Context,
         fallback_crs=None,
     ) -> QgsProject:
+        """
+        Converts a project document to a QGIS project
+        """
+
         if Qgis.QGIS_VERSION_INT >= 32601:
             # don't allow for project embedded styles
             p = QgsProject(capabilities=Qgis.ProjectCapabilities())
@@ -109,6 +111,9 @@ class ProjectConverter:
         fallback_crs=None,
         canvas=None,
     ):
+        """
+        Converts a map document into a target QGIS project
+        """
         ProjectConverter.set_project_home_paths(project, input_file)
 
         if document.frames:
@@ -243,6 +248,9 @@ class ProjectConverter:
         multiframes=False,
         canvas=None,
     ) -> Dict:
+        """
+        Adds layers from a map document to an existing project
+        """
         context.map_reference_scale = map.reference_scale
         return ProjectConverter.add_layers_to_project(
             project,
@@ -255,51 +263,62 @@ class ProjectConverter:
         # ProjectConverter.convert_project_properties(map, project, context, canvas=canvas)
 
     @staticmethod
-    def set_group_scale_range(group, min, max):
-        for l in group.children():
-            if QgsLayerTree.isLayer(l):
-                if l.layer() is not None:
+    def set_group_scale_range(
+        group: QgsLayerTreeGroup, min_scale: float, max_scale: float
+    ):
+        """
+        Sets the scale based visibility for an entire layer tree group
+        """
+        for _node in group.children():
+            if QgsLayerTree.isLayer(_node):
+                if _node.layer() is not None:
                     # TODO - merge with existing layer zoom ranges
-                    l.layer().setMinimumScale(min)
-                    l.layer().setMaximumScale(max)
-                    l.layer().setScaleBasedVisibility(True)
-            elif QgsLayerTree.isGroup(l):
-                ProjectConverter.set_group_scale_range(l, min, max)
+                    _node.layer().setMinimumScale(min_scale)
+                    _node.layer().setMaximumScale(max_scale)
+                    _node.layer().setScaleBasedVisibility(True)
+            elif QgsLayerTree.isGroup(_node):
+                ProjectConverter.set_group_scale_range(_node, min_scale, max_scale)
 
     @staticmethod
-    def set_group_transparency(group, transparency):
+    def set_group_transparency(group: QgsLayerTreeGroup, transparency: float):
+        """
+        Sets the layer transparency for an entire layer tree group
+        """
         new_opacity = 1.0 - transparency / 100
-        for l in group.children():
-            if QgsLayerTree.isLayer(l):
-                if l.layer() is not None:
+        for _node in group.children():
+            if QgsLayerTree.isLayer(_node):
+                if _node.layer() is not None:
                     # We have to merge with existing layer opacity!
                     if (
-                        isinstance(l.layer(), QgsRasterLayer)
-                        and l.layer().renderer() is not None
+                        isinstance(_node.layer(), QgsRasterLayer)
+                        and _node.layer().renderer() is not None
                     ):
-                        l.layer().renderer().setOpacity(
-                            new_opacity * l.layer().renderer().opacity()
+                        _node.layer().renderer().setOpacity(
+                            new_opacity * _node.layer().renderer().opacity()
                         )
-                    elif isinstance(l.layer(), QgsVectorLayer):
-                        l.layer().setOpacity(new_opacity * l.layer().opacity())
-            elif QgsLayerTree.isGroup(l):
-                ProjectConverter.set_group_transparency(l, transparency)
+                    elif isinstance(_node.layer(), QgsVectorLayer):
+                        _node.layer().setOpacity(new_opacity * _node.layer().opacity())
+            elif QgsLayerTree.isGroup(_node):
+                ProjectConverter.set_group_transparency(_node, transparency)
 
     @staticmethod
     def add_layers_to_project(
         project: QgsProject,
         input_file: str,
-        map: Map,
+        map_object: Map,
         context: Context,
         fallback_crs=None,
         parent_group_name: Optional[str] = None,
     ) -> Dict:
+        """
+        Adds layers from a map to an existing QGIS project
+        """
         theme = QgsMapThemeCollection.MapThemeRecord()
         if not fallback_crs:
             fallback_crs = QgsCoordinateReferenceSystem()
 
-        context.map_reference_scale = map.reference_scale
-        context.frame_crs = CrsConverter.convert_crs(map.crs, context)
+        context.map_reference_scale = map_object.reference_scale
+        context.frame_crs = CrsConverter.convert_crs(map_object.crs, context)
 
         layer_to_layer_map = {}
 
@@ -410,11 +429,11 @@ class ProjectConverter:
                     )
 
         # ouch, Arc allows multiple data frames to share a single name!!
-        theme_name = map.name
+        theme_name = map_object.name
         try_index = 1
         while project.mapThemeCollection().hasMapTheme(theme_name):
             try_index += 1
-            theme_name = "{} ({})".format(map.name, try_index)
+            theme_name = "{} ({})".format(map_object.name, try_index)
 
         if parent_group_name:
             root = project.layerTreeRoot().addGroup(theme_name)
@@ -423,10 +442,10 @@ class ProjectConverter:
 
         # convert standalone tables BEFORE standard map layers, so that
         # they are already available for joins
-        for t in map.standalone_tables:
+        for t in map_object.standalone_tables:
             add_layer(t, root)
 
-        root_layers = map.root_groups
+        root_layers = map_object.root_groups
 
         for c in root_layers:
             if isinstance(c, CustomObject):
@@ -442,13 +461,13 @@ class ProjectConverter:
                 add_group(c, root)
 
         project.mapThemeCollection().insert(theme_name, theme)
-        layer_to_layer_map[map] = theme_name
+        layer_to_layer_map[map_object] = theme_name
 
         return layer_to_layer_map
 
     @staticmethod
     def convert_project_properties(
-        map: Map,
+        map_object: Map,
         destination_project: QgsProject,
         context: Context,
         layer_to_layer_map: Dict,
@@ -456,11 +475,16 @@ class ProjectConverter:
         is_first_frame: bool = True,
         has_multiple_frames: bool = False,
     ):
+        """
+        Converts general properties from a map object to a target QGIS project
+        """
         if is_first_frame:
-            destination_project.setCrs(CrsConverter.convert_crs(map.crs, context))
+            destination_project.setCrs(
+                CrsConverter.convert_crs(map_object.crs, context)
+            )
 
-        context.map_reference_scale = map.reference_scale
-        theme_name = layer_to_layer_map.get(map)
+        context.map_reference_scale = map_object.reference_scale
+        theme_name = layer_to_layer_map.get(map_object)
 
         context.can_place_annotations_in_main_annotation_layer = not has_multiple_frames
         if map.graphics_layer:
@@ -479,76 +503,83 @@ class ProjectConverter:
             destination_project.setLabelingEngineSettings(label_settings)
 
         if is_first_frame:
-            if map.scales:
+            if map_object.scales:
                 destination_project.viewSettings().setMapScales(
-                    [float(s) for s in map.scales]
+                    [float(s) for s in map_object.scales]
                 )
                 destination_project.viewSettings().setUseProjectScales(True)
 
-            if Qgis.QGIS_VERSION_INT >= 31700 and map.fixed_extent:
+            if Qgis.QGIS_VERSION_INT >= 31700 and map_object.fixed_extent:
                 rect = QgsRectangle(
-                    map.fixed_extent.x_min,
-                    map.fixed_extent.y_min,
-                    map.fixed_extent.x_max,
-                    map.fixed_extent.y_max,
+                    map_object.fixed_extent.x_min,
+                    map_object.fixed_extent.y_min,
+                    map_object.fixed_extent.x_max,
+                    map_object.fixed_extent.y_max,
                 )
                 destination_project.viewSettings().setPresetFullExtent(
                     QgsReferencedRectangle(
-                        rect, CrsConverter.convert_crs(map.fixed_extent.crs, context)
+                        rect,
+                        CrsConverter.convert_crs(map_object.fixed_extent.crs, context),
                     )
                 )
 
-            if map.initial_view:
+            if map_object.initial_view:
                 rect = QgsRectangle(
-                    map.initial_view.x_min,
-                    map.initial_view.y_min,
-                    map.initial_view.x_max,
-                    map.initial_view.y_max,
+                    map_object.initial_view.x_min,
+                    map_object.initial_view.y_min,
+                    map_object.initial_view.x_max,
+                    map_object.initial_view.y_max,
                 )
                 destination_project.viewSettings().setDefaultViewExtent(
                     QgsReferencedRectangle(
-                        rect, CrsConverter.convert_crs(map.initial_view.crs, context)
+                        rect,
+                        CrsConverter.convert_crs(map_object.initial_view.crs, context),
                     )
                 )
 
-            if map.rotation:
+            if map_object.rotation:
                 try:
-                    destination_project.viewSettings().setDefaultRotation(-map.rotation)
+                    destination_project.viewSettings().setDefaultRotation(
+                        -map_object.rotation
+                    )
                 except AttributeError:
                     pass
 
                 if destination_project == QgsProject.instance() and iface is not None:
-                    iface.mapCanvas().setRotation(-map.rotation)
+                    iface.mapCanvas().setRotation(-map_object.rotation)
 
-            if canvas and map.initial_view:
+            if canvas and map_object.initial_view:
                 rect = QgsRectangle(
-                    map.initial_view.x_min,
-                    map.initial_view.y_min,
-                    map.initial_view.x_max,
-                    map.initial_view.y_max,
+                    map_object.initial_view.x_min,
+                    map_object.initial_view.y_min,
+                    map_object.initial_view.x_max,
+                    map_object.initial_view.y_max,
                 )
                 canvas.setReferencedExtent(
                     QgsReferencedRectangle(
-                        rect, CrsConverter.convert_crs(map.initial_view.crs, context)
+                        rect,
+                        CrsConverter.convert_crs(map_object.initial_view.crs, context),
                     )
                 )
 
-            if map.background and map.background.symbol:
+            if map_object.background and map_object.background.symbol:
                 background_symbol = SymbolConverter.Symbol_to_QgsSymbol(
-                    map.background.symbol, context
+                    map_object.background.symbol, context
                 )
                 color = background_symbol.color()
                 destination_project.setBackgroundColor(color)
 
-            if map.overposter_properties:
+            if map_object.overposter_properties:
                 settings = destination_project.labelingEngineSettings()
-                if isinstance(map.overposter_properties, BasicOverposterProperties):
+                if isinstance(
+                    map_object.overposter_properties, BasicOverposterProperties
+                ):
                     settings.setUnplacedLabelColor(
                         ColorConverter.color_to_qcolor(
-                            map.overposter_properties.unplaced_label_color
+                            map_object.overposter_properties.unplaced_label_color
                         )
                     )
-                    if map.overposter_properties.view_unplaced:
+                    if map_object.overposter_properties.view_unplaced:
                         settings.setFlag(
                             QgsLabelingEngineSettings.Flag.DrawUnplacedLabels, True
                         )

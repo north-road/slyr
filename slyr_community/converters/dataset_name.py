@@ -1,14 +1,7 @@
-#!/usr/bin/env python
+"""
+Dataset name converter
+"""
 
-# /***************************************************************************
-# color_ramp.py
-# ----------
-# Date                 : October 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,10 +10,6 @@
 #  *   (at your option) any later version.                                   *
 #  *                                                                         *
 #  ***************************************************************************/
-
-"""
-Dataset name converter
-"""
 
 import os
 import re
@@ -51,6 +40,10 @@ from ..parser.objects import (
 
 
 class SqlVisitor(QgsSQLStatement.RecursiveVisitor):
+    """
+    SQL statement visitor, which collects table names
+    """
+
     def __init__(self, statement):
         super().__init__()
         self.tables = []
@@ -1226,6 +1219,9 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         #   as that tells us what the actual type of dataset we are working with is
 
         def find_workspace_name(obj) -> Optional[WorkspaceName]:
+            """
+            Finds the workspace name from an object
+            """
             if hasattr(obj, "workspace_name") and isinstance(
                 obj.workspace_name, WorkspaceName
             ):

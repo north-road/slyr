@@ -1,14 +1,7 @@
-#!/usr/bin/env python
+"""
+Label conversion
+"""
 
-# /***************************************************************************
-# labels.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,10 +10,6 @@
 #  *   (at your option) any later version.                                   *
 #  *                                                                         *
 #  ***************************************************************************/
-
-"""
-Label conversion
-"""
 
 from typing import Optional
 

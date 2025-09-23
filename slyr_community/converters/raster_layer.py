@@ -1,14 +1,7 @@
-#!/usr/bin/env python
+"""
+Raster layer conversion
+"""
 
-# /***************************************************************************
-# layers.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,10 +10,6 @@
 #  *   (at your option) any later version.                                   *
 #  *                                                                         *
 #  ***************************************************************************/
-
-"""
-Converts parsed symbol properties to QGIS Symbols
-"""
 
 #  pylint: disable=too-many-lines
 
@@ -196,9 +185,7 @@ class RasterLayerConverter:
         enabled_scale_range = bool(zoom_max or zoom_min)
         if zoom_max and zoom_min and zoom_min > zoom_max:
             # inconsistent scale range -- zoom_max should be bigger number than zoom_min
-            tmp = zoom_min
-            zoom_min = zoom_max
-            zoom_max = tmp
+            zoom_min, zoom_max = zoom_max, zoom_min
 
         # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max
         rl.setMinimumScale(zoom_max if enabled_scale_range else layer.stored_zoom_max)

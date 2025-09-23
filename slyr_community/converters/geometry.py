@@ -1,14 +1,7 @@
-#!/usr/bin/env python
+"""
+Geometry conversion
+"""
 
-# /***************************************************************************
-# geometry.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,8 +38,15 @@ from ..parser.objects.geometry_bag import GeometryBag
 
 
 class GeometryConverter:
+    """
+    Geometry converter
+    """
+
     @staticmethod
     def convert_geometry(geometry) -> QgsGeometry:
+        """
+        Converts a geometry to a QGIS geometry
+        """
         if isinstance(geometry, Point):
             return GeometryConverter.point_to_geometry(geometry)
         if isinstance(geometry, Multipoint):
@@ -74,6 +74,9 @@ class GeometryConverter:
 
     @staticmethod
     def geometry_bag_to_geometry(geometry: GeometryBag) -> QgsGeometry:
+        """
+        Converts a GeometryBag to a QGIS geometry
+        """
         geometries = [
             GeometryConverter.convert_geometry(g) for g in geometry.geometries
         ]
@@ -241,7 +244,7 @@ class GeometryConverter:
             compound_curve.curveAt(i) for i in range(compound_curve.nCurves())
         ]
         if all_curves and all(
-            [isinstance(curve, QgsCircularString) for curve in all_curves]
+            isinstance(curve, QgsCircularString) for curve in all_curves
         ):
             new_curve = all_curves[0].clone()
             for curve in all_curves[1:]:
@@ -372,7 +375,7 @@ class GeometryConverter:
             math.ceil(math.fabs(end_angle - start_angle) / max_angle_step_size_degrees)
             + 1,
         )
-        slice = (end_angle - start_angle) / (vertex_count - 1)
+        _slice = (end_angle - start_angle) / (vertex_count - 1)
         if is_full_circle:
             vertex_count -= 1
 
@@ -380,7 +383,7 @@ class GeometryConverter:
         last_y = 0
         total_add_points = 0
         for point in range(vertex_count):
-            angle_on_ellipse = math.radians(start_angle + point * slice)
+            angle_on_ellipse = math.radians(start_angle + point * _slice)
             ellipse_x = math.cos(angle_on_ellipse) * primary_radius
             ellipse_y = math.sin(angle_on_ellipse) * secondary_radius
 
@@ -391,11 +394,11 @@ class GeometryConverter:
 
                 if dist_from_last > max_interpolation_gap:
                     add_points = int(dist_from_last / max_interpolation_gap)
-                    add_slice = slice / (add_points + 1)
+                    add_slice = _slice / (add_points + 1)
                     for add_point in range(add_points):
                         add_angle_on_ellipse = math.radians(
                             start_angle
-                            + (point - 1) * slice
+                            + (point - 1) * _slice
                             + (add_point + 1) * add_slice
                         )
                         out_x.append(math.cos(add_angle_on_ellipse) * primary_radius)
@@ -477,13 +480,15 @@ class GeometryConverter:
                 angle_end_for_approx += 360
         else:
             if (
-                angle_end_for_approx > angle_start_for_approx
-                and angle_end_for_approx < angle_start_for_approx + 180
+                angle_start_for_approx
+                < angle_end_for_approx
+                < angle_start_for_approx + 180
             ):
                 angle_end_for_approx -= 360
             elif (
-                angle_end_for_approx < angle_start_for_approx
-                and angle_end_for_approx > angle_start_for_approx - 180
+                angle_start_for_approx
+                > angle_end_for_approx
+                > angle_start_for_approx - 180
             ):
                 angle_end_for_approx += 360
 

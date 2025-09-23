@@ -1,14 +1,7 @@
-#!/usr/bin/env python
+"""
+Connection conversion utilities
+"""
 
-# /***************************************************************************
-# color_ramp.py
-# ----------
-# Date                 : October 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,10 +10,6 @@
 #  *   (at your option) any later version.                                   *
 #  *                                                                         *
 #  ***************************************************************************/
-
-"""
-Connection conversion utilities
-"""
 
 import re
 from pathlib import Path
@@ -47,6 +36,9 @@ class FdlConnectionParser:
 
     @staticmethod
     def parse_fdl(fdl_contents: str) -> Dict:
+        """
+        Parses Fdl connection properties to a dictionary
+        """
         tokens = FdlConnectionParser.extract_tokens(fdl_contents)
         if not tokens:
             return {}

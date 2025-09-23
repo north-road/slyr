@@ -1,14 +1,7 @@
-#!/usr/bin/env python
+"""
+Annotation converter
+"""
 
-# /***************************************************************************
-# annotations.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,10 +34,17 @@ from ..parser.objects import (
 
 
 class AnnotationConverter:
+    """
+    Annotation converter
+    """
+
     @staticmethod
     def picture_element_to_path(
         element, context: Context
     ) -> Tuple[str, Optional[bool]]:
+        """
+        Converts a picture element to a picture path
+        """
         picture_path = element.picture_path
         if not element.picture and not picture_path:
             picture_path = element.element_name
