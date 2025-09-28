@@ -485,7 +485,7 @@ class ProjectConverter:
         theme_name = layer_to_layer_map.get(map_object)
 
         context.can_place_annotations_in_main_annotation_layer = not has_multiple_frames
-        if map.graphics_layer:
+        if map_object.graphics_layer:
             for g in map_object.graphics_layer.groups:
                 if g:
                     raise RequiresLicenseException(
