@@ -486,7 +486,7 @@ class ProjectConverter:
 
         context.can_place_annotations_in_main_annotation_layer = not has_multiple_frames
         if map.graphics_layer:
-            for g in map.graphics_layer.groups:
+            for g in map_object.graphics_layer.groups:
                 if g:
                     raise RequiresLicenseException(
                         "Converting annotations or graphics layers requires the licensed version of SLYR"
