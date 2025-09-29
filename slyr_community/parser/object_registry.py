@@ -5,7 +5,6 @@ A registry for all known objects which can be decoded from a Stream
 
 from typing import Optional
 from .exceptions import (
-    UnknownClsidException,
     CustomExtensionClsidException,
     RequiresLicenseException,
 )
