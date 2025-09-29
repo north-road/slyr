@@ -7,6 +7,7 @@ from typing import Optional
 from .exceptions import (
     UnknownClsidException,
     CustomExtensionClsidException,
+    RequiresLicenseException,
 )
 from .object import CustomObject
 
@@ -62,8 +63,10 @@ class ObjectRegistry:
                 ),
                 clsid="{}-{}-{}-{}-{}".format(*[hex(c)[2:] for c in clsid]),
             )
-        raise UnknownClsidException(
-            "Unknown CLSID: {}-{}-{}-{}-{}".format(*[hex(c)[2:] for c in clsid])
+        raise RequiresLicenseException(
+            "Objects with CLSID: {}-{}-{}-{}-{} cannot be read with the community edition of SLYR".format(
+                *[hex(c)[2:] for c in clsid]
+            )
         )
 
     def create_object_from_dict(self, source: Optional[dict]) -> Optional["Object"]:
