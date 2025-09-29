@@ -362,3 +362,11 @@ from .snap_guides import SnapGuides
 from .page_index import PageIndex
 from .locator_rectangle import LocatorRectangle
 from .mixed_font_grid_label import MixedFontGridLabel
+from .abridged_molodensky_transformation import AbridgedMolodenskyTransformation
+from .harn_transformation import HARNTransformation
+from .longitude_rotation_transformation import LongitudeRotationTransformation
+from .molodensky_badekas_transformation import MolodenskyBadekasTransformation
+from .molodensky_transformation import MolodenskyTransformation
+from .nadcon_transformation import NADCONTransformation
+from .ntv2_transformation import NTv2Transformation
+from .annotate_map import AnnotateMap

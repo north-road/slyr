@@ -186,5 +186,16 @@ class ConvertMxdToQgs(SlyrAlgorithm):
             if doc.original_path:
                 slyr_context.original_path = PureWindowsPath(doc.original_path).parent
 
-            p = ProjectConverter.convert_project(input_file, doc, context=slyr_context)
+            try:
+                p = ProjectConverter.convert_project(
+                    input_file, doc, context=slyr_context
+                )
+            except NotImplementedException as e:
+                feedback.reportError(str(e), fatalError=True)
+                return {}
+            except RequiresLicenseException as e:
+                raise QgsProcessingException(
+                    "{} - please see https://north-road.com/slyr/ for details".format(e)
+                ) from e
+
             return p
