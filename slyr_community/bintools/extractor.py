@@ -27,8 +27,8 @@ import os
 import subprocess
 import sys
 from ctypes import cdll
-from PyQt5.QtCore import QSettings
-from slyr_community.parser.exceptions import RequiresLicenseException
+from qgis.PyQt.QtCore import QSettings
+from ..parser.exceptions import RequiresLicenseException
 
 
 class MissingBinaryException(Exception):
@@ -47,42 +47,70 @@ class Extractor:
     # binary blobs too. So we overwrite all the default newline, delimiter,
     # and quotation characters with strings which are almost guaranteed
     # to never come up in an ESRI style blob ;)
-    __NEWLINE = b'arcgissuxxxxxxxxxx'
-    __DELIMITER = b'reallynooneneedstopayourexorbitantlicensingfeesjustembracethefossinstead'
-    __QUOTE = b'qgisisthebestweallknowthat'
+    __NEWLINE = b"arcgissuxxxxxxxxxx"
+    __DELIMITER = (
+        b"reallynooneneedstopayourexorbitantlicensingfeesjustembracethefossinstead"
+    )
+    __QUOTE = b"qgisisthebestweallknowthat"
 
-    COLORS = 'Colors'
-    FILL_SYMBOLS = 'Fill symbols'
-    LINE_SYMBOLS = 'Line symbols'
-    MARKER_SYMBOLS = 'Marker symbols'
-    COLOR_RAMPS = 'Color ramps'
-    LABELS = 'Labels'
-    MAPLEX_LABELS = 'Maplex Labels'
-    AREA_PATCHES = 'Area Patches'
-    LINE_PATCHES = 'Line Patches'
-    SCALE_BARS = 'Scale Bars'
-    LEGEND_ITEMS = 'Legend Items'
-    SCALE_TEXTS = 'Scale Texts'
-    BORDERS = 'Borders'
-    BACKGROUNDS = 'Backgrounds'
-    TEXT_SYMBOLS = 'Text Symbols'
-    NORTH_ARROWS = 'North Arrows'
-    SHADOWS = 'Shadows'
+    COLORS = "Colors"
+    FILL_SYMBOLS = "Fill symbols"
+    LINE_SYMBOLS = "Line symbols"
+    MARKER_SYMBOLS = "Marker symbols"
+    COLOR_RAMPS = "Color ramps"
+    LABELS = "Labels"
+    MAPLEX_LABELS = "Maplex Labels"
+    AREA_PATCHES = "Area Patches"
+    LINE_PATCHES = "Line Patches"
+    SCALE_BARS = "Scale Bars"
+    LEGEND_ITEMS = "Legend Items"
+    SCALE_TEXTS = "Scale Texts"
+    BORDERS = "Borders"
+    BACKGROUNDS = "Backgrounds"
+    TEXT_SYMBOLS = "Text Symbols"
+    NORTH_ARROWS = "North Arrows"
+    SHADOWS = "Shadows"
+    REPRESENTATION_RULES = "Representation Rules"
+    GRIDS = "Grid"
+    MESH_SYMBOLS = "Mesh Symbol"
+    TABLE_FRAME = "Table Frame"
+    MAP_SURROUNDS = "Map Surround"
 
-    NAME = 'NAME'
-    TAGS = 'TAGS'
-    CATEGORY = 'CATEGORY'
-    ID = 'ID'
-    BLOB = 'BLOB'
+    OBJECT_TYPE_NAMES = {
+        COLORS: "Colors",
+        FILL_SYMBOLS: "Fill symbols",
+        LINE_SYMBOLS: "Line symbols",
+        MARKER_SYMBOLS: "Marker symbols",
+        COLOR_RAMPS: "Color ramps",
+        TEXT_SYMBOLS: "Text formats",
+        LABELS: "Labels",
+        MAPLEX_LABELS: "Maplex labels",
+        LINE_PATCHES: "Line patches",
+        AREA_PATCHES: "Area patches",
+        SCALE_BARS: "Scale bars",
+        LEGEND_ITEMS: "Legend items",
+        SCALE_TEXTS: "Scale texts",
+        BORDERS: "Borders",
+        BACKGROUNDS: "Backgrounds",
+        NORTH_ARROWS: "North arrows",
+        SHADOWS: "Shadows",
+        REPRESENTATION_RULES: "Representation rules",
+    }
 
-    MDB_EXPORT_BINARY = 'mdb-export'
+    NAME = "NAME"
+    TAGS = "TAGS"
+    CATEGORY = "CATEGORY"
+    ID = "ID"
+    BLOB = "BLOB"
+
+    MDB_EXPORT_BINARY = "mdb-export"
 
     @staticmethod
     def is_windows() -> bool:
         """
         Returns True if the plugin is running on Windows
         """
-        return os.name == 'nt'
+        return os.name == "nt"
 
     @staticmethod
     def get_process_startup_info():
@@ -112,9 +140,9 @@ class Extractor:
         """
         kw = {}
         if Extractor.is_windows():
-            kw['startupinfo'] = Extractor.get_process_startup_info()
+            kw["startupinfo"] = Extractor.get_process_startup_info()
             if sys.version_info >= (3, 6):
-                kw['encoding'] = "cp{}".format(Extractor.get_windows_code_page())
+                kw["encoding"] = "cp{}".format(Extractor.get_windows_code_page())
         return kw
 
     @staticmethod
@@ -124,11 +152,11 @@ class Extractor:
         :param executable: mdb tools executable name
         :return: path for executable
         """
-        mdbtools_path = QSettings().value('/plugins/slyr/mdbtools_path')
+        mdbtools_path = QSettings().value("/plugins/slyr/mdbtools_path")
         if mdbtools_path:
             return os.path.join(mdbtools_path, executable)
         elif Extractor.is_windows():
-            return os.path.join(os.path.dirname(__file__), 'bin', executable)
+            return os.path.join(os.path.dirname(__file__), "bin", executable)
         return executable
 
     @staticmethod
@@ -140,14 +168,16 @@ class Extractor:
 
         command = [Extractor.get_mdb_tools_binary_path(Extractor.MDB_EXPORT_BINARY)]
         try:
-            with subprocess.Popen(command,
-                                  stdout=subprocess.PIPE,
-                                  stdin=subprocess.DEVNULL,
-                                  stderr=subprocess.STDOUT,
-                                  universal_newlines=True,
-                                  **Extractor.get_process_keywords()) as proc:
+            with subprocess.Popen(
+                command,
+                stdout=subprocess.PIPE,
+                stdin=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
+                **Extractor.get_process_keywords(),
+            ) as proc:
                 for line in proc.stdout:
-                    if 'row-delimiter' in line:
+                    if "row-delimiter" in line:
                         return True
         except FileNotFoundError:
             pass
@@ -159,10 +189,10 @@ class Extractor:
         """
         Removes the custom quotation character from start/end of values
         """
-        if val[:len(Extractor.__QUOTE)] == Extractor.__QUOTE:
-            val = val[len(Extractor.__QUOTE):]
-        if val[-len(Extractor.__QUOTE):] == Extractor.__QUOTE:
-            val = val[:-len(Extractor.__QUOTE)]
+        if val[: len(Extractor.__QUOTE)] == Extractor.__QUOTE:
+            val = val[len(Extractor.__QUOTE) :]
+        if val[-len(Extractor.__QUOTE) :] == Extractor.__QUOTE:
+            val = val[: -len(Extractor.__QUOTE)]
         return val
 
     @staticmethod
@@ -174,9 +204,9 @@ class Extractor:
         """
         val = Extractor._remove_quote(val)
         try:
-            val = val.decode('UTF-8')
+            val = val.decode("UTF-8")
         except UnicodeDecodeError:
-            val = val.decode('latin-1')
+            val = val.decode("latin-1")
         return val
 
     @staticmethod
@@ -185,7 +215,7 @@ class Extractor:
         Tries to convert a string value to a nicer type
         """
         val = Extractor._extract_text(val)
-        if val == '':
+        if val == "":
             return None
 
         try:
@@ -206,7 +236,11 @@ class Extractor:
         :param table_name: table name to extract
         :return: list of row values (first line is header)
         """
-        raise RequiresLicenseException('Converting {} document requires a licensed version of SLYR'.format(file_path))
+        raise RequiresLicenseException(
+            "Converting {} document requires a licensed version of SLYR".format(
+                file_path
+            )
+        )
 
     @staticmethod
     def extract_styles(file_path: str, symbol_type: str):  # pylint: disable=too-many-locals,too-many-branches,too-many-statements
@@ -218,25 +252,33 @@ class Extractor:
         """
         binary = Extractor.get_mdb_tools_binary_path(Extractor.MDB_EXPORT_BINARY)
 
-        export_args = [binary,
-                       '-q',
-                       '{}'.format(Extractor.__QUOTE.decode('ASCII')),
-                       '-R',
-                       '{}'.format(Extractor.__NEWLINE.decode('ASCII')),
-                       '-d',
-                       '{}'.format(Extractor.__DELIMITER.decode('ASCII')),
-                       '-b',
-                       'raw',
-                       file_path,
-                       symbol_type]
+        export_args = [
+            binary,
+            "-q",
+            "{}".format(Extractor.__QUOTE.decode("ASCII")),
+            "-R",
+            "{}".format(Extractor.__NEWLINE.decode("ASCII")),
+            "-d",
+            "{}".format(Extractor.__DELIMITER.decode("ASCII")),
+            "-b",
+            "raw",
+            file_path,
+            symbol_type,
+        ]
 
         CREATE_NO_WINDOW = 0x08000000
         try:
-            result = subprocess.run(export_args, stdout=subprocess.PIPE,  # pylint: disable=subprocess-run-check
-                                    creationflags=CREATE_NO_WINDOW)
+            result = subprocess.run(
+                export_args,
+                stdout=subprocess.PIPE,
+                creationflags=CREATE_NO_WINDOW,
+                check=False,
+            )
         except ValueError:
             try:
-                result = subprocess.run(export_args, stdout=subprocess.PIPE)  # pylint: disable=subprocess-run-check
+                result = subprocess.run(
+                    export_args, stdout=subprocess.PIPE, check=False
+                )
             except FileNotFoundError as e:
                 raise MissingBinaryException from e
         except FileNotFoundError as e:
@@ -256,16 +298,16 @@ class Extractor:
             if headers is None:
                 headers = r.split(Extractor.__DELIMITER)
                 for idx, header in enumerate(headers):
-                    header = header.decode('utf-8')
-                    if header.lower().strip() == 'name':
+                    header = header.decode("utf-8")
+                    if header.lower().strip() == "name":
                         name_idx = idx
-                    elif header.lower().strip() == 'category':
+                    elif header.lower().strip() == "category":
                         category_idx = idx
-                    elif header.lower().strip() == 'object':
+                    elif header.lower().strip() == "object":
                         blob_idx = idx
-                    elif header.lower().strip() == 'tags':
+                    elif header.lower().strip() == "tags":
                         tags_idx = idx
-                    elif header.lower().strip() == 'id':
+                    elif header.lower().strip() == "id":
                         symbol_id_idx = idx
                 continue
 
@@ -288,14 +330,14 @@ class Extractor:
             if Extractor.is_windows():
                 # on windows, mdbtools does a weird thing and replaces all 0a bytes with 0a0d. Wonderful wonderful
                 # Windows new endings come round to bite us again
-                blob = blob.replace(b'\r\n', b'\n')
+                blob = blob.replace(b"\r\n", b"\n")
 
             symbol = {
                 Extractor.NAME: Extractor._extract_text(name),
                 Extractor.CATEGORY: Extractor._extract_text(category),
-                Extractor.TAGS: Extractor._extract_text(tags) if tags else '',
+                Extractor.TAGS: Extractor._extract_text(tags) if tags else "",
                 Extractor.ID: Extractor._extract_text(symbol_id),
-                Extractor.BLOB: blob
+                Extractor.BLOB: blob,
             }
             raw_symbols.append(symbol)
 

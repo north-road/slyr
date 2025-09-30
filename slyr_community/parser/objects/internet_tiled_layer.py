@@ -15,7 +15,7 @@ class InternetTiledLayer(Object):
 
     @staticmethod
     def cls_id():
-        return 'a4badc1b-ebed-4a29-99dc-c6334de352ad'
+        return "a4badc1b-ebed-4a29-99dc-c6334de352ad"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -25,11 +25,12 @@ class InternetTiledLayer(Object):
         return [2]
 
     def read(self, stream: Stream, version):
-        raise RequiresLicenseException('Converting internet tiled layers requires the licensed version of SLYR')
+        raise RequiresLicenseException(
+            "Converting internet tiled layers requires the licensed version of SLYR"
+        )
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}
 
 
 class MSVirtualEarthLayerProvider(Object):
@@ -39,7 +40,7 @@ class MSVirtualEarthLayerProvider(Object):
 
     @staticmethod
     def cls_id():
-        return '1ce3ac83-26e0-42cd-af4d-213b72ceb864'
+        return "1ce3ac83-26e0-42cd-af4d-213b72ceb864"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -49,11 +50,12 @@ class MSVirtualEarthLayerProvider(Object):
         return [1, 2, 4]
 
     def read(self, stream: Stream, version):
-        raise RequiresLicenseException('Converting internet tiled layers requires the licensed version of SLYR')
+        raise RequiresLicenseException(
+            "Converting internet tiled layers requires the licensed version of SLYR"
+        )
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}
 
 
 class TileCacheInfo(Object):
@@ -63,7 +65,7 @@ class TileCacheInfo(Object):
 
     @staticmethod
     def cls_id():
-        return '01312017-7d38-4d2b-91a0-05c548ade7f3'
+        return "01312017-7d38-4d2b-91a0-05c548ade7f3"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -73,11 +75,12 @@ class TileCacheInfo(Object):
         return [2, 3]
 
     def read(self, stream: Stream, version):
-        raise RequiresLicenseException('Converting internet tiled layers requires the licensed version of SLYR')
+        raise RequiresLicenseException(
+            "Converting internet tiled layers requires the licensed version of SLYR"
+        )
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}
 
 
 class OpenStreetMapProvider(Object):
@@ -87,7 +90,7 @@ class OpenStreetMapProvider(Object):
 
     @staticmethod
     def cls_id():
-        return '351eeb0c-bcb9-4064-9e61-1219169af633'
+        return "351eeb0c-bcb9-4064-9e61-1219169af633"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -97,8 +100,9 @@ class OpenStreetMapProvider(Object):
         return [1, 2]
 
     def read(self, stream: Stream, version):
-        raise RequiresLicenseException('Converting internet tiled layers requires the licensed version of SLYR')
+        raise RequiresLicenseException(
+            "Converting internet tiled layers requires the licensed version of SLYR"
+        )
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}

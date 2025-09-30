@@ -28,12 +28,9 @@ class MultiLayerSymbol(Object):
         return res
 
     def to_dict(self):  # pylint: disable=method-hidden
-        out = {
-            'levels': [],
-            'symbol_level': self.symbol_level
-        }
+        out = {"levels": [], "symbol_level": self.symbol_level}
         for layer in self.layers:
-            out['levels'].append(layer.to_dict())
+            out["levels"].append(layer.to_dict())
         return out
 
 
@@ -44,7 +41,7 @@ class MultiLayerLineSymbol(MultiLayerSymbol):
 
     @staticmethod
     def cls_id():
-        return '7914e5fa-c892-11d0-8bb6-080009ee4e41'
+        return "7914e5fa-c892-11d0-8bb6-080009ee4e41"
 
     @staticmethod
     def compatible_versions():
@@ -53,9 +50,11 @@ class MultiLayerLineSymbol(MultiLayerSymbol):
     def read(self, stream: Stream, version):
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
 
-        number_layers = stream.read_uint('layer count')
+        number_layers = stream.read_uint("layer count")
         for i in range(number_layers):
-            layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
+            layer = stream.read_object(
+                "symbol layer {}/{}".format(i + 1, number_layers)
+            )
             self.layers.extend([layer])
 
         for layer in self.layers:
@@ -75,7 +74,7 @@ class MultiLayerFillSymbol(MultiLayerSymbol):
 
     @staticmethod
     def cls_id():
-        return '7914e604-c892-11d0-8bb6-080009ee4e41'
+        return "7914e604-c892-11d0-8bb6-080009ee4e41"
 
     @staticmethod
     def compatible_versions():
@@ -84,11 +83,13 @@ class MultiLayerFillSymbol(MultiLayerSymbol):
     def read(self, stream: Stream, version):
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
 
-        _ = stream.read_object('unused color')
+        _ = stream.read_object("unused color")
 
-        number_layers = stream.read_int('layers')
+        number_layers = stream.read_int("layers")
         for i in range(number_layers):
-            layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
+            layer = stream.read_object(
+                "symbol layer {}/{}".format(i + 1, number_layers)
+            )
             self.layers.extend([layer])
 
         for layer in self.layers:
@@ -108,7 +109,7 @@ class MultiLayerMarkerSymbol(MultiLayerSymbol):
 
     @staticmethod
     def cls_id():
-        return '7914e5ff-c892-11d0-8bb6-080009ee4e41'
+        return "7914e5ff-c892-11d0-8bb6-080009ee4e41"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -122,9 +123,11 @@ class MultiLayerMarkerSymbol(MultiLayerSymbol):
 
     def to_dict(self):  # pylint: disable=method-hidden
         out = super().to_dict()
-        out['halo'] = self.halo
-        out['halo_size'] = self.halo_size
-        out['halo_symbol'] = self.halo_symbol.to_dict() if self.halo_symbol is not None else None
+        out["halo"] = self.halo
+        out["halo_size"] = self.halo_size
+        out["halo_symbol"] = (
+            self.halo_symbol.to_dict() if self.halo_symbol is not None else None
+        )
         return out
 
     def children(self):
@@ -139,21 +142,23 @@ class MultiLayerMarkerSymbol(MultiLayerSymbol):
         # consume unused properties - MultiLayerMarkerSymbol implements IMarkerSymbol
         # so that the size/offsets/angle are required properties. But they aren't used
         # or exposed anywhere for MultiLayerMarkerSymbol
-        _ = stream.read_double('unused marker size')
-        _ = stream.read_double('unused marker x/y/offset or angle')
-        _ = stream.read_double('unused marker x/y/offset or angle')
-        _ = stream.read_double('unused marker x/y/offset or angle')
-        _ = stream.read_object('unused color')
+        _ = stream.read_double("unused marker size")
+        _ = stream.read_double("unused marker x/y/offset or angle")
+        _ = stream.read_double("unused marker x/y/offset or angle")
+        _ = stream.read_double("unused marker x/y/offset or angle")
+        _ = stream.read_object("unused color")
 
         self.halo = stream.read_int() == 1
-        self.halo_size = stream.read_double('halo size')
+        self.halo_size = stream.read_double("halo size")
 
-        self.halo_symbol = stream.read_object('halo')
+        self.halo_symbol = stream.read_object("halo")
 
         # useful stuff
-        number_layers = stream.read_int('layers')
+        number_layers = stream.read_int("layers")
         for i in range(number_layers):
-            layer = stream.read_object('symbol layer {}/{}'.format(i + 1, number_layers))
+            layer = stream.read_object(
+                "symbol layer {}/{}".format(i + 1, number_layers)
+            )
             self.layers.extend([layer])
 
         for layer in self.layers:
@@ -162,8 +167,8 @@ class MultiLayerMarkerSymbol(MultiLayerSymbol):
             layer.read_locked(stream)
 
         if version > 1:
-            _ = stream.read_double('unknown size')
-            _ = stream.read_double('unknown size')
+            _ = stream.read_double("unknown size")
+            _ = stream.read_double("unknown size")
 
         if version >= 3:
             for layer in self.layers:

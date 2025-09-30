@@ -19,54 +19,74 @@ class Segment:
     SEGMENT_BEZIER = 4
     SEGMENT_ELLIPTICAL_ARC = 5
 
+    SEGMENT_ARC_INTERIOR_POINT = 11
+    SEGMENT_ARC_CENTER_POINT = 12
+
+    def __repr__(self):
+        return "<Segment: {} from {}>".format(
+            self.segment_type_to_string(self.segment_type), self.start_point_index
+        )
+
     @staticmethod
     def segment_type_to_string(segment_type):
         """
         Converts a segment type to string
         """
         if segment_type == Segment.SEGMENT_ARC:
-            return 'arc'
-        elif segment_type == Segment.SEGMENT_LINE:
-            return 'line'
-        elif segment_type == Segment.SEGMENT_SPIRAL:
-            return 'spiral'
-        elif segment_type == Segment.SEGMENT_BEZIER:
-            return 'bezier'
-        elif segment_type == Segment.SEGMENT_ELLIPTICAL_ARC:
-            return 'elliptical_arc'
+            return "arc"
+        if segment_type == Segment.SEGMENT_ARC_INTERIOR_POINT:
+            return "arc interior point"
+        if segment_type == Segment.SEGMENT_ARC_CENTER_POINT:
+            return "arc center point"
+        if segment_type == Segment.SEGMENT_LINE:
+            return "line"
+        if segment_type == Segment.SEGMENT_SPIRAL:
+            return "spiral"
+        if segment_type == Segment.SEGMENT_BEZIER:
+            return "bezier"
+        if segment_type == Segment.SEGMENT_ELLIPTICAL_ARC:
+            return "elliptical_arc"
         else:
             assert False
 
-    def __init__(self, segment_type, **kwargs):
+    def __init__(self, start_point_index: int, segment_type, **kwargs):
+        self.start_point_index = start_point_index
         self.segment_type = segment_type
 
-        self.vertex = kwargs.get('vertex', None)
+        self.vertex = kwargs.get("vertex", None)
+        self.is_ccw = kwargs.get("is_ccw", False)
 
         # for bezier curves
-        self.cp1 = kwargs.get('cp1', None)
-        self.cp2 = kwargs.get('cp2', None)
+        self.cp1 = kwargs.get("cp1", None)
+        self.cp2 = kwargs.get("cp2", None)
 
         # for elliptical arcs
-        self.center = kwargs.get('center', None)
-        self.radius_major_axis = kwargs.get('radius_major_axis', None)
-        self.minor_major_ratio = kwargs.get('minor_major_ratio', None)
-        self.rotation = kwargs.get('rotation', None)
+        self.center = kwargs.get("center", None)
+        self.radius_major_axis = kwargs.get("radius_major_axis", None)
+        self.minor_major_ratio = kwargs.get("minor_major_ratio", None)
+        self.rotation = kwargs.get("rotation", None)
 
     def to_dict(self):  # pylint: disable=method-hidden,missing-function-docstring
         res = {
-            'type': Segment.segment_type_to_string(self.segment_type),
+            "type": Segment.segment_type_to_string(self.segment_type),
+            "start_point_index": self.start_point_index,
         }
 
         if self.segment_type == Segment.SEGMENT_ARC:
-            res['vertex'] = self.vertex
+            res["vertex"] = self.vertex
+        elif self.segment_type == Segment.SEGMENT_ARC_INTERIOR_POINT:
+            res["interior_point"] = self.vertex
+            res["is_ccw"] = self.is_ccw
+        elif self.segment_type == Segment.SEGMENT_ARC_CENTER_POINT:
+            res["center_point"] = self.vertex
         elif self.segment_type == Segment.SEGMENT_BEZIER:
-            res['cp1'] = self.cp1
-            res['cp2'] = self.cp2
+            res["cp1"] = self.cp1
+            res["cp2"] = self.cp2
         elif self.segment_type == Segment.SEGMENT_ELLIPTICAL_ARC:
-            res['center'] = self.center
-            res['radius_major_axis'] = self.radius_major_axis
-            res['minor_major_ratio'] = self.minor_major_ratio
-            res['rotation'] = self.rotation
+            res["center"] = self.center
+            res["radius_major_axis"] = self.radius_major_axis
+            res["minor_major_ratio"] = self.minor_major_ratio
+            res["rotation"] = self.rotation
 
         return res
 
@@ -98,26 +118,26 @@ class Geometry(Object):
     GEOMETRY_TRIANGLES = 22
 
     GEOMETRY_TYPE_TO_STRING = {
-        GEOMETRY_NULL: 'null',
-        GEOMETRY_POINT: 'point',
-        GEOMETRY_MULTIPOINT: 'multipoint',
-        GEOMETRY_POLYLINE: 'polyline',
-        GEOMETRY_POLYGON: 'polygon',
-        GEOMETRY_ENVELOPE: 'envelope',
-        GEOMETRY_PATH: 'path',
-        GEOMETRY_ANY: 'any',
-        GEOMETRY_MULTIPATCH: 'multipatch',
-        GEOMETRY_RING: 'ring',
-        GEOMETRY_LINE: 'line',
-        GEOMETRY_CIRCULAR_ARC: 'circular_arc',
-        GEOMETRY_BEZIER_CURVE: 'bezier_curve',
-        GEOMETRY_ELLIPTIC_ARC: 'elliptic_arc',
-        GEOMETRY_BAG: 'bag',
-        GEOMETRY_TRIANGLE_STRIP: 'triangle_strip',
-        GEOMETRY_TRIANGLE_FAN: 'triangle_fan',
-        GEOMETRY_RAY: 'ray',
-        GEOMETRY_SPHERE: 'sphere',
-        GEOMETRY_TRIANGLES: 'triangles'
+        GEOMETRY_NULL: "null",
+        GEOMETRY_POINT: "point",
+        GEOMETRY_MULTIPOINT: "multipoint",
+        GEOMETRY_POLYLINE: "polyline",
+        GEOMETRY_POLYGON: "polygon",
+        GEOMETRY_ENVELOPE: "envelope",
+        GEOMETRY_PATH: "path",
+        GEOMETRY_ANY: "any",
+        GEOMETRY_MULTIPATCH: "multipatch",
+        GEOMETRY_RING: "ring",
+        GEOMETRY_LINE: "line",
+        GEOMETRY_CIRCULAR_ARC: "circular_arc",
+        GEOMETRY_BEZIER_CURVE: "bezier_curve",
+        GEOMETRY_ELLIPTIC_ARC: "elliptic_arc",
+        GEOMETRY_BAG: "bag",
+        GEOMETRY_TRIANGLE_STRIP: "triangle_strip",
+        GEOMETRY_TRIANGLE_FAN: "triangle_fan",
+        GEOMETRY_RAY: "ray",
+        GEOMETRY_SPHERE: "sphere",
+        GEOMETRY_TRIANGLES: "triangles",
     }
 
     @staticmethod
@@ -132,7 +152,12 @@ class Geometry(Object):
         """
         Finds a geometry type by string
         """
-        return [k for k, v in Geometry.GEOMETRY_TYPE_TO_STRING.items() if v == string][0]
+        try:
+            return [
+                k for k, v in Geometry.GEOMETRY_TYPE_TO_STRING.items() if v == string
+            ][0]
+        except IndexError:
+            assert False, "Could not convert geometry type string {}".format(string)
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -147,56 +172,107 @@ class Geometry(Object):
         """
         Reads geometry curve points
         """
-        count = stream.read_int('curve point count')
+        segment_modifiers = stream.read_int("curved data segment modifiers")
         curve_points = []
 
-        for i in range(count):
-            stream.read_int('associated index {}'.format(i + 1))  # , expected=i)
-            segment_type = stream.read_int('segment type')
+        for i in range(segment_modifiers):
+            start_point_index = stream.read_int(
+                "curve segment {} start point index".format(i + 1)
+            )
+            segment_type = stream.read_int("curved segment {} type".format(i + 1))
 
             if segment_type == Segment.SEGMENT_ELLIPTICAL_ARC:
-                x = stream.read_double('center x')
-                y = stream.read_double('center y')
-                rotation = stream.read_double('rotation radians counterclockwise')
-                radius_major_axis = stream.read_double('radius_major_axis')
-                minor_major_ratio = stream.read_double('minor_major_ratio')
+                stream.log("Reading elliptical arc")
+                x = stream.read_double("center x")
+                y = stream.read_double("center y")
+                rotation = stream.read_double("rotation radians counterclockwise")
+                radius_major_axis = stream.read_double("radius_major_axis")
+                minor_major_ratio = stream.read_double("minor_major_ratio")
 
                 curve_points.append(
-                    Segment(Segment.SEGMENT_ELLIPTICAL_ARC, center=[x, y], radius_major_axis=radius_major_axis,
-                            minor_major_ratio=minor_major_ratio, rotation=rotation))
+                    Segment(
+                        start_point_index,
+                        Segment.SEGMENT_ELLIPTICAL_ARC,
+                        center=[x, y],
+                        radius_major_axis=radius_major_axis,
+                        minor_major_ratio=minor_major_ratio,
+                        rotation=rotation,
+                    )
+                )
 
-                stream.read_int('unknown', expected=(24578, 24638))
+                stream.read_int("unknown", expected=(24578, 24638))
 
             elif segment_type == Segment.SEGMENT_ARC:
+                stream.log("Reading circular arc")
                 # circular arc
-                x = stream.read_double('x')
-                y = stream.read_double('y')
-                curve_points.append(Segment(Segment.SEGMENT_ARC, vertex=[x, y]))
+                v1 = stream.read_double("v1")
+                v2 = stream.read_double("v2")
 
-                stream.read_int('unknown', expected=390)
+                bits = stream.read_int("bits")
+                if bits & (1 << 7):
+                    # "interior point"
+                    stream.log("Circular arc by interior point")
+                    curve_points.append(
+                        Segment(
+                            start_point_index,
+                            Segment.SEGMENT_ARC_INTERIOR_POINT,
+                            vertex=[v1, v2],
+                        )
+                    )
+                elif bits & (1 << 0):
+                    assert False  # "arc empty"?
+                elif bits & (1 << 5):
+                    stream.log("Straight segment")
+                    curve_points.append(
+                        Segment(
+                            start_point_index, Segment.SEGMENT_LINE, vertex=[v1, v2]
+                        )
+                    )
+                elif bits & (1 << 6):
+                    assert False  # "is point: CP, SP, EP are identical; angles are stored instead of CP"?
+                else:
+                    stream.log("Circular arc by center point")
+                    curve_points.append(
+                        Segment(
+                            start_point_index,
+                            Segment.SEGMENT_ARC_CENTER_POINT,
+                            vertex=[v1, v2],
+                            is_ccw=bool(bits & (1 << 3)),
+                        )
+                    )
 
             elif segment_type == Segment.SEGMENT_BEZIER:
-                x1 = stream.read_double('x1')
-                y1 = stream.read_double('y1')
-                x2 = stream.read_double('x2')
-                y2 = stream.read_double('y2')
-                curve_points.append(Segment(Segment.SEGMENT_BEZIER, cp1=[x1, y1], cp2=[x2, y2]))
+                stream.log("Reading bezier curve")
+                x1 = stream.read_double("x1")
+                y1 = stream.read_double("y1")
+                x2 = stream.read_double("x2")
+                y2 = stream.read_double("y2")
+                curve_points.append(
+                    Segment(
+                        start_point_index,
+                        Segment.SEGMENT_BEZIER,
+                        cp1=[x1, y1],
+                        cp2=[x2, y2],
+                    )
+                )
 
             elif segment_type == Segment.SEGMENT_LINE:
-                raise NotImplementedException('Cannot read line segment types')
+                raise NotImplementedException("Cannot read line segment types")
             elif segment_type == Segment.SEGMENT_SPIRAL:
-                raise NotImplementedException('Cannot read spiral segment types')
+                raise NotImplementedException("Cannot read spiral segment types")
             else:
-                raise UnreadableSymbolException('Unknown segment type: {}'.format(segment_type))
+                raise UnreadableSymbolException(
+                    "Unknown segment type: {}".format(segment_type)
+                )
 
         self.segments = curve_points
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {
-            'crs': self.crs.to_dict() if self.crs else None,
-            'x_min': self.x_min,
-            'y_min': self.y_min,
-            'x_max': self.x_max,
-            'y_max': self.y_max,
-            'segments': [s.to_dict() for s in self.segments]
+            "crs": self.crs.to_dict() if self.crs else None,
+            "x_min": self.x_min,
+            "y_min": self.y_min,
+            "x_max": self.x_max,
+            "y_max": self.y_max,
+            "segments": [s.to_dict() for s in self.segments],
         }

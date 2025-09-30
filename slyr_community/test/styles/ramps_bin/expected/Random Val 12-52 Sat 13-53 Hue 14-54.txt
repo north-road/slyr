@@ -1,6 +1,7 @@
 {'hue_range': [14, 54],
  'same_everywhere': False,
  'saturation_range': [13, 53],
+ 'stream_offset': '0x0',
  'type': 'RandomColorRamp',
  'value_range': [12, 52],
  'version': 1}

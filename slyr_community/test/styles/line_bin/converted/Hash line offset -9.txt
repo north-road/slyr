@@ -10,6 +10,6 @@
   'subsymbol': [{'capstyle': 'round',
                  'class': 'QgsSimpleLineSymbolLayer',
                  'joinstyle': 'round',
-                 'line_color': '255,0,0,255',
+                 'line_color': '255,0,0,255,rgb:1,0,0,1',
                  'line_width': '1',
                  'line_width_unit': 'Point'}]}]

@@ -14,7 +14,7 @@ class HotlinkPythonEngine(Object):
 
     @staticmethod
     def cls_id():
-        return 'ff7d30a3-38fa-67d1-780a-bebb61c0e599'
+        return "ff7d30a3-38fa-67d1-780a-bebb61c0e599"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -24,8 +24,7 @@ class HotlinkPythonEngine(Object):
         return [2]
 
     def read(self, stream: Stream, version):
-        assert stream.read(2) == b'\xff\xff'
+        assert stream.read(2) == b"\xff\xff"
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}

@@ -15,7 +15,7 @@ class DimensionShape(Object):
 
     @staticmethod
     def cls_id():
-        return 'd27a074a-10ad-11d4-80d7-00c04f601565'
+        return "d27a074a-10ad-11d4-80d7-00c04f601565"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -24,5 +24,4 @@ class DimensionShape(Object):
         pass
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}

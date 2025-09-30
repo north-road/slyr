@@ -1,11 +1,22 @@
 [{'class': 'QgsSVGFillSymbolLayer',
   'pattern_width_unit': 'Point',
   'subsymbol': [{'class': 'QgsSimpleLineSymbolLayer', 'line_style': 'no'}],
-  'svgFile': 'base64:PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnIHN0YW5kYWxvbmU9J25vJz8+CjxzdmcgaWQ9InN2ZzciIHZlcnNpb249IjEuMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgPGRlZnMgaWQ9ImRlZnMzIj4KICAgIDxwYXR0ZXJuIGlkPSJFTUZoYmFzZXBhdHRlcm4iIHg9IjAiIHk9IjAiIGhlaWdodD0iNiIgd2lkdGg9IjYiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiLz4KICA8L2RlZnM+CiAgPGltYWdlIGlkPSJpbWFnZTUiIHg9IjAiIHk9Ii02MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSIgaGVpZ2h0PSI2MCIgd2lkdGg9Ijc2IiB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUV3QUFBQThDQUlBQUFCRDE4dTlBQUFDMmtsRVFWUm9nYzFhUzNiRElBd2tlYjZEYzdOY3NibVpjNHAwa1Q3czh0Tm9OTVNaWFZNWVNTQWtJWHg1dlY0SndPM3hQUDY1M1Zkd2NHK2tpeERYcmNsekJZbUt5WVdLNEw4RzRHYUJFMUVqVTByYmZUWFhHOStmeU5aNU9SMUdaaUxFV3BEcStDZTltU1l1NEprRThWYlV1d1MxZVNCRG5qZ2VMell5QW5sc3kxZ2lhaUZ3YWRPY1dNL3ljbDdXbjgwcjNnVWlWZlM4bC9QcTIrTTVNaEwwZUVTTVY3TjZWZ0VYeWJYSmVIczhoYkdPaThieDlKTk5XT3FmRUVaaWM3Yjc2bDI0cHBjUzY5VU5QS29nRVFleE9zWDRmOFZBVHZTbXJtQkZPZ09FaUw4OFNRZjZnZUJlNk9kMm04dWk3MkdhUEpsRnlndjNNVnZQMU9MM2EvTlhHa2VlSEtJbHNUcWlZYU5BRHlwa2x0M0MvQVR5N081S0JMRWVFTy85SkMxZm9CTnBROWdOY01GOW42d3g5Vkl2Z1dBbk03amkyeldkUTlkSTBCdHBEd1JUcXhmTmhHOGJhV29RS1NUa3BqWVgzWEVta2RCUGxPQjFGUms1cTZHV0pNN0xxVGlwcWZYbXNRTVBjamhWWHFmS01RV1B1UDBSMUhMU1lnbmNkU3pNNVhpU2ptNHQ4Vzhua3pSTkRUWUVyNU9Jb04zMG83MlJWWEJGTG40OWtRV0l5Z0VQQ3NWbGFCa01EU0plOGZjNmtWNlNKZExTNUVUT29CMkwyRk9JNjFhQkg1aGdZK1ZJUWs5bm9tdmRwT1ZrNHdoR1hVMW5RTnVNbG9QWlNkZWlGb0VPbktWZHRkM0lyQTNZRHVma0lhcm5NU3BUQmUrVFptangxbnJ5VUM4Mk1vays5L0FXZytNQmtKRm1CRWNNSVBhSGV5Q3E0YmhxbVpxWm1WYmJLK2xoVkF5QUFvUUZyYVQ2UVc1bkRuZnRVZEJxZmViZWsvREE0M3FpUFF1OVkrK0lyc2pCT04zbXBwMk85Z2QrK3M4MVZka1pNRzArMGRSMkl5dXB1OWNjcC94RkNHMUpFcVFGNG1jaGFLMjRXeWY1SG9BWU1FYmptNEZnSHF1ZlNyMzNldmtiYnNOZGhaY0FiKzArTG5wN241T1lHaloyVXZ1dUxyejcwbFR0TXpucG1ZbCtDNXA0bjlRVzA1S0dOY2VqZWRYNmN0Z3B4R1hiZDdidHhDL04zcEdmd2NSaTRKTjJqcGVWdVUrcVh0MVVwOTBVOXdzYXIzSExRejJNaHdBQUFBQkpSVTVFcmtKZ2dnPT0iIHRyYW5zZm9ybT0ic2NhbGUoMSwtMSkiLz4KPC9zdmc+Cg==',
+  'svgFile': '<svg xmlns="http://www.w3.org/2000/svg" '
+             'xmlns:svg="http://www.w3.org/2000/svg" '
+             'xmlns:xlink="http://www.w3.org/1999/xlink" id="svg1" '
+             'version="1.0">\n'
+             ' <defs id="defs1">\n'
+             '  <pattern height="6" id="EMFhbasepattern" '
+             'patternUnits="userSpaceOnUse" width="6" x="0" y="0"></pattern>\n'
+             ' </defs>\n'
+             ' <image height="60" id="image1" preserveAspectRatio="none" '
+             'transform="scale(1,-1)" width="76" x="0" y="-60" '
+             'xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAAA8CAIAAABD18u9AAAC0ElEQVRogc1aWXbCMAwsvNwBbsYVy83gFPQjPIfasjUajRPmr9TWYstac3q9Xj8Arvfn55+P2wVc3FsZIojLZtI5g4SqzZWI4L8G4HaBG1ElVz3d88bvJ3N1UZoBJQshRFtCJvoyXZzANwliFTR6BK16IIWycbxerGQGct9WsKRlcxCSxtzY7orSPF1+H5PcQCsQyKhnvZxVX+/PkZKgxSNsopK5fihE5GxSvN6fQl/HeeN8+CkqLO1PCEXich63S/TgTCslzqvreFROIg/idKr1/5KBEuhdWcGMdAYIFu84STv6AeOe6+dum4ui6zJNnCws5Yn7mFpP1er3s/krjU86xUVLfHVGQiNBTwrkpt3C+ATS2cyVcGI9INa7J1k+QSfChrAbEEK4nmwxtaiXQHCTBVzyHdrOoaskaI20BYKhNQoz4PtKuhJkEgm5quahB94k4vqJFLzNIjNvNdWSxOlyIk5qaq10fMeDPE6V1aliTEVH3P5ISjnpsATmOmYWMjxJR7fl+L5JbZgaXAieJxFO27SjrZFV0coUfj2WFYjMAXcKVTG0DJYmkc/4e53IKJEl09LkWM4gO2axhZBQVYE/mGRj5ZMIvZ3xrm2TluONI+l1NZ0BbTNaDuYmQ4daOTpwl/bUNiWLNGA7nOOHiF7WqFQVzCdd1xLN9eSuXqyk6nOPaDI4XgAp6XpwRAHifrgBUYtAqeVK5kZaba+kh1EyADIQJrSS7AepzgLmqhJuxpxvrCrqeEIj2qPQe/YB74o8jMN1NvUMtD/w13+sqsrOgKvzgarajSx595qjKZ8IoS1JgmiF/FtIaivu1km+ByAWjGF8M5CMY+2oNFrXy2e4hrkKi4Bo7h79+g28D+MmtXN1Ye1Lk7Lf5KQxEz0LmlhPapNpScOao6OZan05/BAS/ZLwC9t24klzdOU+mJgM7Knn+FiZelI1dVO9dpfdHxqvcct3dZOrAAAAAElFTkSuQmCC"></image>\n'
+             '</svg>',
   'width': '76'},
  {'capstyle': 'round',
   'class': 'QgsSimpleLineSymbolLayer',
   'joinstyle': 'round',
-  'line_color': '110,110,110,255',
+  'line_color': '110,110,110,255,rgb:0.4313725,0.4313725,0.4313725,1',
   'line_width': '1',
   'line_width_unit': 'Point'}]

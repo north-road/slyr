@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Base class for SLYR algorithms
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,12 +11,7 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-Base class for SLYR algorithms
-"""
-
-from qgis.core import (QgsProcessingAlgorithm)
+from qgis.core import QgsProcessingAlgorithm
 
 
 class SlyrAlgorithm(QgsProcessingAlgorithm):

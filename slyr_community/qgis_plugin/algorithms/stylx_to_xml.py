@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Converts .stylx databases to QGIS Style XML databases
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,19 +11,22 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
+from pathlib import Path
 
-"""
-Converts .stylx databases to QGIS Style XML databases
-"""
-
-from qgis.core import (QgsProcessing,
-                       QgsProcessingParameterFile,
-                       QgsProcessingParameterFileDestination,
-                       QgsProcessingParameterFeatureSink,
-                       QgsProcessingOutputNumber,
-                       QgsProcessingException)
+from qgis.core import (
+    QgsProcessing,
+    QgsProcessingParameterFile,
+    QgsProcessingParameterFileDestination,
+    QgsProcessingParameterFeatureSink,
+    QgsProcessingParameterEnum,
+    QgsProcessingParameterString,
+    QgsProcessingOutputNumber,
+    QgsProcessingException,
+    QgsProcessingParameterDefinition,
+)
 
 from .algorithm import SlyrAlgorithm
+from ...bintools.extractor import Extractor
 
 
 class StylxToQgisXml(SlyrAlgorithm):
@@ -38,26 +34,32 @@ class StylxToQgisXml(SlyrAlgorithm):
     Converts .stylx databases to QGIS Style XML databases
     """
 
-    INPUT = 'INPUT'
-    OUTPUT = 'OUTPUT'
-    REPORT = 'REPORT'
+    INPUT = "INPUT"
+    OUTPUT = "OUTPUT"
+    REPORT = "REPORT"
+    OBJECT_TYPES = "OBJECT_TYPES"
+    FILTER = "FILTER"
+    ALL_OBJECT_TYPES = [
+        Extractor.FILL_SYMBOLS,
+        Extractor.LINE_SYMBOLS,
+        Extractor.MARKER_SYMBOLS,
+        Extractor.COLOR_RAMPS,
+        Extractor.TEXT_SYMBOLS,
+        Extractor.LABELS,
+    ]
 
-    MARKER_SYMBOL_COUNT = 'MARKER_SYMBOL_COUNT'
-    LINE_SYMBOL_COUNT = 'LINE_SYMBOL_COUNT'
-    FILL_SYMBOL_COUNT = 'FILL_SYMBOL_COUNT'
-    COLOR_RAMP_COUNT = 'COLOR_RAMP_COUNT'
-    TEXT_FORMAT_COUNT = 'TEXT_FORMAT_COUNT'
-    LABEL_SETTINGS_COUNT = 'LABEL_SETTINGS_COUNT'
-    LINE_PATCH_COUNT = 'LINE_PATCH_COUNT'
-    AREA_PATCH_COUNT = 'AREA_PATCH_COUNT'
-    UNREADABLE_MARKER_SYMBOLS = 'UNREADABLE_MARKER_SYMBOLS'
-    UNREADABLE_LINE_SYMBOLS = 'UNREADABLE_LINE_SYMBOLS'
-    UNREADABLE_FILL_SYMBOLS = 'UNREADABLE_FILL_SYMBOLS'
-    UNREADABLE_COLOR_RAMPS = 'UNREADABLE_COLOR_RAMPS'
-    UNREADABLE_TEXT_FORMATS = 'UNREADABLE_TEXT_FORMATS'
-    UNREADABLE_LABEL_SETTINGS = 'UNREADABLE_LABEL_SETTINGS'
-    UNREADABLE_LINE_PATCHES = 'UNREADABLE_LINE_PATCHES'
-    UNREADABLE_AREA_PATCHES = 'UNREADABLE_AREA_PATCHES'
+    MARKER_SYMBOL_COUNT = "MARKER_SYMBOL_COUNT"
+    LINE_SYMBOL_COUNT = "LINE_SYMBOL_COUNT"
+    FILL_SYMBOL_COUNT = "FILL_SYMBOL_COUNT"
+    COLOR_RAMP_COUNT = "COLOR_RAMP_COUNT"
+    TEXT_FORMAT_COUNT = "TEXT_FORMAT_COUNT"
+    LABEL_SETTINGS_COUNT = "LABEL_SETTINGS_COUNT"
+    UNREADABLE_MARKER_SYMBOLS = "UNREADABLE_MARKER_SYMBOLS"
+    UNREADABLE_LINE_SYMBOLS = "UNREADABLE_LINE_SYMBOLS"
+    UNREADABLE_FILL_SYMBOLS = "UNREADABLE_FILL_SYMBOLS"
+    UNREADABLE_COLOR_RAMPS = "UNREADABLE_COLOR_RAMPS"
+    UNREADABLE_TEXT_FORMATS = "UNREADABLE_TEXT_FORMATS"
+    UNREADABLE_LABEL_SETTINGS = "UNREADABLE_LABEL_SETTINGS"
 
     # pylint: disable=missing-docstring,unused-argument
 
@@ -65,53 +67,133 @@ class StylxToQgisXml(SlyrAlgorithm):
         return StylxToQgisXml()
 
     def name(self):
-        return 'stylxtoqgisxml'
+        return "stylxtoqgisxml"
 
     def displayName(self):
-        return 'Convert stylx to QGIS style XML'
+        return "Convert STYLX to QGIS style XML"
 
     def shortDescription(self):
-        return 'Converts an ArcGIS Pro stylx database to a QGIS XML Style library'
+        return "Converts an ArcGIS Pro STYLX database to a QGIS XML Style library"
 
     def group(self):
-        return 'ArcGIS Pro'
+        return "ArcGIS Pro"
 
     def groupId(self):
-        return 'arcgispro'
+        return "arcgispro"
 
     def shortHelpString(self):
-        return "Converts an ArcGIS Pro stylx database to a QGIS XML Style library"
+        return "Converts an ArcGIS Pro STYLX database to a QGIS XML Style library"
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, 'Stylx database', extension='stylx'))
+        self.addParameter(
+            QgsProcessingParameterFile(self.INPUT, "Stylx database", extension="stylx")
+        )
 
-        self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
-                                                                'Destination XML file', fileFilter="XML files (*.xml)"))
+        type_filter = QgsProcessingParameterEnum(
+            self.OBJECT_TYPES,
+            "Objects to extract",
+            [Extractor.OBJECT_TYPE_NAMES[t] for t in self.ALL_OBJECT_TYPES],
+            allowMultiple=True,
+            defaultValue=list(range(len(self.ALL_OBJECT_TYPES))),
+            optional=True,
+        )
+        type_filter.setFlags(
+            type_filter.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced
+        )
+        self.addParameter(type_filter)
 
-        self.addParameter(QgsProcessingParameterFeatureSink(self.REPORT, 'Unconvertable symbols report',
-                                                            QgsProcessing.TypeVector, None, True, False))
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT, "Destination XML file", fileFilter="XML files (*.xml)"
+            )
+        )
 
-        self.addOutput(QgsProcessingOutputNumber(self.FILL_SYMBOL_COUNT, 'Fill Symbol Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.LINE_SYMBOL_COUNT, 'Line Symbol Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.MARKER_SYMBOL_COUNT, 'Marker Symbol Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.COLOR_RAMP_COUNT, 'Color Ramp Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.TEXT_FORMAT_COUNT, 'Text Format Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.LINE_PATCH_COUNT, 'Line Patch Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.AREA_PATCH_COUNT, 'Area Patch Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_FILL_SYMBOLS, 'Unreadable Fill Symbol Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_LINE_SYMBOLS, 'Unreadable Line Symbol Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_MARKER_SYMBOLS, 'Unreadable Marker Symbol Count'))
-        self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_COLOR_RAMPS, 'Unreadable Color Ramps'))
-        self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_TEXT_FORMATS, 'Unreadable Text Formats'))
-        self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_LINE_PATCHES, 'Unreadable Line Patches'))
-        self.addOutput(QgsProcessingOutputNumber(self.UNREADABLE_AREA_PATCHES, 'Unreadable Area Patches'))
+        filter_param = QgsProcessingParameterString(
+            self.FILTER, "Filter items by name", optional=True
+        )
+        filter_param.setFlags(
+            filter_param.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced
+        )
+        self.addParameter(filter_param)
 
-    def processAlgorithm(self,  # pylint:disable=too-many-locals,too-many-statements,too-many-branches
-                         parameters,
-                         context,
-                         feedback):
+        self.addParameter(
+            QgsProcessingParameterFeatureSink(
+                self.REPORT,
+                "Unconvertable symbols report",
+                QgsProcessing.SourceType.TypeVector,
+                None,
+                True,
+                False,
+            )
+        )
+
+        self.addOutput(
+            QgsProcessingOutputNumber(self.FILL_SYMBOL_COUNT, "Fill Symbol Count")
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(self.LINE_SYMBOL_COUNT, "Line Symbol Count")
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(self.MARKER_SYMBOL_COUNT, "Marker Symbol Count")
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(self.COLOR_RAMP_COUNT, "Color Ramp Count")
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(self.TEXT_FORMAT_COUNT, "Text Format Count")
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(self.LABEL_SETTINGS_COUNT, "Label Settings Count")
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(
+                self.UNREADABLE_FILL_SYMBOLS, "Unreadable Fill Symbol Count"
+            )
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(
+                self.UNREADABLE_LINE_SYMBOLS, "Unreadable Line Symbol Count"
+            )
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(
+                self.UNREADABLE_MARKER_SYMBOLS, "Unreadable Marker Symbol Count"
+            )
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(
+                self.UNREADABLE_COLOR_RAMPS, "Unreadable Color Ramps"
+            )
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(
+                self.UNREADABLE_TEXT_FORMATS, "Unreadable Text Formats"
+            )
+        )
+        self.addOutput(
+            QgsProcessingOutputNumber(
+                self.UNREADABLE_LABEL_SETTINGS, "Unreadable Label Settings"
+            )
+        )
+
+    def autogenerateParameterValues(self, rowParameters, changedParameter, mode):
+        if changedParameter == self.INPUT:
+            input_file = rowParameters.get(self.INPUT)
+            if input_file:
+                input_path = Path(input_file)
+                if input_path.exists():
+                    return {self.OUTPUT: input_path.with_suffix(".xml").as_posix()}
+
+        return {}
+
+    def processAlgorithm(
+        self,  # pylint:disable=too-many-locals,too-many-statements,too-many-branches
+        parameters,
+        context,
+        feedback,
+    ):
         raise QgsProcessingException(
-            'This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details')
+            "This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details"
+        )
 
     # pylint: enable=missing-docstring,unused-argument

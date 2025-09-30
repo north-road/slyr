@@ -19,7 +19,7 @@ class SimpleLine3DSymbol(SymbolLayer):
 
     @staticmethod
     def cls_id():
-        return '470b7275-3552-11d6-a12d-00508bd60cb9'
+        return "470b7275-3552-11d6-a12d-00508bd60cb9"
 
     @staticmethod
     def type_to_string(line_type) -> Optional[str]:
@@ -28,11 +28,11 @@ class SimpleLine3DSymbol(SymbolLayer):
         """
 
         if line_type == SimpleLine3DSymbol.TUBE:
-            return 'tube'
+            return "tube"
         elif line_type == SimpleLine3DSymbol.STRIP:
-            return 'strip'
+            return "strip"
         elif line_type == SimpleLine3DSymbol.WALL:
-            return 'wall'
+            return "wall"
         return None
 
     def __init__(self):  # pylint: disable=useless-super-delegation
@@ -43,18 +43,18 @@ class SimpleLine3DSymbol(SymbolLayer):
         self.type = SimpleLine3DSymbol.TUBE
 
     def read(self, stream: Stream, version):
-        self.color = stream.read_object('color')
-        self.width = stream.read_double('width')
-        self.type = stream.read_int('type', expected=(0, 1, 2))
-        self.quality = stream.read_double('quality')
+        self.color = stream.read_object("color")
+        self.width = stream.read_double("width")
+        self.type = stream.read_int("type", expected=(0, 1, 2))
+        self.quality = stream.read_double("quality")
 
         self.symbol_level = SymbolLayer.read_symbol_level(stream)
 
     def to_dict(self):  # pylint: disable=method-hidden
         out = {
-            'color': self.color.to_dict() if self.color is not None else None,
-            'width': self.width,
-            'quality': self.quality,
-            'line_type': SimpleLine3DSymbol.type_to_string(self.type)
+            "color": self.color.to_dict() if self.color is not None else None,
+            "width": self.width,
+            "quality": self.quality,
+            "line_type": SimpleLine3DSymbol.type_to_string(self.type),
         }
         return out

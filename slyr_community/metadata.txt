@@ -4,17 +4,20 @@ description=ESRI Style, LYR, MXD, stylx, lyrx to QGIS symbology converter (Commu
 about=Converts ESRI .style databases and vector .lyr files to corresponding QGIS symbology and layers. For full LYR, MXD, stylx and other ArcGIS/ArcGIS Pro file conversion support see https://north-road.com/slyr/.
 category=Other
 icon=icon.png
-version=5.0.0
-qgisMinimumVersion=3.4
+version=6.0.0
+qgisMinimumVersion=3.16
+qgisMaximumVersion=4.99
+supportsQt6=yes
 author=Nyall Dawson
 email=nyall.dawson@gmail.com
 tags=MXD,LYR,ESRI,ArcGIS,style,ArcMap,ArcGIS Pro,stylx,lyrx,aprx
 homepage=https://north-road.com/slyr/
-tracker=https://github.com/nyalldawson/slyr
-repository=https://github.com/nyalldawson/slyr
+tracker=https://github.com/north-road/slyr
+repository=https://github.com/north-road/slyr
 experimental=False
 deprecated=False
-changelog=Version 5.0.0 (2023-05-30) - Support for conversion of raster LYR files has been added from the licensed version of SLYR. (MXD support, ArcGIS Pro, TIN, point cloud and other layer formats still require the licensed version).
+changelog=Version 6.0.0 (2025-09-23) - Support for converting MXD files containing page layouts, vector and raster layers (MXDs containing other objects, including annotation layers require the licensed version).
+    Version 5.0.0 (2023-05-30) - Support for conversion of raster LYR files has been added from the licensed version of SLYR. (MXD support, ArcGIS Pro, TIN, point cloud and other layer formats still require the licensed version).
     Version 4.0.7 (2023-03-20) - Fix compatibility with QGIS 3.30
     Version 4.0.6 (2022-09-16) - Pull labeling conversion improvements from licensed version, fix compatibility with newer Python versions
     Version 4.0.5 (2022-09-15) - Fix startup on QGIS < 3.10

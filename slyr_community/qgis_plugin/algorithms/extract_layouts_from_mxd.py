@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Extracts print layouts from an MXD document and adds to the current project
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,12 +11,7 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-Extracts print layouts from an MXD document and adds to the current project
-"""
-
-from qgis.core import (QgsProcessingParameterFile)
+from qgis.core import QgsProcessingParameterFile
 
 from .algorithm import SlyrAlgorithm
 
@@ -33,7 +21,7 @@ class ExtractPrintLayoutsFromMxd(SlyrAlgorithm):
     Extracts print layouts from an MXD document and adds to the current project
     """
 
-    INPUT = 'INPUT'
+    INPUT = "INPUT"
 
     # pylint: disable=missing-docstring,unused-argument
 
@@ -41,31 +29,35 @@ class ExtractPrintLayoutsFromMxd(SlyrAlgorithm):
         return ExtractPrintLayoutsFromMxd()
 
     def name(self):
-        return 'extractlayoutfrommxd'
+        return "extractlayoutfrommxd"
 
     def displayName(self):
-        return 'Extract print layouts from MXD'
+        return "Extract print layouts from MXD"
 
     def shortDescription(self):
-        return 'Extracts print layouts from an MXD document and adds them to the current project.'
+        return (
+            "Extracts print layouts from an MXD document and "
+            "adds them to the current project."
+        )
 
     def group(self):
-        return 'MXD documents'
+        return "MXD documents"
 
     def groupId(self):
-        return 'mxd'
+        return "mxd"
 
     def shortHelpString(self):
-        return 'Extracts print layouts from an MXD document and adds them to the current project.'
+        return (
+            "Extracts print layouts from an MXD document "
+            "and adds them to the current project."
+        )
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, 'Input MXD file', extension='mxd'))
+        self.addParameter(
+            QgsProcessingParameterFile(self.INPUT, "Input MXD file", extension="mxd")
+        )
 
-    def processAlgorithm(self,
-                         parameters,
-                         context,
-                         feedback):
+    def processAlgorithm(self, parameters, context, feedback):
         return {}
 
     # pylint: enable=missing-docstring,unused-argument

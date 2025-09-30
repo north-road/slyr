@@ -14,11 +14,11 @@ class RouteLayerExtension(Object):
 
     @staticmethod
     def cls_id():
-        return '7ae2ec78-3a86-4b7b-901b-a30d1d99f4ca'
+        return "7ae2ec78-3a86-4b7b-901b-a30d1d99f4ca"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
-        self.route_identifier = ''
+        self.route_identifier = ""
         self.anomaly_properties = None
 
     @staticmethod
@@ -26,9 +26,8 @@ class RouteLayerExtension(Object):
         return False
 
     def read(self, stream: Stream, version):
-        self.route_identifier = stream.read_string('route identifier')
-        self.anomaly_properties = stream.read_object('route anomaly properties')
+        self.route_identifier = stream.read_string("route identifier")
+        self.anomaly_properties = stream.read_object("route anomaly properties")
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}

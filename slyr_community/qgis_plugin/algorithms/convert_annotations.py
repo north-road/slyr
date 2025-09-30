@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Converts annotations in a binary column to a QGIS annotation layer
+"""
 
-# /***************************************************************************
-# context.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,15 +11,12 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-Converts annotations in a binary column to a QGIS annotation layer
-"""
-
-from qgis.core import (QgsProcessingAlgorithm,
-                       QgsProcessingParameterVectorLayer,
-                       QgsProcessingParameterField,
-                       QgsProcessingException)
+from qgis.core import (
+    QgsProcessingAlgorithm,
+    QgsProcessingParameterVectorLayer,
+    QgsProcessingParameterField,
+    QgsProcessingException,
+)
 
 from .algorithm import SlyrAlgorithm
 
@@ -36,9 +26,9 @@ class ConvertAnnotations(SlyrAlgorithm):
     Converts annotations in a binary column
     """
 
-    INPUT = 'INPUT'
-    FIELD = 'FIELD'
-    OUTPUT = 'OUTPUT'
+    INPUT = "INPUT"
+    FIELD = "FIELD"
+    OUTPUT = "OUTPUT"
 
     # pylint: disable=missing-docstring,unused-argument
 
@@ -46,38 +36,46 @@ class ConvertAnnotations(SlyrAlgorithm):
         return ConvertAnnotations()
 
     def name(self):
-        return 'convertannotations'
+        return "convertannotations"
 
     def displayName(self):
-        return 'Convert annotations (beta)'
+        return "Convert annotations"
 
     def shortDescription(self):
-        return ''
+        return ""
 
     def flags(self):
-        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+        return super().flags() | QgsProcessingAlgorithm.Flag.FlagNoThreading
 
     def group(self):
-        return 'Annotations'
+        return "Annotations"
 
     def groupId(self):
-        return 'annotations'
+        return "annotations"
 
     def shortHelpString(self):
-        return ''
+        return ""
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterVectorLayer(
-            self.INPUT, 'Input layer'))
+        self.addParameter(QgsProcessingParameterVectorLayer(self.INPUT, "Input layer"))
 
-        self.addParameter(QgsProcessingParameterField(
-            self.FIELD, 'Element field', defaultValue='ELEMENT', parentLayerParameterName=self.INPUT))
+        self.addParameter(
+            QgsProcessingParameterField(
+                self.FIELD,
+                "Element field",
+                defaultValue="ELEMENT",
+                parentLayerParameterName=self.INPUT,
+            )
+        )
 
-    def processAlgorithm(self,  # pylint: disable=too-many-locals,too-many-statements,too-many-branches
-                         parameters,
-                         context,
-                         feedback):
+    def processAlgorithm(
+        self,  # pylint: disable=too-many-locals,too-many-statements,too-many-branches
+        parameters,
+        context,
+        feedback,
+    ):
         raise QgsProcessingException(
-            'This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details')
+            "This algorithm is available in the licensed version of SLYR only - please see https://north-road.com/slyr/ for details"
+        )
 
     # pylint: enable=missing-docstring,unused-argument

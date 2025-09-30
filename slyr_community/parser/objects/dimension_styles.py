@@ -15,7 +15,7 @@ class DimensionStyles(Object):
 
     @staticmethod
     def cls_id():
-        return '45b2fa28-fa01-11d3-80d3-00c04f601565'
+        return "45b2fa28-fa01-11d3-80d3-00c04f601565"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -24,5 +24,4 @@ class DimensionStyles(Object):
         pass
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}

@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+SLYR QGIS Processing provider
+"""
 
-# /***************************************************************************
-# provider.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson, North Road Consulting
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,12 +11,7 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-SLYR QGIS Processing provider
-"""
-
-from qgis.core import QgsProcessingProvider
+from qgis.core import QgsProcessingProvider, Qgis
 
 from .algorithms import (
     StyleToQgisXml,
@@ -33,6 +21,8 @@ from .algorithms import (
     StylxToQgisXml,
     XmlToStylx,
     LyrToQlr,
+    LyrxToQlr,
+    LyrxToQml,
     StyleFromLyr,
     LyrToQml,
     LyrToStyleXml,
@@ -47,8 +37,23 @@ from .algorithms import (
     ConvertAnnotationClassToGeopackage,
     ConvertProjectData,
     ExtractHyperlinksToTables,
-    ExtractSDEConnectionDetails
+    ExtractSDEConnectionDetails,
+    LayerToLyrx,
+    ConvertMapxToQgs,
+    ConvertQgsToMapx,
+    ConvertAprxToQgs,
+    GdbToGpkg,
+    LyrxToSld,
+    LyrToSld,
+    ConvertQgsToAprx,
+    ConvertAprxAndData,
+    QmlToStylex,
+    ConvertQptToPagx,
+    ConvertQlrToLyrx,
+    MxdToSld,
+    StylxToSld,
 )
+from .algorithms.pagx_to_qgs import ConvertPagxToQgs
 from .gui_utils import GuiUtils
 
 
@@ -61,30 +66,63 @@ class SlyrProvider(QgsProcessingProvider):
         QgsProcessingProvider.__init__(self)
 
     def loadAlgorithms(self):  # pylint: disable=missing-docstring
-        for alg in [StyleToQgisXml, StyleToGpl, StylxToGpl, GplToStylx,
-                    StylxToQgisXml, XmlToStylx,
-                    LyrToQlr, StyleFromLyr, LyrToQml, LyrToStyleXml, ConvertMxdToQgs,
-                    AddLayersFromMxd, ConvertPmfToQgs, ConvertSxdToQgs, ExportStructureToJson, AvlToQml,
-                    ExtractHyperlinksToTables, ExtractSDEConnectionDetails]:
+        for alg in [
+            StyleToQgisXml,
+            StyleToGpl,
+            StylxToGpl,
+            GplToStylx,
+            StylxToQgisXml,
+            XmlToStylx,
+            LyrToQlr,
+            LyrxToQlr,
+            LyrxToQml,
+            StyleFromLyr,
+            LyrToQml,
+            LyrToStyleXml,
+            ConvertMxdToQgs,
+            ConvertMapxToQgs,
+            ConvertQgsToMapx,
+            AddLayersFromMxd,
+            ConvertPmfToQgs,
+            ConvertSxdToQgs,
+            ExportStructureToJson,
+            ConvertPagxToQgs,
+            AvlToQml,
+            ExtractHyperlinksToTables,
+            ExtractSDEConnectionDetails,
+            LayerToLyrx,
+            ConvertAprxToQgs,
+            LyrxToSld,
+            LyrToSld,
+            ConvertQgsToAprx,
+            ConvertAprxAndData,
+            QmlToStylex,
+            ConvertQptToPagx,
+            ConvertQlrToLyrx,
+            MxdToSld,
+            ConvertMxdAndData,
+            ConvertProjectData,
+            ConvertAnnotations,
+            ConvertAnnotationClassToGeopackage,
+            StylxToSld,
+        ]:
             self.addAlgorithm(alg())
 
-        self.addAlgorithm(ConvertMxdAndData())
-        self.addAlgorithm(ConvertProjectData())
-        self.addAlgorithm(ConvertAnnotations())
-        self.addAlgorithm(ConvertAnnotationClassToGeopackage())
+        if Qgis.QGIS_VERSION_INT >= 32800:
+            self.addAlgorithm(GdbToGpkg())
 
     def id(self):  # pylint: disable=missing-docstring
-        return 'slyr'
+        return "slyr"
 
     def name(self):  # pylint: disable=missing-docstring
-        return 'SLYR (community edition)'
+        return "SLYR (community edition)"
 
     def longName(self):  # pylint: disable=missing-docstring
-        return 'Converts ESRI Style and LYR files'
+        return "Converts ESRI Style and LYR files"
 
     def icon(self):  # pylint: disable=missing-docstring
-        return GuiUtils.get_icon('icon.svg')
+        return GuiUtils.get_icon("icon.svg")
 
     def versionInfo(self):
         # pylint: disable=missing-docstring
-        return '5.0.0'
+        return "6.0.0"

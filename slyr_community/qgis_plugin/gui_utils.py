@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+GUI Utilities
+"""
 
-# /***************************************************************************
-# gui_utils.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,24 +11,14 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-"""
-GUI Utilities
-"""
-
-
 import os
+from typing import Optional
 
-from qgis.PyQt.QtCore import (
-    QThread,
-    QCoreApplication
-)
 from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QMenu
 
-from qgis.core import (
-    QgsWkbTypes,
-    QgsMapLayer,
-    QgsMimeDataUtils
-)
+
+from qgis.utils import iface
 
 
 class GuiUtils:
@@ -63,13 +46,9 @@ class GuiUtils:
         :param icon: icon name (svg file name)
         :return: icon path
         """
-        path = os.path.join(
-            os.path.dirname(__file__),
-            '..',
-            'images',
-            icon)
+        path = os.path.join(os.path.dirname(__file__), "..", "images", icon)
         if not os.path.exists(path):
-            return ''
+            return ""
 
         return path
 
@@ -80,47 +59,28 @@ class GuiUtils:
         :param file: UI file name
         :return: full UI file path
         """
-        path = os.path.join(
-            os.path.dirname(__file__),
-            'ui',
-            file)
+        path = os.path.join(os.path.dirname(__file__), "ui", file)
         if not os.path.exists(path):
-            return ''
+            return ""
 
         return path
 
     @staticmethod
-    def get_valid_mime_uri(layer_name, uri, wkb_type):
+    def get_project_import_export_menu() -> Optional[QMenu]:
         """
-        Gross method to force a valid layer path, only used for very old QGIS versions
+        Returns the application Project - Import/Export sub menu
         """
-        if QgsWkbTypes.geometryType(wkb_type) == QgsWkbTypes.NullGeometry:
-            layer_type = QgsMapLayer.RasterLayer
-        else:
-            layer_type = QgsMapLayer.VectorLayer
+        try:
+            # requires QGIS 3.30+
+            return iface.projectImportExportMenu()
+        except AttributeError:
+            pass
 
-        if QThread.currentThread() == QCoreApplication.instance().thread():
-            from .datasourceselectdialog import DataSourceSelectDialog  # pylint: disable=import-outside-toplevel
+        project_menu = iface.projectMenu()
+        matches = [
+            m for m in project_menu.children() if m.objectName() == "menuImport_Export"
+        ]
+        if matches:
+            return matches[0]
 
-            dlg = DataSourceSelectDialog(layer_name=layer_name, original_uri=uri, layer_type=layer_type)
-            if dlg.exec_():
-                return dlg.uri
-
-        # use default dummy path - QGIS 3.4 will crash on invalid layer sources otherwise
-        uri = QgsMimeDataUtils.Uri()
-        if QgsWkbTypes.geometryType(wkb_type) == QgsWkbTypes.PointGeometry:
-            file = 'dummy_points.shp'
-        elif QgsWkbTypes.geometryType(wkb_type) == QgsWkbTypes.LineGeometry:
-            file = 'dummy_lines.shp'
-        elif QgsWkbTypes.geometryType(wkb_type) == QgsWkbTypes.PolygonGeometry:
-            file = 'dummy_polygon.shp'
-        elif QgsWkbTypes.geometryType(wkb_type) == QgsWkbTypes.NullGeometry:
-            file = 'dummy_raster.tif'
-        else:
-            # ???
-            file = 'dummy_points.shp'
-
-        path = os.path.dirname(os.path.abspath(__file__))
-        uri.uri = os.path.realpath(os.path.join(path, '..', '..', file)).replace('\\', '/')
-        uri.providerKey = 'ogr'
-        return uri
+        return None

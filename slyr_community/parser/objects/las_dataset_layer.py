@@ -17,7 +17,7 @@ class LasDatasetLayer(Object):
 
     @staticmethod
     def cls_id():
-        return '431ef9c2-4ac6-4299-b18f-5371fa1a6aa8'
+        return "431ef9c2-4ac6-4299-b18f-5371fa1a6aa8"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -27,8 +27,9 @@ class LasDatasetLayer(Object):
         return [3, 4]
 
     def read(self, stream: Stream, version):
-        raise RequiresLicenseException('Converting point cloud layers requires the licensed version of SLYR')
+        raise RequiresLicenseException(
+            "Converting point cloud layers requires the licensed version of SLYR"
+        )
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-        }
+        return {}

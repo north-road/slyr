@@ -27,17 +27,32 @@ class Object:
                 """
                 d = func()
                 if d is not None:
-                    d['type'] = self.__class__.__name__
-                    d['version'] = self.version
+                    d["type"] = self.__class__.__name__
+                    d["version"] = self.version
                     if self.ref_id is not None:
-                        d['ref_id'] = self.ref_id
+                        d["ref_id"] = self.ref_id
+                    if self.stream_offset is not None:
+                        d["stream_offset"] = hex(self.stream_offset)
+
+                    def format_dict_value(v):
+                        if isinstance(v, Object):
+                            return v.to_dict()
+                        return v
+
+                    for k in list(d.keys()):
+                        if isinstance(d[k], dict):
+                            d[k] = {
+                                kk: format_dict_value(vv) for kk, vv in d[k].items()
+                            }
+
                 return d
 
             return wrapper
 
         self.to_dict = to_dict_(self.to_dict)
-        self.version = None
-        self.ref_id = None
+        self.version: Optional[int] = None
+        self.ref_id: Optional[int] = None
+        self.stream_offset: Optional[int] = None
 
     @staticmethod
     def cls_id():
@@ -66,7 +81,7 @@ class Object:
         Reads the object from the given stream
         """
 
-    def children(self) -> List['Object']:
+    def children(self) -> List["Object"]:
         """
         Returns a list of all child objects referenced by this object
         """
@@ -76,14 +91,18 @@ class Object:
         """
         Converts the object to a dictionary
         """
-        raise NotImplementedException('{} objects are not yet supported'.format(self.__class__.__name__))
+        raise NotImplementedException(
+            "{} objects are not yet supported".format(self.__class__.__name__)
+        )
 
     @classmethod
-    def from_dict(cls, definition: dict) -> Optional['Object']:
+    def from_dict(cls, definition: dict) -> Optional["Object"]:
         """
         Creates the object from a dictionary
         """
-        raise NotImplementedException('{} objects are not yet supported'.format(cls.__name__))
+        raise NotImplementedException(
+            "{} objects are not yet supported".format(cls.__name__)
+        )
 
 
 def not_implemented(cls):
@@ -101,7 +120,9 @@ def not_implemented(cls):
             """
             Wrapper which raises a NotImplementedException on function call
             """
-            raise NotImplementedException('{} objects are not yet supported'.format(cls.__name__))
+            raise NotImplementedException(
+                "{} objects are not yet supported".format(cls.__name__)
+            )
 
         return wrapper
 
@@ -120,9 +141,7 @@ class CustomObject(Object):
         self.clsid = clsid
 
     def to_dict(self):  # pylint: disable=method-hidden
-        return {
-            'clsid': self.clsid
-        }
+        return {"clsid": self.clsid}
 
 
 def partially_implemented(cls):
@@ -140,7 +159,9 @@ def partially_implemented(cls):
             """
             Wrapper which raises a PartiallyImplementedException on function call
             """
-            raise PartiallyImplementedException('{} objects are not fully supported'.format(cls.__name__))
+            raise PartiallyImplementedException(
+                "{} objects are not fully supported".format(cls.__name__)
+            )
 
         return wrapper
 

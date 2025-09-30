@@ -1,0 +1,1530 @@
+{'dict': {'root': {'annotation_collection': {'properties': [{'add_unplaced_to_graphics_container': True,
+                                                             'advanced_expression': False,
+                                                             'annotation_class_id': 0,
+                                                             'class_filter': '',
+                                                             'class_name': 'Default',
+                                                             'create_unplaced_elements': True,
+                                                             'expression': '[gml_parent_id]',
+                                                             'expression_parser': None,
+                                                             'feature_linked': False,
+                                                             'label_features': True,
+                                                             'label_which_features': 1,
+                                                             'layer_full_extent': None,
+                                                             'offset': 0.0,
+                                                             'overposter': {'feature_weight': 'none',
+                                                                            'generate_unplaced': True,
+                                                                            'geometry_type': 2,
+                                                                            'is_barrier': False,
+                                                                            'label_weight': 'high',
+                                                                            'line_label_position': {'above': True,
+                                                                                                    'at_end': False,
+                                                                                                    'at_start': False,
+                                                                                                    'before_after_distance': 0.0,
+                                                                                                    'below': False,
+                                                                                                    'best_position_along_line': True,
+                                                                                                    'curved': False,
+                                                                                                    'follow_line_orientation': False,
+                                                                                                    'horizontal': False,
+                                                                                                    'online': False,
+                                                                                                    'parallel': True,
+                                                                                                    'perpendicular': False,
+                                                                                                    'ref_id': 51,
+                                                                                                    'right_of_line': False,
+                                                                                                    'stream_offset': '0x3120',
+                                                                                                    'type': 'LineLabelPosition',
+                                                                                                    'version': 2},
+                                                                            'line_label_priorities': {'above_after': 3,
+                                                                                                      'above_at': 3,
+                                                                                                      'above_before': 3,
+                                                                                                      'below_after': 3,
+                                                                                                      'below_at': 3,
+                                                                                                      'below_before': 3,
+                                                                                                      'on_line_after': 3,
+                                                                                                      'on_line_at': 3,
+                                                                                                      'on_line_before': 3,
+                                                                                                      'ref_id': 52,
+                                                                                                      'stream_offset': '0x3156',
+                                                                                                      'type': 'LineLabelPlacementPriorities',
+                                                                                                      'version': 1},
+                                                                            'margin_size': 0.0,
+                                                                            'max_distance_from_feature': 0.0,
+                                                                            'number_restriction': 'one_per_part',
+                                                                            'offset': 0.0,
+                                                                            'place_labels': False,
+                                                                            'place_overlapping': False,
+                                                                            'place_symbols': False,
+                                                                            'point_label_angle_field': '',
+                                                                            'point_label_angle_perpendicular': False,
+                                                                            'point_label_angle_type': 1,
+                                                                            'point_place_over_feature': False,
+                                                                            'point_placement_method': 'around',
+                                                                            'point_placement_priorities': {'bottom_center': 3,
+                                                                                                           'bottom_left': 3,
+                                                                                                           'bottom_right': 2,
+                                                                                                           'center_left': 3,
+                                                                                                           'center_right': 2,
+                                                                                                           'ref_id': 53,
+                                                                                                           'stream_offset': '0x31b8',
+                                                                                                           'top_center': 2,
+                                                                                                           'top_left': 2,
+                                                                                                           'top_right': 1,
+                                                                                                           'type': 'PointPlacementPriorities',
+                                                                                                           'version': 1},
+                                                                            'polygon_only_inside': False,
+                                                                            'polygon_placement_method': 'always_horizontal',
+                                                                            'ref_id': 50,
+                                                                            'specified_point_angles': [],
+                                                                            'stream_offset': '0x30f8',
+                                                                            'type': 'BasicOverposterLayerProperties',
+                                                                            'version': 6},
+                                                             'priority': 1,
+                                                             'ref_id': 45,
+                                                             'reference_scale': 0.0,
+                                                             'scale_range_max': 0.0,
+                                                             'scale_range_min': 0.0,
+                                                             'scale_ratio': 0.0,
+                                                             'stream_offset': '0x2ef8',
+                                                             'symbol_id': 65535,
+                                                             'text_symbol': {'angle': 0.0,
+                                                                             'background_symbol': None,
+                                                                             'break_character': None,
+                                                                             'case': 'normal',
+                                                                             'character_spacing': 0.0,
+                                                                             'character_width': 100.0,
+                                                                             'cjk_orientation': False,
+                                                                             'clip': False,
+                                                                             'color': {'B': 0,
+                                                                                       'G': 0,
+                                                                                       'R': 0,
+                                                                                       'dither': False,
+                                                                                       'is_null': False,
+                                                                                       'ref_id': 47,
+                                                                                       'stream_offset': '0x2f8c',
+                                                                                       'type': 'RgbColor',
+                                                                                       'version': 1},
+                                                                             'flip_angle': 90.0,
+                                                                             'font': {'charset': 0,
+                                                                                      'font_name': 'Arial',
+                                                                                      'italic': False,
+                                                                                      'ref_id': 49,
+                                                                                      'size': 8.0,
+                                                                                      'stream_offset': '0x30c0',
+                                                                                      'strikethrough': False,
+                                                                                      'type': 'Font',
+                                                                                      'underline': False,
+                                                                                      'version': 1,
+                                                                                      'weight': 400},
+                                                                             'font_size': 8.0,
+                                                                             'halo_enabled': False,
+                                                                             'halo_size': 2.0,
+                                                                             'halo_symbol': None,
+                                                                             'horizontal_alignment': 'center',
+                                                                             'kerning': True,
+                                                                             'leading': 0.0,
+                                                                             'position': 'normal',
+                                                                             'raster_op': 13,
+                                                                             'ref_id': 46,
+                                                                             'right_to_left': False,
+                                                                             'rotate_with_transform': True,
+                                                                             'shadow_color': {'B': 0,
+                                                                                              'G': 0,
+                                                                                              'R': 0,
+                                                                                              'dither': False,
+                                                                                              'is_null': False,
+                                                                                              'ref_id': 48,
+                                                                                              'stream_offset': '0x2fed',
+                                                                                              'type': 'RgbColor',
+                                                                                              'version': 1},
+                                                                             'shadow_x_offset': 0.0,
+                                                                             'shadow_y_offset': 0.0,
+                                                                             'stream_offset': '0x2f76',
+                                                                             'symbol_level': 0,
+                                                                             'text_direction': 0,
+                                                                             'text_fill_symbol': None,
+                                                                             'type': 'TextSymbol',
+                                                                             'type_setting': True,
+                                                                             'version': 4,
+                                                                             'vertical_alignment': 'bottom',
+                                                                             'word_spacing': 100.0,
+                                                                             'x_offset': 0.0,
+                                                                             'y_offset': 0.0},
+                                                             'type': 'LabelEngineLayerProperties',
+                                                             'units_world_coordinates': 'unknown',
+                                                             'use_output': 65535,
+                                                             'version': 7}],
+                                             'ref_id': 44,
+                                             'stream_offset': '0x2ede',
+                                             'type': 'AnnotateLayerPropertiesCollection',
+                                             'version': 2},
+                   'area_of_interest': None,
+                   'brightness': 0,
+                   'cached': False,
+                   'dataset_name': {'dataset_name': {'category': 'Interoperability '
+                                                                 'Feature '
+                                                                 'Dataset',
+                                                     'dataset_type': 'DATASET_TYPE_CONTAINER',
+                                                     'name': 'Connection (1) - '
+                                                             'WFS WFS.fdl',
+                                                     'ref_id': 2,
+                                                     'stream_offset': '0x196',
+                                                     'subset_names': None,
+                                                     'type': 'FeatureDatasetName',
+                                                     'version': 1,
+                                                     'workspace_name': {'browse_name': 'Interoperability',
+                                                                        'connection_properties': {'C:\\Users\\nyall\\AppData\\Roaming\\Safe Software\\Interoperability\\Connection (1) - WFS WFS.fdl': 'FDLVERSION1,WFS,https://geo.limburg.be/arcgis/services/Mobiliteit/MapServer/WFSServer?,RUNTIME_MACROS,"PREFER_DATASET_URL,No,PREFERRED_VERSION,1.1.0,CONNECTION_PROPERTIES_GROUP,NO,PREFER_POST,No,HTTP_USER_AGENT,,CONNECTION_TIMEOUT,90,TRANSFER_TIMEOUT,90,TABLELIST,""""""Bedrijventerreinen_-_Bedrijventerrein  '
+                                                                                                                                                                                                       '{Bedrijventerreinen_-_Bedrijventerrein}"""""",MAX_RESULT_FEATURES,30000,START_INDEX,<Unused>,COUNT,<Unused>,OUTPUT_FORMAT,,FILTER_EXPRESSION,,IGNORE_APPLICATON_SCHEMA,no,XSD_DOC,,FME_FEATURE_IDENTIFIER,,MAP_FEATURE_COLLECTION,,GML_FEATURE_ELEMENTS,<Unused>,GMLSRS_GEOMETRY_PARAMETERS,,SRS_AXIS_ORDER,,SRS_ANGLE_DIRECTION,,ENFORCE_PATH_CONTINUITY_BY,SNAPPING_END_POINTS,GML_READER_GROUP,,USE_OLD_READER,NO,DISABLE_AUTOMATIC_READER_TYPE_SELECTION,NO,DISABLE_XML_NAMESPACE_PROCESSING,NO,GML_FEATURE_PROPERTIES,,MAP_EMBEDDED_OBJECTS_AS,ATTRIBUTES,MAP_PREDEFINED_GML_PROPERTIES,NO,MAP_GEOMETRY_COLUMNS,YES,ADD_NAMESPACE_PREFIX_TO_NAMES,,QNAMES_FOR_PROPERTIES_TO_IGNORE,,GML_FEATURE_PROPERTIES_ATTRIBUTE_HANDLING_GROUP,,MAP_COMPLEX_PROPERTIES_AS,""Nested '
+                                                                                                                                                                                                       'Attributes"",MAX_MULTI_LIST_LEVEL,,XML_FRAGMENTS_AS_DOCUMENTS,YES,FLATTEN_XML_FRAGMENTS,NO,FLATTEN_XML_FRAGMENTS_OPEN_LIST_BRACE,,FLATTEN_XML_FRAGMENTS_CLOSE_LIST_BRACE,,FLATTEN_XML_FRAGMENTS_SEPARATOR,,ARCGIS_CACHE_GROUP,,LOCAL_CACHE_EXPIRY,60,EXPOSE_ATTRS_GROUP,,WFS_EXPOSE_FORMAT_ATTRS,,USE_SEARCH_ENVELOPE,NO,SEARCH_ENVELOPE_MINX,0,SEARCH_ENVELOPE_MINY,0,SEARCH_ENVELOPE_MAXX,0,SEARCH_ENVELOPE_MAXY,0,CLIP_TO_ENVELOPE,NO,BBOX_COORDINATE_SYSTEM,,NETWORK_AUTHENTICATION,,WFS_SERVICE_TITLE,WFS,_MERGE_SCHEMAS,YES",META_MACROS,"SourcePREFER_DATASET_URL,No,SourcePREFERRED_VERSION,1.1.0,SourceCONNECTION_PROPERTIES_GROUP,NO,SourcePREFER_POST,No,SourceHTTP_USER_AGENT,,SourceCONNECTION_TIMEOUT,90,SourceTRANSFER_TIMEOUT,90,SourceMAX_RESULT_FEATURES,30000,SourceSTART_INDEX,<Unused>,SourceCOUNT,<Unused>,SourceOUTPUT_FORMAT,,SourceFILTER_EXPRESSION,,SourceIGNORE_APPLICATON_SCHEMA,no,SourceXSD_DOC,,SourceFME_FEATURE_IDENTIFIER,,SourceMAP_FEATURE_COLLECTION,,SourceGML_FEATURE_ELEMENTS,<Unused>,SourceGMLSRS_GEOMETRY_PARAMETERS,,SourceSRS_AXIS_ORDER,,SourceSRS_ANGLE_DIRECTION,,SourceENFORCE_PATH_CONTINUITY_BY,SNAPPING_END_POINTS,SourceGML_READER_GROUP,,SourceUSE_OLD_READER,NO,SourceDISABLE_AUTOMATIC_READER_TYPE_SELECTION,NO,SourceDISABLE_XML_NAMESPACE_PROCESSING,NO,SourceGML_FEATURE_PROPERTIES,,SourceMAP_EMBEDDED_OBJECTS_AS,ATTRIBUTES,SourceMAP_PREDEFINED_GML_PROPERTIES,NO,SourceMAP_GEOMETRY_COLUMNS,YES,SourceADD_NAMESPACE_PREFIX_TO_NAMES,,SourceQNAMES_FOR_PROPERTIES_TO_IGNORE,,SourceGML_FEATURE_PROPERTIES_ATTRIBUTE_HANDLING_GROUP,,SourceMAP_COMPLEX_PROPERTIES_AS,""Nested '
+                                                                                                                                                                                                       'Attributes"",SourceMAX_MULTI_LIST_LEVEL,,SourceXML_FRAGMENTS_AS_DOCUMENTS,YES,SourceFLATTEN_XML_FRAGMENTS,NO,SourceFLATTEN_XML_FRAGMENTS_OPEN_LIST_BRACE,,SourceFLATTEN_XML_FRAGMENTS_CLOSE_LIST_BRACE,,SourceFLATTEN_XML_FRAGMENTS_SEPARATOR,,SourceARCGIS_CACHE_GROUP,,SourceLOCAL_CACHE_EXPIRY,60,SourceEXPOSE_ATTRS_GROUP,,SourceWFS_EXPOSE_FORMAT_ATTRS,,SourceUSE_SEARCH_ENVELOPE,NO,SourceSEARCH_ENVELOPE_MINX,0,SourceSEARCH_ENVELOPE_MINY,0,SourceSEARCH_ENVELOPE_MAXX,0,SourceSEARCH_ENVELOPE_MAXY,0,SourceCLIP_TO_ENVELOPE,NO,SourceBBOX_COORDINATE_SYSTEM,,SourceNETWORK_AUTHENTICATION,,SourceWFS_SERVICE_TITLE,WFS",METAFILE,WFS,COORDSYS,"""ESRIWKT|Belge_Lambert_1972|PROJCS[""Belge_Lambert_1972"",GEOGCS[""GCS_Belge_1972"",DATUM[""D_Belge_1972"",SPHEROID[""International_1924"",6378388.0,297.0]],PRIMEM[""Greenwich"",0.0],UNIT[""Degree"",0.0174532925199433]],PROJECTION[""Lambert_Conformal_Conic""],PARAMETER[""False_Easting"",150000.01256],PARAMETER[""False_Northing"",5400088.4378],PARAMETER[""Central_Meridian"",4.367486666666666],PARAMETER[""Standard_Parallel_1"",49.8333339],PARAMETER[""Standard_Parallel_2"",51.16666723333333],PARAMETER[""Latitude_Of_Origin"",90.0],UNIT[""Meter"",1.0]]""",IDLIST,"""Bedrijventerreinen_-_Bedrijventerrein  '
+                                                                                                                                                                                                       '{Bedrijventerreinen_-_Bedrijventerrein}"""',
+                                                                                                  'DATABASE': 'C:\\Users\\nyall\\AppData\\Roaming\\Safe '
+                                                                                                              'Software\\Interoperability',
+                                                                                                  'ref_id': 4,
+                                                                                                  'stream_offset': '0x2ff',
+                                                                                                  'type': 'PropertySet',
+                                                                                                  'version': 1},
+                                                                        'name': 'C:\\Users\\nyall\\AppData\\Roaming\\Safe '
+                                                                                'Software\\Interoperability',
+                                                                        'name_string': '',
+                                                                        'path_name': '',
+                                                                        'ref_id': 3,
+                                                                        'stream_offset': '0x23d',
+                                                                        'type': 'WorkspaceName',
+                                                                        'version': 1,
+                                                                        'workspace_factory': {'stream_offset': '0x2314',
+                                                                                              'type': 'FMEWorkspaceFactory',
+                                                                                              'version': 1},
+                                                                        'workspace_type': 'ESRI_FILESYSTEM_WORKSPACE'}},
+                                    'datasource_type': 'Interoperability '
+                                                       'Feature Class',
+                                    'feature_type': 'FT_SIMPLE',
+                                    'name': 'Bedrijventerreinen_-_Bedrijventerrein '
+                                            'Polygon',
+                                    'ref_id': 1,
+                                    'shape_field_name': 'SHAPE',
+                                    'shape_type': 'polygon',
+                                    'stream_offset': '0xbe',
+                                    'type': 'FeatureClassName',
+                                    'version': 2},
+                   'datasource_type': 'Interoperability Feature Class',
+                   'definition_query': '',
+                   'definition_query_search_order': 'spatial_first',
+                   'description': '',
+                   'display_expression_properties': None,
+                   'display_field': 'gml_parent_id',
+                   'display_filter': None,
+                   'extensions': [{'properties': {'ServiceLayerID': 0,
+                                                  'ref_id': 55,
+                                                  'stream_offset': '0x32f8',
+                                                  'type': 'PropertySet',
+                                                  'version': 1},
+                                   'stream_offset': '0x32e6',
+                                   'type': 'ServerLayerExtension',
+                                   'version': 1}],
+                   'features_excluded_from_rendering': {'features': [],
+                                                        'ref_id': 54,
+                                                        'stream_offset': '0x3272',
+                                                        'type': 'FeatureIDSet',
+                                                        'version': 1},
+                   'field_format': {'AANTBESCH': {'alias': 'AANTBESCH',
+                                                  'highlight': False,
+                                                  'number_format': {'alignment': 'ALIGN_RIGHT',
+                                                                    'alignment_width': 12,
+                                                                    'ref_id': 28,
+                                                                    'rounding': 'ROUND_NUMBER_OF_DECIMALS',
+                                                                    'rounding_value': 0,
+                                                                    'show_plus_sign': False,
+                                                                    'stream_offset': '0x2a6c',
+                                                                    'thousands': False,
+                                                                    'type': 'NumericFormat',
+                                                                    'version': 1,
+                                                                    'zero_pad': False},
+                                                  'read_only': False,
+                                                  'ref_id': 27,
+                                                  'stream_offset': '0x2a3a',
+                                                  'type': 'FieldInfo',
+                                                  'value_as_ratio': False,
+                                                  'version': 4,
+                                                  'visible': True},
+                                    'ALTNAAM': {'alias': 'ALTNAAM',
+                                                'highlight': False,
+                                                'number_format': None,
+                                                'read_only': False,
+                                                'ref_id': 25,
+                                                'stream_offset': '0x297a',
+                                                'type': 'FieldInfo',
+                                                'value_as_ratio': False,
+                                                'version': 4,
+                                                'visible': True},
+                                    'BESCHKAV': {'alias': 'BESCHKAV',
+                                                 'highlight': False,
+                                                 'number_format': None,
+                                                 'read_only': False,
+                                                 'ref_id': 26,
+                                                 'stream_offset': '0x29d8',
+                                                 'type': 'FieldInfo',
+                                                 'value_as_ratio': False,
+                                                 'version': 4,
+                                                 'visible': True},
+                                    'BESCHOPP': {'alias': 'BESCHOPP',
+                                                 'highlight': False,
+                                                 'number_format': {'alignment': 'ALIGN_RIGHT',
+                                                                   'alignment_width': 12,
+                                                                   'ref_id': 30,
+                                                                   'rounding': 'ROUND_NUMBER_OF_DECIMALS',
+                                                                   'rounding_value': 6,
+                                                                   'show_plus_sign': False,
+                                                                   'stream_offset': '0x2ae8',
+                                                                   'thousands': False,
+                                                                   'type': 'NumericFormat',
+                                                                   'version': 1,
+                                                                   'zero_pad': False},
+                                                 'read_only': False,
+                                                 'ref_id': 29,
+                                                 'stream_offset': '0x2ab8',
+                                                 'type': 'FieldInfo',
+                                                 'value_as_ratio': False,
+                                                 'version': 4,
+                                                 'visible': True},
+                                    'GEMEENTE': {'alias': 'GEMEENTE',
+                                                 'highlight': False,
+                                                 'number_format': None,
+                                                 'read_only': False,
+                                                 'ref_id': 31,
+                                                 'stream_offset': '0x2b34',
+                                                 'type': 'FieldInfo',
+                                                 'value_as_ratio': False,
+                                                 'version': 4,
+                                                 'visible': True},
+                                    'IDBEDR': {'alias': 'IDBEDR',
+                                               'highlight': False,
+                                               'number_format': None,
+                                               'read_only': False,
+                                               'ref_id': 23,
+                                               'stream_offset': '0x28d0',
+                                               'type': 'FieldInfo',
+                                               'value_as_ratio': False,
+                                               'version': 4,
+                                               'visible': True},
+                                    'LENGTE': {'alias': 'LENGTE',
+                                               'highlight': False,
+                                               'number_format': {'alignment': 'ALIGN_RIGHT',
+                                                                 'alignment_width': 12,
+                                                                 'ref_id': 37,
+                                                                 'rounding': 'ROUND_NUMBER_OF_DECIMALS',
+                                                                 'rounding_value': 6,
+                                                                 'show_plus_sign': False,
+                                                                 'stream_offset': '0x2d20',
+                                                                 'thousands': False,
+                                                                 'type': 'NumericFormat',
+                                                                 'version': 1,
+                                                                 'zero_pad': False},
+                                               'read_only': False,
+                                               'ref_id': 36,
+                                               'stream_offset': '0x2cf4',
+                                               'type': 'FieldInfo',
+                                               'value_as_ratio': False,
+                                               'version': 4,
+                                               'visible': True},
+                                    'NAAM': {'alias': 'NAAM',
+                                             'highlight': False,
+                                             'number_format': None,
+                                             'read_only': False,
+                                             'ref_id': 24,
+                                             'stream_offset': '0x2924',
+                                             'type': 'FieldInfo',
+                                             'value_as_ratio': False,
+                                             'version': 4,
+                                             'visible': True},
+                                    'NISCODE': {'alias': 'NISCODE',
+                                                'highlight': False,
+                                                'number_format': None,
+                                                'read_only': False,
+                                                'ref_id': 33,
+                                                'stream_offset': '0x2bee',
+                                                'type': 'FieldInfo',
+                                                'value_as_ratio': False,
+                                                'version': 4,
+                                                'visible': True},
+                                    'OBJECTID': {'alias': 'OBJECTID',
+                                                 'highlight': False,
+                                                 'number_format': {'alignment': 'ALIGN_RIGHT',
+                                                                   'alignment_width': 12,
+                                                                   'ref_id': 18,
+                                                                   'rounding': 'ROUND_NUMBER_OF_DECIMALS',
+                                                                   'rounding_value': 0,
+                                                                   'show_plus_sign': False,
+                                                                   'stream_offset': '0x27b0',
+                                                                   'thousands': False,
+                                                                   'type': 'NumericFormat',
+                                                                   'version': 1,
+                                                                   'zero_pad': False},
+                                                 'read_only': False,
+                                                 'ref_id': 17,
+                                                 'stream_offset': '0x2780',
+                                                 'type': 'FieldInfo',
+                                                 'value_as_ratio': False,
+                                                 'version': 4,
+                                                 'visible': True},
+                                    'OBJECTID_1': {'alias': 'OBJECTID_1',
+                                                   'highlight': False,
+                                                   'number_format': None,
+                                                   'read_only': True,
+                                                   'ref_id': 12,
+                                                   'stream_offset': '0x2570',
+                                                   'type': 'FieldInfo',
+                                                   'value_as_ratio': False,
+                                                   'version': 4,
+                                                   'visible': True},
+                                    'OIDN': {'alias': 'OIDN',
+                                             'highlight': False,
+                                             'number_format': {'alignment': 'ALIGN_RIGHT',
+                                                               'alignment_width': 12,
+                                                               'ref_id': 20,
+                                                               'rounding': 'ROUND_NUMBER_OF_DECIMALS',
+                                                               'rounding_value': 6,
+                                                               'show_plus_sign': False,
+                                                               'stream_offset': '0x281c',
+                                                               'thousands': False,
+                                                               'type': 'NumericFormat',
+                                                               'version': 1,
+                                                               'zero_pad': False},
+                                             'read_only': False,
+                                             'ref_id': 19,
+                                             'stream_offset': '0x27f4',
+                                             'type': 'FieldInfo',
+                                             'value_as_ratio': False,
+                                             'version': 4,
+                                             'visible': True},
+                                    'OPPERVL': {'alias': 'OPPERVL',
+                                                'highlight': False,
+                                                'number_format': {'alignment': 'ALIGN_RIGHT',
+                                                                  'alignment_width': 12,
+                                                                  'ref_id': 39,
+                                                                  'rounding': 'ROUND_NUMBER_OF_DECIMALS',
+                                                                  'rounding_value': 6,
+                                                                  'show_plus_sign': False,
+                                                                  'stream_offset': '0x2d98',
+                                                                  'thousands': False,
+                                                                  'type': 'NumericFormat',
+                                                                  'version': 1,
+                                                                  'zero_pad': False},
+                                                'read_only': False,
+                                                'ref_id': 38,
+                                                'stream_offset': '0x2d6a',
+                                                'type': 'FieldInfo',
+                                                'value_as_ratio': False,
+                                                'version': 4,
+                                                'visible': True},
+                                    'REVISIE': {'alias': 'REVISIE',
+                                                'highlight': False,
+                                                'number_format': None,
+                                                'read_only': False,
+                                                'ref_id': 32,
+                                                'stream_offset': '0x2b92',
+                                                'type': 'FieldInfo',
+                                                'value_as_ratio': False,
+                                                'version': 4,
+                                                'visible': True},
+                                    'SHAPE': {'alias': 'SHAPE',
+                                              'highlight': False,
+                                              'number_format': None,
+                                              'read_only': False,
+                                              'ref_id': 13,
+                                              'stream_offset': '0x25ce',
+                                              'type': 'FieldInfo',
+                                              'value_as_ratio': False,
+                                              'version': 4,
+                                              'visible': True},
+                                    'Shape_Area': {'alias': 'Shape_Area',
+                                                   'highlight': False,
+                                                   'number_format': {'alignment': 'ALIGN_RIGHT',
+                                                                     'alignment_width': 12,
+                                                                     'ref_id': 43,
+                                                                     'rounding': 'ROUND_NUMBER_OF_DECIMALS',
+                                                                     'rounding_value': 6,
+                                                                     'show_plus_sign': False,
+                                                                     'stream_offset': '0x2ea8',
+                                                                     'thousands': False,
+                                                                     'type': 'NumericFormat',
+                                                                     'version': 1,
+                                                                     'zero_pad': False},
+                                                   'read_only': False,
+                                                   'ref_id': 42,
+                                                   'stream_offset': '0x2e74',
+                                                   'type': 'FieldInfo',
+                                                   'value_as_ratio': False,
+                                                   'version': 4,
+                                                   'visible': True},
+                                    'Shape_Length': {'alias': 'Shape_Length',
+                                                     'highlight': False,
+                                                     'number_format': {'alignment': 'ALIGN_RIGHT',
+                                                                       'alignment_width': 12,
+                                                                       'ref_id': 41,
+                                                                       'rounding': 'ROUND_NUMBER_OF_DECIMALS',
+                                                                       'rounding_value': 6,
+                                                                       'show_plus_sign': False,
+                                                                       'stream_offset': '0x2e24',
+                                                                       'thousands': False,
+                                                                       'type': 'NumericFormat',
+                                                                       'version': 1,
+                                                                       'zero_pad': False},
+                                                     'read_only': False,
+                                                     'ref_id': 40,
+                                                     'stream_offset': '0x2dec',
+                                                     'type': 'FieldInfo',
+                                                     'value_as_ratio': False,
+                                                     'version': 4,
+                                                     'visible': True},
+                                    'TYPE': {'alias': 'TYPE',
+                                             'highlight': False,
+                                             'number_format': None,
+                                             'read_only': False,
+                                             'ref_id': 34,
+                                             'stream_offset': '0x2c44',
+                                             'type': 'FieldInfo',
+                                             'value_as_ratio': False,
+                                             'version': 4,
+                                             'visible': True},
+                                    'UIDN': {'alias': 'UIDN',
+                                             'highlight': False,
+                                             'number_format': {'alignment': 'ALIGN_RIGHT',
+                                                               'alignment_width': 12,
+                                                               'ref_id': 22,
+                                                               'rounding': 'ROUND_NUMBER_OF_DECIMALS',
+                                                               'rounding_value': 6,
+                                                               'show_plus_sign': False,
+                                                               'stream_offset': '0x2888',
+                                                               'thousands': False,
+                                                               'type': 'NumericFormat',
+                                                               'version': 1,
+                                                               'zero_pad': False},
+                                             'read_only': False,
+                                             'ref_id': 21,
+                                             'stream_offset': '0x2860',
+                                             'type': 'FieldInfo',
+                                             'value_as_ratio': False,
+                                             'version': 4,
+                                             'visible': True},
+                                    'URIBEDR': {'alias': 'URIBEDR',
+                                                'highlight': False,
+                                                'number_format': None,
+                                                'read_only': False,
+                                                'ref_id': 35,
+                                                'stream_offset': '0x2c9a',
+                                                'type': 'FieldInfo',
+                                                'value_as_ratio': False,
+                                                'version': 4,
+                                                'visible': True},
+                                    'gml_id': {'alias': 'gml_id',
+                                               'highlight': False,
+                                               'number_format': None,
+                                               'read_only': False,
+                                               'ref_id': 16,
+                                               'stream_offset': '0x2724',
+                                               'type': 'FieldInfo',
+                                               'value_as_ratio': False,
+                                               'version': 4,
+                                               'visible': True},
+                                    'gml_parent_id': {'alias': 'gml_parent_id',
+                                                      'highlight': False,
+                                                      'number_format': None,
+                                                      'read_only': False,
+                                                      'ref_id': 14,
+                                                      'stream_offset': '0x2632',
+                                                      'type': 'FieldInfo',
+                                                      'value_as_ratio': False,
+                                                      'version': 4,
+                                                      'visible': True},
+                                    'gml_parent_property': {'alias': 'gml_parent_property',
+                                                            'highlight': False,
+                                                            'number_format': None,
+                                                            'read_only': False,
+                                                            'ref_id': 15,
+                                                            'stream_offset': '0x26b2',
+                                                            'type': 'FieldInfo',
+                                                            'value_as_ratio': False,
+                                                            'version': 4,
+                                                            'visible': True}},
+                   'html_popup_download_attachment': False,
+                   'html_popup_enabled': True,
+                   'html_popup_style': 'two_column_table',
+                   'hyperlink_expression_properties': None,
+                   'hyperlink_field': '',
+                   'hyperlink_macro_name': '',
+                   'hyperlink_type': 'document',
+                   'hyperlinks': [],
+                   'join': None,
+                   'join_type': 'left_outer',
+                   'labels_enabled': False,
+                   'layer_extent': {'crs': {'is_high_precision': True,
+                                            'm_origin': -100000.0,
+                                            'm_scale': 10000.0,
+                                            'm_tolerance': 0.001,
+                                            'ref_id': 61,
+                                            'stream_offset': '0x3434',
+                                            'type': 'ProjectedCoordinateSystem',
+                                            'version': 6,
+                                            'wkt': 'PROJCS["Belge_Lambert_1972",GEOGCS["GCS_Belge_1972",DATUM["D_Belge_1972",SPHEROID["International_1924",6378388.0,297.0]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["False_Easting",150000.013],PARAMETER["False_Northing",5400088.438],PARAMETER["Central_Meridian",4.367486666666666],PARAMETER["Standard_Parallel_1",49.8333339],PARAMETER["Standard_Parallel_2",51.16666723333333],PARAMETER["Latitude_Of_Origin",90.0],UNIT["Meter",1.0],AUTHORITY["EPSG",31370]]',
+                                            'x_origin': -35872700.0,
+                                            'xy_scale': 125021156.86415774,
+                                            'xy_tolerance': 0.001,
+                                            'y_origin': -30622700.0,
+                                            'z_origin': -100000.0,
+                                            'z_scale': 10000.0,
+                                            'z_tolerance': 0.001},
+                                    'ref_id': 60,
+                                    'stream_offset': '0x33fa',
+                                    'type': 'Envelope',
+                                    'version': 3,
+                                    'x_max': 219509.435800001,
+                                    'x_min': 157126.504999999,
+                                    'y_max': 254756.2321999967,
+                                    'y_min': 192504.6259000003},
+                   'map_tip_field_name': '',
+                   'map_tip_hide_field_name': False,
+                   'map_tip_show_coded': True,
+                   'map_tip_url_prefix': '',
+                   'map_tip_url_suffix': '',
+                   'map_tip_xsl': '',
+                   'name': 'Bedrijventerreinen_-_Bedrijventerrein Polygon',
+                   'page_name_field': '',
+                   'page_name_match_operator': '',
+                   'ref_id': 0,
+                   'relations': [],
+                   'renderer': {'graduated_expression': '',
+                                'graduated_size_type': '',
+                                'legend_group': {'classes': [{'description': '',
+                                                              'feature_count': None,
+                                                              'format': None,
+                                                              'label': '',
+                                                              'ref_id': 11,
+                                                              'stream_offset': '0x2416',
+                                                              'symbol': {'color': {'B': 207,
+                                                                                   'G': 250,
+                                                                                   'R': 229,
+                                                                                   'dither': False,
+                                                                                   'is_null': False,
+                                                                                   'ref_id': 9,
+                                                                                   'stream_offset': '0x23b3',
+                                                                                   'type': 'RgbColor',
+                                                                                   'version': 1},
+                                                                         'enabled': True,
+                                                                         'fill_style': 'solid',
+                                                                         'locked': False,
+                                                                         'outline': {'color': {'B': 110,
+                                                                                               'G': 110,
+                                                                                               'R': 110,
+                                                                                               'dither': True,
+                                                                                               'is_null': False,
+                                                                                               'ref_id': 8,
+                                                                                               'stream_offset': '0x236c',
+                                                                                               'type': 'RgbColor',
+                                                                                               'version': 1},
+                                                                                     'enabled': True,
+                                                                                     'line_type': 'solid',
+                                                                                     'locked': False,
+                                                                                     'ref_id': 7,
+                                                                                     'stream_offset': '0x2356',
+                                                                                     'symbol_level': 0,
+                                                                                     'type': 'SimpleLineSymbol',
+                                                                                     'version': 1,
+                                                                                     'width': 0.4},
+                                                                         'ref_id': 6,
+                                                                         'stream_offset': '0x2340',
+                                                                         'symbol_level': 0,
+                                                                         'type': 'SimpleFillSymbol',
+                                                                         'version': 1},
+                                                              'type': 'LegendClass',
+                                                              'version': 2}],
+                                                 'editable_or_expanded': True,
+                                                 'heading': '',
+                                                 'ref_id': 10,
+                                                 'stream_offset': '0x23f2',
+                                                 'type': 'LegendGroup',
+                                                 'version': 3,
+                                                 'visible': True},
+                                'random_rotation_max_x': 360.0,
+                                'random_rotation_max_y': 360.0,
+                                'random_rotation_max_z': 360.0,
+                                'random_rotation_min_x': 0.0,
+                                'random_rotation_min_y': 0.0,
+                                'random_rotation_min_z': 0.0,
+                                'random_size_max': 100.0,
+                                'random_size_min': 0.1,
+                                'ref_id': 5,
+                                'rotate_flag_3d': 'none',
+                                'rotation_attribute': '',
+                                'rotation_expression_x': '',
+                                'rotation_expression_y': '',
+                                'rotation_expression_z': '',
+                                'rotation_type': 'geographic',
+                                'stream_offset': '0x232a',
+                                'symbol': {'color': {'B': 207,
+                                                     'G': 250,
+                                                     'R': 229,
+                                                     'dither': False,
+                                                     'is_null': False,
+                                                     'ref_id': 9,
+                                                     'stream_offset': '0x23b3',
+                                                     'type': 'RgbColor',
+                                                     'version': 1},
+                                           'enabled': True,
+                                           'fill_style': 'solid',
+                                           'locked': False,
+                                           'outline': {'color': {'B': 110,
+                                                                 'G': 110,
+                                                                 'R': 110,
+                                                                 'dither': True,
+                                                                 'is_null': False,
+                                                                 'ref_id': 8,
+                                                                 'stream_offset': '0x236c',
+                                                                 'type': 'RgbColor',
+                                                                 'version': 1},
+                                                       'enabled': True,
+                                                       'line_type': 'solid',
+                                                       'locked': False,
+                                                       'ref_id': 7,
+                                                       'stream_offset': '0x2356',
+                                                       'symbol_level': 0,
+                                                       'type': 'SimpleLineSymbol',
+                                                       'version': 1,
+                                                       'width': 0.4},
+                                           'ref_id': 6,
+                                           'stream_offset': '0x2340',
+                                           'symbol_level': 0,
+                                           'type': 'SimpleFillSymbol',
+                                           'version': 1},
+                                'transparency_attribute': '',
+                                'type': 'SimpleRenderer',
+                                'version': 3},
+                   'scale_symbols': True,
+                   'selectable': True,
+                   'selected_feature_symbol': {'color': {'B': 0,
+                                                         'G': 0,
+                                                         'R': 0,
+                                                         'dither': True,
+                                                         'is_null': True,
+                                                         'ref_id': 59,
+                                                         'stream_offset': '0x33b5',
+                                                         'type': 'RgbColor',
+                                                         'version': 1},
+                                               'enabled': True,
+                                               'fill_style': 'solid',
+                                               'locked': False,
+                                               'outline': {'color': {'B': 255,
+                                                                     'G': 255,
+                                                                     'R': 0,
+                                                                     'dither': True,
+                                                                     'is_null': False,
+                                                                     'ref_id': 58,
+                                                                     'stream_offset': '0x336e',
+                                                                     'type': 'RgbColor',
+                                                                     'version': 1},
+                                                           'enabled': True,
+                                                           'line_type': 'solid',
+                                                           'locked': False,
+                                                           'ref_id': 57,
+                                                           'stream_offset': '0x3358',
+                                                           'symbol_level': 0,
+                                                           'type': 'SimpleLineSymbol',
+                                                           'version': 1,
+                                                           'width': 2.0},
+                                               'ref_id': 56,
+                                               'stream_offset': '0x3342',
+                                               'symbol_level': 0,
+                                               'type': 'SimpleFillSymbol',
+                                               'version': 1},
+                   'selection_color': None,
+                   'selection_set': [],
+                   'shape_type': 'polygon',
+                   'show_map_tips': False,
+                   'show_selection_using_symbol': False,
+                   'stored_zoom_max': 0.0,
+                   'stored_zoom_min': 0.0,
+                   'stream_offset': '0x0',
+                   'time_data_changes_regularly': False,
+                   'time_dimension_format': '',
+                   'time_dimension_name': '',
+                   'time_display_cumulative': False,
+                   'time_enabled': False,
+                   'time_end_field': '',
+                   'time_extent': None,
+                   'time_field': '',
+                   'time_format': '',
+                   'time_offset': 0.0,
+                   'time_offset_units': 'years',
+                   'time_step': 0.0,
+                   'time_step_units': 'hours',
+                   'time_zone': None,
+                   'track_id_field_name': '',
+                   'transparency': 0,
+                   'type': 'FeatureLayer',
+                   'uid': {'ref_id': 62,
+                           'stream_offset': '0x36b7',
+                           'sub_type': 0,
+                           'type': 'UID',
+                           'value': '01004145-0d1c-11d2-a26f-080009b6f22b',
+                           'version': 1},
+                   'use_advanced_symbol_levels': False,
+                   'use_page_definition_query': False,
+                   'version': 34,
+                   'visible': True,
+                   'weight': 100.0,
+                   'zoom_max': 0.0,
+                   'zoom_min': 0.0}},
+ 'qgis_layers': '<qlr>\n'
+                ' <maplayers>\n'
+                '  <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" '
+                'geometry="Polygon" hasScaleBasedVisibilityFlag="0" '
+                'labelsEnabled="0" legendPlaceholderImage="" maxScale="0" '
+                'minScale="0" readOnly="0" refreshOnNotifyEnabled="0" '
+                'refreshOnNotifyMessage="" simplifyAlgorithm="0" '
+                'simplifyDrawingHints="1" simplifyDrawingTol="1" '
+                'simplifyLocal="1" simplifyMaxScale="1" '
+                'styleCategories="AllStyleCategories" '
+                'symbologyReferenceScale="-1" type="vector" '
+                'wkbType="MultiPolygon">\n'
+                '   <id>...</id>\n'
+                "   <datasource>authcfg=myAuthId pagingEnabled='true' "
+                "preferCoordinatesForWfsT11='false' "
+                "typename='Mobiliteit:Bedrijventerreinen_-_Bedrijventerrein' "
+                "url='https://geo.limburg.be/arcgis/services/Mobiliteit/MapServer/WFSServer?' "
+                "version='auto'</datasource>\n"
+                '   <layername>Bedrijventerreinen_-_Bedrijventerrein '
+                'Polygon</layername>\n'
+                '   <srs>\n'
+                '    <spatialrefsys nativeFormat="Wkt">\n'
+                '     <wkt>PROJCRS["BD72 / Belgian Lambert '
+                '72",BASEGEOGCRS["BD72",DATUM["Reseau National Belge '
+                '1972",ELLIPSOID["International '
+                '1924",6378388,297,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4313]],CONVERSION["Belgian '
+                'Lambert 72",METHOD["Lambert Conic Conformal '
+                '(2SP)",ID["EPSG",9802]],PARAMETER["Latitude of false '
+                'origin",90,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8821]],PARAMETER["Longitude '
+                'of false '
+                'origin",4.36748666666667,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8822]],PARAMETER["Latitude '
+                'of 1st standard '
+                'parallel",51.1666672333333,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8823]],PARAMETER["Latitude '
+                'of 2nd standard '
+                'parallel",49.8333339,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8824]],PARAMETER["Easting '
+                'at false '
+                'origin",150000.013,LENGTHUNIT["metre",1],ID["EPSG",8826]],PARAMETER["Northing '
+                'at false '
+                'origin",5400088.438,LENGTHUNIT["metre",1],ID["EPSG",8827]]],CS[Cartesian,2],AXIS["easting '
+                '(X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing '
+                '(Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Engineering '
+                'survey, topographic mapping."],AREA["Belgium - '
+                'onshore."],BBOX[49.5,2.5,51.51,6.4]],ID["EPSG",31370]]</wkt>\n'
+                '     <proj4>+proj=lcc +lat_0=90 +lon_0=4.36748666666667 '
+                '+lat_1=51.1666672333333 +lat_2=49.8333339 +x_0=150000.013 '
+                '+y_0=5400088.438 +ellps=intl +units=m +no_defs</proj4>\n'
+                '     <srsid>2640</srsid>\n'
+                '     <srid>31370</srid>\n'
+                '     <authid>EPSG:31370</authid>\n'
+                '     <description>BD72 / Belgian Lambert 72</description>\n'
+                '     <projectionacronym>lcc</projectionacronym>\n'
+                '     <ellipsoidacronym>EPSG:7022</ellipsoidacronym>\n'
+                '     <geographicflag>false</geographicflag>\n'
+                '    </spatialrefsys>\n'
+                '   </srs>\n'
+                '   <resourceMetadata>\n'
+                '    <identifier></identifier>\n'
+                '    <parentidentifier></parentidentifier>\n'
+                '    <language></language>\n'
+                '    <type></type>\n'
+                '    <title></title>\n'
+                '    <abstract></abstract>\n'
+                '    <links></links>\n'
+                '    <dates></dates>\n'
+                '    <fees></fees>\n'
+                '    <encoding></encoding>\n'
+                '    <crs>\n'
+                '     <spatialrefsys nativeFormat="Wkt">\n'
+                '      <wkt></wkt>\n'
+                '      <proj4></proj4>\n'
+                '      <srsid>0</srsid>\n'
+                '      <srid>0</srid>\n'
+                '      <authid></authid>\n'
+                '      <description></description>\n'
+                '      <projectionacronym></projectionacronym>\n'
+                '      <ellipsoidacronym></ellipsoidacronym>\n'
+                '      <geographicflag>false</geographicflag>\n'
+                '     </spatialrefsys>\n'
+                '    </crs>\n'
+                '    <extent></extent>\n'
+                '   </resourceMetadata>\n'
+                '   <vectorjoins></vectorjoins>\n'
+                '   <layerDependencies></layerDependencies>\n'
+                '   <dataDependencies></dataDependencies>\n'
+                '   <expressionfields></expressionfields>\n'
+                '   <map-layer-style-manager current="default">\n'
+                '    <map-layer-style name="default"></map-layer-style>\n'
+                '   </map-layer-style-manager>\n'
+                '   <auxiliaryLayer></auxiliaryLayer>\n'
+                '   <flags>\n'
+                '    <Identifiable>1</Identifiable>\n'
+                '    <Removable>1</Removable>\n'
+                '    <Searchable>1</Searchable>\n'
+                '    <Private>0</Private>\n'
+                '   </flags>\n'
+                '   <temporal accumulate="0" durationField="" '
+                'durationUnit="min" enabled="0" endExpression="" endField="" '
+                'fixedDuration="0" limitMode="0" mode="0" startExpression="" '
+                'startField="">\n'
+                '    <fixedRange>\n'
+                '     <start></start>\n'
+                '     <end></end>\n'
+                '    </fixedRange>\n'
+                '   </temporal>\n'
+                '   <elevation binding="Centroid" clamping="Terrain" '
+                'customToleranceEnabled="0" extrusion="0" extrusionEnabled="0" '
+                'respectLayerSymbol="1" showMarkerSymbolInSurfacePlots="0" '
+                'symbology="Line" type="IndividualFeatures" zoffset="0" '
+                'zscale="1">\n'
+                '    <data-defined-properties>\n'
+                '     <Option type="Map">\n'
+                '      <Option name="name" type="QString" value=""></Option>\n'
+                '      <Option name="properties"></Option>\n'
+                '      <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '     </Option>\n'
+                '    </data-defined-properties>\n'
+                '    <profileLineSymbol>\n'
+                '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="" type="line">\n'
+                '      <data_defined_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </data_defined_properties>\n'
+                '      <layer class="SimpleLine" enabled="1" id="..." '
+                'locked="0" pass="0">\n'
+                '       <Option type="Map">\n'
+                '        <Option name="align_dash_pattern" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="capstyle" type="QString" '
+                'value="square"></Option>\n'
+                '        <Option name="customdash" type="QString" '
+                'value="5;2"></Option>\n'
+                '        <Option name="customdash_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="customdash_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="dash_pattern_offset" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="dash_pattern_offset_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="dash_pattern_offset_unit" '
+                'type="QString" value="MM"></Option>\n'
+                '        <Option name="draw_inside_polygon" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="joinstyle" type="QString" '
+                'value="bevel"></Option>\n'
+                '        <Option name="line_color" type="QString" '
+                'value="255,0,0,255,rgb:1,0,0,1"></Option>\n'
+                '        <Option name="line_style" type="QString" '
+                'value="solid"></Option>\n'
+                '        <Option name="line_width" type="QString" '
+                'value="0.6"></Option>\n'
+                '        <Option name="line_width_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="offset" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="ring_filter" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_end" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_end_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="trim_distance_end_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="trim_distance_start" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="trim_distance_start_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="trim_distance_start_unit" '
+                'type="QString" value="MM"></Option>\n'
+                '        <Option name="tweak_dash_pattern_on_corners" '
+                'type="QString" value="0"></Option>\n'
+                '        <Option name="use_custom_dash" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="width_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '       </Option>\n'
+                '       <data_defined_properties>\n'
+                '        <Option type="Map">\n'
+                '         <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '         <Option name="properties"></Option>\n'
+                '         <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '        </Option>\n'
+                '       </data_defined_properties>\n'
+                '      </layer>\n'
+                '     </symbol>\n'
+                '    </profileLineSymbol>\n'
+                '    <profileFillSymbol>\n'
+                '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="" type="fill">\n'
+                '      <data_defined_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </data_defined_properties>\n'
+                '      <layer class="SimpleFill" enabled="1" id="..." '
+                'locked="0" pass="0">\n'
+                '       <Option type="Map">\n'
+                '        <Option name="border_width_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="color" type="QString" '
+                'value="255,0,0,255,rgb:1,0,0,1"></Option>\n'
+                '        <Option name="joinstyle" type="QString" '
+                'value="bevel"></Option>\n'
+                '        <Option name="offset" type="QString" '
+                'value="0,0"></Option>\n'
+                '        <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="outline_color" type="QString" '
+                'value="255,255,0,255,rgb:1,1,0,1"></Option>\n'
+                '        <Option name="outline_style" type="QString" '
+                'value="solid"></Option>\n'
+                '        <Option name="outline_width" type="QString" '
+                'value="0.2"></Option>\n'
+                '        <Option name="outline_width_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="style" type="QString" '
+                'value="solid"></Option>\n'
+                '       </Option>\n'
+                '       <data_defined_properties>\n'
+                '        <Option type="Map">\n'
+                '         <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '         <Option name="properties"></Option>\n'
+                '         <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '        </Option>\n'
+                '       </data_defined_properties>\n'
+                '      </layer>\n'
+                '     </symbol>\n'
+                '    </profileFillSymbol>\n'
+                '    <profileMarkerSymbol>\n'
+                '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="" type="marker">\n'
+                '      <data_defined_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </data_defined_properties>\n'
+                '      <layer class="SimpleMarker" enabled="1" id="..." '
+                'locked="0" pass="0">\n'
+                '       <Option type="Map">\n'
+                '        <Option name="angle" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="cap_style" type="QString" '
+                'value="square"></Option>\n'
+                '        <Option name="color" type="QString" '
+                'value="255,0,0,255,rgb:1,0,0,1"></Option>\n'
+                '        <Option name="horizontal_anchor_point" type="QString" '
+                'value="1"></Option>\n'
+                '        <Option name="joinstyle" type="QString" '
+                'value="bevel"></Option>\n'
+                '        <Option name="name" type="QString" '
+                'value="diamond"></Option>\n'
+                '        <Option name="offset" type="QString" '
+                'value="0,0"></Option>\n'
+                '        <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="outline_color" type="QString" '
+                'value="255,255,0,255,rgb:1,1,0,1"></Option>\n'
+                '        <Option name="outline_style" type="QString" '
+                'value="solid"></Option>\n'
+                '        <Option name="outline_width" type="QString" '
+                'value="0.2"></Option>\n'
+                '        <Option name="outline_width_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="outline_width_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="scale_method" type="QString" '
+                'value="diameter"></Option>\n'
+                '        <Option name="size" type="QString" '
+                'value="3"></Option>\n'
+                '        <Option name="size_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="size_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="vertical_anchor_point" type="QString" '
+                'value="1"></Option>\n'
+                '       </Option>\n'
+                '       <data_defined_properties>\n'
+                '        <Option type="Map">\n'
+                '         <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '         <Option name="properties"></Option>\n'
+                '         <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '        </Option>\n'
+                '       </data_defined_properties>\n'
+                '      </layer>\n'
+                '     </symbol>\n'
+                '    </profileMarkerSymbol>\n'
+                '   </elevation>\n'
+                '   <renderer-v2 enableorderby="0" forceraster="0" '
+                'referencescale="-1" symbollevels="0" type="singleSymbol">\n'
+                '    <symbols>\n'
+                '     <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="0" type="fill">\n'
+                '      <data_defined_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </data_defined_properties>\n'
+                '      <layer class="SimpleFill" enabled="1" id="..." '
+                'locked="0" pass="0">\n'
+                '       <Option type="Map">\n'
+                '        <Option name="border_width_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="color" type="QString" '
+                'value="229,250,207,255,rgb:0.8980392,0.9803922,0.8117647,1"></Option>\n'
+                '        <Option name="joinstyle" type="QString" '
+                'value="round"></Option>\n'
+                '        <Option name="offset" type="QString" '
+                'value="0,0"></Option>\n'
+                '        <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '        <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '        <Option name="outline_color" type="QString" '
+                'value="110,110,110,255,rgb:0.4313725,0.4313725,0.4313725,1"></Option>\n'
+                '        <Option name="outline_style" type="QString" '
+                'value="solid"></Option>\n'
+                '        <Option name="outline_width" type="QString" '
+                'value="0"></Option>\n'
+                '        <Option name="outline_width_unit" type="QString" '
+                'value="Point"></Option>\n'
+                '        <Option name="style" type="QString" '
+                'value="solid"></Option>\n'
+                '       </Option>\n'
+                '       <data_defined_properties>\n'
+                '        <Option type="Map">\n'
+                '         <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '         <Option name="properties"></Option>\n'
+                '         <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '        </Option>\n'
+                '       </data_defined_properties>\n'
+                '      </layer>\n'
+                '     </symbol>\n'
+                '    </symbols>\n'
+                '    <rotation></rotation>\n'
+                '    <sizescale></sizescale>\n'
+                '    <data-defined-properties>\n'
+                '     <Option type="Map">\n'
+                '      <Option name="name" type="QString" value=""></Option>\n'
+                '      <Option name="properties"></Option>\n'
+                '      <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '     </Option>\n'
+                '    </data-defined-properties>\n'
+                '   </renderer-v2>\n'
+                '   <selection mode="Default">\n'
+                '    <selectionColor invalid="1"></selectionColor>\n'
+                '   </selection>\n'
+                '   <labeling type="simple">\n'
+                '    <settings calloutType="simple">\n'
+                '     <text-style allowHtml="0" blendMode="0" '
+                'capitalization="0" fieldName="gml_parent_id" '
+                'fontFamily="Arial" fontItalic="0" fontKerning="1" '
+                'fontLetterSpacing="0" fontSize="8" '
+                'fontSizeMapUnitScale="3x:0,0,0,0,0,0" fontSizeUnit="Point" '
+                'fontStrikeout="0" fontUnderline="0" fontWeight="16" '
+                'fontWordSpacing="0" forcedBold="0" forcedItalic="0" '
+                'isExpression="0" legendString="Aa" multilineHeight="1" '
+                'multilineHeightUnit="Percentage" namedStyle="" '
+                'previewBkgrdColor="255,255,255,255,rgb:1,1,1,1" '
+                'tabStopDistance="6" '
+                'tabStopDistanceMapUnitScale="3x:0,0,0,0,0,0" '
+                'tabStopDistanceUnit="Percentage" '
+                'textColor="0,0,0,255,rgb:0,0,0,1" textOpacity="1" '
+                'textOrientation="horizontal" useSubstitutions="0">\n'
+                '      <families></families>\n'
+                '      <text-buffer bufferBlendMode="0" '
+                'bufferColor="255,255,255,255,rgb:1,1,1,1" bufferDraw="0" '
+                'bufferJoinStyle="128" bufferNoFill="1" bufferOpacity="1" '
+                'bufferSize="2" bufferSizeMapUnitScale="3x:0,0,0,0,0,0" '
+                'bufferSizeUnits="Point"></text-buffer>\n'
+                '      <text-mask maskEnabled="0" maskJoinStyle="128" '
+                'maskOpacity="1" maskSize="1.5" maskSize2="1.5" '
+                'maskSizeMapUnitScale="3x:0,0,0,0,0,0" maskSizeUnits="MM" '
+                'maskType="0" maskedSymbolLayers=""></text-mask>\n'
+                '      <background shapeBlendMode="0" '
+                'shapeBorderColor="128,128,128,255,rgb:0.5019608,0.5019608,0.5019608,1" '
+                'shapeBorderWidth="0" '
+                'shapeBorderWidthMapUnitScale="3x:0,0,0,0,0,0" '
+                'shapeBorderWidthUnit="MM" shapeDraw="0" '
+                'shapeFillColor="255,255,255,255,rgb:1,1,1,1" '
+                'shapeJoinStyle="64" shapeOffsetMapUnitScale="3x:0,0,0,0,0,0" '
+                'shapeOffsetUnit="MM" shapeOffsetX="0" shapeOffsetY="0" '
+                'shapeOpacity="1" shapeRadiiMapUnitScale="3x:0,0,0,0,0,0" '
+                'shapeRadiiUnit="MM" shapeRadiiX="0" shapeRadiiY="0" '
+                'shapeRotation="0" shapeRotationType="0" shapeSVGFile="" '
+                'shapeSizeMapUnitScale="3x:0,0,0,0,0,0" shapeSizeType="0" '
+                'shapeSizeUnit="MM" shapeSizeX="0" shapeSizeY="0" '
+                'shapeType="0">\n'
+                '       <symbol alpha="1" clip_to_extent="1" force_rhr="0" '
+                'frame_rate="10" is_animated="0" name="fillSymbol" '
+                'type="fill">\n'
+                '        <data_defined_properties>\n'
+                '         <Option type="Map">\n'
+                '          <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '          <Option name="properties"></Option>\n'
+                '          <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '         </Option>\n'
+                '        </data_defined_properties>\n'
+                '        <layer class="SimpleFill" enabled="1" id="" '
+                'locked="0" pass="0">\n'
+                '         <Option type="Map">\n'
+                '          <Option name="border_width_map_unit_scale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '          <Option name="color" type="QString" '
+                'value="255,255,255,255,rgb:1,1,1,1"></Option>\n'
+                '          <Option name="joinstyle" type="QString" '
+                'value="bevel"></Option>\n'
+                '          <Option name="offset" type="QString" '
+                'value="0,0"></Option>\n'
+                '          <Option name="offset_map_unit_scale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '          <Option name="offset_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '          <Option name="outline_color" type="QString" '
+                'value="128,128,128,255,rgb:0.5019608,0.5019608,0.5019608,1"></Option>\n'
+                '          <Option name="outline_style" type="QString" '
+                'value="no"></Option>\n'
+                '          <Option name="outline_width" type="QString" '
+                'value="0"></Option>\n'
+                '          <Option name="outline_width_unit" type="QString" '
+                'value="MM"></Option>\n'
+                '          <Option name="style" type="QString" '
+                'value="solid"></Option>\n'
+                '         </Option>\n'
+                '         <data_defined_properties>\n'
+                '          <Option type="Map">\n'
+                '           <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '           <Option name="properties"></Option>\n'
+                '           <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '          </Option>\n'
+                '         </data_defined_properties>\n'
+                '        </layer>\n'
+                '       </symbol>\n'
+                '      </background>\n'
+                '      <shadow shadowBlendMode="6" '
+                'shadowColor="0,0,0,255,rgb:0,0,0,1" shadowDraw="0" '
+                'shadowOffsetAngle="135" shadowOffsetDist="1" '
+                'shadowOffsetGlobal="1" '
+                'shadowOffsetMapUnitScale="3x:0,0,0,0,0,0" '
+                'shadowOffsetUnit="MM" shadowOpacity="0.69999999999999996" '
+                'shadowRadius="1.5" shadowRadiusAlphaOnly="0" '
+                'shadowRadiusMapUnitScale="3x:0,0,0,0,0,0" '
+                'shadowRadiusUnit="MM" shadowScale="100" '
+                'shadowUnder="0"></shadow>\n'
+                '      <dd_properties>\n'
+                '       <Option type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '      </dd_properties>\n'
+                '      <substitutions></substitutions>\n'
+                '     </text-style>\n'
+                '     <text-format addDirectionSymbol="0" autoWrapLength="0" '
+                'decimals="3" formatNumbers="0" leftDirectionSymbol="&lt;" '
+                'multilineAlign="1" placeDirectionSymbol="0" plussign="0" '
+                'reverseDirectionSymbol="0" rightDirectionSymbol=">" '
+                'useMaxLineLengthForAutoWrap="1" wrapChar=""></text-format>\n'
+                '     <placement allowDegraded="0" centroidInside="0" '
+                'centroidWhole="0" dist="0" distMapUnitScale="3x:0,0,0,0,0,0" '
+                'distUnits="Point" fitInPolygonOnly="0" geometryGenerator="" '
+                'geometryGeneratorEnabled="0" '
+                'geometryGeneratorType="PointGeometry" '
+                'labelOffsetMapUnitScale="3x:0,0,0,0,0,0" '
+                'layerType="UnknownGeometry" lineAnchorClipping="0" '
+                'lineAnchorPercent="0.5" lineAnchorTextPoint="FollowPlacement" '
+                'lineAnchorType="0" maxCurvedCharAngleIn="25" '
+                'maxCurvedCharAngleOut="-25" maximumDistance="0" '
+                'maximumDistanceMapUnitScale="3x:0,0,0,0,0,0" '
+                'maximumDistanceUnit="MM" offsetType="1" offsetUnits="MM" '
+                'overlapHandling="PreventOverlap" overrunDistance="0" '
+                'overrunDistanceMapUnitScale="3x:0,0,0,0,0,0" '
+                'overrunDistanceUnit="MM" placement="4" placementFlags="10" '
+                'polygonPlacementFlags="2" '
+                'predefinedPositionOrder="TR,TL,BR,BL,R,L,TSR,BSR" '
+                'preserveRotation="1" prioritization="PreferCloser" '
+                'priority="10" quadOffset="4" repeatDistance="0" '
+                'repeatDistanceMapUnitScale="3x:0,0,0,0,0,0" '
+                'repeatDistanceUnits="MM" rotationAngle="0" '
+                'rotationUnit="AngleDegrees" xOffset="0" '
+                'yOffset="0"></placement>\n'
+                '     <rendering drawLabels="1" fontLimitPixelSize="0" '
+                'fontMaxPixelSize="10000" fontMinPixelSize="0" '
+                'labelPerPart="1" limitNumLabels="0" maxNumLabels="2000" '
+                'mergeLines="0" minFeatureSize="0" obstacle="0" '
+                'obstacleFactor="0" obstacleType="1" scaleMax="0" scaleMin="0" '
+                'scaleVisibility="0" unplacedVisibility="0" '
+                'upsidedownLabels="0" zIndex="0"></rendering>\n'
+                '     <dd_properties>\n'
+                '      <Option type="Map">\n'
+                '       <Option name="name" type="QString" value=""></Option>\n'
+                '       <Option name="properties"></Option>\n'
+                '       <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '      </Option>\n'
+                '     </dd_properties>\n'
+                '     <callout type="simple">\n'
+                '      <Option type="Map">\n'
+                '       <Option name="anchorPoint" type="QString" '
+                'value="pole_of_inaccessibility"></Option>\n'
+                '       <Option name="blendMode" type="int" '
+                'value="0"></Option>\n'
+                '       <Option name="ddProperties" type="Map">\n'
+                '        <Option name="name" type="QString" '
+                'value=""></Option>\n'
+                '        <Option name="properties"></Option>\n'
+                '        <Option name="type" type="QString" '
+                'value="collection"></Option>\n'
+                '       </Option>\n'
+                '       <Option name="drawToAllParts" type="bool" '
+                'value="false"></Option>\n'
+                '       <Option name="enabled" type="QString" '
+                'value="0"></Option>\n'
+                '       <Option name="labelAnchorPoint" type="QString" '
+                'value="point_on_exterior"></Option>\n'
+                '       <Option name="lineSymbol" type="QString" '
+                'value="&lt;symbol alpha=&quot;1&quot; '
+                'clip_to_extent=&quot;1&quot; force_rhr=&quot;0&quot; '
+                'frame_rate=&quot;10&quot; is_animated=&quot;0&quot; '
+                'name=&quot;symbol&quot; '
+                'type=&quot;line&quot;>&lt;data_defined_properties>&lt;Option '
+                'type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;properties&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;type&quot; type=&quot;QString&quot; '
+                'value=&quot;collection&quot;>&lt;/Option>&lt;/Option>&lt;/data_defined_properties>&lt;layer '
+                'class=&quot;SimpleLine&quot; enabled=&quot;1&quot; '
+                'id=&quot;...&quot; locked=&quot;0&quot; '
+                'pass=&quot;0&quot;>&lt;Option type=&quot;Map&quot;>&lt;Option '
+                'name=&quot;align_dash_pattern&quot; type=&quot;QString&quot; '
+                'value=&quot;0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;capstyle&quot; type=&quot;QString&quot; '
+                'value=&quot;square&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;customdash&quot; type=&quot;QString&quot; '
+                'value=&quot;5;2&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;customdash_map_unit_scale&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;3x:0,0,0,0,0,0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;customdash_unit&quot; type=&quot;QString&quot; '
+                'value=&quot;MM&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;dash_pattern_offset&quot; type=&quot;QString&quot; '
+                'value=&quot;0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;dash_pattern_offset_map_unit_scale&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;3x:0,0,0,0,0,0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;dash_pattern_offset_unit&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;MM&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;draw_inside_polygon&quot; type=&quot;QString&quot; '
+                'value=&quot;0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;joinstyle&quot; type=&quot;QString&quot; '
+                'value=&quot;bevel&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;line_color&quot; type=&quot;QString&quot; '
+                'value=&quot;60,60,60,255,rgb:0.2352941,0.2352941,0.2352941,1&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;line_style&quot; type=&quot;QString&quot; '
+                'value=&quot;solid&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;line_width&quot; type=&quot;QString&quot; '
+                'value=&quot;0.3&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;line_width_unit&quot; type=&quot;QString&quot; '
+                'value=&quot;MM&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;offset&quot; type=&quot;QString&quot; '
+                'value=&quot;0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;offset_map_unit_scale&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;3x:0,0,0,0,0,0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;offset_unit&quot; type=&quot;QString&quot; '
+                'value=&quot;MM&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;ring_filter&quot; type=&quot;QString&quot; '
+                'value=&quot;0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;trim_distance_end&quot; type=&quot;QString&quot; '
+                'value=&quot;0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;trim_distance_end_map_unit_scale&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;3x:0,0,0,0,0,0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;trim_distance_end_unit&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;MM&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;trim_distance_start&quot; type=&quot;QString&quot; '
+                'value=&quot;0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;trim_distance_start_map_unit_scale&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;3x:0,0,0,0,0,0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;trim_distance_start_unit&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;MM&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;tweak_dash_pattern_on_corners&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;use_custom_dash&quot; type=&quot;QString&quot; '
+                'value=&quot;0&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;width_map_unit_scale&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;3x:0,0,0,0,0,0&quot;>&lt;/Option>&lt;/Option>&lt;data_defined_properties>&lt;Option '
+                'type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; '
+                'type=&quot;QString&quot; '
+                'value=&quot;&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;properties&quot;>&lt;/Option>&lt;Option '
+                'name=&quot;type&quot; type=&quot;QString&quot; '
+                'value=&quot;collection&quot;>&lt;/Option>&lt;/Option>&lt;/data_defined_properties>&lt;/layer>&lt;/symbol>"></Option>\n'
+                '       <Option name="minLength" type="double" '
+                'value="0"></Option>\n'
+                '       <Option name="minLengthMapUnitScale" type="QString" '
+                'value="3x:0,0,0,0,0,0"></Option>\n'
+                '       <Option name="minLengthUnit" type="QString" '
+                'value="MM"></Option>\n'
+                '       <Option name="offsetFromAnchor" type="double" '
+                'value="0"></Option>\n'
+                '       <Option name="offsetFromAnchorMapUnitScale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '       <Option name="offsetFromAnchorUnit" type="QString" '
+                'value="MM"></Option>\n'
+                '       <Option name="offsetFromLabel" type="double" '
+                'value="0"></Option>\n'
+                '       <Option name="offsetFromLabelMapUnitScale" '
+                'type="QString" value="3x:0,0,0,0,0,0"></Option>\n'
+                '       <Option name="offsetFromLabelUnit" type="QString" '
+                'value="MM"></Option>\n'
+                '      </Option>\n'
+                '     </callout>\n'
+                '    </settings>\n'
+                '   </labeling>\n'
+                '   <customproperties>\n'
+                '    <Option></Option>\n'
+                '   </customproperties>\n'
+                '   <blendMode>0</blendMode>\n'
+                '   <featureBlendMode>0</featureBlendMode>\n'
+                '   <layerOpacity>1</layerOpacity>\n'
+                '   <geometryOptions geometryPrecision="0" '
+                'removeDuplicateNodes="0">\n'
+                '    <activeChecks type="StringList">\n'
+                '     <Option type="QString" value=""></Option>\n'
+                '    </activeChecks>\n'
+                '    <checkConfiguration></checkConfiguration>\n'
+                '   </geometryOptions>\n'
+                '   <fieldConfiguration></fieldConfiguration>\n'
+                '   <aliases></aliases>\n'
+                '   <defaults></defaults>\n'
+                '   <constraints></constraints>\n'
+                '   <constraintExpressions></constraintExpressions>\n'
+                '   <expressionfields></expressionfields>\n'
+                '   <attributeactions></attributeactions>\n'
+                '   <attributetableconfig actionWidgetStyle="dropDown" '
+                'sortExpression="" sortOrder="0">\n'
+                '    <columns>\n'
+                '     <column hidden="0" name="OBJECTID_1" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="SHAPE" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="gml_parent_id" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="gml_parent_property" '
+                'type="field" width="-1"></column>\n'
+                '     <column hidden="0" name="gml_id" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="OBJECTID" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="OIDN" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="UIDN" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="IDBEDR" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="NAAM" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="ALTNAAM" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="BESCHKAV" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="AANTBESCH" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="BESCHOPP" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="GEMEENTE" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="REVISIE" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="NISCODE" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="TYPE" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="URIBEDR" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="LENGTE" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="OPPERVL" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="Shape_Length" type="field" '
+                'width="-1"></column>\n'
+                '     <column hidden="0" name="Shape_Area" type="field" '
+                'width="-1"></column>\n'
+                '    </columns>\n'
+                '   </attributetableconfig>\n'
+                '   <conditionalstyles>\n'
+                '    <rowstyles></rowstyles>\n'
+                '    <fieldstyles></fieldstyles>\n'
+                '   </conditionalstyles>\n'
+                '   <storedexpressions></storedexpressions>\n'
+                '   <editform tolerant="1"></editform>\n'
+                '   <editforminit></editforminit>\n'
+                '   <editforminitcodesource>0</editforminitcodesource>\n'
+                '   <editforminitfilepath></editforminitfilepath>\n'
+                '   <editforminitcode></editforminitcode>\n'
+                '   <featformsuppress>0</featformsuppress>\n'
+                '   <editorlayout>generatedlayout</editorlayout>\n'
+                '   <editable></editable>\n'
+                '   <labelOnTop></labelOnTop>\n'
+                '   <reuseLastValue></reuseLastValue>\n'
+                '   <dataDefinedFieldProperties></dataDefinedFieldProperties>\n'
+                '   <widgets></widgets>\n'
+                '   <previewExpression>"gml_parent_id"</previewExpression>\n'
+                '   <mapTip enabled="1"></mapTip>\n'
+                '  </maplayer>\n'
+                ' </maplayers>\n'
+                '</qlr>'}

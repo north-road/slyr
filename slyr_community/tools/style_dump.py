@@ -22,17 +22,26 @@ args = parser.parse_args()
 total = 0
 unreadable = []
 
-for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MARKER_SYMBOLS, Extractor.COLORS):
-    print('{}:{}'.format(args.file, symbol_type))
+for symbol_type in (
+    Extractor.FILL_SYMBOLS,
+    Extractor.LINE_SYMBOLS,
+    Extractor.MARKER_SYMBOLS,
+    Extractor.COLORS,
+):
+    print("{}:{}".format(args.file, symbol_type))
 
     raw_symbols = Extractor.extract_styles(args.file, symbol_type)
     print('Found {} symbols of type "{}"\n\n'.format(len(raw_symbols), symbol_type))
 
     for index, symbol in enumerate(raw_symbols):
-        print('{}.\t{}\n\tCategory: {}\n\tTags: {}'.format(index + 1,
-                                                           symbol[Extractor.NAME],
-                                                           symbol[Extractor.CATEGORY],
-                                                           symbol[Extractor.TAGS]))
+        print(
+            "{}.\t{}\n\tCategory: {}\n\tTags: {}".format(
+                index + 1,
+                symbol[Extractor.NAME],
+                symbol[Extractor.CATEGORY],
+                symbol[Extractor.TAGS],
+            )
+        )
 
         handle = BytesIO(symbol[Extractor.BLOB])
         if symbol_type == Extractor.COLORS:
@@ -43,11 +52,11 @@ for symbol_type in (Extractor.FILL_SYMBOLS, Extractor.LINE_SYMBOLS, Extractor.MA
                 symbol_properties = read_symbol(file_handle=handle)
                 print(symbol_properties)
             except UnreadableSymbolException as e:
-                print('\t**Symbol could not be parsed!:\n\t{}'.format(e))
+                print("\t**Symbol could not be parsed!:\n\t{}".format(e))
                 unreadable.append(symbol[Extractor.NAME])
-        print('\n\n')
+        print("\n\n")
         total += 1
 
-print('***Parsed {}/{} symbols'.format(total - len(unreadable), total))
+print("***Parsed {}/{} symbols".format(total - len(unreadable), total))
 if unreadable:
-    print('Unreadable symbols:\n- {}'.format('\n- '.join(unreadable)))
+    print("Unreadable symbols:\n- {}".format("\n- ".join(unreadable)))

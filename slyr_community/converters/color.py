@@ -23,6 +23,7 @@ Color converter
 """
 
 from qgis.PyQt.QtGui import QColor
+
 from ..parser.objects.colors import CmykColor
 
 
@@ -37,11 +38,16 @@ class ColorConverter:
         Converts a symbol color to a QColor
         """
         if color is None:
-            return QColor()
+            return QColor(0, 0, 0, 0)
 
         if isinstance(color, CmykColor):
             # CMYK color
-            c = QColor.fromCmykF(color.cyan / 100, color.magenta / 100, color.yellow / 100, color.black / 100)
+            c = QColor.fromCmykF(
+                color.cyan / 100,
+                color.magenta / 100,
+                color.yellow / 100,
+                color.black / 100,
+            )
             if color.is_null:
                 c.setAlpha(0)
             return c

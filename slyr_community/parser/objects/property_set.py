@@ -17,7 +17,7 @@ class PropertySet(Object):
 
     @staticmethod
     def cls_id():
-        return '588e5a11-d09b-11d1-aa7c-00c04fa33a15'
+        return "588e5a11-d09b-11d1-aa7c-00c04fa33a15"
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -32,12 +32,12 @@ class PropertySet(Object):
         """
         Reads a property key and value from the stream
         """
-        key = stream.read_string('key')
+        key = stream.read_string("key")
         value = stream.read_variant()
         return key, value
 
     def read(self, stream: Stream, version):
-        length = stream.read_uint('length')
+        length = stream.read_uint("length")
         for _ in range(length):
             key, value = PropertySet.read_value(stream)
             self.properties[key] = value
@@ -46,10 +46,10 @@ class PropertySet(Object):
         return self.properties
 
     @classmethod
-    def from_dict(cls, definition: dict) -> 'PropertySet':
+    def from_dict(cls, definition: dict) -> "PropertySet":
         res = PropertySet()
         for k, v in definition.items():
-            if k in ('type', 'version'):
+            if k in ("type", "version"):
                 continue
 
             res.properties[k] = v
