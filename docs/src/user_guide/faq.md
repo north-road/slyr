@@ -6,9 +6,7 @@ Have a question? Check the entries below for an answer.
 
 ## How much does SLYR cost?
 
-See the [pricing](pricing) page for full details on purchasing the
-full-featured
-licensed version of SLYR.
+See the [pricing](pricing) page for full details on purchasing the full-featured licensed version of SLYR.
 
 ## How many users will a license cover?
 
@@ -19,11 +17,14 @@ over 20 users that require use of the license, please
 let [us](mailto:info@north-road.com) know, and we will assess each case on an
 individual basis.
 
+## Do I need to pay for an annual maintenance of SLYR
+
+The short answer is no. The long answer is that the SLYR license is perpetual, that means you only have to pay once.
+
 ## How can I purchase SLYR?
 
 If you would like to purchase SLYR [email us](mailto:info@north-road.com). As
-we often deal with
-clients in Europe and America, there is often a lag due to the time differences
+we often deal with clients in Europe and America, there is often a lag due to the time differences
 as we are located in Queensland, Australia (AEST, GMT+10).
 
 To speed up the process, include the details below in your email so that we can
@@ -32,7 +33,11 @@ know in the email and provide the same details listed below.
 
 To create an invoice or quote, we require the following information:
 
-> Organization name/Your name
+> Organization name
+>
+> Name of person managing tool
+>
+> Email of person managing tool
 >
 > Office address
 >
@@ -44,8 +49,12 @@ To create an invoice or quote, we require the following information:
 >
 > Type of users (in office/remote)
 
-When we receive payment (via credit card or bank transfer), we will send
-you the license and instructions for using **SLYR**.
+When we receive payment (via credit card or bank transfer), we will send you the license and instructions for using **SLYR**.  
+Paying via STRIPE with your credit card is the quickest method of payment.  
+
+## Can I purchase via a reseller?
+
+Yes! Contact us and we can put you in contact with a reseller in your country.  
 
 ## Can remote users use my SLYR license?
 
@@ -60,8 +69,8 @@ approach your institution to purchase **SLYR**.
 
 ## What support is available for SLYR?
 
-North Road offers a high level of support to all **SLYR** purchases. You can
-contact us at anytime via [email](mailto:info@north-road.com).
+North Road offers dedicated support to all **SLYR** purchases. This is included in the license. Our community makes SLYR better so we are always keen to have them help us make a better product.
+Once you purchase SLYR, we will provide you with a dedicated support email address to use. In the meantime, if you have a question, please feel free to contact us at anytime via [email](mailto:info@north-road.com).  
 
 > - If there is a bug we will fix it to the best of our abilities and release
     it as soon as we can.
@@ -72,44 +81,54 @@ contact us at anytime via [email](mailto:info@north-road.com).
     consider whether to join the current **Hall of Fame** and sponsor its
     development.
 
+We usually respond within two working days (taking into account our timezone differences). In regards to error resolution, we provide fixes to the tool when possible, and this may be from 1 week to within a month. Check out changelog to see our examples of this.  
+
+## Support for the Community Edition of SLYR  
+
+If you are experiencing any issues with the Community Edition of SLYR, please submit an Issue [here](https://github.com/north-road/slyr/issues).  All full SLYR license issues are dealt via the support email.  
+
 ## Can I get a trial version of SLYR?
 
-Evaluation versions of the tool are not available. If you require a sample to
-evaluate prior to purchasing, email QGIS or ESRI files
-to [North Road Support](mailto:info@north-road.com), and we will convert them
-at
-no cost for your evaluation.
+Evaluation versions of the tool are not available. If you require a sample to evaluate prior to purchasing, email QGIS/ESRI files (*mxd, aprx or qgs/qgz*) to [North Road Support](mailto:info@north-road.com), and we will convert them at no cost for your evaluation ( N.B. maximum 2 conversions ).  
 
 ## How do I get the latest version of SLYR?
 
-SLYR is updated many times during the year, at least once per quarter. To find
-out what has been updated in the latest version, check out the changelog in
-the `QGIS Plugin Manager`.
-Checkout [Troubleshooting](troubleshooting) on how to update your **SLYR**
-version.
+SLYR is updated many times during the year, at least once per quarter. To find out what has been updated in the latest version, check out the changelog in your `QGIS Plugin Manager`.  Checkout [Troubleshooting](troubleshooting) on how to update your **SLYR** version.  
 
 ![SLYR Changelog](../images/slyr_changelog.png)
 
 ## What ESRI licenses do I need?
 
-SLYR is designed so that you can push out ESRI products **without** the need of
-an
-ESRI license! You do **NOT** need to have any ESRI software installed in order
-to
-use SLYR. You only need to have [QGIS](https://www.qgis.org/en/site/)
-installed.
+SLYR is designed so that you can push out ESRI products **without** the need of an ESRI license! You do **NOT** need to have any ESRI software installed in order to use SLYR. You only need  to have [QGIS](https://www.qgis.org/en/site/) installed.  
 
 ## What QGIS version do I need?
 
-We always recommend running either the latest QGIS release or the current
-QGIS "LTR" release. However, SLYR is compatible with older versions of QGIS,
-anything from version 3.16 onwards can be used.
+We always recommend running either the latest QGIS release or the current QGIS "LTR" release. However, SLYR is compatible with older versions of QGIS, anything from version 3.16 onwards can be used.  
 
 ## What versions of ArcMap/ArcGIS are supported?
 
 SLYR is compatible with files created using ArcMap 9.0 through to ArcMap 10.8.2,
 and ArcGIS Pro versions 2 or 3. There is also support for converting AVL files
 created using ArcView 3.x.
+
+## Do you have clauses regarding future compatibility in case of changes to ESRI/QGIS formats?  
+
+We don’t provide contractual guarantees regarding future compatibility, as these formats are controlled by third parties. However, keeping pace with changes in QGIS and ESRI formats is central to our development approach. Our work is driven by maintaining compatibility with evolving software ecosystems, so supporting new or updated formats is an ongoing part of what we do.  
+
+## Are there backup mechanisms in case of critical errors?  
+
+As part of our personal support, if you come across any issues, we can have a look at whether we can introduce a fix into SLYR. SLYR does not change the original mapping file or data so no backup mechanism is built into the tool. It is the responsibility of the user to ensure they have appropriate backups of their files.  
+
+## Are there any case studies or user experiences of using SLYR?  
+
+Yes there is!  
+> [5 Essential QGIS Plugins for GIS Professionals](https://merginmaps.com/blog/5-essential-qgis-plugins-for-gis-professionals)  
+>
+> [The SLYR – The Esri to QGIS Compatibility Suite – Plugin](https://septima.dk/nyheder/SLYR-plugin)  
+>
+> [Opening a ArcPro Template in QGIS](https://www.northrivergeographic.com/opening-a-arcpro-template-in-qgis/)  
+>
+> [ArcGIS to QGIS in One Easy Lesson with SLYR](https://av.tib.eu/media/48143)  
 
 ## How can I run SLYR tools outside QGIS?
 
