@@ -65,6 +65,7 @@ class ConfigOptionsPage(OPTIONS_WIDGET, QgsOptionsPageWidget):
             self.label_mdb_tools_win.hide()
 
         s = QSettings()
+
         self.enable_verbose_log.setChecked(
             int(s.value("/plugins/slyr/enable_verbose_log", 0))
         )

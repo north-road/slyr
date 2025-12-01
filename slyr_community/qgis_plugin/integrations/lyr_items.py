@@ -71,6 +71,9 @@ class LyrDropHandler(QgsCustomDropHandler):
         elif file.lower().endswith(".lyrx"):
             self.open_lyrx(file)
             return True
+        elif file.lower().endswith(".lpkx"):
+            self.open_lpkx(file)
+            return True
         elif file.lower().endswith(".avl"):
             self.open_avl(file)
             return True
@@ -297,6 +300,21 @@ class LyrDropHandler(QgsCustomDropHandler):
         BrowserUtils.show_warning(
             "Licensed version required",
             "Convert LYRX",
+            message,
+            level=Qgis.Critical,
+            message_bar=iface.messageBar(),
+        )
+        return True
+
+    @staticmethod
+    def open_lpkx(input_file):  # pylint: disable=too-many-locals,too-many-statements
+        """
+        Opens a LPKX file in the current project
+        """
+        message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
+        BrowserUtils.show_warning(
+            "Licensed version required",
+            "Convert LPKX",
             message,
             level=Qgis.Critical,
             message_bar=iface.messageBar(),
