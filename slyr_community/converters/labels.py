@@ -557,17 +557,19 @@ class LabelConverter:
         label_settings.scaleVisibility = bool(
             properties.scale_range_max or properties.scale_range_min
         )
+
         # layer.zoom_max = "don't show when zoomed out beyond"
         zoom_max = properties.scale_range_max or 0
         # layer.zoom_min = "don't show when zoomed in beyond"
         zoom_min = properties.scale_range_min or 0
+
         if zoom_max and zoom_min and zoom_min > zoom_max:
             # inconsistent scale range -- zoom_max should be bigger number than zoom_min
             zoom_min, zoom_max = zoom_max, zoom_min
 
-        # qgis maximum scale = don't show when zoomed in beyond, i.e. ArcGIS zoom_min
+        # qgis maximum scale = don't show when zoomed in beyond, i.e. ArcGIS scale_range_min
         label_settings.maximumScale = zoom_min
-        # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max
+        # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS scale_range_max
         label_settings.minimumScale = zoom_max
 
         return label_settings
