@@ -307,6 +307,8 @@ class TextSymbolConverter:
             buffer.setEnabled(text_symbol.halo_enabled)
         else:
             buffer.setEnabled(bool(text_symbol.halo_symbol))
+        if buffer.enabled():
+            buffer.setFillBufferInterior(True)
 
         if reference_scale is None:
             if isinstance(text_symbol, TextSymbol):
