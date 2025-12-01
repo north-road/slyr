@@ -32,6 +32,7 @@ from qgis.PyQt.QtCore import QSettings
 from qgis.core import QgsUnitTypes, QgsSymbol, QgsProject, QgsReferencedRectangle
 
 from ..parser.exceptions import NotImplementedException
+from ..parser.utils import CaseInsensitiveKeyDict
 
 
 class Context:
@@ -101,6 +102,8 @@ class Context:
 
         self.can_place_annotations_in_main_annotation_layer = True
 
+        self.is_test_mode = False
+
         self.stable_ids = False
         self.stable_id_counter = 0
 
@@ -108,7 +111,7 @@ class Context:
 
         self.used_geometric_effect_which_flips_orientation = False
 
-        self.selection_sets: Dict[str, List] = {}
+        self.selection_sets: CaseInsensitiveKeyDict[List] = CaseInsensitiveKeyDict()
 
         self.symbol_layer_output_to_input_index_map = {}
         self.final_symbol_layer_output_to_input_index_map = {}
@@ -137,6 +140,8 @@ class Context:
         self.upgrade_http_to_https: bool = bool(
             int(s.value("/plugins/slyr/replace_http", 0))
         )
+
+        self.vsi_content_prefix: Optional[str] = None
 
     def push_warning(self, warning: str, level: Optional[str] = None):
         """

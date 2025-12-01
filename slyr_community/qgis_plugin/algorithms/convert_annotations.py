@@ -59,14 +59,28 @@ class ConvertAnnotations(SlyrAlgorithm):
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterVectorLayer(self.INPUT, "Input layer"))
 
-        self.addParameter(
-            QgsProcessingParameterField(
+        if Qgis.QGIS_VERSION_INT >= 33400:
+            field_param = QgsProcessingParameterField(
+                self.FIELD,
+                "Element field",
+                defaultValue="ELEMENT",
+                parentLayerParameterName=self.INPUT,
+                type=QgsProcessingParameterField.DataType.Binary,
+            )
+        else:
+            field_param = QgsProcessingParameterField(
                 self.FIELD,
                 "Element field",
                 defaultValue="ELEMENT",
                 parentLayerParameterName=self.INPUT,
             )
+        field_param.setHelp(
+            'Select the field containing the ELEMENT data. This is usually the "Element" field, unless a non-standard annotation class structure is in use.'
         )
+        field_param.setFlags(
+            field_param.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced
+        )
+        self.addParameter(field_param)
 
     def processAlgorithm(
         self,  # pylint: disable=too-many-locals,too-many-statements,too-many-branches

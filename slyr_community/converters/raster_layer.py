@@ -456,12 +456,8 @@ class RasterLayerConverter:
                 renderer_band = 1
 
             res = QgsSingleBandPseudoColorRenderer(layer.dataProvider(), renderer_band)
-            if isinstance(renderer, RasterClassifyColorRampRenderer):
-                raster_min = renderer.breaks[0]
-                raster_max = renderer.breaks[-1]
-            else:
-                raster_min = renderer.minimum_break or 0
-                raster_max = renderer.class_breaks[-1].upper_bound or 0
+            raster_min = renderer.breaks[0]
+            raster_max = renderer.breaks[-1]
 
             res.setClassificationMin(raster_min)
             res.setClassificationMax(raster_max)
@@ -482,29 +478,19 @@ class RasterLayerConverter:
             )
 
             items = []
-            if isinstance(renderer, RasterClassifyColorRampRenderer):
-                for i, b in enumerate(renderer.breaks[1:]):
-                    legend_group = i
-                    if not renderer.sort_classes_ascending:
-                        legend_group = len(renderer.legend_group.classes) - i - 1
+            for i, b in enumerate(renderer.breaks[1:]):
+                legend_group = i
+                if not renderer.sort_classes_ascending:
+                    legend_group = len(renderer.legend_group.classes) - i - 1
 
-                    symbol = renderer.legend_group.classes[legend_group].symbol
-                    symbol_color = SymbolConverter.symbol_to_color(symbol, context)
-                    item = QgsColorRampShader.ColorRampItem(
-                        b,
-                        symbol_color,
-                        renderer.legend_group.classes[legend_group].label,
-                    )
-                    items.append(item)
-            else:
-                for i, b in enumerate(renderer.class_breaks):
-                    items.append(
-                        QgsColorRampShader.ColorRampItem(
-                            b.upper_bound or 0,
-                            ColorConverter.color_to_qcolor(b.color),
-                            b.label,
-                        )
-                    )
+                symbol = renderer.legend_group.classes[legend_group].symbol
+                symbol_color = SymbolConverter.symbol_to_color(symbol, context)
+                item = QgsColorRampShader.ColorRampItem(
+                    b,
+                    symbol_color,
+                    renderer.legend_group.classes[legend_group].label,
+                )
+                items.append(item)
             shader_function.setColorRampItemList(items)
             shader.setRasterShaderFunction(shader_function)
             res.setShader(shader)

@@ -588,7 +588,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
     @staticmethod
     def append_SimpleFillSymbolLayer(
         symbol,  # pylint: disable=too-many-branches,too-many-statements
-        layer: SimpleFillSymbol,
+        layer: Union[ColorSymbol, SimpleFillSymbol],
         context: Context,
     ):
         """
@@ -704,6 +704,13 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 out.setBrushStyle(Qt.BrushStyle.CrossPattern)
             elif layer.fill_style == SimpleFillSymbol.STYLE_DIAGONAL_CROSS:
                 out.setBrushStyle(Qt.BrushStyle.DiagCrossPattern)
+        elif isinstance(layer, ColorSymbol):
+            out.setStrokeStyle(Qt.PenStyle.NoPen)
+            if not context.apply_conversion_tweaks or out.color().alpha() != 0:
+                symbol.appendSymbolLayer(out)
+                context.symbol_layer_output_to_input_index_map[out] = (
+                    context.current_symbol_layer
+                )
 
     @staticmethod
     def append_LineFillSymbolLayer(
