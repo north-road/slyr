@@ -830,6 +830,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         length = (
             length if length is not None else unpack("<L", self.io_stream.read(4))[0]
         )
+
         self.log("string of length {}".format(int(length)), 4)
         if length == 0:
             return ""
