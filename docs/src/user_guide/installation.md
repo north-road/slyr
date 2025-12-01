@@ -100,9 +100,9 @@ To create a template profile:
 
 1\. Run QGIS, install the SLYR plugin (and any other default plugins you want deployed to your users), and change any default QGIS options as desired.
 
-2\. ZIP/package up the resultant %AppData%\QGIS\QGIS3\profiles\default folder, including the %AppData%\QGIS\QGIS3\profiles\default\python\plugins\slyr folder.
+2\. ZIP/package up the resultant ``%AppData%\QGIS\QGIS3\profiles\default`` folder, including the ``%AppData%\QGIS\QGIS3\profiles\default\python\plugins\slyr`` folder.
 
-3\. As part of your QGIS installation script, extract the default user profile into the user's %AppData%\QGIS\QGIS3\profiles\default folder.
+3\. As part of your QGIS installation script, extract the default user profile into the user's ``%AppData%\QGIS\QGIS3\profiles\default`` folder.
 
 If you are not copying the QGIS settings ini as part of the deployment, then you will also need to set the SLYR license key the user's QGIS profile. This can be done programatically by calling a Python command:
 
