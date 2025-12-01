@@ -85,11 +85,11 @@ We usually respond within two working days (taking into account our timezone dif
 
 ## Support for the Community Edition of SLYR  
 
-If you are experiencing any issues with the Community Edition of SLYR, please submit an Issue [here](https://github.com/north-road/slyr/issues).  All full SLYR license issues are dealt via the support email.  
+If you are experiencing any issues with the Community Edition of SLYR, please submit an [Issue](https://github.com/north-road/slyr/issues).  All full SLYR license issues are dealt via the support email.  
 
 ## Can I get a trial version of SLYR?
 
-Evaluation versions of the tool are not available. If you require a sample to evaluate prior to purchasing, email QGIS/ESRI files (*mxd, aprx or qgs/qgz*) to [North Road Support](mailto:info@north-road.com), and we will convert them at no cost for your evaluation ( N.B. maximum 2 conversions ).  
+Evaluation versions of the tool are not available. If you require a sample to evaluate prior to purchasing, email your QGIS/ESRI files (*mxd, aprx or qgs/qgz*) to [North Road Support](mailto:info@north-road.com), and we will convert them at no cost for your evaluation ( N.B. maximum 2 conversions ).  
 
 ## How do I get the latest version of SLYR?
 

@@ -92,7 +92,7 @@ To update your version:
 
 ## Silent Installations
 
-A silent install is used to install an application without the need to interact with the UI. This type of installation is helpful for applications with limited installation steps. There are a number of approaches which can be used to silently install SLYR, with the recommended approach varying depending on how QGIS itself is deployed within an organisation.
+A silent install is used to install an application without the need to interact with the UI. This type of installation is helpful for applications with limited installation steps. There are a number of approaches which can be used to silently install SLYR, with the recommended approach varying depending on how QGIS itself is deployed within an organization.
 
 A common approach is to package up a "template" QGIS user profile, and deploy that along with the organisation's QGIS installation package or script. A user's QGIS settings are all stored within the %AppData%\QGIS\QGIS3\profiles\default path.
 
