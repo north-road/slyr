@@ -108,4 +108,4 @@ If you are not copying the QGIS settings ini as part of the deployment, then you
 
     QgsSettings().setValue('/plugins/slyr/license', 'your license key value')
 
-See the \[QGIS Documentation]\(<https://docs.qgis.org/latest/en/docs/pyqgis_developer_cookbook/intro.html#the-startup-py-file>) for instructions on how a Python command can be run automatically at QGIS startup.
+See the [QGIS Documentation](https://docs.qgis.org/latest/en/docs/pyqgis_developer_cookbook/intro.html#the-startup-py-file) for instructions on how a Python command can be run automatically at QGIS startup.
