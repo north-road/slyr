@@ -18,6 +18,9 @@ How do I know if I need to upgrade?
 
 | Version | Date        | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 |---------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 8.2.0   | 2025-11-25  | Add support for ArcGIS Pro 3.6. Improved ArcGIS Pro annotation conversion. |
+| 8.1.0   | 2025-11-15  | Preliminary support for converting ArcGIS Pro annotation classes |
+| 8.0.6   | 2025-11-06  | Correctly convert ArcGIS Pro http links for rasters, and export of QGIS http rasters to ArcGIS Pro. Fix parsing errors for some APRX files. |
 | 8.0.5   | 2025-10-27  | Fixed various issues during conversions. Create QGIS forms matching ArcMap field configuration during conversion. Improved PostgreSQL connection conversion. |
 | 8.0.4   | 2025-09-30  | Improved warnings. Fixes some exceptions when converting projects. |
 | 8.0.3   | 2025-08-17  | Fix handling of sub/sup in layout labels, better ArcGIS Pro connection conversion. Fix exception when opening some ArcGIS Pro documents. |
