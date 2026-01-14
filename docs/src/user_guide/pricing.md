@@ -21,7 +21,7 @@ an [email](mailto:info@north-road.com).
 
 As we are located in Queensland, Australia (AEST, GMT+10), there is a time lag
 due to the time differences with our clients in Europe and America. Therefore,
-to speed up the process, include the details below in your email so we can
+to **speed up the process**, include the details below in your email so we can
 produce an invoice for you straight away. If you need a quote first, let us
 know in the email and provide the same details listed below.
 
