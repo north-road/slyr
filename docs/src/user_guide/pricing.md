@@ -25,17 +25,21 @@ to speed up the process, include the details below in your email so we can
 produce an invoice for you straight away. If you need a quote first, let us
 know in the email and provide the same details listed below.
 
-> Organization name/Your name
+> Organization name
+>
+> Person managing the tool and their email
 >
 > Office address
 >
-> VAT number (if in Europe)
->
-> Purchase order number (if required)
->
 > Expected number of users
 >
+> How many office locations will use it?
+>
 > Type of users (in office/remote)
+>
+> VAT/ABN/EIN number
+>
+> Purchase order number (if required)
 
-When we receive payment (via credit card or bank transfer), we will send
+When we receive payment via credit card (the quickest method) or bank transfer, we will send
 you the license and instructions for using **SLYR**.
