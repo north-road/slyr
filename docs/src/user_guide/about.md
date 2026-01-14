@@ -14,4 +14,4 @@ are deserving of gratitude!
 
 The SLYR End User License Agreement is available here:
 
-- [Current](../license/version1_2)
+- [Current](../license/version1_5.md)
