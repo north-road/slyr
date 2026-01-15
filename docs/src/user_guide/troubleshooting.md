@@ -194,7 +194,7 @@ the marker halo setting, and you may need to adjust your symbology accordingly.
 If a tool is not working, we apologize that this is impacting your workflow! If
 it is a bug, we will rectify as soon as possible.
 
-> **Workaround:**
+> **How to report bugs:**
 >
 > - If you are using the fully licensed **SLYR**, [email us](mailto:info@north-road.com) immediately with as much as
     detail
@@ -202,7 +202,7 @@ it is a bug, we will rectify as soon as possible.
     you with a solution. Once solved, we will push up a new version to the QGIS
     Plugin Manager with all the fixes.
 > - Check if you are using the Community Edition or the Licensed Edition of **SLYR**.
-    If you are using the Community Edition, then the tool is not yet
+    If you are using the Community Edition, then the tool is likely not yet
     available in the license version. Please note that we don't offer any direct
     support for the Community Edition.
 
