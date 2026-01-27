@@ -130,6 +130,18 @@ Yes there is!
 >
 > [ArcGIS to QGIS in One Easy Lesson with SLYR](https://av.tib.eu/media/48143)  
 
+## How SLYR Licensing works for Consultants
+
+> **Internal Use Only:** Your license covers work done for your company internally.
+>
+> **No "Service" Models:** You cannot use SLYR to offer file conversion (e.g., ArcMap to QGIS) as a paid service to external clients.
+>
+> **One License Per Client:** If you are a consultant, each client you work for requires their own dedicated SLYR license. Your internal license cannot be used for client deliverables.
+>
+> **Access Restrictions:** Sharing, web-hosting, or using SLYR as a SaaS platform is prohibited.
+
+**Summary:** You can use SLYR for your own data, but you cannot "rent out" the software's capabilities to others.
+
 ## How can I run SLYR tools outside QGIS?
 
 While it's possible to call the **Python** modules directly from standalone
@@ -141,6 +153,17 @@ There's a number of ways that SLYR can be used as part of a larger workflow:
 
 > - All  the SLYR tools are exposed in QGIS as "Processing" algorithms, which  means that you can easily re-use these tools within your own custom QGIS  [Processing models](https://docs.qgis.org/latest/en/docs/user_manual/processing/modeler.html). You can also use QGIS' native [Batch Processing](https://docs.qgis.org/latest/en/docs/user_manual/processing/batch.html) tools to use SLYR to do bulk data conversion (such as converting all the MXDs from a folder to QGS projects in one go).
 > - The [qgis_process tool](https://docs.qgis.org/latest/en/docs/user_manual/processing/standalone.html) can be used to run SLYR tools from a command line prompt outside of the  QGIS application, allowing you to script conversions in a batch or  shell script. Alternatively, you can also access all the SLYR tools via  the [PyQGIS commands](https://docs.qgis.org/latest/en/docs/user_manual/processing/console.html#) for running Processing tools. This allows you to do conversions as part of a custom Python script.
+
+## Will I still be able to convert my files once ArcMap is retired?  
+
+Absolutely yes!  
+You do not need installation of ESRI software for SLYR to perform the conversions.  
+
+## Data Frames
+
+If you have more than one data frame in your ESRI product, SLYR will create a separate
+layer group for each data frame. SLYR also creates a map theme for each corresponding
+data frame and configures the print layouts to use these map themes.  
 
 ## File Formats
 

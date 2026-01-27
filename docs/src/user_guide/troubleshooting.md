@@ -55,12 +55,6 @@ If you are converting:
   GeoDatabase annotation class, then use the corresponding tool for converting
   this document type should be used. (E.g. Convert MXD to QGS).
 
-## Data Frames
-
-If you have more than one data frame in your ESRI product, SLYR will create a separate
-layer group for each data frame. SLYR also creates a map theme for each corresponding
-data frame and configures the print layouts to use these map themes.
-
 ## Authenticated connections
 
 When converting an ESRI project which contains private ESRI online services, WMS/WFS services, or database connections SLYR cannot automatically convert the credentials required for accessing these services, and the resulting QGIS project will contain broken layers.
