@@ -130,17 +130,14 @@ Yes there is!
 >
 > [ArcGIS to QGIS in One Easy Lesson with SLYR](https://av.tib.eu/media/48143)  
 
-## How SLYR Licensing works for Consultants
+## How does the SLYR licensing work for consultants?
 
-> **Internal Use Only:** Your license covers work done for your company internally.
->
-> **No "Service" Models:** You cannot use SLYR to offer file conversion (e.g., ArcMap to QGIS) as a paid service to external clients.
->
-> **One License Per Client:** If you are a consultant, each client you work for requires their own dedicated SLYR license. Your internal license cannot be used for client deliverables.
->
-> **Access Restrictions:** Sharing, web-hosting, or using SLYR as a SaaS platform is prohibited.
+> - **Internal Use Only:** Your license covers work done for your company internally for your own or a client's deliverables.
+> - **No "Service" Models:** You cannot use SLYR to offer file conversion (e.g., ArcMap to QGIS) as a paid service to external clients.
+> - **One License Per Client:** If you are a consultant and you are providing data conversion services for clients, each client you work for requires their own dedicated SLYR license.
+> - **Access Restrictions:** Sharing, web-hosting, or using SLYR as a SaaS platform is prohibited.  
 
-**Summary:** You can use SLYR for your own data, but you cannot "rent out" the software's capabilities to others.
+**Summary:** You can use SLYR for your own data and projects, but you cannot "rent out" the software's capabilities to others.
 
 ## How can I run SLYR tools outside QGIS?
 
@@ -159,11 +156,11 @@ There's a number of ways that SLYR can be used as part of a larger workflow:
 Absolutely yes!  
 You do not need installation of ESRI software for SLYR to perform the conversions.  
 
-## Data Frames
+## How does SLYR handle ESRI projects with multiple data frames/maps? 
 
-If you have more than one data frame in your ESRI product, SLYR will create a separate
-layer group for each data frame. SLYR also creates a map theme for each corresponding
-data frame and configures the print layouts to use these map themes.  
+While ESRI software allows for creating multiple data frames containing separate layer sets within a single project, QGIS itself handles this setup very differently. In QGIS multiple maps can be present in a single project through the use of "Map Themes". Unlike ESRI data frames, all map themes in a QGIS project share the **same** set of layers, however these layers can be styled individually per theme. For more details on QGIS map themes, see the QGIS [documentation](https://docs.qgis.org/3.40/en/docs/user_manual/introduction/general_tools.html#map-themes).
+
+If you are converting over a project with more than one data frame in your ESRI product, SLYR will create a map theme for each data frame and configure the print layouts to use these map themes.  
 
 ## File Formats
 
