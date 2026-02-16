@@ -3,7 +3,7 @@
 Loads all object modules, causing them to be initialized within the registry singleton
 """
 
-from slyr_community.parser.objects import *  # pylint: disable=wildcard-import, unused-wildcard-import
+from ..parser.objects import *  # pylint: disable=wildcard-import, unused-wildcard-import
 
 
 def initialize_registry():
@@ -20,8 +20,8 @@ def initialize_registry():
 
         return all_subclasses
 
-    from slyr_community.parser.object import Object  # pylint: disable=import-outside-toplevel
-    from slyr_community.parser.object_registry import REGISTRY  # pylint: disable=import-outside-toplevel
+    from .object import Object  # pylint: disable=import-outside-toplevel
+    from .object_registry import REGISTRY  # pylint: disable=import-outside-toplevel
 
     for c in get_all_subclasses(Object):
         REGISTRY.register(c)
