@@ -52,6 +52,8 @@ from .algorithms import (
     ConvertQlrToLyrx,
     MxdToSld,
     StylxToSld,
+    LpkToQlr,
+    LpkxToQlr,
 )
 from .algorithms.pagx_to_qgs import ConvertPagxToQgs
 from .gui_utils import GuiUtils
@@ -105,6 +107,8 @@ class SlyrProvider(QgsProcessingProvider):
             ConvertAnnotations,
             ConvertAnnotationClassToGeopackage,
             StylxToSld,
+            LpkToQlr,
+            LpkxToQlr,
         ]:
             self.addAlgorithm(alg())
 

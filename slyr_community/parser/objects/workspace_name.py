@@ -19,6 +19,7 @@ class WorkspaceName(Object):
         0: "ESRI_FILESYSTEM_WORKSPACE",
         1: "ESRI_LOCALDATABASE_WORKSPACE",
         2: "ESRI_REMOTEDATABASE_WORKSPACE",
+        99: "IN_MEMORY_WORKSPACE",
     }
 
     @staticmethod

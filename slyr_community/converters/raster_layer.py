@@ -18,6 +18,7 @@ import re
 from collections import defaultdict
 
 from qgis.core import (
+    QgsRaster,
     QgsCoordinateReferenceSystem,
     QgsRasterLayer,
     QgsSingleBandPseudoColorRenderer,
@@ -88,6 +89,7 @@ class RasterLayerConverter:
         base, _ = os.path.split(input_file)
         uri = ""
 
+        is_raster_gdb = False
         if isinstance(layer.dataset_name, RasterBandName):
             dataset_name = layer.dataset_name.dataset_name
             band = layer.dataset_name.band
@@ -96,6 +98,7 @@ class RasterLayerConverter:
             band = -1
 
         if isinstance(dataset_name, (SdeRasterDatasetName, FgdbRasterDatasetName)):
+            is_raster_gdb = True
             if ConversionUtils.is_gdal_version_available(3, 7, 0):
                 file_name = ConversionUtils.get_absolute_path(
                     dataset_name.workspace_name.name, base
@@ -220,6 +223,20 @@ class RasterLayerConverter:
             if renderer:
                 renderer.setOpacity(1.0 - (layer.transparency or 0) / 100)
                 rl.setRenderer(renderer)
+
+                if is_raster_gdb and renderer.alphaBand() == -1:
+                    if rl.isValid():
+                        for _band in range(1, rl.dataProvider().bandCount() + 1):
+                            if (
+                                rl.dataProvider().colorInterpretation(_band)
+                                == QgsRaster.ColorInterpretation.AlphaBand
+                            ):
+                                renderer.setAlphaBand(_band)
+                                break
+                    else:
+                        context.push_warning(
+                            "Raster GeoDatabase is not available at time of conversion. The transparency band for this layer may need to be manually set after repairing the layer source."
+                        )
 
             # we have to manually setup a default raster pipeline, because this isn't done for broken layer paths
 

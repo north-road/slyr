@@ -21,6 +21,7 @@ from qgis.core import (
 )
 
 from .algorithm import SlyrAlgorithm
+from qgis.core import QgsProcessingException
 
 
 class XmlToStylx(SlyrAlgorithm):

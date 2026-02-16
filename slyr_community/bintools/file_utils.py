@@ -47,6 +47,7 @@ class FileUtils:
         file_name = file_name.replace(";", "_")
         file_name = file_name.replace(" ", "_")
         file_name = file_name.replace(",", "_")
+        file_name = file_name.replace("|", "_")
         file_name = re.sub(r"_+", "_", file_name)
         if file_name.endswith("_"):
             file_name = file_name[:-1]

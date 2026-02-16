@@ -199,10 +199,16 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         Convert FileGDBWorkspaceFactory
         """
         provider = "ogr"
-        file_name = ConversionUtils.get_absolute_path(workspace_name.name, base)
 
-        if document_file:
-            file_name = context.resolve_filename(document_file, file_name)
+        if context.vsi_content_prefix:
+            file_name = workspace_name.name.replace("\\", "/")
+            file_name = "{}/{}".format(context.vsi_content_prefix, file_name)
+            file_name = file_name.replace("/./", "/")
+        else:
+            file_name = ConversionUtils.get_absolute_path(workspace_name.name, base)
+
+            if document_file:
+                file_name = context.resolve_filename(document_file, file_name)
 
         layer_name = name.name
         uri = "{}|layername={}".format(file_name, layer_name)
@@ -270,6 +276,9 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         file_name = ConversionUtils.path_insensitive(
             folder + "/" + name.name + extension
         )
+        if document_file:
+            file_name = context.resolve_filename(document_file, file_name)
+
         uri = file_name
 
         return DataSourceProperties(
@@ -658,6 +667,24 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         return DataSourceProperties(
             uri=uri, provider=provider, file_name=file_name, wkb_type=wkb_type
         )
+
+    @staticmethod
+    def convert_in_memory_workspace(
+        name,
+        workspace_name: WorkspaceName,
+        base: str,
+        crs: QgsCoordinateReferenceSystem,
+        subset: str,
+        context: Context,
+        document_file: Optional[str] = None,
+        wkb_type_hint: QgsWkbTypes.Type = QgsWkbTypes.Type.Unknown,
+    ) -> DataSourceProperties:
+        """
+        Convert InMemory Workspaces
+        """
+        uri = "{}".format(QgsWkbTypes.displayString(wkb_type_hint))
+        provider = "memory"
+        return DataSourceProperties(uri=uri, provider=provider, wkb_type=wkb_type_hint)
 
     @staticmethod
     def convert_tin_workspace(
@@ -1300,6 +1327,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
             "FMEWorkspaceFactory": DatasetNameConverter.convert_fme_workspace,
             "StreetMapWorkspaceFactory": DatasetNameConverter.convert_street_map_workspace,
             "IMSWorkspaceFactory": DatasetNameConverter.convert_ims_workspace,
+            "InMemoryWorkspaceFactory": DatasetNameConverter.convert_in_memory_workspace,
         }
 
         conversion_function = FACTORY_MAP.get(factory.__class__.__name__)

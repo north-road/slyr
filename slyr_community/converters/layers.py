@@ -301,9 +301,23 @@ class LayerConverter:
         Converts an ESRI object to QLR
         """
 
-        root_node, _ = LayerConverter.object_to_layers_and_tree(
-            obj, input_file, context, definitions=definitions
-        )
+        nodes = []
+        layers = []
+        root_nodes = []
+        if isinstance(obj, list):
+            for o in obj:
+                root_node, new_layers = LayerConverter.object_to_layers_and_tree(
+                    o, input_file, context, definitions=definitions
+                )
+                root_nodes.append(root_node)
+                layers.extend(new_layers)
+                nodes.extend(root_node.children())
+        else:
+            root_node, layers = LayerConverter.object_to_layers_and_tree(
+                obj, input_file, context, definitions=definitions
+            )
+            root_nodes.append(root_node)
+            nodes.extend(root_node.children())
 
         output_path = QgsFileUtils.ensureFileNameHasExtension(output_path, ["qlr"])
 
@@ -318,9 +332,7 @@ class LayerConverter:
             rw_context.setPathResolver(QgsPathResolver(output_path))
 
         doc = QDomDocument("qgis-layer-definition")
-        res, error = QgsLayerDefinition.exportLayerDefinition(
-            doc, root_node.children(), rw_context
-        )
+        res, error = QgsLayerDefinition.exportLayerDefinition(doc, nodes, rw_context)
         if res:
             stream = QTextStream(file)
             doc.save(stream, 2)

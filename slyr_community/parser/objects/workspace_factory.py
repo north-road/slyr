@@ -354,3 +354,17 @@ class S57WorkspaceFactory(WorkspaceFactory):
     @classmethod
     def from_dict(cls, definition: dict) -> "S57WorkspaceFactory":
         return S57WorkspaceFactory()
+
+
+class InMemoryWorkspaceFactory(WorkspaceFactory):
+    """
+    InMemoryWorkspaceFactory
+    """
+
+    @staticmethod
+    def cls_id():
+        return "7f2bc55c-b902-43d0-a566-aa47ea9fda2c"
+
+    @classmethod
+    def from_dict(cls, definition: dict) -> "InMemoryWorkspaceFactory":
+        return InMemoryWorkspaceFactory()

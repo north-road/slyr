@@ -24,9 +24,20 @@ Picture handling utilities
 
 import base64
 import struct
+from typing import List, Tuple
 
-from qgis.PyQt.QtCore import QBuffer
-from qgis.PyQt.QtGui import QImage, QColor, qRgba, QPainter, qRed, qGreen, qBlue
+from qgis.PyQt.QtCore import QBuffer, Qt
+from qgis.PyQt.QtGui import (
+    QImage,
+    QColor,
+    qRgba,
+    QPainter,
+    qRed,
+    qGreen,
+    qBlue,
+    QBitmap,
+    QPixmap,
+)
 
 from .color import ColorConverter
 from ..parser.exceptions import UnreadablePictureException
@@ -163,6 +174,31 @@ class PictureUtils:
         p.setCompositionMode(QPainter.CompositionMode.CompositionMode_Multiply)
         p.drawImage(0, 0, alpha)
         p.end()
+        return image
+
+    @staticmethod
+    def replace_color_in_image(
+        image: QImage, color_map: List[Tuple[QColor, QColor]]
+    ) -> QImage:
+        """
+        Replaces all pixels of matching color in a qimage with a different color
+        """
+        color_overlays = []
+        for source_color, dest_color in color_map:
+            mask = image.createMaskFromColor(
+                source_color.rgba(), Qt.MaskMode.MaskOutColor
+            )
+
+            color_overlay = QPixmap(image.size())
+            color_overlay.fill(dest_color)
+
+            color_overlay.setMask(QBitmap.fromImage(mask))
+            color_overlays.append(color_overlay)
+
+        painter = QPainter(image)
+        for color_overlay in color_overlays:
+            painter.drawPixmap(0, 0, color_overlay)
+        painter.end()
         return image
 
     @staticmethod

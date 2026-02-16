@@ -307,74 +307,7 @@ class FeatureLayer(Object):
         self.hyperlink_macro_name = stream.read_string("hyperlink macro name")
         self.area_of_interest = stream.read_object("area of interest")
 
-        count = stream.read_int("unknown count")
-        handled = False
-        if count == 0:
-            r = 0
-            handled = True
-        elif count == 1:
-            stream.read_signed_int("unknown")
-            handled = True
-        elif count == 2:
-            stream.read_signed_int("unknown")
-            stream.read_signed_int("unknown")
-            handled = True
-        elif count == 23:
-            test = stream.read(8)
-            if test == b"\x00\x00\x00\x00\xea\xff\xff\xff":
-                handled = True
-            else:
-                stream.rewind(8)
-
-        if not handled:  # pylint: disable=too-many-nested-blocks
-            last_pos = 0
-            last_neg = 0
-
-            done = False
-            if count == 10:
-                tmp_start = stream.tell()
-                r = stream.read_int("unknown number 1")
-                if r == 0:
-                    r = stream.read_int("unknown number 2")
-                    if r == 4294967287:
-                        done = True
-
-                if not done:
-                    stream.seek(tmp_start)
-
-            if not done:
-                r = stream.read_signed_int("unknown 1")
-                i = 1
-                if r == 1:
-                    # if second number is a 1, we ignore it
-                    r = stream.read_signed_int("unknown 1 again")
-                    if r == -count:
-                        done = True
-
-                first = True
-                if not done:
-                    while True:
-                        if r == 1:
-                            # went too far
-                            stream.rewind(4)
-                            break
-                        if r > 0:
-                            if r < 10 and r < last_pos:
-                                stream.rewind(4)
-                                break
-                            last_pos = max(r, last_pos)
-                        elif r < 0:
-                            last_neg = min(r, last_neg)
-                        elif not first:
-                            # a zero anywhere but the first digit means we've read too far
-                            stream.rewind(4)
-                            break
-
-                        i += 1
-                        first = False
-                        r = stream.read_signed_int(
-                            "unknown sequence value {}".format(i)
-                        )
+        stream.read_index_array("unknown index array")
 
         if version >= 15:
             remote_count = stream.read_int("remote object count")

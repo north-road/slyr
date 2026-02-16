@@ -25,15 +25,14 @@ import xml.etree.ElementTree as ET
 from typing import Union, Optional, Tuple
 
 from qgis.PyQt.QtGui import (
-    QColor,
     QTextDocument,
     QFont,
-    QPicture,
     QPainter,
-    QBrush,
+    QImage,
+    QBitmap,
+    QRegion,
     QTransform,
 )
-from qgis.PyQt.QtSvg import QSvgGenerator, QSvgRenderer
 from qgis.core import (
     QgsMapLayer,
     QgsProject,
@@ -104,7 +103,7 @@ try:
 except ImportError:
     pass
 
-from qgis.PyQt.QtCore import QRectF, Qt, QPointF, QSizeF, QTemporaryDir
+from qgis.PyQt.QtCore import QRectF, Qt, QPointF, QSizeF
 from qgis.PyQt.QtGui import QFontMetricsF, QPolygonF
 from ..parser.objects.units import Units
 from ..parser.exceptions import NotImplementedException
@@ -3053,6 +3052,29 @@ class LayoutConverter:
         return font
 
     @staticmethod
+    def get_doc_size_pixels(doc: QTextDocument) -> QSizeF:
+        # pessimistic size estimate
+        w = int(doc.idealWidth()) * 20
+        h = int(doc.size().height()) * 20
+
+        image = QImage(w, h, QImage.Format.Format_ARGB32_Premultiplied)
+        image.setDotsPerMeterX(int(96 / 25.4 * 1000))
+        image.setDotsPerMeterY(int(96 / 25.4 * 1000))
+        image.fill(0)
+
+        painter = QPainter(image)
+        painter.setTransform(QTransform.fromScale(10, 10))
+        doc.drawContents(painter)
+        painter.end()
+
+        alpha_mask = image.createAlphaMask()
+        bitmap = QBitmap.fromImage(alpha_mask)
+        region = QRegion(bitmap)
+        rect = region.boundingRect()
+
+        return QSizeF(rect.right() / 10.0, rect.bottom() / 10.0)
+
+    @staticmethod
     def label_size_for_text(label: QgsLayoutItemLabel) -> QSizeF:
         """
         Returns the size required for a label to fit in its text
@@ -3096,33 +3118,12 @@ class LayoutConverter:
             doc.setDefaultTextOption(option)
             doc.setHtml("<body>{}</body>".format(label.currentText()))
 
-            # SO gross!, but we want a super-accurate bounding rect
-            temp_dir = QTemporaryDir()
-            temp_svg_path = temp_dir.filePath("temp.svg")
-            gen = QSvgGenerator()
-            gen.setFileName(temp_svg_path)
-            painter = QPainter(gen)
-            painter.setBrush(QBrush(QColor(0, 0, 0)))
-            painter.setTransform(QTransform.fromScale(10, 10))
+            doc_size_px = LayoutConverter.get_doc_size_pixels(doc)
 
-            doc.drawContents(painter)
-            painter.end()
-
-            ren = QSvgRenderer(temp_svg_path)
-            picture = QPicture()
-            painter = QPainter(picture)
-
-            ren.render(painter)
-            painter.end()
-
-            doc_size_px = QSizeF(
-                picture.boundingRect().right() / 10,
-                picture.boundingRect().bottom() / 10,
-            )
             # x margin is already taken into account
-            width_mm = 2 + doc_size_px.width() / 2.5 + 2 * pen_width
+            width_mm = doc_size_px.width() * 0.26458 + 2 * pen_width
             height_mm = (
-                2 + doc_size_px.height() / 3.5 + 2 * label.marginY() + 2 * pen_width
+                2 + doc_size_px.height() * 0.26458 + 2 * label.marginY() + 2 * pen_width
             )
 
             return layout.convertToLayoutUnits(
