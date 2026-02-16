@@ -370,3 +370,4 @@ from .molodensky_transformation import MolodenskyTransformation
 from .nadcon_transformation import NADCONTransformation
 from .ntv2_transformation import NTv2Transformation
 from .annotate_map import AnnotateMap
+from .map_optimization_layout_extension import MapOptimizationLayoutExtension
