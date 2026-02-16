@@ -846,6 +846,10 @@ class TestSymbolParser(SlyrTestCase):
             ),
             "/temp/pic/a_b_c_d_e_f_g_h_i_j_k_l.svg",
         )
+        self.assertEqual(
+            SymbolConverter.symbol_name_to_filename("a|b", "/temp/pic", "svg"),
+            "/temp/pic/a_b.svg",
+        )
 
 
 app = QGuiApplication([])

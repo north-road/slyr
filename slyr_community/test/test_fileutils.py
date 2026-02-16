@@ -23,8 +23,8 @@ class TestFileUtils(SlyrTestCase):
 
         # string with one of each special character
         self.assertEqual(
-            FileUtils.clean_symbol_name_for_file('a/b>c<d\\e?f*g"h:i;j k,l'),
-            "a_b_c_d_e_f_g_h_i_j_k_l",
+            FileUtils.clean_symbol_name_for_file('a/b>c<d\\e?f*g"h:i;j k,l|m'),
+            "a_b_c_d_e_f_g_h_i_j_k_l_m",
         )
 
         # string with multiple special characters of the same type

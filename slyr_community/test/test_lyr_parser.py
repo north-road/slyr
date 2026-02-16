@@ -477,6 +477,11 @@ expected = [
         "filename": "wfs.lyr",
     },
     {"filename": "point_halos.lyr"},
+    {
+        "filename": "attributes_rearranged.lyr",
+    },
+    {"filename": "labels_no_in_beyond.lyr"},
+    {"filename": "labels_no_out_beyond.lyr"},
 ]
 
 initialize_registry()
@@ -545,6 +550,7 @@ class TestLyrParser(SlyrTestCase):
                     context.convert_fonts = False
                     context.upgrade_http_to_https = True
                     context.can_place_annotations_in_main_annotation_layer = False
+                    context.document_file = str(file)
                     context.destination_path = os.path.join(
                         os.path.dirname(__file__), "lyrx"
                     )
