@@ -8,7 +8,7 @@
  {'capstyle': 'round',
   'class': 'QgsSimpleLineSymbolLayer',
   'joinstyle': 'round',
-  'line_color': '110,110,110,255,rgb:0.4313725,0.4313725,0.4313725,1',
+  'line_color': '110,110,110,255,rgb:0.4313726,0.4313726,0.4313726,1',
   'line_style': 'dash dot',
   'line_width': '1',
   'line_width_unit': 'Point'},
