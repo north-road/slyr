@@ -14,6 +14,7 @@ Browser and app integrations for LYR/lyrx file integration with QGIS
 import html
 import os
 from io import BytesIO
+from typing import Optional
 from struct import unpack
 
 from qgis.PyQt.QtCore import QFileInfo, QDir, QCoreApplication
@@ -68,6 +69,9 @@ class LyrDropHandler(QgsCustomDropHandler):
         if file.lower().endswith(".lyr"):
             self.open_lyr(file)
             return True
+        elif file.lower().endswith(".lpk"):
+            self.open_lpk(file)
+            return True
         elif file.lower().endswith(".lyrx"):
             self.open_lyrx(file)
             return True
@@ -118,7 +122,9 @@ class LyrDropHandler(QgsCustomDropHandler):
         return False
 
     @staticmethod
-    def open_lyr_stream(stream, input_file=""):  # pylint:disable=too-many-statements
+    def open_lyr_stream(
+        stream, input_file="", vsi_content_prefix: Optional[str] = None
+    ):  # pylint:disable=too-many-statements
         """
         Opens a lyr file from a binary object
         """
@@ -142,6 +148,7 @@ class LyrDropHandler(QgsCustomDropHandler):
         context.project = QgsProject.instance()
         context.can_place_annotations_in_main_annotation_layer = False
         context.unsupported_object_callback = unsupported_object_callback
+        context.vsi_content_prefix = vsi_content_prefix
 
         def add_layer(layer, group_node):
             nonlocal fallback_crs
@@ -290,6 +297,21 @@ class LyrDropHandler(QgsCustomDropHandler):
                     level=Qgis.Critical,
                 )
                 return True
+
+    @staticmethod
+    def open_lpk(input_file):  # pylint: disable=too-many-locals,too-many-statements
+        """
+        Opens a LPK file in the current project
+        """
+        message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
+        BrowserUtils.show_warning(
+            "Licensed version required",
+            "Convert LPK",
+            message,
+            level=Qgis.Critical,
+            message_bar=iface.messageBar(),
+        )
+        return True
 
     @staticmethod
     def open_lyrx(input_file):  # pylint: disable=too-many-locals,too-many-statements

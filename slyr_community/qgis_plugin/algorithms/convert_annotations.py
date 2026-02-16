@@ -12,10 +12,12 @@ Converts annotations in a binary column to a QGIS annotation layer
 #  ***************************************************************************/
 
 from qgis.core import (
+    Qgis,
     QgsProcessingAlgorithm,
     QgsProcessingParameterVectorLayer,
     QgsProcessingParameterField,
     QgsProcessingException,
+    QgsProcessingParameterDefinition,
 )
 
 from .algorithm import SlyrAlgorithm

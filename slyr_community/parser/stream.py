@@ -10,7 +10,7 @@ import os
 from datetime import datetime, timedelta
 from io import BytesIO
 from struct import unpack, error
-from typing import Optional
+from typing import Optional, List
 
 from .exceptions import (
     UnsupportedVersionException,
@@ -1140,3 +1140,54 @@ class Stream:  # pylint: disable=too-many-public-methods
             else:
                 size = self.read_int("size")
                 handler(next_ref, size)
+
+    def read_index_array(
+        self,
+        debug_string: str = "",
+    ) -> List[int]:
+        """
+        Reads an indexed array from the stream
+        """
+        if not debug_string:
+            debug_string = "unknown"
+
+        # the total number of items expected in the final array
+        total_count = self.read_int("{} index array count".format(debug_string))
+
+        if total_count == 0:
+            return []
+
+        indices = []
+
+        while len(indices) < total_count:
+            val = self.read_signed_int("{} index node".format(len(indices)))
+            # peek at the next value to see if it's a range marker (negative number)
+            next_pos = self.tell()
+            modifier = self.read_signed_int("potential_range_modifier")
+            if modifier < 0:
+                # this is a range of values, from start to abs(end)
+                # modifier is the negated END index (inclusive)
+                end_index = abs(modifier)
+
+                indices.extend(list(range(val, end_index + 1)))
+            else:
+                # the next number is positive, so it is the START of the next group,
+                # not a modifier for this one.
+                indices.append(val)
+                self.seek(next_pos)
+
+        if indices:
+            self.log("Read index array of {}".format(indices))
+
+        if not self.tolerant:
+            assert len(indices) == total_count, "Expected {} indices, found {}".format(
+                total_count, len(indices)
+            )
+        elif len(indices) != total_count:
+            self.log(
+                "WARNING: Expected {} indices, found {}".format(
+                    total_count, len(indices)
+                )
+            )
+
+        return indices

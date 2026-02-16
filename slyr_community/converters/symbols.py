@@ -3218,10 +3218,58 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             },
         },
         "ESRI Geometric Symbols": {
+            33: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Circle,
+                "outline_only": True,
+                "shape_size_factor": 1.0227896790809665,
+                "stroke_size_factor": 0.9075151652891918,
+            },
+            34: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Circle,
+                "shape_size_factor": 0.903010681651016,
+            },
+            35: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Circle,
+                "shape_size_factor": 0.9146509485702781,
+            },
             36: {
                 "shape": QgsSimpleMarkerSymbolLayerBase.Shape.EquilateralTriangle,
                 "shape_size_factor": 1.0583678399557281,
                 "vertical_offset_factor": 0,
+            },
+            37: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Square,
+                "shape_size_factor": 0.8672733098168481,
+            },
+            67: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Square,
+                "shape_size_factor": 0.854553412925296,
+                "outline_only": True,
+                "stroke_size_factor": 3.9932285557969247,
+            },
+            # 38: {
+            #    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Pentagon,
+            #    "shape_size_factor": 0.9666807583276549,
+            # },
+            39: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Hexagon,
+                "shape_size_factor": 0.9666807583276549,
+            },
+            40: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
+                "shape_size_factor": 0.9666807583276549,
+            },
+            64: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Circle,
+                "outline_only": True,
+                "shape_size_factor": 0.7662718261778861,
+                "stroke_size_factor": 8.861798571931347,
+            },
+            69: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Hexagon,
+                "outline_only": True,
+                "shape_size_factor": 0.9534585485834196,
+                "stroke_size_factor": 3.547513371359601,
             },
         },
         "ESRI Commodities": {
@@ -3416,18 +3464,6 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             38: {"font_name": "ESRI Default Marker", "character": 33},
             84: {"font_name": "ESRI Default Marker", "character": 33},
             108: {"font_name": "ESRI Default Marker", "character": 33},
-        },
-        "ESRI Geometric Symbols": {
-            34: {
-                "font_name": "ESRI Default Marker",
-                "character": 33,
-                "vertical_offset_factor": 0,
-            },
-            35: {
-                "font_name": "ESRI Default Marker",
-                "character": 33,
-                "vertical_offset_factor": 0,
-            },
         },
         "ESRI NIMA VMAP1&2 LN": {
             35: {"font_name": "ESRI NIMA City Graphic PT", "character": 37},

@@ -123,7 +123,7 @@ class StyleDropHandler(QgsCustomDropHandler):
             """
             progress_dialog.setValue(int(progress))
             iterations = 0
-            while QCoreApplication.hasPendingEvents() and iterations < 100:
+            while iterations < 100:
                 QCoreApplication.processEvents()
                 iterations += 1
 

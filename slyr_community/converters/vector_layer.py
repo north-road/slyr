@@ -41,7 +41,9 @@ from qgis.core import (
     QgsMapLayer,
     QgsProviderRegistry,
     QgsAttributeTableConfig,
+    QgsEditFormConfig,
     QgsEditorWidgetSetup,
+    QgsAttributeEditorField,
 )
 
 from .context import Context
@@ -352,21 +354,31 @@ class VectorLayerConverter:
         attribute_table_config = vl.attributeTableConfig()
         columns = []
         edit_form_config = vl.editFormConfig()
+        edit_form_config.setLayout(QgsEditFormConfig.EditorLayout.TabLayout)
+        form_container = edit_form_config.invisibleRootContainer()
+        form_container.clear()
+
         for field, info in layer.field_info.items():
             column_config = QgsAttributeTableConfig.ColumnConfig()
             column_config.name = field
 
+            field_index = vl.fields().lookupField(field)
+            field_form_config = QgsAttributeEditorField(
+                field, field_index, form_container
+            )
             if not info:
                 columns.append(column_config)
+                form_container.addChildElement(field_form_config)
                 continue
 
-            field_index = vl.fields().lookupField(field)
             if field_index >= 0:
                 if field != info.alias:
                     vl.setFieldAlias(field_index, info.alias)
                 if not info.visible:
                     widget_setup = QgsEditorWidgetSetup("Hidden", {})
                     vl.setEditorWidgetSetup(field_index, widget_setup)
+                else:
+                    form_container.addChildElement(field_form_config)
                 if info.read_only:
                     edit_form_config.setReadOnly(field_index, True)
             column_config.hidden = not info.visible
@@ -379,7 +391,8 @@ class VectorLayerConverter:
 
         attribute_table_config.setColumns(columns)
         vl.setAttributeTableConfig(attribute_table_config)
-        vl.setEditFormConfig(edit_form_config)
+        if vl.isValid():
+            vl.setEditFormConfig(edit_form_config)
 
         if Qgis.QGIS_VERSION_INT >= 33400:
             for index in hidden_field_indices:

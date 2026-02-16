@@ -78,7 +78,7 @@ class AddLayersFromMxd(SlyrAlgorithm):
             stream = Stream(f, False, force_layer=True, offset=-1)
             try:
                 self.obj = stream.read_object()
-            except UnknownClsidException:
+            except UnknownClsidException as e:
                 feedback.reportError(
                     "This document requires the licensed version of SLYR to convert - please see https://north-road.com/slyr/ for details",
                     fatalError=True,
@@ -93,7 +93,7 @@ class AddLayersFromMxd(SlyrAlgorithm):
             except UnicodeDecodeError as e:
                 feedback.reportError("Unreadable object: {}".format(e), fatalError=True)
                 return {}
-            except RequiresLicenseException:
+            except RequiresLicenseException as e:
                 feedback.reportError(
                     "This document requires the licensed version of SLYR to convert - please see https://north-road.com/slyr/ for details",
                     fatalError=True,

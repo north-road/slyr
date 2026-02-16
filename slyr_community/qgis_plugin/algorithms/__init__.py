@@ -40,3 +40,5 @@ from .qpt_to_pagx import ConvertQptToPagx
 from .qlr_to_lyrx import ConvertQlrToLyrx
 from .mxd_to_sld import MxdToSld
 from .stylx_to_sld import StylxToSld
+from .lpk_to_qlr import LpkToQlr
+from .lpkx_to_qlr import LpkxToQlr
