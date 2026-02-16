@@ -1,5 +1,5 @@
 [{'class': 'QgsSimpleFillSymbolLayer',
-  'color': '232,190,255,255,rgb:0.9098039,0.745098,1,1',
+  'color': '232,190,255,255,rgb:0.9098039,0.7450981,1,1',
   'outline_style': 'no'},
  {'class': 'QgsSimpleLineSymbolLayer',
   'joinstyle': 'miter',

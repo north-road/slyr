@@ -2,7 +2,7 @@
   'class': 'QgsFontMarkerSymbolLayer',
   'color': '128,128,128,255,rgb:0.5019608,0.5019608,0.5019608,1',
   'font': 'ESRI Default Marker',
-  'offset': '7.3046875,-8.5',
+  'offset': '7.3046875,-8.0390625',
   'offset_unit': 'Point',
   'size': '9.0609',
   'size_unit': 'Point'}]

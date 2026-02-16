@@ -2,7 +2,7 @@
   'class': 'QgsFontMarkerSymbolLayer',
   'color': '0,0,0,255,rgb:0,0,0,1',
   'font': 'Arial',
-  'offset': '0.0546875,-1.5',
+  'offset': '0.0546875,-1.1640625',
   'offset_unit': 'Point',
   'size': '8',
   'size_unit': 'Point'}]
