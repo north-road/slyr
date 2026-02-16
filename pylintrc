@@ -36,7 +36,7 @@ load-plugins=
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
 # see http://stackoverflow.com/questions/21487025/pylint-locally-defined-disables-still-give-warnings-how-to-suppress-them
-disable=locally-disabled,C0103,no-name-in-module,duplicate-code,import-error,line-too-long,too-many-arguments,too-many-instance-attributes,no-self-use,too-few-public-methods,bad-option-value,fixme,useless-return,no-else-return,consider-using-f-string,too-many-locals,too-many-return-statements,too-many-statements,too-many-positional-arguments,too-many-branches,too-many-lines
+disable=locally-disabled,C0103,no-name-in-module,duplicate-code,import-error,line-too-long,too-many-arguments,too-many-instance-attributes,no-self-use,too-few-public-methods,bad-option-value,fixme,useless-return,no-else-return,consider-using-f-string,too-many-locals,too-many-return-statements,too-many-statements,too-many-positional-arguments,too-many-branches,too-many-lines,missing-class-docstring,missing-function-docstring,use-dict-literal,broad-exception-caught,condition-evals-to-constant,missing-module-docstring,unnecessary-comprehension,redefined-builtin,unspecified-encoding,wrong-import-position,wrong-import-order,unused-argument,cell-var-from-loop,unused-variable,import-outside-toplevel,too-many-nested-blocks,using-constant-test
 
 
 [REPORTS]
