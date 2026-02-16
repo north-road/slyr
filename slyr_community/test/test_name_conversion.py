@@ -9,7 +9,7 @@ import unittest
 from .test_case import SlyrTestCase
 from copy import deepcopy
 
-from qgis.core import Qgis, QgsCoordinateReferenceSystem, QgsWkbTypes
+from qgis.core import QgsCoordinateReferenceSystem, QgsWkbTypes
 
 from ..converters.context import Context
 from ..converters.dataset_name import DatasetNameConverter
@@ -1097,7 +1097,7 @@ expected = {
         "expected": {
             "uri": "dbname='sdc' host=sde user='asdddd' key='OBJECTID' srid=28356 type=Polygon disableInvalidGeometryHandling='0' table=\"START\".\"AAA_Overlay_NNNnnnnnnRRRRrrrrrCCCccc\" (Shape) sql=\"Changes_20111025\" is null or \"Changes_20111025\" = 'Add'",
             "provider": "mssql",
-            "wkb_type": Qgis.WkbType.Polygon,
+            "wkb_type": QgsWkbTypes.Type.Polygon,
             "factory": "SdeWorkspaceFactory",
         },
     },
@@ -1150,7 +1150,7 @@ expected = {
         "expected": {
             "uri": "dbname='sde' host=sde user='asdddd' key='OBJECTID' srid=28356 type=Polygon disableInvalidGeometryHandling='0' table=\"sde\".\"AAA_Overlay_NNNnnnnnnRRRRrrrrrCCCccc\" (Shape) sql=\"Changes_20111025\" is null or \"Changes_20111025\" = 'Add'",
             "provider": "mssql",
-            "wkb_type": Qgis.WkbType.Polygon,
+            "wkb_type": QgsWkbTypes.Type.Polygon,
             "factory": "SdeWorkspaceFactory",
         },
     },
@@ -1203,7 +1203,7 @@ expected = {
         "expected": {
             "uri": "dbname='DBC' host=db-dbc.somewhere.local user='DBC_read' key='OBJECTID' srid=28356 type=Polygon disableInvalidGeometryHandling='0' table=\"GDA\".\"KP_Table\" (SHAPE)",
             "provider": "mssql",
-            "wkb_type": Qgis.WkbType.Polygon,
+            "wkb_type": QgsWkbTypes.Type.Polygon,
             "factory": "SdeWorkspaceFactory",
         },
     },
@@ -3926,7 +3926,7 @@ expected = {
             "uri": "dbname='ccaaaaaccc' host=sde_prod key='OBJECTID' srid=28356 type=Polygon "
             "disableInvalidGeometryHandling='0' "
             'table="gis"."SV_CAADA_TABLE_NAME" (Shape)',
-            "wkb_type": Qgis.WkbType.Polygon,
+            "wkb_type": QgsWkbTypes.Type.Polygon,
         },
     },
     "Postgres with port": {
@@ -4158,7 +4158,7 @@ expected = {
             + "type=Point "
             + 'table="some_schema"."some_table" (shape) '
             + "sql=Wwwww_AAaaaa.Code NOT LIKE 'ABBBB%'",
-            "wkb_type": Qgis.WkbType.Point,
+            "wkb_type": QgsWkbTypes.Type.Point,
         },
     },
     "XY event source with join": {
@@ -4487,7 +4487,7 @@ expected = {
             "provider": "mssql",
             "uri": "dbname='cccccvaaa' host=data.xxxxxxx.com,8043 user='asdasd' key='OBJECTID' "
             'table="dbo"."vvvvvvv"',
-            "wkb_type": Qgis.WkbType.NoGeometry,
+            "wkb_type": QgsWkbTypes.Type.NoGeometry,
         },
     },
     "sql server standalone no geom": {
@@ -4536,7 +4536,7 @@ expected = {
             "provider": "mssql",
             "uri": "dbname='AC' host=data.abc.com,8043 user='gisuser' key='OBJECTID' "
             'table="dbo"."vwbbcc"',
-            "wkb_type": Qgis.WkbType.NoGeometry,
+            "wkb_type": QgsWkbTypes.Type.NoGeometry,
         },
     },
     "sql server query no geom": {
@@ -4983,7 +4983,7 @@ expected = {
             "provider": "mssql",
             "uri": "dbname='Geo' host=prd-sql user='ga' key='OBJECTID' "
             'table="ArcGis"."colombia_cities"',
-            "wkb_type": Qgis.WkbType.NoGeometry,
+            "wkb_type": QgsWkbTypes.Type.NoGeometry,
         },
     },
     "sql server alternative port encoding": {
@@ -5152,7 +5152,7 @@ expected = {
             "uri": "dbname='MyDatabase' host=data.myconnection.com,8043 user='myuser' key='OBJECTID' "
             "srid=3452 type=Polygon disableInvalidGeometryHandling='0' "
             'table="dbo"."vwParcels" (Shape)',
-            "wkb_type": Qgis.WkbType.Polygon,
+            "wkb_type": QgsWkbTypes.Type.Polygon,
         },
     },
 }
