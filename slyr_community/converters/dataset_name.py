@@ -17,10 +17,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, List
 
+from qgis.PyQt.QtCore import QUrl
 from qgis.core import (
     QgsCoordinateReferenceSystem,
+    QgsDataSourceUri,
     QgsWkbTypes,
     QgsProviderRegistry,
+    QgsSettings,
     QgsSQLStatement,
 )
 
@@ -1415,3 +1418,487 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         21: None,  # 'GEOMETRY_SPHERE',
         22: None,  # 'GEOMETRY_TRIANGLES',
     }
+
+    @staticmethod
+    def add_stored_wms_connection_params_to_uri(uri: str, context: Context):
+        """
+        Matches a WMS url against user's stored connections, and pulls across settings from the
+        stored connection to the WMS uri
+        """
+        parsed_uri = QgsDataSourceUri()
+        parsed_uri.setEncodedUri(uri)
+        original_uri = QgsDataSourceUri(parsed_uri)
+        wms_uri = parsed_uri.param("url")
+        if wms_uri.endswith("?"):
+            wms_uri = wms_uri[:-1]
+
+        settings = QgsSettings()
+        settings.beginGroup("connections/ows/items/wms/connections/items")
+        stored_connection_names = settings.childGroups()
+        settings.endGroup()
+        for connection_name in stored_connection_names:
+            settings.beginGroup(
+                "connections/ows/items/wms/connections/items/{}".format(connection_name)
+            )
+            test_uri = settings.value("url")
+            if not test_uri:
+                settings.endGroup()
+                continue
+
+            if test_uri.endswith("?"):
+                test_uri = test_uri[:-1]
+            if test_uri.lower() == wms_uri.lower():
+                # URL match, upgrade connection details
+                if settings.value("authcfg"):
+                    parsed_uri.setAuthConfigId(settings.value("authcfg"))
+                if settings.value("dpi-mode") is not None:
+                    parsed_uri.removeParam("dpiMode")
+                    parsed_uri.setParam("dpiMode", str(settings.value("dpi-mode")))
+                if settings.value("feature-count") is not None:
+                    parsed_uri.removeParam("featureCount")
+                    parsed_uri.setParam(
+                        "featureCount", str(settings.value("feature-count"))
+                    )
+                if settings.value("ignore-axis-orientation") not in (
+                    "false",
+                    False,
+                    None,
+                ):
+                    parsed_uri.removeParam("IgnoreAxisOrientation")
+                    parsed_uri.setParam("IgnoreAxisOrientation", "1")
+                if settings.value("invert-axis-orientation") not in (
+                    "false",
+                    False,
+                    None,
+                ):
+                    parsed_uri.removeParam("InvertAxisOrientation")
+                    parsed_uri.setParam("InvertAxisOrientation", "1")
+                if settings.value("ignore-get-map-uri") not in ("false", False, None):
+                    parsed_uri.removeParam("IgnoreGetMapUrl")
+                    parsed_uri.setParam("IgnoreGetMapUrl", "1")
+                if settings.value("ignore-get-feature-info-uri") not in (
+                    "false",
+                    False,
+                    None,
+                ):
+                    parsed_uri.removeParam("IgnoreGetFeatureInfoUrl")
+                    parsed_uri.setParam("IgnoreGetFeatureInfoUrl", "1")
+                if settings.value("smooth-pixmap-transform") not in (
+                    "false",
+                    False,
+                    None,
+                ):
+                    parsed_uri.removeParam("SmoothPixmapTransform")
+                    parsed_uri.setParam("SmoothPixmapTransform", "1")
+                if settings.value("reported-layer-extents") not in (
+                    "false",
+                    False,
+                    None,
+                ):
+                    parsed_uri.removeParam("IgnoreReportedLayerExtents")
+                    parsed_uri.setParam("IgnoreReportedLayerExtents", "1")
+                if settings.value("reported-layer-extents") is not None:
+                    parsed_uri.removeParam("tilePixelRatio")
+                    parsed_uri.setParam(
+                        "tilePixelRatio", str(settings.value("reported-layer-extents"))
+                    )
+                if settings.value("username"):
+                    parsed_uri.setUsername(settings.value("username"))
+                if settings.value("password"):
+                    parsed_uri.setPassword(settings.value("password"))
+                # http-header
+
+                if parsed_uri.encodedUri() != original_uri.encodedUri():
+                    context.push_warning(
+                        'Using stored WMS connection properties from "{}"'.format(
+                            connection_name
+                        ),
+                        level=Context.INFO,
+                    )
+                return parsed_uri.encodedUri().data().decode("utf-8")
+
+            settings.endGroup()
+        return uri
+
+    @staticmethod
+    def add_stored_wfs_connection_params_to_uri(uri: str, context: Context):
+        """
+        Matches a WFS url against user's stored connections, and pulls across settings from the
+        stored connection to the WFS uri
+        """
+        parsed_uri = QgsDataSourceUri(uri)
+        original_uri = QgsDataSourceUri(parsed_uri)
+        wfs_uri = parsed_uri.param("url")
+        if wfs_uri.endswith("?"):
+            wfs_uri = wfs_uri[:-1]
+
+        settings = QgsSettings()
+        settings.beginGroup("connections/ows/items/wfs/connections/items")
+        stored_connection_names = settings.childGroups()
+        settings.endGroup()
+        for connection_name in stored_connection_names:
+            settings.beginGroup(
+                "connections/ows/items/wfs/connections/items/{}".format(connection_name)
+            )
+            test_uri = settings.value("url")
+            if not test_uri:
+                settings.endGroup()
+                continue
+
+            if test_uri.endswith("?"):
+                test_uri = test_uri[:-1]
+            if test_uri.lower() == wfs_uri.lower():
+                # URL match, upgrade connection details
+                if settings.value("authcfg"):
+                    parsed_uri.setAuthConfigId(settings.value("authcfg"))
+                if settings.value("version"):
+                    parsed_uri.removeParam("version")
+                    parsed_uri.setParam("version", str(settings.value("version")))
+                if settings.value("max-num-features"):
+                    parsed_uri.removeParam("maxNumFeatures")
+                    parsed_uri.setParam(
+                        "maxNumFeatures", str(settings.value("max-num-features"))
+                    )
+                if settings.value("page-size"):
+                    parsed_uri.removeParam("pageSize")
+                    parsed_uri.setParam("pageSize", str(settings.value("page-size")))
+                if settings.value("paging-enabled"):
+                    parsed_uri.removeParam("pagingEnabled")
+                    parsed_uri.setParam(
+                        "pagingEnabled", str(settings.value("paging-enabled"))
+                    )
+                if settings.value("prefer-coordinates-for-wfs-T11") is not None:
+                    parsed_uri.removeParam("preferCoordinatesForWfsT11")
+                    parsed_uri.setParam(
+                        "preferCoordinatesForWfsT11",
+                        "true"
+                        if settings.value("prefer-coordinates-for-wfs-T11")
+                        else "false",
+                    )
+                if settings.value("ignore-axis-orientation") not in (
+                    "false",
+                    False,
+                    None,
+                ):
+                    parsed_uri.removeParam("IgnoreAxisOrientation")
+                    parsed_uri.setParam("IgnoreAxisOrientation", "1")
+                if settings.value("invert-axis-orientation") not in (
+                    "false",
+                    False,
+                    None,
+                ):
+                    parsed_uri.removeParam("InvertAxisOrientation")
+                    parsed_uri.setParam("InvertAxisOrientation", "1")
+
+                if settings.value("username"):
+                    parsed_uri.setUsername(settings.value("username"))
+                if settings.value("password"):
+                    parsed_uri.setPassword(settings.value("password"))
+                # http-header
+
+                if parsed_uri.uri(False) != original_uri.uri(False):
+                    context.push_warning(
+                        'Using stored WFS connection properties from "{}"'.format(
+                            connection_name
+                        ),
+                        level=Context.INFO,
+                    )
+                return parsed_uri.uri(False)
+
+            settings.endGroup()
+        return uri
+
+    @staticmethod
+    def add_stored_xyz_connection_params_to_uri(uri: str, context: Context):
+        """
+        Matches a XYZ url against user's stored connections, and pulls across settings from the
+        stored connection to the XYZ uri
+        """
+        parsed_uri = QgsDataSourceUri()
+        parsed_uri.setEncodedUri(uri)
+        original_uri = QgsDataSourceUri(parsed_uri)
+        xyz_uri = parsed_uri.param("url")
+        if xyz_uri.endswith("?"):
+            xyz_uri = xyz_uri[:-1]
+
+        settings = QgsSettings()
+        settings.beginGroup("connections/xyz/items")
+        stored_connection_names = settings.childGroups()
+        settings.endGroup()
+        for connection_name in stored_connection_names:
+            settings.beginGroup("connections/xyz/items/{}".format(connection_name))
+            test_uri = settings.value("url")
+            if not test_uri:
+                settings.endGroup()
+                continue
+
+            if test_uri.endswith("?"):
+                test_uri = test_uri[:-1]
+            if test_uri.lower() == xyz_uri.lower():
+                # URL match, upgrade connection details
+                changed = False
+                if settings.value("authcfg"):
+                    parsed_uri.setAuthConfigId(settings.value("authcfg"))
+                if settings.value("tile-pixel-ratio") is not None:
+                    parsed_uri.removeParam("dpiMode")
+                    parsed_uri.setParam(
+                        "dpiMode", str(settings.value("tile-pixel-ratio"))
+                    )
+                if settings.value("username"):
+                    parsed_uri.setUsername(settings.value("username"))
+                if settings.value("password"):
+                    parsed_uri.setPassword(settings.value("password"))
+                # http-header
+
+                if parsed_uri.encodedUri() != original_uri.encodedUri():
+                    context.push_warning(
+                        'Using stored XYZ connection properties from "{}"'.format(
+                            connection_name
+                        ),
+                        level=Context.INFO,
+                    )
+                return parsed_uri.encodedUri().data().decode("utf-8")
+
+            settings.endGroup()
+        return uri
+
+    @staticmethod
+    def add_stored_arcgis_rest_connection_params_to_uri(uri: str, context: Context):
+        """
+        Matches an ArcGIS REST url against user's stored connections, and pulls across settings from the
+        stored connection to the ArcGIS REST uri
+        """
+
+        def _add_stored_arcgis_rest_connection_params_to_uri_private(
+            uri_to_match: str,
+            context: Context,
+            test_is_parent: bool = False,
+            test_host: bool = False,
+        ):
+            settings = QgsSettings()
+            settings.beginGroup("connections/arcgisfeatureserver/items")
+            stored_connection_names = settings.childGroups()
+            settings.endGroup()
+
+            for connection_name in stored_connection_names:
+                settings.beginGroup(
+                    "connections/arcgisfeatureserver/items/{}".format(connection_name)
+                )
+                test_uri = settings.value("url")
+                if not test_uri:
+                    settings.endGroup()
+                    continue
+
+                if test_uri.endswith("?"):
+                    test_uri = test_uri[:-1]
+                if (
+                    (test_uri.lower() == uri_to_match.lower())
+                    or (
+                        test_is_parent
+                        and QUrl(test_uri.lower()).isParentOf(
+                            QUrl(uri_to_match.lower())
+                        )
+                    )
+                    or (
+                        test_host
+                        and QUrl(test_uri.lower()).host()
+                        == QUrl(uri_to_match.lower()).host()
+                    )
+                ):
+                    # URL match, upgrade connection details
+                    changed = False
+                    if settings.value("authcfg"):
+                        parsed_uri.setAuthConfigId(settings.value("authcfg"))
+                        changed = True
+                    if settings.value("username"):
+                        parsed_uri.setUsername(settings.value("username"))
+                        changed = True
+                    if settings.value("password"):
+                        parsed_uri.setPassword(settings.value("password"))
+                        changed = True
+                    # http-header
+
+                    if changed:
+                        context.push_warning(
+                            'Using stored ArcGIS REST connection properties from "{}"'.format(
+                                connection_name
+                            ),
+                            level=Context.INFO,
+                        )
+                    return True, parsed_uri.uri(False)
+
+                settings.endGroup()
+            return False, uri
+
+        parsed_uri = QgsDataSourceUri(uri)
+        server_uri = parsed_uri.param("url")
+        if server_uri.endswith("?"):
+            server_uri = server_uri[:-1]
+
+        # first pass, exact matches only
+        changed, uri = _add_stored_arcgis_rest_connection_params_to_uri_private(
+            server_uri, context
+        )
+        if changed:
+            return uri
+
+        # second pass -- check by parents
+        changed, uri = _add_stored_arcgis_rest_connection_params_to_uri_private(
+            server_uri, context, test_is_parent=True
+        )
+        if changed:
+            return uri
+
+        # third pass -- check by host
+        changed, uri = _add_stored_arcgis_rest_connection_params_to_uri_private(
+            server_uri, context, test_host=True
+        )
+        if changed:
+            return uri
+
+        return uri
+
+    @staticmethod
+    def add_stored_postgres_connection_params_to_uri(
+        uri: QgsDataSourceUri, context: Context
+    ) -> QgsDataSourceUri:
+        """
+        Matches a postgres database details against user's stored connections, and pulls across settings from the
+        stored connection to the postgres uri
+        """
+        original_uri = QgsDataSourceUri(uri)
+        host = uri.host().lower()
+        dbname = uri.database().lower()
+
+        settings = QgsSettings()
+        settings.beginGroup("PostgreSQL/connections")
+        stored_connection_names = settings.childGroups()
+        settings.endGroup()
+        for connection_name in stored_connection_names:
+            settings.beginGroup("PostgreSQL/connections/{}".format(connection_name))
+            test_dbname = settings.value("database")
+            test_host = settings.value("host")
+            if test_dbname is None or test_host is None:
+                settings.endGroup()
+                continue
+
+            if test_dbname.lower() == dbname and test_host.lower() == host:
+                # connection details match, upgrade connection details
+                if settings.value("authcfg"):
+                    uri.setAuthConfigId(settings.value("authcfg"))
+                if settings.value("username"):
+                    uri.setUsername(settings.value("username"))
+                if settings.value("password"):
+                    uri.setPassword(settings.value("password"))
+                if settings.value("estimatedMetadata"):
+                    uri.setUseEstimatedMetadata(True)
+                if settings.value("session_role"):
+                    uri.removeParam("session_role")
+                    uri.setParam("session_role", settings.value("session_role"))
+                # ssl mode?
+
+                if original_uri.uri(False) != uri.uri(False):
+                    context.push_warning(
+                        'Using stored PostgreSQL connection properties from "{}"'.format(
+                            connection_name
+                        ),
+                        level=Context.INFO,
+                    )
+                return uri
+
+            settings.endGroup()
+        return uri
+
+    @staticmethod
+    def add_stored_sql_server_connection_params_to_uri(
+        uri: QgsDataSourceUri, context: Context
+    ) -> QgsDataSourceUri:
+        """
+        Matches a SQL Server database details against user's stored connections, and pulls across settings from the
+        stored connection to the SQL Server uri
+        """
+        original_uri = QgsDataSourceUri(uri)
+        host = uri.host().lower()
+        dbname = uri.database().lower()
+
+        settings = QgsSettings()
+        settings.beginGroup("MSSQL/connections")
+        stored_connection_names = settings.childGroups()
+        settings.endGroup()
+        for connection_name in stored_connection_names:
+            settings.beginGroup("MSSQL/connections/{}".format(connection_name))
+            test_dbname = settings.value("database")
+            test_host = settings.value("host")
+            if test_dbname is None or test_host is None:
+                settings.endGroup()
+                continue
+
+            if test_dbname.lower() == dbname and test_host.lower() == host:
+                # connection details match, upgrade connection details
+                if settings.value("authcfg"):
+                    uri.setAuthConfigId(settings.value("authcfg"))
+                if settings.value("username"):
+                    uri.setUsername(settings.value("username"))
+                if settings.value("password"):
+                    uri.setPassword(settings.value("password"))
+                if settings.value("estimatedMetadata"):
+                    uri.setUseEstimatedMetadata(True)
+
+                if original_uri.uri(False) != uri.uri(False):
+                    context.push_warning(
+                        'Using stored SQL Server connection properties from "{}"'.format(
+                            connection_name
+                        ),
+                        level=Context.INFO,
+                    )
+                return uri
+
+            settings.endGroup()
+        return uri
+
+    @staticmethod
+    def add_stored_oracle_connection_params_to_uri(
+        uri: QgsDataSourceUri, context: Context
+    ) -> QgsDataSourceUri:
+        """
+        Matches an oracle database details against user's stored connections, and pulls across settings from the
+        stored connection to the postgres uri
+        """
+        original_uri = QgsDataSourceUri(uri)
+        host = uri.host().lower()
+        dbname = uri.database().lower()
+
+        settings = QgsSettings()
+        settings.beginGroup("Oracle/connections")
+        stored_connection_names = settings.childGroups()
+        settings.endGroup()
+        for connection_name in stored_connection_names:
+            settings.beginGroup("Oracle/connections/{}".format(connection_name))
+            test_dbname = settings.value("database")
+            test_host = settings.value("host")
+            if test_dbname is None or test_host is None:
+                settings.endGroup()
+                continue
+
+            if test_dbname.lower() == dbname and test_host.lower() == host:
+                # connection details match, upgrade connection details
+                if settings.value("authcfg"):
+                    uri.setAuthConfigId(settings.value("authcfg"))
+                if settings.value("username"):
+                    uri.setUsername(settings.value("username"))
+                if settings.value("password"):
+                    uri.setPassword(settings.value("password"))
+                if settings.value("estimatedMetadata"):
+                    uri.setUseEstimatedMetadata(True)
+
+                if original_uri.uri(False) != uri.uri(False):
+                    context.push_warning(
+                        'Using stored Oracle connection properties from "{}"'.format(
+                            connection_name
+                        ),
+                        level=Context.INFO,
+                    )
+                return uri
+
+            settings.endGroup()
+        return uri
