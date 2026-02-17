@@ -115,19 +115,31 @@ class LayerConverter:
                 )
             ]
         elif isinstance(source_layer, WmsMapLayer):
-            pass
+            res = RasterLayerConverter.wms_layer_to_QgsRasterLayer(
+                source_layer, input_file, context=context, fallback_crs=fallback_crs
+            )
         elif isinstance(source_layer, WmtsLayer):
-            pass
+            res = RasterLayerConverter.wmts_layer_to_QgsRasterLayer(
+                source_layer, input_file, context=context, fallback_crs=fallback_crs
+            )
         elif isinstance(source_layer, RasterBasemapLayer):
             res = RasterLayerConverter.raster_basemap_layer_to_QgsRasterLayer(
                 source_layer, input_file, context=context, fallback_crs=fallback_crs
             )
         elif isinstance(source_layer, MapServerLayer):
-            pass
+            res = RasterLayerConverter.mapserver_layer_to_QgsRasterLayer(
+                source_layer, input_file, context=context, fallback_crs=fallback_crs
+            )
         elif isinstance(source_layer, InternetTiledLayer):
-            pass
+            res = [
+                RasterLayerConverter.internet_tiled_layer_to_QgsRasterLayer(
+                    source_layer, input_file, context=context, fallback_crs=fallback_crs
+                )
+            ]
         elif isinstance(source_layer, MapServerRESTLayer):
-            pass
+            res = RasterLayerConverter.mapserver_rest_layer_to_QgsRasterLayer(
+                source_layer, input_file, context=context, fallback_crs=fallback_crs
+            )
         elif isinstance(source_layer, StandaloneTable):
             res = VectorLayerConverter.standalone_table_to_QgsVectorLayer(
                 source_layer, input_file, context=context
@@ -172,6 +184,9 @@ class LayerConverter:
                     source_layer.name
                 ),
                 level=Context.CRITICAL,
+            )
+            res = RasterLayerConverter.imageserver_layer_to_QgsRasterLayer(
+                source_layer, input_file, context=context, fallback_crs=fallback_crs
             )
         elif isinstance(source_layer, WmsLayer):
             context.push_warning(
