@@ -371,3 +371,12 @@ from .nadcon_transformation import NADCONTransformation
 from .ntv2_transformation import NTv2Transformation
 from .annotate_map import AnnotateMap
 from .map_optimization_layout_extension import MapOptimizationLayoutExtension
+from .ags_server_object_name import AgsServerObjectName
+from .ags_server_connection_name import AgsServerConnectionName
+from .map_server_identify_sublayer import MapServerIdentifySublayer
+from .cache_info import CacheInfo
+from .lod_info import LODInfo
+from .lod_infos import LODInfos
+from .tile_image_info import TileImageInfo
+from .mosaic_rule import MosaicRule
+from .raster_function_template_arguments import RasterFunctionTemplateArguments
