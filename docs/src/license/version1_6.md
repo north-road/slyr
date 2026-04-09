@@ -37,7 +37,7 @@ cloud or other service or technology or in any way allow third parties to exploi
 
 (d) remove, alter or obscure any proprietary notices, labels or marks in the Software or North Road’s terms of use or privacy policy contained in the Software.
 
-2.3. The parties acknowledge and agree that, notwithstanding anything to the contrary in this Agreement, no license is granted (whether expressly, by implication or otherwise) under this Agreement for use of the Software beyond the applicable Term or outside the scope of the applicable License Type.
+2.3. The parties acknowledge and agree that, notwithstanding anything to the contrary in this Agreement, no license is granted (whether expressly, by implication or otherwise) under this Agreement for use of the Software outside the scope of the entitlements described in the license email or Schedule 1.
 
 2.4. The Licensee warrants that it will reproduce all copyright notices and other legends of ownership on each copy, or partial copy, of the Software.
 
