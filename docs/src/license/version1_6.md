@@ -1,6 +1,6 @@
 # SLYR End User License Agreement
 
-## Version 1.5
+## Version 1.6
 
 This Licensing Agreement ('Agreement') is made by and between:
 
@@ -12,7 +12,7 @@ This Licensing Agreement ('Agreement') is made by and between:
 
 1.1. Subject to the Licensee’s continued compliance with all the terms of this Agreement (including, without limitation, payment of all fees payable under this Agreement), North Road grants the Licensee a non-exclusive, non-transferable license (and accordingly does not allow sublicensing of the Software to any other party) to:
 
-(a) use the Software within the scope of the License Type; and
+(a) use the Software within the scope of the entitlements described in the license email; and
 
 (b) install or imbed copies of the Software in accordance with the License Type.
 
@@ -141,7 +141,7 @@ ii.the payment of the cost of having the services supplied again.
 
 (a) if delivered by hand, upon delivery; or
 
-(b) if the representative of the party sends an acknowledgement that the e-mail was received.
+(b) if sent by email, at the time the email is sent (as recorded on the device from which the sender sent the email) unless the sender receives an automated message that the email has not been delivered; and
 
 (c) A party may change its address or by giving notice of that change to each other party.
 
