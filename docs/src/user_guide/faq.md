@@ -10,10 +10,10 @@ See the [pricing](pricing) page for full details on purchasing the full-featured
 
 ## How many users will a license cover?
 
-A single **SLYR** license agreement covers use by 20 users in the same physical
+A single **SLYR** license agreement covers use by 10 users in the same physical
 location i.e. an office address. It will also cover remote users that are
 attached to the defined physical location. If you have multiple locations, or
-over 20 users that require use of the license, please
+over 10 users that require use of the license, please
 let [us](mailto:info@north-road.com) know, and we will assess each case on an
 individual basis.
 
