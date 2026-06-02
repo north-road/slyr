@@ -12,6 +12,14 @@ issues.
 > If you encounter a limitation that isn't listed,
 > please [email us](mailto:info@north-road.com) and we will investigate it.
 
+## Arcade expressions
+
+Arcade expressions are not able to be converted.
+
+> **Workaround**
+>
+> Re-enter within the QGIS environment using the correct syntax.  
+
 ## Content in Source files
 
 SLYR will process and utilize any available content. If no content is present, SLYR will have nothing to convert.
