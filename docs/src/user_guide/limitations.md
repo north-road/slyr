@@ -14,7 +14,7 @@ issues.
 
 ## Arcade expressions
 
-Arcade expressions are not able to be converted.
+While SLYR has some support for automatically converting Arcade expressions to their equivalent QGIS expression, this isn't always possible and it's sometimes necessary to manually convert the expressions. When this happens SLYR will show explicit warnings to the user, advising them which expressions need to be manually converted (and which layers contain these expressions)
 
 > **Workaround**
 >
@@ -112,6 +112,14 @@ copy any SVG files generated during the conversion to a path accessible by your
 server. Make sure you specify a "Destination folder for SVG files" when running
 to SLD conversion tools, and populate the "Server path for SVG files" with the
 full server-accessible path where you will be copying these SVG files to.
+
+## Image Server
+
+ImageServer layers are currently not supported in QGIS, but will be in QGIS 4.2.  
+
+> **Workaround**
+>
+> ImageServer layers will be automatically converted to a simple MapServer layer  
 
 ## Raster Catalog Layers
 
