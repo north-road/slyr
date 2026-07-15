@@ -34,7 +34,10 @@ class NameDropHandler(QgsCustomDropHandler):
         if data.hasFormat(NameDropHandler.DATA_TYPE):
             message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
             BrowserUtils.show_warning(
-                "Could not handle item drop", "", message, level=Qgis.Critical
+                "Could not handle item drop",
+                "",
+                message,
+                level=Qgis.MessageLevel.Critical,
             )
             return True
         return False

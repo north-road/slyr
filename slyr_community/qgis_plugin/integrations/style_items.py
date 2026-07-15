@@ -395,7 +395,10 @@ class StyleDropHandler(QgsCustomDropHandler):
         """
         message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
         BrowserUtils.show_warning(
-            "Licensed version required", "Convert MXD", message, level=Qgis.Critical
+            "Licensed version required",
+            "Convert MXD",
+            message,
+            level=Qgis.MessageLevel.Critical,
         )
         return True
 

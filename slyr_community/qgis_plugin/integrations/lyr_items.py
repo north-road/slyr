@@ -294,7 +294,7 @@ class LyrDropHandler(QgsCustomDropHandler):
                     "Licensed version required",
                     "Convert LYR",
                     message,
-                    level=Qgis.Critical,
+                    level=Qgis.MessageLevel.Critical,
                 )
                 return True
 
@@ -308,7 +308,7 @@ class LyrDropHandler(QgsCustomDropHandler):
             "Licensed version required",
             "Convert LPK",
             message,
-            level=Qgis.Critical,
+            level=Qgis.MessageLevel.Critical,
             message_bar=iface.messageBar(),
         )
         return True
@@ -323,7 +323,7 @@ class LyrDropHandler(QgsCustomDropHandler):
             "Licensed version required",
             "Convert LYRX",
             message,
-            level=Qgis.Critical,
+            level=Qgis.MessageLevel.Critical,
             message_bar=iface.messageBar(),
         )
         return True
@@ -338,7 +338,7 @@ class LyrDropHandler(QgsCustomDropHandler):
             "Licensed version required",
             "Convert LPKX",
             message,
-            level=Qgis.Critical,
+            level=Qgis.MessageLevel.Critical,
             message_bar=iface.messageBar(),
         )
         return True
@@ -353,7 +353,7 @@ class LyrDropHandler(QgsCustomDropHandler):
             "Licensed version required",
             "Convert LYRX",
             message,
-            level=Qgis.Critical,
+            level=Qgis.MessageLevel.Critical,
             message_bar=iface.messageBar(),
         )
         return True
@@ -601,7 +601,7 @@ class EsriLyrItem(QgsDataItem):
                     "Licensed version required",
                     "Convert LYR",
                     message,
-                    level=Qgis.Critical,
+                    level=Qgis.MessageLevel.Critical,
                 )
                 return True
 
@@ -653,7 +653,7 @@ class EsriLyrItem(QgsDataItem):
                         "Licensed version required",
                         "Convert LYR",
                         message,
-                        level=Qgis.Critical,
+                        level=Qgis.MessageLevel.Critical,
                     )
                     return True
 
@@ -701,7 +701,7 @@ class EsriLyrItem(QgsDataItem):
                         "Licensed version required",
                         "Convert LYR",
                         message,
-                        level=Qgis.Critical,
+                        level=MessageLevel.ical,
                     )
                     return True
 
