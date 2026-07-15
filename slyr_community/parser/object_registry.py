@@ -5,7 +5,6 @@ A registry for all known objects which can be decoded from a Stream
 
 from typing import Optional
 from .exceptions import (
-    CustomExtensionClsidException,
     RequiresLicenseException,
 )
 from .object import CustomObject
@@ -54,14 +53,6 @@ class ObjectRegistry:
 
         if clsid in self.objects:
             return self.objects[clsid]()
-        elif clsid in CUSTOM_EXTENSION_CLSIDS:
-            raise CustomExtensionClsidException(
-                "Custom extension: {}-{}-{}-{}-{}".format(*[hex(c)[2:] for c in clsid]),
-                custom_object=CustomObject(
-                    "{}-{}-{}-{}-{}".format(*[hex(c)[2:] for c in clsid])
-                ),
-                clsid="{}-{}-{}-{}-{}".format(*[hex(c)[2:] for c in clsid]),
-            )
         raise RequiresLicenseException(
             "Objects with CLSID: {}-{}-{}-{}-{} cannot be read with the community edition of SLYR".format(
                 *[hex(c)[2:] for c in clsid]
@@ -157,8 +148,3 @@ class ObjectRegistry:
 
 
 REGISTRY = ObjectRegistry()
-
-CUSTOM_EXTENSION_CLSIDS = [
-    (303619097, 62360, 19521, 36253, 102151985440480),
-    (3175125693, 60317, 19703, 41548, 123483059945585),  # MediaMapper?
-]
