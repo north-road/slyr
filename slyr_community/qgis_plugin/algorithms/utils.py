@@ -407,20 +407,13 @@ class AlgorithmUtils:
         if not attributes_list:
             options.skipAttributeCreation = True
 
-        if Qgis.QGIS_VERSION_INT >= 32000:
-            options.saveMetadata = True
-            options.layerMetadata = source_layer.metadata()
-            error, error_message, new_filename, new_layername = (
-                QgsVectorFileWriter.writeAsVectorFormatV3(
-                    source_layer, dest_file_name, project.transformContext(), options
-                )
-            )
-        else:
-            error, error_message = QgsVectorFileWriter.writeAsVectorFormatV2(
+        options.saveMetadata = True
+        options.layerMetadata = source_layer.metadata()
+        error, error_message, new_filename, new_layername = (
+            QgsVectorFileWriter.writeAsVectorFormatV3(
                 source_layer, dest_file_name, project.transformContext(), options
             )
-            new_filename = dest_file_name
-            new_layername = options.layerName
+        )
 
         if error != QgsVectorFileWriter.WriterError.NoError:
             if verbose_log:

@@ -16,7 +16,6 @@ from pathlib import Path
 
 from qgis.PyQt.QtCore import QVariant, QRegularExpression
 from qgis.core import (
-    Qgis,
     QgsProcessing,
     QgsProcessingParameterDefinition,
     QgsProcessingParameterFile,
@@ -401,10 +400,8 @@ class StyleToQgisXml(SlyrAlgorithm):
                             return
 
                         warnings.add(msg)
-                        if Qgis.QGIS_VERSION_INT >= 31602:
-                            feedback.pushWarning("Warning: {}".format(msg))
-                        else:
-                            feedback.reportError("Warning: {}".format(msg), False)
+                        feedback.pushWarning("Warning: {}".format(msg))
+
                     elif level == Context.CRITICAL:
                         feedback.reportError(msg, False)
                     elif level == Context.INFO:

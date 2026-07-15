@@ -40,6 +40,7 @@ class MxdBrowserWidget(base, ui):
         self.metadata_text_browser.setHtml(self.createMetadata())
 
     def createMetadata(self):
+
         metadata = "<html>\n<body>\n"
         metadata += "<h1>" + "Document Metadata" + "</h1>\n<hr>\n"
 

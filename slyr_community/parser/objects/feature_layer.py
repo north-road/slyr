@@ -228,6 +228,16 @@ class FeatureLayer(Object):
                 "6cacdfe6-aed2-49b0-812e-085169dd4917",  # CadUniqueValuePropertyPage
                 "7cd6ef8c-7c5f-4051-920b-3b0baacbe5ca",  # RepresentationRulesPropertyPage
                 "98dd7041-feb4-11d3-9f7c-00c04f6bc709",
+                "90d13b20-8f53-48f3-a257-0c060dfc439c",  # Maplogic related renderer?
+                "d7efc25c-f77e-4b84-9dfa-94b8bbfd099b",  # Maplogic related renderer no 2?
+                "7e2a14ef-c0fd-4df5-bc0d-7b6256805fe1",  # Maplogic related renderer no 3?
+                "21f11dec-ab18-4141-85c3-12eab99b7b4f",  # unknown renderer
+                "becb5580-a9ad-44b2-92ea-35fc4ab12c9e",  # unknown renderer1
+                "1b872558-129d-43f1-8158-5f4e502e9fd2",  # unknown renderer2
+                "345a5070-43b8-49f9-825b-643eb36c0d6a",  # unknown renderer2
+                "70820ce3-035b-4968-9635-e088748763c6",  # unknown renderer3
+                "7c775be2-1a4c-40bf-bb36-9524cae3b2fc",  # unknown renderer2
+                "9813a27b-a004-46ff-9799-fd0831c90100",  # unknown renderer4
             ),
         )  # StackedChartPropertyPage
 
