@@ -11,7 +11,7 @@ Adds layers from an MXD document to the current project
 #  *                                                                         *
 #  ***************************************************************************/
 
-from qgis.core import Qgis, QgsProcessingParameterFile, QgsProcessingFeedback
+from qgis.core import QgsProcessingParameterFile, QgsProcessingFeedback
 
 from .algorithm import SlyrAlgorithm
 from ...converters.context import Context
@@ -125,10 +125,7 @@ class AddLayersFromMxd(SlyrAlgorithm):
                         return
 
                     warnings.add(msg)
-                    if Qgis.QGIS_VERSION_INT >= 31602:
-                        feedback.pushWarning("Warning: {}".format(msg))
-                    else:
-                        feedback.reportError("Warning: {}".format(msg), False)
+                    feedback.pushWarning("Warning: {}".format(msg))
                 elif level == Context.INFO:
                     if msg in info:
                         return

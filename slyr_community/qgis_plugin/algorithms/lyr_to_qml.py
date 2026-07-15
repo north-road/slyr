@@ -14,7 +14,6 @@ Converts .lyr to QML
 from pathlib import Path
 
 from qgis.core import (
-    Qgis,
     QgsProcessingParameterFile,
     QgsProcessingParameterFileDestination,
     QgsProcessingOutputString,
@@ -149,10 +148,7 @@ class LyrToQml(SlyrAlgorithm):
                     return
 
                 warnings.add(msg)
-                if Qgis.QGIS_VERSION_INT >= 31602:
-                    feedback.pushWarning("Warning: {}".format(msg))
-                else:
-                    feedback.reportError("Warning: {}".format(msg), False)
+                feedback.pushWarning("Warning: {}".format(msg))
 
             elif level == Context.INFO:
                 if msg in info:
