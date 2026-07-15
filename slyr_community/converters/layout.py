@@ -56,7 +56,6 @@ from qgis.core import (
     QgsLayoutItemMapGrid,
     QgsLayoutItemPolygon,
     QgsLayoutItemPolyline,
-    QgsCentroidFillSymbolLayer,
     QgsLayoutUtils,
     QgsCoordinateReferenceSystem,
     QgsLayoutObject,
@@ -84,24 +83,11 @@ from qgis.core import (
     QgsLayoutItemPage,
     QgsLayoutItemLegend,
     QgsTextBackgroundSettings,
+    QgsLayoutItemMarker,
+    QgsLayoutNorthArrowHandler,
+    QgsLegendPatchShape,
 )
 
-
-USE_LAYOUT_MARKER = False
-try:
-    from qgis.core import QgsLayoutItemMarker, QgsLayoutNorthArrowHandler
-
-    USE_LAYOUT_MARKER = True
-except ImportError:
-    pass
-
-USE_LEGEND_PATCHES = False
-try:
-    from qgis.core import QgsLegendPatchShape
-
-    USE_LEGEND_PATCHES = True
-except ImportError:
-    pass
 
 from qgis.PyQt.QtCore import QRectF, Qt, QPointF, QSizeF
 from qgis.PyQt.QtGui import QFontMetricsF, QPolygonF
@@ -197,6 +183,7 @@ DYNAMIC_TEXT_REPLACEMENTS = {
     r'<dyn\s+type\s*=\s*"\s*project\s*"\s*property\s*=\s*"\s*dateSaved\s*"\s*format\s*="\s*[|]*\s*dd/MM/yyyy\s*"\s*(?:/>|>|/)': "[% format_date(@project_last_saved, 'dd/MM/yyyy') %]",
     r'<dyn\s+type\s*=\s*"\s*project\s*"\s*property\s*=\s*"\s*dateSaved\s*"\s*format\s*="\s*[|]*\s*MMMM dd, yyyy\s*"\s*(?:/>|>|/)': "[% format_date(@project_last_saved, 'MMMM dd, yyyy') %]",
     r'<dyn\s+type\s*=\s*"\s*project\s*"\s*property\s*=\s*"\s*dateSaved\s*"\s*format\s*="\s*[|]*\s*dd. MMMM yyyy\s*"\s*(?:/>|>|/)': "[% format_date(@project_last_saved, 'dd. MMMM yyyy') %]",
+    r'<dyn\s+type\s*=\s*"\s*project\s*"\s*property\s*=\s*"\s*dateSaved\s*"\s*format\s*="\s*[|]*\s*ddMMMyyy\s*"\s*(?:/>|>|/)': "[% format_date(@project_last_saved, 'ddMMMyyy') %]",
     r'<dyn\s+type\s*=\s*"\s*project\s*"\s*property\s*=\s*"\s*dateSaved\s*"\s*format\s*="\s*"\s*(?:/>|>|/)': "[% format_date(@project_last_saved, 'dd/MM/yyyy') %]",
     r'<dyn\s+type\s*=\s*"\s*document\s*"\s*property\s*=\s*"\s*date\s+saved\s*"\s*format\s*=\s*"\s*[|]*\s*short\s*"\s*(?:/>|>|/)': "[% format_date(@project_last_saved, 'dd/MM/yyyy') %]",
     r'<dyn\s+type\s*=\s*"\s*document\s*"\s*property\s*=\s*"\s*date\s+saved\s*"\s*format\s*=\s*"\s*[|]*\s*MMMM yyyy\s*"\s*(?:/>|>|/)': "[% format_date(@project_last_saved, 'MMMM yyyy') %]",
@@ -215,6 +202,7 @@ DYNAMIC_TEXT_REPLACEMENTS = {
     r'<dyn\s+type\s*=\s*"\s*page\s*"\s*property\s*=\s*"\s*name\s*"\s*(?:/>|>|/)': "[% @atlas_pagename %]",
     r'<dyn\s+type\s*=\s*"\s*page\s*"\s*property\s*=\s*"\s*count\s*"\s*(?:/>|>|/)': "[% @atlas_totalfeatures %]",
     r'<dyn\s+type\s*=\s*"\s*page\s*"\s*property\s*=\s*"\s*(?!count|index|name|number|attribute)(.*?)\s*"\s*(?:/>|>|/)': '[% "\\1" %]',
+    r'<dyn\s+type\s*=\s*"\s*page\s*"\s*property\s*=\s*"\s*attribute\s*"\s*field\s*=\s*"\s*(.*?)"\s*(?:/>|>|/)': '[% "\\1" %]',
     r'<dyn\s+type\s*=\s*"\s*layout\s*"\s*property\s*=\s*"\s*name\s*"\s*(?:/>|>|/)': "[% @layout_name %]",
     r'<dyn\s+type\s*=\s*"\s*layout\s*"\s*property\s*=\s*"\s*metadata\s*"\s*attribute\s*=\s*"\s*title\s*"\s*emptyStr\s*=\s*"(.*?)"\s*(?:/>|>|/)': "[% coalesce(@layout_title, @layout_name) %]",
     r'<dyn\s+type\s*=\s*"\s*layout\s*"\s*property\s*=\s*"\s*metadata\s*"\s*attribute\s*=\s*"\s*contactname\s*"\s*emptyStr\s*=\s*"(.*?)"\s*(?:/>|>|/)': "[% coalesce(@project_author, '\\1') %]",
@@ -595,7 +583,14 @@ class LayoutConverter:
 
     @staticmethod
     def set_common_properties(
-        layout, element, item, page_height, context, base_units, conversion_factor
+        layout,
+        element,
+        item,
+        page_height,
+        context,
+        base_units,
+        conversion_factor,
+        convert_rotation: bool = True,
     ):
         if isinstance(element.shape, Point):
             if isinstance(element, MarkerElement):
@@ -1605,90 +1600,42 @@ class LayoutConverter:
             return {element: shape}
 
         elif isinstance(element, MarkerElement):
-            if USE_LAYOUT_MARKER:
-                if isinstance(element.symbol, PieChartSymbol):
-                    context.push_warning(
-                        "Cannot convert pie chart symbol to marker element: QGIS does not support pie charts as layout items",
-                        level=Context.CRITICAL,
-                    )
-                    return None
-
-                if isinstance(element.shape, Point) and (
-                    element.shape.x < -214740 or element.shape.y < -214740
-                ):
-                    # seen on some corrupted documents??
-                    return {}
-
-                shape = QgsLayoutItemMarker(layout)
-
-                try:
-                    marker = SymbolConverter.Symbol_to_QgsSymbol(
-                        element.symbol, context
-                    )
-                except NotImplementedException as e:
-                    context.push_warning(
-                        "Cannot convert marker element: {}".format(str(e)),
-                        level=Context.CRITICAL,
-                    )
-                    return None
-
-                shape.setSymbol(marker)
-                LayoutConverter.set_common_properties(
-                    layout,
-                    element,
-                    shape,
-                    page_height,
-                    context,
-                    base_units,
-                    conversion_factor,
+            if isinstance(element.symbol, PieChartSymbol):
+                context.push_warning(
+                    "Cannot convert pie chart symbol to marker element: QGIS does not support pie charts as layout items",
+                    level=Context.CRITICAL,
                 )
-                layout.addLayoutItem(shape)
-                return {element: shape}
-            else:
-                # have to convert to rectangles with a centroid fill, that's the closest we can get
-                shape = QgsLayoutItemShape(layout)
-                shape.setShapeType(QgsLayoutItemShape.Shape.Rectangle)
+                return None
 
-                render_context = QgsLayoutUtils.createRenderContextForLayout(
-                    layout, None
-                )
-                centroid_marker = SymbolConverter.Symbol_to_QgsSymbol(
-                    element.symbol, context
-                )
-                centroid_marker.startRender(render_context)
-                bounds = centroid_marker.bounds(QPointF(0, 0), render_context)
-                centroid_marker.stopRender(render_context)
+            if isinstance(element.shape, Point) and (
+                element.shape.x < -214740 or element.shape.y < -214740
+            ):
+                # seen on some corrupted documents??
+                return {}
 
-                fill_symbol = QgsFillSymbol()
-                layer = QgsCentroidFillSymbolLayer()
-                layer.setSubSymbol(centroid_marker)
-                fill_symbol.changeSymbolLayer(0, layer)
+            shape = QgsLayoutItemMarker(layout)
 
-                shape.setSymbol(fill_symbol)
-                LayoutConverter.set_common_properties(
-                    layout,
-                    element,
-                    shape,
-                    page_height,
-                    context,
-                    base_units,
-                    conversion_factor,
+            try:
+                marker = SymbolConverter.Symbol_to_QgsSymbol(element.symbol, context)
+            except NotImplementedException as e:
+                context.push_warning(
+                    "Cannot convert marker element: {}".format(str(e)),
+                    level=Context.CRITICAL,
                 )
+                return None
 
-                layout_bounds = layout.convertFromLayoutUnits(
-                    bounds.size(), layout.units()
-                )
-                shape.setReferencePoint(QgsLayoutItem.ReferencePoint.Middle)
-                shape.attemptResize(
-                    QgsLayoutSize(
-                        layout_bounds.width() * 1.1,
-                        layout_bounds.height() * 1.1,
-                        layout_bounds.units(),
-                    )
-                )
-                layout.addLayoutItem(shape)
-                return {element: shape}
-
+            shape.setSymbol(marker)
+            LayoutConverter.set_common_properties(
+                layout,
+                element,
+                shape,
+                page_height,
+                context,
+                base_units,
+                conversion_factor,
+            )
+            layout.addLayoutItem(shape)
+            return {element: shape}
         elif isinstance(element, (TextElement, ParagraphTextElement)) or (False):
             if (
                 isinstance(element, Element)
@@ -1707,6 +1654,7 @@ class LayoutConverter:
                 context,
                 base_units,
                 conversion_factor,
+                convert_rotation=False,
             )
 
             if isinstance(element, Element):
@@ -2039,125 +1987,34 @@ class LayoutConverter:
             map_surround = element.element
 
             if isinstance(map_surround, (MarkerNorthArrow,)):
-                if USE_LAYOUT_MARKER:
-                    shape = QgsLayoutItemMarker(layout)
+                shape = QgsLayoutItemMarker(layout)
 
-                    if isinstance(map_surround, MarkerNorthArrow):
-                        marker = SymbolConverter.Symbol_to_QgsSymbol(
-                            map_surround.marker_element.symbol, context
-                        )
-                        # unrotate, because calculated angles are stored inside symbol definition in ESRI land
-                        marker.setAngle(marker.angle() + map_surround.calculated_angle)
-                        shape.setSymbol(marker)
-                        LayoutConverter.set_common_properties(
-                            layout,
-                            map_surround.marker_element,
-                            shape,
-                            page_height,
-                            context,
-                            base_units,
-                            conversion_factor,
-                        )
-                    else:
-                        marker = SymbolConverter.Symbol_to_QgsSymbol(
-                            map_surround.point_symbol, context
-                        )
-                        # unrotate, because calculated angles are stored inside symbol definition in ESRI land
-                        marker.setAngle(marker.angle() + (map_surround.rotation or 0))
-                        shape.setSymbol(marker)
-                        LayoutConverter.set_common_properties(
-                            layout,
-                            map_surround,
-                            shape,
-                            page_height,
-                            context,
-                            base_units,
-                            conversion_factor,
-                        )
-
-                    if map_surround.calibration_angle is not None:
-                        shape.setNorthOffset(map_surround.calibration_angle)
-
-                    if isinstance(map_surround, MarkerNorthArrow):
-                        if (
-                            map_surround.orientation_type
-                            == MarkerNorthArrow.ANGLE_DATA_FRAME
-                        ):
-                            shape.setNorthMode(
-                                QgsLayoutNorthArrowHandler.NorthMode.GridNorth
-                            )
-                        elif (
-                            map_surround.orientation_type
-                            == MarkerNorthArrow.ANGLE_ABSOLUTE
-                        ):
-                            shape.setNorthMode(
-                                QgsLayoutNorthArrowHandler.NorthMode.TrueNorth
-                            )
-
-                    layout.addLayoutItem(shape)
-                    return {map_surround: shape}
-                else:
-                    # no background or frame allowed for QgsLayoutItemShape!
-                    had_frame_background = False
-                    if element.border:
-                        had_frame_background = True
-                    if element.background:
-                        had_frame_background = True
-                    if had_frame_background:
-                        # need to convert to a separate object
-                        background = QgsLayoutItemShape(layout)
-                        background.setShapeType(QgsLayoutItemShape.Shape.Rectangle)
-
-                        fill_symbol = SymbolConverter.convert_border_background_shadow(
-                            border=element.border,
-                            background=element.background,
-                            shadow=element.shadow,
-                            context=context,
-                        )
-
-                        background.setSymbol(fill_symbol)
-                        LayoutConverter.set_common_properties(
-                            layout,
-                            element,
-                            background,
-                            page_height,
-                            context,
-                            base_units,
-                            conversion_factor,
-                        )
-                        layout.addLayoutItem(background)
-
-                    # have to convert to rectangles with a centroid fill, that's the closest we can get
-                    shape = QgsLayoutItemShape(layout)
-                    shape.setShapeType(QgsLayoutItemShape.Shape.Rectangle)
-
-                    centroid_marker = SymbolConverter.Symbol_to_QgsSymbol(
+                if isinstance(map_surround, MarkerNorthArrow):
+                    marker = SymbolConverter.Symbol_to_QgsSymbol(
                         map_surround.marker_element.symbol, context
                     )
-
                     # unrotate, because calculated angles are stored inside symbol definition in ESRI land
-                    centroid_marker.setAngle(
-                        centroid_marker.angle() + map_surround.calculated_angle
-                    )
-                    # and then "fake" north arrow behavior via data defined rotation bound to map
-                    if element.map_frame:
-                        centroid_marker.setDataDefinedAngle(
-                            QgsProperty.fromExpression(
-                                """item_variables('{}')['map_rotation']""".format(
-                                    element.map_frame.map.name
-                                )
-                            )
-                        )
-
-                    fill_symbol = QgsFillSymbol()
-                    layer = QgsCentroidFillSymbolLayer()
-                    layer.setSubSymbol(centroid_marker)
-                    fill_symbol.changeSymbolLayer(0, layer)
-
-                    shape.setSymbol(fill_symbol)
+                    marker.setAngle(marker.angle() + map_surround.calculated_angle)
+                    shape.setSymbol(marker)
                     LayoutConverter.set_common_properties(
                         layout,
-                        element,
+                        map_surround.marker_element,
+                        shape,
+                        page_height,
+                        context,
+                        base_units,
+                        conversion_factor,
+                    )
+                else:
+                    marker = SymbolConverter.Symbol_to_QgsSymbol(
+                        map_surround.point_symbol, context
+                    )
+                    # unrotate, because calculated angles are stored inside symbol definition in ESRI land
+                    marker.setAngle(marker.angle() + (map_surround.rotation or 0))
+                    shape.setSymbol(marker)
+                    LayoutConverter.set_common_properties(
+                        layout,
+                        map_surround,
                         shape,
                         page_height,
                         context,
@@ -2165,17 +2022,26 @@ class LayoutConverter:
                         conversion_factor,
                     )
 
-                    shape.setFrameEnabled(False)
-                    shape.setBackgroundEnabled(False)
-                    layout.addLayoutItem(shape)
+                if map_surround.calibration_angle is not None:
+                    shape.setNorthOffset(map_surround.calibration_angle)
 
-                    context.push_warning(
-                        "Conversion of north arrows is much improved in QGIS 3.14 or later",
-                        level=Context.WARNING,
-                    )
+                if isinstance(map_surround, MarkerNorthArrow):
+                    if (
+                        map_surround.orientation_type
+                        == MarkerNorthArrow.ANGLE_DATA_FRAME
+                    ):
+                        shape.setNorthMode(
+                            QgsLayoutNorthArrowHandler.NorthMode.GridNorth
+                        )
+                    elif (
+                        map_surround.orientation_type == MarkerNorthArrow.ANGLE_ABSOLUTE
+                    ):
+                        shape.setNorthMode(
+                            QgsLayoutNorthArrowHandler.NorthMode.TrueNorth
+                        )
 
-                    return {map_surround: shape}
-
+                layout.addLayoutItem(shape)
+                return {map_surround: shape}
             elif isinstance(
                 map_surround,
                 (
