@@ -439,14 +439,14 @@
                                                       'version': 1},
                           'is_framed': False,
                           'map_units': 'decimal_degrees',
-                          'masking': {<FeatureLayer: lines (31)>: [{'layer': <FeatureLayer: polys (101)>,
-                                                                    'levels': ''},
-                                                                   {'layer': <FeatureLayer: polys2 (135)>,
-                                                                    'levels': ''}],
+                          'masking': {<FeatureLayer: polys (101)>: [{'layer': <FeatureLayer: polys2 (135)>,
+                                                                     'levels': ''}],
                                       <FeatureLayer: points (62)>: [{'layer': <FeatureLayer: polys (101)>,
                                                                      'levels': ''}],
-                                      <FeatureLayer: polys (101)>: [{'layer': <FeatureLayer: polys2 (135)>,
-                                                                     'levels': ''}]},
+                                      <FeatureLayer: lines (31)>: [{'layer': <FeatureLayer: polys (101)>,
+                                                                    'levels': ''},
+                                                                   {'layer': <FeatureLayer: polys2 (135)>,
+                                                                    'levels': ''}]},
                           'name': 'Layers',
                           'output_band_size': 0,
                           'overposter_properties': {'orientation_vertical_labels': 2.0,
@@ -2739,7 +2739,7 @@
             ' <homePath path="/home/dev/slyr/slyr/test/mxd"></homePath>\n'
             ' <title></title>\n'
             ' <transaction mode="Disabled"></transaction>\n'
-            ' <projectFlags set=""></projectFlags>\n'
+            ' <projectFlags set="0"></projectFlags>\n'
             ' <projectCrs>\n'
             '  <spatialrefsys nativeFormat="Wkt">\n'
             '   <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 '

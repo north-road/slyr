@@ -4685,7 +4685,7 @@
             ' <homePath path="/home/dev/slyr/slyr/test/mxd"></homePath>\n'
             ' <title></title>\n'
             ' <transaction mode="Disabled"></transaction>\n'
-            ' <projectFlags set=""></projectFlags>\n'
+            ' <projectFlags set="0"></projectFlags>\n'
             ' <projectCrs>\n'
             '  <spatialrefsys nativeFormat="Wkt">\n'
             '   <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 '

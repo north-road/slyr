@@ -439,12 +439,12 @@
                                                       'version': 1},
                           'is_framed': False,
                           'map_units': 'decimal_degrees',
-                          'masking': {<FeatureLayer: lines (31)>: [{'layer': <FeatureLayer: polys (101)>,
+                          'masking': {<FeatureLayer: points (62)>: [{'layer': <FeatureLayer: polys (101)>,
+                                                                     'levels': '2'}],
+                                      <FeatureLayer: lines (31)>: [{'layer': <FeatureLayer: polys (101)>,
                                                                     'levels': '1'},
                                                                    {'layer': <FeatureLayer: polys (136)>,
                                                                     'levels': '5'}],
-                                      <FeatureLayer: points (62)>: [{'layer': <FeatureLayer: polys (101)>,
-                                                                     'levels': '2'}],
                                       <FeatureLayer: polys (101)>: [{'layer': <FeatureLayer: polys (136)>,
                                                                      'levels': '7'}]},
                           'name': 'Layers',
@@ -2723,7 +2723,7 @@
             ' <homePath path="/home/dev/slyr/slyr/test/mxd"></homePath>\n'
             ' <title></title>\n'
             ' <transaction mode="Disabled"></transaction>\n'
-            ' <projectFlags set=""></projectFlags>\n'
+            ' <projectFlags set="0"></projectFlags>\n'
             ' <projectCrs>\n'
             '  <spatialrefsys nativeFormat="Wkt">\n'
             '   <wkt>GEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 '

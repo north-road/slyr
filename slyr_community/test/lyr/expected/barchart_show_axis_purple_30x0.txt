@@ -1668,7 +1668,7 @@
                 'stackedDiagramSpacingUnit="MM" '
                 'stackedDiagramSpacingUnitScale="3x:0,0,0,0,0,0" width="-1">\n'
                 '     <fontProperties bold="0" description="Noto '
-                'Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1" italic="0" '
+                'Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0" italic="0" '
                 'strikethrough="0" style="" underline="0"></fontProperties>\n'
                 '     <attribute color="#4ce600" colorOpacity="1" '
                 'field="Heading" label="Heading"></attribute>\n'
