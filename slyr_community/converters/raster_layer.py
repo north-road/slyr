@@ -20,7 +20,6 @@ from collections import defaultdict
 
 from qgis.PyQt.QtCore import QUrl, QUrlQuery
 from qgis.core import (
-    Qgis,
     QgsRaster,
     QgsCoordinateReferenceSystem,
     QgsRasterLayer,
@@ -188,7 +187,8 @@ class RasterLayerConverter:
             rl.setCrs(crs)
 
         metadata = rl.metadata()
-        metadata.setAbstract(layer.description)
+        if not isinstance(layer, ImageServerLayer):
+            metadata.setAbstract(layer.description)
         rl.setMetadata(metadata)
 
         # layer.zoom_max = "don't show when zoomed out beyond"
@@ -270,7 +270,8 @@ class RasterLayerConverter:
                 )  # can't use cubic for zoomed out
             rl.pipe().set(QgsRasterProjector())
 
-        apply_colorizer(layer.renderer)
+        if layer.renderer:
+            apply_colorizer(layer.renderer)
 
         return rl
 
@@ -637,6 +638,7 @@ class RasterLayerConverter:
         context: Context,
         fallback_crs=QgsCoordinateReferenceSystem(),
     ):
+
         sub_layer_id = source_layer.index
 
         if context.upgrade_http_to_https:
@@ -872,12 +874,7 @@ class RasterLayerConverter:
 
         for layer in layers:
             if layer.renderer():
-                if Qgis.QGIS_VERSION_INT >= 31800:
-                    layer.setOpacity(1.0 - (source_layer.transparency or 0) / 100)
-                else:
-                    layer.renderer().setOpacity(
-                        1.0 - (source_layer.transparency or 0) / 100
-                    )
+                layer.setOpacity(1.0 - (source_layer.transparency or 0) / 100)
             metadata = layer.metadata()
             metadata.setAbstract(source_layer.description)
             layer.setMetadata(metadata)
