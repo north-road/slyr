@@ -1215,9 +1215,10 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         PictureUtils.to_png(new_content, path)
         return path
 
+    # pylint: disable=too-many-statements,too-many-branches,too-many-locals
     @staticmethod
     def append_PictureFillSymbolLayer(
-        symbol,  # pylint: disable=too-many-statements,too-many-branches,too-many-locals
+        symbol,
         layer: PictureFillSymbol,
         context: Context,
     ):
@@ -1329,6 +1330,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             SymbolConverter.append_SymbolLayer_to_QgsSymbolLayer(
                 symbol, layer.outline, context
             )
+
+    # pylint: enable=too-many-statements,too-many-branches,too-many-locals
 
     @staticmethod
     def append_TextureFillSymbolLayer(
