@@ -300,6 +300,7 @@ POINTS_TO_MM = 0.3527777778
 class LayoutConverter:
     @staticmethod
     def units_to_layout_units(units):
+
         if units == Units.DISTANCE_UNKNOWN:
             return QgsUnitTypes.LayoutUnit.LayoutCentimeters, 1
         elif units == Units.DISTANCE_INCHES:
@@ -2119,10 +2120,10 @@ class LayoutConverter:
                 if numeric_format is not None:
                     item.setNumericFormat(numeric_format)
 
-                if isinstance(map_surround, ScaleLine):
-                    if map_surround.mark_position == ScalebarBase.ABOVE_BAR:
+                if isinstance(map_surround, (ScaleLine,)):
+                    if map_surround.mark_position in (ScalebarBase.ABOVE_BAR,):
                         item.setStyle("Line Ticks Up")
-                    elif map_surround.mark_position == ScalebarBase.BELOW_BAR:
+                    elif map_surround.mark_position in (ScalebarBase.BELOW_BAR,):
                         item.setStyle("Line Ticks Down")
                     else:
                         item.setStyle("Line Ticks Middle")
@@ -2387,24 +2388,12 @@ class LayoutConverter:
 
                         if item_index > 0 and legend_item.place_in_new_column:
                             column_count += 1
-                            if USE_LEGEND_PATCHES:
-                                node.setCustomProperty("legend/column-break", True)
-                            else:
-                                context.push_warning(
-                                    "Conversion of manual legend column breaks requires QGIS 3.14 or later",
-                                    level=Context.WARNING,
-                                )
+                            node.setCustomProperty("legend/column-break", True)
 
                         if legend_item.prevent_column_split:
-                            if USE_LEGEND_PATCHES:
-                                node.setLegendSplitBehavior(
-                                    QgsLayerTreeLayer.LegendNodesSplitBehavior.PreventSplittingLegendNodesOverMultipleColumns
-                                )
-                            else:
-                                context.push_warning(
-                                    "Preventing layer legend column splitting requires QGIS 3.14 or later",
-                                    level=Context.WARNING,
-                                )
+                            node.setLegendSplitBehavior(
+                                QgsLayerTreeLayer.LegendNodesSplitBehavior.PreventSplittingLegendNodesOverMultipleColumns
+                            )
 
                         if len(item.model().layerLegendNodes(node, True)) > 1:
                             column_count += (legend_item.column_count or 1) - 1
@@ -2517,56 +2506,43 @@ class LayoutConverter:
                             and project_layer.geometryType()
                             == QgsWkbTypes.GeometryType.PolygonGeometry
                         ):
-                            if USE_LEGEND_PATCHES:
-                                geom = GeometryConverter.convert_geometry(
-                                    legend_item.legend_class_format.area_patch_override.polygon
-                                )
-                                patch_shape = QgsLegendPatchShape(
-                                    QgsSymbol.SymbolType.Fill,
-                                    geom,
-                                    legend_item.legend_class_format.area_patch_override.preserve_aspect,
-                                )
-                                node.setPatchShape(patch_shape)
-                                for n, legend_node in enumerate(
-                                    item.model().layerLegendNodes(node, True)
-                                ):
-                                    if isinstance(legend_node, QgsSymbolLegendNode):
-                                        QgsMapLayerLegendUtils.setLegendNodePatchShape(
-                                            node, n, patch_shape
-                                        )
-
-                            else:
-                                context.push_warning(
-                                    "Conversion of legend patch shapes requires QGIS 3.14 or later",
-                                    level=Context.WARNING,
-                                )
+                            geom = GeometryConverter.convert_geometry(
+                                legend_item.legend_class_format.area_patch_override.polygon
+                            )
+                            patch_shape = QgsLegendPatchShape(
+                                QgsSymbol.SymbolType.Fill,
+                                geom,
+                                legend_item.legend_class_format.area_patch_override.preserve_aspect,
+                            )
+                            node.setPatchShape(patch_shape)
+                            for n, legend_node in enumerate(
+                                item.model().layerLegendNodes(node, True)
+                            ):
+                                if isinstance(legend_node, QgsSymbolLegendNode):
+                                    QgsMapLayerLegendUtils.setLegendNodePatchShape(
+                                        node, n, patch_shape
+                                    )
                         elif (
                             legend_item.legend_class_format.line_patch_override
                             and project_layer.geometryType()
                             == QgsWkbTypes.GeometryType.LineGeometry
                         ):
-                            if USE_LEGEND_PATCHES:
-                                geom = GeometryConverter.convert_geometry(
-                                    legend_item.legend_class_format.line_patch_override.polyline
-                                )
-                                patch_shape = QgsLegendPatchShape(
-                                    QgsSymbol.SymbolType.Line,
-                                    geom,
-                                    legend_item.legend_class_format.line_patch_override.preserve_aspect,
-                                )
-                                node.setPatchShape(patch_shape)
-                                for n, legend_node in enumerate(
-                                    item.model().layerLegendNodes(node, True)
-                                ):
-                                    if isinstance(legend_node, QgsSymbolLegendNode):
-                                        QgsMapLayerLegendUtils.setLegendNodePatchShape(
-                                            node, n, patch_shape
-                                        )
-                            else:
-                                context.push_warning(
-                                    "Conversion of legend patch shapes requires QGIS 3.14 or later",
-                                    level=Context.WARNING,
-                                )
+                            geom = GeometryConverter.convert_geometry(
+                                legend_item.legend_class_format.line_patch_override.polyline
+                            )
+                            patch_shape = QgsLegendPatchShape(
+                                QgsSymbol.SymbolType.Line,
+                                geom,
+                                legend_item.legend_class_format.line_patch_override.preserve_aspect,
+                            )
+                            node.setPatchShape(patch_shape)
+                            for n, legend_node in enumerate(
+                                item.model().layerLegendNodes(node, True)
+                            ):
+                                if isinstance(legend_node, QgsSymbolLegendNode):
+                                    QgsMapLayerLegendUtils.setLegendNodePatchShape(
+                                        node, n, patch_shape
+                                    )
 
                         legend_patch_width = legend_item.legend_class_format.height
                         legend_patch_height = legend_item.legend_class_format.width
@@ -2575,30 +2551,23 @@ class LayoutConverter:
                             0,
                             default_height,
                         ) or legend_patch_width not in (0, default_width):
-                            if USE_LEGEND_PATCHES:
-                                width = (
-                                    legend_patch_width * POINTS_TO_MM
-                                    if legend_patch_width not in (0, default_width)
-                                    else 0
-                                )
-                                height = (
-                                    legend_patch_height * POINTS_TO_MM
-                                    if legend_patch_height not in (0, default_height)
-                                    else 0
-                                )
+                            width = (
+                                legend_patch_width * POINTS_TO_MM
+                                if legend_patch_width not in (0, default_width)
+                                else 0
+                            )
+                            height = (
+                                legend_patch_height * POINTS_TO_MM
+                                if legend_patch_height not in (0, default_height)
+                                else 0
+                            )
 
-                                node.setPatchSize(QSizeF(width, height))
-                                for n, legend_node in enumerate(
-                                    item.model().layerLegendNodes(node, True)
-                                ):
-                                    QgsMapLayerLegendUtils.setLegendNodeSymbolSize(
-                                        node, n, QSizeF(width, height)
-                                    )
-
-                            else:
-                                context.push_warning(
-                                    "Conversion of legend node size overrides requires QGIS 3.14 or later",
-                                    level=Context.WARNING,
+                            node.setPatchSize(QSizeF(width, height))
+                            for n, legend_node in enumerate(
+                                item.model().layerLegendNodes(node, True)
+                            ):
+                                QgsMapLayerLegendUtils.setLegendNodeSymbolSize(
+                                    node, n, QSizeF(width, height)
                                 )
 
                         item.model().refreshLayerLegend(node)
@@ -2701,7 +2670,7 @@ class LayoutConverter:
                 north_arrow = LayoutConverter.find_referenced_object(
                     added_items, map_surround
                 )
-                if north_arrow is not None and USE_LAYOUT_MARKER:
+                if north_arrow is not None:
                     north_arrow.setLinkedMap(map)
         elif isinstance(element, (MapFrame,)):
             map = LayoutConverter.find_referenced_object(added_items, element)
