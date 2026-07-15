@@ -48,6 +48,7 @@ from qgis.core import (
     QgsSimpleFillSymbolLayer,
     QgsCentroidFillSymbolLayer,
     QgsVectorLayer,
+    QgsRandomMarkerFillSymbolLayer,
 )
 
 from .context import Context
@@ -59,7 +60,7 @@ from ..parser.objects.bi_unique_value_renderer import BiUniqueValueRenderer
 from ..parser.objects.chart_renderer import ChartRenderer
 from ..parser.objects.class_breaks_renderer import ClassBreaksRenderer
 from ..parser.objects.dot_density_renderer import DotDensityRenderer
-from ..parser.objects.feature_layer import CustomRenderer
+from ..parser.objects.plugin_renderer import PluginRenderer
 from ..parser.objects.feature_layer import FeatureLayer
 from ..parser.objects.fill_symbol_layer import FillSymbolLayer
 from ..parser.objects.line_symbol_layer import LineSymbolLayer
@@ -139,12 +140,7 @@ class VectorRendererConverter:
         Applies common properties to the renderer
         """
         if source_layer.scale_symbols and context.map_reference_scale:
-            if Qgis.QGIS_VERSION_INT >= 32200:
-                destination_renderer.setReferenceScale(context.map_reference_scale)
-            else:
-                context.push_warning(
-                    "Scaling layers by reference scales requires QGIS 3.22 or later"
-                )
+            destination_renderer.setReferenceScale(context.map_reference_scale)
 
     @staticmethod
     def convert_renderer(
@@ -323,9 +319,6 @@ class VectorRendererConverter:
                     requires_rule_based = True
 
             use_rule_based = requires_rule_based and not ignore_subheadings
-            if requires_rule_based and Qgis.QGIS_VERSION_INT < 31700:
-                # QGIS < 3.18 has issues with large number of rule based rules and gdb files
-                use_rule_based = False
 
             if requires_rule_based and not use_rule_based:
                 for g in renderer.groups:
@@ -535,7 +528,7 @@ class VectorRendererConverter:
         elif isinstance(renderer, DotDensityRenderer):
             if len(renderer.fields) > 1:
                 context.push_warning(
-                    "Dot density renderers with multiple attributes must cannot be merged into a single symbol in QGIS",
+                    "Dot density renderers with multiple attributes cannot be merged into a single symbol in QGIS",
                     level=Context.WARNING,
                 )
             if renderer.mask_layer:
@@ -544,9 +537,8 @@ class VectorRendererConverter:
                     level=Context.WARNING,
                 )
 
-            from qgis.core import QgsRandomMarkerFillSymbolLayer  # pylint: disable=import-outside-toplevel
-
             s = QgsFillSymbol()
+            marker_array = []
             if renderer.fill_symbol.background_color:
                 background = QgsSimpleFillSymbolLayer(
                     ColorConverter.color_to_qcolor(
@@ -566,7 +558,9 @@ class VectorRendererConverter:
                         1,
                         method=QgsRandomMarkerFillSymbolLayer.CountMethod.AbsoluteCount,
                     )
-                if renderer.maintain_density and renderer.maintain_density_by_dot_value:
+                if renderer.maintain_density and (
+                    renderer.maintain_density_by_dot_value
+                ):
                     exp = '("{}" * {}) / ({} * @map_scale)'.format(
                         f, renderer.scale, renderer.dot_value
                     )
@@ -580,10 +574,13 @@ class VectorRendererConverter:
                 symbol_layer.setClipPoints(False)
 
                 marker = SymbolConverter.Symbol_to_QgsSymbol(
-                    renderer.fill_symbol.markers[len(renderer.fields) - i - 1], context
+                    renderer.fill_symbol.markers[len(renderer.fields) - i - 1],
+                    context,
                 )
+
                 if (
-                    renderer.maintain_density
+                    isinstance(renderer, DotDensityRenderer)
+                    and renderer.maintain_density
                     and not renderer.maintain_density_by_dot_value
                 ):
                     marker.setDataDefinedSize(
@@ -757,7 +754,7 @@ class VectorRendererConverter:
             return QgsFeatureRenderer.defaultRenderer(
                 QgsWkbTypes.geometryType(context.layer_type_hint)
             )
-        elif isinstance(renderer, CustomRenderer):
+        elif isinstance(renderer, PluginRenderer):
             context.push_warning(
                 "Layer had a renderer provided by a custom extension, this could not be converted",
                 level=Context.CRITICAL,
@@ -802,22 +799,12 @@ class VectorRendererConverter:
         """
 
         if renderer.transparency_attribute:
-            if Qgis.QGIS_VERSION_INT >= 31800:
-                symbol.setDataDefinedProperty(
-                    QgsSymbol.Property.PropertyOpacity,
-                    QgsProperty.fromExpression(
-                        '100-"{}"'.format(renderer.transparency_attribute)
-                    ),
-                )
-            else:
-                opacity_expression = (
-                    "set_color_part(@value, 'alpha',  (100-\"{}\")*255/100 )".format(
-                        renderer.transparency_attribute
-                    )
-                )
-                VectorRendererConverter.apply_data_defined_color_to_symbol(
-                    symbol, opacity_expression
-                )
+            symbol.setDataDefinedProperty(
+                QgsSymbol.Property.PropertyOpacity,
+                QgsProperty.fromExpression(
+                    '100-"{}"'.format(renderer.transparency_attribute)
+                ),
+            )
         if renderer.graduated_size_type == VectorRendererBase.SIZE_EXPRESSION:
             size_expression = ExpressionConverter.convert_vbscript_expression(
                 renderer.graduated_expression, context
