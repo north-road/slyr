@@ -23,7 +23,7 @@ from qgis.core import (
     QgsProject,
     QgsProjectDirtyBlocker,
 )
-from qgis.gui import QgsCustomDropHandler
+from qgis.gui import QgsCustomDropHandler, QgsCustomProjectOpenHandler
 from qgis.utils import iface
 
 from .browser_utils import BrowserUtils
@@ -39,11 +39,6 @@ from ...parser.objects.map import Map
 
 from ...parser.stream import Stream
 from ...parser.streams.map_document import MapDocument
-
-try:
-    from qgis.gui import QgsCustomProjectOpenHandler  # pylint: disable=ungrouped-imports
-except ImportError:
-    QgsCustomProjectOpenHandler = None
 
 blocker = None
 
@@ -357,28 +352,24 @@ class EsriMxdItem(QgsDataItem):
         return [open_action]
 
 
-if QgsCustomProjectOpenHandler is not None:
+class MxdProjectOpenHandler(QgsCustomProjectOpenHandler):
+    """
+    Custom project open handler for MXD documents
+    """
 
-    class MxdProjectOpenHandler(QgsCustomProjectOpenHandler):
-        """
-        Custom project open handler for MXD documents
-        """
+    def filters(self):  # pylint: disable=missing-function-docstring
+        return [
+            "ArcGIS MXD Documents (*.mxd *.MXD)",
+            "ArcGIS MXT Templates (*.mxt *.MXT)",
+            "ArcReader Published Map Files (*.pmf *.PMF)",
+            "ArcScene SXD Documents (*.sxd *.SXD)",
+        ]
 
-        def filters(self):  # pylint: disable=missing-function-docstring
-            return [
-                "ArcGIS MXD Documents (*.mxd *.MXD)",
-                "ArcGIS MXT Templates (*.mxt *.MXT)",
-                "ArcReader Published Map Files (*.pmf *.PMF)",
-                "ArcScene SXD Documents (*.sxd *.SXD)",
-            ]
+    def handleProjectOpen(self, file):  # pylint: disable=missing-function-docstring
+        return MxdDropHandler.open_mxd(file)
 
-        def handleProjectOpen(self, file):  # pylint: disable=missing-function-docstring
-            return MxdDropHandler.open_mxd(file)
+    def createDocumentThumbnailAfterOpen(self):  # pylint: disable=missing-function-docstring
+        return True
 
-        def createDocumentThumbnailAfterOpen(self):  # pylint: disable=missing-function-docstring
-            return True
-
-        def icon(self):  # pylint: disable=missing-function-docstring
-            return GuiUtils.get_icon("mxd.svg")
-else:
-    MxdProjectOpenHandler = None
+    def icon(self):  # pylint: disable=missing-function-docstring
+        return GuiUtils.get_icon("mxd.svg")
