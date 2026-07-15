@@ -9113,9 +9113,9 @@ write-file-atomic@^3.0.0:
     typedarray-to-buffer "^3.1.5"
 
 ws@^6.2.1:
-  version "6.2.3"
-  resolved "https://registry.npmjs.org/ws/-/ws-6.2.3.tgz"
-  integrity sha512-jmTjYU0j60B+vHey6TfR3Z7RD61z/hmxBS3VMSGIrroOWXQEneK1zNuotOUrGyBHQj0yrpsLHPWtigEFd13ndA==
+  version "6.2.5"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-6.2.5.tgz#62a472481a10629989009e720af28431e7c2ba21"
+  integrity sha512-T7pPl+DnmNrKRuttAIQwueReX5GqsedYEWp3/H//CG35+DyUOe1+/voAeE8idxgfLsQf2tO+rdtBd1FnPopgTQ==
   dependencies:
     async-limiter "~1.0.0"
 
