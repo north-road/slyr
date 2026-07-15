@@ -111,6 +111,7 @@ class LabelConverter:
             # multiple classes, use rule-based labeling
             root_rule = QgsRuleBasedLabeling.Rule(None)
             for p in properties:
+                context.symbol_name = p.class_name
                 label_settings = LabelConverter.convert_label_engine_layer_properties(
                     p,
                     layer_geometry_type=dest_layer.geometryType(),
@@ -177,7 +178,7 @@ class LabelConverter:
         """
         Converts overposter settings
         """
-
+        use_maplex = context.prefer_maplex
         if layer_geometry_type in (
             QgsWkbTypes.GeometryType.PointGeometry,
             QgsWkbTypes.GeometryType.UnknownGeometry,
@@ -250,114 +251,102 @@ class LabelConverter:
                 )
         elif layer_geometry_type == QgsWkbTypes.GeometryType.LineGeometry:
             placement_flags = 0
-            try:
-                # TODO - horizontal
-                dest_label_settings.placement = (
-                    QgsPalLayerSettings.Placement.Horizontal
-                    if overposter.line_label_position.horizontal
-                    else QgsPalLayerSettings.Placement.Curved
-                    if overposter.line_label_position.curved
-                    else QgsPalLayerSettings.Placement.Line
-                )
 
-                if overposter.line_label_position.below:
-                    placement_flags |= QgsPalLayerSettings.BelowLine
-                if overposter.line_label_position.above:
-                    placement_flags |= QgsPalLayerSettings.AboveLine
-                if overposter.line_label_position.online:
-                    placement_flags |= QgsPalLayerSettings.OnLine
-                if not overposter.line_label_position.follow_line_orientation:
-                    placement_flags |= QgsPalLayerSettings.MapOrientation
-            except AttributeError:
-                if maplex_overposter:
-                    if maplex_overposter.line_placement_method in (
-                        MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_HORIZONTAL_ON_LINE,
-                    ):
-                        dest_label_settings.placement = (
-                            QgsPalLayerSettings.Placement.Horizontal
-                        )
-                        placement_flags = (
-                            QgsPalLayerSettings.OnLine
-                            | QgsPalLayerSettings.MapOrientation
-                        )
-                    elif maplex_overposter.line_placement_method in (
-                        MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_STRAIGHT_ON_LINE,
-                    ):
-                        dest_label_settings.placement = (
-                            QgsPalLayerSettings.Placement.Line
-                        )
-                        placement_flags = (
-                            QgsPalLayerSettings.OnLine
-                            | QgsPalLayerSettings.MapOrientation
-                        )
-                    elif maplex_overposter.line_placement_method in (
-                        MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_CURVED_ON_LINE,
-                    ):
-                        dest_label_settings.placement = (
-                            QgsPalLayerSettings.Placement.Curved
-                        )
-                        placement_flags = (
-                            QgsPalLayerSettings.OnLine
-                            | QgsPalLayerSettings.MapOrientation
-                        )
-                    elif maplex_overposter.line_placement_method in (
-                        MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_PERPENDICULAR_ON_LINE,
-                    ):
-                        context.push_warning(
-                            "Perpendicular line labels are not supported by QGIS"
-                        )
+            if not use_maplex:
+                try:
+                    # TODO - horizontal
+                    dest_label_settings.placement = (
+                        QgsPalLayerSettings.Placement.Horizontal
+                        if overposter.line_label_position.horizontal
+                        else QgsPalLayerSettings.Placement.Curved
+                        if overposter.line_label_position.curved
+                        else QgsPalLayerSettings.Placement.Line
+                    )
 
-                        dest_label_settings.placement = (
-                            QgsPalLayerSettings.Placement.Line
-                        )
-                        placement_flags = (
-                            QgsPalLayerSettings.OnLine
-                            | QgsPalLayerSettings.MapOrientation
-                        )
-                    elif maplex_overposter.line_placement_method in (
-                        MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_HORIZONTAL_FROM_LINE,
-                    ):
-                        dest_label_settings.placement = (
-                            QgsPalLayerSettings.Placement.Horizontal
-                        )
-                        placement_flags = (
-                            QgsPalLayerSettings.AboveLine
-                            | QgsPalLayerSettings.MapOrientation
-                        )
-                    elif maplex_overposter.line_placement_method in (
-                        MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_STRAIGHT_FROM_LINE,
-                    ):
-                        dest_label_settings.placement = (
-                            QgsPalLayerSettings.Placement.Line
-                        )
-                        placement_flags = (
-                            QgsPalLayerSettings.AboveLine
-                            | QgsPalLayerSettings.MapOrientation
-                        )
-                    elif maplex_overposter.line_placement_method in (
-                        MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_CURVED_FROM_LINE,
-                    ):
-                        dest_label_settings.placement = (
-                            QgsPalLayerSettings.Placement.Curved
-                        )
-                        placement_flags = (
-                            QgsPalLayerSettings.AboveLine
-                            | QgsPalLayerSettings.MapOrientation
-                        )
-                    elif maplex_overposter.line_placement_method in (
-                        MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_PERPENDICULAR_FROM_LINE,
-                    ):
-                        context.push_warning(
-                            "Perpendicular line labels are not supported by QGIS"
-                        )
+                    if overposter.line_label_position.below:
+                        placement_flags |= QgsPalLayerSettings.BelowLine
+                    if overposter.line_label_position.above:
+                        placement_flags |= QgsPalLayerSettings.AboveLine
+                    if overposter.line_label_position.online:
+                        placement_flags |= QgsPalLayerSettings.OnLine
+                    if not overposter.line_label_position.follow_line_orientation:
+                        placement_flags |= QgsPalLayerSettings.MapOrientation
+                except AttributeError:
+                    use_maplex = True
 
-                        dest_label_settings.placement = (
-                            QgsPalLayerSettings.Placement.Line
-                        )
-                        placement_flags = (
-                            QgsPalLayerSettings.AboveLine
-                            | QgsPalLayerSettings.MapOrientation
-                        )
+            if use_maplex and maplex_overposter:
+                if maplex_overposter.line_placement_method in (
+                    MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_HORIZONTAL_ON_LINE,
+                ):
+                    dest_label_settings.placement = (
+                        QgsPalLayerSettings.Placement.Horizontal
+                    )
+                    placement_flags = (
+                        QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
+                    )
+                elif maplex_overposter.line_placement_method in (
+                    MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_STRAIGHT_ON_LINE,
+                ):
+                    dest_label_settings.placement = QgsPalLayerSettings.Placement.Line
+                    placement_flags = (
+                        QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
+                    )
+                elif maplex_overposter.line_placement_method in (
+                    MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_CURVED_ON_LINE,
+                ):
+                    dest_label_settings.placement = QgsPalLayerSettings.Placement.Curved
+                    placement_flags = (
+                        QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
+                    )
+                elif maplex_overposter.line_placement_method in (
+                    MaplexOverposterLayerProperties.LINE_PLACEMENT_CENTERED_PERPENDICULAR_ON_LINE,
+                ):
+                    context.push_warning(
+                        "Perpendicular line labels are not supported by QGIS"
+                    )
+
+                    dest_label_settings.placement = QgsPalLayerSettings.Placement.Line
+                    placement_flags = (
+                        QgsPalLayerSettings.OnLine | QgsPalLayerSettings.MapOrientation
+                    )
+                elif maplex_overposter.line_placement_method in (
+                    MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_HORIZONTAL_FROM_LINE,
+                ):
+                    dest_label_settings.placement = (
+                        QgsPalLayerSettings.Placement.Horizontal
+                    )
+                    placement_flags = (
+                        QgsPalLayerSettings.AboveLine
+                        | QgsPalLayerSettings.MapOrientation
+                    )
+                elif maplex_overposter.line_placement_method in (
+                    MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_STRAIGHT_FROM_LINE,
+                ):
+                    dest_label_settings.placement = QgsPalLayerSettings.Placement.Line
+                    placement_flags = (
+                        QgsPalLayerSettings.AboveLine
+                        | QgsPalLayerSettings.MapOrientation
+                    )
+                elif maplex_overposter.line_placement_method in (
+                    MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_CURVED_FROM_LINE,
+                ):
+                    dest_label_settings.placement = QgsPalLayerSettings.Placement.Curved
+                    placement_flags = (
+                        QgsPalLayerSettings.AboveLine
+                        | QgsPalLayerSettings.MapOrientation
+                    )
+                elif maplex_overposter.line_placement_method in (
+                    MaplexOverposterLayerProperties.LINE_PLACEMENT_OFFSET_PERPENDICULAR_FROM_LINE,
+                ):
+                    context.push_warning(
+                        "Perpendicular line labels are not supported by QGIS"
+                    )
+
+                    dest_label_settings.placement = QgsPalLayerSettings.Placement.Line
+                    placement_flags = (
+                        QgsPalLayerSettings.AboveLine
+                        | QgsPalLayerSettings.MapOrientation
+                    )
 
             dest_label_settings.placementFlags = placement_flags
             # NOT supported:
@@ -756,7 +745,6 @@ else:
         QgsPalLayerSettings.MultiLineAlign.MultiLeft
     )  # doesn't directly map
 
-    if Qgis.QGIS_VERSION_INT > 31600:
-        LabelConverter.TEXT_ALIGN_MAP[TextSymbol.HALIGN_FULL] = (
-            QgsPalLayerSettings.MultiLineAlign.MultiJustify
-        )
+    LabelConverter.TEXT_ALIGN_MAP[TextSymbol.HALIGN_FULL] = (
+        QgsPalLayerSettings.MultiLineAlign.MultiJustify
+    )
