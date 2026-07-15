@@ -125,9 +125,10 @@ class VectorLayerConverter:
             )
         return QgsWkbTypes.Type.Unknown
 
+    # pylint: disable=too-many-locals,too-many-branches,too-many-statements
     @staticmethod
     def layer_to_QgsVectorLayer(
-        source_layer,  # pylint: disable=too-many-locals,too-many-branches,too-many-statements
+        source_layer,
         input_file: str,
         context: Context,
         fallback_crs=QgsCoordinateReferenceSystem(),
@@ -409,7 +410,8 @@ class VectorLayerConverter:
         context.main_layer_name = None
         return res
 
-    # pylint: disable=too-many-locals,too-many-branches
+    # pylint: enable=too-many-statements
+
     @staticmethod
     def standalone_table_to_QgsVectorLayer(
         layer: StandaloneTable,

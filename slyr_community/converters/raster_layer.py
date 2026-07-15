@@ -295,6 +295,7 @@ class RasterLayerConverter:
             ]
         return []
 
+    # pylint: disable=too-many-locals
     @staticmethod
     def imageserver_layer_to_QgsRasterLayer(
         source_layer: ImageServerLayer,
@@ -360,7 +361,7 @@ class RasterLayerConverter:
 
         return [res]
 
-    # pylint: disable=too-many-locals, too-many-branches, too-many-statements, too-many-nested-blocks
+    # pylint: disable=too-many-branches, too-many-statements, too-many-nested-blocks
     @staticmethod
     def convert_raster_renderer(renderer, band, layer, context):
         """
@@ -769,6 +770,7 @@ class RasterLayerConverter:
             r.setScaleBasedVisibility(enabled_scale_range)
         return res
 
+    # pylint: disable=too-many-locals
     @staticmethod
     def wms_layer_to_QgsRasterLayer(
         source_layer,
@@ -868,9 +870,7 @@ class RasterLayerConverter:
         enabled_scale_range = zoom_max or zoom_min
         if zoom_max and zoom_min and zoom_min > zoom_max:
             # inconsistent scale range -- zoom_max should be bigger number than zoom_min
-            tmp = zoom_min
-            zoom_min = zoom_max
-            zoom_max = tmp
+            zoom_min, zoom_max = zoom_max, zoom_min
 
         for layer in layers:
             if layer.renderer():
@@ -893,6 +893,8 @@ class RasterLayerConverter:
                 layer.setCustomProperty("_slyr_group_expanded", False)
 
         return layers
+
+    # pylint: enable=too-many-locals
 
     @staticmethod
     def wmts_layer_to_QgsRasterLayer(
@@ -1023,9 +1025,7 @@ class RasterLayerConverter:
         enabled_scale_range = zoom_max or zoom_min
         if zoom_max and zoom_min and zoom_min > zoom_max:
             # inconsistent scale range -- zoom_max should be bigger number than zoom_min
-            tmp = zoom_min
-            zoom_min = zoom_max
-            zoom_max = tmp
+            zoom_min, zoom_max = zoom_max, zoom_min
 
         if enabled_scale_range:
             # qgis minimum scale = don't show when zoomed out beyond, i.e. ArcGIS zoom_max

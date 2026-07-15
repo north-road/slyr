@@ -7,7 +7,6 @@ from typing import Optional
 from .exceptions import (
     RequiresLicenseException,
 )
-from .object import CustomObject
 
 
 class ObjectRegistry:
