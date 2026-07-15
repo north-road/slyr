@@ -27,12 +27,187 @@ from typing import Optional
 
 from qgis.core import (
     QgsExpression,
+    QgsSQLStatement,
+    QgsSQLStatementFragment,
 )
 
 from .context import Context
 from ..parser.objects.annotation_jscript_engine import AnnotationJScriptEngine
 from ..parser.objects.annotation_python_engine import AnnotationPythonEngine
 from ..parser.objects.annotation_vbscript_engine import AnnotationVBScriptEngine
+
+
+class EsriSqlToSqlVisitor(QgsSQLStatement.RecursiveVisitor):
+    """
+    SQL statement visitor, which converts ESRI sql oddness to regular SQL
+    """
+
+    def __init__(self, statement):
+        super().__init__()
+        self._converted_root_node = None
+        self._current_node = None
+        self.visit(statement.rootNode())
+
+    def converted(self) -> str:
+        return self._current_node.dump()
+
+    def visit(self, node):
+        if isinstance(node, QgsSQLStatement.NodeUnaryOperator):
+            self.visit_unary_operator(node)
+        elif isinstance(node, QgsSQLStatement.NodeBinaryOperator):
+            self.visit_binary_operator(node)
+        elif isinstance(node, QgsSQLStatement.NodeInOperator):
+            self.visit_in_operator(node)
+        elif isinstance(node, QgsSQLStatement.NodeBetweenOperator):
+            self.visit_between_operator(node)
+        elif isinstance(node, QgsSQLStatement.NodeFunction):
+            self.visit_function(node)
+        elif isinstance(node, QgsSQLStatement.NodeLiteral):
+            self.visit_literal(node)
+        elif isinstance(node, QgsSQLStatement.NodeColumnRef):
+            self.visit_column_ref(node)
+        elif isinstance(node, QgsSQLStatement.NodeSelectedColumn):
+            self.visit_selected_column(node)
+        elif isinstance(node, QgsSQLStatement.NodeTableDef):
+            self.visit_table_def(node)
+        elif isinstance(node, QgsSQLStatement.NodeSelect):
+            self.visit_select(node)
+        elif isinstance(node, QgsSQLStatement.NodeJoin):
+            self.visit_join(node)
+        elif isinstance(node, QgsSQLStatement.NodeColumnSorted):
+            self.visit_column_sorted(node)
+        elif isinstance(node, QgsSQLStatement.NodeCast):
+            self.visit_cast(node)
+
+    def visit_unary_operator(self, node):
+        self.visit(node.operand())
+        new_node = QgsSQLStatement.NodeUnaryOperator(
+            node.op(), self._current_node.clone()
+        )
+        self._current_node = new_node.clone()
+
+    def visit_binary_operator(self, node):
+        self.visit(node.opLeft())
+        new_op_left_node = self._current_node.clone()
+        self.visit(node.opRight())
+        new_op_right_node = self._current_node.clone()
+        new_node = QgsSQLStatement.NodeBinaryOperator(
+            node.op(), new_op_left_node.clone(), new_op_right_node.clone()
+        )
+        self._current_node = new_node.clone()
+
+    def visit_in_operator(self, node):
+        self.visit(node.node())
+        op_node = self._current_node.clone()
+        node_list = QgsSQLStatement.NodeList()
+        for i in range(node.list().count()):
+            self.visit(node.list().list()[i])
+            node_list.append(self._current_node.clone())
+        new_node = QgsSQLStatement.NodeInOperator(
+            op_node.clone(), node_list, node.isNotIn()
+        )
+        self._current_node = new_node.clone()
+
+    def visit_between_operator(self, node):
+        self.visit(node.node())
+        op_node = self._current_node.clone()
+        self.visit(node.minVal())
+        min_node = self._current_node.clone()
+        self.visit(node.maxVal())
+        max_node = self._current_node.clone()
+
+        new_node = QgsSQLStatement.NodeBetweenOperator(
+            op_node.clone(), min_node.clone(), max_node.clone(), node.isNotBetween()
+        )
+        self._current_node = new_node.clone()
+
+    def visit_function(self, node):
+        node_list = QgsSQLStatement.NodeList()
+        for i in range(node.args().count()):
+            self.visit(node.args().list()[i])
+            node_list.append(self._current_node.clone())
+
+        if node.name().upper() == "MOD" and node_list.count() == 2:
+            # convert ESRI MOD() function to standard SQL
+            self._current_node = QgsSQLStatement.NodeBinaryOperator(
+                QgsSQLStatement.BinaryOperator.boMod,
+                node_list.list()[0].clone(),
+                node_list.list()[1].clone(),
+            )
+        else:
+            new_node = QgsSQLStatement.NodeFunction(node.name(), node_list)
+            self._current_node = new_node.clone()
+
+    def visit_literal(self, node):
+        self._current_node = node.clone()
+
+    def visit_column_ref(self, node):
+        self._current_node = node.clone()
+
+    def visit_selected_column(self, node):
+        self.visit(node.column())
+        new_node = QgsSQLStatement.NodeSelectedColumn(self._current_node.clone())
+        new_node.setAlias(node.alias())
+        self._current_node = new_node.clone()
+
+    def visit_table_def(self, node):
+        self._current_node = node.clone()
+
+    def visit_select(self, node):
+        table_list = QgsSQLStatement.NodeList()
+        for i in range(node.tables().count()):
+            self.visit(node.tables().list()[i])
+            table_list.append(self._current_node.clone())
+        column_list = QgsSQLStatement.NodeList()
+        for i in range(node.columns().count()):
+            self.visit(node.columns().list()[i])
+            column_list.append(self._current_node.clone())
+
+        new_node = QgsSQLStatement.NodeSelect(table_list, column_list, node.distinct())
+        for i in range(node.joins().count()):
+            self.visit(node.joins().list()[i])
+            new_node.appendJoin(self._current_node.clone())
+
+        self.visit(node.where())
+        new_node.setWhere(self._current_node.clone())
+
+        order_by_list = []
+        for order_by in node.orderBy():
+            self.visit(order_by)
+            order_by_list.append(self._current_node.clone())
+        new_node.setOrderBy(order_by_list)
+
+        self._current_node = new_node.clone()
+
+    def visit_join(self, node):
+        if node.onExpr():
+            self.visit(node.onExpr())
+            on_expr = self._current_node.clone()
+        else:
+            on_expr = None
+
+        self.visit(node.tableDef())
+        if on_expr:
+            new_node = QgsSQLStatement.NodeJoin(
+                self._current_node.clone(), on_expr.clone(), node.type()
+            )
+        else:
+            new_node = QgsSQLStatement.NodeJoin(
+                self._current_node.clone(), node.usingColumns(), node.type()
+            )
+        self._current_node = new_node.clone()
+
+    def visit_column_sorted(self, node):
+        self.visit(node.column())
+        new_node = QgsSQLStatement.NodeColumnSorted(
+            self._current_node.clone(), node.ascending()
+        )
+        self._current_node = new_node.clone()
+
+    def visit_cast(self, node):
+        self.visit(node.node())
+        new_node = QgsSQLStatement.NodeCast(self._current_node.clone(), node.type())
+        self._current_node = new_node.clone()
 
 
 class ExpressionConverter:
@@ -476,4 +651,11 @@ class ExpressionConverter:
         expression = re.sub(
             r"#(\d+-\d+-\d+\s+\d+:\d+:\d+)#", "'\\1'", expression, flags=re.UNICODE
         )
+
+        # can we now parse as a regular SQL expression?
+        fragment = QgsSQLStatementFragment(expression)
+        if not fragment.hasParserError():
+            visitor = EsriSqlToSqlVisitor(fragment)
+            expression = visitor.converted()
+
         return expression

@@ -142,6 +142,7 @@ class Context:
         )
 
         self.vsi_content_prefix: Optional[str] = None
+        self.prefer_maplex: bool = False
 
     def push_warning(self, warning: str, level: Optional[str] = None):
         """

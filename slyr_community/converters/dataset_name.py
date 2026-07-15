@@ -1865,8 +1865,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         stored connection to the postgres uri
         """
         original_uri = QgsDataSourceUri(uri)
-        host = uri.host().lower()
-        dbname = uri.database().lower()
+        host = (uri.host() or "").lower()
+        dbname = (uri.database() or "").lower()
 
         settings = QgsSettings()
         settings.beginGroup("Oracle/connections")
@@ -1874,9 +1874,9 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         settings.endGroup()
         for connection_name in stored_connection_names:
             settings.beginGroup("Oracle/connections/{}".format(connection_name))
-            test_dbname = settings.value("database")
-            test_host = settings.value("host")
-            if test_dbname is None or test_host is None:
+            test_dbname = settings.value("database") or ""
+            test_host = settings.value("host") or ""
+            if not test_dbname and not test_host:
                 settings.endGroup()
                 continue
 
