@@ -254,6 +254,17 @@ class TestExpressionConverter(SlyrTestCase):
         Test SQL expression conversion
         """
         self.assertEqual(ExpressionConverter.convert_esri_sql("[a field]"), '"a field"')
+        self.assertEqual(
+            ExpressionConverter.convert_esri_sql("[a field]+2"), '"a field" + 2'
+        )
+        self.assertEqual(
+            ExpressionConverter.convert_esri_sql("[a field]+[b field]"),
+            '"a field" + "b field"',
+        )
+        self.assertEqual(
+            ExpressionConverter.convert_esri_sql("MOD ([IdPyloneElec], 5)"),
+            "IdPyloneElec % 5",
+        )
 
     def test_esri(self):
         """

@@ -275,6 +275,18 @@ class TestLayoutConverter(SlyrTestCase):
         )
         self.assertEqual(
             LayoutConverter.convert_dynamic_text(
+                '<dyn type="page" property="test"/>', context
+            ),
+            """[% "test" %]""",
+        )
+        self.assertEqual(
+            LayoutConverter.convert_dynamic_text(
+                '<dyn type="page" property="attribute" field="TEST" />', context
+            ),
+            """[% "TEST" %]""",
+        )
+        self.assertEqual(
+            LayoutConverter.convert_dynamic_text(
                 '<dyn type="page" property="index"/>', context
             ),
             "[% @atlas_featurenumber %]",

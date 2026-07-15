@@ -240,7 +240,7 @@ class Utils:
         save_user_rx = re.compile(r'saveUserFull="[^\"]+"', re.DOTALL)
         res = re.sub(save_user_rx, 'saveUserFull="..."', res)
 
-        save_user_rx = re.compile(r'version="3\.\d+[^\"]+"', re.DOTALL)
+        save_user_rx = re.compile(r'version="[34]\.\d+[^\"]+"', re.DOTALL)
         res = re.sub(save_user_rx, 'version="3.xx.xx"', res)
 
         save_dt_rx = re.compile(r'saveDateTime="[0-9\-:T]+?"', re.DOTALL)
