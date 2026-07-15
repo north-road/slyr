@@ -7,7 +7,6 @@ icon=icon.png
 version=7.1.0
 qgisMinimumVersion=3.22
 qgisMaximumVersion=4.99
-supportsQt6=yes
 author=Nyall Dawson
 email=nyall.dawson@gmail.com
 tags=MXD,LYR,ESRI,ArcGIS,style,ArcMap,ArcGIS Pro,stylx,lyrx,aprx
