@@ -2120,7 +2120,10 @@ class LayoutConverter:
                 if numeric_format is not None:
                     item.setNumericFormat(numeric_format)
 
-                if isinstance(map_surround, (ScaleLine,)):
+                if isinstance(
+                    map_surround,
+                    (ScaleLine,),
+                ):
                     if map_surround.mark_position in (ScalebarBase.ABOVE_BAR,):
                         item.setStyle("Line Ticks Up")
                     elif map_surround.mark_position in (ScalebarBase.BELOW_BAR,):
