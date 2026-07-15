@@ -29,6 +29,7 @@ from qgis.core import (
     QgsTextFormat,
     QgsPalLayerSettings,
     QgsProject,
+    QgsLegendPatchShape,
 )
 from qgis.gui import QgsCustomDropHandler, QgsStyleManagerDialog
 from qgis.utils import iface
@@ -50,11 +51,6 @@ from ...parser.exceptions import (
 )
 
 from ...parser.stream import Stream
-
-try:
-    from qgis.core import QgsLegendPatchShape  # pylint: disable=ungrouped-imports
-except ImportError:
-    QgsLegendPatchShape = None
 
 
 class StyleDropHandler(QgsCustomDropHandler):
