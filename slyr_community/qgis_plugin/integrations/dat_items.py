@@ -87,7 +87,7 @@ class DatDropHandler(QgsCustomDropHandler):
             "Licensed version required",
             "Convert Bookmarks",
             message,
-            level=Qgis.Critical,
+            level=Qgis.MessageLevel.Critical,
             message_bar=iface.messageBar(),
         )
 
@@ -107,12 +107,14 @@ class EsriDatItem(QgsDataItem):
     """
 
     def __init__(self, parent, name, path, bookmark=None):
-        super().__init__(QgsDataItem.Custom, parent, name, path)
+        super().__init__(QgsDataItem.Type.Custom, parent, name, path)
         if not bookmark:
-            self.setCapabilities(QgsDataItem.Fertile | QgsDataItem.Collapse)
+            self.setCapabilities(
+                QgsDataItem.Capability.Fertile | QgsDataItem.Capability.Collapse
+            )
             self.setToolTip(QDir.toNativeSeparators(path))
         else:
-            self.setState(QgsDataItem.Populated)  # no children
+            self.setState(QgsDataItem.State.Populated)  # no children
             self.setToolTip(bookmark.name())
 
         self.bookmarks = []
@@ -121,7 +123,7 @@ class EsriDatItem(QgsDataItem):
 
     def createChildren(self):  # pylint: disable=missing-function-docstring
         # Runs in a thread!
-        self.setState(QgsDataItem.Populating)
+        self.setState(QgsDataItem.State.Populating)
 
         error_item = QgsErrorItem(
             self,
