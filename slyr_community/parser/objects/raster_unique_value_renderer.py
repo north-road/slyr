@@ -94,7 +94,7 @@ class RasterUniqueValueRenderer(RasterRenderer):
             if values:
                 self.values.append(values)
 
-        stream.read_ushort("unknown", expected=0)
+        stream.read_ushort("unknown", expected=(0, 65535))
         self.unique_values = stream.read_object("unique values")
 
         if version > 3:

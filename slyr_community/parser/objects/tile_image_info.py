@@ -28,7 +28,7 @@ class TileImageInfo(Object):
 
     def read(self, stream: Stream, version):
         self.format = stream.read_string("format")  # '*', 'PNG', 'Mixed'
-        stream.read_int("unknown", expected=0)  # compression?
+        stream.read_int("unknown", expected=(0, 75))  # compression?
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {

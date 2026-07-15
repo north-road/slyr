@@ -57,7 +57,7 @@ class Legend(Element):
             stream.read_int("unknown", expected=(0, 2956655486))
 
         if version > 2:
-            stream.read_ushort("unknown", expected=(0, 16422))
+            stream.read_ushort("unknown", expected=(0, 16422, 65535))
 
         self.format = stream.read_object("legend format")
 

@@ -29,14 +29,8 @@ from qgis.core import (
     QgsRasterLayer,
     QgsVectorLayer,
     QgsLayerTreeGroup,
+    QgsRelationContext,
 )
-
-try:
-    from qgis.core import QgsRelationContext
-
-    import_relations = True
-except ImportError:
-    import_relations = False
 
 from qgis.utils import iface
 
@@ -145,15 +139,6 @@ class ProjectConverter:
 
             for r in l.relations:
                 if isinstance(r, MemoryRelationshipClassName):
-                    if not import_relations:
-                        context.push_warning(
-                            "{}: Converting relationships requires QGIS 3.12 or later".format(
-                                l.name
-                            ),
-                            level=Context.CRITICAL,
-                        )
-                        break
-
                     # assume this is always the case??
                     # if not r.destination_name.to_dict() == l.dataset_name.to_dict():
                     #    if context.unsupported_object_callback:
@@ -392,11 +377,11 @@ class ProjectConverter:
             # layer.zoom_min = "don't show when zoomed in beyond"
             zoom_min = group.zoom_min or 0
 
-            enabled_scale_range = bool(zoom_max or zoom_min)
             if zoom_max and zoom_min and zoom_min > zoom_max:
                 # inconsistent scale range -- zoom_max should be bigger number than zoom_min
                 zoom_min, zoom_max = zoom_max, zoom_min
 
+            enabled_scale_range = bool(zoom_max or zoom_min)
             if enabled_scale_range:
                 # qgis has no ability to set scale range based on layer tree groups, so push this down to layers
                 ProjectConverter.set_group_scale_range(group_node, zoom_max, zoom_min)
@@ -507,7 +492,7 @@ class ProjectConverter:
                 )
                 destination_project.viewSettings().setUseProjectScales(True)
 
-            if Qgis.QGIS_VERSION_INT >= 31700 and map_object.fixed_extent:
+            if map_object.fixed_extent:
                 rect = QgsRectangle(
                     map_object.fixed_extent.x_min,
                     map_object.fixed_extent.y_min,

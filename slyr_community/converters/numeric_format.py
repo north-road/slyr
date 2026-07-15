@@ -24,11 +24,7 @@ Numeric format conversion
 
 from typing import Optional
 
-
-try:
-    from qgis.core import QgsBasicNumericFormat
-except ImportError:
-    QgsBasicNumericFormat = None
+from qgis.core import QgsBasicNumericFormat
 
 from ..parser.objects.numeric_format import NumericFormat
 from .context import Context

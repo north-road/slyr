@@ -299,6 +299,20 @@ class ConversionUtils:
         return re.sub(r"[^a-zA-Z0-9_\-]", "_", normalized)
 
     @staticmethod
+    def correct_font_capitalisation(family: str) -> str:
+        """
+        Corrects the font family capitalisation to match the fonts installed
+        on the system.
+
+        Returns the name unchanged if not matched
+        """
+        for candidate in ConversionUtils.available_font_families():
+            if candidate.lower().strip() == family.lower().strip():
+                return candidate
+
+        return family
+
+    @staticmethod
     def available_font_families() -> List[str]:
         """
         Returns the installed font families

@@ -24,7 +24,7 @@ class CadDrawingObject(Object):
     def read(self, stream: Stream, version):
         self.path = stream.read_string("file path")
         self.world_file_path = stream.read_string("world file path")
-        stream.read_int("unknown", expected=0)
+        stream.read_int("unknown", expected=(0, 1, 65535))
         stream.read_ushort("unknown", expected=0)
         stream.read_double("unknown")
         stream.read_double("unknown")

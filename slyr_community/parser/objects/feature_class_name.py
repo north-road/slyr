@@ -277,7 +277,7 @@ class GpkgFeatureClassQuery(Object):
         self.geometry_field = stream.read_string("geom")
         self.esri_oid = stream.read_string("esri_oid", expected="ESRI_OID")
         stream.read_string("unknown")  # fid, objectid
-        stream.read_int("unknown", expected=0)
+        stream.read_int("unknown", expected=(0, 1))
         stream.read_int("unknown", expected=1)
         stream.read_int("unknown", expected=(1, 3, 4))
         self.fields = stream.read_object("fields")
@@ -285,7 +285,7 @@ class GpkgFeatureClassQuery(Object):
         self.crs = stream.read_object("crs")
 
         if version > 2:
-            stream.read_int("unknown", expected=11)
+            stream.read_int("unknown", expected=(2, 11))
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {

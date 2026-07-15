@@ -47,17 +47,6 @@ class UnknownObjectTypeException(Exception):
     """
 
 
-class CustomExtensionClsidException(Exception):
-    """
-    Thrown on encountering an known custom extension CLSID
-    """
-
-    def __init__(self, message, custom_object=None, clsid=None):
-        super(Exception, self).__init__(message)  # pylint: disable=bad-super-call
-        self.custom_object = custom_object
-        self.clsid = clsid
-
-
 class InvalidColorException(Exception):
     """
     Thrown when an error was encountered while converting a color

@@ -62,12 +62,9 @@ from qgis.core import (
     QgsTemplatedLineSymbolLayerBase,
     QgsHashedLineSymbolLayer,
     QgsRandomMarkerFillSymbolLayer,
+    QgsRasterMarkerSymbolLayer,
 )
 
-try:
-    from qgis.core import QgsRasterMarkerSymbolLayer
-except ImportError:
-    pass
 
 from qgis.PyQt.QtCore import Qt, QPointF, QLineF, QBuffer
 from qgis.PyQt.QtGui import (
@@ -3370,83 +3367,82 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         },
     }
 
-    if Qgis.QGIS_VERSION_INT >= 31800:
-        ESRI_FONTS_TO_QGIS_MARKERS["ESRI Default Marker"].update(
-            {
-                38: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
-                },
-                39: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
-                },
-                45: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
-                    "outline_only": True,
-                },
-                51: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
-                    "outline_only": True,
-                    "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.Circle,
-                },
-                52: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
-                    "outline_only": True,
-                    "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.Circle,
-                },
-                58: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
-                    "outline_only": True,
-                    "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.Square,
-                },
-                59: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
-                    "outline_only": True,
-                    "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.Square,
-                },
-                77: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
-                    "outline_only": True,
-                    "shape_size_factor": 1.0098932629689819,
-                    "stroke_size_factor": 1.9410120363760561,
-                    "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
-                    "overlay_size_factor": 0.3228621997955166,
-                },
-                78: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
-                    "outline_only": True,
-                    "shape_size_factor": 1.0098932629689819,
-                    "stroke_size_factor": 1.0876792732278202,
-                    "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
-                    "overlay_size_factor": 0.3228621997955166,
-                },
-                106: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.AsteriskFill,
-                    "outline_only": True,
-                },
-                107: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.AsteriskFill,
-                },
-                173: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
-                    "outline_only": True,
-                    "shape_size_factor": 1.093806079589203,
-                },
-                176: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
-                    "outline_only": True,
-                    "shape_size_factor": 1.0617429232013191,
-                },
-            }
-        )
+    ESRI_FONTS_TO_QGIS_MARKERS["ESRI Default Marker"].update(
+        {
+            38: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
+            },
+            39: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
+            },
+            45: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
+                "outline_only": True,
+            },
+            51: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
+                "outline_only": True,
+                "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.Circle,
+            },
+            52: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
+                "outline_only": True,
+                "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.Circle,
+            },
+            58: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
+                "outline_only": True,
+                "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.Square,
+            },
+            59: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
+                "outline_only": True,
+                "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.Square,
+            },
+            77: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
+                "outline_only": True,
+                "shape_size_factor": 1.0098932629689819,
+                "stroke_size_factor": 1.9410120363760561,
+                "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
+                "overlay_size_factor": 0.3228621997955166,
+            },
+            78: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
+                "outline_only": True,
+                "shape_size_factor": 1.0098932629689819,
+                "stroke_size_factor": 1.0876792732278202,
+                "central_overlay": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
+                "overlay_size_factor": 0.3228621997955166,
+            },
+            106: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.AsteriskFill,
+                "outline_only": True,
+            },
+            107: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.AsteriskFill,
+            },
+            173: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
+                "outline_only": True,
+                "shape_size_factor": 1.093806079589203,
+            },
+            176: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
+                "outline_only": True,
+                "shape_size_factor": 1.0617429232013191,
+            },
+        }
+    )
 
-        ESRI_FONTS_TO_QGIS_MARKERS["ESRI AMFM Electric"].update(
-            {
-                215: {
-                    "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
-                    "shape_size_factor": 1.036381918330409,
-                },
-            }
-        )
+    ESRI_FONTS_TO_QGIS_MARKERS["ESRI AMFM Electric"].update(
+        {
+            215: {
+                "shape": QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
+                "shape_size_factor": 1.036381918330409,
+            },
+        }
+    )
 
     if Qgis.QGIS_VERSION_INT >= 32700:
         ESRI_FONTS_TO_QGIS_MARKERS["ESRI AMFM Sewer"].update(
@@ -3571,6 +3567,8 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 conversion = SymbolConverter.REPLACE_FONTS[font_name][character]
                 font_name = conversion["font_name"]
                 character = conversion["unicode"]
+
+        font_name = ConversionUtils.correct_font_capitalisation(font_name)
         return font_name, character
 
     @staticmethod
@@ -3711,7 +3709,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
                 simple_size = (1.47272 * layer.size * 12.327200 / 14.727200) / 2.0
             elif marker_type == QgsSimpleMarkerSymbolLayerBase.Shape.SemiCircle:
                 simple_size = (1.47272 * layer.size * 12.327200 / 14.727200) / 2.0
-            elif Qgis.QGIS_VERSION_INT >= 31800:
+            else:
                 if marker_type in (
                     QgsSimpleMarkerSymbolLayerBase.Shape.Octagon,
                     QgsSimpleMarkerSymbolLayerBase.Shape.SquareWithCorners,
@@ -3903,6 +3901,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             out.setStrokeWidthUnit(context.units)
             out.setSize(out.size() * size_scale_factor)
 
+        out_size = out.size()
         if not appended_to_prev_layer:
             symbol.appendSymbolLayer(out)
             context.symbol_layer_output_to_input_index_map[out] = (
@@ -3913,7 +3912,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             # Add overlay layer
             marker_type = conversion_properties["overlay"]
 
-            overlay_size = out.size() * conversion_properties.get(
+            overlay_size = out_size * conversion_properties.get(
                 "overlay_size_factor", 1
             )
 
@@ -4077,6 +4076,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             layer.font, layer.unicode
         )
 
+        font_family = ConversionUtils.correct_font_capitalisation(font_family)
         if font_family not in ConversionUtils.available_font_families():
             context.push_warning("Font {} not available on system".format(font_family))
             return SymbolConverter.append_CharacterMarkerSymbolLayerAsFont(
@@ -4212,6 +4212,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             layer.font, layer.unicode
         )
 
+        font_family = ConversionUtils.correct_font_capitalisation(font_family)
         if font_family not in ConversionUtils.available_font_families():
             context.push_warning("Font {} not available on system".format(font_family))
 

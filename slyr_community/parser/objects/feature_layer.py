@@ -18,22 +18,8 @@ from .units import Units
 from ..exceptions import (
     UnknownClsidException,
     NotImplementedException,
-    CustomExtensionClsidException,
 )
 from .geometry import Geometry
-
-
-class CustomRenderer(Object):
-    """
-    Represents a custom renderer which could not be parsed
-    """
-
-    def __init__(self, clsid):
-        super().__init__()
-        self.clsid = clsid
-
-    def to_dict(self):  # pylint: disable=method-hidden
-        return {"clsid": self.clsid}
 
 
 class FeatureLayer(Object):
@@ -220,11 +206,7 @@ class FeatureLayer(Object):
         self.cached = stream.read_ushort("cached") != 0
 
         self.dataset_name = stream.read_object("dataset name")
-        try:
-            self.renderer = stream.read_object("renderer")
-        except CustomExtensionClsidException as e:
-            self.renderer = CustomRenderer(e.clsid)
-            raise e
+        self.renderer = stream.read_object("renderer")
 
         stream.read_raw_clsid(
             "renderer properties page",
@@ -381,10 +363,10 @@ class FeatureLayer(Object):
         if version <= 23:
             return
 
-        count = stream.read_int("unknown count")
+        count = stream.read_int("unknown filter count")
         for i in range(count):
-            stream.read_string("unknown filter?", expected="")
-            stream.read_string("unknown?", expected="")
+            stream.read_string("unknown filter {}?".format(i + 1))
+            stream.read_string("unknown filter name {}?".format(i + 1))
 
         if version <= 24:
             return

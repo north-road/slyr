@@ -17,7 +17,6 @@ from .exceptions import (
     UnreadableSymbolException,
     EmptyDocumentException,
     DocumentTypeException,
-    CustomExtensionClsidException,
     NotImplementedException,
     UnknownClsidException,
     PartiallyImplementedException,
@@ -144,7 +143,7 @@ class Stream:  # pylint: disable=too-many-public-methods
                         self.io_stream = self.extract_file_from_stream(dest_file)
                         self.read_int("unknown", expected=1)
                         self.read_int("unknown", expected=1)
-                        self.read_int("unknown", expected=1)
+                        self.read_int("unknown", expected=(0, 1))
                         self.data_frame_count = self.read_int("data frame count")
                     elif dest_file == "Main Stream":
                         self.io_stream = self.extract_file_from_stream(dest_file)
@@ -217,6 +216,7 @@ class Stream:  # pylint: disable=too-many-public-methods
                                     "Visible",
                                     "Layouts",
                                     "Anzeige",
+                                    "Affichage",
                                 ),
                             )
                             self.read_object("selection environment")
@@ -838,6 +838,9 @@ class Stream:  # pylint: disable=too-many-public-methods
         self.log("ascii of length {}".format(length))
         # encoding?
         b = self.read(length)
+        # trim trailing null characters, seen sometimes!!
+        b = b.rstrip(b"\x00")
+
         res = b.decode("latin-1")
         self.log('found ascii "{}"'.format(res))
 
@@ -883,13 +886,6 @@ class Stream:  # pylint: disable=too-many-public-methods
         clsid = self.read_clsid(debug_string)
         try:
             res = REGISTRY.create_object(clsid)
-        except CustomExtensionClsidException as e:
-            self.debug_depth += 1
-            self.log(
-                "!!!Custom extension encountered -- cannot read ({})".format(e), 16
-            )
-            self.debug_depth -= 1
-            raise e
         except UnknownClsidException as e:
             self.log(str(e), 16)
 
@@ -1012,16 +1008,6 @@ class Stream:  # pylint: disable=too-many-public-methods
             res.version = version
             try:
                 res.read(self, version)
-            except CustomExtensionClsidException as e:
-                self.log(
-                    "!!!Custom extension encountered -- only partial read of {}".format(
-                        res.__class__.__name__
-                    ),
-                    16,
-                )
-                e.custom_object = res
-                self.debug_depth -= 1
-                raise e
             except NotImplementedException as e:
                 self.log("Reading {} is not yet implemented".format(str(e)), 16)
                 self.not_implemented_objects[this_ref] = res.__class__
@@ -1055,6 +1041,7 @@ class Stream:  # pylint: disable=too-many-public-methods
         variant_type=None,
         debug_string: str = "",
         expected=None,
+        use_alternate_string_parser: bool = False,
     ):
         """
         Reads a variant value from the stream
@@ -1064,7 +1051,10 @@ class Stream:  # pylint: disable=too-many-public-methods
         if variant_type is None:
             variant_type = self.read_ushort("type")
         if variant_type == Stream.VBSTRING:
-            value = self.read_string("value")
+            if not use_alternate_string_parser:
+                value = self.read_string("value")
+            else:
+                value = self.read_stringv2("value")
         elif variant_type == Stream.VBLONG:
             value = self.read_ulong("value")
         elif variant_type == Stream.VBSINGLE:
@@ -1093,6 +1083,8 @@ class Stream:  # pylint: disable=too-many-public-methods
             self.read(length)
         elif variant_type == Stream.VBDATAOBJECT:
             value = self.read_object("value")
+        elif variant_type == Stream.VBBYTE:
+            value = self.read_uchar("value")
         elif variant_type == 8197:  # esriAttributeTypeDash
             count = self.read_int("number of dashes")
             value = [self.read_double("value {}".format(idx)) for idx in range(count)]

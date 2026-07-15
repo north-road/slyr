@@ -34,7 +34,9 @@ class MarkerElement(Element):
 
         variant_type = stream.read_ushort("custom property type")
         if variant_type:
-            self.custom_property = stream.read_variant(variant_type, "custom property")
+            self.custom_property = stream.read_variant(
+                variant_type, "custom property", use_alternate_string_parser=True
+            )
 
         self.preserve_aspect = stream.read_ushort("preserve aspect ratio") != 0
 
