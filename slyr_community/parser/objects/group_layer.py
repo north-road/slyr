@@ -8,7 +8,6 @@ from ..stream import Stream
 from ..exceptions import (
     UnknownClsidException,
     NotImplementedException,
-    CustomExtensionClsidException,
 )
 
 
@@ -67,13 +66,9 @@ class GroupLayer(Object):
                 size = stream.read_int("size") + 8
                 stream.read_int("unknown", expected=0)
 
-            try:
-                self.children.append(
-                    stream.read_object("layer {}".format(i + 1), expected_size=size)
-                )
-            except CustomExtensionClsidException as e:
-                self.children.append(e.custom_object)
-                stream.seek(start + size)
+            self.children.append(
+                stream.read_object("layer {}".format(i + 1), expected_size=size)
+            )
 
             if not stream.tolerant and size >= 0:
                 assert stream.tell() == start + size, (stream.tell(), start + size)

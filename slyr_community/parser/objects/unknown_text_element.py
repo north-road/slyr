@@ -30,11 +30,11 @@ class UnknownTextElement(Element):
         # self.element_name = stream.read_stringv2('element name')
         # self.element_type = stream.read_string('element type')
 
-        # variant_type = stream.read_ushort('custom property type')
-        # if variant_type:
-        #    self.custom_property = stream.read_variant(variant_type, 'custom property')
-        stream.read_ushort("custom property type", expected=8)
-        stream.read_stringv2("custom property", expected="1.0")
+        variant_type = stream.read_ushort("custom property type")
+        if variant_type:
+            self.custom_property = stream.read_variant(
+                variant_type, "custom property", use_alternate_string_parser=True
+            )
 
         stream.read_ushort("unknown", expected=13)
 

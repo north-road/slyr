@@ -44,7 +44,7 @@ class ScaleText(Object):
         self.fixed_aspect_ratio = stream.read_ushort("fixed aspect ratio") != 0
 
         if internal_version <= 2:
-            stream.read_int("unknown", expected=0)
+            stream.read_int("unknown", expected=(0, 1))
         elif internal_version > 2:
             stream.read_int("unknown", expected=1)
             stream.read_ushort("unknown", expected=0)

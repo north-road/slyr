@@ -74,7 +74,9 @@ class MapFrame(Element):
 
         variant_type = stream.read_ushort("custom property type")
         if variant_type:
-            self.custom_property = stream.read_variant(variant_type, "custom property")
+            self.custom_property = stream.read_variant(
+                variant_type, "custom property", use_alternate_string_parser=True
+            )
 
         if internal_version == 3:
             stream.read_int("unknown", expected=0)

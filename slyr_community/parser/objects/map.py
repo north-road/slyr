@@ -10,7 +10,6 @@ from .group_layer import GroupLayer
 
 from .units import Units
 from ..stream import Stream
-from ..exceptions import CustomExtensionClsidException
 
 
 class Map(Object):
@@ -136,15 +135,9 @@ class Map(Object):
                 size = stream.read_int("size") + 8
                 stream.read_int("unknown", expected=0)
 
-            try:
-                self.root_groups.append(
-                    stream.read_object(
-                        "root group {}".format(i + 1), expected_size=size
-                    )
-                )
-            except CustomExtensionClsidException as e:
-                self.root_groups.append(e.custom_object)
-                stream.seek(start + size)
+            self.root_groups.append(
+                stream.read_object("root group {}".format(i + 1), expected_size=size)
+            )
 
             if not stream.tolerant and size >= 0:
                 assert stream.tell() == start + size, (stream.tell(), start + size)
@@ -209,7 +202,7 @@ class Map(Object):
         stream.read_ushort("unknown", expected=0)
         stream.read_object("unknown extent")
 
-        stream.read_ushort("unknown flag", expected=65535)
+        stream.read_ushort("unknown flag", expected=(0, 65535))
         stream.read_ushort("unknown flag", expected=65535)
         stream.read_int("unknown", expected=0)
         stream.read_int("unknown", expected=0)

@@ -51,7 +51,7 @@ class RectangleElement(Element):
             variant_type = stream.read_ushort("custom property type")
             if variant_type:
                 self.custom_property = stream.read_variant(
-                    variant_type, "custom property"
+                    variant_type, "custom property", use_alternate_string_parser=True
                 )
 
             self.auto_transform = stream.read_ushort("auto transform") != 0

@@ -38,7 +38,11 @@ class RepresentationRenderer(Object):
         self.invalid_rule_color = stream.read_object("invalid rule color")
 
         stream.read_int("unknown", expected=0)
-        stream.read_int("unknown", expected=0)
+        count = stream.read_int("feature class count")
+        for i in range(count):
+            stream.read_object("class {}".format(i + 1))
+            stream.read_object("relationship {}".format(i + 1))
+
         stream.read_ushort("unknown", expected=(0, 65535))
 
         count = stream.read_int("count")
@@ -53,7 +57,7 @@ class RepresentationRenderer(Object):
                 )
                 stream.read_int(
                     "unknown inner b {}".format(j),
-                    expected=(0xFFFFFFFF, 0, 1, 2, 3, 4, 5, 6, 7, 8),
+                    expected=(0xFFFFFFFF, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
                 )
 
         count = stream.read_int("count")

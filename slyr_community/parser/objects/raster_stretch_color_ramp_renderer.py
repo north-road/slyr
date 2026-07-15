@@ -95,7 +95,7 @@ class RasterStretchColorRampRenderer(RasterRenderer):
                 )
             elif ref == 11:
                 assert size == 4
-                stream.read_int("unknown", expected=1)
+                stream.read_int("unknown", expected=(0, 1))
             elif ref == 12:
                 assert size == 2
                 stream.read_ushort("unknown flag", expected=(0, 65535))

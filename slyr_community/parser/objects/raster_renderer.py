@@ -127,9 +127,10 @@ class RasterRenderer(Object):
                 for i in range(3):
                     res = stream.read_int("unknown {}".format(i + 1))
                     if res == 0:
-                        stream.read_ushort("unknown a", expected=(0, 65504))
+                        # probably a width/height in pixels
+                        stream.read_ushort("unknown a", expected=(0, 60020, 65504))
                         stream.read_ushort(
-                            "unknown b", expected=(0, 16, 16623, 49248, 49376)
+                            "unknown b", expected=(0, 16, 31794, 16623, 49248, 49376)
                         )
                     elif res == 0xFFFFFFFF:
                         stream.read_ushort("unknown", expected=65535)

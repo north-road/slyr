@@ -223,11 +223,11 @@ class SlyrPlugin:
             self.open_handler = MxdProjectOpenHandler()
             self.iface.registerCustomProjectOpenHandler(self.open_handler)
 
-        if Qgis.QGIS_VERSION_INT < 32200:
+        if Qgis.QGIS_VERSION_INT < 32800:
             self.iface.messageBar().pushWarning(
                 "SLYR",
-                "Support for QGIS versions older than 3.22 will be removed"
-                " in a coming update. Please update to QGIS 3.22 or later.",
+                "Support for QGIS versions older than 3.28 will be removed"
+                " in a coming update. Please update to QGIS 3.28 or later.",
             )
 
     def initProcessing(self):
