@@ -51,7 +51,8 @@ class RasterClassifyColorRampRenderer(RasterRenderer):
         res = stream.read_uchar("unknown")  # in (0, 1)
         if res:
             c = stream.read_raw_clsid("classifier")
-            assert c in ClassificationUtils.CLSID_TO_CLASSIFIER, c
+            if c not in ClassificationUtils.CLSID_TO_CLASSIFIER:
+                raise AssertionError(str(c))
             self.classifier = ClassificationUtils.CLSID_TO_CLASSIFIER[c]
 
         self.ramp_name = stream.read_string("ramp name")
@@ -123,18 +124,21 @@ class RasterClassifyColorRampRenderer(RasterRenderer):
 
             def handler(ref, size):
                 if ref == 1:
-                    assert size == 4
+                    if size != 4:
+                        raise AssertionError("Size mismatch")
                     self.use_hillshade = stream.read_int("use hillshade") != 0
                 elif ref == 2:
-                    assert size == 8
+                    if size != 8:
+                        raise AssertionError("Size mismatch")
                     self.hillshade_z = stream.read_double("hillshade z")
                 elif ref == 37:
-                    assert size == 2
+                    if size != 2:
+                        raise AssertionError("Size mismatch")
                     self.allow_interactive_display = (
                         stream.read_ushort("allow interactive display") != 0
                     )
                 else:
-                    assert False, "Unknown property ref {}".format(ref)
+                    raise AssertionError("Unknown property ref {}".format(ref))
 
             stream.read_indexed_properties(handler)
             stream.read_ushort("unknown", expected=65535)

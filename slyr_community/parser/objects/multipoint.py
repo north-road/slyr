@@ -46,7 +46,8 @@ class Multipoint(Geometry):
         # - if wkb type is 18 or 28  we need to read two doubles of m min/max,
         #   then an array of m values
 
-        assert stream.tell() == size + start, (stream.tell(), size + start)
+        if stream.tell() != size + start:
+            raise AssertionError(f"{stream.tell()}, {size + start}")
         self.crs = stream.read_object("crs")
 
     def to_dict(self):  # pylint: disable=method-hidden

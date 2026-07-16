@@ -120,7 +120,8 @@ class RasterLayer(Object):
             try:
                 obj = stream.read_object("remote object", allow_reference=True)
                 self.extensions.append(obj)
-                assert stream.tell() == pos + size, (size, stream.tell() - pos)
+                if stream.tell() != pos + size:
+                    raise AssertionError(f"{size}, {stream.tell() - pos}")
             except NotImplementedException:
                 # don't know this object
                 stream.read(size - 24)
@@ -142,7 +143,8 @@ class RasterLayer(Object):
         self.extent_top = stream.read_double("full extent top")
 
         number_of_joins = stream.read_int("number of joins")
-        assert number_of_joins <= 1  # determine if it IS a count, or just a flag
+        if number_of_joins > 1:  # determine if it IS a count, or just a flag
+            raise AssertionError(f"Unexpected join count {number_of_joins}")
         for i in range(number_of_joins):
             self.joins.append(stream.read_object("join"))
 
@@ -174,18 +176,21 @@ class RasterLayer(Object):
 
             def handler(ref, size):
                 if ref == 35:
-                    assert size == 2
+                    if size != 2:
+                        raise AssertionError("Size mismatch")
                     stream.read_ushort("contrast")
                 elif ref == 36:
-                    assert size == 2
+                    if size != 2:
+                        raise AssertionError("Size mismatch")
                     stream.read_ushort("brightness")
                 elif ref == 37:
-                    assert size == 2
+                    if size != 2:
+                        raise AssertionError("Size mismatch")
                     self.allow_interactive_display = (
                         stream.read_ushort("allow interactive display") != 0
                     )
                 else:
-                    assert False, "Unknown property ref {}".format(ref)
+                    raise AssertionError("Unknown property ref {}".format(ref))
 
             stream.read_indexed_properties(handler)
             stream.read_ushort("unknown flag", expected=65535)

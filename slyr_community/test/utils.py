@@ -47,8 +47,10 @@ class Utils:
                 if reader.canRead():
                     temp_out_im = temp + "/temp_out." + reader.format().data().decode()
                     image = reader.read()
-                    assert not image.isNull()
-                    assert image.save(temp_out_im, reader.format())
+                    if image.isNull():
+                        raise AssertionError("Null image")
+                    if not image.save(temp_out_im, reader.format()):
+                        raise AssertionError("Image save failed")
 
                     with open(temp_out_im, "rb") as f:
                         rewritten = f.read()
@@ -56,7 +58,7 @@ class Utils:
                     recoded = b64encode(rewritten).decode()
                     return "base64:" + recoded
                 else:
-                    assert False, raw_data
+                    raise AssertionError(str(raw_data))
 
         return content
 
@@ -157,7 +159,7 @@ class Utils:
                     elem.get("yMax"),
                 )
             else:
-                assert False
+                raise AssertionError("")
             if "path" in elem.attrib:
                 parts += "," + elem.get("path")
             return parts

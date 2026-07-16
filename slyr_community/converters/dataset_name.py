@@ -274,7 +274,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
             wkb_type = QgsWkbTypes.Type.NoGeometry
             extension = ".dbf"
         else:
-            assert False
+            raise AssertionError("Unhandled workspace")
 
         file_name = ConversionUtils.path_insensitive(
             folder + "/" + name.name + extension
@@ -312,7 +312,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         elif name.__class__.__name__ == "FeatureClassName":
             wkb_type = DatasetNameConverter.geometry_type_to_wkb(name.shape_type)
         else:
-            assert False
+            raise AssertionError("Unhandled workspace")
 
         return DataSourceProperties(
             uri=uri, wkb_type=wkb_type, provider=provider, file_name=file_name
@@ -369,7 +369,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         if name.__class__.__name__ == "NetCDFTableName":
             wkb_type = QgsWkbTypes.Type.NoGeometry
         else:
-            assert False
+            raise AssertionError("Unhandled workspace")
 
         return DataSourceProperties(
             uri=uri, wkb_type=wkb_type, provider=provider, file_name=file_name
@@ -448,7 +448,8 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
             if layer_name.endswith(".dat"):
                 layer_name = layer_name[:-4]
         else:
-            assert name.dataset_name.__class__.__name__ == "CoverageName"
+            if name.dataset_name.__class__.__name__ != "CoverageName":
+                raise AssertionError("Unhandled workspace")
 
             workspace_folder_name = ConversionUtils.get_absolute_path(
                 workspace_name.name, base
@@ -510,7 +511,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         if name.__class__.__name__ == "TableName":
             wkb_type = QgsWkbTypes.Type.NoGeometry
         else:
-            assert False
+            raise AssertionError("Unhandled workspace")
 
         return DataSourceProperties(
             uri=uri, wkb_type=wkb_type, provider=provider, file_name=file_name
@@ -546,7 +547,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         if name.__class__.__name__ == "TableName":
             wkb_type = QgsWkbTypes.Type.NoGeometry
         else:
-            assert False
+            raise AssertionError("Unhandled workspace")
 
         return DataSourceProperties(
             uri=uri, wkb_type=wkb_type, provider=provider, file_name=file_name
@@ -605,7 +606,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
             if name.__class__.__name__ == "TableName":
                 wkb_type = QgsWkbTypes.Type.NoGeometry
             else:
-                assert False
+                raise AssertionError("Unhandled workspace")
 
         return DataSourceProperties(
             uri=uri, wkb_type=wkb_type, provider=provider, file_name=file_name
@@ -754,7 +755,7 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         elif name.__class__.__name__ == "FeatureClassName":
             wkb_type = DatasetNameConverter.geometry_type_to_wkb(name.shape_type)
         else:
-            assert False
+            raise AssertionError("Unhandled workspace")
 
         return DataSourceProperties(
             uri=uri, wkb_type=wkb_type, provider=provider, file_name=file_name
@@ -1334,10 +1335,10 @@ class DatasetNameConverter:  # pylint: disable=too-many-public-methods
         }
 
         conversion_function = FACTORY_MAP.get(factory.__class__.__name__)
+
         if not conversion_function:
             print(name.to_dict())
-
-        assert conversion_function
+            raise AssertionError("Unhandled workspace")
 
         res = conversion_function(
             name,

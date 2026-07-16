@@ -6,6 +6,7 @@ Test Conversion Utils
 
 import unittest
 import os
+import tempfile
 from pathlib import PureWindowsPath
 
 from .test_case import SlyrTestCase
@@ -168,8 +169,9 @@ class TestConversionContext(SlyrTestCase):
     def test_embed_svgs(self):
         context = Context()
         self.assertTrue(context.embed_svgs())
-        context.picture_folder = "/tmp"
-        self.assertFalse(context.embed_svgs())
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            context.picture_folder = tmp_dir
+            self.assertFalse(context.embed_svgs())
 
 
 if __name__ == "__main__":

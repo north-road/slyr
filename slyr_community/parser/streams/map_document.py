@@ -98,11 +98,12 @@ class MapDocument:
             if check_length:
                 pos = version_stream.tell()
                 version_stream.seek(0, os.SEEK_END)
-                assert pos == version_stream.tell(), (
-                    "Did not read to end of Version stream. Read to {} of {}".format(
-                        hex(pos), hex(version_stream.tell())
+                if pos != version_stream.tell():
+                    raise AssertionError(
+                        "Did not read to end of Version stream. Read to {} of {}".format(
+                            hex(pos), hex(version_stream.tell())
+                        )
                     )
-                )
 
         if document_version_info:
             stream.io_stream = document_version_info
@@ -111,11 +112,12 @@ class MapDocument:
             if check_length:
                 pos = version_stream.tell()
                 version_stream.seek(0, os.SEEK_END)
-                assert pos == version_stream.tell(), (
-                    "Did not read to end of Mx Document Version Info stream. Read to {} of {}".format(
-                        hex(pos), hex(version_stream.tell())
+                if pos != version_stream.tell():
+                    raise AssertionError(
+                        "Did not read to end of Mx Document Version Info stream. Read to {} of {}".format(
+                            hex(pos), hex(version_stream.tell())
+                        )
                     )
-                )
 
         if metadata_stream:
             stream.io_stream = metadata_stream
@@ -123,11 +125,12 @@ class MapDocument:
             if check_length:
                 pos = metadata_stream.tell()
                 metadata_stream.seek(0, os.SEEK_END)
-                assert pos == metadata_stream.tell(), (
-                    "Did not read to end of Metadata stream. Read to {} of {}".format(
-                        hex(pos), hex(metadata_stream.tell())
+                if pos != metadata_stream.tell():
+                    raise AssertionError(
+                        "Did not read to end of Metadata stream. Read to {} of {}".format(
+                            hex(pos), hex(metadata_stream.tell())
+                        )
                     )
-                )
 
         if templates_stream and not metadata_only:
             stream.io_stream = templates_stream
@@ -135,11 +138,12 @@ class MapDocument:
             if check_length:
                 pos = templates_stream.tell()
                 templates_stream.seek(0, os.SEEK_END)
-                assert pos == templates_stream.tell(), (
-                    "Did not read to end of Templates stream. Read to {} of {}".format(
-                        hex(pos), hex(templates_stream.tell())
+                if pos != templates_stream.tell():
+                    raise AssertionError(
+                        "Did not read to end of Templates stream. Read to {} of {}".format(
+                            hex(pos), hex(templates_stream.tell())
+                        )
                     )
-                )
 
         if style_gallery_stream and not metadata_only:
             stream.io_stream = style_gallery_stream
@@ -147,11 +151,12 @@ class MapDocument:
             if check_length:
                 pos = style_gallery_stream.tell()
                 style_gallery_stream.seek(0, os.SEEK_END)
-                assert pos == style_gallery_stream.tell(), (
-                    "Did not read to end of StyleGallery stream. Read to {} of {}".format(
-                        hex(pos), hex(style_gallery_stream.tell())
+                if pos != style_gallery_stream.tell():
+                    raise AssertionError(
+                        "Did not read to end of StyleGallery stream. Read to {} of {}".format(
+                            hex(pos), hex(style_gallery_stream.tell())
+                        )
                     )
-                )
 
         if drawing_defaults_stream and not metadata_only:
             stream.io_stream = drawing_defaults_stream
@@ -159,11 +164,12 @@ class MapDocument:
             if check_length:
                 pos = drawing_defaults_stream.tell()
                 drawing_defaults_stream.seek(0, os.SEEK_END)
-                assert pos == drawing_defaults_stream.tell(), (
-                    "Did not read to end of DrawingDefaults stream. Read to {} of {}".format(
-                        hex(pos), hex(drawing_defaults_stream.tell())
+                if pos != drawing_defaults_stream.tell():
+                    raise AssertionError(
+                        "Did not read to end of DrawingDefaults stream. Read to {} of {}".format(
+                            hex(pos), hex(drawing_defaults_stream.tell())
+                        )
                     )
-                )
 
         if document_stream and not metadata_only:
             stream.objects[-1] = {}
@@ -179,11 +185,12 @@ class MapDocument:
             if not document_stream and check_length:
                 pos = maps_stream.tell()
                 maps_stream.seek(0, os.SEEK_END)
-                assert pos == maps_stream.tell(), (
-                    "Did not read to end of Maps stream. Read to {} of {}".format(
-                        hex(pos), hex(maps_stream.tell())
+                if pos != maps_stream.tell():
+                    raise AssertionError(
+                        "Did not read to end of Maps stream. Read to {} of {}".format(
+                            hex(pos), hex(maps_stream.tell())
+                        )
                     )
-                )
             elif document_stream:
                 if not tolerant or read_layouts:
                     try:
@@ -201,11 +208,12 @@ class MapDocument:
                 if False and check_length:
                     pos = page_layout_stream.tell()
                     page_layout_stream.seek(0, os.SEEK_END)
-                    assert pos == page_layout_stream.tell(), (
-                        "Did not read to end of PageLayout stream. Read to {} of {}".format(
-                            hex(pos), hex(page_layout_stream.tell())
+                    if pos != page_layout_stream.tell():
+                        raise AssertionError(
+                            "Did not read to end of PageLayout stream. Read to {} of {}".format(
+                                hex(pos), hex(page_layout_stream.tell())
+                            )
                         )
-                    )
 
         if view_stream and not metadata_only:
             stream.io_stream = view_stream
@@ -214,11 +222,12 @@ class MapDocument:
                 if check_length:
                     pos = view_stream.tell()
                     view_stream.seek(0, os.SEEK_END)
-                    assert pos == view_stream.tell(), (
-                        "Did not read to end of View stream. Read to {} of {}".format(
-                            hex(pos), hex(view_stream.tell())
+                    if pos != view_stream.tell():
+                        raise AssertionError(
+                            "Did not read to end of View stream. Read to {} of {}".format(
+                                hex(pos), hex(view_stream.tell())
+                            )
                         )
-                    )
 
         if table_properties_stream and not metadata_only:
             if not tolerant:
@@ -227,11 +236,12 @@ class MapDocument:
                 if check_length:
                     pos = table_properties_stream.tell()
                     table_properties_stream.seek(0, os.SEEK_END)
-                    assert pos == table_properties_stream.tell(), (
-                        "Did not read to end of TableProperties stream. Read to {} of {}".format(
-                            hex(pos), hex(table_properties_stream.tell())
+                    if pos != table_properties_stream.tell():
+                        raise AssertionError(
+                            "Did not read to end of TableProperties stream. Read to {} of {}".format(
+                                hex(pos), hex(table_properties_stream.tell())
+                            )
                         )
-                    )
 
         if document_database_stream and not tolerant and not metadata_only:
             stream.io_stream = document_database_stream
@@ -239,11 +249,12 @@ class MapDocument:
             if check_length:
                 pos = document_database_stream.tell()
                 document_database_stream.seek(0, os.SEEK_END)
-                assert pos == document_database_stream.tell(), (
-                    "Did not read to end of DocumentDatabase stream. Read to {} of {}".format(
-                        hex(pos), hex(document_database_stream.tell())
+                if pos != document_database_stream.tell():
+                    raise AssertionError(
+                        "Did not read to end of DocumentDatabase stream. Read to {} of {}".format(
+                            hex(pos), hex(document_database_stream.tell())
+                        )
                     )
-                )
 
         # search for holes in references
         if not tolerant:

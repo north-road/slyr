@@ -57,42 +57,51 @@ class RasterRGBRenderer(RasterRenderer):
         # pylint: disable=too-many-branches
         def handler(ref, size):
             if ref == 1:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.red_band = stream.read_int("red band") + 1
             elif ref == 2:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.green_band = stream.read_int("green band") + 1
             elif ref == 3:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.blue_band = stream.read_int("blue band") + 1
             elif ref == 4:
                 # this looks like per-channel palettes
                 stream.read(size)
             elif ref == 5:
                 # bit wise or of 1 = red, 2 = green, 4 = blue, (Alpha is somewhere else??)
-                assert size == 1
+                if size != 1:
+                    raise AssertionError("Size mismatch")
                 res = stream.read_uchar("band visibility")
                 self.red_checked = bool(res & 1)
                 self.green_checked = bool(res & 2)
                 self.blue_checked = bool(res & 4)
             elif ref == 6:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.stretch_type = stream.read_int("stretch type")
             elif ref == 7:
-                assert size == 8
+                if size != 8:
+                    raise AssertionError("Size mismatch")
                 self.stretch_standard_deviations = stream.read_double(
                     "stretch standard deviations"
                 )
             elif ref == 8:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.invert_stretch = stream.read_int("invert stretch") != 0
             elif ref == 9:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.display_background_value = (
                     stream.read_int("display background value") != 0
                 )
             elif ref == 10:
-                assert size == 32
+                if size != 32:
+                    raise AssertionError("Size mismatch")
                 self.background_value_red = stream.read_double("background value red")
                 self.background_value_green = stream.read_double(
                     "background value green"
@@ -104,48 +113,61 @@ class RasterRGBRenderer(RasterRenderer):
                 # a variant???
                 stream.read(size)
             elif ref == 12:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 self.background_color = stream.read_object(
                     "background color", allow_reference=False
                 )
             elif ref == 13:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.stats_type = stream.read_int("stats type")
             elif ref == 14:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 stream.read_object("red histogram", allow_reference=False)
             elif ref == 15:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 stream.read_object("green histogram", allow_reference=False)
             elif ref == 16:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 stream.read_object("blue histogram", allow_reference=False)
             elif ref == 17:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.pansharpening_enabled = (
                     stream.read_int("pansharpening enabled") != 0
                 )
             elif ref == 18:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
+
                 self.pansharpening_properties = stream.read_object(
                     "pansharpening properties", allow_reference=False
                 )
             elif ref == 19:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
+
                 self.apply_gamma = stream.read_int("apply gamma") != 0
             elif ref == 20:
-                assert size == 24
+                if size != 24:
+                    raise AssertionError("Size mismatch")
                 self.red_gamma = stream.read_double("red gamma")
                 self.green_gamma = stream.read_double("green gamma")
                 self.blue_gamma = stream.read_double("blue gamma")
             elif ref == 21:
-                assert size == 8
+                if size != 8:
+                    raise AssertionError("Size mismatch")
                 self.stretch_low = stream.read_double("stretch low")
             elif ref == 22:
-                assert size == 8
+                if size != 8:
+                    raise AssertionError("Size mismatch")
                 self.stretch_high = stream.read_double("stretch high")
             else:
-                assert False, "Unknown property ref {}".format(ref)
+                raise AssertionError("Unknown property ref {}".format(ref))
 
         # pylint: enable=too-many-branches
 

@@ -76,7 +76,9 @@ class FgdbTableName(Object):
 
         self.name = stream.read_string("name")
         self.category = stream.read_string("category")
-        assert self.category == ""  # not sure this actually IS category?
+        if self.category != "":
+            # not sure if this actually IS category?
+            raise AssertionError("Unexpected not-null category")
         self.datasource_type = stream.read_string("type")
         self.workspace_name = stream.read_object("workspace name")
 

@@ -35,7 +35,8 @@ class RepresentationRule(Object):
             stream.read_int("unknown", expected=0)
             start = stream.tell()
             self.effects.append(stream.read_object("effect {}".format(i + 1)))
-            assert stream.tell() == start + size
+            if stream.tell() != start + size:
+                raise AssertionError("Size mismatch")
 
         stream.read_int("total objects?")
         count = stream.read_int("layer count")

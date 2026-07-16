@@ -47,11 +47,12 @@ class SDEConnection:
         if check_length:
             pos = stream.io_stream.tell()
             stream.io_stream.seek(0, os.SEEK_END)
-            assert pos == stream.io_stream.tell(), (
-                "Did not read to end of SDEConnProperties stream. Read to {} of {}".format(
-                    hex(pos), hex(stream.io_stream.tell())
+            if pos != stream.io_stream.tell():
+                raise AssertionError(
+                    "Did not read to end of SDEConnProperties stream. Read to {} of {}".format(
+                        hex(pos), hex(stream.io_stream.tell())
+                    )
                 )
-            )
 
     def to_dict(self):  # pylint: disable=method-hidden,missing-function-docstring
         return self.connection.to_dict() if self.connection else {}

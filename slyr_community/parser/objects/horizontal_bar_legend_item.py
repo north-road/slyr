@@ -48,7 +48,7 @@ class HorizontalBarLegendItem(Object):
             arrangement == HorizontalBarLegendItem.ARRANGEMENT_DESCRIPTION_LABEL_SYMBOL
         ):
             return "description_label_symbol"
-        assert False
+        raise AssertionError("Unexpected arrangement")
 
     @staticmethod
     def cls_id():

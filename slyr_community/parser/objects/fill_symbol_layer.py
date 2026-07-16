@@ -63,7 +63,8 @@ class SimpleFillSymbol(FillSymbolLayer):
             SimpleFillSymbol.STYLE_CROSS: "cross",
             SimpleFillSymbol.STYLE_DIAGONAL_CROSS: "diagonal_cross",
         }
-        assert style in style_map
+        if style not in style_map:
+            raise AssertionError("Unexpected style")
         return style_map[style]
 
     def __init__(self):  # pylint: disable=useless-super-delegation

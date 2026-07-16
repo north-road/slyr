@@ -85,9 +85,10 @@ class BaseMapLayer(Object):
             stream.read_int("unknown", expected=0)
             start = stream.tell()
             self.children.append(stream.read_object("child {}".format(i + 1)))
-            assert stream.tell() == size + start, "got size {} expected {}".format(
-                stream.tell() - start, size
-            )
+            if stream.tell() != size + start:
+                raise AssertionError(
+                    "got size {} expected {}".format(stream.tell() - start, size)
+                )
 
         remote_count = stream.read_int("remote object count")
         for i in range(remote_count):
@@ -97,7 +98,8 @@ class BaseMapLayer(Object):
             try:
                 obj = stream.read_object("remote object", allow_reference=False)
                 self.extensions.append(obj)
-                assert stream.tell() == pos + size, (size, stream.tell() - pos)
+                if stream.tell() != pos + size:
+                    raise AssertionError(f"{size}, {stream.tell() - pos}")
             except UnknownClsidException:
                 # don't know this object
                 stream.read(size - 20)

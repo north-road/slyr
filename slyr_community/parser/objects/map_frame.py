@@ -48,7 +48,7 @@ class MapFrame(Element):
                 stream.read_double("scale")
                 stream.read_object("envelope")
             else:
-                assert False, extent_type
+                raise AssertionError(str(extent_type))
 
             count = stream.read_int("grid count")
             for i in range(count):

@@ -20,7 +20,7 @@
 
 import re
 import math
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET  # nosec B405
 
 from typing import Union, Optional, Tuple
 
@@ -371,7 +371,7 @@ class LayoutConverter:
 
     @staticmethod
     def convert_layout_metadata(layout: QgsLayout, metadata: str):
-        content = ET.fromstring(metadata)
+        content = ET.fromstring(metadata)  # nosec B314
 
         res_title = content.find("./dataIdInfo/idCitation/resTitle")
         if res_title is not None:

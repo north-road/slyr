@@ -40,7 +40,8 @@ class Point(Object):
         if point_type in (11, 21):
             self.m = stream.read_double("m")
 
-        assert stream.tell() == size + start, (size, stream.tell() - start)
+        if stream.tell() != size + start:
+            raise AssertionError(f"{size}, {stream.tell() - start}")
 
         self.crs = stream.read_object("crs")
 

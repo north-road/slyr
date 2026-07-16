@@ -438,7 +438,8 @@ class EsriLyrItem(QgsDataItem):
                     for definition in self.definitions
                     if definition.uri == uri
                 ]
-                assert len(definitions) == 1
+                if len(definitions) != 1:
+                    raise AssertionError("Unexpected definition match size")
 
                 definition = definitions[0]
                 self.addChildItem(

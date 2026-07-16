@@ -50,7 +50,8 @@ class RasterBasemapLayer(Object):
         stream.read_int("unknown", expected=0)
         start = stream.tell()
         self.raster_layer = stream.read_object("raster layer")
-        assert stream.tell() == start + size, (size, stream.tell() - start)
+        if stream.tell() != start + size:
+            raise AssertionError(f"{size}, {stream.tell() - start}")
 
         # copy some stuff from the layer
         if self.raster_layer:

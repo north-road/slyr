@@ -80,7 +80,7 @@ class ScalebarBase(Object):
             return "below_right"
         elif pos == ScalebarBase.BELOW_BOTH_ENDS:
             return "below_both_ends"
-        assert False, pos
+        raise AssertionError(str(pos))
 
     @staticmethod
     def frequency_to_string(frequency) -> str:
@@ -101,7 +101,7 @@ class ScalebarBase(Object):
             return "divisions_and_first_subdivisions"
         elif frequency == ScalebarBase.SCALE_BAR_DIVISIONS_AND_SUBDIVISIONS:
             return "divisions_and_subdivisions"
-        assert False
+        raise AssertionError("Unexpected frequency")
 
     @staticmethod
     def position_to_string(position) -> str:
@@ -118,7 +118,7 @@ class ScalebarBase(Object):
             return "align_to_bottom"
         elif position == ScalebarBase.BELOW_BAR:
             return "below_bar"
-        assert False
+        raise AssertionError("Unexpected position")
 
     @staticmethod
     def resize_to_string(resize) -> str:
@@ -133,7 +133,7 @@ class ScalebarBase(Object):
             return "auto_division_count"
         elif resize == ScalebarBase.RESIZE_AUTO_DIVISION_AND_DIVISION_VALUES:
             return "auto_divisions_and_division_values"
-        assert False
+        raise AssertionError("Unexpected resize mode")
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()

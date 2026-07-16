@@ -61,7 +61,7 @@ class Element(Object):
             return "bottom_middle"
         elif anchor == Element.ANCHOR_BOTTOM_RIGHT:
             return "bottom_right"
-        assert False
+        raise AssertionError("Unhandled anchor type")
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {

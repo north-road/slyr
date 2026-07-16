@@ -47,7 +47,7 @@ class Segment:
         if segment_type == Segment.SEGMENT_ELLIPTICAL_ARC:
             return "elliptical_arc"
         else:
-            assert False
+            raise AssertionError("Unexpected segment type")
 
     def __init__(self, start_point_index: int, segment_type, **kwargs):
         self.start_point_index = start_point_index
@@ -157,7 +157,9 @@ class Geometry(Object):
                 k for k, v in Geometry.GEOMETRY_TYPE_TO_STRING.items() if v == string
             ][0]
         except IndexError:
-            assert False, "Could not convert geometry type string {}".format(string)
+            raise AssertionError(
+                "Could not convert geometry type string {}".format(string)
+            )
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()
@@ -220,7 +222,7 @@ class Geometry(Object):
                         )
                     )
                 elif bits & (1 << 0):
-                    assert False  # "arc empty"?
+                    raise AssertionError("Unreadable geometry")  # "arc empty"?
                 elif bits & (1 << 5):
                     stream.log("Straight segment")
                     curve_points.append(
@@ -229,7 +231,9 @@ class Geometry(Object):
                         )
                     )
                 elif bits & (1 << 6):
-                    assert False  # "is point: CP, SP, EP are identical; angles are stored instead of CP"?
+                    raise AssertionError(
+                        "Unreadable geometry"
+                    )  # "is point: CP, SP, EP are identical; angles are stored instead of CP"?
                 else:
                     stream.log("Circular arc by center point")
                     curve_points.append(

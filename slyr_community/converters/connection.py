@@ -117,8 +117,8 @@ class FdlConnectionParser:
         Extracts tokens from an escaped string
         """
         tokens = []
-        current_token = ""
-        current_escape_token = ""
+        current_token = ""  # nosec
+        current_escape_token = ""  # nosec
 
         current_index = 0
         while current_index < len(string):
@@ -137,13 +137,13 @@ class FdlConnectionParser:
                 elif this_escape_token != current_escape_token:
                     current_token += this_escape_token
                 else:
-                    current_escape_token = ""
+                    current_escape_token = ""  # nosec
             else:
                 if current_escape_token:
                     current_token += char
                 else:
                     tokens.append(current_token)
-                    current_token = ""
+                    current_token = ""  # nosec
 
         if current_token:
             tokens.append(current_token)

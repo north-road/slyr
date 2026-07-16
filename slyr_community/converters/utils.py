@@ -26,7 +26,7 @@ import math
 import os
 import re
 import unicodedata
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET  # nosec B405
 from pathlib import Path
 from typing import Optional, List
 
@@ -273,7 +273,8 @@ class ConversionUtils:
 
         catalog_path = Path(gdb_path) / "a00000001.gdbtable"
         catalog_layer = QgsVectorLayer(catalog_path.as_posix(), "catalog")
-        assert catalog_layer.isValid()
+        if not catalog_layer.isValid():
+            raise AssertionError("Could not read catalog layer")
 
         request = QgsFeatureRequest().setFilterExpression("lower(\"Name\")='gdb_items'")
         try:

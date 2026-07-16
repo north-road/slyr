@@ -35,7 +35,7 @@ class LegendItemBase(Object):
             return "description_symbol_label"
         elif arrangement == LegendItemBase.ARRANGEMENT_DESCRIPTION_LABEL_SYMBOL:
             return "description_label_symbol"
-        assert False
+        raise AssertionError("Unexpected arrangement")
 
     def __init__(self):  # pylint: disable=useless-super-delegation
         super().__init__()

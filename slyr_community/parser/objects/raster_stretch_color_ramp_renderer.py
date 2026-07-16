@@ -56,79 +56,100 @@ class RasterStretchColorRampRenderer(RasterRenderer):
         # pylint: disable=too-many-branches
         def handler(ref, size):
             if ref == 1:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.band = stream.read_int("band") + 1
             elif ref == 2:
                 # maybe custom stretch settings?
                 stream.read(size)
             elif ref == 3:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.stretch_type = stream.read_int("stretch type")
             elif ref == 4:
-                assert size == 8
+                if size != 8:
+                    raise AssertionError("Size mismatch")
                 self.stretch_standard_deviations = stream.read_double(
                     "stretch standard deviations"
                 )
             elif ref == 5:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.invert_stretch = stream.read_int("invert stretch") != 0
             elif ref == 6:
-                assert size == 8
+                if size != 8:
+                    raise AssertionError("Size mismatch")
                 self.background_value = stream.read_double("background value")
             elif ref == 7:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 self.color_ramp = stream.read_object(
                     "color ramp", allow_reference=False
                 )
             elif ref == 8:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 self.background_color = stream.read_object(
                     "background color", allow_reference=False
                 )
             elif ref == 9:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 self.legend = stream.read_object("legend group?", allow_reference=False)
             elif ref == 10:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.display_background_value = (
                     stream.read_int("display background value") != 0
                 )
             elif ref == 11:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=(0, 1))
             elif ref == 12:
-                assert size == 2
+                if size != 2:
+                    raise AssertionError("Size mismatch")
                 stream.read_ushort("unknown flag", expected=(0, 65535))
             elif ref == 13:
-                assert size == 16
+                if size != 16:
+                    raise AssertionError("Size mismatch")
                 self.min_value = stream.read_double("min value")
                 self.max_value = stream.read_double("max value")
             elif ref == 14:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.stats_type = stream.read_int("stats type")
             elif ref == 15:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.use_hillshade = stream.read_int("use hillshade") != 0
             elif ref == 16:
-                assert size == 8
+                if size != 8:
+                    raise AssertionError("Size mismatch")
                 self.hillshade_z = stream.read_double("hillshade z")
             elif ref == 17:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 self.histogram = stream.read_object("histogram", allow_reference=False)
             elif ref == 18:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.apply_gamma = stream.read_int("apply gamma") != 0
             elif ref == 19:
-                assert size == 8
+                if size != 8:
+                    raise AssertionError("Size mismatch")
                 self.gamma = stream.read_double("gamma")
             elif ref == 20:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.number_of_labels = stream.read_int("number of labels")
             elif ref == 21:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.legend_classes = stream.read_int("legend classes")
             elif ref == 22:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.has_legend_text = stream.read_int("has legend text") != 0
 
                 # my gosh, way to stick to your standards...
@@ -139,7 +160,7 @@ class RasterStretchColorRampRenderer(RasterRenderer):
                 self.stretch_low = stream.read_double("stretch low")
                 self.stretch_high = stream.read_double("stretch high")
             else:
-                assert False, "Unknown property ref {}".format(ref)
+                raise AssertionError("Unknown property ref {}".format(ref))
 
         # pylint: enable=too-many-branches
 

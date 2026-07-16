@@ -654,7 +654,8 @@ class TestSymbolParser(SlyrTestCase):
         """
         stream = Stream(_io_stream, False, tolerant=False)
         res = stream.read_object("symbol")
-        assert stream.tell() == stream.end, (stream.tell, stream.end)
+        if stream.tell() != stream.end:
+            raise AssertionError(f"{stream.tell}, {stream.end}")
         return res
 
     def run_symbol_checks(self, path):  # pylint: disable=too-many-locals

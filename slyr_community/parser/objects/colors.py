@@ -26,7 +26,7 @@ class Color(Object):
         """
         Reads the color from the stream. Subclasses must implement this
         """
-        assert False
+        raise AssertionError("Unimplemented color read")
 
     def to_dict(self) -> dict:
         """

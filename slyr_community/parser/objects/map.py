@@ -140,7 +140,8 @@ class Map(Object):
             )
 
             if not stream.tolerant and size >= 0:
-                assert stream.tell() == start + size, (stream.tell(), start + size)
+                if stream.tell() != start + size:
+                    raise AssertionError(f"{stream.tell()}, {start + size}")
 
         if version <= 22:
             stream.read_int("unknown", expected=0)

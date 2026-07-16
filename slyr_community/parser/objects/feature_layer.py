@@ -195,7 +195,7 @@ class FeatureLayer(Object):
             return "spatial_first"
         elif order == FeatureLayer.SEARCH_ORDER_ATTRIBUTE_FIRST:
             return "attribute_first"
-        assert False
+        raise AssertionError("Unhandled order")
 
     def read(self, stream: Stream, version):  # pylint: disable=too-many-locals,too-many-return-statements,too-many-branches,too-many-statements
         self.name = stream.read_string("name")
@@ -319,11 +319,12 @@ class FeatureLayer(Object):
                         "remote object", allow_reference=False, expected_size=size
                     )
                     self.extensions.append(obj)
-                    assert stream.tell() == pos + size, (
-                        "Expected length {} got length {}".format(
-                            size, stream.tell() - pos
+                    if stream.tell() != pos + size:
+                        raise AssertionError(
+                            "Expected length {} got length {}".format(
+                                size, stream.tell() - pos
+                            )
                         )
-                    )
                 except UnknownClsidException:
                     # don't know this object
                     stream.read(size - 20)
