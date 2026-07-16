@@ -120,7 +120,7 @@ class StringScan(ObjectScan):
             ):
                 return StringMatch(start, file_handle.tell() - start, string_value)
         except:  # nopep8, pylint: disable=bare-except
-            pass
+            return None
         return None
 
 
@@ -162,7 +162,7 @@ class GuidCodeScan(ObjectScan):
                 file_handle.tell() - 16, 16, str(obj.__class__.__name__)
             )
         except:  # nopep8, pylint: disable=bare-except
-            pass
+            return None
         return None
 
 
@@ -202,7 +202,7 @@ class DoubleScan(ObjectScan):
             ):
                 return DoubleMatch(file_handle.tell() - 8, 8, real_value)
         except:  # nopep8, pylint: disable=bare-except
-            pass
+            return None
         return None
 
 
@@ -238,7 +238,7 @@ class IntScan(ObjectScan):
             if -100 < int_value < 1125500 and int_value != 0:
                 return IntMatch(file_handle.tell() - 4, 4, int_value)
         except:  # nopep8, pylint: disable=bare-except
-            pass
+            return None
         return None
 
 
@@ -300,7 +300,7 @@ class ColorScan(ObjectScan):
             else:
                 return None
         except:  # nopep8, pylint: disable=bare-except
-            pass
+            return None
         return None
 
 
@@ -339,7 +339,7 @@ class PersistentScan(ObjectScan):
             else:
                 return None
         except:  # nopep8, pylint: disable=bare-except
-            pass
+            return None
         return None
 
 
