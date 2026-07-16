@@ -215,7 +215,7 @@ class Context:
         elif self.units == QgsUnitTypes.RenderUnit.RenderMillimeters:
             return size * 0.352778
         else:
-            assert False, "Unsupported unit type {}".format(self.units)
+            raise AssertionError("Unsupported unit type {}".format(self.units))
 
     def convert_size_to_points(self, size: float, units) -> Optional[float]:
         """

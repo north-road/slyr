@@ -234,7 +234,8 @@ class GeometryConverter:
                             and abs(p.y() - end.y()) < 0.0000000001
                         ):
                             last_i = i
-                    assert last_i is not None
+                    if last_i is None:
+                        raise AssertionError("Unparseable geometry")
 
                     segmented = segmented[:last_i]
 

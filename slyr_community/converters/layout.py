@@ -1891,7 +1891,7 @@ class LayoutConverter:
 
                     y -= label_size.height() - descent
                 else:
-                    assert False
+                    raise AssertionError("Unhandled vertical alignment")
 
                 if (
                     text_format.background().enabled()
@@ -2637,7 +2637,10 @@ class LayoutConverter:
                 for k, v in added_items.items()
                 if k.ref_id == referenced_object.ref_id
             ]
-            assert len(matching) <= 1
+            if len(matching) > 1:
+                raise AssertionError(
+                    "Error finding referenced object, multiple matches found"
+                )
             if matching:
                 return matching[0]
         return None
@@ -2693,7 +2696,8 @@ class LayoutConverter:
                             and f.map.ref_id == l.map.map.ref_id
                         )
                     ]
-                    assert len(matching_map_frames) <= 1
+                    if len(matching_map_frames) > 1:
+                        raise AssertionError("Found multiple matching map frames")
                     if matching_map_frames:
                         linked_map = added_items[matching_map_frames[0]]
 
