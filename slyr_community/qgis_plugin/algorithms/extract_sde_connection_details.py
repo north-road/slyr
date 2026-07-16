@@ -120,9 +120,9 @@ class ExtractSDEConnectionDetails(SlyrAlgorithm):
             del details["type"]
             del details["version"]
 
-            has_password = "PASSWORD" in details  # nosec
+            has_password = "PASSWORD" in details  # pragma: allowlist secret
             if has_password:
-                del details["PASSWORD"]  # nosec
+                del details["PASSWORD"]  # pragma: allowlist secret
 
             feedback.pushInfo("Connection details:")
             feedback.pushInfo("")
