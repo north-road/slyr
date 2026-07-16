@@ -129,4 +129,4 @@ class SlyrProvider(QgsProcessingProvider):
 
     def versionInfo(self):
         # pylint: disable=missing-docstring
-        return "7.1.0"
+        return "7.1.2"
