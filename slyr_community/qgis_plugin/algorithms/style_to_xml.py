@@ -466,31 +466,36 @@ class StyleToQgisXml(SlyrAlgorithm):
 
                 if tags:
                     if isinstance(qgis_symbol, QgsSymbol):
-                        assert style.tagSymbol(
+                        if not style.tagSymbol(
                             QgsStyle.StyleEntity.SymbolEntity, unique_name, tags
-                        )
+                        ):
+                            raise AssertionError("Could not tag symbol")
                     elif isinstance(qgis_symbol, QgsColorRamp):
-                        assert style.tagSymbol(
+                        if not style.tagSymbol(
                             QgsStyle.StyleEntity.ColorrampEntity, unique_name, tags
-                        )
+                        ):
+                            raise AssertionError("Could not tag symbol")
                     elif isinstance(qgis_symbol, QgsTextFormat) and hasattr(
                         QgsStyle, "TextFormatEntity"
                     ):
-                        assert style.tagSymbol(
+                        if not style.tagSymbol(
                             QgsStyle.StyleEntity.TextFormatEntity, unique_name, tags
-                        )
+                        ):
+                            raise AssertionError("Could not tag symbol")
                     elif isinstance(qgis_symbol, QgsPalLayerSettings) and hasattr(
                         QgsStyle, "LabelSettingsEntity"
                     ):
-                        assert style.tagSymbol(
+                        if not style.tagSymbol(
                             QgsStyle.StyleEntity.LabelSettingsEntity, unique_name, tags
-                        )
+                        ):
+                            raise AssertionError("Could not tag symbol")
                     elif isinstance(qgis_symbol, QgsLegendPatchShape):
-                        assert style.tagSymbol(
+                        if not style.tagSymbol(
                             QgsStyle.StyleEntity.LegendPatchShapeEntity,
                             unique_name,
                             tags,
-                        )
+                        ):
+                            raise AssertionError("Could not tag symbol")
 
             if symbol_type == Extractor.FILL_SYMBOLS:
                 results[self.FILL_SYMBOL_COUNT] = len(raw_symbols)

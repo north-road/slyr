@@ -157,7 +157,9 @@ class TextSymbolConverter:
         elif text_symbol.horizontal_alignment == TextSymbol.HALIGN_FULL:
             res = Qt.AlignmentFlag.AlignJustify
         else:
-            assert False
+            raise AssertionError(
+                f"Unexpected horizontal alignment {text_symbol.horizontal_alignment}"
+            )
 
         return res
 
@@ -175,7 +177,9 @@ class TextSymbolConverter:
         elif text_symbol.vertical_alignment == TextSymbol.VALIGN_BASELINE:
             res = Qt.AlignmentFlag.AlignBottom, True
         else:
-            assert False
+            raise AssertionError(
+                f"Unexpected vertical alignment {text_symbol.vertical_alignment}"
+            )
 
         return res
 

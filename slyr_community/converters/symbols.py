@@ -28,7 +28,7 @@ import math
 import os
 import shutil
 from shutil import SameFileError
-import subprocess
+import subprocess  # nosec B404
 import uuid
 from pathlib import Path
 from typing import Union, Tuple
@@ -154,7 +154,7 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
             layer = QgsSimpleLineSymbolLayer(penStyle=Qt.PenStyle.NoPen)
             out.changeSymbolLayer(0, layer)
         else:
-            assert False
+            raise AssertionError("Unexpected symbol type")
         return out
 
     # pylint: disable=too-many-return-statements, too-many-branches, too-many-statements
@@ -1036,14 +1036,14 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
         CREATE_NO_WINDOW = 0x08000000
         try:
             try:
-                _ = subprocess.run(
+                _ = subprocess.run(  # nosec=B603
                     export_args,
                     stdout=subprocess.PIPE,
                     creationflags=CREATE_NO_WINDOW,
                     check=False,
                 )
             except ValueError:
-                _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)
+                _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)  # nosec=B603
         except FileNotFoundError:
             pass
         except PermissionError:
@@ -1061,14 +1061,14 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             try:
                 try:
-                    _ = subprocess.run(
+                    _ = subprocess.run(  # nosec=B603
                         export_args,
                         stdout=subprocess.PIPE,
                         creationflags=CREATE_NO_WINDOW,
                         check=False,
                     )
                 except ValueError:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)
+                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)  # nosec=B603
             except FileNotFoundError:
                 pass
             except PermissionError:
@@ -1080,14 +1080,14 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             try:
                 try:
-                    _ = subprocess.run(
+                    _ = subprocess.run(  # nosec=B603
                         export_args,
                         stdout=subprocess.PIPE,
                         creationflags=CREATE_NO_WINDOW,
                         check=False,
                     )
                 except ValueError:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)
+                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)  # nosec=B603
             except FileNotFoundError:
                 pass
             except PermissionError:
@@ -1108,14 +1108,14 @@ class SymbolConverter:  # pylint: disable=too-many-public-methods
 
             try:
                 try:
-                    _ = subprocess.run(
+                    _ = subprocess.run(  # nosec=B603
                         export_args,
                         stdout=subprocess.PIPE,
                         creationflags=CREATE_NO_WINDOW,
                         check=False,
                     )
                 except ValueError:
-                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)
+                    _ = subprocess.run(export_args, stdout=subprocess.PIPE, check=False)  # nosec=B603
                 lo_office_export_path = os.path.exists(
                     (Path(svg_path).parent / Path(emf_path).stem).as_posix() + ".svg"
                 )

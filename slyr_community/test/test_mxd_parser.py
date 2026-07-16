@@ -355,7 +355,8 @@ class TestMxdParser(SlyrTestCase):
                },"""
                 )
                 all_found = False
-        assert all_found
+        if not all_found:
+            raise AssertionError("Some not found")
 
         for e in expected:
             if "skip" in e:

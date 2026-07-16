@@ -72,9 +72,12 @@ class WmtsLayer(Object):
                     "remote object", allow_reference=False, expected_size=size
                 )
                 self.extensions.append(obj)
-                assert stream.tell() == pos + size, (
-                    "Expected length {} got length {}".format(size, stream.tell() - pos)
-                )
+                if stream.tell() != pos + size:
+                    raise AssertionError(
+                        "Expected length {} got length {}".format(
+                            size, stream.tell() - pos
+                        )
+                    )
             except UnknownClsidException:
                 # don't know this object
                 stream.read(size - 20)

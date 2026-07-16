@@ -71,7 +71,8 @@ class GroupLayer(Object):
             )
 
             if not stream.tolerant and size >= 0:
-                assert stream.tell() == start + size, (stream.tell(), start + size)
+                if stream.tell() != start + size:
+                    raise AssertionError(f"{stream.tell()}, {start + size}")
 
         self.expanded = stream.read_ushort("expanded") != 0
         stream.read_ushort("unknown", expected=0)
@@ -93,7 +94,8 @@ class GroupLayer(Object):
                 stream.read_int("unknown", expected=0)
                 try:
                     _ = stream.read_object("remote object", allow_reference=False)
-                    assert stream.tell() == pos + size, (size, stream.tell() - pos)
+                    if stream.tell() != pos + size:
+                        raise AssertionError(f"{size}, {stream.tell() - pos}")
                 except (NotImplementedException, UnknownClsidException):
                     # don't know this object
                     stream.read(size - 20)

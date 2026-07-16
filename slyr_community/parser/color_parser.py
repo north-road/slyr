@@ -176,7 +176,8 @@ def dot(x, y):
     """
     Matrix dot product
     """
-    assert len(x) == len(y)
+    if len(x) != len(y):
+        raise AssertionError("Length mismatch")
     return sum(itertools.starmap(operator.mul, zip(x, y)))
 
 

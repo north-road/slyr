@@ -34,7 +34,8 @@ class Polygon(Geometry):
             stream.log("skipping unknown bytes")
             stream.read(size + start - stream.tell())
 
-        assert stream.tell() == size + start, (stream.tell(), size + start)
+        if stream.tell() != size + start:
+            raise AssertionError(f"{stream.tell()}, {size + start}")
 
         self.crs = stream.read_object("crs")
 

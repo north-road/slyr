@@ -102,27 +102,34 @@ class RasterRenderer(Object):
         # pylint: disable=too-many-branches
         def handler(ref, size):
             if ref == 1:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=(0, 1))
             elif ref == 2:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.brightness = stream.read_int("brightness")
             elif ref == 3:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.contrast = stream.read_int("contrast")
             elif ref == 4:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 self.resampling_type = stream.read_int("resampling type")
             elif ref == 5:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=(0, 1))
             elif ref == 6:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 self.nodata_color = stream.read_object(
                     "nodata color", allow_reference=False
                 )
             elif ref == 7:
-                assert size == 24
+                if size != 24:
+                    raise AssertionError("Size mismatch")
                 # some per band value?
                 for i in range(3):
                     res = stream.read_int("unknown {}".format(i + 1))
@@ -148,7 +155,7 @@ class RasterRenderer(Object):
                         stream.read_ushort("unknown")
                         stream.read_ushort("unknown")
             else:
-                assert False, "Unknown property ref {}".format(ref)
+                raise AssertionError("Unknown property ref {}".format(ref))
 
         # pylint: enable=too-many-branches
 

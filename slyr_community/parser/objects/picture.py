@@ -166,7 +166,8 @@ class BmpPicture(Picture):
         elif check == b"\xff\xd8":
             # JPG file
             check = stream.read(1)
-            assert check == b"\xff"
+            if check != b"\xff":
+                raise AssertionError("Unexpected value")
             stream.rewind(3)
             self.format = BmpPicture.FORMAT_JPG
             return stream.read(size)
@@ -175,7 +176,8 @@ class BmpPicture(Picture):
             stream.rewind(2)
             check = stream.read(4)
             stream.rewind(4)
-            assert check == b"GIF8"
+            if check != b"GIF8":
+                raise AssertionError("Unexpected value")
 
             self.format = BmpPicture.FORMAT_GIF
             return stream.read(size)

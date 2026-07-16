@@ -229,8 +229,12 @@ class Stream:  # pylint: disable=too-many-public-methods
                                 self.read_object("default text symbol 2")
                                 self.read_object("default area patch")
                                 self.read_object("default line patch")
-                            except:  # nopep8, pylint: disable=bare-except
-                                pass
+                            except (
+                                Exception
+                            ) as e:  # nopep8, pylint: disable=bare-except
+                                self.log(
+                                    f"Exception occurred while reading objects: {e}"
+                                )
 
                         self.io_stream = style_gallery_stream
                         self.read_object("style gallery")
@@ -327,9 +331,12 @@ class Stream:  # pylint: disable=too-many-public-methods
         )
         self.log("mini fat sector size {}".format(self.mini_fat_sector_size))
 
-        assert self.read_ushort("unused") == 0
-        assert self.read_int("unused") == 0
-        assert self.read_int("directory sector count") == 0
+        if self.read_ushort("unused") != 0:
+            raise AssertionError("Parsing error")
+        if self.read_int("unused") != 0:
+            raise AssertionError("Parsing error")
+        if self.read_int("directory sector count") != 0:
+            raise AssertionError("Parsing error")
         self.fat_sector_count = self.read_int("fat sector count")
         self.first_dir_sector = self.read_int("first directory sector")
         self.read_int(
@@ -445,7 +452,8 @@ class Stream:  # pylint: disable=too-many-public-methods
                 #                self.log('stream length low {}'.format(stream_length))
                 # self.log('stream length high {}'.format(stream_length_high))
 
-                assert stream_length_high == 0  # unhandled for now
+                if stream_length_high != 0:  # unhandled for now
+                    raise AssertionError("Parsing error")
 
                 if self.mini_fat_first is None:
                     self.mini_fat_first = first_sector
@@ -554,9 +562,11 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             try:
-                assert res in expected, "Got {}, expected {}".format(res, expected)
+                if res not in expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
             except TypeError:
-                assert res == expected, "Got {}, expected {}".format(res, expected)
+                if res != expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
 
         return res
 
@@ -570,9 +580,11 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             try:
-                assert res in expected, "Got {}, expected {}".format(res, expected)
+                if res not in expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
             except TypeError:
-                assert res == expected, "Got {}, expected {}".format(res, expected)
+                if res != expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
 
         return res
 
@@ -591,9 +603,11 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             try:
-                assert res in expected, "Got {}, expected {}".format(res, expected)
+                if res not in expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
             except TypeError:
-                assert res == expected, "Got {}, expected {}".format(res, expected)
+                if res != expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
 
         return res
 
@@ -608,9 +622,11 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             try:
-                assert res in expected, "Got {}, expected {}".format(res, expected)
+                if res not in expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
             except TypeError:
-                assert res == expected, "Got {}, expected {}".format(res, expected)
+                if res != expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
 
         return res
 
@@ -625,9 +641,11 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             try:
-                assert res in expected, "Got {}, expected {}".format(res, expected)
+                if res not in expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
             except TypeError:
-                assert res == expected, "Got {}, expected {}".format(res, expected)
+                if res != expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
 
         return res
 
@@ -642,9 +660,11 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             try:
-                assert res in expected, "Got {}, expected {}".format(res, expected)
+                if res not in expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
             except TypeError:
-                assert res == expected, "Got {}, expected {}".format(res, expected)
+                if res != expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
 
         return res
 
@@ -659,9 +679,11 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             try:
-                assert res in expected, "Got {}, expected {}".format(res, expected)
+                if res not in expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
             except TypeError:
-                assert res == expected, "Got {}, expected {}".format(res, expected)
+                if res != expected:
+                    raise AssertionError("Got {}, expected {}".format(res, expected))
 
         return res
 
@@ -692,9 +714,11 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             if isinstance(expected, (tuple, list)):
-                assert clsid in expected, "Got {}, expected {}".format(clsid, expected)
+                if clsid not in expected:
+                    raise AssertionError("Got {}, expected {}".format(clsid, expected))
             else:
-                assert clsid == expected, "Got {}, expected {}".format(clsid, expected)
+                if clsid != expected:
+                    raise AssertionError("Got {}, expected {}".format(clsid, expected))
 
         return clsid
 
@@ -746,13 +770,11 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             if isinstance(expected, (tuple, list)):
-                assert string in expected, "Got {}, expected {}".format(
-                    string, expected
-                )
+                if string not in expected:
+                    raise AssertionError("Got {}, expected {}".format(string, expected))
             else:
-                assert string == expected, "Got {}, expected {}".format(
-                    string, expected
-                )
+                if string != expected:
+                    raise AssertionError("Got {}, expected {}".format(string, expected))
 
         return string
 
@@ -783,13 +805,15 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             if isinstance(expected, (tuple, list)):
-                assert string in expected, 'Got "{}", expected {}'.format(
-                    string, expected
-                )
+                if string not in expected:
+                    raise AssertionError(
+                        'Got "{}", expected {}'.format(string, expected)
+                    )
             else:
-                assert string == expected, 'Got "{}", expected {}'.format(
-                    string, expected
-                )
+                if string != expected:
+                    raise AssertionError(
+                        'Got "{}", expected {}'.format(string, expected)
+                    )
 
         return string
 
@@ -810,13 +834,15 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             if isinstance(expected, (tuple, list)):
-                assert string in expected, 'Got "{}", expected {}'.format(
-                    string, expected
-                )
+                if string not in expected:
+                    raise AssertionError(
+                        'Got "{}", expected {}'.format(string, expected)
+                    )
             else:
-                assert string == expected, 'Got "{}", expected {}'.format(
-                    string, expected
-                )
+                if string != expected:
+                    raise AssertionError(
+                        'Got "{}", expected {}'.format(string, expected)
+                    )
 
         return string
 
@@ -846,9 +872,15 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             if isinstance(expected, (tuple, list)):
-                assert res in expected, 'Got "{}", expected "{}"'.format(res, expected)
+                if res not in expected:
+                    raise AssertionError(
+                        'Got "{}", expected "{}"'.format(res, expected)
+                    )
             else:
-                assert res == expected, 'Got "{}", expected "{}"'.format(res, expected)
+                if res != expected:
+                    raise AssertionError(
+                        'Got "{}", expected "{}"'.format(res, expected)
+                    )
 
         return res
 
@@ -925,7 +957,8 @@ class Stream:  # pylint: disable=too-many-public-methods
                             this_ref, old_res
                         )
                     )
-                    assert res.__class__ == old_res.__class__
+                    if res.__class__ != old_res.__class__:
+                        raise AssertionError("Unexpected class")
                     self.debug_depth -= 1
                     return old_res
                 elif expect_existing and this_ref - 1 not in self.objects[-1]:
@@ -1095,9 +1128,11 @@ class Stream:  # pylint: disable=too-many-public-methods
 
         if not self.tolerant and expected is not None:
             if isinstance(expected, (tuple, list)):
-                assert value in expected, "Got {}, expected {}".format(value, expected)
+                if value not in expected:
+                    raise AssertionError("Got {}, expected {}".format(value, expected))
             else:
-                assert value == expected, "Got {}, expected {}".format(value, expected)
+                if value != expected:
+                    raise AssertionError("Got {}, expected {}".format(value, expected))
 
         return value
 
@@ -1172,9 +1207,10 @@ class Stream:  # pylint: disable=too-many-public-methods
             self.log("Read index array of {}".format(indices))
 
         if not self.tolerant:
-            assert len(indices) == total_count, "Expected {} indices, found {}".format(
-                total_count, len(indices)
-            )
+            if len(indices) != total_count:
+                raise AssertionError(
+                    "Expected {} indices, found {}".format(total_count, len(indices))
+                )
         elif len(indices) != total_count:
             self.log(
                 "WARNING: Expected {} indices, found {}".format(

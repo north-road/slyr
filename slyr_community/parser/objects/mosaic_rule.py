@@ -63,7 +63,7 @@ class MosaicRule(Object):
             return "blend"
         elif operator == MosaicRule.OPERATOR_SUM:
             return "sum"
-        assert False, operator
+        raise AssertionError(str(operator))
 
     @staticmethod
     def method_to_string(method):
@@ -84,7 +84,7 @@ class MosaicRule(Object):
         elif method == MosaicRule.SEAMLINE:
             return "seamline"
 
-        assert False, method
+        raise AssertionError(str(method))
 
     def read(self, stream: Stream, version):
         stream.read_string("unknown", expected="")

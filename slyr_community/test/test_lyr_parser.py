@@ -601,7 +601,8 @@ class TestLyrParser(SlyrTestCase):
             some_missing = some_missing or not bool(
                 [e for e in expected if e["filename"] == b]
             )
-        assert not some_missing
+        if some_missing:
+            raise AssertionError("Some missing")
 
         for e in expected:
             if "skip" in e:

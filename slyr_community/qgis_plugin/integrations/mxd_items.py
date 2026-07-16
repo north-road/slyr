@@ -205,7 +205,7 @@ class MxdDropHandler(QgsCustomDropHandler):
                             if Qgis.QGIS_VERSION_INT >= 33500:
                                 iface.blockActiveLayerChanges(False)
                         else:
-                            assert False, "unexpected object type"
+                            raise AssertionError("unexpected object type")
                 QTimer.singleShot(
                     500,
                     lambda: iface.layerTreeCanvasBridge().setAutoSetupOnFirstLayer(

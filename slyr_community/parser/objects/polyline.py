@@ -67,7 +67,8 @@ class Polyline(Geometry):
             stream.log("skipping unknown bytes")
             stream.read(size + start - stream.tell())
 
-        assert stream.tell() == size + start, (stream.tell() - start, size)
+        if stream.tell() != size + start:
+            raise AssertionError(f"{stream.tell() - start}, {size}")
 
         self.crs = stream.read_object("crs")
 

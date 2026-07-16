@@ -84,7 +84,8 @@ class MapServerIdentifySublayer(Object):
             try:
                 obj = stream.read_object("remote object", allow_reference=False)
                 self.extensions.append(obj)
-                assert stream.tell() == pos + size, (size, stream.tell() - pos)
+                if stream.tell() != pos + size:
+                    raise AssertionError(f"{size}, {stream.tell() - pos}")
             except UnknownClsidException:
                 # don't know this object
                 stream.read(size - 20)

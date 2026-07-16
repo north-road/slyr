@@ -24,7 +24,8 @@ class HotlinkPythonEngine(Object):
         return [2]
 
     def read(self, stream: Stream, version):
-        assert stream.read(2) == b"\xff\xff"
+        if stream.read(2) != b"\xff\xff":
+            raise AssertionError("Unexpected value")
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {}

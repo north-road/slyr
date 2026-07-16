@@ -60,9 +60,10 @@ class PageLayout(Object):
             start = stream.tell()
             self.elements.append(stream.read_object("element {}".format(i + 1)))
             if version > 6:
-                assert stream.tell() == size + start, "Expected size {}, got {}".format(
-                    size, stream.tell() - start
-                )
+                if stream.tell() != size + start:
+                    raise AssertionError(
+                        "Expected size {}, got {}".format(size, stream.tell() - start)
+                    )
 
         self.page = stream.read_object("page")
         self.ruler_settings = stream.read_object("ruler settings")
@@ -154,9 +155,12 @@ class PageLayout(Object):
                     "remote object", allow_reference=False, expected_size=size
                 )
                 self.extensions.append(obj)
-                assert stream.tell() == pos + size, (
-                    "Expected length {} got length {}".format(size, stream.tell() - pos)
-                )
+                if stream.tell() != pos + size:
+                    raise AssertionError(
+                        "Expected length {} got length {}".format(
+                            size, stream.tell() - pos
+                        )
+                    )
             except UnknownClsidException:
                 # don't know this object
                 stream.read(size - 20)
@@ -170,7 +174,8 @@ class PageLayout(Object):
         pos = stream.tell()
         stream.read_int("unknown", expected=0)
         self.page_index = stream.read_object("page index")
-        assert stream.tell() == size + pos, (stream.tell() - pos, size)
+        if stream.tell() != size + pos:
+            raise AssertionError(f"{stream.tell() - pos}, {size}")
 
         stream.read_int("unknown", expected=0)
 

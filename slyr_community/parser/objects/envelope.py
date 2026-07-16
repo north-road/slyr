@@ -58,7 +58,8 @@ class Envelope(Object):
             self.z_min = stream.read_double("z min")
             self.z_max = stream.read_double("z max")
         else:
-            assert res == 0, res
+            if res != 0:
+                raise AssertionError(str(res))
 
         self.crs = stream.read_object("crs")
 

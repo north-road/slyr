@@ -135,7 +135,8 @@ class ImageServerLayer(Object):
         self.envelope = stream.read_object("envelope")
 
         stream.read_ushort(expected=13)
-        assert stream.read_object("unknown") is None
+        if stream.read_object("unknown") is not None:
+            raise AssertionError("Unexpected object")
 
         stream.read_ushort(expected=13)
         self.crs = stream.read_object("crs")
@@ -230,7 +231,8 @@ class ImageServerLayer(Object):
             self.enable_time = stream.read_ushort("enable time") != 0
 
             stream.read_ushort(expected=13)
-            assert stream.read_object("unknown") is None
+            if stream.read_object("unknown") is not None:
+                raise AssertionError("Unexpected object")
 
             stream.read_ushort(expected=8)
             stream.read_stringv2("time field")
@@ -270,7 +272,8 @@ class ImageServerLayer(Object):
             self.rendering_rule = stream.read_object("rendering rule")
 
             stream.read_ushort(expected=13)
-            assert stream.read_object("unknown") is None
+            if stream.read_object("unknown") is not None:
+                raise AssertionError("Unexpected object")
 
             stream.read_ushort(expected=3)
             count = stream.read_int("band count?")
@@ -289,7 +292,8 @@ class ImageServerLayer(Object):
 
         if internal_version > 22:
             stream.read_ushort(expected=13)
-            assert stream.read_object("unknown") is None
+            if stream.read_object("unknown") is not None:
+                raise AssertionError("Unexpected object")
 
     def to_dict(self):  # pylint: disable=method-hidden
         return {

@@ -494,7 +494,7 @@ class VectorRendererConverter:
                         elif symbol.type() == QgsSymbol.SymbolType.Line:
                             val = symbol.width()
                         else:
-                            assert False
+                            raise AssertionError("Unexpected symbol type")
                     else:
                         val = "'{}'".format(symbol.color().name())
 
@@ -847,7 +847,7 @@ class VectorRendererConverter:
                         QgsProperty.fromField(renderer.rotation_attribute)
                     )
                 else:
-                    assert False, "Unknown rotation type"
+                    raise AssertionError("Unknown rotation type")
             elif renderer.rotation_expression_z and isinstance(symbol, QgsMarkerSymbol):
                 if (
                     renderer.rotation_type
@@ -874,7 +874,7 @@ class VectorRendererConverter:
                             QgsProperty.fromExpression(rotation_expression)
                         )
                 else:
-                    assert False, "Unknown rotation type"
+                    raise AssertionError("Unknown rotation type")
         elif renderer.rotate_flag_3d == VectorRendererBase.ROTATE_FLAG_3D_RANDOM_Z:
             rotate_expression = "randf({}, {}, seed:=coalesce($id, 0))".format(
                 renderer.random_rotation_min_z, renderer.random_rotation_max_z
@@ -884,7 +884,7 @@ class VectorRendererConverter:
             elif renderer.rotation_type == VectorRendererBase.ROTATE_SYMBOL_GEOGRAPHIC:
                 pass
             else:
-                assert False, "Unknown rotation type"
+                raise AssertionError("Unknown rotation type")
             symbol.setDataDefinedAngle(QgsProperty.fromExpression(rotate_expression))
 
     # pylint: enable=too-many-branches

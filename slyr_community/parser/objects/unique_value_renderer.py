@@ -63,7 +63,8 @@ class UniqueValueRenderer(VectorRendererBase):
             grouping_flag = stream.read_int("grouping_flag")
             if grouping_flag == 0xFFFFFFFF:
                 # grouped value
-                assert stream.read_int("unknown") == 0xFFFFFFFF
+                if stream.read_int("unknown") != 0xFFFFFFFF:
+                    raise AssertionError("Unexpected value")
                 stream.read_int("unknown")
                 value_to_join_to = stream.read_string("value to join to")
                 temp_values = [

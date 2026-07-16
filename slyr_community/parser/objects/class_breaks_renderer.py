@@ -72,7 +72,8 @@ class ClassBreaksRenderer(VectorRendererBase):
         res = stream.read_uchar("unknown")  # in (0, 1)
         if res:
             c = stream.read_raw_clsid("classifier")
-            assert c in ClassificationUtils.CLSID_TO_CLASSIFIER, c
+            if c not in ClassificationUtils.CLSID_TO_CLASSIFIER:
+                raise AssertionError(str(c))
             self.classifier = ClassificationUtils.CLSID_TO_CLASSIFIER[c]
         self.show_using_values = stream.read_ushort("show using values") == 1
         stream.read_object("format")

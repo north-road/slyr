@@ -764,7 +764,7 @@ expected = {
                         "SERVER": "llalasd.rett.ca",
                         "INSTANCE": "esri_sde",
                         "USER": "ghhh42",
-                        "PASSWORD": "******************************",
+                        "PASSWORD": "******************************",  # nosec
                         "VERSION": "SDE.DEFAULT",
                         "type": "PropertySet",
                         "version": 1,
@@ -1068,7 +1068,7 @@ expected = {
                         "IS_GEODATABASE": "true",
                         "AUTHENTICATION_MODE": "DBMS",
                         "USER": "asdddd",
-                        "PASSWORD": "********************************************************",
+                        "PASSWORD": "********************************************************",  # nosec
                         "CONNPROP-REV": "Rev1.0",
                         "VERSION": "sde.DEFAULT",
                         "type": "PropertySet",
@@ -1121,7 +1121,7 @@ expected = {
                         "IS_GEODATABASE": "true",
                         "AUTHENTICATION_MODE": "DBMS",
                         "USER": "asdddd",
-                        "PASSWORD": "********************************************************",
+                        "PASSWORD": "********************************************************",  # nosec
                         "CONNPROP-REV": "Rev1.0",
                         "VERSION": "sde.DEFAULT",
                         "type": "PropertySet",
@@ -1171,7 +1171,7 @@ expected = {
                         "DATABASE": "DBC",
                         "AUTHENTICATION_MODE": "DBMS",
                         "USER": "DBC_read",
-                        "PASSWORD": "***************************",
+                        "PASSWORD": "***************************",  # nosec
                         "VERSION": "sde.DEFAULT",
                         "type": "PropertySet",
                         "version": 1,
@@ -1860,7 +1860,7 @@ expected = {
                         "IS_GEODATABASE": "true",
                         "AUTHENTICATION_MODE": "DBMS",
                         "USER": "uu",
-                        "PASSWORD": "********************************************************",
+                        "PASSWORD": "********************************************************",  # nosec
                         "CONNPROP-REV": "Rev1.0",
                         "VERSION": "TTTTA_PPPPP_RRRR.DEFAULT",
                         "type": "PropertySet",
@@ -1947,7 +1947,7 @@ expected = {
                         "IS_GEODATABASE": "true",
                         "AUTHENTICATION_MODE": "DBMS",
                         "USER": "uu",
-                        "PASSWORD": "********************************************************",
+                        "PASSWORD": "********************************************************",  # nosec
                         "CONNPROP-REV": "Rev1.0",
                         "VERSION": "SDE.DEFAULT",
                         "type": "PropertySet",
@@ -4046,7 +4046,7 @@ expected = {
                     "IS_GEODATABASE": "false",
                     "AUTHENTICATION_MODE": "DBMS",
                     "USER": "some_user",
-                    "PASSWORD": "********************************************************",
+                    "PASSWORD": "********************************************************",  # nosec
                     "CONNPROP-REV": "Rev1.0",
                     "type": "PropertySet",
                     "version": 1,
@@ -4458,7 +4458,7 @@ expected = {
                     "IS_GEODATABASE": "false",
                     "AUTHENTICATION_MODE": "DBMS",
                     "USER": "asdasd",
-                    "PASSWORD": "********************************************************",
+                    "PASSWORD": "********************************************************",  # nosec
                     "CONNPROP-REV": "Rev1.0",
                     "type": "PropertySet",
                     "version": 1,
@@ -4505,7 +4505,7 @@ expected = {
                     "IS_GEODATABASE": "false",
                     "AUTHENTICATION_MODE": "DBMS",
                     "USER": "gisuser",
-                    "PASSWORD": "********************************************************",
+                    "PASSWORD": "********************************************************",  # nosec
                     "CONNPROP-REV": "Rev1.0",
                     "type": "PropertySet",
                     "version": 1,
@@ -4554,7 +4554,7 @@ expected = {
                     "IS_GEODATABASE": "false",
                     "AUTHENTICATION_MODE": "DBMS",
                     "USER": "ga",
-                    "PASSWORD": "********************************************************",
+                    "PASSWORD": "********************************************************",  # nosec
                     "CONNPROP-REV": "Rev1.0",
                     "type": "PropertySet",
                     "version": 1,
@@ -5001,7 +5001,7 @@ expected = {
                     "IS_GEODATABASE": "false",
                     "AUTHENTICATION_MODE": "DBMS",
                     "USER": "myuser",
-                    "PASSWORD": "********************************************************",
+                    "PASSWORD": "********************************************************",  # nosec
                     "CONNPROP-REV": "Rev1.0",
                     "type": "PropertySet",
                     "version": 1,

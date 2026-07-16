@@ -24,7 +24,7 @@ Dumps the contents of an ESRI .style file to a set of binary blobs
 """
 
 import os
-import subprocess
+import subprocess  # nosec B404
 import sys
 from ctypes import cdll
 from qgis.PyQt.QtCore import QSettings
@@ -168,7 +168,7 @@ class Extractor:
 
         command = [Extractor.get_mdb_tools_binary_path(Extractor.MDB_EXPORT_BINARY)]
         try:
-            with subprocess.Popen(
+            with subprocess.Popen(  # nosec=B603
                 command,
                 stdout=subprocess.PIPE,
                 stdin=subprocess.DEVNULL,
@@ -268,7 +268,7 @@ class Extractor:
 
         CREATE_NO_WINDOW = 0x08000000
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # nosec=B603
                 export_args,
                 stdout=subprocess.PIPE,
                 creationflags=CREATE_NO_WINDOW,
@@ -276,7 +276,7 @@ class Extractor:
             )
         except ValueError:
             try:
-                result = subprocess.run(
+                result = subprocess.run(  # nosec=B603
                     export_args, stdout=subprocess.PIPE, check=False
                 )
             except FileNotFoundError as e:

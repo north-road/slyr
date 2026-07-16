@@ -48,11 +48,12 @@ class LayerFile:
         if check_length:
             pos = stream.io_stream.tell()
             stream.io_stream.seek(0, os.SEEK_END)
-            assert pos == stream.io_stream.tell(), (
-                "Did not read to end of Layer stream. Read to {} of {}".format(
-                    hex(pos), hex(stream.io_stream.tell())
+            if pos != stream.io_stream.tell():
+                raise AssertionError(
+                    "Did not read to end of Layer stream. Read to {} of {}".format(
+                        hex(pos), hex(stream.io_stream.tell())
+                    )
                 )
-            )
 
     def to_dict(self):  # pylint: disable=method-hidden,missing-function-docstring
         return {"root": self.root.to_dict() if self.root else None}

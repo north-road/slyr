@@ -38,7 +38,8 @@ class SimpleMarker3DSymbol(SymbolLayer):
             SimpleMarker3DSymbol.SPHERE: "sphere",
             SimpleMarker3DSymbol.SPHERE_FRAME: "sphere_frame",
         }
-        assert symbol_type in type_map
+        if symbol_type not in type_map:
+            raise AssertionError("Unexpected symbol type")
         return type_map[symbol_type]
 
     def __init__(self):  # pylint: disable=useless-super-delegation

@@ -132,25 +132,29 @@ class FgdbRasterDatasetName(Object):
 
         def handler(ref, size):
             if ref == 1:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=1)
             elif ref == 2:
                 stream.read_string("unknown", size=size)
             elif ref == 3:
                 stream.read_string("unknown", size=size)
             elif ref == 4:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=1)
             elif ref == 5:
                 stream.read_string("unknown", size=size)
             elif ref == 6:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 stream.read_object("unknown", allow_reference=False)
             elif ref == 7:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=1)
             else:
-                assert False, "Unknown property ref {}".format(ref)
+                raise AssertionError("Unknown property ref {}".format(ref))
 
         stream.read_indexed_properties(handler)
 
@@ -202,25 +206,29 @@ class SdeRasterDatasetName(Object):
 
         def handler(ref, size):
             if ref == 1:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=1)
             elif ref == 2:
                 stream.read_string("unknown", size=size)
             elif ref == 3:
                 stream.read_string("unknown", size=size)
             elif ref == 4:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=1)
             elif ref == 5:
                 stream.read_string("unknown", size=size)
             elif ref == 6:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 stream.read_object("unknown", allow_reference=False)
             elif ref == 7:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=1)
             else:
-                assert False, "Unknown property ref {}".format(ref)
+                raise AssertionError("Unknown property ref {}".format(ref))
 
         if version > 3:
             stream.read_ushort("unknown", expected=65535)
@@ -280,25 +288,29 @@ class AccessRasterDatasetName(Object):
 
         def handler(ref, size):
             if ref == 1:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=1)
             elif ref == 2:
                 stream.read_string("unknown", size=size)
             elif ref == 3:
                 stream.read_string("unknown", size=size)
             elif ref == 4:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=1)
             elif ref == 5:
                 stream.read_string("unknown", size=size)
             elif ref == 6:
-                assert size == 0xFFFFFFFF
+                if size != 0xFFFFFFFF:
+                    raise AssertionError("Size mismatch")
                 stream.read_object("raster catalog name", allow_reference=False)
             elif ref == 7:
-                assert size == 4
+                if size != 4:
+                    raise AssertionError("Size mismatch")
                 stream.read_int("unknown", expected=1)
             else:
-                assert False, "Unknown property ref {}".format(ref)
+                raise AssertionError("Unknown property ref {}".format(ref))
 
         stream.read_indexed_properties(handler)
         stream.read_ushort("unknown", expected=65535)
