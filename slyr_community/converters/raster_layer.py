@@ -962,15 +962,15 @@ class RasterLayerConverter:
         fallback_crs=QgsCoordinateReferenceSystem(),
     ):
         if source_layer.identifier in (
-            "5107113422519f60f573b72533b09aa0",
-            "5e727ad96728886fb069338b6f1ec64f",
+            "5107113422519f60f573b72533b09aa0",  # nosec
+            "5e727ad96728886fb069338b6f1ec64f",  # nosec
             "maps_live_com_Aerial",
             "maps.live.com_Aerial",
         ):
             uri = "type=xyz&url=http://ecn.t3.tiles.virtualearth.net/tiles/a%7Bq%7D.jpeg?g%3D1&zmax=19&zmin=1"
         elif source_layer.identifier in (
-            "1d6d773032d283aa2c1cfae98de9e5e6",
-            "d274be640407080e93e07a92f8dc1f6e",
+            "1d6d773032d283aa2c1cfae98de9e5e6",  # nosec
+            "d274be640407080e93e07a92f8dc1f6e",  # nosec
             "maps.live.com_Hybrid",
             "maps_live_com_Hybrid",
         ):
@@ -978,8 +978,8 @@ class RasterLayerConverter:
                 source_layer.definition.culture
             )
         elif source_layer.identifier in (
-            "b2e4b9059057708ffb4f6ec0ec8a3323",
-            "93bb0be37705432934e50e3c8fccb744",
+            "b2e4b9059057708ffb4f6ec0ec8a3323",  # nosec
+            "93bb0be37705432934e50e3c8fccb744",  # nosec
             "maps_live_com_Street",
             "maps.live.com_Street",
         ):
@@ -987,20 +987,20 @@ class RasterLayerConverter:
                 source_layer.definition.culture
             )
         elif source_layer.identifier in (
-            "dc971e70415e5f57ee2bf8200ccf3c94",
+            "dc971e70415e5f57ee2bf8200ccf3c94",  # nosec
             "OpenStreetMap.org_Street",
         ):
             uri = "type=xyz&url=https://tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png&zmax=19&zmin=0&dpiMode=1"
-        elif source_layer.identifier in ("e6b4b9fe44f9754b85628b96f5a1813b",):
+        elif source_layer.identifier in ("e6b4b9fe44f9754b85628b96f5a1813b",):  # nosec
             # http://mt0.google.com/vt/lyrs=s,h&x={col}&y={row}&z={level}
             uri = "type=xyz&url=https://mt1.google.com/vt/lyrs%3Ds,h%26x%3D%7Bx%7D%26y%3D%7By%7D%26z%3D%7Bz%7D&zmax=19&zmin=0"
-        elif source_layer.identifier in ("78f708b639f1455bcb34bc7f7e3fbb1b",):
+        elif source_layer.identifier in ("78f708b639f1455bcb34bc7f7e3fbb1b",):  # nosec
             # http://mt0.google.com/vt/lyrs=s&x={col}&y={row}&z={level}
             uri = "type=xyz&url=https://mt1.google.com/vt/lyrs%3Ds%26x%3D%7Bx%7D%26y%3D%7By%7D%26z%3D%7Bz%7D&zmax=19&zmin=0"
-        elif source_layer.identifier in ("df8dfb18707ade22b64e95e262ac37ab",):
+        elif source_layer.identifier in ("df8dfb18707ade22b64e95e262ac37ab",):  # nosec
             # http://mt0.google.com/vt/lyrs=m&x={col}&y={row}&z={level}
             uri = "type=xyz&url=https://mt1.google.com/vt/lyrs%3Dm%26x%3D%7Bx%7D%26y%3D%7By%7D%26z%3D%7Bz%7D&zmax=19&zmin=0"
-        elif source_layer.identifier in ("9cafab5651a9664c7ae90007f12f1f51",):
+        elif source_layer.identifier in ("9cafab5651a9664c7ae90007f12f1f51",):  # nosec
             # http://mt0.google.com/vt/lyrs=y&x={col}&y={row}&z={level}
             uri = "type=xyz&url=https://mt1.google.com/vt/lyrs%3Dy%26x%3D%7Bx%7D%26y%3D%7By%7D%26z%3D%7Bz%7D&zmax=19&zmin=0"
         else:

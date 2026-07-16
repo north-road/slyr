@@ -120,9 +120,9 @@ class ExtractSDEConnectionDetails(SlyrAlgorithm):
             del details["type"]
             del details["version"]
 
-            has_password = "PASSWORD" in details
+            has_password = "PASSWORD" in details  # nosec
             if has_password:
-                del details["PASSWORD"]
+                del details["PASSWORD"]  # nosec
 
             feedback.pushInfo("Connection details:")
             feedback.pushInfo("")
