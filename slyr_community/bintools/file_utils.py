@@ -33,26 +33,18 @@ class FileUtils:
 
     @staticmethod
     def clean_symbol_name_for_file(symbol_name):
-        """nasty little function to remove some characters which will choke"""
+        """Remove characters which are invalid in Windows filenames or may cause issues"""
         file_name = symbol_name.strip()
-        file_name = file_name.replace("/", "_")
-        file_name = file_name.replace(">", "_")
-        file_name = file_name.replace("<", "_")
-        file_name = file_name.replace("\\", "_")
-        file_name = file_name.replace("?", "_")
-        file_name = file_name.replace("*", "_")
-        file_name = file_name.replace('"', "_")
-        file_name = file_name.replace("'", "_")
-        file_name = file_name.replace(":", "_")
-        file_name = file_name.replace(";", "_")
+        # Remove Windows forbidden characters: < > : " / \ | ? *
+        file_name = re.sub(r'[<>:"/\\|?*]', "_", file_name)
+        # Remove control characters and other problematic chars
+        file_name = re.sub(r'[\x00-\x1f\x7f;,\']', "_", file_name)
+        # Replace spaces with underscores
         file_name = file_name.replace(" ", "_")
-        file_name = file_name.replace(",", "_")
-        file_name = file_name.replace("|", "_")
+        # Collapse multiple underscores
         file_name = re.sub(r"_+", "_", file_name)
-        if file_name.endswith("_"):
-            file_name = file_name[:-1]
-        if file_name.startswith("_"):
-            file_name = file_name[1:]
+        # Remove leading/trailing underscores
+        file_name = file_name.strip("_")
         if not file_name:
             return "__"
         # limit to 30 chars

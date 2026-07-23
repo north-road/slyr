@@ -40,6 +40,7 @@ from qgis.core import (
 
 from .context import Context
 from .converter import NotImplementedException
+from .utils import ConversionUtils
 
 from .raster_layer import RasterLayerConverter
 from .vector_layer import VectorLayerConverter
@@ -471,7 +472,8 @@ class LayerConverter:
             if len(layers) == 1:
                 url = output_file
             else:
-                url = os.path.join(path, "{} {}.qml".format(basename, name))
+                safe_name = ConversionUtils.safe_filename(name)
+                url = os.path.join(path, "{} {}.qml".format(basename, safe_name))
 
             status, res = vl.saveNamedStyle(url)
             if not res and on_error:
