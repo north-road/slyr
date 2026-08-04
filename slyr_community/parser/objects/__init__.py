@@ -381,3 +381,5 @@ from .tile_image_info import TileImageInfo
 from .mosaic_rule import MosaicRule
 from .raster_function_template_arguments import RasterFunctionTemplateArguments
 from .plugin_renderer import PluginRenderer
+from .feature_bookmark import FeatureBookmark
+from .aoi_bookmark import AOIBookmark
