@@ -16,6 +16,8 @@ from qgis.core import QgsDataItemProvider, QgsDataProvider
 
 from .lyr_items import EsriLyrItem
 
+from .dat_items import EsriDatItem, DatDropHandler
+
 from .mxd_items import EsriMxdItem
 from .style_items import EsriStyleItem
 
@@ -38,6 +40,8 @@ class SlyrDataItemProvider(QgsDataItemProvider):
             return EsriStyleItem(parentItem, file_info.fileName(), path)
         elif file_info.suffix().lower() in ("lyr",):
             return EsriLyrItem(parentItem, file_info.fileName(), path)
+        elif DatDropHandler.is_bookmark_dat(path):
+            return EsriDatItem(parentItem, file_info.fileName(), path)
         elif file_info.suffix().lower() in ("mxd",):
             return EsriMxdItem(parentItem, file_info.fileName(), path)
         return None

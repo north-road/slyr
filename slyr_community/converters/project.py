@@ -37,6 +37,7 @@ from qgis.utils import iface
 from ..parser.object import CustomObject
 
 from ..parser.objects import (
+    FeatureBookmark,
     MemoryRelationshipClassName,
     FeatureLayer,
     BasicOverposterProperties,
@@ -47,6 +48,7 @@ from ..parser.streams import MapDocument
 
 from .color import ColorConverter
 from .context import Context
+from .bookmarks import BookmarkConverter
 from .layers import LayerConverter
 from .vector_layer import VectorLayerConverter
 from .symbols import SymbolConverter
@@ -468,6 +470,17 @@ class ProjectConverter:
 
         context.map_reference_scale = map_object.reference_scale
         theme_name = layer_to_layer_map.get(map_object)
+
+        for b in map_object.bookmarks:
+            if isinstance(b, FeatureBookmark):
+                context.push_warning(
+                    "Feature bookmark “{}” is not supported by QGIS".format(b.name),
+                    level=Context.WARNING,
+                )
+            else:
+                bookmark = BookmarkConverter.convert_bookmark(b.name, b.extent, context)
+                if bookmark is not None:
+                    destination_project.bookmarkManager().addBookmark(bookmark)
 
         context.can_place_annotations_in_main_annotation_layer = not has_multiple_frames
         if map_object.graphics_layer:

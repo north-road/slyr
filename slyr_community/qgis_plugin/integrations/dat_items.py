@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Browser and app integrations for dat file integration with QGIS
+"""
 
-# /***************************************************************************
-# browser.py
-# ----------
-# Date                 : September 2019
-# copyright            : (C) 2019 by Nyall Dawson
-# email                : nyall.dawson@gmail.com
-#
-#  ***************************************************************************/
-#
 # /***************************************************************************
 #  *                                                                         *
 #  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,10 +11,7 @@
 #  *                                                                         *
 #  ***************************************************************************/
 
-
-"""
-Browser and app integrations for dat file integration with QGIS
-"""
+import html
 
 from qgis.PyQt.QtCore import QDir, QCoreApplication
 from qgis.PyQt.QtWidgets import QAction
@@ -30,13 +20,16 @@ from qgis.core import (
     QgsApplication,
     Qgis,
     QgsDataItem,
-    QgsErrorItem,
     QgsMimeDataUtils,
+    QgsProject,
     QgsCsException,
 )
 from qgis.gui import QgsCustomDropHandler
 from qgis.utils import iface
 
+from ...converters.bookmarks import BookmarkConverter
+from ...converters.context import Context
+from ...parser.stream import Stream
 from ...qgis_plugin.gui_utils import GuiUtils
 from ...qgis_plugin.integrations.browser_utils import BrowserUtils
 
@@ -71,25 +64,118 @@ class DatDropHandler(QgsCustomDropHandler):
         return True
 
     @staticmethod
-    def get_bookmarks(input_file):  # pylint: disable=unused-argument
+    def get_bookmarks(input_file):  # pylint: disable=too-many-locals
         """
         Returns a list of bookmarks from a file
         """
-        return []
+        bookmarks = []
+        warnings = set()
+        errors = set()
+        info = set()
+        with open(input_file, "rb") as f:
+            stream = Stream(
+                f, False, force_layer=True, offset=-1, path="PlaceCollection"
+            )
+            stream.is_layer = False
+
+            version = stream.read_ushort("version")
+            if version > 1:
+                return None
+
+            context = Context()
+            context.project = QgsProject.instance()
+
+            bookmark_name = ""
+
+            def unsupported_object_callback(msg, level=Context.WARNING):
+                if level == Context.WARNING:
+                    warnings.add("<b>{}</b>: {}".format(bookmark_name, msg))
+                elif level == Context.CRITICAL:
+                    errors.add("<b>{}</b>: {}".format(bookmark_name, msg))
+                elif level == Context.INFO:
+                    info.add("<b>{}</b>: {}".format(bookmark_name, msg))
+
+            context.unsupported_object_callback = unsupported_object_callback
+
+            count = stream.read_int("count")
+            for _ in range(count):
+                b = stream.read_object("bookmark", allow_reference=False)
+                bookmark_name = b.name
+                bookmark = BookmarkConverter.convert_bookmark(b.name, b.extent, context)
+                if bookmark is not None:
+                    bookmarks.append(bookmark)
+
+        if warnings or errors or info:
+            message = ""
+            title = ""
+            level = None
+
+            if errors:
+                message = "<p>The following errors were generated while converting the bookmark file:</p>"
+                message += "<ul>"
+                for w in errors:
+                    message += "<li>{}</li>".format(
+                        html.escape(w).replace("\n", "<br>")
+                    )
+                message += "</ul>"
+                title = "DAT could not be completely converted"
+                level = Qgis.MessageLevel.Critical
+
+            if warnings:
+                if message:
+                    message += "<p>Additionally, some warnings were generated:</p>"
+                else:
+                    message += "<p>The following warnings were generated while converting the bookmark file:</p>"
+                message += "<ul>"
+                for w in warnings:
+                    message += "<li>{}</li>".format(
+                        html.escape(w).replace("\n", "<br>")
+                    )
+                message += "</ul>"
+                if not title:
+                    title = "DAT could not be completely converted"
+                if level is None:
+                    level = Qgis.MessageLevel.Warning
+
+            if info:
+                if message:
+                    message += (
+                        "<p>Additionally, some extra messages were generated:</p>"
+                    )
+                else:
+                    message += "<p>The following information messages were generated converting the DAT file:</p>"
+                message += "<ul>"
+                for w in info:
+                    message += "<li>{}</li>".format(
+                        html.escape(w).replace("\n", "<br>")
+                    )
+                message += "</ul>"
+                if not title:
+                    title = "Some messages were generated while converting the DAT file"
+                if level is None:
+                    level = Qgis.MessageLevel.Info
+
+            BrowserUtils.show_warning(title, "Convert DAT", message, level=level)
+
+        return bookmarks
 
     @staticmethod
-    def open_dat(input_file):  # pylint: disable=unused-argument
+    def open_dat(input_file):
         """
-        Opens an dat bookmark file in the current project
+        Opens a dat bookmark file in the current project
         """
-        message = '<p>This functionality requires the licensed version of SLYR. Please see <a href="https://north-road.com/slyr/">here</a> for details.</p>'
-        BrowserUtils.show_warning(
-            "Licensed version required",
-            "Convert Bookmarks",
-            message,
-            level=Qgis.MessageLevel.Critical,
-            message_bar=iface.messageBar(),
-        )
+
+        bookmarks = DatDropHandler.get_bookmarks(input_file)
+        if bookmarks:
+            for b in bookmarks:
+                QgsProject.instance().bookmarkManager().addBookmark(b)
+
+            iface.messageBar().pushSuccess(
+                "SLYR",
+                "{} bookmarks were successfully added to the current project".format(
+                    len(bookmarks)
+                ),
+            )
 
         return True
 
@@ -123,14 +209,16 @@ class EsriDatItem(QgsDataItem):
 
     def createChildren(self):  # pylint: disable=missing-function-docstring
         # Runs in a thread!
+
         self.setState(QgsDataItem.State.Populating)
 
-        error_item = QgsErrorItem(
-            self,
-            "Bookmark conversion requires a licensed version of the SLYR plugin",
-            self.path() + "/error",
-        )
-        self.child_items.append(error_item)
+        self.bookmarks = DatDropHandler.get_bookmarks(self.path())
+        if self.bookmarks:
+            for b in self.bookmarks:
+                self.child_items.append(
+                    EsriDatItem(self, b.name(), self.path() + "/" + b.name(), b)
+                )
+
         return self.child_items
 
     def hasDragEnabled(self):  # pylint: disable=missing-docstring
@@ -171,6 +259,7 @@ class EsriDatItem(QgsDataItem):
         """
         Handles opening .dat files
         """
+
         return DatDropHandler.open_dat(self.path())
 
     def zoom_to_bookmark(self):
