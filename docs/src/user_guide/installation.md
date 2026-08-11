@@ -113,4 +113,3 @@ See the [QGIS Documentation](https://docs.qgis.org/latest/en/docs/pyqgis_develop
 If desired, the stored license key can be hidden from the SLYR settings panel by setting the key:
 
     QgsSettings().setValue('/plugins/slyr/hide_license_key', True)
-
