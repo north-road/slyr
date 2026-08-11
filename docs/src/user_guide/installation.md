@@ -114,4 +114,3 @@ If desired, the stored license key can be hidden from the SLYR settings panel by
 
     QgsSettings().setValue('/plugins/slyr/hide_license_key', True)
 
-
