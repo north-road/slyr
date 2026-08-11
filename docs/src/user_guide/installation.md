@@ -109,3 +109,9 @@ If you are not copying the QGIS settings ini as part of the deployment, then you
     QgsSettings().setValue('/plugins/slyr/license', 'your license key value')
 
 See the [QGIS Documentation](https://docs.qgis.org/latest/en/docs/pyqgis_developer_cookbook/intro.html#the-startup-py-file) for instructions on how a Python command can be run automatically at QGIS startup.
+
+If desired, the stored license key can be hidden from the SLYR settings panel by setting the key:
+
+    QgsSettings().setValue('/plugins/slyr/hide_license_key', True)
+
+
