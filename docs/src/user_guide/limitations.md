@@ -23,6 +23,11 @@ SLYR will process and utilize any available content. If no content is present, S
 - In this example, content exists only in the yellow folders. No content is illustrated as a white folder.  
 ![Arcmap Style Manager](../images/style_arcmap.png)
 
+## Converting Geodatabases to Geopackages
+
+SLYR will convert field domains but will not convert subtypes. If the domain is under a subtype, it cannot be converted.  
+
+
 ## Graduated renderer
 
 SLYR cannot translate a QGIS "graduated renderer" to any comparable result in
