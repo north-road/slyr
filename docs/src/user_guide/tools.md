@@ -837,7 +837,7 @@ imported into your **QGIS** Style Manager
 
 ## SXD documents
 
-### Tool
+### Convert SXD to QGS (2D)
 
 | From                   | To            |
 |------------------------|---------------|
