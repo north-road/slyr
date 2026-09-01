@@ -25,8 +25,11 @@ SLYR will process and utilize any available content. If no content is present, S
 
 ## Converting Geodatabases to Geopackages
 
-SLYR will convert field domains but will not convert subtypes. If the domain is under a subtype, it cannot be converted.  
+While the OGC GeoPackage standard supports field domains, it does not support Subtypes.  
 
+- Standalone field domains will be converted.  
+- Subtypes are not converted during conversions.  
+- Field domains assigned specifically at the Subtype level will also fail to convert.  
 
 ## Graduated renderer
 
