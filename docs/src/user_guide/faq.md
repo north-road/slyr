@@ -23,11 +23,11 @@ The short answer is no. The long answer is that the SLYR license is perpetual, t
 
 ## How can I purchase SLYR?
 
-See the [Pricing](https://slyr.north-road.com/user_guide/pricing.html) page.
+See the [pricing](pricing) page.
 
 ## Can I purchase via a reseller?
 
-Yes! Contact us and we can put you in contact with a reseller in your country.  
+Yes! [Contact us](mailto:info@north-road.com) and we can put you in contact with a reseller in your country.  
 
 ## SLYR Community Edition or SLYR Licensed version?
 Below are the list of tools and whether they are available in the Community Edition.  
