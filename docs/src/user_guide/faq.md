@@ -23,38 +23,63 @@ The short answer is no. The long answer is that the SLYR license is perpetual, t
 
 ## How can I purchase SLYR?
 
-If you would like to purchase SLYR [email us](mailto:info@north-road.com). As
-we often deal with clients in Europe and America, there is often a lag due to the time differences
-as we are located in Queensland, Australia (AEST, GMT+10).
-
-To speed up the process, include the details below in your email so that we can
-produce an invoice for you straight away. If you need a quote first, let us
-know in the email and provide the same details listed below.
-
-To create an invoice or quote, we require the following information:
-
-> Organization name
->
-> Name of person managing tool
->
-> Email of person managing tool
->
-> Office address
->
-> VAT number (if in Europe)
->
-> Purchase order number (if required)
->
-> Expected number of users
->
-> Type of users (in office/remote)
-
-When we receive payment (via credit card or bank transfer), we will send you the license and instructions for using **SLYR**.  
-Paying via STRIPE with your credit card is the quickest method of payment.  
+See the [Pricing](https://slyr.north-road.com/user_guide/pricing.html) page.
 
 ## Can I purchase via a reseller?
 
 Yes! Contact us and we can put you in contact with a reseller in your country.  
+
+## SLYR Community Edition or SLYR Licensed version?
+Below are the list of tools and whether they are available in the Community Edition.  
+
+|                        |                                           |               |              |
+| :--------------------: | :---------------------------------------: | :-----------: | :----------: |
+|        **Group**       |                  **Tool**                 | **Community** | **Licensed** |
+|     **Annotations**    |  Convert annotation classes to GeoPackage |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert annotations            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|     **ArcGIS Pro**     |            Convert APRX to QGIS           |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        | Convert APRX/MAPX to QGS and data to GPKG |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |     Convert GPL color palette to stylx    |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |           Convert layer to LYRX           |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert LPRX to QLR            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert LYRX to QLR            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert LYRX to QML            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert MAPX to QGS            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |      Convert QGIS style XML to stylx      |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert QGS to APRX            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert QGS to MAPX            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert QLR to LYRX            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert QML to STYLX           |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |         Convert QPT to PAGX (beta)        |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |     Convert STYLX to GPL color palette    |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |      Convert STYLX to QGIS style XML      |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |          Import PAGX print layout         |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|     **AVL Styles**     |             Convert AVL to QML            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|   **Data Conversion**  |   Convert File Geodatabase to GeoPackage  |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |        Convert project data to GPKG       |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|     **Hyperlinks**     |        Extract hyperlinks to tables       |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|    **LYR datasets**    |             Convert LPK to QLR            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |       Convert LYR to QGIS style XML       |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
+|                        |             Convert LYR to QLR            |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
+|                        |             Convert LYR to QML            |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
+|                        |          Set style from LYR file          |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
+|    **MXD Documents**   |       Add layers from MXD to project      |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
+|                        |           Convert MXD/MXT to QGS          |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
+|                        |  Convert MXD/MXT to QGS and data to GPKG  |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |         Export document structure         |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+| **PMF published maps** |             Convert PMF to QGS            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|    **SDE documents**   |       Extract SDE connection details      |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|         **SLD**        |             Convert LYR to SLD            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert LYRX to SLD            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |             Convert MXD to SLD            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|                        |            Convert STYLX to SLD           |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
+|   **Style databases**  |  Convert ESRI style to GPL color palette  |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
+|                        |    Convert ESRI style to QGIS style XML   |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
+|    **SXD documents**   |          Convert SXD to QGS (2D)          |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |  
+  
+>Our **Open Source Pledge** means we fully intend to make the entire SLYR suite open source and freely publish all conversion tools. However, development to build high-quality, standalone tools requires significant time and financial backing.  
+>
+>To support this work, individual tools, specifications, and underlying libraries will initially remain exclusive to SLYR license holders. Exactly six months after reaching each stage’s pledged funding target, we will open-source that component and update the SLYR Community Edition plugin.
 
 ## Can remote users use my SLYR license?
 
