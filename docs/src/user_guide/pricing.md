@@ -18,11 +18,10 @@ This includes:
 
 If you would like to to purchase SLYR fill out the [Enquiry Order Form](https://north-road.com/slyr-enquiry-order-form/ )
 
- We have found the process can take as little as 24 hours, dependent on your organisation's procurement process and time differences. As we are located in Queensland, Australia (AEST, GMT+10), note there is a time lag due to the time differences, particularly with purchasers in Europe and America.
+We have found the process can take as little as 24 hours, dependent on your organisation's procurement process and time differences. As we are located in Queensland, Australia (AEST, GMT+10), note there is a time lag due to the time differences, particularly with purchasers in Europe and America.
 
-When we receive payment (via credit card or bank transfer), we will send you the license and instructions for using **SLYR**.  
-
->Paying via STRIPE with a credit card is the quickest method of payment. 
+When we receive payment (via credit card), we will send you the license and instructions for using **SLYR**.  
 
 ## Resellers
-We’re happy to help you meet local purchasing requirements! Contact us to get connected with a preferred reseller in your country.
+
+We’re happy to help you meet local purchasing requirements! [Contact us](mailto:info@north-road.com) to get connected with a preferred reseller in your country.  

@@ -64,7 +64,7 @@ Below are the list of tools and whether they are available in the Community Edit
 |                        |             Convert LYR to QML            |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
 |                        |          Set style from LYR file          |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
 |    **MXD Documents**   |       Add layers from MXD to project      |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
-|                        |           Convert MXD/MXT to QGS          |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
+|                        |           Convert MXD/MXT to QGS          |       <font color="green">&#10004;</font> (partial)      |      <font color="green">&#10004;</font>      |
 |                        |  Convert MXD/MXT to QGS and data to GPKG  |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
 |                        |         Export document structure         |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
 | **PMF published maps** |             Convert PMF to QGS            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |

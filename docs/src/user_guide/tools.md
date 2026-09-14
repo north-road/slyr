@@ -106,7 +106,7 @@ Converts an APRX document file to a QGS project file.
 
 | From                      | To                          |
 |---------------------------|-----------------------------|
-| **ESRI** annotation layer | **QGIS** qgs, gpkg |
+| **ESRI** ArcGIS Pro project | **QGIS** qgs, gpkg |
 
 Converts an APRX or MAPX document file to a QGIS project file, and converts all referenced data to standard formats.
 Referenced layer data stored in non-standard formats (such as MDB or GDB files) will be converted to the standard GeoPackage format in order to create projects which are optimized for use in QGIS and other open-source tools.
@@ -114,7 +114,7 @@ Referenced layer data stored in non-standard formats (such as MDB or GDB files) 
 ![Convert APRX/MAPX to QGS and data to GPKG](../images/aprx_mapx_qgs_gpkg.png)
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert APRX/MAPX to QGS and data to GPKG`.
-2. In the `Input APRC/MAPX file`, select the APRX/MAPX file.
+2. In the `Input APRX/MAPX file`, select the APRX/MAPX file.
 3. Under `Destination QGS project file`, select the location for the qgs output.
 4. In `Folder to store converted data in` choose the folder for the gpkg output.
 5. Click `Run`.  
@@ -192,7 +192,7 @@ be applied to data in ArcGIS Pro.
 
 | From           | To             |
 |----------------|----------------|
-| **QGIS** .lpkx | **ESRI** .qlr |
+| **ESRI** .lpkx | **QGIS** .qlr |
 
 Converts an ArcGIS Pro LPKX layer package to a QGIS QLR file.
 
@@ -309,7 +309,7 @@ project.
 |---------------|-----------------|
 | **QGIS** .qgs, .qgz | **ESRI** .aprx |
 
-Converts a QGIS project file to an APRX file including page layouts.  
+Converts a QGIS project file to an APRX file.  
 
 ![QGS to APRX](../images/qgs_aprx.png)
 
@@ -404,7 +404,7 @@ Converts a QGIS print layout template to an ArcGIS Pro PAGX file.
 3. Under `Destination PAGX file`, set the location of the *.pagx* file.
 4. Click `Run`.
 
-> This tool is available only with the SLYR full license.
+> This tool is available only with the SLYR full license. It is currently under development but is exposed as a preview only. We would love to hear your feedback about your experience.
 
 ### Convert STYLX to GPL color palette
 
@@ -596,7 +596,7 @@ Extract hyperlinks from layers to standalone tables
 
 | From          | To            |
 |------------------------------|---------------|
-| **ESRI** .lpk | **OGC** .qlr |
+| **ESRI** .lpk | **QGIS** .qlr |
 
 Converts an ESRI ArcMap LPK layer package to a QGIS QLR file.
 
@@ -663,7 +663,7 @@ This algorithm directly converts an ESRI LYR file to the corresponding QGIS QLR 
 
 Converts an ESRI LYR file to a QGIS QML file. If multiple layers are present in
 the LYR file, each will be converted to an individual QML file.
-> Only convert to QML if the output must be a QML. We recommend ising the convert to QLR tools for most common use cases.
+> Only convert to QML if the output must be a QML. We recommend using the convert to QLR tools for most common use cases, as the QLR format is a better match for the Esri LPK format.
 
 ![image name](../images/lyr-qml.png)
 
@@ -841,7 +841,7 @@ Optionally, a JSON representation containing these details can be exported.
 ***
 
 ## SLD
-Only convert to SLD if the output must be a SLD. We recommend ising the convert to QLR tools for most common use cases.
+Only convert to SLD if the output must be a SLD. We recommend using the convert to QLR tools for most common use cases, as the QLR format is a better match for the Esri document files.
 
 ### Convert LYR to SLD
 
@@ -909,7 +909,7 @@ Converts an ESRI MXD document to a OGC SLD file. If multiple layers are present 
 |----------------|--------------|
 | **ESRI** .stylx | **OGC** .sld |
 
-Converts an ESRI stylx database to an OGC SLD file. Each symbol in the stylx database will be converted to an individual OGC SLD file. There advanced parameters included in this tool including the type of symbology (fill, line or marker) to extract and the ability to filter by name.
+Converts an ESRI stylx database to an OGC SLD file. Each symbol in the stylx database will be converted to an individual OGC SLD file. The advanced parameters included in this tool include the type of symbology (fill, line or marker) to extract and the ability to filter by name.
 
 ![STYLX to OGC SLD](../images/stylx_sld_v3.png.png)
 
