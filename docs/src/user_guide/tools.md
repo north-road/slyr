@@ -922,7 +922,7 @@ Converts an ESRI stylx database to an OGC SLD file. Each symbol in the stylx dat
       ![Select symbology type](../images/stylx_sld_choice_v3_2.png)  
       Check those that you require and click on &#9668; to return to main page.  
       ![Check required symbology](../images/stylx_sld_choice.png)
-   4.2 If there are only some layers required, enter in their names seperated by commas.  
+   4.2 If there are only some layers required, enter in their names separated by commas.  
 5. Under `Destination folder for SLDs`, set the location of the *.sld* file.  
 6. For `Destination folder for SVG files` set the location for the storage of your svg files.  
 6. Click `Run`.  
