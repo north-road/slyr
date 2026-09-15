@@ -30,6 +30,7 @@ See the [pricing](pricing) page.
 Yes! [Contact us](mailto:info@north-road.com) and we can put you in contact with a reseller in your country.  
 
 ## SLYR Community Edition or SLYR Licensed version?
+
 Below are the list of tools and whether they are available in the Community Edition.  
 
 |                        |                                           |               |              |
