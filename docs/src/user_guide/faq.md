@@ -36,47 +36,47 @@ Below are the list of tools and whether they are available in the Community Edit
 |                        |                                           |               |              |
 | :--------------------: | :---------------------------------------: | :-----------: | :----------: |
 |        **Group**       |                  **Tool**                 | **Community** | **Licensed** |
-|     **Annotations**    |  Convert annotation classes to GeoPackage |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert annotations            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|     **ArcGIS Pro**     |            Convert APRX to QGIS           |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        | Convert APRX/MAPX to QGS and data to GPKG |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |     Convert GPL color palette to stylx    |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |           Convert layer to LYRX           |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert LPRX to QLR            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert LYRX to QLR            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert LYRX to QML            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert MAPX to QGS            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |      Convert QGIS style XML to stylx      |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert QGS to APRX            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert QGS to MAPX            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert QLR to LYRX            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert QML to STYLX           |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |         Convert QPT to PAGX (beta)        |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |     Convert STYLX to GPL color palette    |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |      Convert STYLX to QGIS style XML      |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |          Import PAGX print layout         |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|     **AVL Styles**     |             Convert AVL to QML            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|   **Data Conversion**  |   Convert File Geodatabase to GeoPackage  |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |        Convert project data to GPKG       |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|     **Hyperlinks**     |        Extract hyperlinks to tables       |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|    **LYR datasets**    |             Convert LPK to QLR            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |       Convert LYR to QGIS style XML       |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
-|                        |             Convert LYR to QLR            |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
-|                        |             Convert LYR to QML            |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
-|                        |          Set style from LYR file          |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
-|    **MXD Documents**   |       Add layers from MXD to project      |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
-|                        |           Convert MXD/MXT to QGS          |       <font color="green">&#10004;</font> (partial)      |      <font color="green">&#10004;</font>      |
-|                        |  Convert MXD/MXT to QGS and data to GPKG  |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |         Export document structure         |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-| **PMF published maps** |             Convert PMF to QGS            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|    **SDE documents**   |       Extract SDE connection details      |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|         **SLD**        |             Convert LYR to SLD            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert LYRX to SLD            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |             Convert MXD to SLD            |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|                        |            Convert STYLX to SLD           |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |
-|   **Style databases**  |  Convert ESRI style to GPL color palette  |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
-|                        |    Convert ESRI style to QGIS style XML   |       <font color="green">&#10004;</font>      |      <font color="green">&#10004;</font>      |
-|    **SXD documents**   |          Convert SXD to QGS (2D)          |       <font color="grey">&#10007;</font>     |      <font color="green">&#10004;</font>      |  
+|     **Annotations**    |  Convert annotation classes to GeoPackage |       ✗    |      ✅    |
+|                        |            Convert annotations            |       ✗    |      ✅    |
+|     **ArcGIS Pro**     |            Convert APRX to QGIS           |       ✗    |      ✅    |
+|                        | Convert APRX/MAPX to QGS and data to GPKG |       ✗    |      ✅    |
+|                        |     Convert GPL color palette to stylx    |       ✗    |      ✅    |
+|                        |           Convert layer to LYRX           |       ✗    |      ✅    |
+|                        |            Convert LPRX to QLR            |       ✗    |      ✅    |
+|                        |            Convert LYRX to QLR            |       ✗    |      ✅    |
+|                        |            Convert LYRX to QML            |       ✗    |      ✅    |
+|                        |            Convert MAPX to QGS            |       ✗    |      ✅    |
+|                        |      Convert QGIS style XML to stylx      |       ✗    |      ✅    |
+|                        |            Convert QGS to APRX            |       ✗    |      ✅    |
+|                        |            Convert QGS to MAPX            |       ✗    |      ✅    |
+|                        |            Convert QLR to LYRX            |       ✗    |      ✅    |
+|                        |            Convert QML to STYLX           |       ✗    |      ✅    |
+|                        |         Convert QPT to PAGX (beta)        |       ✗    |      ✅    |
+|                        |     Convert STYLX to GPL color palette    |       ✗    |      ✅    |
+|                        |      Convert STYLX to QGIS style XML      |       ✗    |      ✅    |
+|                        |          Import PAGX print layout         |       ✗    |      ✅    |
+|     **AVL Styles**     |             Convert AVL to QML            |       ✗    |      ✅    |
+|   **Data Conversion**  |   Convert File Geodatabase to GeoPackage  |       ✗    |      ✅    |
+|                        |        Convert project data to GPKG       |       ✗    |      ✅    |
+|     **Hyperlinks**     |        Extract hyperlinks to tables       |       ✗    |      ✅    |
+|    **LYR datasets**    |             Convert LPK to QLR            |       ✗    |      ✅    |
+|                        |       Convert LYR to QGIS style XML       |       ✅    |      ✅    |
+|                        |             Convert LYR to QLR            |       ✅    |      ✅    |
+|                        |             Convert LYR to QML            |       ✅    |      ✅    |
+|                        |          Set style from LYR file          |       ✅    |      ✅    |
+|    **MXD Documents**   |       Add layers from MXD to project      |       ✅    |      ✅    |
+|                        |           Convert MXD/MXT to QGS          |       ✅ (partial)      |      ✅    |
+|                        |  Convert MXD/MXT to QGS and data to GPKG  |       ✗    |      ✅    |
+|                        |         Export document structure         |       ✗    |      ✅    |
+| **PMF published maps** |             Convert PMF to QGS            |       ✗    |      ✅    |
+|    **SDE documents**   |       Extract SDE connection details      |       ✗    |      ✅    |
+|         **SLD**        |             Convert LYR to SLD            |       ✗    |      ✅    |
+|                        |            Convert LYRX to SLD            |       ✗    |      ✅    |
+|                        |             Convert MXD to SLD            |       ✗    |      ✅    |
+|                        |            Convert STYLX to SLD           |       ✗    |      ✅    |
+|   **Style databases**  |  Convert ESRI style to GPL color palette  |       ✅    |      ✅    |
+|                        |    Convert ESRI style to QGIS style XML   |       ✅    |      ✅    |
+|    **SXD documents**   |          Convert SXD to QGS (2D)          |       ✗    |      ✅    |  
   
 >Our **Open Source Pledge** means we fully intend to make the entire SLYR suite open source and freely publish all conversion tools. However, development to build high-quality, standalone tools requires significant time and financial backing.  
 >
