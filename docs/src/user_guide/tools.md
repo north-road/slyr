@@ -892,7 +892,7 @@ Converts an ESRI MXD document to a OGC SLD file. If multiple layers are present 
 
 Converts an ESRI stylx database to an OGC SLD file. Each symbol in the stylx database will be converted to an individual OGC SLD file. The advanced parameters included in this tool include the type of symbology (fill, line or marker) to extract and the ability to filter by name.
 
-![STYLX to OGC SLD](../images/stylx_sld_v3.png.png)
+![STYLX to OGC SLD](../images/stylx_sld_v3.png)
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `SLD`
    ▶️ `Convert STYLX to SLD`.
