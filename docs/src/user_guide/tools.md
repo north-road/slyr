@@ -59,8 +59,6 @@ convert it into a geopackage layer.
 
 > This tool is available only with the SLYR full license.
 
-***
-
 ### Convert Annotations
 
 | From                      | To                          |
@@ -80,7 +78,6 @@ project.
 4. Click `Run`. The tool will convert the annotations from the annotation class and add to the current QGIS project as map annotations.
 
 > This tool is available only with the SLYR full license.
-
 ***
 
 ## ArcGIS Pro
@@ -104,25 +101,25 @@ Converts an APRX document file to a QGS project file.
    file.
 
 > This tool is available only with the SLYR full license.
-***
 
-### Convert QGS to APRX
+### Convert APRX/MAPX to QGS and data to GPKG
 
-| From                | To             |
-|---------------------|----------------|
-| **QGIS** .qgs, .qgz | **ESRI** .aprx |
+| From                      | To                          |
+|---------------------------|-----------------------------|
+| **ESRI** ArcGIS Pro project | **QGIS** qgs, gpkg |
 
-Converts a QGIS project file to an APRX file.
+Converts an APRX or MAPX document file to a QGIS project file, and converts all referenced data to standard formats.
+Referenced layer data stored in non-standard formats (such as MDB or GDB files) will be converted to the standard GeoPackage format in order to create projects which are optimized for use in QGIS and other open-source tools.
 
-![APRX to QGIS](../images/qgs-aprx2.png)
+![Convert APRX/MAPX to QGS and data to GPKG](../images/aprx_mapx_qgs_gpkg.png)
 
-1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
-   ▶️ `Convert APRX to QGS`.
-2. In the `Input QGS file`, browse to the location of the *.qgz* file.
-3. Under `Destination APRX project file`, set the location of the *.aprx* file.
+1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro` ▶️ `Convert APRX/MAPX to QGS and data to GPKG`.
+2. In the `Input APRX/MAPX file`, select the APRX/MAPX file.
+3. Under `Destination QGS project file`, select the location for the qgs output.
+4. In `Folder to store converted data in` choose the folder for the gpkg output.
+5. Click `Run`.  
 
 > This tool is available only with the SLYR full license.
-***
 
 ### Convert GPL color palette to STYLX
 
@@ -149,7 +146,6 @@ into a **ArcGIS Pro** .stylx format that can then be imported into your *
 ![Apply GPL style in ArcGIS Pro](../images/gpl_apply.png)
 
 > This tool is available only with the SLYR full license.
-***
 
 ### Convert layer to LYRX
 
@@ -174,7 +170,24 @@ be applied to data in ArcGIS Pro.
    *.lyrx* file.
 
 > This tool is available only with the SLYR full license.
-***
+
+### Convert LPKX to QLR
+
+| From           | To             |
+|----------------|----------------|
+| **ESRI** .lpkx | **QGIS** .qlr |
+
+Converts an ArcGIS Pro LPKX layer package to a QGIS QLR file.
+
+![LPKX to QLR](../images/lpkx-qlr.png)
+
+1. In the `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
+   ▶️ `Convert LPKX to QLR`.
+2. Under `Input LPKX file`, select the lpkx file.
+3. Under `Destination QLR file`, set the location for the output.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full license.
 
 ### Convert LYRX to QLR
 
@@ -200,7 +213,6 @@ similarly and will reach back to the original data file.
 ![QLR](../images/qlr_browser.png)
 
 > This tool is available only with the SLYR full license.
-***
 
 ### Convert LYRX to QML
 
@@ -224,7 +236,6 @@ present in the LYRX file, each will be converted to an individual QML file.
 ![Load QML](../images/qml_load.png)
 
 > This tool is available only with the SLYR full license.
-***
 
 ### Convert MAPX to QGS
 
@@ -249,7 +260,6 @@ Converts an MAPX document file to a QGS project file.
 7. Save your project as *.qgz* if required.
 
 > This tool is available only with the SLYR full license.
-***
 
 ### Convert QGIS style XML to STYLX
 
@@ -268,14 +278,31 @@ project.
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
    ▶️ `Convert QGIS style XML to STYLX`.
-2. In the `Style XML`, browse to the location of the *.xml* file.
+2. In the `Style XML`, browse and select the *.xml* file.
 3. Under `Destination stylx database`, set the location of the *.stylx* file.
 4. Click `OK`.
 5. Once processed, in **ArcGIS Pro**, navigate via the `Catalog` and open the
    *.stylx* file.
 
 > This tool is available only with the SLYR full license.
-***
+
+### Convert QGS to APRX
+
+| From          | To              |
+|---------------|-----------------|
+| **QGIS** .qgs, .qgz | **ESRI** .aprx |
+
+Converts a QGIS project file to an APRX file.  
+
+![QGS to APRX](../images/qgs_aprx.png)
+
+1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
+   ▶️ `Convert QGS tp APRX`.
+2. In the `Input QGIS file`, browse and select the *.qgs* file.
+3. Under `Destination APRX project file`, set the location of the *.aprx* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full license.
 
 ### Convert QGIS to MAPX
 
@@ -300,9 +327,25 @@ maps, containing all the layers from the QGIS project.
 5. Once processed, in **ArcGIS Pro**, navigate via the `Catalog` and open the
    *.mapx* file.
 
-> Available only with the SLYR full license.
-> Can be run as a batch tool
-***
+> This tool is available only with the SLYR full license.
+
+### Convert QLR to LYRX
+
+| From               | To                        |
+|--------------------|---------------------------|
+| **QGIS** .qlr | **ESRI ArcGIS Pro** .lyrx |
+
+Converts a QGIS QLR file to an ArcGIS Pro LYRX file.
+
+![QLR to LYRX](../images/qlr_lyrx.png)
+
+1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
+   ▶️ `Convert QLR to LYRX`.
+2. In the `Input QLR file`, browse to the location of the *.qlr* file.
+3. Under `Destination LYRX project file`, set the location of the *.lyrx* file.
+4. Click `Run` to start the conversion process.  
+
+> This tool is available only with the SLYR full license.
 
 ### Convert QML to STYLX
 
@@ -319,11 +362,29 @@ all the symbols from the QML style.
    ▶️ `Convert QML to STYLX`.
 2. For the `Input QML file`, browse to the location of the *.qml* file.
 3. Under `Destination stylx database`, set the location of the *.stylx* file.
-4. Click `OK`.
+4. Click `Run`.
 5. Once processed, in **ArcGIS Pro**, navigate via the `Catalog` and open the
    *.stylx* file.
 
 > This tool is available only with the SLYR full license.
+
+### Convert QPT to PAGX (beta)
+
+| From          | To              |
+|---------------|-----------------|
+| **QGIS** .qpt | **ESRI** .pagx |
+
+Converts a QGIS print layout template to an ArcGIS Pro PAGX file.
+
+![QPT to PAGX](../images/qpt-pagx.png)
+
+1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
+   ▶️ `Convert QPT to PAGX (beta)`.
+2. For the `Input QPT file`, browse to the location of the *.qpt* file.
+3. Under `Destination PAGX file`, set the location of the *.pagx* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full license. It is currently under development but is exposed as a preview only. We would love to hear your feedback about your experience.
 
 ### Convert STYLX to GPL color palette
 
@@ -352,8 +413,7 @@ In this example, I have added a Landuse - Natural Environment GPL palette.
 ![GIMP GPL Palette Import](../images/gpl_palette_access_sml.png)
 ![QGIS Color Button](../images/color_button.png)
 
-> This tool is available only with the SLYR full license.
-***
+> This tool is available only with the SLYR full license.  
 
 ### Convert STYLX to QGIS style XML
 
@@ -385,7 +445,6 @@ wish to continue to use.
 7. Once it has converted, you can import the *XML* file via the `Style Manager` ▶️ `Import/Export`.
 
 > This tool is available only with the SLYR full license.
-***
 
 ### Import PAGX print layout
 
@@ -512,6 +571,24 @@ Extract hyperlinks from layers to standalone tables
 4. Click `Run`.
 
 > This tool is available only with the SLYR full license.
+
+### Convert LPK to QLR  
+
+| From          | To            |
+|------------------------------|---------------|
+| **ESRI** .lpk | **QGIS** .qlr |
+
+Converts an ESRI ArcMap LPK layer package to a QGIS QLR file.
+
+![LPK to QLR](../images/lpk_qlr.png)
+
+1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `LYR datasets`
+   ▶️ `Convert LPK to QLR`.
+2. In the `Input LPK file`, browse and select *.lpk* file.
+3. Under `Destination QLR file`, set the location of the *.qlr* file.
+4. Click `Run`.
+
+> This tool is available only with the SLYR full license.
 ***
 
 ## LYR Datasets
@@ -566,6 +643,7 @@ This algorithm directly converts an ESRI LYR file to the corresponding QGIS QLR 
 
 Converts an ESRI LYR file to a QGIS QML file. If multiple layers are present in
 the LYR file, each will be converted to an individual QML file.
+> Only convert to QML if the output must be a QML. We recommend using the convert to QLR tools for most common use cases, as the QLR format is a better match for the Esri LPK format.
 
 ![image name](../images/lyr-qml.png)
 
@@ -627,7 +705,8 @@ This tool can be used to import multiple MXDs into a single project using the Ba
 
 ![Example of added layers from MXD to QGIS](../images/mxd-layers-example.png)
 
-> This tool is available only with the SLYR full license.
+> This tool is available in the Community Edition and with the SLYR full
+> license.
 
 ### Convert MXD/MXT to QGS
 
@@ -647,7 +726,8 @@ retaining as much of the original MXD settings as are translatable to QGIS proje
 4. Click `Run`.
 5. Navigate to the location of the newly created MXD and open it.
 
-> This tool is available only with the SLYR full license.
+> This tool is available in the Community Edition and with the SLYR full
+> license.
 
 ### Convert MXD/MXT to QGS and data to GPKG
 
@@ -742,6 +822,8 @@ Optionally, a JSON representation containing these details can be exported.
 
 ## SLD
 
+Only convert to SLD if the output must be a SLD. We recommend using the convert to QLR tools for most common use cases, as the QLR format is a better match for the Esri document files.
+
 ### Convert LYR to SLD
 
 | From          | To           |
@@ -781,6 +863,52 @@ create the rules based on these values*
 4. Click `Run`.
 
 > This tool is available only with the SLYR full license.
+
+### Convert MXD to SLD  
+
+| From           | To           |
+|----------------|--------------|
+| **ESRI** .mxd | **OGC** .sld |
+
+Converts an ESRI MXD document to a OGC SLD file. If multiple layers are present in the MXD file, each will be converted to an individual OGC SLD file.
+
+![MXD to SLD ](../images/mxd_sld.png)
+
+1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `SLD`
+   ▶️ `Convert MXD to SLD`.
+2. In the `Input MXD file`, browse to the location of the *.lyrx* file.
+3. Enter in `Server path for SVG files [optional` as required.
+4. Under `Destination SLD file`, set the location of the *.sld* file.
+5. For `Destination folder for SVG files` set the location for the storage of your svg files.
+6. Click `Run`.
+
+> This tool is available only with the SLYR full license.
+
+### Convert STYLX to SLD
+
+| From           | To           |
+|----------------|--------------|
+| **ESRI** .stylx | **OGC** .sld |
+
+Converts an ESRI stylx database to an OGC SLD file. Each symbol in the stylx database will be converted to an individual OGC SLD file. The advanced parameters included in this tool include the type of symbology (fill, line or marker) to extract and the ability to filter by name.
+
+![STYLX to OGC SLD](../images/stylx_sld_v3.png.png)
+
+1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `SLD`
+   ▶️ `Convert STYLX to SLD`.
+2. In the `STYLX database`, browse to the location of the *.stylx* file.
+3. Enter in `Server path for SVG files [optional` as required.
+4. If required, expand `Advanced Parameters`.  
+   4.1 Under `Objects to extract [optional]`, if only a selection is required of the type of symbology, click on the browse button next to the field to open up the options.  
+      ![Select symbology type](../images/stylx_sld_choice_v3_2.png)  
+      Check those that you require and click on &#9668; to return to main page.  
+      ![Check required symbology](../images/stylx_sld_choice.png)
+   4.2 If there are only some layers required, enter in their names separated by commas.  
+5. Under `Destination folder for SLDs`, set the location of the *.sld* file.  
+6. For `Destination folder for SVG files` set the location for the storage of your svg files.  
+7. Click `Run`.  
+
+> This tool is available only with the SLYR full license.
 ***
 
 ## Style databases
@@ -805,7 +933,8 @@ extracting all color entities saved in the style. GPL files can be used in *
 3. Under `Destination X`, set the location of the *.X* file.
 4. Click `Run`.
 
-> This tool is available only with the SLYR full license.
+> This tool is available in the Community Edition and with the SLYR full
+> license.
 
 ### Convert ESRI style to QGIS style XML
 
@@ -832,7 +961,8 @@ imported into your **QGIS** Style Manager
    location. Choose whether to open that output automatically after it has run.
 6. Click `Run`.
 
-> This tool is available only with the SLYR full license.
+> This tool is available in the Community Edition and with the SLYR full
+> license.
 ***
 
 ## SXD documents
