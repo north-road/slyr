@@ -121,23 +121,6 @@ Referenced layer data stored in non-standard formats (such as MDB or GDB files) 
 
 > This tool is available only with the SLYR full license.
 
-### Convert QGS to APRX
-
-| From                | To             |
-|---------------------|----------------|
-| **QGIS** .qgs, .qgz | **ESRI** .aprx |
-
-Converts a QGIS project file to an APRX file.
-
-![APRX to QGIS](../images/qgs-aprx2.png)
-
-1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
-   ▶️ `Convert APRX to QGS`.
-2. In the `Input QGS file`, browse to the location of the *.qgz* file.
-3. Under `Destination APRX project file`, set the location of the *.aprx* file.
-
-> This tool is available only with the SLYR full license.
-
 ### Convert GPL color palette to STYLX
 
 | From | To              |
@@ -200,9 +183,9 @@ Converts an ArcGIS Pro LPKX layer package to a QGIS QLR file.
 
 1. In the `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
    ▶️ `Convert LPKX to QLR`.
-3. Under `Input LPKX file`, select the lpkx file.
-4. Under `Destination QLR file`, set the location for the output.
-5. Click `Run`.
+2. Under `Input LPKX file`, select the lpkx file.
+3. Under `Destination QLR file`, set the location for the output.
+4. Click `Run`.
 
 > This tool is available only with the SLYR full license.
 
@@ -361,10 +344,9 @@ Converts a QGIS QLR file to an ArcGIS Pro LYRX file.
    ▶️ `Convert QLR to LYRX`.
 2. In the `Input QLR file`, browse to the location of the *.qlr* file.
 3. Under `Destination LYRX project file`, set the location of the *.lyrx* file.
-4. Click `Run` to start the conversion process. 
+4. Click `Run` to start the conversion process.  
 
 > This tool is available only with the SLYR full license.
-
 
 ### Convert QML to STYLX
 
@@ -386,7 +368,6 @@ all the symbols from the QML style.
    *.stylx* file.
 
 > This tool is available only with the SLYR full license.
-
 
 ### Convert QPT to PAGX (beta)
 
@@ -841,6 +822,7 @@ Optionally, a JSON representation containing these details can be exported.
 ***
 
 ## SLD
+
 Only convert to SLD if the output must be a SLD. We recommend using the convert to QLR tools for most common use cases, as the QLR format is a better match for the Esri document files.
 
 ### Convert LYR to SLD
