@@ -329,7 +329,6 @@ maps, containing all the layers from the QGIS project.
 
 > This tool is available only with the SLYR full license.
 
-
 ### Convert QLR to LYRX
 
 | From               | To                        |
@@ -899,15 +898,15 @@ Converts an ESRI stylx database to an OGC SLD file. Each symbol in the stylx dat
    ▶️ `Convert STYLX to SLD`.
 2. In the `STYLX database`, browse to the location of the *.stylx* file.
 3. Enter in `Server path for SVG files [optional` as required.
-4. If required, expand `Advanced Parameters`. 
-   4.1 Under `Objects to extract [optional]`, if only a selection is required of the type of symbology, click on the browse button next to the field to open up the options.   
+4. If required, expand `Advanced Parameters`.  
+   4.1 Under `Objects to extract [optional]`, if only a selection is required of the type of symbology, click on the browse button next to the field to open up the options.  
       ![Select symbology type](../images/stylx_sld_choice_v3_2.png)  
       Check those that you require and click on &#9668; to return to main page.  
       ![Check required symbology](../images/stylx_sld_choice.png)
    4.2 If there are only some layers required, enter in their names separated by commas.  
 5. Under `Destination folder for SLDs`, set the location of the *.sld* file.  
 6. For `Destination folder for SVG files` set the location for the storage of your svg files.  
-6. Click `Run`.  
+7. Click `Run`.  
 
 > This tool is available only with the SLYR full license.
 ***
