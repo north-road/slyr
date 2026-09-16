@@ -23,38 +23,64 @@ The short answer is no. The long answer is that the SLYR license is perpetual, t
 
 ## How can I purchase SLYR?
 
-If you would like to purchase SLYR [email us](mailto:info@north-road.com). As
-we often deal with clients in Europe and America, there is often a lag due to the time differences
-as we are located in Queensland, Australia (AEST, GMT+10).
-
-To speed up the process, include the details below in your email so that we can
-produce an invoice for you straight away. If you need a quote first, let us
-know in the email and provide the same details listed below.
-
-To create an invoice or quote, we require the following information:
-
-> Organization name
->
-> Name of person managing tool
->
-> Email of person managing tool
->
-> Office address
->
-> VAT number (if in Europe)
->
-> Purchase order number (if required)
->
-> Expected number of users
->
-> Type of users (in office/remote)
-
-When we receive payment (via credit card or bank transfer), we will send you the license and instructions for using **SLYR**.  
-Paying via STRIPE with your credit card is the quickest method of payment.  
+See the [pricing](pricing) page.
 
 ## Can I purchase via a reseller?
 
-Yes! Contact us and we can put you in contact with a reseller in your country.  
+Yes! [Contact us](mailto:info@north-road.com) and we can put you in contact with a reseller in your country.  
+
+## SLYR Community Edition or SLYR Licensed version?
+
+Below are the list of tools and whether they are available in the Community Edition.  
+
+|                        |                                           |               |              |
+| :--------------------: | :---------------------------------------: | :-----------: | :----------: |
+|        **Group**       |                  **Tool**                 | **Community** | **Licensed** |
+|     **Annotations**    |  Convert annotation classes to GeoPackage |       ✗    |      ✅    |
+|                        |            Convert annotations            |       ✗    |      ✅    |
+|     **ArcGIS Pro**     |            Convert APRX to QGIS           |       ✗    |      ✅    |
+|                        | Convert APRX/MAPX to QGS and data to GPKG |       ✗    |      ✅    |
+|                        |     Convert GPL color palette to stylx    |       ✗    |      ✅    |
+|                        |           Convert layer to LYRX           |       ✗    |      ✅    |
+|                        |            Convert LPRX to QLR            |       ✗    |      ✅    |
+|                        |            Convert LYRX to QLR            |       ✗    |      ✅    |
+|                        |            Convert LYRX to QML            |       ✗    |      ✅    |
+|                        |            Convert MAPX to QGS            |       ✗    |      ✅    |
+|                        |      Convert QGIS style XML to stylx      |       ✗    |      ✅    |
+|                        |            Convert QGS to APRX            |       ✗    |      ✅    |
+|                        |            Convert QGS to MAPX            |       ✗    |      ✅    |
+|                        |            Convert QLR to LYRX            |       ✗    |      ✅    |
+|                        |            Convert QML to STYLX           |       ✗    |      ✅    |
+|                        |         Convert QPT to PAGX (beta)        |       ✗    |      ✅    |
+|                        |     Convert STYLX to GPL color palette    |       ✗    |      ✅    |
+|                        |      Convert STYLX to QGIS style XML      |       ✗    |      ✅    |
+|                        |          Import PAGX print layout         |       ✗    |      ✅    |
+|     **AVL Styles**     |             Convert AVL to QML            |       ✗    |      ✅    |
+|   **Data Conversion**  |   Convert File Geodatabase to GeoPackage  |       ✗    |      ✅    |
+|                        |        Convert project data to GPKG       |       ✗    |      ✅    |
+|     **Hyperlinks**     |        Extract hyperlinks to tables       |       ✗    |      ✅    |
+|    **LYR datasets**    |             Convert LPK to QLR            |       ✗    |      ✅    |
+|                        |       Convert LYR to QGIS style XML       |       ✅    |      ✅    |
+|                        |             Convert LYR to QLR            |       ✅    |      ✅    |
+|                        |             Convert LYR to QML            |       ✅    |      ✅    |
+|                        |          Set style from LYR file          |       ✅    |      ✅    |
+|    **MXD Documents**   |       Add layers from MXD to project      |       ✅    |      ✅    |
+|                        |           Convert MXD/MXT to QGS          |       ✅ (partial)      |      ✅    |
+|                        |  Convert MXD/MXT to QGS and data to GPKG  |       ✗    |      ✅    |
+|                        |         Export document structure         |       ✗    |      ✅    |
+| **PMF published maps** |             Convert PMF to QGS            |       ✗    |      ✅    |
+|    **SDE documents**   |       Extract SDE connection details      |       ✗    |      ✅    |
+|         **SLD**        |             Convert LYR to SLD            |       ✗    |      ✅    |
+|                        |            Convert LYRX to SLD            |       ✗    |      ✅    |
+|                        |             Convert MXD to SLD            |       ✗    |      ✅    |
+|                        |            Convert STYLX to SLD           |       ✗    |      ✅    |
+|   **Style databases**  |  Convert ESRI style to GPL color palette  |       ✅    |      ✅    |
+|                        |    Convert ESRI style to QGIS style XML   |       ✅    |      ✅    |
+|    **SXD documents**   |          Convert SXD to QGS (2D)          |       ✗    |      ✅    |  
+  
+>Our **Open Source Pledge** means we fully intend to make the entire SLYR suite open source and freely publish all conversion tools. However, development to build high-quality, standalone tools requires significant time and financial backing.  
+>
+>To support this work, individual tools, specifications, and underlying libraries will initially remain exclusive to SLYR license holders. Exactly six months after reaching each stage’s pledged funding target, we will open-source that component and update the SLYR Community Edition plugin.
 
 ## Can remote users use my SLYR license?
 
