@@ -376,7 +376,7 @@ all the symbols from the QML style.
 
 Converts a QGIS print layout template to an ArcGIS Pro PAGX file.
 
-![QPT to PAGX](../images/qpt-pagx.png)
+![QPT to PAGX](../images/qpt_pagx.png)
 
 1. In the **QGIS** `Processing Toolbox`, click on `SLYR` ▶️ `ArcGIS Pro`
    ▶️ `Convert QPT to PAGX (beta)`.
