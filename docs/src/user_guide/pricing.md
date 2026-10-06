@@ -3,8 +3,8 @@
 **SLYR** Plugin costs:
 
 - Australia/NZ: AU$1950 (+10% GST for Australian customers)
-- USA: USD$1850
-- Rest of the World: €1500
+- USA: USD$1850 (NET)
+- Rest of the World: €1500 (NET) **The price is without the VAT. We use the B2B mechanism i.e. purchasers have to add the tax themselves and account for it.*
 
 This includes:
 
@@ -25,3 +25,8 @@ When we receive payment (via credit card), we will send you the license and inst
 ## Resellers
 
 We’re happy to help you meet local purchasing requirements! [Contact us](mailto:info@north-road.com) to get connected with a preferred reseller in your country.  
+
+## Locations and Licenses
+
+Licenses are based on the physical location.  
+![location explained](slyr_locations.png)
