@@ -3,8 +3,8 @@
 **SLYR** Plugin costs:
 
 - Australia/NZ: AU$1950 (+10% GST for Australian customers)
-- USA: USD$1850 (NET)
-- Rest of the World: €1500 (NET) **The price is without the VAT. We use the B2B mechanism i.e. purchasers have to add the tax themselves and account for it.*
+- USA: USD$1850 (excluding taxes)
+- Rest of the World: €1500 (excluding taxes) **This price excludes the VAT. The VAT B2B mechanism will be used on purchases, requiring that the purchasers must account for the tax themselves.**
 
 This includes:
 
