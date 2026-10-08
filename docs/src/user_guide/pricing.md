@@ -52,12 +52,12 @@ The license allows staff to use **SLYR**:
 >There are 3 options available for the situation above:
 >
 >**(1) 1 Standard license per location:** Each license can run from a single server located elsewhere  
->  ➜ *Choose this option if you expected the number of users <u>per office</u> to reach the 10 user threashold*
+>  ➜ *Choose this option if you expect the number of users <u>per office</u> to reach the 10 user threshold*
 >>
 >**(2) Multiple Workplace license:** Maximum 3 locations and/or Maximum 10 users  
 >➜ *This would be the recommended option*
 >
 >**(3) More than 3 locations/10 users:** Contact us or your reseller for a custom quote  
->➜ Choose this option if there were <u>more than 3 locations</u> OR <u>more than 10 users</u> **in total***
+>➜ Choose this option if there are <u>more than 3 locations</u> OR <u>more than 10 users</u> **in total***
 
 Every license includes full access to all SLYR features, frequent updates, and personalized support. The only difference is the number of users and locations supported. 
