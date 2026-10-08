@@ -55,7 +55,7 @@ The license allows staff to use **SLYR**:
 >
 >**(1) 1 Standard license per location:** Each license can run from a single server located elsewhere  
 > ➜ *Choose this option if you expect the number of users per office to reach the 10 user threshold*
->>
+>
 >**(2) Multiple Workplace license:** Maximum 3 locations and/or Maximum 10 users  
 >➜ *This would be the recommended option*
 >
