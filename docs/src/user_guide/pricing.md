@@ -32,7 +32,7 @@ Licenses are based on the physical location.
 
 ![location explained](../images/slyr_locations_cropped.png)
 
-Staff may also use the license:
+The license allows staff to use **SLYR**:
 
 - In the field
 - Working remotely
