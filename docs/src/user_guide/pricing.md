@@ -62,4 +62,4 @@ The license allows staff to use **SLYR**:
 >**(3) More than 3 locations/10 users:** Contact us or your reseller for a custom quote  
 >➜ *Choose this option if there are more than 3 locations OR more than 10 users **in total***
 
-Every license includes full access to all SLYR features, frequent updates, and personalized support. The only difference is the number of users and locations supported. 
+Every license includes full access to all SLYR features, frequent updates, and personalized support. The only difference is the number of users and locations supported.  
