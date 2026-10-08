@@ -29,4 +29,4 @@ We’re happy to help you meet local purchasing requirements! [Contact us](mailt
 ## Locations and Licenses
 
 Licenses are based on the physical location.  
-![location explained](../images/slyr_locations.png)
+![location explained](../images/slyr_locations_cropped.png)
