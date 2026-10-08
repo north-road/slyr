@@ -34,6 +34,7 @@ Licenses are based on the physical location.
 
 The license allows staff to use **SLYR**:
 
+- At the designated licensed office
 - In the field
 - Working remotely
 - Traveling for work
