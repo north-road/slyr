@@ -38,7 +38,7 @@ We’re happy to help you meet local purchasing requirements if you are unable t
 
 ## Locations and Licenses explained
 
-Licenses are based on the physical location. In the image below, we show an organisation with 3 locations (A, B and C) and 7 staff in total spread across those locations. They also have a server centrally location in office A.  
+Licenses are based on the physical location. In the image below, we show an organization with 3 locations (A, B and C) and 7 staff in total spread across those locations. They also have a server centrally location in office A.  
 
 ![location explained](../images/slyr_locations_cropped.png)
 
