@@ -29,4 +29,11 @@ We’re happy to help you meet local purchasing requirements! [Contact us](mailt
 ## Locations and Licenses
 
 Licenses are based on the physical location.  
+
 ![location explained](../images/slyr_locations_cropped.png)
+
+Staff may also use the license:
+
+- In the field
+- Working remotely
+- Traveling for work
