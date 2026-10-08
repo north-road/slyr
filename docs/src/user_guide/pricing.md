@@ -7,7 +7,9 @@ All **SLYR** Plugin licenses include:
 - No annual maintenance
 - Full support from North Road
 
-### Standard SLYR Plugin License costs:
+## Costs
+
+### Standard SLYR Plugin License costs
 
 >Covers up to 10 users at a single location.
 
@@ -15,7 +17,7 @@ All **SLYR** Plugin licenses include:
 - **USA:** USD$1850 (excluding taxes)
 - **Rest of the World:** €1500 (excluding taxes) *This price excludes the VAT. The VAT B2B mechanism will be used on purchases, requiring that the purchasers must account for the tax themselves.*
 
-### Multiple Workplace SLYR Plugin License costs:
+### Multiple Workplace SLYR Plugin License costs
 
 >Covers up to 10 users across up to 3 locations.
 
@@ -52,12 +54,12 @@ The license allows staff to use **SLYR**:
 >There are 3 options available for the situation above:
 >
 >**(1) 1 Standard license per location:** Each license can run from a single server located elsewhere  
->  ➜ *Choose this option if you expect the number of users <u>per office</u> to reach the 10 user threshold*
+> ➜ *Choose this option if you expect the number of users per office to reach the 10 user threshold*
 >>
 >**(2) Multiple Workplace license:** Maximum 3 locations and/or Maximum 10 users  
 >➜ *This would be the recommended option*
 >
 >**(3) More than 3 locations/10 users:** Contact us or your reseller for a custom quote  
->➜ Choose this option if there are <u>more than 3 locations</u> OR <u>more than 10 users</u> **in total***
+>➜ *Choose this option if there are more than 3 locations OR more than 10 users **in total***
 
 Every license includes full access to all SLYR features, frequent updates, and personalized support. The only difference is the number of users and locations supported. 
