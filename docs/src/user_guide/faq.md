@@ -42,10 +42,11 @@ Below are the list of tools and whether they are available in the Community Edit
 |                        | Convert APRX/MAPX to QGS and data to GPKG |       ✗    |      ✅    |
 |                        |     Convert GPL color palette to stylx    |       ✗    |      ✅    |
 |                        |           Convert layer to LYRX           |       ✗    |      ✅    |
-|                        |            Convert LPRX to QLR            |       ✗    |      ✅    |
+|                        |            Convert LPKX to QLR            |       ✗    |      ✅    |
 |                        |            Convert LYRX to QLR            |       ✗    |      ✅    |
 |                        |            Convert LYRX to QML            |       ✗    |      ✅    |
 |                        |            Convert MAPX to QGS            |       ✗    |      ✅    |
+|                        |            Convert PPKX to QGS            |       ✗    |      ✅    |
 |                        |      Convert QGIS style XML to stylx      |       ✗    |      ✅    |
 |                        |            Convert QGS to APRX            |       ✗    |      ✅    |
 |                        |            Convert QGS to MAPX            |       ✗    |      ✅    |
@@ -65,6 +66,7 @@ Below are the list of tools and whether they are available in the Community Edit
 |                        |             Convert LYR to QML            |       ✅    |      ✅    |
 |                        |          Set style from LYR file          |       ✅    |      ✅    |
 |    **MXD Documents**   |       Add layers from MXD to project      |       ✅    |      ✅    |
+|                        |              Convert MPK to QGS           |       ✗    |      ✅    |
 |                        |           Convert MXD/MXT to QGS          |       ✅ (partial)      |      ✅    |
 |                        |  Convert MXD/MXT to QGS and data to GPKG  |       ✗    |      ✅    |
 |                        |         Export document structure         |       ✗    |      ✅    |
